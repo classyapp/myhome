@@ -1,0 +1,16 @@
+@model Classy.Models.Response.ProfileView
+
+@{
+    ViewBag.Title = "AgentProfile";
+}
+
+@Model.Id
+
+@if (Model.IsSeller)
+{
+    @Model.SellerInfo.ContactInfo.Name
+}
+else
+{
+    @Model.ContactInfo.Name
+}

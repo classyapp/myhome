@@ -1,0 +1,27 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.DiscussionMetadata>
+
+@{
+    ViewBag.Title = "CreateListing_discussion";
+    Html.Bootstrap().Globals().ShowRequiredStar(false);
+}
+
+<h2>CreateListing_discussion</h2>
+
+@if (TempData["CreateListingSuccess"] != null)
+{
+    @Html.Bootstrap().Alert("הדיון נפתח בהצלחה").Style(AlertColor.Success)
+    var listing = TempData["CreateListingSuccess"] as Classy.Models.Response.ListingView;
+}
+
+@Html.Bootstrap().ValidationSummary().Closeable()
+
+@using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Discussion")))
+{
+    @f.FormGroup().TextBoxFor(x => x.Metadata.Category).ShowValidationMessage(false).Label().LabelText("נושא")
+    
+    @f.FormGroup().TextBoxFor(x => x.Title).Label().LabelText("כותרת הדיון")
+    @f.FormGroup().TextBoxFor(x => x.Content).Label().LabelText("תוכן")
+
+    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("התחל דיון"))
+}
+

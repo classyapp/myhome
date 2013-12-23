@@ -1,0 +1,100 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Reviews.ProfileReviewViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "חוות דעת על מתווך או מתווכת";
+    var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
+}
+
+@Styles.Render("~/content/narrow.css")
+
+@Html.Bootstrap().ValidationSummary()
+
+@using (Html.BeginRouteForm("PostProfileReview", FormMethod.Post)) {
+    <h4>
+        @if (Request.IsAuthenticated) {
+            @((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.ContactInfo.Name)<span>,</span>
+        }  חוות הדעת שלך חשובה לנו ותעזור בשיפור השקיפות בתעשיית הנדל"ן בישראל. בנוסף, באפשרותך לזכות בעמלת התיווך ששילמת בחזרה!
+    </h4>
+    <hr />
+    
+    <div class="form-group">
+        @Html.HiddenFor(x => x.Rank)
+    </div>
+
+    if (Model.IsProxy)
+    {
+        <div class="form-group">
+            @Html.LabelFor(x => x.ContactInfo.Phone, "טלפון של המתווך או המתווכת")
+            @Html.TextBoxFor(x => x.ContactInfo.Phone, new { @class = "form-control" })    
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.ContactInfo.Email, "כתובת האימייל של המתווך או המתווכת")
+            @Html.TextBoxFor(x => x.ContactInfo.Email, new { @class = "form-control" })
+        </div>
+    }
+    
+    <div class="form-group">
+        <div>
+            <label>דרגו את רמת הזמינות של המתווך או המתווכת (1 - נמוך ,5 - גבוה)</label>
+        </div>
+        <div class="radio-inline">
+            <label class="checkbox-inline"><input type="radio" name="av_score" value="1" /> 1</label>
+            <label class="checkbox-inline"><input type="radio" name="av_score" value="2" /> 2</label>
+            <label class="checkbox-inline"><input type="radio" name="av_score" value="3" /> 3</label>
+            <label class="checkbox-inline"><input type="radio" name="av_score" value="4" /> 4</label>
+            <label class="checkbox-inline"><input type="radio" name="av_score" value="5" /> 5</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <label>דרגו את רמת השירות של המתווך או המתווכת (1 - נמוך ,5 - גבוה)</label>
+        </div>        
+        <div class="radio-inline">
+            <label class="checkbox-inline"><input type="radio" name="svc_score" value="1" /> 1</label>
+            <label class="checkbox-inline"><input type="radio" name="svc_score" value="2" /> 2</label>
+            <label class="checkbox-inline"><input type="radio" name="svc_score" value="3" /> 3</label>
+            <label class="checkbox-inline"><input type="radio" name="svc_score" value="4" /> 4</label>
+            <label class="checkbox-inline"><input type="radio" name="svc_score" value="5" /> 5</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <label>דרגו את רמת המקצועיות של המתווך או המתווכת (1 - נמוך ,5 - גבוה)</label>
+        </div>
+        <div class="radio-inline">
+            <label class="checkbox-inline"><input type="radio" name="pro_score" value="1" /> 1</label>
+            <label class="checkbox-inline"><input type="radio" name="pro_score" value="2" /> 2</label>
+            <label class="checkbox-inline"><input type="radio" name="pro_score" value="3" /> 3</label>
+            <label class="checkbox-inline"><input type="radio" name="pro_score" value="4" /> 4</label>
+            <label class="checkbox-inline"><input type="radio" name="pro_score" value="5" /> 5</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Comments, "חוות דעת (מפורטת ככל הניתן)")
+        @Html.TextAreaFor(x => x.Comments, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary" authorize>שמור חוות דעת</button>
+}
+
+@section scripts {
+    <script>
+
+        function setRank() {
+            var av = new Number($("input[name='av_score']:checked").val());
+            var svc = new Number($("input[name='svc_score']:checked").val());
+            var pro = new Number($("input[name='pro_score']:checked").val());
+            $("input[name=Rank]").val(Math.round(av * .3 + svc * .3 + pro * .4));
+        };
+
+        $(function () {
+            $("input[name='av_score']").change(setRank);
+            $("input[name='svc_score']").change(setRank);
+            $("input[name='pro_score']").change(setRank);
+        });
+    </script>
+}

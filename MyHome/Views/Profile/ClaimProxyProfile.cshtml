@@ -1,0 +1,48 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.ClaimProfileViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "CompleteProfile";
+}
+
+<h2>אימות פרופיל מתווך - קחו את המוניטין שלכם בידיים</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
+
+    <form role="form" action="/profile/@Model.ProfileId/claim" method="post">
+        <h4>השלימו את הפרופיל וקבלו שליטה במוניטין שלכם ברשת</h4>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.SellerInfo.ContactInfo.Name, "שם")
+            @Html.TextBoxFor(x => x.SellerInfo.ContactInfo.Name, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.SellerInfo.ContactInfo.Email, "כתובת אימייל")
+            @Html.TextBoxFor(x => x.SellerInfo.ContactInfo.Email, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.SellerInfo.ContactInfo.Phone, "טלפון (נייד עדיף)")
+            @Html.TextBoxFor(x => x.SellerInfo.ContactInfo.Phone, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Metadata.LicenseNo , "מספר רשיון מתווך")
+            @Html.TextBoxFor(x => x.Metadata.LicenseNo, new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">שמור פרופיל</button>
+    </form>
+}
+else
+{
+    <p><a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">כניסה עם פייסבוק</a></p>
+}
+
+@section scripts {
+    @Scripts.Render("~/scripts/fb-login.js")
+    <script>
+        OnFacebookLogin = function (profile) { window.document.location.reload(); }
+    </script>
+}

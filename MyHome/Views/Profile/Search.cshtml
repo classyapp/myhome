@@ -1,0 +1,46 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.SearchViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "SearchProfiles";
+
+    var CategoryList = new List<SelectListItem>() {
+        new SelectListItem {
+            Text = "Kitchen Seller",
+            Value = "kitchen-seller"
+        }
+    };
+}
+
+<h2>SearchProfiles</h2>
+<div class="well">
+@using (var f = Html.Bootstrap().Begin(new Form().Type(FormType.Inline).FormMethod(FormMethod.Post)))
+{
+    @f.FormGroup().TextBoxFor(x => x.Name).Placeholder("שם בעל מקצוע או חברה")
+    @f.FormGroup().DropDownListFor(x => x.Category, CategoryList).OptionLabel("-- select --")
+    
+    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("חפש"))
+}
+</div>
+
+<div class="row">
+    <div class="sidebar col-md-2">
+        <h4>Categories</h4>
+        <ul>
+            <li>
+                @Html.RouteLink("Kitchen Sellers", new { controller = "Profile", action = "Search", category = "kitchen-seller" })
+            </li>
+        </ul>
+    </div>
+    <div class="results col-md-10">
+        @if (Model.Results != null)
+        {
+            <h4>Search Results:</h4>
+            foreach (var p in Model.Results)
+            {
+                <div class="profile">
+                    @Html.ProfileLink(p) @p.ReviewAverageScore (@p.ReviewCount reviews)
+                </div>
+            }
+        }
+    </div>
+</div>

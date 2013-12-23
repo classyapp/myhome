@@ -1,0 +1,69 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.CreateProfessionalProfileViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "CompleteProfessionalProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var EmptySelectList = new List<SelectListItem>() {
+        new SelectListItem {
+            Text = "Kitchen Seller",
+            Value = "1"
+        }
+    };
+
+    Html.Bootstrap().Globals().FormGroup().CheckBoxLabelsPositionLeft();
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>יצירת פרופיל מקצועי</h2>
+        @Html.Bootstrap().ValidationSummary()
+
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateProfessionalProfile").FormMethod(FormMethod.Post)))
+        {
+            <!-- general professional info -->
+            <h4>מידע אישי</h4>
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.DisplayName).ShowValidationMessage(false).Label().LabelText("שם או שם חברה")
+            @f.FormGroup().DropDownListFor(x => x.SellerInfo.Category, EmptySelectList).ShowValidationMessage(false).Label().LabelText("קטגוריה")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.WebsiteUrl).Label().LabelText("כתובת אתר אינטרנט")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.FacebookUrl).Label().LabelText("כתובת עמוד פייסבוק עסקי")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.TwitterUsername).Label().LabelText("שם משתמש בטוויטר")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.LinkedInProfileUrl).Label().LabelText("כתובת פרופיל לינקד אין")
+            
+            <!-- metadata specific to domain -->
+            <h4>מידע מקצועי</h4>
+            @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo).ShowValidationMessage(false).Label().LabelText("מספר רשיון")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).ShowValidationMessage(false).Label().LabelText("שירותים שמספק העסק")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).ShowValidationMessage(false).Label().LabelText("באילו איזורים ניתן לקבל שירות?")
+            
+            <div class="row">
+                @Html.Bootstrap().Label("מחיר עבודה ממוצעת")
+                <div class="form-inline">
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostFrom, EmptySelectList).WidthMd(5).Label().WidthMd(5).LabelText("החל מ:")
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostTo, EmptySelectList).WidthMd(5).Class("col-md-offset-1").Label().WidthMd(5).LabelText("ועד:")
+                </div>
+            </div>
+
+            @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).ShowValidationMessage(false).Label().LabelText("תיאור עבודה ממוצעת")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).ShowValidationMessage(false).Label().LabelText("פרסים, תעודות ורשיונות")
+            
+            <!-- contact information -->
+            <h4>פרטי קשר</h4>
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.FirstName).ShowValidationMessage(false).Label().LabelText("שם פרטי")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.LastName).ShowValidationMessage(false).Label().LabelText("שם משפחה")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Location.Address.Street1).ShowValidationMessage(false).Label().LabelText("כתובת (רחוב ומספר(")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Location.Address.City).ShowValidationMessage(false).Label().LabelText("עיר")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Location.Address.PostalCode).ShowValidationMessage(false).Label().LabelText("מיקוד")
+            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Phone).ShowValidationMessage(false).Label().LabelText("טלפון")
+            
+            
+            <!-- submit -->
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("אישור פרטי הפרופיל"))
+        }
+    </div>
+
+    <div class="col-md-3 col-md-offset-1">
+        <h2>מה היתרונות של פרופיל עסקי במיי הום?</h2>
+        <p>שאלה טובה, ובכן הביטו: דגיחל שדגח לשחדגי ש דגשגלשחדג שג שדחגי שלגשלחג שלחגי שלחד גשחג לשח יגלחש יג</p>
+    </div>
+</div>

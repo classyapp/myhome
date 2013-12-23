@@ -1,0 +1,27 @@
+﻿using Mandrill;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Routing;
+using System.Web.Mvc;
+using Classy.DotNet.Mvc.Controllers;
+using Classy.DotNet;
+using Classy.Models.Response;
+
+namespace MyHome.Controllers
+{
+    public class DiscussionController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.DiscussionMetadata>
+    {
+        public DiscussionController()
+            : base("MyHome.Controllers") { }
+
+        public override string ListingTypeName
+        {
+	        get 
+	        { 
+		         return "Discussion";
+	        }
+        }
+    }
+}

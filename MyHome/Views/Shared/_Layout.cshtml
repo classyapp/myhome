@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container">
+        <div>
+            @if (Request.IsAuthenticated)
+            {
+                @Html.RouteLink("Logout", "Logout")  
+            }
+            else 
+            {
+                @Html.RouteLink("Login", "Login")
+            }
+        </div>
+        <div class="logo">
+            <a href="/"><h1>Really</h1></a>
+            <p>כלים חכמים לנדל"ן</p>
+        </div>
+        <hr/>     
+
+        @RenderBody()
+
+        <div class="footer text-center">
+            <p>&copy; really.co.il 2013</p>
+        </div>
+
+    </div> <!-- /container -->
+
+    <!-- fb api -->
+    <div id="fb-root"></div>
+    <script>
+        // Additional JS functions here
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '13237044783', // App ID
+                channelUrl: '//www.myhome.co.il/channel.html', // Channel File
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true  // parse XFBML
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function (d) {
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document));
+    </script>
+
+    <!-- login modal -->
+    <div class="modal fade" id="login-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Login Required</h4>
+                </div>
+                <div class="modal-body">
+                    @using (var f = Html.Bootstrap().Begin(new Form("Login", "Security").Id("login-modal-form").FormMethod(FormMethod.Post)))
+                    {
+                        @f.FormGroup().TextBox("Email").Label().ShowRequiredStar(false)
+                        @f.FormGroup().Password("Password").Label().ShowRequiredStar(false)
+                        @f.FormGroup().CheckBox("RememberMe").Label().ShowRequiredStar(false).LabelText("זכור אותי")
+                        @Html.Hidden("RedirectUrl", Url.Encode(Request.Url.AbsoluteUri))
+                        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("התחבר"))
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        var Classy = {};
+        Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+    </script>
+    @Scripts.Render("~/scripts/trigger-action.js")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

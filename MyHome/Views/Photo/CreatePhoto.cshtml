@@ -1,0 +1,26 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.PhotoMetadata>
+
+@{
+    ViewBag.Title = "CreateListing_photo";
+    Html.Bootstrap().Globals().ShowRequiredStar(false);
+}
+
+<h2>CreateListing_photo</h2>
+
+@if (TempData["CreateListingSuccess"] != null)
+{
+    @Html.Bootstrap().Alert("התמונה הועלתה בהצלחה").Style(AlertColor.Success)
+    var listing = TempData["CreateListingSuccess"] as Classy.Models.Response.ListingView;
+    <img src="@listing.ExternalMedia[0].Url" width="350" />
+}
+
+@Html.Bootstrap().ValidationSummary()
+
+@using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new {enctype = "multipart/form-data"})))
+{
+    @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().LabelText("שם התמונה")
+    @f.FormGroup().TextBoxFor(x => x.Content).ShowValidationMessage(false).Label().LabelText("תיאור קצר לתמונה")
+    @f.FormGroup().File("file").Label().LabelText("בחר תמונה")
+    
+    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("העלה תמונה"))  
+}

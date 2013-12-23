@@ -1,0 +1,184 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "PublicProfessionalProfile";
+    var photos = Model.Profile.Listings.Where(x => x.ListingType == "Photo");
+    var reviews = Model.Profile.Reviews;
+    var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
+}
+
+@if (TempData["ContactSuccess"] != null)
+{
+<div class="alert alert-success alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    @TempData["ContactSuccess"]
+</div>
+}
+
+@Html.Bootstrap().ValidationSummary()
+
+<h2>Pro: @Model.Profile.ContactInfo.Name</h2>
+
+@if (Model.Profile.IsProxy)
+{
+    @Html.RouteLink("Is this you or your company?", new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning" })
+}
+
+@if (Request.IsAuthenticated && Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)) {
+    <h3>Following</h3>
+} else {
+    <h3>@Html.TriggerProfileActionLink("Follow Me", "follow", Model.Profile)</h3>
+}
+
+@if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+{
+    <a href="/profile/me">Edit Profile</a>
+}
+
+<img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
+
+Internal Ranking: @Model.Profile.Rank<br/>
+
+Views: @Model.Profile.ViewCount<br/>
+<div>
+<h4>Followed By @Model.Profile.FollowerCount</h4>
+@foreach (var p in Model.Profile.FollowedBy)
+{
+    <div class="col-sm-1">
+        <img src="@p.ImageUrl" width="32px" />
+        <br />@Html.ProfileLink(p)
+    </div>
+}
+</div>
+<div>
+    <h4>Following @Model.Profile.FollowingCount</h4>
+    @foreach (var p in Model.Profile.Following)
+    {
+        <div class="col-sm-1">
+            <img src="@p.ImageUrl" width="32px" />
+            <br />@Html.ProfileLink(p)
+        </div>
+    }
+</div>
+<br/>
+# of Reviews: @Model.Profile.ReviewCount<br/>
+Score: @Model.Profile.ReviewAverageScore<br/>
+<a href="/profile/@Model.Profile.Id/reviews/new">Review Me</a>
+
+<h4>Social Links:</h4>
+@if (!string.IsNullOrEmpty(Model.Profile.SellerInfo.ContactInfo.FacebookUrl)) {
+    <a href="@Model.Profile.SellerInfo.ContactInfo.FacebookUrl">Facebook</a>
+}
+@if (!string.IsNullOrEmpty(Model.Profile.SellerInfo.ContactInfo.FacebookUrl))
+{
+    <a href="@Model.Profile.SellerInfo.ContactInfo.TwitterUsername">Twitter</a>
+}
+@if (!string.IsNullOrEmpty(Model.Profile.SellerInfo.ContactInfo.TwitterUsername))
+{
+    <a href="@Model.Profile.SellerInfo.ContactInfo.LinkedInProfileUrl">LinkedIn</a>
+}
+
+<h4>Contact Info:</h4>
+<a id="contact-pro" href="#" class="btn btn-success">צור קשר</a>
+
+Contact Person: @Model.Profile.SellerInfo.ContactInfo.FirstName @Model.Profile.SellerInfo.ContactInfo.LastName<br/>
+@if (Model.Profile.SellerInfo.ContactInfo != null && 
+    Model.Profile.SellerInfo.ContactInfo.Location != null &&
+    Model.Profile.SellerInfo.ContactInfo.Location.Address != null)
+{
+<div class="address">
+    Address: <br />
+    @Model.Profile.SellerInfo.ContactInfo.Location.Address.Street1 @Model.Profile.SellerInfo.ContactInfo.Location.Address.Street2<br />
+    @Model.Profile.SellerInfo.ContactInfo.Location.Address.Street2
+    @Model.Profile.SellerInfo.ContactInfo.Location.Address.City, @Model.Profile.SellerInfo.ContactInfo.Location.Address.Country
+</div>
+}
+
+@if (photos.Count() > 0) {
+    <div class="row photos">
+        <h4>photos:</h4>
+        @foreach (var p in photos)
+        {   
+            <div class="photo col-md-4">
+                <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
+                <br/>@Html.ListingLink("Photo", p)
+                <br/><small>@p.CommentCount תגובות</small>
+                <br/>@Html.TriggerListingActionLink("Like this Photo", "favorite", p)
+            </div>    
+        }
+    </div>
+}
+
+@if (discussions.Count() > 0)
+{
+    <div class="discussions">
+        <h4>discussions:</h4>
+        @foreach (var d in discussions)
+        {
+            <div class="discussion">
+                <p><strong>@Html.ListingLink("Discussion", d)</strong>
+                <small>@d.CommentCount תגובות</small>
+                <br/>@d.Content
+            </div>
+        }
+    </div>
+}
+
+@if (reviews.Count() > 0)
+{
+    <div class="reviews">
+        <h4>reviews:</h4>
+        @foreach (var r in reviews)
+        {
+            <div class="review">
+                by: @r.ProfileId<br/>                
+                score: @r.Score<br/>                
+                <blockquote>@r.Content</blockquote>
+            </div>
+        }
+    </div>
+}
+
+<div class="modal fade" id="contact-pro-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">צור קשר עם @Model.Profile.SellerInfo.ContactInfo.Name</h4>
+            </div>
+
+            @using (Html.BeginRouteForm("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id }, FormMethod.Post))
+            {
+                <div class="modal-body">
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <div class="form-group">
+                            <label for="ReplyToEmail">כתובת אימייל</label>
+                            <input type="text" name="ReplyToEmail" />
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label for="Subject">כותרת</label>
+                        <input type="text" name="Subject" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Content">הודעה</label>
+                        <textarea name="Content">ראיתי את הדף שלך במיי הום ו...</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">שלח הודעה</button>
+                </div>
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#contact-pro').click(function () {
+                $('#contact-pro-modal').modal({'keyboard':true});
+            });
+        });
+    </script>
+}

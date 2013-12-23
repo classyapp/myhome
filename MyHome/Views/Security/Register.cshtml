@@ -1,0 +1,78 @@
+@model Classy.DotNet.Mvc.ViewModels.Security.RegistrationViewModel<MyHome.Models.UserMetadata>
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Register</h2>
+
+@Html.Bootstrap().ValidationSummary()
+
+<a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">לחצו כאן בכדי להתחבר עם פייסבוק</a>
+
+@using (var modal = Html.Bootstrap().Begin(new Modal().Id("more-details")))
+{
+    using (modal.BeginHeader())
+    {
+        <h4 class="modal-title">#</h4>
+    }
+    
+    using (Html.Bootstrap().Begin(new Form("CompleteRegistration").FormMethod(FormMethod.Post)))
+    {
+        using (modal.BeginBody())
+        {
+            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, true).Label().LabelText("אני שוכר/ת דירה");
+            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().LabelText("אני בעל/ת דירה");
+            @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().LabelText("אני בעל/ת מקצוע בתחום עיצוב הבית");      
+        }
+
+        using (modal.BeginFooter())
+        {
+            @Html.Bootstrap().SubmitButton().Text("המשך לאתר");
+        }
+    }
+}
+
+<br/><br/>OR<br/><br/>
+
+@using (var f = Html.Bootstrap().Begin(new Form("Register").FormMethod(FormMethod.Post).Id("mainForm")))
+{
+    @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+    @f.FormGroup().TextBoxFor(x => x.Username).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+    @f.FormGroup().PasswordFor(x => x.Password).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+
+    @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, true).Label().ShowRequiredStar(false).LabelText("אני שוכר/ת דירה")
+    @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().ShowRequiredStar(false).LabelText("אני בעל/ת דירה")
+    @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().ShowRequiredStar(false).LabelText("אני בעל/ת מקצוע בתחום עיצוב הבית")
+
+    @Html.Bootstrap().SubmitButton().Text("אישור הרשמה")
+}
+
+@section scripts {
+    @Scripts.Render("~/scripts/fb-login.js")
+    <script>
+        
+
+        $(function () {
+            $('input[type=radio]').click(function() {
+                var id = this.id;
+                $('input[type=radio]').each(function (idx, item) {
+                    if (item.id != id) $(item).prop('checked', false);
+                })
+            });
+        });
+
+        OnFacebookLogin = function (profile)
+        {
+            $('h4.modal-title').html('שלום ' + profile.ContactInfo.Name);
+            $('#more-details').modal({
+                keyboard: false,
+                backdrop: 'static'
+            });
+        }
+    </script>
+}
+
+
+

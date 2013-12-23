@@ -1,0 +1,45 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.DiscussionMetadata>
+
+@{
+    ViewBag.Title = "DiscussionDetails";
+}
+
+<h2>@Model.Listing.Title</h2>
+<p>@Model.Listing.Content</p>
+
+@Html.Bootstrap().ValidationSummary()
+
+<h4>Comments:</h4>
+
+@if (Model.Listing.CommentCount == 0)
+{
+    <p>Be the first to join the discussion</p>
+}
+
+@foreach (var c in Model.Listing.Comments)
+{
+    <div class="comment row">
+        <div class="col-md-1">
+            <img src="@c.Profile.ImageUrl" width="32" />
+            <br/>
+            @Html.ProfileLink(c.Profile)
+        </div>
+        <div class="col-md-4">
+            <blockquote>@c.Content</blockquote>
+        </div>
+    </div>
+}
+
+@if (Request.IsAuthenticated)
+{
+    using(var f = Html.Bootstrap().Begin(new Form("PostComment")))
+    {
+        @Html.Hidden("ListingId", Model.Listing.Id);
+        @f.FormGroup().TextArea("Content").ShowValidationMessage(false).Label().LabelText("הוספת תגובה:")
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("שלח תגובה"))
+    }
+}
+else
+{
+    <h4>@Html.RouteLink("Log in", "Login") or @Html.RouteLink("Sign up", "Register") to join the discussion! </h4>
+}

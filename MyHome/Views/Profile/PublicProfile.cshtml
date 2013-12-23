@@ -1,0 +1,36 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "PublicProfile";
+}
+
+<h2>User: @Model.Profile.ContactInfo.Name</h2>
+@if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) 
+{
+    <a href="/profile/edit">Edit Profile</a>
+}
+
+<img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
+
+Views: @Model.Profile.ViewCount
+
+<h4>Followed By @Model.Profile.FollowerCount</h4>
+@foreach (var p in Model.Profile.FollowedBy)
+{
+    <div class="col-sm-1">
+        <img src="@p.ImageUrl" width="32px" />
+        <br />@Html.ProfileLink(p)
+    </div>
+}
+
+<h4>Following @Model.Profile.FollowingCount</h4>
+@foreach (var p in Model.Profile.Following)
+{
+    <div class="col-sm-1">
+        <img src="@p.ImageUrl" width="32px" />
+        <br />@Html.ProfileLink(p)
+    </div>
+}
+
+
+
