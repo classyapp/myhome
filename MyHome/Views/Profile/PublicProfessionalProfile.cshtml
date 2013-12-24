@@ -1,4 +1,4 @@
-@model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata>
+@model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
 
 @{
     ViewBag.Title = "PublicProfessionalProfile";
@@ -62,7 +62,16 @@ Views: @Model.Profile.ViewCount<br/>
 </div>
 <br/>
 # of Reviews: @Model.Profile.ReviewCount<br/>
-Score: @Model.Profile.ReviewAverageScore<br/>
+@Model.Profile.ReviewAverageScore 
+<small>
+    details @Html.Bootstrap().Icon(
+    new Icon("glyphicon-info-sign")
+    .Popover("Score Details", string.Concat(
+        "Professionalism: ", Model.ReviewSubCriteria.Professionalism, "<br/>",
+        "Creativity: ", Model.ReviewSubCriteria.Creativity, "<br/>",
+        "Service Level: ", Model.ReviewSubCriteria.ServiceLevel, "<br/>",
+        "Availability: ", Model.ReviewSubCriteria.Availability)))
+</small>
 <a href="/profile/@Model.Profile.Id/reviews/new">Review Me</a>
 
 <h4>Social Links:</h4>

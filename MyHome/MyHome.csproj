@@ -139,6 +139,7 @@
     <Compile Include="Models\DiscussionMetadata.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
+    <Compile Include="Models\ProfileReviewCriteria.cs" />
     <Compile Include="Models\UserMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -10,7 +10,7 @@ using MyHome.Models;
 
 namespace MyHome.Controllers
 {
-    public class ProfileController : Classy.DotNet.Mvc.Controllers.ProfileController<ProfessionalMetadata>
+    public class ProfileController : Classy.DotNet.Mvc.Controllers.ProfileController<ProfessionalMetadata, ProfileReviewCriteria>
     {
         private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
 
