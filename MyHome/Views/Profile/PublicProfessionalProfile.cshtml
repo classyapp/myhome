@@ -75,31 +75,31 @@ Views: @Model.Profile.ViewCount<br/>
 <a href="/profile/@Model.Profile.Id/reviews/new">Review Me</a>
 
 <h4>Social Links:</h4>
-@if (!string.IsNullOrEmpty(Model.Profile.SellerInfo.ContactInfo.FacebookUrl)) {
-    <a href="@Model.Profile.SellerInfo.ContactInfo.FacebookUrl">Facebook</a>
+@if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl)) {
+    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl">Facebook</a>
 }
-@if (!string.IsNullOrEmpty(Model.Profile.SellerInfo.ContactInfo.FacebookUrl))
+@if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl))
 {
-    <a href="@Model.Profile.SellerInfo.ContactInfo.TwitterUsername">Twitter</a>
+    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername">Twitter</a>
 }
-@if (!string.IsNullOrEmpty(Model.Profile.SellerInfo.ContactInfo.TwitterUsername))
+@if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername))
 {
-    <a href="@Model.Profile.SellerInfo.ContactInfo.LinkedInProfileUrl">LinkedIn</a>
+    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl">LinkedIn</a>
 }
 
 <h4>Contact Info:</h4>
 <a id="contact-pro" href="#" class="btn btn-success">צור קשר</a>
 
-Contact Person: @Model.Profile.SellerInfo.ContactInfo.FirstName @Model.Profile.SellerInfo.ContactInfo.LastName<br/>
-@if (Model.Profile.SellerInfo.ContactInfo != null && 
-    Model.Profile.SellerInfo.ContactInfo.Location != null &&
-    Model.Profile.SellerInfo.ContactInfo.Location.Address != null)
+Contact Person: @Model.Profile.ProfessionalInfo.CompanyContactInfo.FirstName @Model.Profile.ProfessionalInfo.CompanyContactInfo.LastName<br/>
+@if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
+    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
+    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
 {
 <div class="address">
     Address: <br />
-    @Model.Profile.SellerInfo.ContactInfo.Location.Address.Street1 @Model.Profile.SellerInfo.ContactInfo.Location.Address.Street2<br />
-    @Model.Profile.SellerInfo.ContactInfo.Location.Address.Street2
-    @Model.Profile.SellerInfo.ContactInfo.Location.Address.City, @Model.Profile.SellerInfo.ContactInfo.Location.Address.Country
+    @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2<br />
+    @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2
+    @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
 </div>
 }
 
@@ -152,7 +152,7 @@ Contact Person: @Model.Profile.SellerInfo.ContactInfo.FirstName @Model.Profile.S
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">צור קשר עם @Model.Profile.SellerInfo.ContactInfo.Name</h4>
+                <h4 class="modal-title">צור קשר עם @Model.Profile.ProfessionalInfo.CompanyContactInfo.Name</h4>
             </div>
 
             @using (Html.BeginRouteForm("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id }, FormMethod.Post))

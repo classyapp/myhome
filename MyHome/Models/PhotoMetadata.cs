@@ -8,14 +8,14 @@ namespace MyHome.Models
 {
     public class PhotoMetadata : IMetadata<PhotoMetadata>
     {
-        public IList<Classy.Models.Response.CustomAttributeView> ToCustomAttributeList()
+        public IDictionary<string, string> ToDictionary()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public PhotoMetadata FromCustomAttributeList(IList<Classy.Models.Response.CustomAttributeView> metadata)
+        public PhotoMetadata FromDictionary(IDictionary<string, string> metadata)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

@@ -114,16 +114,16 @@
         $('.typeahead').typeahead({
             name: 'agent-names',
             remote: {
-                url: '/profile/search?name=%QUERY',
+                url: '/profile/search?professionalsonly=true&name=%QUERY',
                 filter: function (profiles) {
                     var agents = [];
                     $.each(profiles, function (index, profile) {
                         agents.push({
                             "value": profile.Id,
                             "license_no": '123123',
-                            "name": profile.SellerInfo.ContactInfo.Name,
+                            "name": profile.ProfessionalInfo.CompanyName,
                             "isProxy": profile.IsProxy,
-                            "tokens": [profile.SellerInfo.ContactInfo.Name]
+                            "tokens": [profile.ProfessionalInfo.CompanyName]
                         });
                     });
                     return agents;

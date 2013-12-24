@@ -7,7 +7,7 @@
     var EmptySelectList = new List<SelectListItem>() {
         new SelectListItem {
             Text = "Kitchen Seller",
-            Value = "1"
+            Value = "kitchen-seller"
         }
     };
 
@@ -23,12 +23,12 @@
         {
             <!-- general professional info -->
             <h4>מידע אישי</h4>
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.DisplayName).ShowValidationMessage(false).Label().LabelText("שם או שם חברה")
-            @f.FormGroup().DropDownListFor(x => x.SellerInfo.Category, EmptySelectList).ShowValidationMessage(false).Label().LabelText("קטגוריה")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.WebsiteUrl).Label().LabelText("כתובת אתר אינטרנט")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.FacebookUrl).Label().LabelText("כתובת עמוד פייסבוק עסקי")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.TwitterUsername).Label().LabelText("שם משתמש בטוויטר")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.LinkedInProfileUrl).Label().LabelText("כתובת פרופיל לינקד אין")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyName).ShowValidationMessage(false).Label().LabelText("שם או שם חברה")
+            @f.FormGroup().DropDownListFor(x => x.ProfessionalInfo.Category, EmptySelectList).ShowValidationMessage(false).Label().LabelText("קטגוריה")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.WebsiteUrl).Label().LabelText("כתובת אתר אינטרנט")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FacebookUrl).Label().LabelText("כתובת עמוד פייסבוק עסקי")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.TwitterUsername).Label().LabelText("שם משתמש בטוויטר")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl).Label().LabelText("כתובת פרופיל לינקד אין")
             
             <!-- metadata specific to domain -->
             <h4>מידע מקצועי</h4>
@@ -49,12 +49,12 @@
             
             <!-- contact information -->
             <h4>פרטי קשר</h4>
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.FirstName).ShowValidationMessage(false).Label().LabelText("שם פרטי")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.LastName).ShowValidationMessage(false).Label().LabelText("שם משפחה")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Location.Address.Street1).ShowValidationMessage(false).Label().LabelText("כתובת (רחוב ומספר(")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Location.Address.City).ShowValidationMessage(false).Label().LabelText("עיר")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Location.Address.PostalCode).ShowValidationMessage(false).Label().LabelText("מיקוד")
-            @f.FormGroup().TextBoxFor(x => x.SellerInfo.ContactInfo.Phone).ShowValidationMessage(false).Label().LabelText("טלפון")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FirstName).ShowValidationMessage(false).Label().LabelText("שם פרטי")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LastName).ShowValidationMessage(false).Label().LabelText("שם משפחה")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1).ShowValidationMessage(false).Label().LabelText("כתובת (רחוב ומספר(")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.City).ShowValidationMessage(false).Label().LabelText("עיר")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode).ShowValidationMessage(false).Label().LabelText("מיקוד")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Phone).ShowValidationMessage(false).Label().LabelText("טלפון")
             
             
             <!-- submit -->

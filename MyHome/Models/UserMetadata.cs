@@ -12,19 +12,19 @@ namespace MyHome.Models
         public bool IsRenter { get; set; }
         public bool IsHomeOwner { get; set; }
 
-        public IList<CustomAttributeView> ToCustomAttributeList()
+        public IDictionary<string, string> ToDictionary()
         {
-            var list = new List<CustomAttributeView>();
-            list.Add(new CustomAttributeView { Key = "IsRenter", Value = IsRenter.ToString() });
-            list.Add(new CustomAttributeView { Key = "IsHomeOwner", Value = IsHomeOwner.ToString() });
+            var list = new Dictionary<string, string>();
+            list.Add("IsRenter", IsRenter.ToString());
+            list.Add("IsHomeOwner", IsHomeOwner.ToString());
             return list;
         }
 
-        public UserMetadata FromCustomAttributeList(IList<CustomAttributeView> metadata)
+        public UserMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new UserMetadata();
-            if (metadata.Any(x => x.Key == "IsRenter")) IsRenter = Convert.ToBoolean(metadata.Single(x => x.Key == "IsRenter").Value);
-            if (metadata.Any(x => x.Key == "IsHomeOwner")) IsHomeOwner = Convert.ToBoolean(metadata.Single(x => x.Key == "IsHomeOwner").Value);
+            if (metadata.ContainsKey("IsRenter")) IsRenter = Convert.ToBoolean(metadata.Single(x => x.Key == "IsRenter").Value);
+            if (metadata.ContainsKey("IsHomeOwner")) IsHomeOwner = Convert.ToBoolean(metadata.Single(x => x.Key == "IsHomeOwner").Value);
             return output;
         }
     }

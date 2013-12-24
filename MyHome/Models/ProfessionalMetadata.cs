@@ -25,29 +25,29 @@ namespace MyHome.Models
         public string CostDetails { get; set; }
         public string Awards { get; set; }
 
-        public IList<CustomAttributeView> ToCustomAttributeList()
+        public IDictionary<string, string> ToDictionary()
         {
-            var list = new List<CustomAttributeView>();
-            list.Add(new CustomAttributeView { Key = "LicenseNo", Value = LicenseNo });
-            list.Add(new CustomAttributeView { Key = "ServicesProvided", Value = ServicesProvided });
-            list.Add(new CustomAttributeView { Key = "AreasServed", Value = AreasServed});
-            list.Add(new CustomAttributeView { Key = "JobCostFrom", Value = JobCostFrom.ToString() });
-            list.Add(new CustomAttributeView { Key = "JobCostTo", Value = JobCostTo.ToString() });
-            list.Add(new CustomAttributeView { Key = "CostDetails", Value = CostDetails});
-            if (!string.IsNullOrEmpty(Awards)) list.Add(new CustomAttributeView { Key = "Awards", Value = Awards });
+            var list = new Dictionary<string, string>();
+            list.Add("LicenseNo", LicenseNo);
+            list.Add("ServicesProvided", ServicesProvided);
+            list.Add("AreasServed", AreasServed);
+            list.Add("JobCostFrom", JobCostFrom.ToString());
+            list.Add("JobCostTo", JobCostTo.ToString());
+            list.Add("CostDetails", CostDetails);
+            if (!string.IsNullOrEmpty(Awards)) list.Add("Awards", Awards);
             return list;
         }
 
-        public ProfessionalMetadata FromCustomAttributeList(IList<CustomAttributeView> metadata)
+        public ProfessionalMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new ProfessionalMetadata();
-            if (metadata.Any(x => x.Key == "LicenseNo")) LicenseNo = metadata.Single(x => x.Key == "LicenseNo").Value;
-            if (metadata.Any(x => x.Key == "ServicesProvided")) ServicesProvided = metadata.Single(x => x.Key == "ServicesProvided").Value;
-            if (metadata.Any(x => x.Key == "AreasServed")) AreasServed = metadata.Single(x => x.Key == "AreasServed").Value;
-            if (metadata.Any(x => x.Key == "JobCostFrom")) JobCostFrom = Convert.ToInt32(metadata.Single(x => x.Key == "JobCostFrom").Value);
-            if (metadata.Any(x => x.Key == "JobCostTo")) JobCostTo = Convert.ToInt32(metadata.Single(x => x.Key == "JobCostTo").Value);
-            if (metadata.Any(x => x.Key == "CostDetails")) CostDetails = metadata.Single(x => x.Key == "CostDetails").Value;
-            if (metadata.Any(x => x.Key == "Awards")) Awards = metadata.Single(x => x.Key == "Awards").Value;
+            if (metadata.ContainsKey("LicenseNo")) LicenseNo = metadata["LicenseNo"];
+            if (metadata.ContainsKey("ServicesProvided")) ServicesProvided = metadata["ServicesProvided"];
+            if (metadata.ContainsKey("AreasServed")) AreasServed = metadata["AreasServed"];
+            if (metadata.ContainsKey("JobCostFrom")) JobCostFrom = Convert.ToInt32(metadata["JobCostFrom"]);
+            if (metadata.ContainsKey("JobCostTo")) JobCostTo = Convert.ToInt32(metadata["JobCostTo"]);
+            if (metadata.ContainsKey("CostDetails")) CostDetails = metadata["CostDetails"];
+            if (metadata.ContainsKey("Awards")) Awards = metadata["Awards"];
             return output;
         }
     }

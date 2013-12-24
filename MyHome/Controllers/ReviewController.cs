@@ -35,7 +35,7 @@ namespace MyHome.Controllers
                     }
                 },
             };
-            message.AddGlobalVariable("AGENT_NAME", e.ReviewResponse.RevieweeProfile.SellerInfo.ContactInfo.Name);
+            message.AddGlobalVariable("AGENT_NAME", e.ReviewResponse.RevieweeProfile.ProfessionalInfo.CompanyContactInfo.Name);
             message.AddGlobalVariable("REVIEWER_NAME", e.ReviewResponse.ReviewerProfile.ContactInfo.Name);
             message.AddGlobalVariable("REVIEW", e.ReviewResponse.Review.Content);
             message.AddGlobalVariable("CLAIM_URL", VirtualPathUtility.ToAbsolute(string.Concat("~/profile/", e.ReviewResponse.RevieweeProfile.Id, "/claim")));

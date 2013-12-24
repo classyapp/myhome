@@ -6,9 +6,9 @@
 
 @Model.Id
 
-@if (Model.IsSeller)
+@if (Model.IsProfessional)
 {
-    @Model.SellerInfo.ContactInfo.Name
+    @Model.ProfessionalInfo.CompanyContactInfo.Name
 }
 else
 {

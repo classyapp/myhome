@@ -12,14 +12,18 @@ namespace MyHome.Models
         [Required]
         public string Category { get; set; }
 
-        public IList<Classy.Models.Response.CustomAttributeView> ToCustomAttributeList()
+        public IDictionary<string, string> ToDictionary()
         {
-            throw new NotImplementedException();
+            var dict = new Dictionary<string, string>();
+            dict.Add("Category", Category);
+            return dict;
         }
 
-        public DiscussionMetadata FromCustomAttributeList(IList<Classy.Models.Response.CustomAttributeView> metadata)
+        public DiscussionMetadata FromDictionary(IDictionary<string, string> metadata)
         {
-            throw new NotImplementedException();
+            var output = new DiscussionMetadata();
+            if (metadata.ContainsKey("Category")) Category = metadata["Category"];
+            return output;
         }
     }
 }
