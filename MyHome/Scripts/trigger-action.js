@@ -5,7 +5,7 @@
 
             });
             $('#login-modal').modal('show');
-            e.preventDefault();
+            e.stopImmediatePropagation(); e.preventDefault();
         }
     });
 
@@ -14,13 +14,11 @@
         var listingType = $(this).attr('trigger-action-type');
         var url = "/" + listingType + "/" + listingId + "/favorite";
         $.post(url, null, function (data) { console.log(data); })
-        e.preventDefault();
     });
 
     $('[trigger-profile-action="follow"]').click(function (e) {
         var profileId = $(this).attr('trigger-action-id');
         var url = "/profile/" + profileId + "/follow";
         $.post(url, null, function (data) { console.log(data); })
-        e.preventDefault();
     });
 });

@@ -73,6 +73,10 @@
                         @Html.Hidden("RedirectUrl", Url.Encode(Request.Url.AbsoluteUri))
                         @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("התחבר"))
                     }
+                    OR<br/>
+                    <div>
+                        <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">התחבר עם פייסבוק</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,6 +89,8 @@
         var Classy = {};
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
     </script>
+
+    @Scripts.Render("~/scripts/fb-login.js")
     @Scripts.Render("~/scripts/trigger-action.js")
 
     @RenderSection("scripts", required: false)

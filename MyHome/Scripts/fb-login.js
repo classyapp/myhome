@@ -1,4 +1,4 @@
-﻿OnFacebookLogin = function (profile) { console.log(profile); }
+﻿OnFacebookLogin = function (profile) { location.reload(false); }
 
 $('#sign-in-facebook').click(function () {
     FB.login(function (response) {
