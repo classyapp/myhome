@@ -11,6 +11,20 @@
         }
     };
 
+    var CostFromSelectList = new List<SelectListItem>() {
+        new SelectListItem {
+            Text = "$500 - $2500",
+            Value = "500"
+        }
+    };
+
+    var CostToSelectList = new List<SelectListItem>() {
+        new SelectListItem {
+            Text = "$500 - $2500",
+            Value = "500"
+        }
+    };
+    
     Html.Bootstrap().Globals().FormGroup().CheckBoxLabelsPositionLeft();
 }
 
@@ -39,8 +53,8 @@
             <div class="row">
                 @Html.Bootstrap().Label("מחיר עבודה ממוצעת")
                 <div class="form-inline">
-                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostFrom, EmptySelectList).WidthMd(5).Label().WidthMd(5).LabelText("החל מ:")
-                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostTo, EmptySelectList).WidthMd(5).Class("col-md-offset-1").Label().WidthMd(5).LabelText("ועד:")
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostFrom, CostFromSelectList).WidthMd(5).Label().WidthMd(5).LabelText("החל מ:")
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostTo, CostToSelectList).WidthMd(5).Class("col-md-offset-1").Label().WidthMd(5).LabelText("ועד:")
                 </div>
             </div>
 

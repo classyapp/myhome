@@ -192,6 +192,7 @@
     <Content Include="Views\Photo\PhotoDetails.cshtml" />
     <Content Include="Views\Discussion\DiscussionDetails.cshtml" />
     <Content Include="Views\Profile\Search.cshtml" />
+    <Content Include="Views\Photo\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,52 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.SearchListingsViewModel<MyHome.Models.PhotoMetadata>
+
+@{
+    ViewBag.Title = "Search Photos";
+
+    var CategoryList = new List<SelectListItem>() {
+        new SelectListItem {
+            Text = "Flowers",
+            Value = "flowers"
+        }
+    };
+}
+
+<h2>Search Photos</h2>
+<div class="well">
+@using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
+{
+    @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder("Keyword")
+    @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder("Price From $")
+    @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder("Price To $$$")
+    
+    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("ητω"))
+}
+</div>
+
+<div class="row">
+    <div class="sidebar col-md-2">
+        <h4>Popular Tags</h4>
+        <ul>
+            <li>
+                @Html.RouteLink("#flowers", new { controller = "Photo", action = "Search", tag = "flowers" })
+            </li>
+        </ul>
+    </div>
+    <div class="results col-md-10">
+        @if (Model.Results != null)
+        {
+            <h4>Photos matching your search:</h4>
+            foreach (var l in Model.Results)
+            {
+                <div class="profile">
+                    <div class="col-md-3">
+                        <img src="@l.ExternalMedia[0].Url" width="200px" />
+                    </div>
+                    <div class="col-md-9">
+                        @Html.ListingLink("photo", l)
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
