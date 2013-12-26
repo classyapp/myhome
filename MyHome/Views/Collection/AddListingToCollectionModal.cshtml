@@ -1,0 +1,26 @@
+@model Classy.DotNet.Mvc.ViewModels.Collection.AddToCollectionViewModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add to Collection</h4>
+        </div>
+        <div class="modal-body">
+            @using (var f = Html.Bootstrap().Begin(new Form("AddListingToCollection", "Collection").FormMethod(FormMethod.Post)))
+            {
+                @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").Label().LabelText("Choose Collection")
+                @f.FormGroup().Id("title").HtmlAttributes(new { style = "display:none" }).TextBoxFor(x => x.Title).Label().LabelText("Name This Collection").ShowRequiredStar(false)
+
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("Add"))
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#collectionId').change(function () {
+        if ($(this).val() == '') $('#title').show();
+        else $('#title').hide();
+    });
+</script>
+

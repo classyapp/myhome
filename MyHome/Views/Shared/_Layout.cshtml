@@ -19,16 +19,14 @@
                 @Html.RouteLink("Login", "Login")
             }
         </div>
-        <div class="logo">
-            <a href="/"><h1>Really</h1></a>
-            <p>כלים חכמים לנדל"ן</p>
-        </div>
+
+        <div class="logo"></div>
         <hr/>     
 
         @RenderBody()
 
         <div class="footer text-center">
-            <p>&copy; really.co.il 2013</p>
+            <p>&copy; myhome.co.il 2013</p>
         </div>
 
     </div> <!-- /container -->
@@ -57,41 +55,27 @@
         }(document));
     </script>
 
-    <!-- login modal -->
-    <div class="modal fade" id="login-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Login Required</h4>
-                </div>
-                <div class="modal-body">
-                    @using (var f = Html.Bootstrap().Begin(new Form("Login", "Security").Id("login-modal-form").FormMethod(FormMethod.Post)))
-                    {
-                        @f.FormGroup().TextBox("Email").Label().ShowRequiredStar(false)
-                        @f.FormGroup().Password("Password").Label().ShowRequiredStar(false)
-                        @f.FormGroup().CheckBox("RememberMe").Label().ShowRequiredStar(false).LabelText("זכור אותי")
-                        @Html.Hidden("RedirectUrl", Url.Encode(Request.Url.AbsoluteUri))
-                        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("התחבר"))
-                    }
-                    OR<br/>
-                    <div>
-                        <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">התחבר עם פייסבוק</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 
-    <script>
-        var Classy = {};
-        Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
-    </script>
-
+    @Scripts.Render("~/scripts/classy.js")
     @Scripts.Render("~/scripts/fb-login.js")
     @Scripts.Render("~/scripts/trigger-action.js")
+
+    <!-- login modal -->
+    <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")">
+        <!-- will be replaced -->
+    </div>
+
+    <script>
+        Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+        
+        $(function () {
+            $('.modal[data-remote]').on('shown.bs.modal', function() {
+                Classy.AjaxReconnect();
+            });
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>

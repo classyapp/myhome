@@ -21,34 +21,8 @@ body {
 }
 
 .logo {
-    text-align: center;
-}
-
-.logo h1 {
-    display: inline-block;
-    width: 80px;
-    height: 80px;
-    -moz-border-radius: 50%; 
-    -webkit-border-radius: 50%; 
-    border-radius: 50%;
-    background: #2980B9;
-    color: #fff;
-    padding-top: 23px;
-    font-family: 'Roboto';
-    font-weight: 300;
-    font-style: italic;
-    font-size: 28px;
-}
-
-.logo h1 a,
-.logo h1 a:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-.logo p {
-    color: #3498DB;
-    font-size: 18px;
+    background: url(../img/myhome-logo.png) center center no-repeat;
+    min-height: 50px;
 }
 
 .banner {

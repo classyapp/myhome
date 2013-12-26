@@ -23,8 +23,8 @@ namespace MyHome.Models
         public UserMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new UserMetadata();
-            if (metadata.ContainsKey("IsRenter")) IsRenter = Convert.ToBoolean(metadata.Single(x => x.Key == "IsRenter").Value);
-            if (metadata.ContainsKey("IsHomeOwner")) IsHomeOwner = Convert.ToBoolean(metadata.Single(x => x.Key == "IsHomeOwner").Value);
+            if (metadata.ContainsKey("IsRenter")) IsRenter = Convert.ToBoolean(metadata["IsRenter"]);
+            if (metadata.ContainsKey("IsHomeOwner")) IsHomeOwner = Convert.ToBoolean(metadata["IsHomeOwner"]);
             return output;
         }
     }

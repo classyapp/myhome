@@ -8,14 +8,20 @@ namespace MyHome.Models
 {
     public class PhotoMetadata : IMetadata<PhotoMetadata>
     {
+        public string CopyrightMessage { get; set; }
+
         public IDictionary<string, string> ToDictionary()
         {
-            return null;
+            var list = new Dictionary<string, string>();
+            list.Add("CopyrightMessage", CopyrightMessage.ToString());
+            return list;
         }
 
         public PhotoMetadata FromDictionary(IDictionary<string, string> metadata)
         {
-            return null;
+            var output = new PhotoMetadata();
+            if (metadata.ContainsKey("CopyrightMessage")) CopyrightMessage = metadata["CopyrightMessage"];
+            return output;
         }
     }
 }

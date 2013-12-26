@@ -20,7 +20,8 @@
             <br />@Html.ProfileLink(p)
         </div>
     }
-    @Html.TriggerListingActionLink("Like this Photo", "favorite", Model.Listing)
+    @Html.TriggerListingActionLink("Like this Photo", "favorite", Model.Listing) / 
+    @Html.TriggerListingActionLink("Add to Collection", "collect", Model.Listing)
 </div>
 <br />
 <br />
@@ -57,3 +58,8 @@
     @f.FormGroup().TextArea("Content").ShowValidationMessage(false).Label().LabelText("הוספת תגובה:")
     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("שלח תגובה").HtmlAttributes(new { authorize = "true" }))
 }
+
+<!-- add to collection modal -->
+<div class="modal fade" id="collect-modal" data-remote="@Url.RouteUrl("AddListingToCollection", new { })" role="dialog">
+    <!-- will be replaced -->
+</div>

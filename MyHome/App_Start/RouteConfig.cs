@@ -45,6 +45,13 @@ namespace MyHome
 
             #endregion
 
+            #region // collections
+            
+            var collectionController = new Classy.DotNet.Mvc.Controllers.CollectionController();
+            collectionController.RegisterRoutes(routes);
+
+            #endregion
+
 
             routes.MapRoute(
                 name: "Default",
