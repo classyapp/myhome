@@ -40,6 +40,9 @@ namespace MyHome
             var photoController = new MyHome.Controllers.PhotoController();
             photoController.RegisterRoutes(routes);
 
+            var productController = new MyHome.Controllers.ProductController();
+            productController.RegisterRoutes(routes);
+
             var discussionController = new MyHome.Controllers.DiscussionController();
             discussionController.RegisterRoutes(routes);
 
