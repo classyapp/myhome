@@ -5,6 +5,7 @@
     var photos = Model.Profile.Listings.Where(x => x.ListingType == "Photo");
     var reviews = Model.Profile.Reviews;
     var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
+    var collections = Model.Profile.Collections;
 }
 
 @if (TempData["ContactSuccess"] != null)
@@ -112,7 +113,7 @@ Contact Person: @Model.Profile.ProfessionalInfo.CompanyContactInfo.FirstName @Mo
                 <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
                 <br/>@Html.ListingLink("Photo", p)
                 <br/><small>@p.CommentCount תגובות</small>
-                <br/>@Html.TriggerListingActionLink("Like this Photo", "favorite", p)
+                <br/>@Html.TriggerListingActionLink("Like this Photo", "favorite", p) / @Html.TriggerListingActionLink("Add to Collection", "collect", p)
             </div>    
         }
     </div>
@@ -146,6 +147,19 @@ Contact Person: @Model.Profile.ProfessionalInfo.CompanyContactInfo.FirstName @Mo
             </div>
         }
     </div>
+}
+
+@if (collections.Count > 0)
+{
+      <div class="collections">
+        <h4>collections:</h4>
+        @foreach (var c in collections)
+        {
+            <div class="collection">
+                @c.Title<br/>                
+            </div>
+        }
+    </div>  
 }
 
 <div class="modal fade" id="contact-pro-modal">

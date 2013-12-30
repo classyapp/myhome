@@ -1,0 +1,35 @@
+@model Classy.Models.Response.CollectionView
+
+@{
+    ViewBag.Title = "CollectionDetails";
+    var photos = Model.Listings.Where(x => x.ListingType == "Photo");
+}
+
+<h2>@Model.Title</h2>
+
+<div class="row">
+    @if (photos.Count() > 0)
+    {
+        foreach (var p in photos)
+        {
+            <div class="photo col-md-4">
+                <h4>@p.Title</h4>
+                <div>
+                    <img src="@p.ExternalMedia[0].Url" />
+                    <div>@p.CommentCount Comments</div>
+                    <div>@p.ViewCount Views</div>
+                    <div>@p.FavoriteCount Likes</div>
+                    <div>In @p.AddToCollectionCount Collections</div>
+                </div>
+                <div>
+                    @Html.TriggerListingActionLink("Like", "favorite", p) / @Html.TriggerListingActionLink("Add to Collection", "collect", p)
+                </div>
+            </div>
+        }
+    }
+    else {
+        <div>This collection is empty :(</div>
+    }
+</div>
+
+

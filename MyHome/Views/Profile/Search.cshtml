@@ -15,10 +15,10 @@
 <div class="well">
 @using (var f = Html.Bootstrap().Begin(new Form().Type(FormType.Inline).FormMethod(FormMethod.Post)))
 {
-    @f.FormGroup().TextBoxFor(x => x.Name).Placeholder("שם בעל מקצוע או חברה")
-    @f.FormGroup().DropDownListFor(x => x.Category, CategoryList).OptionLabel("-- select --")
+    @f.FormGroup().TextBoxFor(x => x.Name).Placeholder("שם בעל מקצוע או חברה").Label().Class("sr-only")
+    @f.FormGroup().DropDownListFor(x => x.Category, CategoryList).OptionLabel("-- Category --").Label().Class("sr-only")
     
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("חפש"))
+    @Html.Bootstrap().SubmitButton().Text("חפש")
 }
 </div>
 

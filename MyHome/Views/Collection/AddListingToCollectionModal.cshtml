@@ -1,15 +1,25 @@
 @model Classy.DotNet.Mvc.ViewModels.Collection.AddToCollectionViewModel
+@{
+    var isNewCollection = string.IsNullOrEmpty(Model.CollectionId);
+}
 
-<div class="modal-dialog">
+<div id="modal-main" class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">Add to Collection</h4>
         </div>
         <div class="modal-body">
-            @using (var f = Html.Bootstrap().Begin(new Form("AddListingToCollection", "Collection").FormMethod(FormMethod.Post)))
+            @using (var f = Ajax.Bootstrap().Begin(new Form("AddListingToCollection", "Collection"), new AjaxOptions {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    UpdateTargetId = "modal-main",
+                    OnSuccess = "CloseModal"
+                }))
             {
-                @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").Label().LabelText("Choose Collection")
-                @f.FormGroup().Id("title").HtmlAttributes(new { style = "display:none" }).TextBoxFor(x => x.Title).Label().LabelText("Name This Collection").ShowRequiredStar(false)
+                @Html.Bootstrap().ValidationSummary()
+                @Html.HiddenFor(x => x.ListingIds[0], new { @id = "listingId" });
+                @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel("Create New Collection").Label().LabelText("Choose Collection").ShowRequiredStar(false)
+                @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).Label().LabelText("Name This Collection").ShowRequiredStar(false)
 
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("Add"))
             }
@@ -22,5 +32,16 @@
         if ($(this).val() == '') $('#title').show();
         else $('#title').hide();
     });
+
+@{
+    <text>
+    if (ViewData.ModelState.IsValid) {
+        CloseModal = function () { $('#modal-main').parent().modal('hide') };
+    }
+    else {
+        CloseModal = {};
+    }
+    </text>
+}
 </script>
 

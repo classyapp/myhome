@@ -1,9 +1,6 @@
 ﻿$(function () {
     $('[authorize]').click(function (e) {
         if (!Classy.IsAuthenticated) {
-            $('#login-modal-form').submit(function (e) {
-
-            });
             $('#login-modal').modal('show');
             e.stopImmediatePropagation(); e.preventDefault();
         }
@@ -19,7 +16,11 @@
     $('[trigger-listing-action="collect"]').click(function (e) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
-        $('#collect-modal').modal('show');
+        $('#collect-modal')
+            .modal('show')
+            .on('shown.bs.modal', function () {
+                $('#listingId').val(listingId);
+        });
     });
 
     $('[trigger-profile-action="follow"]').click(function (e) {
