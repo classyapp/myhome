@@ -129,6 +129,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DiscussionController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -138,6 +139,7 @@
     </Compile>
     <Compile Include="Models\DiscussionMetadata.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
+    <Compile Include="Models\ProductMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
     <Compile Include="Models\ProfileReviewCriteria.cs" />
     <Compile Include="Models\UserMetadata.cs" />
@@ -205,6 +207,7 @@
     <Content Include="Views\Collection\AddListingToCollectionModal.cshtml" />
     <Content Include="Views\Security\LoginModal.cshtml" />
     <Content Include="Views\Collection\CollectionDetails.cshtml" />
+    <Content Include="Views\Product\CreateProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
