@@ -5,14 +5,24 @@
 }
 
 <h2>@Model.Profile.ContactInfo.Name</h2>
-@if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) 
-{
-    <a href="/profile/edit">@Localizer.Get("PublicProfile_EditProfile")</a>
-}
 
 <img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
 
-@string.Format(Localizer.Get("PublicProfile_ViewCount"), Model.Profile.ViewCount)
+@if (Request.IsAuthenticated && Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
+{
+    <h3>@Localizer.Get("PublicProfile_Following")</h3>
+}
+else
+{
+    <h3>@Html.TriggerProfileActionLink(Localizer.Get("PublicProfile_Follow"), "follow", Model.Profile)</h3>
+}
+
+@if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+{
+    <a href="/profile/me">@Localizer.Get("PublicProfile_EditProfile")</a>
+}
+
+<span>@string.Format(Localizer.Get("PublicProfile_ViewCount"), Model.Profile.ViewCount)</span>
 
 <h4>Followed By @Model.Profile.FollowerCount</h4>
 @foreach (var p in Model.Profile.FollowedBy)

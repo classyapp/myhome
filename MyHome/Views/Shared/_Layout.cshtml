@@ -13,7 +13,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -22,11 +22,11 @@
         <div>
             @if (Request.IsAuthenticated)
             {
-                @Html.RouteLink("Logout", "Logout")  
+                @Html.RouteLink(Localizer.Get("Header_Nav_Logout"), "Logout")  
             }
             else 
             {
-                @Html.RouteLink("Login", "Login")
+                @Html.RouteLink(Localizer.Get("Header_Nav_Login"), "Login")
             }
         </div>
 
@@ -37,7 +37,7 @@
 
         <div class="footer text-center">
             <p>&copy; myhome.co.il 2013</p>
-            <p>Language: @env.Culture / Currency: @env.Currency / Location: @env.Country  <a href="#" data-toggle="modal" data-target="#env-modal">changes these settings</a></p>
+            <p>Language: <a href="#" data-toggle="modal" data-target="#env-modal">@env.Culture</a></p>
         </div>
 
     </div> <!-- /container -->

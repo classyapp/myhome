@@ -6,10 +6,10 @@
 }
 
 <div class="text-center">
-    <h2>ברוכים הבאים ל-MyHome</h2>
+    <h2>@Localizer.Get("Login_Welcome")</h2>
     <p>
-        אין לך חשבון עדיין?
-        <a href="/register">לפתיחת חשבון</a>
+        @Localizer.Get("Login_NoAccount")
+        <a href="/register">@Localizer.Get("Login_CreateAccount")</a>
     </p>
 </div>
 
@@ -21,9 +21,9 @@
         {
             @f.FormGroup().TextBoxFor(x => x.Email).Label().ShowRequiredStar(false)
             @f.FormGroup().PasswordFor(x => x.Password).Label().ShowRequiredStar(false)
-            @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().ShowRequiredStar(false).LabelText("זכור אותי")
+            @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().ShowRequiredStar(false)
             @Html.HiddenFor(x => x.RedirectUrl)
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("התחבר"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Login_Submit")))
         }
     </div>
 
@@ -32,7 +32,7 @@
     </div>
 
     <div class="col-md-3">
-        <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">התחבר עם פייסבוק</a>
+        <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
     </div>
 </div>
 
