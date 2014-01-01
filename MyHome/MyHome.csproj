@@ -208,6 +208,8 @@
     <Content Include="Views\Security\LoginModal.cshtml" />
     <Content Include="Views\Collection\CollectionDetails.cshtml" />
     <Content Include="Views\Product\CreateProduct.cshtml" />
+    <Content Include="Views\Localization\EnvironmentSettings.cshtml" />
+    <Content Include="Views\Localization\ManageResources.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

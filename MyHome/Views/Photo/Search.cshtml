@@ -15,11 +15,11 @@
 <div class="well">
 @using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
 {
-    @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder("Keyword").Label().Class("sr-only")
-    @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder("Price From $").Label().Class("sr-only")
-    @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder("Price To $$$").Label().Class("sr-only")
+    @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder(Localizer.Get("Search_Keyword")).Label().Class("sr-only")
+    @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder(Localizer.Get("Search_CostFrom")).Label().Class("sr-only")
+    @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")
     
-    @Html.Bootstrap().SubmitButton().Text("ητω").AppendIcon(new Icon("glyphicon glyphicon-search"))
+    @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Search_Submit")).AppendIcon(new Icon("glyphicon glyphicon-search"))
 }
 </div>
 

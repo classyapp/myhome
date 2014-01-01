@@ -55,6 +55,12 @@ namespace MyHome
 
             #endregion
 
+            #region // localization
+
+            var localizationController = new Classy.DotNet.Mvc.Controllers.LocalizationController();
+            localizationController.RegisterRoutes(routes);
+
+            #endregion 
 
             routes.MapRoute(
                 name: "Default",

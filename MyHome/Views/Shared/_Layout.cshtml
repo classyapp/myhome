@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var env = new
+    {
+        Culture = UICulture,
+        Currency = Request["env.currency"] ?? "ILS",
+        Country = Request["enc.locaction"] ?? "IL"
+    };
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -28,6 +37,7 @@
 
         <div class="footer text-center">
             <p>&copy; myhome.co.il 2013</p>
+            <p>Language: @env.Culture / Currency: @env.Currency / Location: @env.Country  <a href="#" data-toggle="modal" data-target="#env-modal">changes these settings</a></p>
         </div>
 
     </div> <!-- /container -->
@@ -73,6 +83,11 @@
         <!-- will be replaced -->
     </div>
 
+    <!-- add to collection modal -->
+    <div class="modal fade" id="env-modal" data-remote="@Url.RouteUrl("EnvironmentSettings", new { })" role="dialog">
+        <!-- will be replaced -->
+    </div>
+
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         
@@ -81,6 +96,17 @@
                 Classy.AjaxReconnect();
             });
         });
+
+        @if (ViewData.ModelState.IsValid) {
+            <text>
+            CloseModal = function () { $('.modal').modal('hide') };
+            </text>
+        }
+        else {
+            <text>
+            CloseModal = {};
+            </text>
+        }
     </script>
 
     @RenderSection("scripts", required: false)

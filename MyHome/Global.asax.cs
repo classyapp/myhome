@@ -24,6 +24,9 @@ namespace MyHome
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Bootstrap.Configure();
+
+            // localization of display and validation attribtues
+            ModelMetadataProviders.Current = new Classy.DotNet.Mvc.Localization.MyLocalizationProvider();
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

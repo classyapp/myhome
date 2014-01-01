@@ -32,16 +32,5 @@
         if ($(this).val() == '') $('#title').show();
         else $('#title').hide();
     });
-
-@{
-    <text>
-    if (ViewData.ModelState.IsValid) {
-        CloseModal = function () { $('#modal-main').parent().modal('hide') };
-    }
-    else {
-        CloseModal = {};
-    }
-    </text>
-}
 </script>
 
