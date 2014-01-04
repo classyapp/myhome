@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";  
+}
+
+<div class="row banner">
+    <div class="col-md-6">
+        <h2>קניתם, מכרתם או שכרתם דירה בתיווך לאחרונה?</h2>
+        <h1>מלאו חוות דעת וקבלו את <strong>עמלת התיווך בחזרה!</strong></h1>
+        <p class="lead">
+            איך משתתפים?<br/>
+            1. מתחברים עם פייסבוק<br/>
+            2. ממלאים חוות דעת (5 דקות)<br/>
+            3. מחכים לתוצאות ההגרלה בסוף החודש!
+        </p>
+        <p><a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">לחצו כאן בכדי להתחבר עם פייסבוק</a></p>
+        <p class="fb-footnote">אנחנו מתחייבים שלא לפרסם לכם כלום על הקיר.<br/>ההתחברות דרך פייסבוק היא לצורך וידוא זהות הזוכים.</p>
+    </div>
+    <div class="imageholder col-md-6 visible-lg">
+        <img src="/img/broker.png" width="550" alt="מתווך נדלן" />
+    </div>
+</div>
+
+<div class="row marketing">
+    <div class="col-lg-6">
+        <h4>החזון של רילי</h4>
+        <p>החזון של אתר רילי הוא לייצר שקיפות בתחום הנדל"ן.</p>
+
+        <h4>Subheading</h4>
+        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+        <h4>Subheading</h4>
+        <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    </div>
+   
+    <div class="col-lg-6">
+        <h4>Subheading</h4>
+        <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+        <h4>Subheading</h4>
+        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+        <h4>Subheading</h4>
+        <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        OnFacebookLogin = function (profile) { window.document.location.href = "/profile/reviews/new"; }
+    </script>
+}

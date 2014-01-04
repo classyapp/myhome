@@ -14,16 +14,16 @@
                 }))
             {
                 @Html.Bootstrap().ValidationSummary()
-                @f.FormGroup().DropDownListFor(x => x.CultureCode, new SelectList(Model.SupportedCulturesList, "Value", "Text", Model.CultureCode))
+                @f.FormGroup().DropDownListFor(x => x.CultureCode, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCultures, "Name", "NativeName", Model.CultureCode))
                 
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EnvSettings_Submit")))
             }
-        </div>
+          </div>
     </div>
 </div>
 
 <script>
     function Refresh() {
-        document.location.reload();
+        document.location.href = Classy.CurrentPageNoLocale;
     }
 </script>

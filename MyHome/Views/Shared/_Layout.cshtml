@@ -12,6 +12,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
+
+    <link rel="canonical" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string))" />
+    <link rel="alternate" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string))" hreflang="x-default" />
+    @foreach (var culture in Localizer.SupportedCultures)
+    {
+        <link rel="alternate" hreflang="@culture.Name" href="http://www.myhome.co.il@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["RouteName"] as string, culture.Name))" />    
+    }
     
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
@@ -37,7 +46,13 @@
 
         <div class="footer text-center">
             <p>&copy; myhome.co.il 2013</p>
-            <p>Language: <a href="#" data-toggle="modal" data-target="#env-modal">@env.Culture</a></p>
+            <p>Language: <a href="#language-select" data-toggle="modal" data-target="#env-modal">@env.Culture</a></p>
+            <p>
+                @foreach (var culture in Localizer.SupportedCultures)
+                {
+                    <a href="/@culture.Name">@culture.NativeName</a>
+                }
+            </p>
         </div>
 
     </div> <!-- /container -->
@@ -83,13 +98,15 @@
         <!-- will be replaced -->
     </div>
 
-    <!-- add to collection modal -->
+    <!-- language selection modal -->
     <div class="modal fade" id="env-modal" data-remote="@Url.RouteUrl("EnvironmentSettings", new { })" role="dialog">
         <!-- will be replaced -->
     </div>
 
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+        Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["RouteName"] as string, env.Culture)";
+        Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string)";
         
         $(function () {
             $('.modal[data-remote]').on('shown.bs.modal', function() {
