@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "CollectionDetails";
-    var photos = Model.Listings.Where(x => x.ListingType == "Photo");
+    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.Models.Response.ListingView>();
 }
 
 <h2>@Model.Title</h2>

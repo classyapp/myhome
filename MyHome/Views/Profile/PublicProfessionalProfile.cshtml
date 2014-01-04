@@ -63,16 +63,18 @@ Views: @Model.Profile.ViewCount<br/>
 </div>
 <br/>
 # of Reviews: @Model.Profile.ReviewCount<br/>
-@Model.Profile.ReviewAverageScore 
-<small>
-    details @Html.Bootstrap().Icon(
-    new Icon("glyphicon-info-sign")
-    .Popover("Score Details", string.Concat(
-        "Professionalism: ", Model.ReviewSubCriteria.Professionalism, "<br/>",
-        "Creativity: ", Model.ReviewSubCriteria.Creativity, "<br/>",
-        "Service Level: ", Model.ReviewSubCriteria.ServiceLevel, "<br/>",
-        "Availability: ", Model.ReviewSubCriteria.Availability)))
-</small>
+@if (Model.Profile.ReviewCount > 0) {
+    @Model.Profile.ReviewAverageScore 
+    <small>
+        details @Html.Bootstrap().Icon(
+        new Icon("glyphicon-info-sign")
+        .Popover("Score Details", string.Concat(
+            "Professionalism: ", Model.ReviewSubCriteria.Professionalism, "<br/>",
+            "Creativity: ", Model.ReviewSubCriteria.Creativity, "<br/>",
+            "Service Level: ", Model.ReviewSubCriteria.ServiceLevel, "<br/>",
+            "Availability: ", Model.ReviewSubCriteria.Availability)))
+    </small>
+}
 <a href="/profile/@Model.Profile.Id/reviews/new">Review Me</a>
 
 <h4>Social Links:</h4>
@@ -156,7 +158,7 @@ Contact Person: @Model.Profile.ProfessionalInfo.CompanyContactInfo.FirstName @Mo
         @foreach (var c in collections)
         {
             <div class="collection">
-                @c.Title<br/>                
+                @Html.CollectionLink(c)               
             </div>
         }
     </div>  
