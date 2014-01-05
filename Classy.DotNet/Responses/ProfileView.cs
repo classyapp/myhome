@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Classy.DotNet.Responses
+{
+    public class ProfileView
+    {
+        public ProfileView()
+        {
+            Metadata = new Dictionary<string, string>();
+            FolloweeUsernames = new List<string>();
+        }
+
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public ExtendedContactInfoView ContactInfo { get; set; }
+        public string ImageUrl { get; set; }
+        public int FollowerCount { get; set; }
+        public int FollowingCount { get; set; }
+        public int ListingCount { get; set; }
+        public int CommentCount { get; set; }
+        public int ViewCount { get; set; }
+        public int ReviewCount { get; set; }
+        public decimal ReviewAverageScore { get; set; }
+        public IDictionary<string, decimal> ReviewAverageSubCriteria { get; set; }
+        public bool IsVerifiedProfessional { get; set; }
+        public bool IsProfessional { get; set; }
+        public bool IsVendor { get; set; }
+        public bool IsProxy { get; set; }
+        public ProfessionalInfoView ProfessionalInfo { get; set; }
+        public int Rank { get; set; }
+        public IList<string> FolloweeUsernames { get; set; }
+        public IList<ProfileView> Following { get; set; }
+        public IList<ProfileView> FollowedBy { get; set; }
+        public IList<ReviewView> Reviews { get; set; }
+        public IList<ListingView> Listings { get; set; }
+        public IList<CollectionView> Collections { get; set; }
+        public IDictionary<string, string> Metadata { get; set; }
+    }
+}
