@@ -1,14 +1,19 @@
 ﻿@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
-@import url(http://fonts.googleapis.com/css?family=Roboto:300italic);
+@import url(http://fonts.googleapis.com/css?family=Roboto:300);
 
 /* Space out content a bit */
 body {
-  font-family: "Roboto",
-               “Helvetica Neue”,
-               Helvetica,
-               Arial,
+  font-family: 'Roboto',
                sans-serif;
-  padding-top: 60px;
+  padding-top: 90px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Roboto', sans-serif;
+}
+
+.content.container {
+    padding: 0;
 }
 
 /* fix for inline forms within horizontal forms */
@@ -31,11 +36,11 @@ body {
     height: 60px;
 }
 .navbar-form {
-    margin-top: 14px;
+    margin-top: 16px;
     padding: 0;
 }
 .navbar-nav > li > a {
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
     margin-top: 8px;
 }
@@ -43,6 +48,66 @@ body {
     top: 2px;
     font-size: 16px;
 }
+
+/* profile page */
+.sidebar .image img {
+    margin-bottom: 10px;
+}
+.sidebar .follow {
+    margin-bottom: 10px;
+}
+.sidebar .panel {
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+.sidebar .panel-title {
+    font-weight: bold;
+}
+.sidebar .panel-body {
+    padding: 0;
+}
+.panel-links a,
+.panel-links a:hover {
+    display: block;
+    width: 100%;
+    padding: 5px 15px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+}
+.panel-links a:hover {
+    font-weight: bold;
+    border-left: solid 5px #000;
+    padding-left: 10px;
+}
+.main h1 {
+    font-size: 32px;
+    margin-top: 0;
+}
+#photos .thumbnail a.action {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 6px 0;
+    line-height: 1.428571429;
+    text-align: center;
+    float: right;
+    position: absolute;
+    z-index: 999;
+    top: 15px;
+    right: 30px;
+}
+#photos .thumbnail a.action.add {
+    right: 65px;
+}
+#photos .col-md-4 {
+    padding: 0 3px;
+}
+#profileTabs {
+    margin-bottom: 10px;
+}
+
 
 .banner {
     background: #2C3E50;
@@ -166,7 +231,7 @@ body {
     content: '';
     width: 24px;
     height: 24px;
-    background: url(../img/fb.png) right top no-repeat;
+    background: url(img/fb.png) right top no-repeat;
     border-left: 1px rgba(255,255,255,0.18) solid;
     display: inline-block;
     margin: 0  0 0 16px;

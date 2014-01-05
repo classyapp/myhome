@@ -8,7 +8,7 @@ body {
                Helvetica,
                Arial,
                sans-serif;
-  padding-top: 60px;
+  padding-top: 90px;
 }
 
 /* fix for inline forms within horizontal forms */
@@ -42,6 +42,66 @@ body {
 .navbar span.glyphicon {
     top: 2px;
     font-size: 16px;
+}
+
+/* profile page */
+.sidebar {
+
+}
+.sidebar .image img {
+    margin-bottom: 10px;
+}
+.sidebar .follow {
+    margin-bottom: 10px;
+}
+.sidebar .panel {
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+.sidebar .panel-title {
+    font-weight: bold;
+}
+.sidebar .panel-body {
+    padding: 0;
+}
+.panel-links a,
+.panel-links a:hover {
+    display: block;
+    width: 100%;
+    padding: 5px 15px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+}
+.panel-links a:hover {
+    font-weight: bold;
+    border-right: solid 5px #000;
+    padding-right: 10px;
+}
+.main h1 {
+    padding: 0 15px;
+    font-size: 32px;
+    margin-top: 0;
+}
+#photos .thumbnail a.action {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 6px 0;
+    line-height: 1.428571429;
+    text-align: center;
+    float: right;
+    position: absolute;
+    z-index: 999;
+    top: 15px;
+    left: 30px;
+}
+#photos .thumbnail a.action.add {
+    left: 65px;
+}
+#profileTabs {
+    margin-bottom: 10px;
 }
 
 .banner {
