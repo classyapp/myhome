@@ -22,9 +22,13 @@ namespace MyHome
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/TwitterBootstrapMvcJs.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css/rtl").Include(
+                      "~/Content/rtl/bootstrap.css",
+                      "~/Content/rtl/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css/ltr").Include(
+                      "~/Content/ltr/bootstrap.min.css",
+                      "~/Content/ltr/site.css"));
         }
     }
 }

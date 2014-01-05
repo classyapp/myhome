@@ -146,13 +146,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="channel.html" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\narrow.css" />
+    <Content Include="Content\ltr\bootstrap.min.css" />
+    <Content Include="Content\ltr\Site.css" />
+    <Content Include="Content\rtl\bootstrap.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\rtl\Site.css" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\myhome-logo.png" />
     <Content Include="Scripts\bootstrap.js" />
