@@ -1,8 +1,8 @@
-@model Classy.Models.Response.CollectionView
+@model Classy.DotNet.Responses.CollectionView
 
 @{
     ViewBag.Title = "CollectionDetails";
-    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.Models.Response.ListingView>();
+    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
 }
 
 <h2>@Model.Title</h2>
