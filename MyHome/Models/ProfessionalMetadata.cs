@@ -1,6 +1,5 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.ViewModels.Profiles;
-using Classy.Models.Response;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

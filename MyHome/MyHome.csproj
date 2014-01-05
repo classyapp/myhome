@@ -217,17 +217,13 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\classy.dotnet\Classy.DotNet.Mvc\Classy.DotNet.Mvc.csproj">
+    <ProjectReference Include="..\Classy.DotNet.Mvc\Classy.DotNet.Mvc.csproj">
       <Project>{dde05754-f1a4-4e4e-b852-b6ca3fdad6f8}</Project>
       <Name>Classy.DotNet.Mvc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\classy.dotnet\Classy.DotNet\Classy.DotNet.csproj">
+    <ProjectReference Include="..\Classy.DotNet\Classy.DotNet.csproj">
       <Project>{77ef7d41-3685-4b0e-91e7-3121dc4f4695}</Project>
       <Name>Classy.DotNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\classy\Classy.Models.Response\Classy.Models.Response.csproj">
-      <Project>{7dba45e3-cb30-4f3c-9577-27e955dd3f49}</Project>
-      <Name>Classy.Models.Response</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

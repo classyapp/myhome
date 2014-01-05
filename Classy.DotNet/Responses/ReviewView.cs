@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Classy.DotNet.Responses
+{
+    public class ReviewView
+    {
+        public string Id { get; set; }
+        public string ProfileId { get; set; }
+        public string RevieweeProfileId { get; set; }
+        public string ListingId { get; set; }
+        public string Content { get; set; }
+        public int Score { get; set; }
+        public bool IsPublished { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+}

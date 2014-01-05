@@ -7,7 +7,7 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet;
-using Classy.Models.Response;
+using Classy.DotNet.Responses;
 
 namespace MyHome.Controllers
 {

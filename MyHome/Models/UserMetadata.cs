@@ -1,5 +1,4 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
-using Classy.Models.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
