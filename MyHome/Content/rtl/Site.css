@@ -1,0 +1,239 @@
+﻿@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+@import url(http://fonts.googleapis.com/css?family=Roboto:300italic);
+
+/* Space out content a bit */
+body {
+  font-family: "Alef Hebrew",
+               “Helvetica Neue”,
+               Helvetica,
+               Arial,
+               sans-serif;
+  padding-top: 90px;
+}
+
+/* fix for inline forms within horizontal forms */
+.form-inline .form-group {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* navbar */
+.navbar {
+    border: none;
+    background: #fff;
+    border-bottom: solid 1px #e5e5e5;
+}
+.navbar-brand {
+    background: url(/img/myhome-logo.png) center left no-repeat;
+    width: 40px;
+    height: 60px;
+}
+.navbar-form {
+    margin-top: 16px;
+    padding: 0;
+}
+.navbar-nav > li > a {
+    font-size: 16px;
+    color: #000;
+    margin-top: 8px;
+}
+.navbar span.glyphicon {
+    top: 2px;
+    font-size: 16px;
+}
+
+/* profile page */
+.sidebar {
+
+}
+.sidebar .image img {
+    margin-bottom: 10px;
+}
+.sidebar .follow {
+    margin-bottom: 10px;
+}
+.sidebar .panel {
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+.sidebar .panel-title {
+    font-weight: bold;
+}
+.sidebar .panel-body {
+    padding: 0;
+}
+.panel-links a,
+.panel-links a:hover {
+    display: block;
+    width: 100%;
+    padding: 5px 15px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+}
+.panel-links a:hover {
+    font-weight: bold;
+    border-right: solid 5px #000;
+    padding-right: 10px;
+}
+.main h1 {
+    padding: 0 15px;
+    font-size: 32px;
+    margin-top: 0;
+}
+#photos .thumbnail a.action {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 6px 0;
+    line-height: 1.428571429;
+    text-align: center;
+    float: right;
+    position: absolute;
+    z-index: 999;
+    top: 15px;
+    left: 30px;
+}
+#photos .thumbnail a.action.add {
+    left: 65px;
+}
+#profileTabs {
+    margin-bottom: 10px;
+}
+
+.banner {
+    background: #2C3E50;
+    color: #fff;
+    -moz-border-radius: 15px; 
+    -webkit-border-radius: 15px; 
+    border-radius: 15px;
+    padding-right: 20px;
+}
+
+.banner h2 {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.banner h1 {
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.banner h1 strong {
+    color: #fff;
+}
+
+.banner .lead {
+    font-size: 18px;
+}
+
+.imageholder {
+    overflow: hidden;
+    height: 400px;
+}
+
+.imageholder img {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+/* faceook login button */
+.btn-fb-login, .btn-fb-login:hover  {
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6086d5), color-stop(100%, #4567ac));
+    background: -webkit-linear-gradient(#6086d5, #4567ac);
+    background: -moz-linear-gradient(#6086d5, #4567ac);
+    background: -o-linear-gradient(#6086d5, #4567ac);
+    background: linear-gradient(#6086d5,#4567ac);
+    border-color: #5275bc #4363a4 #35518c;
+    color: #fff;
+    font-weight: bolder;
+}
+
+.btn-fb-login:before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: url(/img/fb.png) right top no-repeat;
+    border-left: 1px rgba(255,255,255,0.18) solid;
+    display: inline-block;
+    margin: 0  0 0 16px;
+    vertical-align: -7px;
+}
+
+.fb-footnote {
+    color: #BDC3C7;
+    font-size: 14px;
+}

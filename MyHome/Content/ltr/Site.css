@@ -1,15 +1,19 @@
 ﻿@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
-@import url(http://fonts.googleapis.com/css?family=Roboto:300italic);
+@import url(http://fonts.googleapis.com/css?family=Roboto:300);
 
 /* Space out content a bit */
 body {
-  font-family: "Alef Hebrew",
-               “Helvetica Neue”,
-               Helvetica,
-               Arial,
+  font-family: 'Roboto',
                sans-serif;
-  padding-top: 10px;
-  padding-bottom: 20px;
+  padding-top: 90px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Roboto', sans-serif;
+}
+
+.content.container {
+    padding: 0;
 }
 
 /* fix for inline forms within horizontal forms */
@@ -20,10 +24,90 @@ body {
     padding-right: 0;
 }
 
-.logo {
-    background: url(../img/myhome-logo.png) center center no-repeat;
-    min-height: 50px;
+/* navbar */
+.navbar {
+    border: none;
+    background: #fff;
+    border-bottom: solid 1px #e5e5e5;
 }
+.navbar-brand {
+    background: url(/img/myhome-logo.png) center left no-repeat;
+    width: 40px;
+    height: 60px;
+}
+.navbar-form {
+    margin-top: 16px;
+    padding: 0;
+}
+.navbar-nav > li > a {
+    font-size: 16px;
+    color: #000;
+    margin-top: 8px;
+}
+.navbar span.glyphicon {
+    top: 2px;
+    font-size: 16px;
+}
+
+/* profile page */
+.sidebar .image img {
+    margin-bottom: 10px;
+}
+.sidebar .follow {
+    margin-bottom: 10px;
+}
+.sidebar .panel {
+    border-radius: 0;
+    margin-bottom: 10px;
+}
+.sidebar .panel-title {
+    font-weight: bold;
+}
+.sidebar .panel-body {
+    padding: 0;
+}
+.panel-links a,
+.panel-links a:hover {
+    display: block;
+    width: 100%;
+    padding: 5px 15px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+}
+.panel-links a:hover {
+    font-weight: bold;
+    border-left: solid 5px #000;
+    padding-left: 10px;
+}
+.main h1 {
+    font-size: 32px;
+    margin-top: 0;
+}
+#photos .thumbnail a.action {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 6px 0;
+    line-height: 1.428571429;
+    text-align: center;
+    float: right;
+    position: absolute;
+    z-index: 999;
+    top: 15px;
+    right: 30px;
+}
+#photos .thumbnail a.action.add {
+    right: 65px;
+}
+#photos .col-md-4 {
+    padding: 0 3px;
+}
+#profileTabs {
+    margin-bottom: 10px;
+}
+
 
 .banner {
     background: #2C3E50;
@@ -118,23 +202,17 @@ body {
   margin-top: 28px;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 1200px;
   }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
 }
 
 /* faceook login button */
@@ -153,7 +231,7 @@ body {
     content: '';
     width: 24px;
     height: 24px;
-    background: url(../img/fb.png) right top no-repeat;
+    background: url(img/fb.png) right top no-repeat;
     border-left: 1px rgba(255,255,255,0.18) solid;
     display: inline-block;
     margin: 0  0 0 16px;

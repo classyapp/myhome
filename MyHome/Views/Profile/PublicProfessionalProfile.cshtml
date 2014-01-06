@@ -16,194 +16,275 @@
 </div>
 }
 
-@Html.Bootstrap().ValidationSummary()
-
-<h2>Pro: @Model.Profile.ContactInfo.Name</h2>
-
-@if (Model.Profile.IsProxy)
-{
-    @Html.RouteLink("Is this you or your company?", new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning" })
-}
-
-@if (Request.IsAuthenticated && Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)) {
-    <h3>Following</h3>
-} else {
-    <h3>@Html.TriggerProfileActionLink("Follow Me", "follow", Model.Profile)</h3>
-}
-
-@if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
-{
-    <a href="/profile/me">Edit Profile</a>
-}
-
-<img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
-
-Internal Ranking: @Model.Profile.Rank<br/>
-
-Views: @Model.Profile.ViewCount<br/>
-<div>
-<h4>Followed By @Model.Profile.FollowerCount</h4>
-@foreach (var p in Model.Profile.FollowedBy)
-{
-    <div class="col-sm-1">
-        <img src="@p.ImageUrl" width="32px" />
-        <br />@Html.ProfileLink(p)
+<div class="col-md-3 sidebar">
+    <div class="image text-center">
+        <img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
     </div>
-}
-</div>
-<div>
-    <h4>Following @Model.Profile.FollowingCount</h4>
-    @foreach (var p in Model.Profile.Following)
+
+    <div class="follow">
+        @if (Request.IsAuthenticated && Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
+        {
+            <span>@Localizer.Get("Profile_Sidebar_Following") <i class="glyphicon glyphicon-ok"></i></span>
+        }
+        else
+        {
+            @Html.TriggerProfileActionLink(@Localizer.Get("Profile_Sidebar_Follow"), "follow", Model.Profile, "btn btn-block btn-default")
+        }
+    </div>
+
+    <div class="panel panel-default panel-links">
+        <div class="panel-heading">
+            <h3 class="panel-title">@Localizer.Get("Profile_ProfileLinksPanel_Title")</h3>
+        </div>
+        <div class="panel-body">
+            <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Overview")</a>
+            <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Collections")</a>
+            <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Photos")</a>
+            <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Reviews")</a>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl))
+            {
+                <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl">Facebook</a>
+            }
+            @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl))
+            {
+                <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername">Twitter</a>
+            }
+            @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername))
+            {
+                <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl">LinkedIn</a>
+            }
+        </div>
+    </div>
+
+    @if (Model.Profile.FollowerCount > 0)
     {
-        <div class="col-sm-1">
-            <img src="@p.ImageUrl" width="32px" />
-            <br />@Html.ProfileLink(p)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">@string.Format(Localizer.Get("Profile_FollowersPanel_Title"), Model.Profile.FollowerCount)</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                @foreach (var p in Model.Profile.FollowedBy)
+                {
+                    <div class="col-sm-1">
+                        <a href="@Html.ProfileLink(p)" class="thumbnail">
+                            <img src="@p.ImageUrl" width="28px"/>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    }
+    
+    @if (Model.Profile.FollowingCount > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@string.Format(Localizer.Get("Profile_FollowingPanel_Title"), Model.Profile.FollowingCount)</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    @foreach (var p in Model.Profile.Following)
+                    {
+                        <div class="col-md-3">
+                            <a href="@Html.ProfileLink(p)" class="thumbnail">
+                                <img src="@p.ImageUrl" />
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     }
 </div>
-<br/>
-# of Reviews: @Model.Profile.ReviewCount<br/>
-@if (Model.Profile.ReviewCount > 0) {
-    @Model.Profile.ReviewAverageScore 
-    <small>
-        details @Html.Bootstrap().Icon(
-        new Icon("glyphicon-info-sign")
-        .Popover("Score Details", string.Concat(
-            "Professionalism: ", Model.ReviewSubCriteria.Professionalism, "<br/>",
-            "Creativity: ", Model.ReviewSubCriteria.Creativity, "<br/>",
-            "Service Level: ", Model.ReviewSubCriteria.ServiceLevel, "<br/>",
-            "Availability: ", Model.ReviewSubCriteria.Availability)))
-    </small>
-}
-<a href="/profile/@Model.Profile.Id/reviews/new">Review Me</a>
 
-<h4>Social Links:</h4>
-@if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl)) {
-    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl">Facebook</a>
-}
-@if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl))
-{
-    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername">Twitter</a>
-}
-@if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername))
-{
-    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl">LinkedIn</a>
-}
+<div class="col-md-9 main">
+    <div class="row" itemscope itemtype="http://schema.org/LocalBusiness">
+        <div class="col-md-9">
+            <h1 itemprop="name">@Model.Profile.ContactInfo.Name</h1>
 
-<h4>Contact Info:</h4>
-<a id="contact-pro" href="#" class="btn btn-success">צור קשר</a>
-
-Contact Person: @Model.Profile.ProfessionalInfo.CompanyContactInfo.FirstName @Model.Profile.ProfessionalInfo.CompanyContactInfo.LastName<br/>
-@if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
-    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
-    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
-{
-<div class="address">
-    Address: <br />
-    @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2<br />
-    @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2
-    @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
-</div>
-}
-
-@if (photos.Count() > 0) {
-    <div class="row photos">
-        <h4>photos:</h4>
-        @foreach (var p in photos)
-        {   
-            <div class="photo col-md-4">
-                <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
-                <br/>@Html.ListingLink("Photo", p)
-                <br/><small>@p.CommentCount תגובות</small>
-                <br/>@Html.TriggerListingActionLink("Like this Photo", "favorite", p) / @Html.TriggerListingActionLink("Add to Collection", "collect", p)
-            </div>    
-        }
-    </div>
-}
-
-@if (discussions.Count() > 0)
-{
-    <div class="discussions">
-        <h4>discussions:</h4>
-        @foreach (var d in discussions)
-        {
-            <div class="discussion">
-                <p><strong>@Html.ListingLink("Discussion", d)</strong>
-                <small>@d.CommentCount תגובות</small>
-                <br/>@d.Content
-            </div>
-        }
-    </div>
-}
-
-@if (reviews.Count() > 0)
-{
-    <div class="reviews">
-        <h4>reviews:</h4>
-        @foreach (var r in reviews)
-        {
-            <div class="review">
-                by: @r.ProfileId<br/>                
-                score: @r.Score<br/>                
-                <blockquote>@r.Content</blockquote>
-            </div>
-        }
-    </div>
-}
-
-@if (collections.Count > 0)
-{
-      <div class="collections">
-        <h4>collections:</h4>
-        @foreach (var c in collections)
-        {
-            <div class="collection">
-                @Html.CollectionLink(c)               
-            </div>
-        }
-    </div>  
-}
-
-<div class="modal fade" id="contact-pro-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">צור קשר עם @Model.Profile.ProfessionalInfo.CompanyContactInfo.Name</h4>
-            </div>
-
-            @using (Html.BeginRouteForm("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id }, FormMethod.Post))
+            @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
             {
-                <div class="modal-body">
-                    @if (!Request.IsAuthenticated)
+                        <a href="/profile/me">Edit Profile</a>
+            }
+            
+            <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                <span itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
+                <span class="stars"></span>
+                <span itemprop="reviewCount">@Model.Profile.ReviewCount <a href="#">@Localizer.Get("Profile_Main_Reviews")</a></span> | <a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a>
+
+                @if (Model.ReviewSubCriteria != null)
+                {
+                    <small>
+                        details @Html.Bootstrap().Icon(
+                                new Icon("glyphicon-info-sign")
+                                .Popover("Score Details", string.Concat(
+                                    "Professionalism: ", Model.ReviewSubCriteria.Professionalism, "<br/>",
+                                    "Creativity: ", Model.ReviewSubCriteria.Creativity, "<br/>",
+                                    "Service Level: ", Model.ReviewSubCriteria.ServiceLevel, "<br/>",
+                                "Availability: ", Model.ReviewSubCriteria.Availability)))
+                    </small>
+                }
+            </div>
+
+            <div itemprop="description">
+                @Model.Profile.ProfessionalInfo.CompanyName
+            </div>
+        </div>
+
+        <div class="col-md-3 contact-info">
+            @if (Model.Profile.IsProxy)
+            {
+                @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
+            }
+            else
+            {
+                <a id="contact-pro" href="#" class="btn btn-success btn-block">@Localizer.Get("Profile_Main_ContactPro")</a>
+            }
+            <div>
+                <i class="glyphicon glyphicon-tag"></i>
+                <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a href="/profiles/find/location" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
+                </span>
+                <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <a href="/profiles/find/location/category" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
+                </span>
+            </div>
+            <div>
+                <i class="glyphicon glyphicon-phone"></i> <span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span>&nbsp;&nbsp;
+            </div>
+            <div>
+                <i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a>
+            </div>
+            @if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
+                Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
+            {
+                <div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                    <i class="glyphicon glyphicon-envelope"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2</span>
+                    <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                s</div>
+            }
+        </div>
+    </div>
+    <hr />
+
+    <!-- tabs -->
+    <ul class="nav nav-tabs" id="profileTabs">
+        <li class="active"><a href="#photos" data-toggle="tab">@Localizer.Get("Profile_Tabs_Photos")</a></li>
+        <li><a href="#discussions" data-toggle="tab">@Localizer.Get("Profile_Tabs_Discussions")</a></li>
+        <li><a href="#collections" data-toggle="tab">@Localizer.Get("Profile_Tabs_Collections")</a></li>
+        <li><a href="#reviews" data-toggle="tab">@Localizer.Get("Profile_Tabs_Reviews")</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="photos">
+            @if (photos.Count() > 0)
+            {
+                foreach (var p in photos)
+                {
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like")
+                            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
+                            <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
+                            <strong>@Html.ListingLink("Photo", p)</strong>
+                            <br /><small>@p.CommentCount תגובות</small>
+                        </div>                        
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="tab-pane" id="collections">
+            @if (collections.Count > 0)
+            {
+                foreach (var c in collections)
+                {
+                    <div class="collection">
+                        @Html.CollectionLink(c)
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="tab-pane" id="reviews">
+            @if (collections.Count > 0)
+            {
+                foreach (var r in reviews)
+                {
+                    <div class="review">
+                        @r.Content
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="tab-pane" id="discussions">
+            @if (discussions.Count() > 0)
+            {
+                    foreach (var d in discussions)
                     {
-                        <div class="form-group">
-                            <label for="ReplyToEmail">כתובת אימייל</label>
-                            <input type="text" name="ReplyToEmail" />
+                        <div class="discussion">
+                            <p>
+                            <strong>@Html.ListingLink("Discussion", d)</strong>
+                            <small>@d.CommentCount תגובות</small>
+                            <br />@d.Content
+                            </p>
                         </div>
                     }
-                    <div class="form-group">
-                        <label for="Subject">כותרת</label>
-                        <input type="text" name="Subject" />
-                    </div>
-                    <div class="form-group">
-                        <label for="Content">הודעה</label>
-                        <textarea name="Content">ראיתי את הדף שלך במיי הום ו...</textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary">שלח הודעה</button>
-                </div>
             }
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+    
+</div> <!-- main -->
 
-@section scripts {
-    <script>
-        $(function () {
-            $('#contact-pro').click(function () {
-                $('#contact-pro-modal').modal({'keyboard':true});
+    <div class="modal fade" id="contact-pro-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">צור קשר עם @Model.Profile.ProfessionalInfo.CompanyContactInfo.Name</h4>
+                </div>
+
+                @using (Html.BeginRouteForm("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id }, FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <div class="form-group">
+                                <label for="ReplyToEmail">כתובת אימייל</label>
+                                <input type="text" name="ReplyToEmail" />
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label for="Subject">כותרת</label>
+                            <input type="text" name="Subject" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Content">הודעה</label>
+                            <textarea name="Content">ראיתי את הדף שלך במיי הום ו...</textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">שלח הודעה</button>
+                    </div>
+                }
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    @section scripts {
+        <script>
+            $(function () {
+                $('#contact-pro').click(function () {
+                    $('#contact-pro-modal').modal({ 'keyboard': true });
+                });
             });
-        });
-    </script>
-}
+        </script>
+    }
