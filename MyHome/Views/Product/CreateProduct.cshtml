@@ -9,7 +9,7 @@
 @if (TempData["CreateListingSuccess"] != null)
 {
     @Html.Bootstrap().Alert("äúîåðä äåòìúä áäöìçä").Style(AlertColor.Success)
-    var listing = TempData["CreateListingSuccess"] as Classy.Models.Response.ListingView;
+    var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
     <img src="@listing.ExternalMedia[0].Url" width="350" />
 }
 

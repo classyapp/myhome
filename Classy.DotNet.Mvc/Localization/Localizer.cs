@@ -119,11 +119,21 @@ namespace Classy.DotNet.Mvc.Localization
             route.DataTokens.Add("RouteName", name);
         }
 
+        // Url extension to get a link to a route in the current culture
+        public static string RouteUrlForCurrentLocale(this System.Web.Mvc.UrlHelper url, string routeName)
+        {
+            string name = GetRouteNameForLocale(routeName, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+            if (url.RouteCollection[name] != null)
+                return url.RouteUrl(name);
+            else
+                return url.RouteUrl(routeName);
+        }
+
         // Url extension to get a link to a route in a specific culture
         public static string RouteUrlForLocale(this System.Web.Mvc.UrlHelper url, string routeName, string cultureCode)
         {
             string name = GetRouteNameForLocale(routeName, cultureCode);
-            if (url.RequestContext.RouteData.DataTokens.ContainsKey(name))
+            if (url.RouteCollection[name] != null)
                 return url.RouteUrl(name);
             else
                 return url.RouteUrl(routeName);
@@ -139,7 +149,7 @@ namespace Classy.DotNet.Mvc.Localization
         public static MvcHtmlString RouteLinkForCurrentLocale(this System.Web.Mvc.HtmlHelper html, string linkText, string routeName, object routeValues)
         {
             string name = GetRouteNameForLocale(routeName, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
-            if (html.ViewContext.RouteData.DataTokens.ContainsKey(name))
+            if (html.RouteCollection[name] != null)
                 return html.RouteLink(linkText, name, routeValues);
             else
                 return html.RouteLink(linkText, routeName, routeValues);
@@ -149,7 +159,7 @@ namespace Classy.DotNet.Mvc.Localization
         public static MvcHtmlString RouteLinkForLocale(this System.Web.Mvc.HtmlHelper html, string linkText, string routeName, string cultureName)
         {
             string name = GetRouteNameForLocale(routeName, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
-            if (html.ViewContext.RouteData.DataTokens.ContainsKey(name))
+            if (html.RouteCollection[name] != null)
                 return html.RouteLink(linkText, name);
             else
                 return html.RouteLink(linkText, routeName);

@@ -10,7 +10,7 @@
 @if (TempData["CreateListingSuccess"] != null)
 {
     @Html.Bootstrap().Alert("הדיון נפתח בהצלחה").Style(AlertColor.Success)
-    var listing = TempData["CreateListingSuccess"] as Classy.Models.Response.ListingView;
+    var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
 }
 
 @Html.Bootstrap().ValidationSummary().Closeable()

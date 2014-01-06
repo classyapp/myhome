@@ -5,11 +5,11 @@
 
     if ($.validator) {
         $.validator.setDefaults({
-            highlight: function(element) {
+            highlight: function (element) {
                 $(element).closest(".control-group").addClass("error");
                 $(element).closest(".form-group").addClass("has-error");
             },
-            unhighlight: function(element) {
+            unhighlight: function (element) {
                 $(element).closest(".control-group").removeClass("error");
                 $(element).closest(".form-group").removeClass("has-error");
             }
@@ -20,6 +20,49 @@
     $('[rel=popover]').popover();
 
     $(function () {
+        if ($('[data-bmvc-confirm]').length > 0) {
+            if (typeof BootstrapDialog != 'undefined') {
+                BootstrapDialog.bmvcConfirm = function (message, title, callback) {
+                    new BootstrapDialog({
+                        title: title,
+                        message: message,
+                        closable: false,
+                        data: {
+                            'callback': callback
+                        },
+                        buttons: [{
+                            label: 'Cancel',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }, {
+                            label: 'OK',
+                            cssClass: 'btn-primary',
+                            action: function (dialog) {
+                                typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
+                            }
+                        }]
+                    }).open();
+                };
+
+                $(document).on('click', '[data-bmvc-confirm]', function (e) {
+                    e.preventDefault();
+                    var self = $(this);
+                    var title = self.attr('data-bmvc-confirm-title');
+                    if (title === undefined) {
+                        title = 'Confirmation';
+                    }
+                    var text = self.attr('data-bmvc-confirm-text');
+                    var href = self.attr('href');
+                    BootstrapDialog.bmvcConfirm(text, title, function () {
+                        window.location = href;
+                    });
+                });
+            } else {
+                alert('You need http://nakupanda.github.io/bootstrap3-dialog/ for the confirm to work');
+            }
+        }
+
         $('[data-provide=typeahead]').each(function () {
             var self = $(this);
             self.typeahead({
@@ -32,7 +75,7 @@
                 }
             });
         });
-        
+
         $('[data-disabled-depends-on]').each(function () {
             var self = $(this);
             var name = self.data('disabled-depends-on');
@@ -46,9 +89,13 @@
             $(document).on('change', selector + ':not(:checkbox):not(:hidden)', function () {
                 self.prop('disabled', $(this).val().toString() == val.toString());
             });
-            $(selector).change();
+            if ($(selector).is(':radio')) {
+                $(selector + ':checked').change();
+            } else {
+                $(selector).change();
+            }
         });
-        
+
         var isFirstRun = true;
         $('[data-visible-depends-on]').each(function () {
             var self = $(this);
@@ -79,7 +126,7 @@
             });
 
             $(document).on('change', selector + ':not(:checkbox):not(:hidden)', function () {
-                if ($(this).val() == val) {
+                if ($(this).val().toString() == val.toString()) {
                     toHide.show(isFirstRun ? undefined : speed);
                 } else {
                     toHide.hide(isFirstRun ? undefined : speed);
@@ -95,4 +142,3 @@
         });
     });
 });
-

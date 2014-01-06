@@ -34,17 +34,23 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing)
         {
-            return TriggerListingActionLink(html, linkText, actionToTrigger, listing, true);
+            return TriggerListingActionLink(html, linkText, actionToTrigger, listing, null, true);
         }
 
-        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing, bool requireLogin)
+        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing, string cssClass)
+        {
+            return TriggerListingActionLink(html, linkText, actionToTrigger, listing, cssClass, true);
+        }
+
+        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing, string cssClass, bool requireLogin)
         {
             var needsAuth = requireLogin && !html.ViewContext.HttpContext.User.Identity.IsAuthenticated;
-            string link = "<a href=\"#\" trigger-listing-action=\"{0}\" listing-type=\"{1}\" listing-id=\"{2}\" {3}>{4}</a>";
+            string link = "<a href=\"#\" trigger-listing-action=\"{0}\" listing-type=\"{1}\" listing-id=\"{2}\" {3} {4}>{5}</a>";
             string output = string.Format(link, 
                 actionToTrigger, 
                 listing.ListingType.ToLower(), 
                 listing.Id,
+                !string.IsNullOrEmpty(cssClass) ? string.Format("class=\"{0}\"", cssClass) : string.Empty,
                 requireLogin ? "authorize" : string.Empty,
                 linkText);
             return new MvcHtmlString(output);
@@ -56,15 +62,21 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString TriggerProfileActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ProfileView profile)
         {
-            return TriggerProfileActionLink(html, linkText, actionToTrigger, profile, true);
+            return TriggerProfileActionLink(html, linkText, actionToTrigger, profile, null, true);
         }
 
-        public static MvcHtmlString TriggerProfileActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ProfileView profile, bool requireLogin)
+        public static MvcHtmlString TriggerProfileActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ProfileView profile, string cssClass)
         {
-            string link = "<a href=\"#\" trigger-profile-action=\"{0}\" profile-id=\"{1}\" {2}>{3}</a>";
+            return TriggerProfileActionLink(html, linkText, actionToTrigger, profile, cssClass, true);
+        }
+
+        public static MvcHtmlString TriggerProfileActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ProfileView profile, string cssClass, bool requireLogin)
+        {
+            string link = "<a href=\"#\" trigger-profile-action=\"{0}\" profile-id=\"{1}\" {2} {3}>{4}</a>";
             string output = string.Format(link,
                 actionToTrigger,
                 profile.UserName,
+                !string.IsNullOrEmpty(cssClass) ? string.Format("class=\"{0}\"", cssClass) : string.Empty, 
                 requireLogin ? "authorize" : string.Empty,
                 linkText);
             return new MvcHtmlString(output);
