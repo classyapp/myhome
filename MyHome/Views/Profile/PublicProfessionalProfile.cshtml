@@ -191,8 +191,10 @@
                 {
                     <div class="col-md-4">
                         <div class="thumbnail">
-                            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like")
-                            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
+                            <div class="actions hide">
+                                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-danger action like")
+                                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
+                            </div>
                             <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
                             <strong>@Html.ListingLink("Photo", p)</strong>
                             <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
@@ -279,12 +281,20 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    @section scripts {
-        <script>
-            $(function () {
-                $('#contact-pro').click(function () {
-                    $('#contact-pro-modal').modal({ 'keyboard': true });
-                });
+@section scripts {
+    <script>
+        $(function () {
+            $('#contact-pro').click(function () {
+                $('#contact-pro-modal').modal({ 'keyboard': true });
             });
-        </script>
-    }
+
+            $('.thumbnail').mouseover(function () {
+                $(this).find('.actions').removeClass('hide');
+            });
+            $('.thumbnail').mouseout(function () {
+                $(this).find('.actions').addClass('hide');
+            });
+        });
+    </script>
+   
+}

@@ -29,26 +29,26 @@
 }
 
 <div class="row">
-    <div class="col-md-8">
-        <h2>יצירת פרופיל מקצועי</h2>
+    <div class="col-md-7 main">
+        <h1>@Localizer.Get("CreateProfessionalProfile_Title")</h1>
         @Html.Bootstrap().ValidationSummary()
 
         @using (var f = Html.Bootstrap().Begin(new Form("CreateProfessionalProfile").FormMethod(FormMethod.Post)))
         {
             <!-- general professional info -->
-            <h4>מידע אישי</h4>
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyName).ShowValidationMessage(false).Label().LabelText("שם או שם חברה")
-            @f.FormGroup().DropDownListFor(x => x.ProfessionalInfo.Category, EmptySelectList).ShowValidationMessage(false).Label().LabelText("קטגוריה")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.WebsiteUrl).Label().LabelText("כתובת אתר אינטרנט")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FacebookUrl).Label().LabelText("כתובת עמוד פייסבוק עסקי")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.TwitterUsername).Label().LabelText("שם משתמש בטוויטר")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl).Label().LabelText("כתובת פרופיל לינקד אין")
+            <h4>@Localizer.Get("CreateProfessionalProfile_Title_PersonalInfo")</h4>
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם או שם חברה")
+            @f.FormGroup().DropDownListFor(x => x.ProfessionalInfo.Category, EmptySelectList).ShowValidationMessage(false).Label().WidthMd(12).LabelText("קטגוריה")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.WebsiteUrl).Label().WidthMd(12).LabelText("כתובת אתר אינטרנט")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FacebookUrl).Label().WidthMd(12).LabelText("כתובת עמוד פייסבוק עסקי")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.TwitterUsername).Label().WidthMd(12).LabelText("שם משתמש בטוויטר")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl).Label().WidthMd(12).LabelText("כתובת פרופיל לינקד אין")
             
             <!-- metadata specific to domain -->
             <h4>מידע מקצועי</h4>
-            @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo).ShowValidationMessage(false).Label().LabelText("מספר רשיון")
-            @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).ShowValidationMessage(false).Label().LabelText("שירותים שמספק העסק")
-            @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).ShowValidationMessage(false).Label().LabelText("באילו איזורים ניתן לקבל שירות?")
+            @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo).ShowValidationMessage(false).Label().WidthMd(12).LabelText("מספר רשיון")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שירותים שמספק העסק")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).ShowValidationMessage(false).Label().WidthMd(12).LabelText("באילו איזורים ניתן לקבל שירות?")
             
             <div class="row">
                 @Html.Bootstrap().Label("מחיר עבודה ממוצעת")
@@ -58,26 +58,26 @@
                 </div>
             </div>
 
-            @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).ShowValidationMessage(false).Label().LabelText("תיאור עבודה ממוצעת")
-            @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).ShowValidationMessage(false).Label().LabelText("פרסים, תעודות ורשיונות")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).ShowValidationMessage(false).Label().WidthMd(12).LabelText("תיאור עבודה ממוצעת")
+            @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).ShowValidationMessage(false).Label().WidthMd(12).LabelText("פרסים, תעודות ורשיונות")
             
             <!-- contact information -->
             <h4>פרטי קשר</h4>
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FirstName).ShowValidationMessage(false).Label().LabelText("שם פרטי")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LastName).ShowValidationMessage(false).Label().LabelText("שם משפחה")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1).ShowValidationMessage(false).Label().LabelText("כתובת (רחוב ומספר(")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.City).ShowValidationMessage(false).Label().LabelText("עיר")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode).ShowValidationMessage(false).Label().LabelText("מיקוד")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Phone).ShowValidationMessage(false).Label().LabelText("טלפון")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FirstName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם פרטי")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LastName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם משפחה")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1).ShowValidationMessage(false).Label().WidthMd(12).LabelText("כתובת (רחוב ומספר(")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.City).ShowValidationMessage(false).Label().WidthMd(12).LabelText("עיר")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode).ShowValidationMessage(false).Label().WidthMd(12).LabelText("מיקוד")
+            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Phone).ShowValidationMessage(false).Label().WidthMd(12).LabelText("טלפון")
             
             
             <!-- submit -->
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("אישור פרטי הפרופיל"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("CreateProfessionalProfile_Submit")))
         }
     </div>
 
-    <div class="col-md-3 col-md-offset-1">
-        <h2>מה היתרונות של פרופיל עסקי במיי הום?</h2>
+    <div class="col-md-4 col-md-offset-1 well">
+        <h1>@Localizer.Get("CreatePublicProfile_Title_Advantages")</h1>
         <p>שאלה טובה, ובכן הביטו: דגיחל שדגח לשחדגי ש דגשגלשחדג שג שדחגי שלגשלחג שלחגי שלחד גשחג לשח יגלחש יג</p>
     </div>
 </div>

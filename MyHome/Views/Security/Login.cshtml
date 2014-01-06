@@ -7,33 +7,36 @@
 
 <div class="text-center">
     <h2>@Localizer.Get("Login_Welcome")</h2>
-    <p>
-        @Localizer.Get("Login_NoAccount")
-        <a href="/register">@Localizer.Get("Login_CreateAccount")</a>
-    </p>
 </div>
 
 <div class="row">
-    <div class="col-md-3 col-md-offset-3">
-        @Html.Bootstrap().ValidationSummary()
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login">
+            <div class="fb text-center">
+                <a id="sign-in-facebook" class="btn btn-block btn-lg btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
+            </div>
 
-        @using (var f = Html.Bootstrap().Begin(new Form("Login").FormMethod(FormMethod.Post)))
-        {
-            @f.FormGroup().TextBoxFor(x => x.Email).Label().ShowRequiredStar(false)
-            @f.FormGroup().PasswordFor(x => x.Password).Label().ShowRequiredStar(false)
-            @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().ShowRequiredStar(false)
-            @Html.HiddenFor(x => x.RedirectUrl)
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Login_Submit")))
-        }
+            <p class="text-center">or sign in with MyHome</p>
+
+            @Html.Bootstrap().ValidationSummary()
+
+            @using (var f = Html.Bootstrap().Begin(new Form("Login").FormMethod(FormMethod.Post)))
+            {
+                @f.FormGroup().TextBoxFor(x => x.Email).Placeholder(Localizer.Get("Login_Email")).Label().Class("sr-only")
+                @f.FormGroup().PasswordFor(x => x.Password).Placeholder(Localizer.Get("Login_Password")).Label().Class("sr-only")
+                @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().LabelText(Localizer.Get("Login_RememberMe")).ShowRequiredStar(false)
+                @Html.HiddenFor(x => x.RedirectUrl)
+
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-block btn-success").Text(Localizer.Get("Login_Submit")))
+            }
+
+            <p>
+                @Localizer.Get("Login_NoAccount")
+                <a href="/register">@Localizer.Get("Login_CreateAccount")</a>
+            </p>
+        </div>
     </div>
 
-    <div class="col-md-1">
-        OR
-    </div>
-
-    <div class="col-md-3">
-        <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
-    </div>
 </div>
 
 

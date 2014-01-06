@@ -11,6 +11,18 @@ body {
   padding-top: 90px;
 }
 
+h1, h2, h3, h4, h5 {
+  font-family: "Alef Hebrew",
+               “Helvetica Neue”,
+               Helvetica,
+               Arial,
+               sans-serif;
+}
+
+.content.container {
+    padding: 0;
+}
+
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group {
     margin-left: 5px;
@@ -42,6 +54,10 @@ body {
 .navbar span.glyphicon {
     top: 2px;
     font-size: 16px;
+}
+/* search pages*/
+.search-form {
+    margin: 20px 0;
 }
 
 /* profile page */
@@ -79,7 +95,6 @@ body {
     padding-right: 10px;
 }
 .main h1 {
-    padding: 0 15px;
     font-size: 32px;
     margin-top: 0;
 }
@@ -103,6 +118,26 @@ body {
 #profileTabs {
     margin-bottom: 10px;
 }
+/* Login page */
+.login {
+    padding: 0 30px;
+}
+.fb {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px #e5e5e5;
+    margin-bottom: 20px;
+}
+.login .form-group {
+    margin-bottom: 0;
+}
+.login .form-control {
+    height: 44px;
+}
+.login form {
+    margin-bottom: 15px; 
+}
+
 
 .banner {
     background: #2C3E50;

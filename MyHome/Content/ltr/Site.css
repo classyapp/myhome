@@ -14,6 +14,7 @@ h1, h2, h3, h4, h5 {
 
 .content.container {
     padding: 0;
+    min-height: 620px;
 }
 
 /* fix for inline forms within horizontal forms */
@@ -47,6 +48,10 @@ h1, h2, h3, h4, h5 {
 .navbar span.glyphicon {
     top: 2px;
     font-size: 16px;
+}
+/* search pages*/
+.search-form {
+    margin: 20px 0;
 }
 
 /* profile page */
@@ -108,6 +113,26 @@ h1, h2, h3, h4, h5 {
 }
 #profileTabs {
     margin-bottom: 10px;
+}
+
+/* Login page */
+.login {
+    padding: 0 30px;
+}
+.fb {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px #e5e5e5;
+    margin-bottom: 20px;
+}
+.login .form-group {
+    margin-bottom: 0;
+}
+.login .form-control {
+    height: 44px;
+}
+.login form {
+    margin-bottom: 15px; 
 }
 
 .banner {

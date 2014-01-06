@@ -11,42 +11,67 @@
     };
 }
 
-<h2>Search Photos</h2>
-<div class="well">
-@using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
-{
-    @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder(Localizer.Get("Search_Keyword")).Label().Class("sr-only")
-    @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder(Localizer.Get("Search_CostFrom")).Label().Class("sr-only")
-    @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")
-    
-    @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Search_Submit")).AppendIcon(new Icon("glyphicon glyphicon-search"))
-}
-</div>
-
 <div class="row">
     <div class="sidebar col-md-2">
-        <h4>Popular Tags</h4>
-        <ul>
-            <li>
-                @Html.RouteLink("#flowers", new { controller = "Photo", action = "Search", tag = "flowers" })
-            </li>
-        </ul>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("SearchPhotos_Sidebar_Popular")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @Html.RouteLinkForCurrentLocale("#flowers", "SearchPhoto", new { tag = "flowers" })
+            </div>
+        </div>
     </div>
-    <div class="results col-md-10">
-        @if (Model.Results != null)
-        {
-            <h4>Photos matching your search:</h4>
-            foreach (var l in Model.Results)
+
+    <div class="main col-md-10">
+        <h1>
+            @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.Results.Count, Model.Tag)
+        </h1>
+
+        <div class="search-form">
+            @using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
-                <div class="profile">
-                    <div class="col-md-3">
-                        <img src="@l.ExternalMedia[0].Url" width="200px" />
-                    </div>
-                    <div class="col-md-9">
-                        @Html.ListingLink("photo", l)
-                    </div>
-                </div>
+                    @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder(Localizer.Get("Search_Keyword")).Label().Class("sr-only")
+                    @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder(Localizer.Get("Search_CostFrom")).Label().Class("sr-only")
+                    @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")
+                    @Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("Search_Submit"))
             }
-        }
+            </div>
+
+        <div class="row" id="photos">
+            @if (Model.Results != null)
+            {
+                foreach (var p in Model.Results)
+                {
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <div class="actions hide">
+                                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like")
+                                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
+                            </div>
+                            <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
+                            <strong>@Html.ListingLink("Photo", p)</strong>
+                            <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                        </div> 
+                    </div>
+                }
+            }
+        </div>
     </div>
 </div>
+
+@section scripts {
+<script>
+
+    $(function () {
+        $('.thumbnail').mouseover(function () {
+            $(this).find('.actions').removeClass('hide');
+        });
+        $('.thumbnail').mouseout(function () {
+            $(this).find('.actions').addClass('hide');
+        });
+    });
+
+</script>
+    
+}
