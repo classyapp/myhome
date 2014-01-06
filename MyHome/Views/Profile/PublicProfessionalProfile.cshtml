@@ -117,7 +117,7 @@
             <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                 <span itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
                 <span class="stars"></span>
-                <span itemprop="reviewCount">@Model.Profile.ReviewCount <a href="#">@Localizer.Get("Profile_Main_Reviews")</a></span> | <a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a>
+                <span itemprop="reviewCount">@Model.Profile.ReviewCount</span> <a href="#">@Localizer.Get("Profile_Main_Reviews")</a> | <a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a>
 
                 @if (Model.ReviewSubCriteria != null)
                 {
@@ -150,10 +150,10 @@
             <div>
                 <i class="glyphicon glyphicon-tag"></i>
                 <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a href="/profiles/find/location" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
+                    <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
                 </span>
                 <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
-                    <a href="/profiles/find/location/category" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
+                    <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
                 </span>
             </div>
             <div>
@@ -195,7 +195,7 @@
                             @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
                             <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
                             <strong>@Html.ListingLink("Photo", p)</strong>
-                            <br /><small>@p.CommentCount תגובות</small>
+                            <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
                         </div>                        
                     </div>
                 }

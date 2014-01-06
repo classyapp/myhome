@@ -100,33 +100,52 @@ namespace Classy.DotNet.Mvc.Localization
             string[] namespaces)
         {
             Route route;
+
+            // map the route directly
+            if (name != "Default") // edge case where the default route must be mapped after the localized versions of it
+            { 
+                route = routes.MapRoute(name, url, defaults, namespaces);
+                route.DataTokens = new RouteValueDictionary();
+                route.DataTokens.Add("RouteName", name);
+            }
+
             // then add another route for each supported culture
             foreach (var culture in SupportedCultures)
             {
+                var routeName = GetRouteNameForLocale(name, culture.Name);
                 route = routes.MapRoute(
-                    GetRouteNameForLocale(name, culture.Name),
+                    routeName,
                     string.Concat(culture.Name, "/", url), 
                     defaults, 
                     namespaces);
                 route.DataTokens = new RouteValueDictionary();
-                route.DataTokens.Add("RouteName", name);
+                route.DataTokens.Add("RouteName", routeName);
                 route.DataTokens.Add(ROUTE_LOCALE_DATA_TOKEN_KEY, culture.Name);
             }
 
             // map the route directly
-            route = routes.MapRoute(name, url, defaults, namespaces);
-            route.DataTokens = new RouteValueDictionary();
-            route.DataTokens.Add("RouteName", name);
+            if (name == "Default") // edge case where the default route must be mapped after the localized versions of it
+            {
+                route = routes.MapRoute(name, url, defaults, namespaces);
+                route.DataTokens = new RouteValueDictionary();
+                route.DataTokens.Add("RouteName", name);
+            }
         }
 
         // Url extension to get a link to a route in the current culture
         public static string RouteUrlForCurrentLocale(this System.Web.Mvc.UrlHelper url, string routeName)
         {
+            return RouteUrlForCurrentLocale(url, routeName, new { });
+        }
+
+        // Url extension to get a link to a route in the current culture
+        public static string RouteUrlForCurrentLocale(this System.Web.Mvc.UrlHelper url, string routeName, object routeValues)
+        {
             string name = GetRouteNameForLocale(routeName, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
             if (url.RouteCollection[name] != null)
-                return url.RouteUrl(name);
+                return url.RouteUrl(name, routeValues);
             else
-                return url.RouteUrl(routeName);
+                return url.RouteUrl(routeName, routeValues);
         }
 
         // Url extension to get a link to a route in a specific culture

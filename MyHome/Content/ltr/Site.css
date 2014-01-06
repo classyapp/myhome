@@ -19,7 +19,7 @@ h1, h2, h3, h4, h5 {
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group {
     margin-left: 0;
-    margin-right: 0;
+    margin-right: 5px;
     padding-left: 0;
     padding-right: 0;
 }
@@ -62,6 +62,8 @@ h1, h2, h3, h4, h5 {
 }
 .sidebar .panel-title {
     font-weight: bold;
+    font-size: 14px;
+    padding: 0;
 }
 .sidebar .panel-body {
     padding: 0;
@@ -76,7 +78,7 @@ h1, h2, h3, h4, h5 {
     text-decoration: none;
 }
 .panel-links a:hover {
-    font-weight: bold;
+    color: #7cc04b;
     border-left: solid 5px #000;
     padding-left: 10px;
 }
@@ -107,7 +109,6 @@ h1, h2, h3, h4, h5 {
 #profileTabs {
     margin-bottom: 10px;
 }
-
 
 .banner {
     background: #2C3E50;
@@ -231,10 +232,10 @@ h1, h2, h3, h4, h5 {
     content: '';
     width: 24px;
     height: 24px;
-    background: url(img/fb.png) right top no-repeat;
-    border-left: 1px rgba(255,255,255,0.18) solid;
+    background: url(/img/fb.png) left top no-repeat;
+    border-right: 1px rgba(255,255,255,0.18) solid;
     display: inline-block;
-    margin: 0  0 0 16px;
+    margin-right: 16px;
     vertical-align: -7px;
 }
 

@@ -11,34 +11,52 @@
     };
 }
 
-<h2>SearchProfiles</h2>
-<div class="well">
-@using (var f = Html.Bootstrap().Begin(new Form().Type(FormType.Inline).FormMethod(FormMethod.Post)))
-{
-    @f.FormGroup().TextBoxFor(x => x.Name).Placeholder("שם בעל מקצוע או חברה").Label().Class("sr-only")
-    @f.FormGroup().DropDownListFor(x => x.Category, CategoryList).OptionLabel("-- Category --").Label().Class("sr-only")
-    
-    @Html.Bootstrap().SubmitButton().Text("חפש")
-}
-</div>
-
 <div class="row">
     <div class="sidebar col-md-2">
-        <h4>Categories</h4>
-        <ul>
-            <li>
-                @Html.RouteLink("Kitchen Sellers", new { controller = "Profile", action = "Search", category = "kitchen-seller" })
-            </li>
-        </ul>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("SearchProfiles_Sidebar_Categories")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @Html.RouteLinkForCurrentLocale("Kitchen Sellers", "SearchProfiles", new { category = "kitchen-seller" })
+            </div>
+        </div>
     </div>
-    <div class="results col-md-10">
+
+    <div class="main col-md-10">
+        <h1>
+        @if (string.IsNullOrEmpty(Model.Location)) {
+            <text>
+            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, Model.Category)
+            </text>
+        }
+        else
+        {
+            <text>
+            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, Model.Category, Model.Location)
+            </text>
+        }
+        </h1>
+
+        <div class="well">
+            @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Type(FormType.Inline).FormMethod(FormMethod.Post)))
+            {
+                    @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).Label().Class("sr-only")
+                    @f.FormGroup().TextBoxFor(x => x.Location).Placeholder(Localizer.Get("SearchProfiles_Label_City")).Label().Class("sr-only")
+                    @f.FormGroup().DropDownListFor(x => x.Category, CategoryList).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).Label().Class("sr-only")
+
+                    @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Class("btn-success")
+            }
+        </div>
+
         @if (Model.Results != null)
         {
-            <h4>Search Results:</h4>
             foreach (var p in Model.Results)
             {
-                <div class="profile">
-                    @Html.ProfileLink(p) @p.ReviewAverageScore (@p.ReviewCount reviews)
+                <div class="row">
+                    <div class="col-md-12 profile">
+                        @Html.ProfileLink(p) @p.ReviewAverageScore (@p.ReviewCount reviews)
+                    </div>
                 </div>
             }
         }

@@ -27,6 +27,8 @@ namespace MyHome
 
             // localization of display and validation attribtues
             ModelMetadataProviders.Current = new Classy.DotNet.Mvc.Localization.MyLocalizationProvider();
+
+            //RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

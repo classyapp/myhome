@@ -13,6 +13,7 @@ using ServiceStack.Text;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Mvc.Localization;
+using Classy.DotNet.Responses;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -47,8 +48,8 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRouteForSupportedLocales(
                 name: "SearchProfiles",
-                url: "profile/search/{category}",
-                defaults: new { controller = "Profile", action = "Search", category = "" },
+                url: "profile/search/{location}/{category}",
+                defaults: new { controller = "Profile", action = "Search", category = "", location = "city" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -184,7 +185,18 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 var metadata = model.Metadata != null ? model.Metadata.ToDictionary() : null;
-                var profiles = service.SearchProfiles(model.Name, model.Category, model.Location, metadata, model.ProfessionalsOnly);
+                // we pass in a string location to be able to set it via URLs (for SEO)
+                LocationView location = null;
+                if (model.Location != "city")
+                {
+                    location = new LocationView
+                    {
+                        // TODO: get long/lat by city name, or pass city name and get long/lat on server?
+                    };
+                }
+                else model.Location = "";
+
+                var profiles = service.SearchProfiles(model.Name, model.Category, location, metadata, model.ProfessionalsOnly);
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(profiles, JsonRequestBehavior.AllowGet);

@@ -13,7 +13,7 @@ body {
 
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group {
-    margin-left: 0;
+    margin-left: 5px;
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;

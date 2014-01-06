@@ -1,7 +1,7 @@
 ﻿OnFacebookLogin = function (profile) { location.reload(false); }
 
 function HookFbLogin() {
-    $('#sign-in-facebook').click(function () {
+    $('.btn-fb-login').click(function () {
         FB.login(function (response) {
             if (response.authResponse) {
                 var access_token = FB.getAuthResponse()['accessToken'];
