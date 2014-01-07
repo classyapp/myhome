@@ -30,11 +30,11 @@ namespace Classy.DotNet.Security
 
         // private static
         private static string[] AuthCookieNames = { "ss-id", "ss-pid", "ss-opt", "X-UAId" };
-        private static string COOKIE_USER_ID = "X-UAId";
-        private static string COOKIE_SESSION_ID = "ss-id";
-        private static string COOKIE_PERMANENT_SESSION_ID = "ss-pid";
-        private static string CFG_API_KEY = "Classy:AppId";
-        private static string CFG_ENDPOINT_BASE_URL = "Classy:EndpointBaseUrl";
+        private const string COOKIE_USER_ID = "X-UAId";
+        private const string COOKIE_SESSION_ID = "ss-id";
+        private const string COOKIE_PERMANENT_SESSION_ID = "ss-pid";
+        private const string CFG_API_KEY = "Classy:AppId";
+        private const string CFG_ENDPOINT_BASE_URL = "Classy:EndpointBaseUrl";
 
         // ctor
         static ClassyAuth()
