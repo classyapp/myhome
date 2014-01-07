@@ -96,12 +96,18 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString ProfileLink(this System.Web.Mvc.HtmlHelper html, ProfileView profile)
         {
-            if (profile.ContactInfo == null && !profile.IsProfessional) return new MvcHtmlString("unknown");
+            var name = profile.GetProfileName();
+            return html.RouteLinkForCurrentLocale(name, "PublicProfile", new { profileId = profile.Id, slug = ToSlug(name) });
+        }
+
+        public static string GetProfileName(this ProfileView profile)
+        {
+            if (profile.ContactInfo == null && !profile.IsProfessional) return "unknown";
             var name = string.Empty;
             if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
             else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
             else name = string.IsNullOrEmpty(profile.ContactInfo.Name) ? profile.UserName : profile.ContactInfo.Name;
-            return html.RouteLinkForCurrentLocale(name, "PublicProfile", new { profileId = profile.Id, slug = ToSlug(name) });
+            return name;
         }
 
         public static MvcHtmlString ToSlug(this System.Web.Mvc.HtmlHelper html, string content)
@@ -114,6 +120,7 @@ namespace Classy.DotNet.Mvc
             return content != null ? content.ToLower()
                 .Replace("?", string.Empty)
                 .Replace("&", "-and-")
+                .Replace(".", "")
                 .Replace("  ", " ")
                 .Replace(" ", "-") : null;
         }

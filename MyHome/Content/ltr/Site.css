@@ -105,11 +105,17 @@ h1, h2, h3, h4, h5 {
     top: 15px;
     right: 30px;
 }
+#photos .thumbnail
+{
+    border-radius: 0;
+    padding: 0;
+}
 #photos .thumbnail a.action.add {
     right: 65px;
 }
-#photos .col-md-4 {
-    padding: 0 3px;
+#photos .thumbnail .details
+{
+    padding: 5px;
 }
 #profileTabs {
     margin-bottom: 10px;

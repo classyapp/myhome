@@ -9,7 +9,6 @@ namespace MyHome.Models
 {
     public class ProductMetadata : IMetadata<ProductMetadata>
     {
-        public ProductPricingViewModel PricingInfo { get; set; }
         public IDictionary<string, string> ToDictionary()
         {
             return null;
@@ -18,6 +17,17 @@ namespace MyHome.Models
         public ProductMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             return null;
+        }
+
+        public ProductMetadata FromStringArray(string[] strings)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string ToSlug(ProductMetadata metadata)
+        {
+            throw new NotImplementedException();
         }
     }
 }

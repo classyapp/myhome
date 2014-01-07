@@ -15,6 +15,29 @@
     <div class="sidebar col-md-2">
         <div class="panel panel-default">
             <div class="panel-heading">
+                <h3 class="panel-title">Results For</h3>
+            </div>
+            <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                @if (!string.IsNullOrEmpty(Model.Category))
+                {
+                    <span class="tag">
+                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@Model.Category</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
+                    </span>
+                }
+                <br />
+                @if (!string.IsNullOrEmpty(Model.Location))
+                {
+                    <span class="tag">
+                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
+                    </span>
+                }
+                </div>
+            </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <h3 class="panel-title">@Localizer.Get("SearchProfiles_Sidebar_Categories")</h3>
             </div>
             <div class="panel-body panel-links">

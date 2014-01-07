@@ -26,5 +26,16 @@ namespace MyHome.Models
             if (metadata.ContainsKey("IsHomeOwner")) IsHomeOwner = Convert.ToBoolean(metadata["IsHomeOwner"]);
             return output;
         }
+
+        public UserMetadata FromStringArray(string[] strings)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string ToSlug(UserMetadata metadata)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

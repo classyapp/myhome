@@ -11,14 +11,50 @@
     };
 }
 
+@Html.HiddenFor(x => x.ListingType)
+
 <div class="row">
     <div class="sidebar col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Results For</h3>
+            </div>
+            <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                @if (!string.IsNullOrEmpty(Model.Metadata.Room)) {
+                    <span class="tag">
+                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = Model.Metadata.Room })">@Model.Metadata.Room</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = "" })">x</a>
+                    </span>
+                }
+                <br />
+                @if (!string.IsNullOrEmpty(Model.Metadata.Style))
+                {
+                    <span class="tag">
+                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = string.Concat(Model.Metadata.Room, "/", Model.Metadata.Style) })">@Model.Metadata.Style</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = Model.Metadata.Room })">x</a>
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Rooms</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @Html.RouteLinkForCurrentLocale("Kitchen", "SearchPhoto", new { filters = "kitchen" })
+                @Html.RouteLinkForCurrentLocale("Bath", "SearchPhoto", new { filters = "bath" })
+                @Html.RouteLinkForCurrentLocale("Bedroom", "SearchPhoto", new { filters = "bedroom" })
+                @Html.RouteLinkForCurrentLocale("Living", "SearchPhoto", new { filters = "living-room" })
+            </div>
+        </div>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">@Localizer.Get("SearchPhotos_Sidebar_Popular")</h3>
             </div>
             <div class="panel-body panel-links">
-                @Html.RouteLinkForCurrentLocale("#flowers", "SearchPhoto", new { tag = "flowers" })
+                @Html.RouteLinkForCurrentLocale("#flowers", "SearchPhoto", new { tag = "flowers", filters = "" })
             </div>
         </div>
     </div>
@@ -27,6 +63,7 @@
         <h1>
             @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.Results.Count, Model.Tag)
         </h1>
+        <hr/>
 
         <div class="search-form">
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
@@ -36,7 +73,7 @@
                     @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")
                     @Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("Search_Submit"))
             }
-            </div>
+        </div>
 
         <div class="row" id="photos">
             @if (Model.Results != null)
@@ -46,12 +83,15 @@
                     <div class="col-md-4">
                         <div class="thumbnail">
                             <div class="actions hide">
-                                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like")
+                                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-danger action like")
                                 @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
                             </div>
+                            
                             <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
-                            <strong>@Html.ListingLink("Photo", p)</strong>
-                            <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                            <div class="details">
+                                <strong>@Html.ListingLink("Photo", p)</strong><br/>                                
+                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                            </div>
                         </div> 
                     </div>
                 }

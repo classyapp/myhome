@@ -49,5 +49,16 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Awards")) Awards = metadata["Awards"];
             return output;
         }
+
+        public ProfessionalMetadata FromStringArray(string[] strings)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string ToSlug(ProfessionalMetadata metadata)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

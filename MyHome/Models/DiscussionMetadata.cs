@@ -25,5 +25,16 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Category")) Category = metadata["Category"];
             return output;
         }
+
+        public DiscussionMetadata FromStringArray(string[] strings)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string ToSlug(DiscussionMetadata metadata)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

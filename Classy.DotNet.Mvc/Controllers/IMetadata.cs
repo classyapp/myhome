@@ -11,5 +11,7 @@ namespace Classy.DotNet.Mvc.Controllers
     {
         IDictionary<string, string> ToDictionary();
         TMetadata FromDictionary(IDictionary<string, string> metadata);
+        TMetadata FromStringArray(string[] strings);
+        string ToSlug(TMetadata metadata);
     }
 }

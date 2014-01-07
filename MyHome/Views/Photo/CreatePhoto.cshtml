@@ -20,6 +20,8 @@
 {
     @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
     @f.FormGroup().TextBoxFor(x => x.Content).ShowValidationMessage(false).Label()
+    @f.FormGroup().TextBoxFor(x => x.Metadata.Room).ShowValidationMessage(false).Label()
+    @f.FormGroup().TextBoxFor(x => x.Metadata.Style).ShowValidationMessage(false).Label()
     @f.FormGroup().File("file").Label().Class("sr-only")
     
     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhoto_Submit"))) 

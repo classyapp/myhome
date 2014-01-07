@@ -51,8 +51,8 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRouteForSupportedLocales(
                 name: string.Concat("Search", ListingTypeName),
-                url: string.Concat(ListingTypeName.ToLower(), "/find/{tag}"),
-                defaults: new { controller = ListingTypeName, action = "Search", tag = "" },
+                url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
+                defaults: new { controller = ListingTypeName, action = "Search", filters = "", listingType = ListingTypeName },
                 namespaces: new string[] { Namespace }
             );
 
@@ -175,7 +175,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
 
-            return RedirectToAction("GetListingById", new { listingId = listingId });        
+            return RedirectToAction("GetListingById", new { listingId = listingId });    
         }
 
         //
@@ -203,15 +203,20 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         //
-        // GET: /{ListingTypeName}/find/{tag}
+        // GET: /{ListingTypeName}/search/{tag}/{*filters}
         //
         [AcceptVerbs(HttpVerbs.Get)]
-        [ImportModelStateFromTempData]
         public ActionResult Search(SearchListingsViewModel<TListingMetadata> model)
         {
             try
             {
                 var service = new ListingService();
+                // add the filters from the url
+                if (model.Filters != null)
+                {
+                    var strings = model.Filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    model.Metadata = new TListingMetadata().FromStringArray(strings);
+                }
                 var listings = service.SearchListings(
                     model.Tag,
                     model.ListingType,
@@ -221,6 +226,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Location);
                 model.Results = listings;
 
+                if (model.Metadata == null) model.Metadata = new TListingMetadata();
                 return View(model);
             }
             catch(ClassyException cex)
@@ -230,12 +236,13 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         // 
-        // POST: /{ListingTypeName}/find/{tag}
+        // POST: /{ListingTypeName}/search/room/style?tag=
         [AcceptVerbs(HttpVerbs.Post)]
-        [ExportModelStateToTempData]
         public ActionResult Search(SearchListingsViewModel<TListingMetadata> model, object dummyforpost)
         {
-            return Search(model);
+            // TODO: this next line works by chance for photos search.. should be replaced with some real logic 
+            var f = model.Metadata.ToSlug();
+            return RedirectToRoute(string.Concat("Search",ListingTypeName), new { tag = model.Tag, filters = f });
         }
     }
 }

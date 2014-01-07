@@ -107,11 +107,11 @@
 <div class="col-md-9 main">
     <div class="row" itemscope itemtype="http://schema.org/LocalBusiness">
         <div class="col-md-9">
-            <h1 itemprop="name">@Model.Profile.ContactInfo.Name</h1>
+            <h1 itemprop="name">@Model.Profile.GetProfileName()</h1>
 
             @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
             {
-                        <a href="/profile/me">Edit Profile</a>
+                <a href="/profile/me">Edit Profile</a>
             }
             
             <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
@@ -134,14 +134,14 @@
             </div>
 
             <div itemprop="description">
-                @Model.Profile.ProfessionalInfo.CompanyName
+                @Model.TypedMetadata.ServicesProvided
             </div>
         </div>
 
         <div class="col-md-3 contact-info">
             @if (Model.Profile.IsProxy)
             {
-                @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
+                @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block", authorize = "" })
             }
             else
             {

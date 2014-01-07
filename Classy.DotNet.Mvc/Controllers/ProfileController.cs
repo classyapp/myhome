@@ -48,8 +48,8 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRouteForSupportedLocales(
                 name: "SearchProfiles",
-                url: "profile/search/{location}/{category}",
-                defaults: new { controller = "Profile", action = "Search", category = "", location = "city" },
+                url: "profile/search/{*filters}",
+                defaults: new { controller = "Profile", action = "Search", filters = "" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -184,11 +184,35 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ProfileService();
+                // add the filters from the url
+                if (model.Filters != null)
+                {
+                    var strings = model.Filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    switch (strings.Count())
+                    {
+                        case 0:
+                        default:
+                            break;
+                        case 1:
+                            model.Category = strings[0];
+                            break;
+                        case 2:
+                            model.Category = strings[0];
+                            model.Location = strings[1];
+                            break;
+                        case 3:
+                            model.Category = strings[0];
+                            model.Location = strings[1];
+                            model.Name = strings[2];
+                            break;
+                    }
+                }
                 var metadata = model.Metadata != null ? model.Metadata.ToDictionary() : null;
                 // we pass in a string location to be able to set it via URLs (for SEO)
                 LocationView location = null;
-                if (model.Location != "city")
+                if (!string.IsNullOrEmpty(model.Location))
                 {
+                    if (model.Location.Contains("/")) { /* TODO: parse city/state/etc */ }
                     location = new LocationView
                     {
                         // TODO: get long/lat by city name, or pass city name and get long/lat on server?
@@ -218,7 +242,17 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
-            return Search(model);
+            var f = string.Empty;
+            if (!string.IsNullOrEmpty(model.Category))
+            {
+                f = model.Category;
+                if (!string.IsNullOrEmpty(model.Location))
+                {
+                    f = string.Concat(f, "/", model.Location);
+                    if (!string.IsNullOrEmpty(model.Location)) f = string.Concat(f, "/", model.Name);
+                }
+            }
+            return RedirectToRoute("SearchProfiles", new { filters = f });
         }
 
         // 
