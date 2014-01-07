@@ -56,7 +56,7 @@ namespace MyHome.Models
         }
 
 
-        public string ToSlug(ProfessionalMetadata metadata)
+        public string ToSlug()
         {
             throw new NotImplementedException();
         }

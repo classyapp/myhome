@@ -11,7 +11,10 @@
     };
 }
 
+<!-- hack -->
 @Html.HiddenFor(x => x.ListingType)
+@Html.HiddenFor(x => x.Metadata.Room)
+@Html.HiddenFor(x => x.Metadata.Style)
 
 <div class="row">
     <div class="sidebar col-md-2">

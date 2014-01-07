@@ -53,13 +53,13 @@ namespace MyHome.Models
         }
 
 
-        public string ToSlug(PhotoMetadata metadata)
+        public string ToSlug()
         {
             var slug = string.Empty;
-            if (!string.IsNullOrEmpty(metadata.Room))
+            if (!string.IsNullOrEmpty(Room))
             {
-                slug = metadata.Room;
-                if (!string.IsNullOrEmpty(metadata.Style)) slug = string.Concat(slug, "/", metadata.Style);
+                slug = Room;
+                if (!string.IsNullOrEmpty(Style)) slug = string.Concat(slug, "/", Style);
             }
             return slug;
         }

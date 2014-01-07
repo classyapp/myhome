@@ -33,7 +33,7 @@ namespace MyHome.Models
         }
 
 
-        public string ToSlug(UserMetadata metadata)
+        public string ToSlug()
         {
             throw new NotImplementedException();
         }
