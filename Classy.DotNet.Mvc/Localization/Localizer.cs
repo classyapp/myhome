@@ -16,11 +16,11 @@ namespace Classy.DotNet.Mvc.Localization
 {
     public static class Localizer
     {
-        public static string CULTURE_COOKIE_NAME = "classy.env.culture";
-        public static string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
-        public static string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
-        public static string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
-        public static string ROUTE_LOCALE_DATA_TOKEN_KEY = "classy.routetoken.locale";
+        public const string CULTURE_COOKIE_NAME = "classy.env.culture";
+        public const string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
+        public const string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
+        public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
+        public const string ROUTE_LOCALE_DATA_TOKEN_KEY = "classy.routetoken.locale";
 
         static Localizer()
         {
