@@ -9,7 +9,7 @@ namespace Classy.DotNet.Services
 {
     public class ServiceBase
     {
-        internal static string ENDPOINT_BASE_URL = "http://www.thisisclassy.com:8008";
+        internal static string ENDPOINT_BASE_URL = System.Configuration.ConfigurationManager.AppSettings["Classy:EndpointBaseUrl"];
 
         public ServiceBase()
         {
