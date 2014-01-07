@@ -11,18 +11,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classy.DotNet.Mvc", "Classy
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AppHarbor|Any CPU = AppHarbor|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1780AB65-C3B9-4FE4-8FEB-06642A4AAAF4}.AppHarbor|Any CPU.ActiveCfg = AppHarbor|Any CPU
+		{1780AB65-C3B9-4FE4-8FEB-06642A4AAAF4}.AppHarbor|Any CPU.Build.0 = AppHarbor|Any CPU
 		{1780AB65-C3B9-4FE4-8FEB-06642A4AAAF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1780AB65-C3B9-4FE4-8FEB-06642A4AAAF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1780AB65-C3B9-4FE4-8FEB-06642A4AAAF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1780AB65-C3B9-4FE4-8FEB-06642A4AAAF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77EF7D41-3685-4B0E-91E7-3121DC4F4695}.AppHarbor|Any CPU.ActiveCfg = AppHarbor|Any CPU
+		{77EF7D41-3685-4B0E-91E7-3121DC4F4695}.AppHarbor|Any CPU.Build.0 = AppHarbor|Any CPU
 		{77EF7D41-3685-4B0E-91E7-3121DC4F4695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77EF7D41-3685-4B0E-91E7-3121DC4F4695}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EF7D41-3685-4B0E-91E7-3121DC4F4695}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77EF7D41-3685-4B0E-91E7-3121DC4F4695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.AppHarbor|Any CPU.ActiveCfg = AppHarbor|Any CPU
+		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.AppHarbor|Any CPU.Build.0 = AppHarbor|Any CPU
 		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
