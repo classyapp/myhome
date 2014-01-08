@@ -203,23 +203,24 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         //
-        // GET: /{ListingTypeName}/search/{tag}/{*filters}
+        // GET: /{ListingTypeName}/{*filters}
         //
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Search(SearchListingsViewModel<TListingMetadata> model)
+        public ActionResult Search(SearchListingsViewModel<TListingMetadata> model, string filters)
         {
             try
             {
                 var service = new ListingService();
                 // add the filters from the url
-                if (model.Filters != null)
+                if (filters != null)
                 {
-                    var strings = model.Filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    model.Metadata = new TListingMetadata().FromStringArray(strings);
+                    var strings = filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (model.Metadata == null) model.Metadata = new TListingMetadata();
+                    model.Tag = model.Metadata.FilterMatch(strings);
                 }
                 var listings = service.SearchListings(
                     model.Tag,
-                    model.ListingType,
+                    ListingTypeName,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     model.PriceMin,
                     model.PriceMax,
@@ -236,13 +237,16 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         // 
-        // POST: /{ListingTypeName}/search/room/style?tag=
+        // POST: /{ListingTypeName}/{*filters}
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchListingsViewModel<TListingMetadata> model, object dummyforpost)
         {
-            // TODO: this next line works by chance for photos search.. should be replaced with some real logic 
-            var f = model.Metadata.ToSlug();
-            return RedirectToRoute(string.Concat("Search",ListingTypeName), new { tag = model.Tag, filters = f });
+            var slug = model.Tag;
+            if (model.Metadata != null)
+            {
+                slug = string.Concat(model.Metadata.GetSlug(), "/", slug);
+            }
+            return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
         }
     }
 }

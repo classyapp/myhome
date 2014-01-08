@@ -11,11 +11,6 @@
     };
 }
 
-<!-- hack -->
-@Html.HiddenFor(x => x.ListingType)
-@Html.HiddenFor(x => x.Metadata.Room)
-@Html.HiddenFor(x => x.Metadata.Style)
-
 <div class="row">
     <div class="sidebar col-md-2">
         <div class="panel panel-default">
@@ -71,6 +66,11 @@
         <div class="search-form">
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
+                    @* to support postback *@ 
+                    @Html.HiddenFor(x => x.Metadata.Room)
+                    @Html.HiddenFor(x => x.Metadata.Style)
+
+                    @* form on screen *@
                     @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder(Localizer.Get("Search_Keyword")).Label().Class("sr-only")
                     @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder(Localizer.Get("Search_CostFrom")).Label().Class("sr-only")
                     @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")

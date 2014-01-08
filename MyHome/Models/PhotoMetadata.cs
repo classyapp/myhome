@@ -29,39 +29,61 @@ namespace MyHome.Models
             if (metadata.ContainsKey("CopyrightMessage")) CopyrightMessage = metadata["CopyrightMessage"];
             return output;
         }
-
-        public PhotoMetadata FromStringArray(string[] strings)
+    
+        public string FilterMatch(string[] filters)
         {
-            if (strings == null) return null;
-            switch (strings.Count())
+            switch(filters.Count())
             {
                 case 0:
                 default:
                     return null;
                 case 1:
-                    return new PhotoMetadata
-                    {
-                        Room = strings[0]
-                    };
+                    // is it a room?
+                    Room = MatchRoom(filters[0]);
+                    // if not, is it a style? if not a room and not a style, its a tag.
+                    return (string.IsNullOrEmpty(Room) && string.IsNullOrEmpty(Style = MatchStyle(filters[0]))) ? filters[0] : null; 
                 case 2:
-                    return new PhotoMetadata
+                    Room = MatchRoom(filters[0]); // if more than one filter, first one is a room. if not, its a tag and break
+                    if (string.IsNullOrEmpty(Room)) return filters[0];
+                    else // done with room match, second one is a style or its a tag
                     {
-                        Room = strings[0],
-                        Style = strings[1]
-                    };
+                        Style = MatchStyle(filters[1]); 
+                        return string.IsNullOrEmpty(Style) ? filters[1] : null; 
+                    }
+                case 3:
+                    // if more than one filter, first one is a room. if not, its a tag and break
+                    if (string.IsNullOrEmpty(Room = MatchRoom(filters[0]))) return filters[0];
+                    // second filter is style, or a tag and break
+                    if (string.IsNullOrEmpty(Style = MatchStyle(filters[1]))) return filters[1];
+                    return filters[2];
             }
         }
 
+        private string MatchStyle(string p)
+        {
+            return p == "eclectic" ? p : null;
+        }
 
-        public string ToSlug()
+        private string MatchRoom(string p)
+        {
+            return p == "kitchen" ? p : null;
+        }
+
+
+        public string GetSlug()
         {
             var slug = string.Empty;
             if (!string.IsNullOrEmpty(Room))
             {
                 slug = Room;
-                if (!string.IsNullOrEmpty(Style)) slug = string.Concat(slug, "/", Style);
+                if (!string.IsNullOrEmpty(Style))
+                {
+                    slug = string.Concat(slug, "/", Style);
+                }
+                return slug;
             }
-            return slug;
+            else return null;
+
         }
     }
 }

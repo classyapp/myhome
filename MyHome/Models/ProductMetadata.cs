@@ -19,13 +19,15 @@ namespace MyHome.Models
             return null;
         }
 
-        public ProductMetadata FromStringArray(string[] strings)
+
+
+        public string FilterMatch(string[] filters)
         {
             throw new NotImplementedException();
         }
 
 
-        public string ToSlug()
+        public string GetSlug()
         {
             throw new NotImplementedException();
         }

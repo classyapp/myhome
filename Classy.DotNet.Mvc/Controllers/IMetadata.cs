@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
-    // marker interface for constraining types passe into generic controllers
+    // marker interface for constraining types passed into generic controllers
     public interface IMetadata<TMetadata> where TMetadata : new()
     {
         IDictionary<string, string> ToDictionary();
         TMetadata FromDictionary(IDictionary<string, string> metadata);
-        TMetadata FromStringArray(string[] strings);
-        string ToSlug();
+        string FilterMatch(string[] filters);
+        string GetSlug();
     }
 }

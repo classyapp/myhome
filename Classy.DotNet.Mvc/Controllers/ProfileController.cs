@@ -179,35 +179,17 @@ namespace Classy.DotNet.Mvc.Controllers
         // 
         // GET: /profile/search
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Search(SearchViewModel<TProMetadata> model)
+        public ActionResult Search(SearchViewModel<TProMetadata> model, string filters)
         {
             try
             {
                 var service = new ProfileService();
                 // add the filters from the url
-                if (model.Filters != null)
+                if (filters != null)
                 {
-                    var strings = model.Filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    switch (strings.Count())
-                    {
-                        case 0:
-                        default:
-                            break;
-                        case 1:
-                            model.Category = strings[0];
-                            break;
-                        case 2:
-                            model.Category = strings[0];
-                            model.Location = strings[1];
-                            break;
-                        case 3:
-                            model.Category = strings[0];
-                            model.Location = strings[1];
-                            model.Name = strings[2];
-                            break;
-                    }
+                    var strings = filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    model.Name = FilterMatch(strings, model);
                 }
-                var metadata = model.Metadata != null ? model.Metadata.ToDictionary() : null;
                 // we pass in a string location to be able to set it via URLs (for SEO)
                 LocationView location = null;
                 if (!string.IsNullOrEmpty(model.Location))
@@ -220,7 +202,12 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else model.Location = "";
 
-                var profiles = service.SearchProfiles(model.Name, model.Category, location, metadata, model.ProfessionalsOnly);
+                var profiles = service.SearchProfiles(
+                    model.Name, 
+                    model.Category, 
+                    location,
+                    model.Metadata != null ? model.Metadata.ToDictionary() : null, 
+                    model.ProfessionalsOnly);
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(profiles, JsonRequestBehavior.AllowGet);
@@ -237,22 +224,51 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
+        private string FilterMatch(string[] filters, SearchViewModel<TProMetadata> model)
+        {
+            switch (filters.Count())
+            {
+                case 0:
+                default:
+                    return null;
+                case 1:
+                    // is it a category?
+                    model.Category = MatchCategory(filters[0]);
+                    // if not, is it a location? if not a category and not a location, its a keyword.
+                    return (string.IsNullOrEmpty(model.Category) && string.IsNullOrEmpty(model.Location = MatchLocation(filters[0]))) ? filters[0] : null;
+                case 2:
+                    model.Category = MatchCategory(filters[0]); // if more than one filter, first one is a category. if not, its a keyword and break
+                    if (string.IsNullOrEmpty(model.Category)) return filters[0];
+                    else // done with category match, second one is a location or its a keyword
+                    {
+                        model.Location = MatchLocation(filters[1]);
+                        return string.IsNullOrEmpty(model.Location) ? filters[1] : null;
+                    }
+                case 3:
+                    // if more than two filter, first one is a category. if not, its a keyword and break
+                    if (string.IsNullOrEmpty(model.Category = MatchCategory(filters[0]))) return filters[0];
+                    // second filter is location, or a keyword and break
+                    if (string.IsNullOrEmpty(model.Location = MatchLocation(filters[1]))) return filters[1];
+                    return filters[2];
+            }
+        }
+
+        private string MatchCategory(string p)
+        {
+            return p == "kitchen-seller" ? p : null;
+        }
+
+        private string MatchLocation(string p)
+        {
+            return p == "las-vegas" ? p : null;
+        }
+
         // 
         // POST: /profile/search
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
-            var f = string.Empty;
-            if (!string.IsNullOrEmpty(model.Category))
-            {
-                f = model.Category;
-                if (!string.IsNullOrEmpty(model.Location))
-                {
-                    f = string.Concat(f, "/", model.Location);
-                    if (!string.IsNullOrEmpty(model.Location)) f = string.Concat(f, "/", model.Name);
-                }
-            }
-            return RedirectToRoute("SearchProfiles", new { filters = f });
+            return RedirectToRoute("SearchProfiles", new {  });
         }
 
         // 

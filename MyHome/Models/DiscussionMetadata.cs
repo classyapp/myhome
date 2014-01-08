@@ -26,13 +26,14 @@ namespace MyHome.Models
             return output;
         }
 
-        public DiscussionMetadata FromStringArray(string[] strings)
+
+        public string FilterMatch(string[] filters)
         {
             throw new NotImplementedException();
         }
 
 
-        public string ToSlug()
+        public string GetSlug()
         {
             throw new NotImplementedException();
         }
