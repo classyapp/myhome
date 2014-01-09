@@ -23,10 +23,12 @@ namespace MyHome
                       "~/Scripts/TwitterBootstrapMvcJs.js"));
 
             bundles.Add(new StyleBundle("~/Content/css/rtl").Include(
+                      "~/Content/rtl/fonts.css",
                       "~/Content/rtl/bootstrap.css",
                       "~/Content/rtl/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/ltr").Include(
+                      "~/Content/ltr/fonts.css",
                       "~/Content/ltr/bootstrap.min.css",
                       "~/Content/ltr/site.css"));
         }
