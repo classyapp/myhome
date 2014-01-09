@@ -1,4 +1,5 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
+using Classy.DotNet.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,48 +31,55 @@ namespace MyHome.Models
             return output;
         }
     
-        public string FilterMatch(string[] filters)
+        public void ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
         {
             switch(filters.Count())
             {
                 case 0:
                 default:
-                    return null;
+                    keyword = null;
+                    break;
                 case 1:
                     // is it a room?
                     Room = MatchRoom(filters[0]);
                     // if not, is it a style? if not a room and not a style, its a tag.
-                    return (string.IsNullOrEmpty(Room) && string.IsNullOrEmpty(Style = MatchStyle(filters[0]))) ? filters[0] : null; 
+                    keyword = (string.IsNullOrEmpty(Room) && string.IsNullOrEmpty(Style = MatchStyle(filters[0]))) ? filters[0] : null;
+                    break;
                 case 2:
                     Room = MatchRoom(filters[0]); // if more than one filter, first one is a room. if not, its a tag and break
-                    if (string.IsNullOrEmpty(Room)) return filters[0];
+                    if (string.IsNullOrEmpty(Room)) keyword = filters[0];
                     else // done with room match, second one is a style or its a tag
                     {
                         Style = MatchStyle(filters[1]); 
-                        return string.IsNullOrEmpty(Style) ? filters[1] : null; 
+                        keyword = string.IsNullOrEmpty(Style) ? filters[1] : null; 
                     }
+                    break;
                 case 3:
                     // if more than one filter, first one is a room. if not, its a tag and break
-                    if (string.IsNullOrEmpty(Room = MatchRoom(filters[0]))) return filters[0];
+                    if (string.IsNullOrEmpty(Room = MatchRoom(filters[0]))) keyword = filters[0];
                     // second filter is style, or a tag and break
-                    if (string.IsNullOrEmpty(Style = MatchStyle(filters[1]))) return filters[1];
-                    return filters[2];
+                    if (string.IsNullOrEmpty(Style = MatchStyle(filters[1]))) keyword = filters[1];
+                    keyword = filters[2];
+                    break;
             }
         }
 
         private string MatchStyle(string p)
         {
-            return p == "eclectic" ? p : null;
+            // TODO: create a real list of styles
+            return new string[] {"eclectic","modern","contemporary","classic"}.Contains(p) ? p : null;
         }
 
         private string MatchRoom(string p)
         {
-            return p == "kitchen" ? p : null;
+            // TODO: create a real list of rooms
+            return new string[] { "kitchen", "bedroom", "bath", "living-room" }.Contains(p) ? p : null;
         }
 
 
-        public string GetSlug()
+        public string GetSearchFilterSlug(string keyword, LocationView location)
         {
+            // pare metadata props
             var slug = string.Empty;
             if (!string.IsNullOrEmpty(Room))
             {
@@ -80,10 +88,12 @@ namespace MyHome.Models
                 {
                     slug = string.Concat(slug, "/", Style);
                 }
-                return slug;
             }
-            else return null;
-
+            // add location
+            if (location != null) { }
+            // add keyword
+            if (!string.IsNullOrEmpty(keyword)) slug = string.Concat(slug, string.IsNullOrEmpty(slug) ? "" : "/", keyword);
+            return slug;
         }
     }
 }

@@ -20,16 +20,24 @@
             <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                 @if (!string.IsNullOrEmpty(Model.Metadata.Room)) {
                     <span class="tag">
-                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = Model.Metadata.Room })">@Model.Metadata.Room</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = "" })">x</a>
+                        <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Metadata.Room</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                     </span>
                 }
                 <br />
                 @if (!string.IsNullOrEmpty(Model.Metadata.Style))
                 {
                     <span class="tag">
-                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = string.Concat(Model.Metadata.Room, "/", Model.Metadata.Style) })">@Model.Metadata.Style</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = Model.Metadata.Room })">x</a>
+                        <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Metadata.Style</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
+                    </span>
+                }
+                <br />                
+                @if (!string.IsNullOrEmpty(Model.Tag))
+                {
+                    <span class="tag">
+                        <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Tag</a>
+                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })">x</a>
                     </span>
                 }
             </div>
@@ -40,12 +48,24 @@
                 <h3 class="panel-title">Rooms</h3>
             </div>
             <div class="panel-body panel-links">
-                @Html.RouteLinkForCurrentLocale("Kitchen", "SearchPhoto", new { filters = "kitchen" })
-                @Html.RouteLinkForCurrentLocale("Bath", "SearchPhoto", new { filters = "bath" })
-                @Html.RouteLinkForCurrentLocale("Bedroom", "SearchPhoto", new { filters = "bedroom" })
-                @Html.RouteLinkForCurrentLocale("Living", "SearchPhoto", new { filters = "living-room" })
+                @Html.RouteLinkForCurrentLocale("Kitchen", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "kitchen", Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })
+                @Html.RouteLinkForCurrentLocale("Bath", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bath", Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })
+                @Html.RouteLinkForCurrentLocale("Bedroom", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bedroom", Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })
+                @Html.RouteLinkForCurrentLocale("Living", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "living-room", Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Styles</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @Html.RouteLinkForCurrentLocale("Eclectic", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "eclectic", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                @Html.RouteLinkForCurrentLocale("Modern", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "modern", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                @Html.RouteLinkForCurrentLocale("Contemporary", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "contemporary", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                @Html.RouteLinkForCurrentLocale("Classic", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "classic", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                </div>
+            </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">

@@ -125,6 +125,23 @@ h1, h2, h3, h4, h5 {
 .login {
     padding: 0 30px;
 }
+/* search pages*/
+.panel .tag {
+    display: inline-block;
+    border: solid 1px #e5e5e5;
+    padding: 3px 10px 1px 3px;
+    margin: 5px;
+}
+.panel .tag .content {
+    color: #7cc04b;
+}
+.panel .tag .dismiss {
+    display: inline-block;
+    right: 0;
+    top: 0;
+    margin-left: 15px;
+}
+
 .fb {
     margin-top: 20px;
     padding-bottom: 20px;

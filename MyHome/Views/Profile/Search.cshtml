@@ -26,7 +26,7 @@
                     </span>
                 }
                 <br />
-                @if (!string.IsNullOrEmpty(Model.Location))
+                @if (Model.Location != null)
                 {
                     <span class="tag">
                         <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
@@ -48,7 +48,7 @@
 
     <div class="main col-md-10">
         <h1>
-        @if (string.IsNullOrEmpty(Model.Location)) {
+        @if (Model.Location != null) {
             <text>
             @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, Model.Category)
             </text>

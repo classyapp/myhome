@@ -27,13 +27,14 @@ namespace MyHome.Models
             return output;
         }
 
-        public string FilterMatch(string[] filters)
+
+
+        public void ParseSearchFilters(string[] filters, out string keyword, ref Classy.DotNet.Responses.LocationView location)
         {
             throw new NotImplementedException();
         }
 
-
-        public string GetSlug()
+        public string GetSearchFilterSlug(string keyword, Classy.DotNet.Responses.LocationView location)
         {
             throw new NotImplementedException();
         }

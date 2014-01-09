@@ -188,24 +188,16 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (filters != null)
                 {
                     var strings = filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    model.Name = FilterMatch(strings, model);
+                    if (model.Metadata == null) model.Metadata = new TProMetadata();
+                    string name;
+                    LocationView location = null;
+                    //model.Metadata.ParseSearchFilters(strings, out name, ref location);
                 }
-                // we pass in a string location to be able to set it via URLs (for SEO)
-                LocationView location = null;
-                if (!string.IsNullOrEmpty(model.Location))
-                {
-                    if (model.Location.Contains("/")) { /* TODO: parse city/state/etc */ }
-                    location = new LocationView
-                    {
-                        // TODO: get long/lat by city name, or pass city name and get long/lat on server?
-                    };
-                }
-                else model.Location = "";
 
                 var profiles = service.SearchProfiles(
                     model.Name, 
                     model.Category, 
-                    location,
+                    model.Location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null, 
                     model.ProfessionalsOnly);
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -222,45 +214,6 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
-        }
-
-        private string FilterMatch(string[] filters, SearchViewModel<TProMetadata> model)
-        {
-            switch (filters.Count())
-            {
-                case 0:
-                default:
-                    return null;
-                case 1:
-                    // is it a category?
-                    model.Category = MatchCategory(filters[0]);
-                    // if not, is it a location? if not a category and not a location, its a keyword.
-                    return (string.IsNullOrEmpty(model.Category) && string.IsNullOrEmpty(model.Location = MatchLocation(filters[0]))) ? filters[0] : null;
-                case 2:
-                    model.Category = MatchCategory(filters[0]); // if more than one filter, first one is a category. if not, its a keyword and break
-                    if (string.IsNullOrEmpty(model.Category)) return filters[0];
-                    else // done with category match, second one is a location or its a keyword
-                    {
-                        model.Location = MatchLocation(filters[1]);
-                        return string.IsNullOrEmpty(model.Location) ? filters[1] : null;
-                    }
-                case 3:
-                    // if more than two filter, first one is a category. if not, its a keyword and break
-                    if (string.IsNullOrEmpty(model.Category = MatchCategory(filters[0]))) return filters[0];
-                    // second filter is location, or a keyword and break
-                    if (string.IsNullOrEmpty(model.Location = MatchLocation(filters[1]))) return filters[1];
-                    return filters[2];
-            }
-        }
-
-        private string MatchCategory(string p)
-        {
-            return p == "kitchen-seller" ? p : null;
-        }
-
-        private string MatchLocation(string p)
-        {
-            return p == "las-vegas" ? p : null;
         }
 
         // 

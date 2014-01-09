@@ -50,18 +50,19 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteForSupportedLocales(
+                name: string.Concat(ListingTypeName, "Details"),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}--{slug}"),
+                defaults: new { controller = ListingTypeName, action = "GetListingById", slug = "show" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
                 name: string.Concat("Search", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
                 defaults: new { controller = ListingTypeName, action = "Search", filters = "", listingType = ListingTypeName },
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteForSupportedLocales(
-                name: string.Concat(ListingTypeName, "Details"),
-                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/{slug}"),
-                defaults: new { controller = ListingTypeName, action = "GetListingById", slug = "show" },
-                namespaces: new string[] { Namespace }
-            );
         }
 
         //
@@ -216,8 +217,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     var strings = filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     if (model.Metadata == null) model.Metadata = new TListingMetadata();
-                    model.Tag = model.Metadata.FilterMatch(strings);
+                    string tag;
+                    LocationView location = null;
+                    model.Metadata.ParseSearchFilters(strings, out tag, ref location);
+                    model.Tag = tag;
+                    model.Location = location;
                 }
+                // search
                 var listings = service.SearchListings(
                     model.Tag,
                     ListingTypeName,
@@ -241,11 +247,8 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchListingsViewModel<TListingMetadata> model, object dummyforpost)
         {
-            var slug = model.Tag;
-            if (model.Metadata != null)
-            {
-                slug = string.Concat(model.Metadata.GetSlug(), "/", slug);
-            }
+            if (model.Metadata == null) model.Metadata = new TListingMetadata();
+            var slug = model.Metadata.GetSearchFilterSlug(model.Tag, model.Location);
             return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
         }
     }
