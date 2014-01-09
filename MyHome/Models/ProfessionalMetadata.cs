@@ -17,9 +17,9 @@ namespace MyHome.Models
         [Required]
         public string AreasServed { get; set; }
         [Required]
-        public int JobCostFrom { get; set; }
+        public int? JobCostFrom { get; set; }
         [Required]
-        public int JobCostTo { get; set; }
+        public int? JobCostTo { get; set; }
         [Required]
         public string CostDetails { get; set; }
         public string Awards { get; set; }
