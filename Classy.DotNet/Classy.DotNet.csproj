@@ -63,6 +63,7 @@
     <Compile Include="Responses\ListingView.cs" />
     <Compile Include="Responses\LocalizationResourceView.cs" />
     <Compile Include="Responses\LocationView.cs" />
+    <Compile Include="Responses\MediaFileThumbnail.cs" />
     <Compile Include="Responses\MediaFileView.cs" />
     <Compile Include="Responses\PhysicalAddressView.cs" />
     <Compile Include="Responses\PostReviewResponse.cs" />
