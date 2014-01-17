@@ -195,7 +195,10 @@
                                 @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-danger action like")
                                 @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
                             </div>
-                            <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" width="100%" />
+                            @{ 
+                                var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
+                            }
+                            <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
                             <strong>@Html.ListingLink("Photo", p)</strong>
                             <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
                         </div>                        
