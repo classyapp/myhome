@@ -89,6 +89,7 @@ namespace Classy.DotNet.Mvc.Localization
             Route route = routes.MapRoute(name, url, defaults, namespaces);
             route.DataTokens = new RouteValueDictionary();
             route.DataTokens.Add("RouteName", name);
+            route.DataTokens.Add("OriginalRouteName", name);
         }
 
         // RouteCollection extension to map a route for all supported cultures
@@ -107,6 +108,7 @@ namespace Classy.DotNet.Mvc.Localization
                 route = routes.MapRoute(name, url, defaults, namespaces);
                 route.DataTokens = new RouteValueDictionary();
                 route.DataTokens.Add("RouteName", name);
+                route.DataTokens.Add("OriginalRouteName", name);
             }
 
             // then add another route for each supported culture
@@ -120,6 +122,7 @@ namespace Classy.DotNet.Mvc.Localization
                     namespaces);
                 route.DataTokens = new RouteValueDictionary();
                 route.DataTokens.Add("RouteName", routeName);
+                route.DataTokens.Add("OriginalRouteName", name);
                 route.DataTokens.Add(ROUTE_LOCALE_DATA_TOKEN_KEY, culture.Name);
             }
 
@@ -129,6 +132,7 @@ namespace Classy.DotNet.Mvc.Localization
                 route = routes.MapRoute(name, url, defaults, namespaces);
                 route.DataTokens = new RouteValueDictionary();
                 route.DataTokens.Add("RouteName", name);
+                route.DataTokens.Add("OriginalRouteName", name);
             }
         }
 

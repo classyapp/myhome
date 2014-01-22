@@ -19,7 +19,7 @@
             </div>
             <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                 @if (!string.IsNullOrEmpty(Model.Metadata.Room)) {
-                    <span class="tag">
+                    <span class="label label-default">
                         <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Metadata.Room</a>
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                     </span>
@@ -27,7 +27,7 @@
                 <br />
                 @if (!string.IsNullOrEmpty(Model.Metadata.Style))
                 {
-                    <span class="tag">
+                    <span class="label label-default">
                         <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Metadata.Style</a>
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                     </span>
@@ -35,7 +35,7 @@
                 <br />                
                 @if (!string.IsNullOrEmpty(Model.Tag))
                 {
-                    <span class="tag">
+                    <span class="label label-default">
                         <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Tag</a>
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })">x</a>
                     </span>

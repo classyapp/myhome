@@ -199,7 +199,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Category, 
                     model.Location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null, 
-                    model.ProfessionalsOnly);
+                    true);
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(profiles, JsonRequestBehavior.AllowGet);
@@ -293,7 +293,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 // when user is not logged-in, ReplyToEmail is required
                 if (!Request.IsAuthenticated && string.IsNullOrEmpty(model.ReplyToEmail))
                 {
-                    ModelState.AddModelError("ReplyToEmail", "Please enter reply-to email");
+                    ModelState.AddModelError("ReplyToEmail", Localizer.Get("ContactPro_ReplyToEmail_Required"));
                 }
 
                 if (ModelState.IsValid)
@@ -316,7 +316,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     //TODO: this doesn't belong in the frontend 
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
-                    TempData["ContactSuccess"] = "ההודעה נשלחה. בעל המקצוע יצור עמך קשר בכתובת האימייל שהזנת בטופס הפניה";
+                    TempData["ContactSuccess"] = Localizer.Get("ContactPro_Success");
                 }
             }
             catch (ClassyException cvx)

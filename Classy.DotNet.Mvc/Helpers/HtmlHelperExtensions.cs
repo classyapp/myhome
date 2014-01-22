@@ -100,14 +100,19 @@ namespace Classy.DotNet.Mvc
             return html.RouteLinkForCurrentLocale(name, "PublicProfile", new { profileId = profile.Id, slug = ToSlug(name) });
         }
 
+        public static string ProfileUrl(this System.Web.Mvc.UrlHelper url, ProfileView profile)
+        {
+            return url.RouteUrlForCurrentLocale("PublicProfile", new { profileId = profile.Id });
+        }
+
         public static string GetProfileName(this ProfileView profile)
         {
             if (profile.ContactInfo == null && !profile.IsProfessional) return "unknown";
-            var name = string.Empty;
+            string name;
             if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
             else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
             else name = string.IsNullOrEmpty(profile.ContactInfo.Name) ? profile.UserName : profile.ContactInfo.Name;
-            return name;
+            return name ?? "unknown";
         }
 
         public static MvcHtmlString ToSlug(this System.Web.Mvc.HtmlHelper html, string content)

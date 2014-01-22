@@ -12,17 +12,13 @@ namespace MyHome.Models
     {
         [Required]
         public string LicenseNo { get; set; }
-        [Required]
         public string ServicesProvided { get; set; }
-        [Required]
         public string AreasServed { get; set; }
-        [Required]
         public int? JobCostFrom { get; set; }
-        [Required]
         public int? JobCostTo { get; set; }
-        [Required]
         public string CostDetails { get; set; }
         public string Awards { get; set; }
+        public string BusinessDescription { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -33,6 +29,7 @@ namespace MyHome.Models
             list.Add("JobCostFrom", JobCostFrom.ToString());
             list.Add("JobCostTo", JobCostTo.ToString());
             list.Add("CostDetails", CostDetails);
+            list.Add("BusinessDescription", BusinessDescription);
             if (!string.IsNullOrEmpty(Awards)) list.Add("Awards", Awards);
             return list;
         }
@@ -40,13 +37,14 @@ namespace MyHome.Models
         public ProfessionalMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new ProfessionalMetadata();
-            if (metadata.ContainsKey("LicenseNo")) LicenseNo = metadata["LicenseNo"];
-            if (metadata.ContainsKey("ServicesProvided")) ServicesProvided = metadata["ServicesProvided"];
-            if (metadata.ContainsKey("AreasServed")) AreasServed = metadata["AreasServed"];
-            if (metadata.ContainsKey("JobCostFrom")) JobCostFrom = Convert.ToInt32(metadata["JobCostFrom"]);
-            if (metadata.ContainsKey("JobCostTo")) JobCostTo = Convert.ToInt32(metadata["JobCostTo"]);
-            if (metadata.ContainsKey("CostDetails")) CostDetails = metadata["CostDetails"];
-            if (metadata.ContainsKey("Awards")) Awards = metadata["Awards"];
+            if (metadata.ContainsKey("LicenseNo")) output.LicenseNo = metadata["LicenseNo"];
+            if (metadata.ContainsKey("ServicesProvided")) output.ServicesProvided = metadata["ServicesProvided"];
+            if (metadata.ContainsKey("AreasServed")) output.AreasServed = metadata["AreasServed"];
+            if (metadata.ContainsKey("JobCostFrom") && !string.IsNullOrEmpty(metadata["JobCostFrom"])) output.JobCostFrom = Convert.ToInt32(metadata["JobCostFrom"]);
+            if (metadata.ContainsKey("JobCostTo") && !string.IsNullOrEmpty(metadata["JobCostTo"])) output.JobCostTo = Convert.ToInt32(metadata["JobCostTo"]);
+            if (metadata.ContainsKey("CostDetails")) output.CostDetails = metadata["CostDetails"];
+            if (metadata.ContainsKey("Awards")) output.Awards = metadata["Awards"];
+            if (metadata.ContainsKey("BusinessDescription")) output.BusinessDescription = metadata["BusinessDescription"];
             return output;
         }
 

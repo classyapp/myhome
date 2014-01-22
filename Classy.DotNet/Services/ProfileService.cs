@@ -20,8 +20,8 @@ namespace Classy.DotNet.Services
         private readonly string FOLLOW_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/follow";
         private readonly string GET_AUTHENTICATED_PROFILE = ENDPOINT_BASE_URL + "/profile";
 
-        private readonly string CLAIM_AGENT_PROXY_DATA = @"{{""SellerInfo"":{0},""Metadata"":{1}}}";
-        private readonly string UPDATE_PROFILE_DATA = @"{{""SellerInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
+        private readonly string CLAIM_AGENT_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
+        private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
 
         public ProfileView GetProfileById(string profileId)
         {

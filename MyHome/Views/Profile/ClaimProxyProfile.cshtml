@@ -6,6 +6,9 @@
 
 
 <h2>אימות פרופיל מתווך - קחו את המוניטין שלכם בידיים</h2>
+
+@Html.Bootstrap().ValidationSummary()
+
 @if (User.Identity.IsAuthenticated)
 {
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;

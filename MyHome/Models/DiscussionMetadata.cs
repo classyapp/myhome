@@ -22,7 +22,7 @@ namespace MyHome.Models
         public DiscussionMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new DiscussionMetadata();
-            if (metadata.ContainsKey("Category")) Category = metadata["Category"];
+            if (metadata.ContainsKey("Category")) output.Category = metadata["Category"];
             return output;
         }
 

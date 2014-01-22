@@ -25,9 +25,9 @@ namespace MyHome.Models
         public PhotoMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new PhotoMetadata();
-            if (metadata.ContainsKey("Room")) Room = metadata["Room"];
-            if (metadata.ContainsKey("Style")) Style = metadata["Style"];
-            if (metadata.ContainsKey("CopyrightMessage")) CopyrightMessage = metadata["CopyrightMessage"];
+            if (metadata.ContainsKey("Room")) output.Room = metadata["Room"];
+            if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
+            if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
             return output;
         }
     

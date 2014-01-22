@@ -13,6 +13,13 @@ namespace Classy.DotNet.Mvc.Controllers
         public override void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
             routes.MapRouteForSupportedLocales(
+                name: "Home",
+                url: "",
+                defaults: new { controller = "Default", action = "Index" },
+                namespaces: null
+            );
+
+            routes.MapRouteForSupportedLocales(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional },

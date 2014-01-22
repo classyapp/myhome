@@ -22,8 +22,8 @@ namespace MyHome.Models
         public UserMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             var output = new UserMetadata();
-            if (metadata.ContainsKey("IsRenter")) IsRenter = Convert.ToBoolean(metadata["IsRenter"]);
-            if (metadata.ContainsKey("IsHomeOwner")) IsHomeOwner = Convert.ToBoolean(metadata["IsHomeOwner"]);
+            if (metadata.ContainsKey("IsRenter")) output.IsRenter = Convert.ToBoolean(metadata["IsRenter"]);
+            if (metadata.ContainsKey("IsHomeOwner")) output.IsHomeOwner = Convert.ToBoolean(metadata["IsHomeOwner"]);
             return output;
         }
 

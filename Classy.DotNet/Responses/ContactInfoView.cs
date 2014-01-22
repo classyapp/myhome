@@ -16,7 +16,7 @@ namespace Classy.DotNet.Responses
         public string TwitterUsername { get; set; }
         public string LinkedInProfileUrl { get; set; }
 
-        public string Name { get { return string.Concat(FirstName, " ", LastName); } }
+        public string Name { get { return string.Concat(FirstName, !string.IsNullOrEmpty(FirstName) ? " " : "", LastName); } }
     }
 
     public class ExtendedContactInfoView : ContactInfoView

@@ -15,11 +15,11 @@
 
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
-    <link rel="canonical" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string))" />
-    <link rel="alternate" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string))" hreflang="x-default" />
+    <link rel="canonical" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" />
+    <link rel="alternate" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.SupportedCultures)
     {
-        <link rel="alternate" hreflang="@culture.Name" href="http://www.myhome.co.il@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["RouteName"] as string, culture.Name))" />    
+        <link rel="alternate" hreflang="@culture.Name" href="http://www.myhome.co.il@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Name))" />    
     }
     
     <title>@ViewBag.Title</title>
@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.RouteUrl("Default")"></a>
+                <a class="navbar-brand" href="@Url.RouteUrlForCurrentLocale("Home")"></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -51,16 +51,13 @@
                     <li class="dropdown">
                         <a href="@Url.RouteUrlForCurrentLocale("SearchPhoto")" class="dropdown-toggle" data-toggle="dropdown">@Localizer.Get("Header_Nav_Photos") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li>@Html.RouteLinkForCurrentLocale("Kitchen", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "kitchen" }.GetSearchFilterSlug(null, null) })</li>
+                            <li>@Html.RouteLinkForCurrentLocale("Bath", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bath" }.GetSearchFilterSlug(null, null) })</li>
+                            <li>@Html.RouteLinkForCurrentLocale("Bedroom", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bedroom" }.GetSearchFilterSlug(null, null) })</li>
+                            <li>@Html.RouteLinkForCurrentLocale("Living", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "living-room" }.GetSearchFilterSlug(null, null) })</li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    @*<li class="dropdown">
                         <a href="@Url.RouteUrlForCurrentLocale("SearchProduct")" class="dropdown-toggle" data-toggle="dropdown">@Localizer.Get("Header_Nav_Products") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Action</a></li>
@@ -71,7 +68,7 @@
                             <li class="divider"></li>
                             <li><a href="#">One more separated link</a></li>
                         </ul>
-                    </li>
+                    </li>*@
                     <li><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("Header_Nav_FindPros")</a></li>
                 </ul>
                 <div class="col-sm-3 col-md-3 pull-left">
@@ -92,11 +89,21 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (Request.IsAuthenticated)
                     {
+                        var p = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile;
                         <li class="dropdown">
                             <a href="@Url.RouteUrlForLocale("MyProfile", env.Culture)" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user"></span> @Localizer.Get("Header_Nav_MyProfile")
                             </a>
                             <ul class="dropdown-menu">
+                                <li class="profile">
+                                    <a href="@Url.RouteUrl("MyProfile")">
+                                        <div class="pull-left">
+                                            <img src="@p.ThumbnailUrl" width="30px" height="30px" />
+                                            @Localizer.Get("Header_Nav_MyProfile")
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
                                 <li><a href="@Url.RouteUrl("Logout")">@Localizer.Get("Header_Nav_Logout")</a></li>
                             </ul>
                         </li>
@@ -114,7 +121,7 @@
                                         <form class="form" role="form" method="post" action="@Url.RouteUrl("Login")" id="login-nav">
                                             <div class="form-group">
                                                 <label class="sr-only" for="Email">@Localizer.Get("Login_Email")</label>
-                                                <input type="email" class="form-control" id="Email" name="Email" placeholder="@Localizer.Get("Login_Email")">
+                                                <input type="text" class="form-control" id="Email" name="Email" placeholder="@Localizer.Get("Login_Email")">
                                             </div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="Password">@Localizer.Get("Login_Password")</label>
@@ -127,6 +134,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-default btn-block">@Localizer.Get("Login_Submit")</button>
+                                            </div>
+                                            <div class="text-center">
+                                                @Html.RouteLink(Localizer.Get("Login_Register"), "Register")
                                             </div>
                                         </form>
                                     </div>
