@@ -16,9 +16,9 @@ namespace MyHome.Models
         public IDictionary<string, string> ToDictionary()
         {
             var list = new Dictionary<string, string>();
-            list.Add("Room", Room);
-            list.Add("Style", Style);
-            list.Add("CopyrightMessage", CopyrightMessage);
+            if (!string.IsNullOrEmpty(Room)) list.Add("Room", Room);
+            if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
+            if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
             return list;
         }
 

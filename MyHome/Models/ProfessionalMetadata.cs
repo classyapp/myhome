@@ -23,13 +23,13 @@ namespace MyHome.Models
         public IDictionary<string, string> ToDictionary()
         {
             var list = new Dictionary<string, string>();
-            list.Add("LicenseNo", LicenseNo);
-            list.Add("ServicesProvided", ServicesProvided);
-            list.Add("AreasServed", AreasServed);
-            list.Add("JobCostFrom", JobCostFrom.ToString());
-            list.Add("JobCostTo", JobCostTo.ToString());
-            list.Add("CostDetails", CostDetails);
-            list.Add("BusinessDescription", BusinessDescription);
+            if (!string.IsNullOrEmpty(LicenseNo)) list.Add("LicenseNo", LicenseNo);
+            if (!string.IsNullOrEmpty(ServicesProvided)) list.Add("ServicesProvided", ServicesProvided);
+            if (!string.IsNullOrEmpty(AreasServed)) list.Add("AreasServed", AreasServed);
+            if (JobCostFrom.HasValue) list.Add("JobCostFrom", JobCostFrom.ToString());
+            if (JobCostTo.HasValue) list.Add("JobCostTo", JobCostTo.ToString());
+            if (!string.IsNullOrEmpty(CostDetails)) list.Add("CostDetails", CostDetails);
+            if (!string.IsNullOrEmpty(BusinessDescription)) list.Add("BusinessDescription", BusinessDescription);
             if (!string.IsNullOrEmpty(Awards)) list.Add("Awards", Awards);
             return list;
         }

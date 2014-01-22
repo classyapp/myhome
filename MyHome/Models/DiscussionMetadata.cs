@@ -15,7 +15,7 @@ namespace MyHome.Models
         public IDictionary<string, string> ToDictionary()
         {
             var dict = new Dictionary<string, string>();
-            dict.Add("Category", Category);
+            if (!string.IsNullOrEmpty(Category)) dict.Add("Category", Category);
             return dict;
         }
 
