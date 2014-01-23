@@ -1,26 +1,22 @@
 @model Classy.DotNet.Mvc.ViewModels.Localization.EnvironmentSettingsViewModel
 
-<div id="modal-main" class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">@Localizer.Get("EnvSettings_ModalTitle")</h4>
-        </div>
-        <div class="modal-body">
-            @using (var f = Ajax.Bootstrap().Begin(new Form("EnvironmentSettings", "Localization"), new AjaxOptions {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "POST",
-                    UpdateTargetId = "modal-main",
-                    OnSuccess = "Refresh"
-                }))
-            {
-                @Html.Bootstrap().ValidationSummary()
-                @f.FormGroup().DropDownListFor(x => x.CultureCode, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCultures, "Name", "NativeName", Model.CultureCode))
-                
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EnvSettings_Submit")))
-            }
-          </div>
-    </div>
+<div class="modal-header">
+    <h4 class="modal-title">@Localizer.Get("EnvSettings_ModalTitle")</h4>
 </div>
+<div class="modal-body">
+    @using (var f = Ajax.Bootstrap().Begin(new Form("EnvironmentSettings", "Localization"), new AjaxOptions {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "modal-main",
+            OnSuccess = "Refresh"
+        }))
+    {
+        @Html.Bootstrap().ValidationSummary()
+        @f.FormGroup().DropDownListFor(x => x.CultureCode, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCultures, "Name", "NativeName", Model.CultureCode))
+                
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EnvSettings_Submit")))
+    }
+    </div>
 
 <script>
     function Refresh() {

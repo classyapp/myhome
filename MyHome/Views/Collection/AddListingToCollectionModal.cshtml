@@ -3,28 +3,24 @@
     var isNewCollection = string.IsNullOrEmpty(Model.CollectionId);
 }
 
-<div id="modal-main" class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Add to Collection</h4>
-        </div>
-        <div class="modal-body">
-            @using (var f = Ajax.Bootstrap().Begin(new Form("AddListingToCollection", "Collection"), new AjaxOptions {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "POST",
-                    UpdateTargetId = "modal-main",
-                    OnSuccess = "CloseModal"
-                }))
-            {
-                @Html.Bootstrap().ValidationSummary()
-                @Html.HiddenFor(x => x.ListingIds[0], new { @id = "listingId" });
-                @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel("Create New Collection").Label().LabelText("Choose Collection").ShowRequiredStar(false)
-                @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).Label().LabelText("Name This Collection").ShowRequiredStar(false)
+<div class="modal-header">
+    <h4 class="modal-title">@Localizer.Get("AddToCollection_Header_Title")</h4>
+</div>
+<div class="modal-body">
+    @using (var f = Ajax.Bootstrap().Begin(new Form("AddListingToCollection", "Collection"), new AjaxOptions {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "modal-main",
+            OnSuccess = "CloseModal"
+        }))
+    {
+        @Html.Bootstrap().ValidationSummary()
+        @Html.HiddenFor(x => x.ListingIds[0], new { @id = "listingId" });
+        @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel(Localizer.Get("AddToCollection_OptionLabel")).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).Label().WidthLg(12).ShowRequiredStar(false)
 
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("Add"))
-            }
-        </div>
-    </div>
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("AddToCollection_Submit")))
+    }
 </div>
 
 <script>

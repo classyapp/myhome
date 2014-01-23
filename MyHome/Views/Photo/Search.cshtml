@@ -86,7 +86,7 @@
         </h1>
         <hr/>
 
-        <div class="search-form">
+        <div class="search-form"><!--
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Photo").Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                     @* to support postback *@ 
@@ -98,7 +98,7 @@
                     @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder(Localizer.Get("Search_CostFrom")).Label().Class("sr-only")
                     @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")
                     @Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("Search_Submit"))
-            }
+            }-->
         </div>
 
         <div class="row" id="photos">

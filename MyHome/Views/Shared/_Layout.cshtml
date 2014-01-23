@@ -207,24 +207,36 @@
 
     <!-- login modal -->
     <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
-        <!-- will be replaced -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- will be replaced -->
+            </div>
+        </div>
     </div>
 
     <!-- add to collection modal -->
     <div class="modal fade" id="collect-modal" data-remote="@Url.RouteUrl("AddListingToCollection", new { })" role="dialog">
-        <!-- will be replaced -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- will be replaced -->
+            </div>
+        </div>
     </div>
 
     <!-- language selection modal -->
     <div class="modal fade" id="env-modal" data-remote="@Url.RouteUrl("EnvironmentSettings", new { })" role="dialog">
-        <!-- will be replaced -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- will be replaced -->
+            </div>
+        </div>
     </div>
 
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["RouteName"] as string, env.Culture)";
         Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string)";
-        
+
         $(function () {
             $('.modal[data-remote]').on('shown.bs.modal', function() {
                 Classy.AjaxReconnect();
@@ -242,7 +254,6 @@
             </text>
         }
     </script>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

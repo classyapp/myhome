@@ -20,7 +20,7 @@
             .modal('show')
             .on('shown.bs.modal', function () {
                 $('#listingId').val(listingId);
-        });
+            });
     });
 
     $('[trigger-profile-action="follow"]').click(function (e) {

@@ -1,25 +1,22 @@
 @model Classy.DotNet.Mvc.ViewModels.Security.LoginViewModel
 
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">@Localizer.Get("Login_Welcome")</h4>
-        </div>
-        <div class="modal-body">
-            @using (var f = Html.Bootstrap().Begin(new Form("Login", "Security").Id("login-modal-form").FormMethod(FormMethod.Post)))
-            {
-                @f.FormGroup().TextBoxFor(x => x.Email).Label().ShowRequiredStar(false)
-                @f.FormGroup().PasswordFor(x => x.Password).Label().ShowRequiredStar(false)
-                @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().ShowRequiredStar(false)
-                @Html.HiddenFor(x => x.RedirectUrl)
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Login_Submit")))
-            }
-            OR<br />
-            <div>
-                <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
-            </div>
-        </div>
+<div class="modal-header">
+    <h4 class="modal-title">@Localizer.Get("Login_Welcome")</h4>
+</div>
+<div class="modal-body">
+    @using (var f = Html.Bootstrap().Begin(new Form("Login", "Security").Id("login-modal-form").FormMethod(FormMethod.Post)))
+    {
+        @f.FormGroup().TextBoxFor(x => x.Email).Label().ShowRequiredStar(false)
+        @f.FormGroup().PasswordFor(x => x.Password).Label().ShowRequiredStar(false)
+        @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().ShowRequiredStar(false)
+        @Html.HiddenFor(x => x.RedirectUrl)
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Login_Submit")))
+    }
+    OR<br />
+    <div>
+        <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
     </div>
 </div>
+
 
 <script>Classy.AjaxReconnect();</script>
