@@ -50,8 +50,17 @@ namespace Classy.DotNet.Mvc.Controllers
         // POST: /resource/manage
         //
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
         public ActionResult ManageResources(ManageResourcesViewModel model)
         {
+            if (model.Values != null)
+            {
+                var keys = new List<string>(model.Values.Keys);
+                foreach(var k in keys)
+                {
+                    model.Values[k] = HttpUtility.HtmlEncode(model.Values[k]);
+                }
+            }
             var service = new LocalizationService();
             service.SetResourceValues(model.ResourceKey, model.Values);
             HttpRuntime.Cache.Remove(model.ResourceKey);

@@ -9,6 +9,9 @@
             Value = "flowers"
         }
     };
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
 }
 
 <div class="row">
@@ -48,10 +51,10 @@
                 <h3 class="panel-title">Rooms</h3>
             </div>
             <div class="panel-body panel-links">
-                @Html.RouteLinkForCurrentLocale("Kitchen", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "kitchen" }.GetSearchFilterSlug(null, Model.Location) })
-                @Html.RouteLinkForCurrentLocale("Bath", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bath" }.GetSearchFilterSlug(null, Model.Location) })
-                @Html.RouteLinkForCurrentLocale("Bedroom", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bedroom" }.GetSearchFilterSlug(null, Model.Location) })
-                @Html.RouteLinkForCurrentLocale("Living", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "living-room" }.GetSearchFilterSlug(null, Model.Location) })
+                @foreach (var r in rooms)
+                {
+                    @Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, Model.Location) })
+                }
             </div>
         </div>
 
@@ -60,10 +63,10 @@
                 <h3 class="panel-title">Styles</h3>
             </div>
             <div class="panel-body panel-links">
-                @Html.RouteLinkForCurrentLocale("Eclectic", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "eclectic", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
-                @Html.RouteLinkForCurrentLocale("Modern", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "modern", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
-                @Html.RouteLinkForCurrentLocale("Contemporary", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "contemporary", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
-                @Html.RouteLinkForCurrentLocale("Classic", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = "classic", Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                @foreach (var s in styles)
+                {
+                    @Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value, Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                }
                 </div>
             </div>
 

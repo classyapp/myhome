@@ -73,9 +73,33 @@ namespace Classy.DotNet.Mvc.Localization
             if (resource != null)
             {
                 var value = resource.Values.SingleOrDefault(x => x.Key == System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
-                return value.Value;
+                return HttpUtility.HtmlDecode(value.Value);
             }
             return string.Concat(key, "_", System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+        }
+
+        public static SelectList GetList(string key)
+        {
+            LocalizationListResourceView resource = HttpRuntime.Cache[key] as LocalizationListResourceView;
+            if (resource == null)
+            {
+                var service = new LocalizationService();
+                resource = service.GetListResourceByKey(key);
+                if (resource != null) HttpRuntime.Cache[key] = resource;
+            }
+            if (resource != null)
+            {
+                var items = from item in resource.ListItems
+                            select new
+                            {
+                                Text = item.Text.ContainsKey(System.Threading.Thread.CurrentThread.CurrentUICulture.Name) ? 
+                                    item.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.Name] : 
+                                    string.Concat(item.Value, "_", System.Threading.Thread.CurrentThread.CurrentUICulture.Name),
+                                Value = HttpUtility.HtmlDecode(item.Value)
+                            };
+                return new SelectList(items, "Value", "Text");
+            }
+            return null;
         }
 
         // RouteCollection extension to map a route and pass its name as a datatoken

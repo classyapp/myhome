@@ -238,7 +238,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 var model = new CreateProfessionalProfileViewModel<TProMetadata>
                 {
                     ProfessionalInfo = profile.ProfessionalInfo,
-                    Metadata = metadata
+                    Metadata = metadata,
+                    ProfessionalCategories = Localizer.GetList("professional-categories")
                 };
 
                 return View(model);

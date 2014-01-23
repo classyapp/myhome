@@ -3,26 +3,40 @@
 @{
     ViewBag.Title = "CreateListing_photo";
     Html.Bootstrap().Globals().ShowRequiredStar(false);
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
 }
 
-<h2>@Localizer.Get("CreatePhoto_PageTitle")</h2>
+<div class="row">
+    <div class="col-md-7 main">
+        <h1>@Localizer.Get("CreatePhoto_PageTitle")</h1>
+        @Html.Bootstrap().ValidationSummary()
 
-@if (TempData["CreateListingSuccess"] != null)
-{
-    @Html.Bootstrap().Alert(Localizer.Get("CreatePhoto_Success")).Style(AlertColor.Success)
-    var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
-    <img src="@listing.ExternalMedia[0].Url" width="350" />
-}
+        @if (TempData["CreateListingSuccess"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("CreatePhoto_Success")).Style(AlertColor.Success)
+            var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
+            <img src="@listing.ExternalMedia[0].Url" width="350" />
+        }
 
-@Html.Bootstrap().ValidationSummary()
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new { enctype = "multipart/form-data" })))
+        {
+            @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
+            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
+            @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
+            <div class="alert alert-warning">
+            @f.FormGroup().File("file").Label().Class("sr-only")
+            </div>
+            
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhoto_Submit")).Class("btn-success"))
+            
+        }
+    </div>
 
-@using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new {enctype = "multipart/form-data"})))
-{
-    @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
-    @f.FormGroup().TextBoxFor(x => x.Content).ShowValidationMessage(false).Label()
-    @f.FormGroup().TextBoxFor(x => x.Metadata.Room).ShowValidationMessage(false).Label()
-    @f.FormGroup().TextBoxFor(x => x.Metadata.Style).ShowValidationMessage(false).Label()
-    @f.FormGroup().File("file").Label().Class("sr-only")
-    
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhoto_Submit"))) 
-}
+    <div class="col-md-4 col-md-offset-1 well">
+        <h1>@Localizer.Get("CreatePhoto_Title_DoDont")</h1>
+        <div>@Html.Raw(Localizer.Get("CreatePhoto_Content_DoDont"))</div>
+    </div>

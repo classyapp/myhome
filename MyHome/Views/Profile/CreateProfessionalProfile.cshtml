@@ -4,13 +4,6 @@
     ViewBag.Title = "CompleteProfessionalProfile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var EmptySelectList = new List<SelectListItem>() {
-        new SelectListItem {
-            Text = "Kitchen Seller",
-            Value = "kitchen-seller"
-        }
-    };
-
     var CostFromSelectList = new List<SelectListItem>() {
         new SelectListItem {
             Text = "$500 - $2500",
@@ -38,7 +31,7 @@
             <!-- general professional info -->
             <h4>@Localizer.Get("CreateProfessionalProfile_Title_PersonalInfo")</h4>
             @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם או שם חברה")
-            @f.FormGroup().DropDownListFor(x => x.ProfessionalInfo.Category, EmptySelectList).ShowValidationMessage(false).Label().WidthMd(12).LabelText("קטגוריה")
+            @f.FormGroup().DropDownListFor(x => x.ProfessionalInfo.Category, Model.ProfessionalCategories).ShowValidationMessage(false).Label().WidthMd(12).LabelText("קטגוריה")
             @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.WebsiteUrl).Label().WidthMd(12).LabelText("כתובת אתר אינטרנט")
             @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FacebookUrl).Label().WidthMd(12).LabelText("כתובת עמוד פייסבוק עסקי")
             @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.TwitterUsername).Label().WidthMd(12).LabelText("שם משתמש בטוויטר")

@@ -5,6 +5,8 @@
         Currency = Request["env.currency"] ?? "ILS",
         Country = Request["enc.locaction"] ?? "IL"
     };
+
+    var rooms = Localizer.GetList("rooms");
 }
 
 <!DOCTYPE html>
@@ -51,10 +53,10 @@
                     <li class="dropdown">
                         <a href="@Url.RouteUrlForCurrentLocale("SearchPhoto")" class="dropdown-toggle" data-toggle="dropdown">@Localizer.Get("Header_Nav_Photos") <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.RouteLinkForCurrentLocale("Kitchen", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "kitchen" }.GetSearchFilterSlug(null, null) })</li>
-                            <li>@Html.RouteLinkForCurrentLocale("Bath", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bath" }.GetSearchFilterSlug(null, null) })</li>
-                            <li>@Html.RouteLinkForCurrentLocale("Bedroom", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "bedroom" }.GetSearchFilterSlug(null, null) })</li>
-                            <li>@Html.RouteLinkForCurrentLocale("Living", "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = "living-room" }.GetSearchFilterSlug(null, null) })</li>
+                            @foreach (var r in rooms)
+                            {
+                                <li>@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, null) })</li>
+                            }
                         </ul>
                     </li>
                     @*<li class="dropdown">

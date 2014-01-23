@@ -1,7 +1,9 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
+using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,8 +11,13 @@ namespace MyHome.Models
 {
     public class PhotoMetadata : IMetadata<PhotoMetadata>
     {
+        [Display(Name = "PhotoMetadata_Room")]
+        [Required(ErrorMessage = "PhotoMetadata_Room_Required")]
         public string Room { get; set; }
+        [Display(Name = "PhotoMetadata_Style")]
+        [Required(ErrorMessage = "PhotoMetadata_Style_Required")]
         public string Style { get; set; }
+        [Display(Name = "PhotoMetadata_Copyright")]
         public string CopyrightMessage { get; set; }
 
         public IDictionary<string, string> ToDictionary()
@@ -66,14 +73,16 @@ namespace MyHome.Models
 
         private string MatchStyle(string p)
         {
-            // TODO: create a real list of styles
-            return new string[] {"eclectic","modern","contemporary","classic"}.Contains(p) ? p : null;
+            var styles = Localizer.GetList("room-styles");
+            var style = styles.SingleOrDefault(x => x.Value == p);
+            return style != null ? style.Value : null;
         }
 
         private string MatchRoom(string p)
         {
-            // TODO: create a real list of rooms
-            return new string[] { "kitchen", "bedroom", "bath", "living-room" }.Contains(p) ? p : null;
+            var rooms = Localizer.GetList("rooms");
+            var room = rooms.SingleOrDefault(x => x.Value == p);
+            return room != null ? room.Value : null;
         }
 
 
@@ -88,6 +97,10 @@ namespace MyHome.Models
                 {
                     slug = string.Concat(slug, "/", Style);
                 }
+            }
+            else if (!string.IsNullOrEmpty(Style))
+            {
+                slug = Style;
             }
             // add location
             if (location != null) { }

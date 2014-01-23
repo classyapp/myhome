@@ -8,7 +8,8 @@
 @using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
 {
     @f.FormGroup().TextBoxFor(x => x.ResourceKey)
-    @f.FormGroup().TextBox("Values[0].Key") @f.FormGroup().TextBox("Values[0].Value")
+    @f.FormGroup().TextBox("Values[0].Key") 
+    @f.FormGroup().TextArea("Values[0].Value")
     
     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ManageResources_Submit")))
     
