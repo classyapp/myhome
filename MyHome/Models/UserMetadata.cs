@@ -1,6 +1,7 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,7 +9,9 @@ namespace MyHome.Models
 {
     public class UserMetadata : IMetadata<UserMetadata>
     {
+        [Display(Name="UserMetadata_IsRenter")]
         public bool IsRenter { get; set; }
+        [Display(Name="UserMetadata_IsOwner")]
         public bool IsHomeOwner { get; set; }
 
         public IDictionary<string, string> ToDictionary()

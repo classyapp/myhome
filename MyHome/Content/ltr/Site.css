@@ -195,6 +195,7 @@ h1, h2, h3, h4, h5 {
     font-size: 14px;
 }
 
+/* login */
 .fb {
     margin-top: 20px;
     padding-bottom: 20px;
@@ -337,7 +338,7 @@ h1, h2, h3, h4, h5 {
     background: url(/img/fb.png) left top no-repeat;
     border-right: 1px rgba(255,255,255,0.18) solid;
     display: inline-block;
-    margin-right: 16px;
+    margin-left: 16px;
     vertical-align: -7px;
 }
 

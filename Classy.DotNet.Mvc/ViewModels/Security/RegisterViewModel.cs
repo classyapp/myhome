@@ -9,11 +9,18 @@ namespace Classy.DotNet.Mvc.ViewModels.Security
 {
     public class RegistrationViewModel<TMetadata>
     {
+        [Display(Name="Register_IsProfessional")]
         public bool IsProfessional { get; set; }
-        public TMetadata Metadata { get; set; }
-
+        [Display(Name="Register_Email")]
+        [Required(ErrorMessage="Register_Email_Required")]
         public string Email { get; set; }
+        [Display(Name="Register_Username")]
+        [Required(ErrorMessage="Register_Username_Required")]
         public string Username { get; set; }
+        [Display(Name="Register_Password")]
+        [Required(ErrorMessage="Register_Password_Required")]
         public string Password { get; set; }
+
+        public TMetadata Metadata { get; set; }
     }
 }
