@@ -9,6 +9,7 @@
 @if (Model.IsProfessional)
 {
     @Model.ProfessionalInfo.CompanyContactInfo.Name
+    @Html.RouteLink("Request Review", "RequestReview")
 }
 else
 {

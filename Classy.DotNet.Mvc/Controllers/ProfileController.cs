@@ -60,6 +60,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "RequestReview",
+                url: "profile/me/requestreview",
+                defaults: new { controller = "Profile", action ="RequestReview" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRoute(
                 name: "FollowProfile",
                 url: "profile/{username}/follow",
@@ -120,6 +127,32 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
+        }
+
+        [AuthorizeProfileTypeWithRedirect("Index", IsProfessional = true)]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult RequestReview()
+        {
+            var model = new RequestReviewViewModel()
+            {
+               
+            };
+            return View(model);
+        }
+
+        [AuthorizeProfileTypeWithRedirect("Index", IsProfessional=true)]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult RequestReview(RequestReviewViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var service = new ProfileService();
+            var subject = string.Format("{0} requests a review", AuthenticatedUserProfile.ProfessionalInfo.CompanyName);
+            var uri = new Uri(Request.Url, Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }));
+            service.RequestReview(AuthenticatedUserProfile, model.Emails, subject, model.Content, uri.ToString());
+
+            TempData["success"] = "Emails sent!";
+            return Redirect(Url.Action("RequestReview"));
         }
 
         //
