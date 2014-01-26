@@ -75,7 +75,7 @@ namespace Classy.DotNet.Mvc
             string link = "<a href=\"#\" trigger-profile-action=\"{0}\" profile-id=\"{1}\" {2} {3}>{4}</a>";
             string output = string.Format(link,
                 actionToTrigger,
-                profile.UserName,
+                profile.Id,
                 !string.IsNullOrEmpty(cssClass) ? string.Format("class=\"{0}\"", cssClass) : string.Empty, 
                 requireLogin ? "authorize" : string.Empty,
                 linkText);

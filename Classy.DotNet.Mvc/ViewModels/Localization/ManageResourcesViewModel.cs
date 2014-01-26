@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,15 @@ namespace Classy.DotNet.Mvc.ViewModels.Localization
 {
     public class ManageResourcesViewModel
     {
+        public SelectList SupportedCultures { get; set; }
+        public string[] ResourceKeys { get; set; }
+        
+        [Required]
         public string ResourceKey { get; set; }
-        public IDictionary<string, string> Values { get; set; }
+        [Required]
+        public string SelectedCulture { get; set; }
+        [Required]
+        public string ResourceValue { get; set; }
+        
     }
 }

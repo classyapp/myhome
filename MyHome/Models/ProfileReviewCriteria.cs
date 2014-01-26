@@ -9,13 +9,17 @@ namespace MyHome.Models
 {
     public class ProfileReviewCriteria : IReviewSubCriteria<ProfileReviewCriteria>
     {
-        [Required]
+        [Display(Name="ReviewCriteria_Professionalism")]
+        [Required(ErrorMessage="ReviewCriteria_Professionalism_Required")]
         public decimal Professionalism { get; set; }
-        [Required]
+        [Display(Name = "ReviewCriteria_Availability")]
+        [Required(ErrorMessage = "ReviewCriteria_Availability_Required")]
         public decimal Availability { get; set; }
-        [Required]
+        [Display(Name = "ReviewCriteria_Creativity")]
+        [Required(ErrorMessage = "ReviewCriteria_Creativity_Required")]
         public decimal Creativity { get; set; }
-        [Required]
+        [Display(Name = "ReviewCriteria_ServiceLevel")]
+        [Required(ErrorMessage = "ReviewCriteria_ServiceLevel_Required")]
         public decimal ServiceLevel { get; set; }
 
         public decimal CalculateScore()

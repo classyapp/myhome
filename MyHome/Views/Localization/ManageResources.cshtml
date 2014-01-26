@@ -7,12 +7,25 @@
 
 @using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
 {
-    @f.FormGroup().TextBoxFor(x => x.ResourceKey)
-    @f.FormGroup().TextBox("Values[0].Key") 
-    @f.FormGroup().TextArea("Values[0].Value")
-    
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ManageResources_Submit")))
-    
+    <div class="row">
+        <div class="col-md-4">
+            @f.FormGroup().DropDownListFor(x => x.SelectedCulture, Model.SupportedCultures).OptionLabel("-- select language --").ShowValidationMessage(false).Label().Class("sr-only")
+
+            <ul>
+                @foreach (var key in Model.ResourceKeys)
+                {
+                    <li>@Html.RouteLink(key, "ManageResources", new { resourceKey = key, selectedCulture = Model.SelectedCulture })</li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-8">
+            @Html.Bootstrap().ValidationSummary()
+
+            @Html.HiddenFor(x => x.ResourceKey)
+            @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(10).ShowValidationMessage(false)
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("ManageResources_Submit")))
+        </div>
+    </div>
 }
 
 

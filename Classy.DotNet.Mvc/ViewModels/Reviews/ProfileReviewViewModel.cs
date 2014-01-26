@@ -16,7 +16,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Reviews
     {
         public string ProfileId { get; set; }
         public bool IsProxy { get; set; }
-        [Required]
+        [Required(ErrorMessage="PostReview_SubCriteria_Required")]
         public TReviewSubCriteria SubCriteria { get; set; }
         public List<ScaleItem> Scale1to5
         {
@@ -31,7 +31,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Reviews
                 };
             }
         }
-        [Required]
+        [Display(Name="PostReview_Comments")]
+        [Required(ErrorMessage="PostReview_Comments_Required")]
         public string Comments { get; set; }
         public ExtendedContactInfoView ContactInfo { get; set; }
         public TProMetadata Metadata { get; set; }

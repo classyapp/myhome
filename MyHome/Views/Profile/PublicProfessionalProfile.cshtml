@@ -259,7 +259,6 @@
             <li class="active"><a href="#photos" data-toggle="tab">@Localizer.Get("Profile_Tabs_Photos")</a></li>
             <li><a href="#discussions" data-toggle="tab">@Localizer.Get("Profile_Tabs_Discussions")</a></li>
             <li><a href="#collections" data-toggle="tab">@Localizer.Get("Profile_Tabs_Collections")</a></li>
-            <li><a href="#reviews" data-toggle="tab">@Localizer.Get("Profile_Tabs_Reviews")</a></li>
         </ul>
 
         <div class="tab-content row">
@@ -311,17 +310,7 @@
                 }
             </div>
 
-            <div class="tab-pane" id="reviews">
-                @if (reviews.Count() > 0)
-                {
-                    foreach (var r in reviews)
-                    {
-                        <div class="review">
-                            @r.Content
-                        </div>
-                    }
-                }
-            </div>
+            
 
             <div class="tab-pane" id="discussions">
                 @if (discussions.Count() > 0)
@@ -334,6 +323,43 @@
                                 <small>@d.CommentCount תגובות</small>
                                 <br />@d.Content
                             </p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- feed -->
+        <div class="row" id="reviews">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                @if (reviews.Count() > 0)
+                {
+                    <h4>@Model.Profile.ReviewCount @Localizer.Get("Profile_Tabs_Reviews")</h4>
+                    
+                    foreach (var r in reviews)
+                    {
+                        <div class="review">
+                            <div class="by">
+                                Review by @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
+                            </div>
+                            <div class="rating">
+                                <span class="stars">
+                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                    {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    }
+                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                    {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    }
+                                </span>
+                            </div>
+                            <div class="content">
+                                <blockquote>@r.Content</blockquote>
+                            </div>
                         </div>
                     }
                 }

@@ -164,13 +164,7 @@
     <div class="container">
         <div class="footer text-center">
             <p>&copy; myhome.co.il 2013</p>
-            <p>Language: <a href="#language-select" data-toggle="modal" data-target="#env-modal">@env.Culture</a></p>
-            <p>
-                @foreach (var culture in Localizer.SupportedCultures)
-                {
-                        <a href="/@culture.Name">@culture.NativeName</a>
-                }
-            </p>
+            <p>@Localizer.Get("Template_Language"): <a href="#language-select" data-toggle="modal" data-target="#env-modal">@env.Culture</a></p>
         </div>
     </div>
 

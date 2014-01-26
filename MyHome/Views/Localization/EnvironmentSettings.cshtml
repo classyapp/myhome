@@ -1,6 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Localization.EnvironmentSettingsViewModel
 
 <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">@Localizer.Get("EnvSettings_ModalTitle")</h4>
 </div>
 <div class="modal-body">
@@ -14,7 +15,7 @@
         @Html.Bootstrap().ValidationSummary()
         @f.FormGroup().DropDownListFor(x => x.CultureCode, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCultures, "Name", "NativeName", Model.CultureCode))
                 
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EnvSettings_Submit")))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("EnvSettings_Submit")))
     }
     </div>
 

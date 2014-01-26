@@ -46,22 +46,27 @@ namespace Classy.DotNet.Mvc.Localization
         {
             get
             {
-                var languages = HttpRuntime.Cache[SUPPORTED_CULTURES_CACHE_KEY] as CultureInfo[];
+                var languages = HttpRuntime.Cache[SUPPORTED_CULTURES_CACHE_KEY] as List<CultureInfo>;
                 if (languages == null)
                 {
-                    languages = new CultureInfo[]
-                {
-                    CultureInfo.CreateSpecificCulture("en-US"),
-                    CultureInfo.CreateSpecificCulture("fr-BE"),
-                    CultureInfo.CreateSpecificCulture("nl-BE"),
-                    CultureInfo.CreateSpecificCulture("he-IL")
-                };
+                    var cultures = GetList("supported-cultures");
+                    languages = new List<CultureInfo>();
+                    foreach(var li in cultures)
+                    {
+                        languages.Add(CultureInfo.CreateSpecificCulture(li.Value));
+                    }
+                    HttpRuntime.Cache[SUPPORTED_CULTURES_CACHE_KEY] = languages;
                 }
                 return languages;
             }
         }
 
         public static string Get(string key)
+        {
+            return Get(key, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+        }
+
+        public static string Get(string key, string culture)
         {
             LocalizationResourceView resource = HttpRuntime.Cache[key] as LocalizationResourceView;
             if (resource == null)
@@ -72,10 +77,10 @@ namespace Classy.DotNet.Mvc.Localization
             }
             if (resource != null)
             {
-                var value = resource.Values.SingleOrDefault(x => x.Key == System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+                var value = resource.Values.SingleOrDefault(x => x.Key == culture);
                 return HttpUtility.HtmlDecode(value.Value);
             }
-            return string.Concat(key, "_", System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+            return string.Concat(key, "_", culture);
         }
 
         public static SelectList GetList(string key)
@@ -100,6 +105,12 @@ namespace Classy.DotNet.Mvc.Localization
                 return new SelectList(items, "Value", "Text");
             }
             return null;
+        }
+
+        public static string[] GetAllKeys()
+        {
+            var service = new LocalizationService();
+            return service.GetResourceKeys();
         }
 
         // RouteCollection extension to map a route and pass its name as a datatoken

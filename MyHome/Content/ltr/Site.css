@@ -14,6 +14,10 @@ h1, h2, h3, h4, h5 {
     min-height: 620px;
 }
 
+.modal-body {
+    background-color: #efefef;
+}
+
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group {
     margin-left: 0;
@@ -79,7 +83,6 @@ h1, h2, h3, h4, h5 {
 .sidebar .panel-body.social-thumbnails {
     padding: 5px;
 }
-
 .sidebar .panel-body.social-thumbnails .thumbnail {
     border-radius: 0;
     padding: 1px;
@@ -148,6 +151,9 @@ h1, h2, h3, h4, h5 {
 }
 #profileTabs {
     margin-bottom: 10px;
+}
+#reviews .review .content {
+    font-size: 12px;
 }
 
 /* Login page */

@@ -41,9 +41,15 @@ namespace Classy.DotNet.Mvc.Controllers
         // GET: /resource/manage
         //
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult ManageResources()
+        public ActionResult ManageResources(ManageResourcesViewModel model)
         {
-            return View();
+            model.SupportedCultures = new SelectList(Localizer.SupportedCultures);
+            model.ResourceKeys = Localizer.GetAllKeys();
+            if (!string.IsNullOrEmpty(model.ResourceKey) && !string.IsNullOrEmpty(model.SelectedCulture))
+            {
+                model.ResourceValue = Localizer.Get(model.ResourceKey, model.SelectedCulture);
+            }
+            return View(model);
         }
 
         //
@@ -51,19 +57,14 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         [AcceptVerbs(HttpVerbs.Post)]
         [ValidateInput(false)]
-        public ActionResult ManageResources(ManageResourcesViewModel model)
+        public ActionResult ManageResources(ManageResourcesViewModel model, object dummy)
         {
-            if (model.Values != null)
-            {
-                var keys = new List<string>(model.Values.Keys);
-                foreach(var k in keys)
-                {
-                    model.Values[k] = HttpUtility.HtmlEncode(model.Values[k]);
-                }
-            }
+            model.ResourceValue = HttpUtility.HtmlEncode(model.ResourceValue);
+            model.ResourceKeys = Localizer.GetAllKeys();
             var service = new LocalizationService();
-            service.SetResourceValues(model.ResourceKey, model.Values);
+            service.SetResourceValues(model.ResourceKey, new Dictionary<string, string> { { model.SelectedCulture, model.ResourceValue } });
             HttpRuntime.Cache.Remove(model.ResourceKey);
+            model.SupportedCultures = new SelectList(Localizer.SupportedCultures);
             return View(model);
         }
 

@@ -1,34 +1,42 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Reviews.ProfileReviewViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
 
 @{
-    ViewBag.Title = "חוות דעת על מתווך או מתווכת";
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
 }
 
-@Styles.Render("~/content/narrow.css")
+<div class="row">
+    <div class="col-md-7 main">
+        <h1>@Localizer.Get("PostReview_PageTitle")</h1>
 
-@Html.Bootstrap().ValidationSummary()
+        @Html.Bootstrap().ValidationSummary()
+        @using (var f = Html.Bootstrap().Begin(new Form("PostProfileReview").FormMethod(FormMethod.Post)))
+        {
+            <h4>
+                @if (Request.IsAuthenticated)
+                {
+                    @((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.ContactInfo.Name)<span>,</span>
+                }  חוות הדעת שלך חשובה לנו ותעזור בשיפור השקיפות בתעשיית הנדל"ן בישראל. בנוסף, באפשרותך לזכות בעמלת התיווך ששילמת בחזרה!
+            </h4>
+            <hr />
 
-@using (var f = Html.Bootstrap().Begin(new Form("PostProfileReview").FormMethod(FormMethod.Post))) {
-    <h4>
-        @if (Request.IsAuthenticated) {
-            @((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.ContactInfo.Name)<span>,</span>
-        }  חוות הדעת שלך חשובה לנו ותעזור בשיפור השקיפות בתעשיית הנדל"ן בישראל. בנוסף, באפשרותך לזכות בעמלת התיווך ששילמת בחזרה!
-    </h4>
-    <hr />
+            if (Model.IsProxy)
+            {
+                @f.FormGroup().TextBoxFor(x => x.ContactInfo.Phone).Label()
+                @f.FormGroup().TextBoxFor(x => x.ContactInfo.Email).Label()
+            }
 
-    if (Model.IsProxy)
-    {
-        @f.FormGroup().TextBoxFor(x => x.ContactInfo.Phone).Label().LabelText("Phone")
-        @f.FormGroup().TextBoxFor(x => x.ContactInfo.Email).Label().LabelText("Email")
-    }
+            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Availability, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
+            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Professionalism, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
+            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Creativity, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
+            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.ServiceLevel, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
 
-    @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Availability, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label().LabelText("Availability")
-    @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Professionalism, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label().LabelText("Professinalism")
-    @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Creativity, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label().LabelText("Creativity")
-    @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.ServiceLevel, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label().LabelText("Service Level")
+            @f.FormGroup().TextAreaFor(x => x.Comments).Label()
 
-    @f.FormGroup().TextAreaFor(x => x.Comments).Label().LabelText("Comments")
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("PostReview_Submit")).HtmlAttributes(new { authorize = "" }))
+        }
+    </div>
 
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("שלח חוות דעת").HtmlAttributes(new { authorize = "" }))
-}
+    <div class="col-md-4 col-md-offset-1 well">
+        <h1>@Localizer.Get("PostReview_Copy_Title")</h1>
+        <div>@Html.Raw(Localizer.Get("PostReview_Copy_Content"))</div>
+    </div>

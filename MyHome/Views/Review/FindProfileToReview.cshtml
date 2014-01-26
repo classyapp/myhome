@@ -112,13 +112,13 @@
 
     <script>
         $('.typeahead').typeahead({
-            name: 'agent-names',
+            name: 'profile-names',
             remote: {
                 url: '/profile/search?professionalsonly=true&name=%QUERY',
-                filter: function (profiles) {
-                    var agents = [];
-                    $.each(profiles, function (index, profile) {
-                        agents.push({
+                filter: function (results) {
+                    var profiles = [];
+                    $.each(results, function (index, profile) {
+                        profiles.push({
                             "value": profile.Id,
                             "license_no": '123123',
                             "name": profile.ProfessionalInfo.CompanyName,
@@ -126,7 +126,7 @@
                             "tokens": [profile.ProfessionalInfo.CompanyName]
                         });
                     });
-                    return agents;
+                    return profiles;
                 },
                 cache: false
             },

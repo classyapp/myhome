@@ -10,6 +10,8 @@ namespace Classy.DotNet.Responses
     {
         public string Id { get; set; }
         public string ProfileId { get; set; }
+        public string ReviewerUsername { get; set; }
+        public string ReviewerThumbnailUrl { get; set; }
         public string RevieweeProfileId { get; set; }
         public string ListingId { get; set; }
         public string Content { get; set; }

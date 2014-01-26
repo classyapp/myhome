@@ -21,6 +21,11 @@ h1, h2, h3, h4, h5 {
 
 .content.container {
     padding: 0;
+    min-height: 620px;
+}
+
+.modal-body {
+    background-color: #efefef;
 }
 
 /* fix for inline forms within horizontal forms */
@@ -55,6 +60,12 @@ h1, h2, h3, h4, h5 {
     top: 2px;
     font-size: 16px;
 }
+.navbar .profile a {
+    height: 35px;
+}
+.navbar .profile img {
+    margin-left: 5px;
+}
 /* search pages*/
 .search-form {
     margin: 20px 0;
@@ -80,6 +91,13 @@ h1, h2, h3, h4, h5 {
 .sidebar .panel-body {
     padding: 0;
 }
+.sidebar .panel-body.social-thumbnails {
+    padding: 5px;
+}
+.sidebar .panel-body.social-thumbnails .thumbnail {
+    border-radius: 0;
+    padding: 1px;
+}
 .panel-links a,
 .panel-links a:hover {
     display: block;
@@ -98,6 +116,22 @@ h1, h2, h3, h4, h5 {
     font-size: 32px;
     margin-top: 0;
 }
+.main .contact-info {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+.rating {
+    vertical-align: middle;
+}
+.rating .stars {
+    padding-left: 5px;
+    cursor: pointer;
+}
+.rating .glyphicon {
+    font-size: 14px;
+    color: #47a447;
+}
 #photos .thumbnail a.action {
     width: 30px;
     height: 30px;
@@ -112,8 +146,20 @@ h1, h2, h3, h4, h5 {
     top: 15px;
     left: 30px;
 }
+#photos .thumbnail,
+#collections .thumbnail
+{
+    border-radius: 0;
+    padding: 0;
+    margin-bottom: 20px;
+}
 #photos .thumbnail a.action.add {
     left: 65px;
+}
+#photos .thumbnail .details,
+#collections .thumbnail .details
+{
+    padding: 5px;
 }
 #profileTabs {
     margin-bottom: 10px;
@@ -122,6 +168,48 @@ h1, h2, h3, h4, h5 {
 .login {
     padding: 0 30px;
 }
+/* search pages*/
+.panel .label {
+    display: inline-block;
+    font-weight: normal;
+    margin: 2px 4px 2px 0;
+}
+.panel .label a,
+.panel .label a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+.panel .label .dismiss {
+    display: inline-block;
+    left: 0;
+    top: 0;
+    margin-left: 5px;
+}
+/* profile seach page */
+.results .profile {
+    border: solid 1px #e5e5e5;
+    height: 202px;
+    margin-bottom: 10px;
+}
+.results .profile img {
+    margin-left: 10px;
+}
+.results .profile .details {
+    padding: 10px;
+    font-size: 12px;
+}
+.results .profile .details h4 {
+    margin: 0 0 3px 0;
+}
+.results .profile .details hr {
+    margin: 5px 0;
+}
+.results .profile .details .glyphicon {
+    color: #47a447;
+    font-size: 14px;
+}
+
+/* login */
 .fb {
     margin-top: 20px;
     padding-bottom: 20px;
@@ -137,6 +225,8 @@ h1, h2, h3, h4, h5 {
 .login form {
     margin-bottom: 15px; 
 }
+
+
 
 
 .banner {
