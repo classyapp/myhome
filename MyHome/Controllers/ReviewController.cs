@@ -7,17 +7,19 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
+using System.Configuration;
 
 namespace MyHome.Controllers
 {
     public class ReviewController : Classy.DotNet.Mvc.Controllers.ReviewController<ProfessionalMetadata, ProfileReviewCriteria>
     {
-        private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
+        private readonly string MANDRILL_API_KEY;
 
         public ReviewController()
             : base("MyHome.Controllers") 
         {
             base.OnReviewPosted += ReviewController_OnReviewPosted;
+            MANDRILL_API_KEY = ConfigurationManager.AppSettings["MandrillApiKey"];
         }
 
         void ReviewController_OnReviewPosted(object sender, ReviewPostedArgs e)

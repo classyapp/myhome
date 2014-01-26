@@ -7,16 +7,18 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
+using System.Configuration;
 
 namespace MyHome.Controllers
 {
     public class ProfileController : Classy.DotNet.Mvc.Controllers.ProfileController<ProfessionalMetadata, ProfileReviewCriteria>
     {
-        private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
+        private readonly string MANDRILL_API_KEY;
 
         public ProfileController()
             : base("MyHome.Controllers") {
                 base.OnContactProfessional += ProfileController_OnContactProfessional;
+                MANDRILL_API_KEY = ConfigurationManager.AppSettings["MandrillApiKey"];
         }
 
         public void ProfileController_OnContactProfessional(object sender, ContactProfessionalArgs<ProfessionalMetadata> e) {

@@ -197,6 +197,7 @@
     <Content Include="Views\Product\CreateProduct.cshtml" />
     <Content Include="Views\Localization\EnvironmentSettings.cshtml" />
     <Content Include="Views\Localization\ManageResources.cshtml" />
+    <Content Include="Views\Profile\RequestReview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

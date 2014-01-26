@@ -19,6 +19,7 @@ namespace Classy.DotNet.Services
         private readonly string APPROVE_PROXY_CLAIM_URL = ENDPOINT_BASE_URL + "/profile/{0}/approve";
         private readonly string FOLLOW_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/follow";
         private readonly string GET_AUTHENTICATED_PROFILE = ENDPOINT_BASE_URL + "/profile";
+        private readonly string REQUEST_REVIEW = ENDPOINT_BASE_URL + "/profile/{0}/requestreview";
 
         private readonly string CLAIM_AGENT_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -41,6 +42,30 @@ namespace Classy.DotNet.Services
             catch(WebException wex)
             {
                 throw wex.ToClassyException();
+            }
+        }
+
+        public object RequestReview(ProfileView profile, IList<string> emails, string subject, string body, string url)
+        {
+            var client = ClassyAuth.GetAuthenticatedWebClient();
+            string apiUrl = string.Format(REQUEST_REVIEW, profile.Id);
+            var data = new {
+                ReviewUrl = url,
+                ProfileId = profile.Id,
+                Emails = emails,
+                Subject = subject,
+                Content = body,
+                ReplyToEmail = profile.UserName // depends on the fact that username is the email... add an email property?
+                       }.ToJson();
+            
+            try
+            {
+                var profileJson = client.UploadString(apiUrl, "POST", data);
+                return true;
+            }
+            catch (WebException ex)
+            {
+                throw ex.ToClassyException();
             }
         }
 

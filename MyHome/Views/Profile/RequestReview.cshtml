@@ -1,0 +1,18 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.RequestReviewViewModel
+
+@{
+    ViewBag.Title = "Request Review";
+}
+<h1>Request Reviews</h1>
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+<div class="row">
+    @using (var f = Html.Bootstrap().Begin(new Form("RequestReview", "Profile").Type(FormType.Horizontal).FormMethod(FormMethod.Post)))
+    {
+        @f.FormGroup().TextAreaFor(x => x.Emails).Label()
+        @f.FormGroup().TextAreaFor(x => x.Content).Label()
+        @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Profile_RequestReview")).Class("btn-success")
+    }
+</div>
