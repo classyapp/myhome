@@ -18,7 +18,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                var client = ClassyAuth.GetWebClient();
+                var client = (subjectId == "guest") ? ClassyAuth.GetWebClient() : ClassyAuth.GetAuthenticatedWebClient();
                 var tripleJson = client.UploadString(LOG_ACTIVITY_URL, new
                 {
                     SubjectId = subjectId,

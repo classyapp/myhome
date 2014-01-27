@@ -10,7 +10,7 @@
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
             UpdateTargetId = "contact-pro-replace",
-            OnSuccess = "CloseContactModal"
+            OnSuccess = "CloseContactModal(data)"
         }))
     {
         @Html.Bootstrap().ValidationSummary()
@@ -25,8 +25,7 @@
 </div>
 
 <script>
-    function CloseContactModal() {
-        console.log('here');
+    function CloseContactModal(data) {
         if (CloseModal(data)) { $('#contactSuccess').removeClass('hide'); }
     }
 </script>
