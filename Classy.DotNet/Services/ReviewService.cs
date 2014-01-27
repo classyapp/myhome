@@ -20,7 +20,6 @@ namespace Classy.DotNet.Services
             decimal rank,
             string comments,
             IDictionary<string, decimal> subCriteria,
-            ExtendedContactInfoView contactInfo,
             IDictionary<string, string> metadata)
         {
             try
@@ -32,7 +31,6 @@ namespace Classy.DotNet.Services
                         Content = comments,
                         Score = rank,
                         SubCriteria = subCriteria,
-                        ContactInfo = contactInfo,
                         Metadata = metadata
                     }.ToJson());
                 var reviewResponse = reviewJson.FromJson<PostReviewResponse>();

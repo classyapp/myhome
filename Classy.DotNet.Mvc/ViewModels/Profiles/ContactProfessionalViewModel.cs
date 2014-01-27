@@ -9,6 +9,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
     public class ContactProfessionalViewModel
     {
+        public string ProfessionalName { get; set; }
         [Required]
         public string ProfessionalProfileId { get; set; }
         public string ReplyToEmail { get; set; }

@@ -1,0 +1,32 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.ContactProfessionalViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">@string.Format(Localizer.Get("Profile_ContactPro_Title"), Model.ProfessionalName)</h4>
+</div>
+<div class="modal-body">
+    @using (var f = Ajax.Bootstrap().Begin(new Form(), new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "contact-pro-replace",
+            OnSuccess = "CloseContactModal"
+        }))
+    {
+        @Html.Bootstrap().ValidationSummary()
+        if (!Request.IsAuthenticated)
+        {
+            @f.FormGroup().TextBoxFor(x => x.ReplyToEmail).Label().LabelText(Localizer.Get("Profile_ContactPro_ReplyTo"))
+        }
+        @f.FormGroup().TextBoxFor(x => x.Subject ).Value(Localizer.Get("Profile_ContactPro_SubjectPlaceholder")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Profile_ContactPro_Subject"))
+        @f.FormGroup().TextAreaFor(x => x.Content).Rows(5).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("Profile_ContactPro_Content"))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Profile_ContactPro_Submit")).Class("btn-success"))
+    }
+</div>
+
+<script>
+    function CloseContactModal() {
+        console.log('here');
+        if (CloseModal(data)) { $('#contactSuccess').removeClass('hide'); }
+    }
+</script>

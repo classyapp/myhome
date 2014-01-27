@@ -1,4 +1,4 @@
-﻿@model Classy.DotNet.Mvc.ViewModels.Reviews.ProfileReviewViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
+﻿@model Classy.DotNet.Mvc.ViewModels.Reviews.ProfileReviewViewModel<MyHome.Models.ProfileReviewMetadata, MyHome.Models.ProfileReviewCriteria, MyHome.Models.ProfessionalMetadata>
 
 @{
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
@@ -6,31 +6,44 @@
 
 <div class="row">
     <div class="col-md-7 main">
-        <h1>@Localizer.Get("PostReview_PageTitle")</h1>
+        @if (Model.IsNewProfessional)
+        {
+            <h1>@Localizer.Get("PostReview_PageTitle_NewProfessional")</h1>
+        }
+        else {
+            <h1>@string.Format(Localizer.Get("PostReview_PageTitle"), Model.ProfessionalName)</h1>
+        }
 
         @Html.Bootstrap().ValidationSummary()
         @using (var f = Html.Bootstrap().Begin(new Form("PostProfileReview").FormMethod(FormMethod.Post)))
         {
-            <h4>
-                @if (Request.IsAuthenticated)
-                {
-                    @((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.ContactInfo.Name)<span>,</span>
-                }  חוות הדעת שלך חשובה לנו ותעזור בשיפור השקיפות בתעשיית הנדל"ן בישראל. בנוסף, באפשרותך לזכות בעמלת התיווך ששילמת בחזרה!
-            </h4>
-            <hr />
-
-            if (Model.IsProxy)
+            
+            if (Request.IsAuthenticated)
             {
-                @f.FormGroup().TextBoxFor(x => x.ContactInfo.Phone).Label()
-                @f.FormGroup().TextBoxFor(x => x.ContactInfo.Email).Label()
+                <h4>@string.Format(Localizer.Get("PostReview_Teaser"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.ContactInfo.Name)</h4>
+                <hr />
             }
+            
+            if (Model.IsNewProfessional)
+            {
+                <h3>@Localizer.Get("PostReview_ProContactInfo")</h3>
+                @f.FormGroup().TextBoxFor(x => x.NewProfessionalContactInfo.Phone).Label()
+                @f.FormGroup().TextBoxFor(x => x.NewProfessionalContactInfo.Email).Label()
+            }
+            
+            <h3>@Localizer.Get("PostReview_YourRelationship")</h3>
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Relationship, Model.Metadata.RelationshipOptions).OptionLabel(Localizer.Get("PostReview_SelectRelationship")).Label().Class("sr-only")
 
-            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Availability, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
-            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Professionalism, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
-            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.Creativity, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
-            @f.FormGroup().RadioButtonListFor(x => x.SubCriteria.ServiceLevel, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().Label()
 
-            @f.FormGroup().TextAreaFor(x => x.Comments).Label()
+            <h3>@Localizer.Get("PostReview_YourRating")</h3>
+            @Html.Bootstrap().RadioButtonListFor(x => x.SubCriteria.Availability, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @Html.Bootstrap().RadioButtonListFor(x => x.SubCriteria.Professionalism, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @Html.Bootstrap().RadioButtonListFor(x => x.SubCriteria.Creativity, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @Html.Bootstrap().RadioButtonListFor(x => x.SubCriteria.ServiceLevel, Model.Scale1to5, x => x.Value, x => x.Text).DisplayInlineBlock().ShowValidationMessage(false).Label().ShowRequiredStar(false)
+
+            <h3>@Localizer.Get("PostReview_YourReview")</h3>
+            <p>@Localizer.Get("PostReview_ReviewGuidelines")</p>
+            @f.FormGroup().TextAreaFor(x => x.Comments).Rows(5).Label().Class("sr-only")
 
             @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("PostReview_Submit")).HtmlAttributes(new { authorize = "" }))
         }

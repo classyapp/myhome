@@ -9,8 +9,7 @@
 {
     <div class="row">
         <div class="col-md-4">
-            @f.FormGroup().DropDownListFor(x => x.SelectedCulture, Model.SupportedCultures).OptionLabel("-- select language --").ShowValidationMessage(false).Label().Class("sr-only")
-
+            <a href="#" data-toggle="modal" data-target="#newResourceModal" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-plus"></i> New Resource</a>
             <ul>
                 @foreach (var key in Model.ResourceKeys)
                 {
@@ -22,11 +21,32 @@
             @Html.Bootstrap().ValidationSummary()
 
             @Html.HiddenFor(x => x.ResourceKey)
+            @f.FormGroup().DropDownListFor(x => x.SelectedCulture, Model.SupportedCultures).OptionLabel("-- select language --").ShowValidationMessage(false).Label().Class("sr-only")
             @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(10).ShowValidationMessage(false)
             @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("ManageResources_Submit")))
         </div>
     </div>
 }
+
+<div class="modal fade" id="newResourceModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">@Localizer.Get("ManageResources_Modal_Title")</h4>
+            </div>
+            <div class="modal-body">
+                @using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
+                {
+                    @f.FormGroup().TextBoxFor(x => x.ResourceKey).ShowValidationMessage(false).Label()
+                    @f.FormGroup().DropDownListFor(x => x.SelectedCulture, Model.SupportedCultures).OptionLabel("-- select language --").ShowValidationMessage(false).Label().Class("sr-only")
+                    @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(10).ShowValidationMessage(false)
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("ManageResources_Submit")))
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

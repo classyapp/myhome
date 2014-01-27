@@ -4,20 +4,21 @@
 }
 
 <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">@Localizer.Get("AddToCollection_Header_Title")</h4>
 </div>
 <div class="modal-body">
     @using (var f = Ajax.Bootstrap().Begin(new Form("AddListingToCollection", "Collection"), new AjaxOptions {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
-            UpdateTargetId = "modal-main",
-            OnSuccess = "CloseModal"
+            UpdateTargetId = "collect-modal-replace",
+            OnSuccess = "CloseModal(data)"
         }))
     {
         @Html.Bootstrap().ValidationSummary()
-        @Html.HiddenFor(x => x.ListingIds[0], new { @id = "listingId" });
+        @Html.HiddenFor(x => x.ListingIds[0], new { @id = "listingId" })
         @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel(Localizer.Get("AddToCollection_OptionLabel")).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
 
         @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("AddToCollection_Submit")))
     }

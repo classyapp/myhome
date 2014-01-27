@@ -16,9 +16,10 @@ using Classy.DotNet.Mvc.Localization;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
-    public class ReviewController<TProMetadata, TReviewSubCriteria> : BaseController
-        where TProMetadata : IMetadata<TProMetadata>, new()
+    public class ReviewController<TReviewMetadata, TReviewSubCriteria, TProMetadata> : BaseController
+        where TReviewMetadata : IMetadata<TReviewMetadata>, new()
         where TReviewSubCriteria : IReviewSubCriteria<TReviewSubCriteria>, new()
+        where TProMetadata : IMetadata<TProMetadata>, new()
     {
         public ReviewController() : base() { }
         public ReviewController(string ns) : base(ns) { }
@@ -71,9 +72,11 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 var profile = service.GetProfileById(profileId);
-                var model = new ProfileReviewViewModel<TProMetadata, TReviewSubCriteria>
+                var model = new ProfileReviewViewModel<TReviewMetadata, TReviewSubCriteria, TProMetadata>
                 {
-                    IsProxy = profile.IsProxy
+                    Metadata = new TReviewMetadata(),
+                    ProfessionalName = profile.ProfessionalInfo.CompanyName,
+                    IsNewProfessional = false
                 };
                 return View(model);
             }
@@ -87,7 +90,7 @@ namespace Classy.DotNet.Mvc.Controllers
         // POST: post a review for an agent
         [AcceptVerbs(HttpVerbs.Post)]
         [Authorize]
-        public ActionResult PostProfileReview(ProfileReviewViewModel<TProMetadata, TReviewSubCriteria> model)
+        public ActionResult PostProfileReview(ProfileReviewViewModel<TReviewMetadata, TReviewSubCriteria, TProMetadata> model)
         {
             if (ModelState.IsValid)
             {
@@ -100,8 +103,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         model.SubCriteria.CalculateScore(),
                         model.Comments,
                         model.SubCriteria.ToDictionary(),
-                        model.IsProxy ? model.ContactInfo : null,
-                        model.IsProxy ? metadata : null);
+                        metadata);
                     if (OnReviewPosted != null)
                         OnReviewPosted(this, new ReviewPostedArgs
                         {

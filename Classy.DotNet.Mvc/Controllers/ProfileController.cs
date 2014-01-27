@@ -281,16 +281,35 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         //
+        // GET: /profile/{ProfessionalProfileId}/contact
+        [AcceptVerbs((HttpVerbs.Get))]
+        public ActionResult ContactProfessional(string professionalProfileId)
+        {
+            try 
+            {
+                var service = new ProfileService();
+                var profile = service.GetProfileById(professionalProfileId);
+                var model = new ContactProfessionalViewModel
+                {
+                    ProfessionalProfileId = professionalProfileId,
+                    ProfessionalName = profile.GetProfileName()
+                };
+                return PartialView("ContactProfessional", model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        //
         // POST: /profile/{ProfessionalProfileId}/contact
         [AcceptVerbs((HttpVerbs.Post))]
-        [ExportModelStateToTempData]
-        public ActionResult ContactProfessional(ContactProfessionalViewModel model)
+        //[ExportModelStateToTempData]
+        public ActionResult ContactProfessional(ContactProfessionalViewModel model, object dummy)
         {
             try
             {
-                var service = new ProfileService();
-                var profile = service.GetProfileById(model.ProfessionalProfileId);
-
                 // when user is not logged-in, ReplyToEmail is required
                 if (!Request.IsAuthenticated && string.IsNullOrEmpty(model.ReplyToEmail))
                 {
@@ -299,6 +318,9 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    var service = new ProfileService();
+                    var profile = service.GetProfileById(model.ProfessionalProfileId);
+
                     var metadata = new TProMetadata();
                     metadata.FromDictionary(profile.Metadata);
                     var args = new ContactProfessionalArgs<TProMetadata>
@@ -317,7 +339,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     //TODO: this doesn't belong in the frontend 
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
-                    TempData["ContactSuccess"] = Localizer.Get("ContactPro_Success");
+                    return new HttpStatusCodeResult(HttpStatusCode.OK);
                 }
             }
             catch (ClassyException cvx)
@@ -329,7 +351,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
 
-            return RedirectToRoute("PublicProfile", new { profileId = model.ProfessionalProfileId });
+            return PartialView("ContactProfessional", model);
         }
 
         //

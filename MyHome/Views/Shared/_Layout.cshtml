@@ -211,7 +211,7 @@
     <!-- add to collection modal -->
     <div class="modal fade" id="collect-modal" data-remote="@Url.RouteUrl("AddListingToCollection", new { })" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" id="collect-modal-replace">
                 <!-- will be replaced -->
             </div>
         </div>
@@ -232,21 +232,24 @@
         Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string)";
 
         $(function () {
-            $('.modal[data-remote]').on('shown.bs.modal', function() {
-                Classy.AjaxReconnect();
-            });
+            $('.modal[data-remote]')
+                .on('shown.bs.modal', function() {
+                    Classy.AjaxReconnect();
+                })
+                .on('hidden.bs.modal', function() {
+                    $(this).removeData('bs.modal');
+                    $(this).find('.modal-body').html("");
+                });
         });
 
-        @if (ViewData.ModelState.IsValid) {
-            <text>
-            CloseModal = function () { $('.modal').modal('hide') };
-            </text>
-        }
-        else {
-            <text>
-            CloseModal = {};
-            </text>
-        }
+        function CloseModal(data) { 
+            if (data.indexOf("validation-summary-errors") > -1) 
+                return false;
+            else {
+                $('.modal').modal('hide');
+                return true;
+            }
+        };
     </script>
     @RenderSection("scripts", required: false)
 </body>

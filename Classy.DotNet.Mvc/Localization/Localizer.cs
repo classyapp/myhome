@@ -68,6 +68,7 @@ namespace Classy.DotNet.Mvc.Localization
 
         public static string Get(string key, string culture)
         {
+            string value = null;
             LocalizationResourceView resource = HttpRuntime.Cache[key] as LocalizationResourceView;
             if (resource == null)
             {
@@ -77,10 +78,9 @@ namespace Classy.DotNet.Mvc.Localization
             }
             if (resource != null)
             {
-                var value = resource.Values.SingleOrDefault(x => x.Key == culture);
-                return HttpUtility.HtmlDecode(value.Value);
+                value = HttpUtility.HtmlDecode(resource.Values.SingleOrDefault(x => x.Key == culture).Value);
             }
-            return string.Concat(key, "_", culture);
+            return value ?? string.Concat(key, "_", culture);
         }
 
         public static SelectList GetList(string key)

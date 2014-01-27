@@ -123,6 +123,7 @@
     <Compile Include="Models\ProductMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
     <Compile Include="Models\ProfileReviewCriteria.cs" />
+    <Compile Include="Models\ProfileReviewMetadata.cs" />
     <Compile Include="Models\UserMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -197,6 +198,7 @@
     <Content Include="Views\Product\CreateProduct.cshtml" />
     <Content Include="Views\Localization\EnvironmentSettings.cshtml" />
     <Content Include="Views\Localization\ManageResources.cshtml" />
+    <Content Include="Views\Profile\ContactProfessional.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
