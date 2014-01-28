@@ -134,7 +134,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (!proxy.IsProxy) return RedirectToRoute("Home");
 
                 var profile = AuthenticatedUserProfile;
-                var metadata = new TProMetadata().FromDictionary(profile.Metadata);
+                var metadata = new TProMetadata().FromDictionary(profile != null ? profile.Metadata : proxy.Metadata);
                 var model = new ClaimProfileViewModel<TProMetadata>
                 {
                     ProfileId = profileId,

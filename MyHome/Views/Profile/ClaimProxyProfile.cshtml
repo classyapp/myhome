@@ -7,10 +7,10 @@
 
 <div class="row">
     <div class="col-md-7 main">
-        <h1>@Localizer.Get("ClaimProxy_PageTitle")</h1>
-
         @if (User.Identity.IsAuthenticated)
         {
+            <h1>@Localizer.Get("ClaimProxy_PageTitle")</h1>
+            
             var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
 
             @Html.Bootstrap().ValidationSummary()
@@ -51,7 +51,9 @@
                 <h2>@Localizer.Get("ClaimProxy_MustBeLoggedIn")</h2>
                 <a href="#" class="btn btn-success" authorize>@Localizer.Get("ClaimProxy_Login")</a>
             </div>
-            <script>$('#login-modal').modal('show');</script>
+            @section scripts {
+                <script>$(function () { $('#login-modal').modal('show'); })</script>
+            }
         }
     </div>
     <div class="col-md-4 col-md-offset-1">
