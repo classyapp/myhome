@@ -189,7 +189,7 @@
             <div class="col-md-4">
                 @if (Model.Profile.IsProxy)
                 {
-                    @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block", authorize = "" })
+                    @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
                 }
                 else
                 {
