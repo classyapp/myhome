@@ -2,26 +2,20 @@
 
 @{
     ViewBag.Title = "SearchProfiles";
-
-    var CategoryList = new List<SelectListItem>() {
-        new SelectListItem {
-            Text = "Kitchen Seller",
-            Value = "kitchen-seller"
-        }
-    };
+    var categories = Localizer.GetList("professional-categories");
 }
 
 <div class="row">
     <div class="sidebar col-md-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Results For</h3>
+                <h3 class="panel-title">@Localizer.Get("SearchProfiles_Title_Results")</h3>
             </div>
             <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                 @if (!string.IsNullOrEmpty(Model.Category))
                 {
-                    <span class="tag">
-                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@Model.Category</a>
+                    <span class="label label-default">
+                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                     </span>
                 }
@@ -41,22 +35,31 @@
                 <h3 class="panel-title">@Localizer.Get("SearchProfiles_Sidebar_Categories")</h3>
             </div>
             <div class="panel-body panel-links">
-                @Html.RouteLinkForCurrentLocale("Kitchen Sellers", "SearchProfiles", new { category = "kitchen-seller" })
+                @foreach(var c in categories)
+                {
+                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { category = c.Value })
+                }
             </div>
         </div>
     </div>
 
     <div class="main col-md-10">
         <h1>
-        @if (Model.Location != null) {
+        @if (Model.Location != null && Model.Category != null) {
             <text>
-            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, Model.Category)
+            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text, Model.Location)
             </text>
         }
-        else
+        else if (Model.Category != null)
         {
             <text>
-            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, Model.Category, Model.Location)
+            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text)
+            </text>
+        }
+        else if (Model.Location != null)
+        {
+            <text>
+                @string.Format(Localizer.Get("SearchProfiles_Results_Title_LocationOnly"), Model.Results.Count, Model.Location)
             </text>
         }
         </h1>
@@ -68,7 +71,7 @@
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).Label().Class("sr-only")
                 @f.FormGroup().TextBoxFor(x => x.Location).Placeholder(Localizer.Get("SearchProfiles_Label_City")).Label().Class("sr-only")
-                @f.FormGroup().DropDownListFor(x => x.Category, CategoryList).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).Label().Class("sr-only")
+                @f.FormGroup().DropDownListFor(x => x.Category, categories).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).Label().Class("sr-only")
 
                 @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Class("btn-success")
             }

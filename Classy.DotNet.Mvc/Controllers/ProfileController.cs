@@ -227,7 +227,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (model.Metadata == null) model.Metadata = new TProMetadata();
                     string name;
                     LocationView location = null;
-                    //model.Metadata.ParseSearchFilters(strings, out name, ref location);
+                    model.Metadata.ParseSearchFilters(strings, out name, ref location);
                 }
 
                 var profiles = service.SearchProfiles(
@@ -236,7 +236,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null, 
                     true);
-                if (Request.AcceptTypes.Contains("application/json"))
+                if (Request.IsAjaxRequest())
                 {
                     return Json(profiles, JsonRequestBehavior.AllowGet);
                 }
@@ -257,7 +257,9 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
-            return RedirectToRoute("SearchProfiles", new {  });
+            if (model.Metadata == null) model.Metadata = new TProMetadata();
+            var slug = model.Metadata.GetSearchFilterSlug(model.Name, model.Location);
+            return RedirectToRoute("SearchProfiles", new { filters = slug });
         }
 
         // 
