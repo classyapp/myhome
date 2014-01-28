@@ -10,14 +10,22 @@ namespace MyHome.Models
 {
     public class ProfessionalMetadata : IMetadata<ProfessionalMetadata>
     {
-        [Required]
+        [Display(Name="ProMetadata_LicenseNo")]
+        [Required(ErrorMessage="ProMetadata_LicenseNo_Required")]
         public string LicenseNo { get; set; }
+        [Display(Name = "ProMetadata_ServicesProvided")]
+        [Required(ErrorMessage="ProMetadata_ServicesProvided_Required")]
         public string ServicesProvided { get; set; }
+        [Display(Name = "ProMetadata_AreasServed")]
         public string AreasServed { get; set; }
         public int? JobCostFrom { get; set; }
         public int? JobCostTo { get; set; }
+        [Display(Name = "ProMetadata_CostDetails")]
         public string CostDetails { get; set; }
+        [Display(Name = "ProMetadata_Awards")]
         public string Awards { get; set; }
+        [Display(Name = "ProMetadata_BusinessDescription")]
+        [Required(ErrorMessage = "ProMetadata_BusinessDescription_Required")]
         public string BusinessDescription { get; set; }
 
         public IDictionary<string, string> ToDictionary()

@@ -1,46 +1,199 @@
 @model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
 
 @{
-    ViewBag.Title = "PublicProfile";
+    ViewBag.Title = "PublicProfessionalProfile";
+    var photos = Model.Profile.Listings.Where(x => x.ListingType == "Photo");
+    var reviews = Model.Profile.Reviews;
+    var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
+    var collections = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0);
 }
 
-<h2>@Model.Profile.ContactInfo.Name</h2>
+<div class="row">
+    <div class="col-md-3 sidebar">
+        <div class="image text-center">
+            <img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
+        </div>
 
-<img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
+        <div class="follow text-center">
+            @if (Request.IsAuthenticated &&
+            (Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) ||
+            Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
+            {
+                <span><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Profile_Sidebar_Following")</span>
+            }
+            else
+            {
+                @Html.TriggerProfileActionLink(@Localizer.Get("Profile_Sidebar_Follow"), "follow", Model.Profile, "btn btn-block btn-default")
+            }
+        </div>
 
-@if (Request.IsAuthenticated && Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
-{
-    <h3>@Localizer.Get("PublicProfile_Following")</h3>
-}
-else
-{
-    <h3>@Html.TriggerProfileActionLink(Localizer.Get("PublicProfile_Follow"), "follow", Model.Profile)</h3>
-}
+        <div class="panel panel-default panel-links">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("Profile_ProfileLinksPanel_Title")</h3>
+            </div>
+            <div class="panel-body">
+                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Overview")</a>
+                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Collections")</a>
+                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Photos")</a>
+                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Reviews")</a>
+            </div>
+        </div>
 
-@if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
-{
-    <a href="/profile/me">@Localizer.Get("PublicProfile_EditProfile")</a>
-}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @if (!string.IsNullOrEmpty(Model.Profile.ContactInfo.FacebookUrl))
+                {
+                    <a href="@Model.Profile.ContactInfo.FacebookUrl">Facebook</a>
+                }
+                @if (!string.IsNullOrEmpty(Model.Profile.ContactInfo.FacebookUrl))
+                {
+                    <a href="@Model.Profile.ContactInfo.TwitterUsername">Twitter</a>
+                }
+                @if (!string.IsNullOrEmpty(Model.Profile.ContactInfo.TwitterUsername))
+                {
+                    <a href="@Model.Profile.ContactInfo.LinkedInProfileUrl">LinkedIn</a>
+                }
+            </div>
+        </div>
 
-<span>@string.Format(Localizer.Get("PublicProfile_ViewCount"), Model.Profile.ViewCount)</span>
+        @if (Model.Profile.FollowerCount > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@string.Format(Localizer.Get("Profile_FollowersPanel_Title"), Model.Profile.FollowerCount)</h3>
+                </div>
+                <div class="panel-body social-thumbnails">
+                    <ul class="list-inline">
+                        @foreach (var p in Model.Profile.FollowedBy)
+                        {
+                            <li class="thumbnail">
+                                <a href="@Url.ProfileUrl(p)">
+                                    <img src="@p.ThumbnailUrl" width="30" />
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
 
-<h4>Followed By @Model.Profile.FollowerCount</h4>
-@foreach (var p in Model.Profile.FollowedBy)
-{
-    <div class="col-sm-1">
-        <img src="@p.ImageUrl" width="32px" />
-        <br />@Html.ProfileLink(p)
+        @if (Model.Profile.FollowingCount > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@string.Format(Localizer.Get("Profile_FollowingPanel_Title"), Model.Profile.FollowingCount)</h3>
+                </div>
+                <div class="panel-body social-thumbnails">
+                    <ul class="list-inline">
+                        @foreach (var p in Model.Profile.Following)
+                        {
+                            <li class="thumbnail">
+                                <a href="@Url.ProfileUrl(p)">
+                                    <img src="@p.ThumbnailUrl" width="30" />
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
     </div>
-}
 
-<h4>Following @Model.Profile.FollowingCount</h4>
-@foreach (var p in Model.Profile.Following)
-{
-    <div class="col-sm-1">
-        <img src="@p.ImageUrl" width="32px" />
-        <br />@Html.ProfileLink(p)
-    </div>
-}
+    <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 itemprop="name">@Model.Profile.GetProfileName()</h1>
 
+                @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+                {
+                <a href="/profile/me">Edit Profile</a>
+                }
+            </div>
+        </div>
+        <hr />
 
+        <!-- tabs -->
+        <ul class="nav nav-tabs" id="profileTabs">
+            <li class="active"><a href="#collections" data-toggle="tab">@Localizer.Get("Profile_Tabs_Collections")</a></li>
+            <li><a href="#photos" data-toggle="tab">@Localizer.Get("Profile_Tabs_Photos")</a></li>
+            <li><a href="#discussions" data-toggle="tab">@Localizer.Get("Profile_Tabs_Discussions")</a></li>
+            
+        </ul>
 
+        <div class="tab-content row">
+            <div class="tab-pane active" id="photos">
+                @if (photos.Count() > 0)
+                {
+                    foreach (var p in photos)
+                    {
+                        var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
+                        if (thumb != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="thumbnail">
+                                    <div class="actions hide">
+                                        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-danger action like")
+                                        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add")
+                                    </div>
+                                    <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
+                                    <div class="details">
+                                        <strong>@Html.ListingLink("Photo", p)</strong>
+                                        <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+
+            <div class="tab-pane" id="collections">
+                @if (collections.Count() > 0)
+                {
+                    foreach (var c in collections)
+                    {
+                        var thumb = c.Listings[0].ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
+                        if (thumb != null)
+                        {
+                        <div class="col-md-4">
+                            <div class="thumbnail">
+                                <img src="@thumb.Url" title="@c.Title" alt="@c.Title" />
+                                <div class="details">
+                                    <strong>@Html.CollectionLink(c)</strong>
+                                    <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), c.CommentCount)</small>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    }
+                }
+            </div>
+
+            
+
+            <div class="tab-pane" id="discussions">
+                @if (discussions.Count() > 0)
+                {
+                    foreach (var d in discussions)
+                    {
+                        <div class="discussion">
+                            <p>
+                                <strong>@Html.ListingLink("Discussion", d)</strong>
+                                <small>@d.CommentCount תגובות</small>
+                                <br />@d.Content
+                            </p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- feed -->
+        <div class="row" id="reviews">
+            <div class="col-md-8">
+
+            </div>
+        </div>
+
+    </div> <!-- main -->
+</div>

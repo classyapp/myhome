@@ -124,18 +124,31 @@ namespace Classy.DotNet.Mvc.Controllers
 
         //
         // GET: /profile/{ProfileId}/claim
-        [AuthorizeWithRedirect("Index")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ClaimProxyProfile(string profileId)
         {
             try
             {
+                var service = new ProfileService();
+                var proxy = service.GetProfileById(profileId);
+                if (!proxy.IsProxy) return RedirectToRoute("Home");
+
                 var profile = AuthenticatedUserProfile;
                 var metadata = new TProMetadata().FromDictionary(profile.Metadata);
                 var model = new ClaimProfileViewModel<TProMetadata>
                 {
                     ProfileId = profileId,
-                    ProfessionalInfo = profile.ProfessionalInfo,
+                    Email = proxy.ProfessionalInfo.CompanyContactInfo.Email,
+                    Phone = proxy.ProfessionalInfo.CompanyContactInfo.Phone,
+                    WebsiteUrl = proxy.ProfessionalInfo.CompanyContactInfo.WebsiteUrl,
+                    FirstName = proxy.ProfessionalInfo.CompanyContactInfo.FirstName,
+                    LastName = proxy.ProfessionalInfo.CompanyContactInfo.LastName,
+                    Category = proxy.ProfessionalInfo.Category,
+                    CompanyName = proxy.ProfessionalInfo.CompanyName,
+                    Street1 = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1,
+                    City = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
+                    Country = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
+                    PostalCode = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,
                     Metadata = metadata
                 };
                 return View(model);
@@ -156,10 +169,33 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 if (!ModelState.IsValid) return View(model);
 
+                var professionalInfo = new ProfessionalInfoView
+                {
+                    CompanyName = model.CompanyName,
+                    CompanyContactInfo = new ExtendedContactInfoView
+                    {
+                        Email = model.Email,
+                        Phone = model.Phone,
+                        WebsiteUrl = model.WebsiteUrl,
+                        Location = new LocationView
+                        {
+                            Address = new PhysicalAddressView
+                            {
+                                Street1 = model.Street1,
+                                City = model.City,
+                                Country = model.Country,
+                                PostalCode = model.PostalCode
+                            }
+                        },
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                    }
+                };
+
                 var service = new ProfileService();
                 var claim = service.ClaimProfileProxy(
                     model.ProfileId,
-                    model.ProfessionalInfo,
+                    professionalInfo,
                     model.Metadata.ToDictionary());
                 service.ApproveProxyClaim(claim.Id);
 
