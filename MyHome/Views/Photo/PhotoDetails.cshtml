@@ -60,9 +60,9 @@
                     <div class="comment">
                         <div class="row">
                             <div class="col-md-1">
-                                <img src="@c.Profile.ThumbnailUrl" width="32" />
+                                <img src="@c.Profile.ThumbnailUrl" width="40" />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-10 content">
                                 <strong>@Html.ProfileLink(c.Profile):</strong>
                                 <p>@c.Content</p>
                             </div>
@@ -71,7 +71,6 @@
                     </div>
                 }
 
-                @Html.Bootstrap().ValidationSummary()
                 @using (var f = Html.Bootstrap().Begin(new Form("PostComment")))
                 {
                     @Html.Hidden("ListingId", Model.Listing.Id);

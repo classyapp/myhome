@@ -47,7 +47,7 @@ namespace Classy.DotNet.Mvc.Controllers
             foreach (var e in eex.Errors)
             {
                 var key = string.Concat(e.FieldName, e.ErrorCode);
-                var message = key; //Localize(key);
+                var message = Localizer.Get(key);
                 ModelState.AddModelError(e.FieldName ?? key, message);
             }
         }

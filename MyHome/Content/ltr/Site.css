@@ -30,12 +30,17 @@ h1, h2, h3, h4, h5 {
 .comments {
     font-size: 13px;
 }
-
+.comments.panel-body {
+    padding: 10px;
+}
 .comments .comment p {
-    margin: 5px 0 0 0;
+    margin: 5px 0 5px 0;
 }
 .comments .comment hr {
     margin: 5px 0;
+}
+.comments .comment .content {
+    margin-left: 12px;
 }
 
 /* navbar */
@@ -80,16 +85,16 @@ h1, h2, h3, h4, h5 {
 .sidebar .follow {
     margin-bottom: 10px;
 }
-.sidebar .panel {
+.panel {
     border-radius: 0;
     margin-bottom: 10px;
 }
-.sidebar .panel-title {
+.panel-title {
     font-weight: bold;
     font-size: 14px;
     padding: 0;
 }
-.sidebar .panel-body {
+.panel-body {
     padding: 0;
 }
 .panel-body.social-thumbnails {
@@ -98,6 +103,7 @@ h1, h2, h3, h4, h5 {
 .panel-body.social-thumbnails .thumbnail {
     border-radius: 0;
     padding: 1px;
+    margin-bottom: 0;
 }
 .panel-links a,
 .panel-links a:hover {
@@ -228,6 +234,12 @@ h1, h2, h3, h4, h5 {
 }
 .login form {
     margin-bottom: 15px; 
+}
+
+/* forms */
+.form-group .col-lg-2,
+.form-group .col-lg-12 {
+    padding: 0;
 }
 
 
