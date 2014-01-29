@@ -164,7 +164,7 @@
     <div class="container">
         <div class="footer text-center">
             <p>&copy; myhome.co.il 2013</p>
-            <p>@Localizer.Get("Template_Language"): <a href="#language-select" data-toggle="modal" data-target="#env-modal">@env.Culture</a></p>
+            <p><small><img src="/img/flags/@(env.Culture.Split('-')[1]).png" /> <a href="#language-select" data-toggle="modal" data-target="#env-modal">@Localizer.Get("Template_Language_Change")</a></small></p>
         </div>
     </div>
 
