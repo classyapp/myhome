@@ -5,90 +5,80 @@
 }
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
 
         <div class="photo">
-            <img src="@Model.Listing.ExternalMedia[0].Url" />
-
+            <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
             <div class="share">
-
+                @Html.TriggerListingActionLink("Like this Photo", "favorite", Model.Listing) /
+                @Html.TriggerListingActionLink("Add to Collection", "collect", Model.Listing)
             </div>
-
-
         </div>
         
         <h2>@Model.Listing.Title</h2>
         <p>@Model.Listing.Content</p>
 
-    </div>
-    <div class="col-md-6">
-
-    </div>
-</div>
-
-
-
-@Html.Bootstrap().ValidationSummary()
-
-
-
-<div class="row likes">
-    <h4>@Model.Listing.FavoriteCount people like this photo:</h4>
-    @foreach (var p in Model.Listing.FavoritedBy)
-    {
-        <div class="col-sm-1">
-            <img src="@p.ImageUrl" width="32px" />
-            <br />@Html.ProfileLink(p)
-        </div>
-    }
-    @Html.TriggerListingActionLink("Like this Photo", "favorite", Model.Listing) / 
-    @Html.TriggerListingActionLink("Add to Collection", "collect", Model.Listing)
-</div>
-<br />
-<br />
-@foreach (var t in Model.Listing.Hashtags)
-{
-    @t<span>&nbsp;</span>
-}
-
-<h4>Comments:</h4>
-
-@if (Model.Listing.CommentCount == 0)
-{
-    <p>Be the first to comment on this photo</p>
-}
-
-@foreach (var c in Model.Listing.Comments)
-{
-    <div class="comment row">
-        <div class="col-md-1">
-            <img src="@c.Profile.ImageUrl" width="32" />
-            <br />
-            @Html.ProfileLink(c.Profile)
-        </div>
-        <div class="col-md-4">
-            <blockquote>@c.Content</blockquote>
+        <hr/>
+        <h4>@Localizer.Get("PhotoDetails_Keywords")</h4>
+        <div class="keywords">
+            @foreach (var t in Model.Listing.Hashtags)
+            {
+                @Html.RouteLinkForCurrentLocale(t, "SearchPhoto", new { filters = t.TrimStart('#') })<span>&nbsp;</span>
+            }
         </div>
     </div>
-}
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@string.Format(Localizer.Get("PhotoDetails_Likes"), Model.Listing.FavoriteCount)</h3>
+            </div>
+            <div class="panel-body social-thumbnails">
+                <ul class="list-inline">
+                    @foreach (var p in Model.Listing.FavoritedBy)
+                    {
+                        <li class="thumbnail">
+                            <a href="@Url.ProfileUrl(p)">
+                                <img src="@p.ThumbnailUrl" width="30" />
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
 
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h3>
+            </div>
+            <div class="panel-body comments">
+                @if (Model.Listing.CommentCount == 0)
+                {
+                    <p>@Localizer.Get("PhotoDetails_NoComments")</p>
+                }
+                @foreach (var c in Model.Listing.Comments)
+                {
+                    <div class="comment">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="@c.Profile.ThumbnailUrl" width="32" />
+                            </div>
+                            <div class="col-md-4">
+                                <strong>@Html.ProfileLink(c.Profile):</strong>
+                                <p>@c.Content</p>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                }
 
-@using (var f = Html.Bootstrap().Begin(new Form("PostComment")))
-{
-    @Html.Hidden("ListingId", Model.Listing.Id);
-    @f.FormGroup().TextArea("Content").ShowValidationMessage(false).Label().LabelText("הוספת תגובה:")
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("שלח תגובה").HtmlAttributes(new { authorize = "true" }))
-}
-
-<div class="container">
-    <div class="row">
-        <div class="span4 well" style="padding-bottom:0">
-            <form accept-charset="UTF-8" action="" method="POST">
-                <textarea class="span4" id="new_message" name="new_message"
-                          placeholder="Type in your message" rows="5"></textarea>
-                <h6 class="pull-right">320 characters remaining</h6>
-                <button class="btn btn-info" type="submit">Post New Message</button>
-            </form>
+                @Html.Bootstrap().ValidationSummary()
+                @using (var f = Html.Bootstrap().Begin(new Form("PostComment")))
+                {
+                    @Html.Hidden("ListingId", Model.Listing.Id);
+                    @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Class("btn-success").HtmlAttributes(new { authorize = "true" }))
+                }
+            </div>
         </div>
     </div>
 </div>

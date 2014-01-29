@@ -26,6 +26,18 @@ h1, h2, h3, h4, h5 {
     padding-right: 0;
 }
 
+/* photo details */
+.comments {
+    font-size: 13px;
+}
+
+.comments .comment p {
+    margin: 5px 0 0 0;
+}
+.comments .comment hr {
+    margin: 5px 0;
+}
+
 /* navbar */
 .navbar {
     border: none;
@@ -80,10 +92,10 @@ h1, h2, h3, h4, h5 {
 .sidebar .panel-body {
     padding: 0;
 }
-.sidebar .panel-body.social-thumbnails {
+.panel-body.social-thumbnails {
     padding: 5px;
 }
-.sidebar .panel-body.social-thumbnails .thumbnail {
+.panel-body.social-thumbnails .thumbnail {
     border-radius: 0;
     padding: 1px;
 }
