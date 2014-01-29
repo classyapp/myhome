@@ -278,17 +278,17 @@ namespace Classy.DotNet.Mvc.Controllers
                 var model = new CreateProfessionalProfileViewModel<TProMetadata>
                 {
                     ProfileId = profile.Id,
-                    Email = profile.ProfessionalInfo.CompanyContactInfo.Email,
-                    Phone = profile.ProfessionalInfo.CompanyContactInfo.Phone,
-                    WebsiteUrl = profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl,
-                    FirstName = profile.ProfessionalInfo.CompanyContactInfo.FirstName,
-                    LastName = profile.ProfessionalInfo.CompanyContactInfo.LastName,
-                    Category = profile.ProfessionalInfo.Category,
-                    CompanyName = profile.ProfessionalInfo.CompanyName,
-                    Street1 = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1,
-                    City = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
-                    Country = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
-                    PostalCode = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,
+                    Email = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Email : null,
+                    Phone = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Phone : null,
+                    WebsiteUrl = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl : null,
+                    FirstName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.FirstName : null,
+                    LastName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.LastName : null,
+                    Category = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.Category : null,
+                    CompanyName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyName : null,
+                    Street1 = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 : null,
+                    City = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City : null,
+                    Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
+                    PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
                     Metadata = metadata
                 };
                 return View(model);
