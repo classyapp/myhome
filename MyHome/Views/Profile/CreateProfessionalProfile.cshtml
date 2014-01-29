@@ -2,75 +2,48 @@
 
 @{
     ViewBag.Title = "CompleteProfessionalProfile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var CostFromSelectList = new List<SelectListItem>() {
-        new SelectListItem {
-            Text = "$500 - $2500",
-            Value = "500"
-        }
-    };
-
-    var CostToSelectList = new List<SelectListItem>() {
-        new SelectListItem {
-            Text = "$500 - $2500",
-            Value = "500"
-        }
-    };
-    
-    Html.Bootstrap().Globals().FormGroup().CheckBoxLabelsPositionLeft();
 }
 
 <div class="row">
     <div class="col-md-7 main">
-        <h1>@Localizer.Get("CreateProfessionalProfile_Title")</h1>
+        <h1>@Localizer.Get("CreateProProfile_PageTitle")</h1>
+
         @Html.Bootstrap().ValidationSummary()
-
-        @using (var f = Html.Bootstrap().Begin(new Form("CreateProfessionalProfile").FormMethod(FormMethod.Post)))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateProfessionalProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
         {
-            <!-- general professional info -->
-            <h4>@Localizer.Get("CreateProfessionalProfile_Title_PersonalInfo")</h4>
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם או שם חברה")
-            @f.FormGroup().DropDownListFor(x => x.ProfessionalInfo.Category, Model.ProfessionalCategories).ShowValidationMessage(false).Label().WidthMd(12).LabelText("קטגוריה")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.WebsiteUrl).Label().WidthMd(12).LabelText("כתובת אתר אינטרנט")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FacebookUrl).Label().WidthMd(12).LabelText("כתובת עמוד פייסבוק עסקי")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.TwitterUsername).Label().WidthMd(12).LabelText("שם משתמש בטוויטר")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl).Label().WidthMd(12).LabelText("כתובת פרופיל לינקד אין")
-            
-            <!-- metadata specific to domain -->
-            <h4>מידע מקצועי</h4>
-            @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo).ShowValidationMessage(false).Label().WidthMd(12).LabelText("מספר רשיון")
-            @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שירותים שמספק העסק")
-            @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).ShowValidationMessage(false).Label().WidthMd(12).LabelText("באילו איזורים ניתן לקבל שירות?")
-            
-            <div class="row">
-                @Html.Bootstrap().Label("מחיר עבודה ממוצעת")
-                <div class="form-inline">
-                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostFrom, CostFromSelectList).WidthMd(5).Label().WidthMd(5).LabelText("החל מ:")
-                    @f.FormGroup().DropDownListFor(x => x.Metadata.JobCostTo, CostToSelectList).WidthMd(5).Class("col-md-offset-1").Label().WidthMd(5).LabelText("ועד:")
-                </div>
-            </div>
+            <h4>@Localizer.Get("CreateProProfile_Teaser")</h4>
+            <hr />
 
-            @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).ShowValidationMessage(false).Label().WidthMd(12).LabelText("תיאור עבודה ממוצעת")
-            @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).ShowValidationMessage(false).Label().WidthMd(12).LabelText("פרסים, תעודות ורשיונות")
-            
-            <!-- contact information -->
-            <h4>פרטי קשר</h4>
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.FirstName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם פרטי")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.LastName).ShowValidationMessage(false).Label().WidthMd(12).LabelText("שם משפחה")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1).ShowValidationMessage(false).Label().WidthMd(12).LabelText("כתובת (רחוב ומספר(")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.City).ShowValidationMessage(false).Label().WidthMd(12).LabelText("עיר")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode).ShowValidationMessage(false).Label().WidthMd(12).LabelText("מיקוד")
-            @f.FormGroup().TextBoxFor(x => x.ProfessionalInfo.CompanyContactInfo.Phone).ShowValidationMessage(false).Label().WidthMd(12).LabelText("טלפון")
-            
-            
-            <!-- submit -->
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("CreateProfessionalProfile_Submit")))
+            <h3>@Localizer.Get("CreateProProfile_BusinessInfo")</h3>
+            @f.FormGroup().TextBoxFor(x => x.CompanyName).Label().WidthLg(12)
+            @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories")).OptionLabel(Localizer.Get("CreateProProfile_ChooseCategory")).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.FirstName).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.LastName).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo).Label().WidthLg(12)
+            @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).Rows(5).Label().WidthLg(12)
+            @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).Label().WidthLg(12)
+            @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).Label().WidthLg(12)
+            <div>job cost from: --- to: ---</div>
+            @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).Label().WidthLg(12)
+            @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).Label().WidthLg(12)
+
+            <h3>@Localizer.Get("CreateProProfile_ContactInfo")</h3>
+            @f.FormGroup().TextBoxFor(x => x.Street1).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.City).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.Country).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.PostalCode).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.Phone).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.Email).Label().WidthLg(12)
+
+            <br /><br />
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreateProProfile_Submit")).Class("btn-success"))
         }
     </div>
-
-    <div class="col-md-4 col-md-offset-1 well">
-        <h1>@Localizer.Get("CreatePublicProfile_Title_Advantages")</h1>
-        <p>שאלה טובה, ובכן הביטו: דגיחל שדגח לשחדגי ש דגשגלשחדג שג שדחגי שלגשלחג שלחגי שלחד גשחג לשח יגלחש יג</p>
+    <div class="col-md-4 col-md-offset-1">
+        <div class="well">
+            <h1>@Localizer.Get("CreateProProfile_Copy_Title")</h1>
+            <div>@Html.Raw(Localizer.Get("CreateProProfile_Copy_Content"))</div>
+        </div>
     </div>
 </div>

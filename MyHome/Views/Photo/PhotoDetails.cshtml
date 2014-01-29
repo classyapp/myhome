@@ -4,12 +4,33 @@
     ViewBag.Title = "PhotoDetails";
 }
 
-<h2>@Model.Listing.Title</h2>
-<p>@Model.Listing.Content</p>
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="photo">
+            <img src="@Model.Listing.ExternalMedia[0].Url" />
+
+            <div class="share">
+
+            </div>
+
+
+        </div>
+        
+        <h2>@Model.Listing.Title</h2>
+        <p>@Model.Listing.Content</p>
+
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+
 
 @Html.Bootstrap().ValidationSummary()
 
-<img src="@Model.Listing.ExternalMedia[0].Url" />
+
 
 <div class="row likes">
     <h4>@Model.Listing.FavoriteCount people like this photo:</h4>

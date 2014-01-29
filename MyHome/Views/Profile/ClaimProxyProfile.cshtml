@@ -10,8 +10,6 @@
         @if (User.Identity.IsAuthenticated)
         {
             <h1>@Localizer.Get("ClaimProxy_PageTitle")</h1>
-            
-            var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
 
             @Html.Bootstrap().ValidationSummary()
             using (var f = Html.Bootstrap().Begin(new Form("ClaimProxyProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))

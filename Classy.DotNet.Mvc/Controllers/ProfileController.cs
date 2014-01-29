@@ -129,11 +129,12 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
+                var profile = AuthenticatedUserProfile;
+                if (profile.IsProfessional) return RedirectToRoute("Home");
                 var service = new ProfileService();
                 var proxy = service.GetProfileById(profileId);
                 if (!proxy.IsProxy) return RedirectToRoute("Home");
-
-                var profile = AuthenticatedUserProfile;
+                
                 var metadata = new TProMetadata().FromDictionary(profile != null ? profile.Metadata : proxy.Metadata);
                 var model = new ClaimProfileViewModel<TProMetadata>
                 {
@@ -172,8 +173,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 var professionalInfo = new ProfessionalInfoView
                 {
                     CompanyName = model.CompanyName,
+                    Category = model.Category,
                     CompanyContactInfo = new ExtendedContactInfoView
-                    {
+                    {   
                         Email = model.Email,
                         Phone = model.Phone,
                         WebsiteUrl = model.WebsiteUrl,
@@ -275,11 +277,20 @@ namespace Classy.DotNet.Mvc.Controllers
                 var metadata = new TProMetadata().FromDictionary(profile.Metadata);
                 var model = new CreateProfessionalProfileViewModel<TProMetadata>
                 {
-                    ProfessionalInfo = profile.ProfessionalInfo,
-                    Metadata = metadata,
-                    ProfessionalCategories = Localizer.GetList("professional-categories")
+                    ProfileId = profile.Id,
+                    Email = profile.ProfessionalInfo.CompanyContactInfo.Email,
+                    Phone = profile.ProfessionalInfo.CompanyContactInfo.Phone,
+                    WebsiteUrl = profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl,
+                    FirstName = profile.ProfessionalInfo.CompanyContactInfo.FirstName,
+                    LastName = profile.ProfessionalInfo.CompanyContactInfo.LastName,
+                    Category = profile.ProfessionalInfo.Category,
+                    CompanyName = profile.ProfessionalInfo.CompanyName,
+                    Street1 = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1,
+                    City = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
+                    Country = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
+                    PostalCode = profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,
+                    Metadata = metadata
                 };
-
                 return View(model);
             }
             catch (ClassyException cex)
@@ -296,12 +307,35 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
+            var professionalInfo = new ProfessionalInfoView
+            {
+                CompanyName = model.CompanyName,
+                CompanyContactInfo = new ExtendedContactInfoView
+                {
+                    Email = model.Email,
+                    Phone = model.Phone,
+                    WebsiteUrl = model.WebsiteUrl,
+                    Location = new LocationView
+                    {
+                        Address = new PhysicalAddressView
+                        {
+                            Street1 = model.Street1,
+                            City = model.City,
+                            Country = model.Country,
+                            PostalCode = model.PostalCode
+                        }
+                    },
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                },
+                Category = model.Category
+            };
             try
             {
                 var service = new ProfileService();
                 var profile = service.UpdateProfile(
                     AuthenticatedUserProfile.Id, 
-                    model.ProfessionalInfo, 
+                    professionalInfo, 
                     model.Metadata.ToDictionary(), 
                     "CreateProfessionalProfile");
                 

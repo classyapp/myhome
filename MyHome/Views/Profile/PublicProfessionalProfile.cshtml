@@ -6,6 +6,7 @@
     var reviews = Model.Profile.Reviews;
     var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
     var collections = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0);
+    var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
 }
 
 <div id="contactSuccess" class="alert alert-success alert-dismissable hide">
@@ -21,8 +22,8 @@
 
         <div class="follow text-center">
             @if (Request.IsAuthenticated &&
-            (Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) ||
-            Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
+            (Model.Profile.FollowedBy.Any(x => x.Id == user.Profile.Id) ||
+            Model.Profile.Id == user.Profile.Id))
             {
                 <span><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Profile_Sidebar_Following")</span>
             }
@@ -189,7 +190,9 @@
             <div class="col-md-4">
                 @if (Model.Profile.IsProxy)
                 {
-                    @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
+                    if (!Request.IsAuthenticated || !user.Profile.IsProfessional) {
+                        @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
+                    }
                 }
                 else
                 {
