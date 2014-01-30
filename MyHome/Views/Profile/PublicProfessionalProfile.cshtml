@@ -7,6 +7,7 @@
     var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
     var collections = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0);
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
+    var proCategories = Localizer.GetList("professional-categories");
 }
 
 <div id="contactSuccess" class="alert alert-success alert-dismissable hide">
@@ -235,7 +236,7 @@
                 <div class="contact-info">
                     <i class="glyphicon glyphicon-tag"></i>
                     <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                        <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.Category</span></a>
+                        <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span></a>
                     </span>                    
                     <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
                         <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span></a>
