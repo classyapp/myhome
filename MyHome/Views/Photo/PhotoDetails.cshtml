@@ -4,6 +4,7 @@
     ViewBag.Title = "PhotoDetails";
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
+    var proCategories = Localizer.GetList("professional-categories");
 }
 
 <div class="row photo-details">
@@ -44,6 +45,20 @@
         </div>
     </div>
     <div class="col-md-5">
+        <div class="profile clearfix">
+            <img src="@Model.Listing.Profile.ThumbnailUrl" width="50" class="pull-left" />
+            <div class="details">
+                @Html.ProfileLink(Model.Listing.Profile)
+                @if (Model.Listing.Profile.IsProfessional)
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Listing.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
+        </div>
+        
+        <hr />
+
         <div class="actions">
             <a href="#" class="btn btn-success action share"><i class="glyphicon glyphicon-share"></i></a>
             @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")

@@ -70,6 +70,32 @@ h1, h2, h3, h4, h5 {
     padding-right: 10px;
 }
 
+/* find pro to review */
+.steps li {
+    color: #47a447;
+    vertical-align: top;
+    width: 40%;
+}
+.steps li:first-child {
+    margin-left: 40px;
+}
+.steps li .visual {
+    display: block;
+    padding: 20px;
+    font-size: 96px;
+    width: 136px;
+    height: 136px;
+    line-height: 1px;
+}
+.steps li .verbal {
+    font-size: 24px;
+}
+.steps .search,
+.steps .selection {
+    color: #000;
+    margin-top: 10px;
+}
+
 /* photo details */
 .comments {
     font-size: 13px;
@@ -88,6 +114,21 @@ h1, h2, h3, h4, h5 {
 }
 .photo-details dt {
     text-align: right;
+}
+.photo-details .photo .stats {
+    color: #666;
+}
+.photo-details .photo .stats span {
+    display: inline-block;
+    margin-left: 20px;
+    padding: 5px 0;
+    float: right;
+}
+.photo-details .photo .actions {
+    float: left;
+}
+.photo-details .profile img {
+    margin-left: 10px;
 }
 
 /* navbar */
@@ -155,29 +196,12 @@ h1, h2, h3, h4, h5 {
     font-size: 14px;
     color: #47a447;
 }
-#photos .thumbnail a.action {
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    font-size: 12px;
-    padding: 6px 0;
-    line-height: 1.428571429;
-    text-align: center;
-    float: right;
-    position: absolute;
-    z-index: 999;
-    top: 15px;
-    left: 30px;
-}
 #photos .thumbnail,
 #collections .thumbnail
 {
     border-radius: 0;
     padding: 0;
     margin-bottom: 20px;
-}
-#photos .thumbnail a.action.add {
-    left: 65px;
 }
 #photos .thumbnail .details,
 #collections .thumbnail .details
@@ -255,6 +279,31 @@ h1, h2, h3, h4, h5 {
     padding: 0;
 }
 
+/* action button */
+a.action {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 6px 0;
+    line-height: 1.428571429;
+    text-align: center;
+}
+a.action.onphoto {
+    position: absolute;
+    z-index: 999;
+    top: 15px;
+}
+a.action.add {
+    left: 65px;
+}
+a.action.like {
+    left: 30px;
+    color: #f55555;
+}
+a.action.share {
+    left: 100px;
+}
 
 .banner {
     background: #2C3E50;

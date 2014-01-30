@@ -34,17 +34,17 @@
         padding: 3px 20px;
     }
 
-    .tt-suggestion.tt-is-under-cursor {
-        color: #fff;
-        background-color: #0081c2;
-        background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
-        background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
-        background-image: -o-linear-gradient(top, #0088cc, #0077b3);
-        background-image: linear-gradient(to bottom, #0088cc, #0077b3);
-        background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
-    }
+        .tt-suggestion.tt-is-under-cursor {
+            color: #fff;
+            background-color: #0081c2;
+            background-image: -moz-linear-gradient(top, #47a447, #63c663);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#47a447), to(#63c663));
+            background-image: -webkit-linear-gradient(top, #47a447, #63c663);
+            background-image: -o-linear-gradient(top, #47a447, #63c663);
+            background-image: linear-gradient(to bottom, #47a447, #63c663);
+            background-repeat: repeat-x;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#47a447', endColorstr='#63c663', GradientType=0);
+        }
 
     .twitter-typeahead .tt-hint {
         display: block;
@@ -97,49 +97,76 @@
     }
 </style>
 
-<h2>חיפוש אנשי מקצוע</h2>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>@Localizer.Get("FindProForReview_PageTitle")</h1>
 
-<label for="agent-name">שם החברה או איש המקצוע</label>
-<input type="text" name="agent-name" class="typeahead" data-provide="typeahead" />
-
-<div class="selection">
-
+        <div class="steps">
+            <ul class="list-inline list-unstyled">
+                <li>
+                    <span class="visual"><i class="glyphicon glyphicon-search"></i></span>
+                    <span class="verbal"><strong>1.</strong> @Localizer.Get("FindProForReview_Step1")</span>
+                    <div class="search">
+                        @Html.Bootstrap().TextBox("ProName").Class("typeahead").HtmlAttributes(new Dictionary<string, string> { { "data-provide", "typeahead" }})
+                    </div>
+                </li>
+                <li>
+                    <span class="visual"><i class="glyphicon glyphicon-comment"></i></span>
+                    <span class="verbal"><strong>2.</strong> @Localizer.Get("FindProForReview_Step2")</span>
+                    <div class="selection">
+                        <a id="reviewLink" href="#" class="hide btn btn-success">@Localizer.Get("FindProToReview_ReviewLink") <span class="name"></span></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
-@section scripts {
-    @Scripts.Render("~/scripts/hogan-2.0.0.js")
-    @Scripts.Render("~/scripts/typeahead.min.js")
 
-    <script>
-        $('.typeahead').typeahead({
-            name: 'profile-names',
-            remote: {
-                url: '/profile/search?professionalsonly=true&name=%QUERY',
-                filter: function (results) {
-                    var profiles = [];
-                    $.each(results, function (index, profile) {
+
+@section scripts {
+
+@Scripts.Render("~/scripts/hogan-2.0.0.js")
+@Scripts.Render("~/scripts/typeahead.min.js")
+
+<script>
+    $('.typeahead').typeahead({
+        name: 'profile-names',
+        remote: {
+            url: '/profile/search?professionalsonly=true&name=%QUERY',
+            filter: function (results) {
+                var profiles = [];
+                $.each(results, function (index, profile) {
+                    if (profile.IsProfessional) {
                         profiles.push({
                             "value": profile.Id,
-                            "license_no": '123123',
+                            "city": profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
+                            "country": profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
                             "name": profile.ProfessionalInfo.CompanyName,
                             "isProxy": profile.IsProxy,
                             "tokens": [profile.ProfessionalInfo.CompanyName]
                         });
-                    });
-                    return profiles;
-                },
-                cache: false
+                    }
+                });
+                return profiles;
             },
-            valueKey: 'name',
-            template: '<p>{{name}}</p><p><small>רשיון מספר{{license_no}}</small></p>',
-            limit: 50,
-            engine: Hogan
-        }).keyup(function (e) {
-            $('input[name=ProfileId]').val('');
-            $('#licenseno').html('<span class="error">מתווך לא נמצא במאגר מתווכים מורשים</span>');
-        }).on('typeahead:selected', function (e, item) {
-            $('div.selection').html('<a href="http://www.myhome.co.il/profile/' + item.value + '/reviews/new?isProxy='+ item.isProxy +'">כתוב חוות דעת על '+item.name+'</a>');
-        });
-    </script>
+            cache: false
+        },
+        valueKey: 'name',
+        template: '<p>{{name}}</p><p><small>{{city}}, {{country}}</small></p>',
+        limit: 50,
+        engine: Hogan
+    }).keyup(function (e) {
+        $('#reviewLink').attr('href', '@(Url.RouteUrlForCurrentLocale("PostProfileReview", new { ProfileId = "__profileId__" }))').addClass('hide');
+
+    }).on('typeahead:selected', function (e, item) {
+        $('#reviewLink')
+            .attr('href', $('#reviewLink').attr('href').replace('__profileId__', item.value))
+            .removeClass('hide')
+            .children('.name')
+            .html(item.name);
+    });
+</script>
+
 }
 
