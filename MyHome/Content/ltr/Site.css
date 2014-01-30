@@ -81,6 +81,18 @@ h1, h2, h3, h4, h5 {
 .photo-details dt {
     text-align: left;
 }
+.photo-details .photo .stats {
+    color: #666;
+}
+.photo-details .photo .stats span {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 5px 0;
+    float: left;
+}
+.photo-details .photo .actions {
+    float: right;
+}
 
 /* navbar */
 .navbar {
@@ -144,28 +156,11 @@ h1, h2, h3, h4, h5 {
     font-size: 14px;
     color: #47a447;
 }
-#photos .thumbnail a.action {
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    font-size: 12px;
-    padding: 6px 0;
-    line-height: 1.428571429;
-    text-align: center;
-    float: right;
-    position: absolute;
-    z-index: 999;
-    top: 15px;
-    right: 30px;
-}
 #photos .thumbnail,
 #collections .thumbnail
 {
     border-radius: 0;
     padding: 0;
-}
-#photos .thumbnail a.action.add {
-    right: 65px;
 }
 #photos .thumbnail .details,
 #collections .thumbnail .details
@@ -246,6 +241,33 @@ h1, h2, h3, h4, h5 {
 .form-group .col-lg-12 {
     padding: 0;
 }
+
+/* action button */
+a.action {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    padding: 6px 0;
+    line-height: 1.428571429;
+    text-align: center;
+}
+a.action.onphoto {
+    position: absolute;
+    z-index: 999;
+    top: 15px;
+}
+a.action.add {
+    right: 65px;
+}
+a.action.like {
+    right: 30px;
+    color: #f55555;
+}
+a.action.share {
+    right: 100px;
+}
+
 
 
 .banner {

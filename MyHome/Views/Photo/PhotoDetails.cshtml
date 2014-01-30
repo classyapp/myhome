@@ -9,11 +9,13 @@
 <div class="row photo-details">
     <div class="col-md-7">
 
-        <div class="photo">
+        <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
-            <div class="share">
-                @Html.TriggerListingActionLink("Like this Photo", "favorite", Model.Listing) /
-                @Html.TriggerListingActionLink("Add to Collection", "collect", Model.Listing)
+            <div class="stats">
+                <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
+                <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
+                <span><i class="glyphicon glyphicon-heart"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
+                <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("PhotoDetails_CommentCount"), Model.Listing.CommentCount)</span>
             </div>
         </div>
         
@@ -42,23 +44,13 @@
         </div>
     </div>
     <div class="col-md-5">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">@string.Format(Localizer.Get("PhotoDetails_Likes"), Model.Listing.FavoriteCount)</h3>
-            </div>
-            <div class="panel-body social-thumbnails">
-                <ul class="list-inline">
-                    @foreach (var p in Model.Listing.FavoritedBy)
-                    {
-                        <li class="thumbnail">
-                            <a href="@Url.ProfileUrl(p)">
-                                <img src="@p.ThumbnailUrl" width="30" />
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
+        <div class="actions">
+            <a href="#" class="btn btn-success action share"><i class="glyphicon glyphicon-share"></i></a>
+            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")
+            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")
         </div>
+
+        <hr />
 
         <div class="panel panel-default">
             <div class="panel-heading">
