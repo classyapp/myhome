@@ -130,7 +130,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profile = AuthenticatedUserProfile;
-                if (profile.IsProfessional) return RedirectToRoute("Home");
+                if (profile != null && profile.IsProfessional) return RedirectToRoute("Home");
                 var service = new ProfileService();
                 var proxy = service.GetProfileById(profileId);
                 if (!proxy.IsProxy) return RedirectToRoute("Home");
