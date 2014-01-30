@@ -53,3 +53,10 @@
         <h1>@Localizer.Get("PostReview_Copy_Title")</h1>
         <div>@Html.Raw(Localizer.Get("PostReview_Copy_Content"))</div>
     </div>
+
+    @if (!Request.IsAuthenticated)
+    {
+        @section scripts {
+            <script>$(function () { $('#login-modal').modal('show'); })</script>
+        }
+    }

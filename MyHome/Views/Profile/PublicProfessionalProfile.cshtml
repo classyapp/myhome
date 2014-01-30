@@ -230,18 +230,25 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="contact-info"><i class="glyphicon glyphicon-phone"></i> <span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
-                <div class="contact-info"><i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a></div>
-
-                <div class="contact-info">
-                    <i class="glyphicon glyphicon-tag"></i>
-                    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                        <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span></a>
-                    </span>                    
-                    <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
-                        <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span></a>
-                    </span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone)) {
+                    <div class="contact-info"><i class="glyphicon glyphicon-phone"></i> <span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
+                }
+                
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl)) {
+                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a></div>
+                }
+                
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category)) {
+                    <div class="contact-info">
+                        <i class="glyphicon glyphicon-tag"></i>
+                        <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                            <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span></a>
+                        </span>                    
+                        <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                            <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span></a>
+                        </span>
+                    </div>
+                }
                 
                 @if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
                                 Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
