@@ -49,7 +49,7 @@
             <img src="@Model.Listing.Profile.ThumbnailUrl" width="50" class="pull-left" />
             <div class="details">
                 @Html.ProfileLink(Model.Listing.Profile)
-                @if (Model.Listing.Profile.IsProfessional)
+                @if (Model.Listing.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
                 {
                     <br />
                     <span>@proCategories.Single(x => x.Value == Model.Listing.Profile.ProfessionalInfo.Category).Text</span>
