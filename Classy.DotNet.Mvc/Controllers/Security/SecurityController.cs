@@ -147,7 +147,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Register()
         {
-            if (Request.IsAuthenticated) return RedirectToRoute("MyProfile");
+            if (Request.IsAuthenticated) return RedirectToRoute("PublicProfile");
 
             return View(new RegistrationViewModel<TMetadata>());
         }
@@ -167,7 +167,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 OnProfileRegistered(this, profile);
 
             return RedirectToRoute(
-                    model.IsProfessional ? "CreateProfessionalProfile" : "MyProfile"
+                    model.IsProfessional ? "CreateProfessionalProfile" : "PublicProfile"
                 );
         }
 

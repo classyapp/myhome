@@ -185,6 +185,9 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 5px;
     font-size: 12px;
 }
+.main .profile-actions {
+    margin-bottom: 20px;
+}
 .rating {
     vertical-align: middle;
 }
@@ -303,6 +306,10 @@ a.action.like {
 }
 a.action.share {
     left: 100px;
+}
+a.action.like-on {
+    color: #fff;
+    background-color: #f55555;
 }
 
 .banner {

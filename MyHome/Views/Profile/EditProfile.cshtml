@@ -1,0 +1,24 @@
+@model Classy.DotNet.Mvc.ViewModels.Profiles.EditProfileViewModel<MyHome.Models.ProfessionalMetadata>
+
+@{
+    ViewBag.Title = "AgentProfile";
+}
+
+<div class="row">
+    <div class="col-md-3 sidebar">
+        <div class="image text-center">
+            <img src="@Model.ThumbnailUrl" title="@Model.Name" />
+        </div>
+    </div>
+
+    <div class="col-md-9 main">
+        @using (var f = Html.Bootstrap().Begin(new Form("EditProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
+        {
+            <h4>@Localizer.Get("EditProfile_AccountDetails")</h4>
+            <div>
+                @f.FormGroup().TextBoxFor(x => x.Username).Disabled()
+                @f.FormGroup().TextBoxFor(x => x.Email)
+            </div>
+        }  
+    </div>
+</div>

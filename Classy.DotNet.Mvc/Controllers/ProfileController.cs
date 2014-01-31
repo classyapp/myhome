@@ -33,9 +33,9 @@ namespace Classy.DotNet.Mvc.Controllers
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRouteForSupportedLocales(
-                name: "MyProfile",
-                url: "profile/me",
-                defaults: new { controller = "Profile", action = "MyProfile" },
+                name: "EditProfile",
+                url: "profile/edit",
+                defaults: new { controller = "Profile", action = "EditProfile" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -85,13 +85,21 @@ namespace Classy.DotNet.Mvc.Controllers
         #region // actions
 
         //
-        // GET: /profile/me
+        // GET: /profile/edit
         // 
         [AuthorizeWithRedirect("Index")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult MyProfile()
+        public ActionResult EditProfile()
         {
-            return View(AuthenticatedUserProfile);
+            var model = new EditProfileViewModel<TProMetadata>
+            {
+                ProfileId = AuthenticatedUserProfile.Id,
+                Name = AuthenticatedUserProfile.GetProfileName(),
+                ThumbnailUrl = AuthenticatedUserProfile.ThumbnailUrl,
+                Username = AuthenticatedUserProfile.UserName,
+                Email = AuthenticatedUserProfile.IsProfessional ? AuthenticatedUserProfile.ProfessionalInfo.CompanyContactInfo.Email : AuthenticatedUserProfile.ContactInfo.Email
+            };
+            return View(model);
         }
 
         //
@@ -201,7 +209,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata.ToDictionary());
                 service.ApproveProxyClaim(claim.Id);
 
-                return RedirectToRoute("MyProfile");
+                return RedirectToRoute("PublicProfile");
             }
             catch (ClassyException cvx)
             {
@@ -339,7 +347,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata.ToDictionary(), 
                     "CreateProfessionalProfile");
                 
-                return RedirectToRoute("MyProfile");
+                return RedirectToRoute("PublicProfile");
             }
             catch (ClassyException cvx)
             {

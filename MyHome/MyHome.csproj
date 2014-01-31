@@ -429,7 +429,7 @@
     <Content Include="Views\Review\PostProfileReview.cshtml" />
     <Content Include="Views\Review\ReviewThanks.cshtml" />
     <Content Include="Views\Profile\ClaimProxyProfile.cshtml" />
-    <Content Include="Views\Profile\MyProfile.cshtml" />
+    <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Security\Register.cshtml" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Profile\CreateProfessionalProfile.cshtml" />

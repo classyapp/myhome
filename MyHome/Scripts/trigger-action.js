@@ -10,7 +10,11 @@
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var url = "/" + listingType + "/" + listingId + "/favorite";
-        $.post(url, null, function (data) { console.log(data); })
+        var button = $(this);
+        $.post(url, null, function (data)
+        {
+            button.addClass('like-on');
+        })
     });
 
     $('[trigger-listing-action="collect"]').click(function (e) {

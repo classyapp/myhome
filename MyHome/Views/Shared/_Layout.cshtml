@@ -86,6 +86,7 @@
                 <ul class="nav navbar-nav">
                     @*<li><a href="#"><span class="glyphicon glyphicon-book"></span> @Localizer.Get("Header_Nav_Collections")</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_Discussions")</a></li>*@
+                    <li><a href="@Url.RouteUrlForCurrentLocale("FindProfileToReview")" authorize><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_WriteReview")</a></li>
                     <li><a href="@Url.RouteUrlForCurrentLocale("CreatePhoto")" authorize><span class="glyphicon glyphicon-upload"></span> @Localizer.Get("Header_Nav_Upload")</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -93,12 +94,12 @@
                     {
                         var p = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile;
                         <li class="dropdown">
-                            <a href="@Url.RouteUrlForLocale("MyProfile", env.Culture)" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="@Url.RouteUrl("PublicProfile", env.Culture)" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user"></span> @Localizer.Get("Header_Nav_MyProfile")
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="profile">
-                                    <a href="@Url.RouteUrl("MyProfile")">
+                                    <a href="@Url.RouteUrl("PublicProfile", new { ProfileId = p.Id })">
                                         <div class="pull-left">
                                             <img src="@p.ThumbnailUrl" width="30px" height="30px" />
                                             @Localizer.Get("Header_Nav_MyProfile")
@@ -228,8 +229,8 @@
 
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
-        Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["RouteName"] as string, env.Culture)";
-        Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["RouteName"] as string)";
+        Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
+        Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string)";
 
         $(function () {
             $('.modal[data-remote]')
