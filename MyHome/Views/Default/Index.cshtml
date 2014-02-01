@@ -1,46 +1,53 @@
-﻿@{
+﻿@model IList<Classy.DotNet.Responses.ListingView>
+@{
     ViewBag.Title = "Home Page";  
 }
 
-<div class="row banner">
-    <div class="col-md-6">
-        <h2>קניתם, מכרתם או שכרתם דירה בתיווך לאחרונה?</h2>
-        <h1>מלאו חוות דעת וקבלו את <strong>עמלת התיווך בחזרה!</strong></h1>
-        <p class="lead">
-            איך משתתפים?<br/>
-            1. מתחברים עם פייסבוק<br/>
-            2. ממלאים חוות דעת (5 דקות)<br/>
-            3. מחכים לתוצאות ההגרלה בסוף החודש!
-        </p>
-        <p><a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">לחצו כאן בכדי להתחבר עם פייסבוק</a></p>
-        <p class="fb-footnote">אנחנו מתחייבים שלא לפרסם לכם כלום על הקיר.<br/>ההתחברות דרך פייסבוק היא לצורך וידוא זהות הזוכים.</p>
+@section PreContent {
+    <div class="home-banner">
+        <div class="slogan">
+            <h1>@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
+            <div class="signin">
+                <a id="sign-in-facebook" class="btn btn-lg btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
+            </div>
+        </div>
     </div>
-    <div class="imageholder col-md-6 visible-lg">
-        <img src="/img/broker.png" width="550" alt="מתווך נדלן" />
+}
+
+<div class="row home-content">
+    <div class="col-md-8">
+        <h3>@Localizer.Get("Home_LatestPhotos")</h3>
+        <hr />
+        <div class="row" id="photos">
+            @if (Model.Count() > 0)
+            {
+                foreach (var p in Model)
+                {
+                    var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
+                    if (thumb != null)
+                    {
+                        <div class="col-md-4">
+                            <div class="thumbnail">
+                                <div class="actions hide">
+                                    @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like photo")
+                                    @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add photo")
+                                </div>
+                                <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
+                                <div class="details">
+                                    <strong>@Html.ListingLink("Photo", p)</strong>
+                                    <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+
     </div>
-</div>
-
-<div class="row marketing">
-    <div class="col-lg-6">
-        <h4>החזון של רילי</h4>
-        <p>החזון של אתר רילי הוא לייצר שקיפות בתחום הנדל"ן.</p>
-
-        <h4>Subheading</h4>
-        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-        <h4>Subheading</h4>
-        <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-    </div>
-   
-    <div class="col-lg-6">
-        <h4>Subheading</h4>
-        <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-        <h4>Subheading</h4>
-        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-        <h4>Subheading</h4>
-        <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    <div class="col-md-4">
+        <h3>@Localizer.Get("Home_ProTeaser")</h3>
+        <hr />
     </div>
 </div>
 

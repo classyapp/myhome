@@ -40,6 +40,11 @@ namespace Classy.DotNet.Mvc.Localization
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
                 System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
             }
+            if (SupportedCultures.SingleOrDefault(x => x.Name == System.Threading.Thread.CurrentThread.CurrentUICulture.Name) == null)
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+            }
         }
 
         public static IEnumerable<CultureInfo> SupportedCultures

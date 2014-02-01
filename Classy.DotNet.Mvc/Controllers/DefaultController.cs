@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Classy.DotNet.Mvc.Localization;
 using System.Web.Mvc;
+using Classy.DotNet.Services;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -29,7 +30,18 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var service = new ListingService();
+            // get latest photos
+            var photos = service.SearchListings(
+                null,
+                "Photo",
+                null,
+                null,
+                null,
+                null);
+            var model = photos;
+
+            return View(model);
         }
     }
 }

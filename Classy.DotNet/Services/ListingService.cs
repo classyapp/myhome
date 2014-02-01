@@ -98,7 +98,7 @@ namespace Classy.DotNet.Services
                 if (IncludeProfile) url = string.Concat(url, "&includeprofile=true");
                 if (IncludeCommenterProfiles) url = string.Concat(url, "&includecommenterprofiles=true");
                 if (IncludeFavoritedByProfiles) url = string.Concat(url, "&includefavoritedbyprofiles=true");
-                if (LogImpression) url = string.Concat(url, "&logimperssion=true");
+                if (LogImpression) url = string.Concat(url, "&logimpression=true");
                 var listingJson = client.DownloadString(url);
                 var listing = listingJson.FromJson<ListingView>();
                 return listing;
