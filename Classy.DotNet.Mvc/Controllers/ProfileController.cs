@@ -209,7 +209,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata.ToDictionary());
                 service.ApproveProxyClaim(claim.Id);
 
-                return RedirectToRoute("PublicProfile");
+                return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId });
             }
             catch (ClassyException cvx)
             {
@@ -346,8 +346,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     professionalInfo, 
                     model.Metadata.ToDictionary(), 
                     "CreateProfessionalProfile");
-                
-                return RedirectToRoute("PublicProfile");
+
+                return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
             }
             catch (ClassyException cvx)
             {
