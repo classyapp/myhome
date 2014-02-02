@@ -38,6 +38,12 @@ a.btn-default {
     background-color: #efefef;
 }
 
+/* collection - grid */
+.collection .profile img {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
 /* home page */
 .home-banner {
     background-image: url(/img/home-banner.jpg);

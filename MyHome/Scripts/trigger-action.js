@@ -22,7 +22,7 @@
         var listingType = $(this).attr('listing-type');
         $('#collect-modal')
             .modal('show')
-            .on('shown.bs.modal', function () {
+            .on('loaded.bs.modal', function () {
                 $('#listingId').val(listingId);
             });
     });

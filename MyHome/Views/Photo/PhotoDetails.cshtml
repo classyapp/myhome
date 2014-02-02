@@ -22,6 +22,9 @@
         
         <h2>@Model.Listing.Title</h2>
         <p>@Model.Listing.Content</p>
+        @if (!string.IsNullOrEmpty(Model.Metadata.CopyrightMessage)) {
+            <p>@Localizer.Get("PhotoDetails_PhotoCredit") @Model.Metadata.CopyrightMessage</p>
+        }
 
         <hr/>
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
