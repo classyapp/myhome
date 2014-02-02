@@ -28,7 +28,7 @@ namespace Classy.DotNet.Services
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list";
-        private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
+        private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
 
         #region // listings
 

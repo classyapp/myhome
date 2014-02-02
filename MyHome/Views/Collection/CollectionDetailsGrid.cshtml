@@ -1,0 +1,73 @@
+@model Classy.DotNet.Responses.CollectionView
+
+@{
+    ViewBag.Title = "CollectionDetails";
+    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
+    var proCategories = Localizer.GetList("professional-categories");
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@Model.Title</h1>
+        <p>@Model.Content</p>
+    </div>
+    <div class="col-md-9">
+        <div class="row" id="photos">
+            @if (photos != null)
+            {
+                foreach (var p in photos)
+                {
+                    if (p.ExternalMedia.Count() > 0 && p.ExternalMedia[0].Thumbnails != null)
+                    {
+                        var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
+                        if (thumb != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="thumbnail">
+                                    <div class="actions hide">
+                                        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like onphoto")
+                                        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add onphoto")
+                                    </div>
+
+                                    <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
+                                    <div class="details">
+                                        <strong>@Html.ListingLink("Photo", p)</strong><br />
+                                        <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="profile clearfix">
+            <img src="@Model.Profile.ThumbnailUrl" width="50" class="pull-left" />
+            <div class="details">
+                @Html.ProfileLink(Model.Profile)
+                @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.thumbnail').mouseover(function () {
+                $(this).find('.actions').removeClass('hide');
+            });
+            $('.thumbnail').mouseout(function () {
+                $(this).find('.actions').addClass('hide');
+            });
+        });
+    </script>
+}
+

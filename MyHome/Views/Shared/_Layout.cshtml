@@ -166,11 +166,9 @@
         @RenderBody()
     </div> <!-- /container -->
 
-    <div class="container">
-        <div class="footer text-center">
-            <p>&copy; myhome.co.il 2013</p>
-            <p><small><img src="/img/flags/@(env.Culture.Split('-')[1]).png" /> <a href="#language-select" data-toggle="modal" data-target="#env-modal">@Localizer.Get("Template_Language_Change")</a></small></p>
-        </div>
+    <div class="footer text-center">
+        <p>&copy; myhome.co.il 2013</p>
+        <p><small><img src="/img/flags/@(env.Culture.Split('-')[1]).png" /> <a href="#language-select" data-toggle="modal" data-target="#env-modal">@Localizer.Get("Template_Language_Change")</a></small></p>
     </div>
 
     <!-- fb api -->

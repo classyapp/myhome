@@ -38,13 +38,13 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult CollectionDetails(string collectionId)
+        public ActionResult CollectionDetails(string collectionId, string view)
         {
             try
             {
                 var service = new ListingService();
                 var collection = service.GetCollectionById(collectionId, true, true, false);
-                return View(collection);
+                return View((view ?? "grid").ToLower() == "list" ? "CollectionDetailsList" : "CollectionDetailsGrid", collection);
             }
             catch (ClassyException cex)
             {

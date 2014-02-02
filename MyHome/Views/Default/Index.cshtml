@@ -1,6 +1,8 @@
 ﻿@model IList<Classy.DotNet.Responses.ListingView>
 @{
-    ViewBag.Title = "Home Page";  
+    ViewBag.Title = "Home Page"; 
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles"); 
 }
 
 @section PreContent {
@@ -29,8 +31,8 @@
                         <div class="col-md-4">
                             <div class="thumbnail">
                                 <div class="actions hide">
-                                    @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like photo")
-                                    @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add photo")
+                                    @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like onphoto")
+                                    @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add onphoto")
                                 </div>
                                 <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
                                 <div class="details">
@@ -44,15 +46,52 @@
             }
         </div>
 
+        <h3>@Localizer.Get("Home_List_Categories")</h3>
+        <hr/>
+        <h4>@Localizer.Get("Home_Rooms")</h4>
+        <ul class="list-inline list-unstyled">
+            @foreach (var r in rooms)
+            {
+                <li>@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, null) })</li>
+            }
+        </ul>
+        <h4>@Localizer.Get("Home_Styles")</h4>
+        <ul class="list-inline list-unstyled">
+            @foreach (var s in styles)
+            {
+                <li>@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value }.GetSearchFilterSlug(null, null) })</li>
+            }
+        </ul>
     </div>
     <div class="col-md-4">
         <h3>@Localizer.Get("Home_ProTeaser")</h3>
         <hr />
+        <ul class="list-unstyled benefits">
+            <li><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Home_ProTeaser_Benefit1")</li>
+            <li><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Home_ProTeaser_Benefit2")</li>
+            <li><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Home_ProTeaser_Benefit3")</li>
+            <li><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Home_ProTeaser_Benefit4")</li>
+        </ul>
+        <a href="#" class="btn btn-lg btn-block btn-success" authorize>@Localizer.Get("Home_CreateProAccount")</a>
+        
+        <h3 class="about">@Localizer.Get("Home_AboutUs")</h3>
+        <hr/>
+        @Html.Raw(Localizer.Get("Home_AboutUs_Content"))
     </div>
 </div>
 
 @section scripts {
     <script>
         OnFacebookLogin = function (profile) { window.document.location.href = "/profile/reviews/new"; }
+    
+        $(function () {
+            $('.thumbnail').mouseover(function () {
+                $(this).find('.actions').removeClass('hide');
+            });
+            $('.thumbnail').mouseout(function () {
+                $(this).find('.actions').addClass('hide');
+            });
+        });
+
     </script>
 }

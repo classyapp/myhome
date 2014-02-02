@@ -19,6 +19,16 @@ h1, h2, h3, h4, h5 {
                sans-serif;
 }
 
+a, a:hover, a:visited {
+    color: #47a447;
+}
+a.btn {
+    color: #fff;
+}
+a.btn-default {
+    color: #000;
+}
+
 .content.container {
     padding: 0;
     min-height: 620px;
@@ -62,6 +72,20 @@ h1, h2, h3, h4, h5 {
 .home-content {
     position: relative;
     top: -90px;
+}
+.home-content .benefits {
+    font-size: 18px;
+}
+.home-content .benefits li {
+    margin-bottom: 20px;
+}
+.home-content .benefits .glyphicon {
+    color: #47a447;
+    font-size: 24px;
+    margin-left: 10px;
+}
+.home-content .about {
+    margin-top: 40px;
 }
 
 /* fix for inline forms within horizontal forms */
