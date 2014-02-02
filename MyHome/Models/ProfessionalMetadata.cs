@@ -11,7 +11,7 @@ namespace MyHome.Models
     public class ProfessionalMetadata : IMetadata<ProfessionalMetadata>
     {
         [Display(Name="ProMetadata_LicenseNo")]
-        [Required(ErrorMessage="ProMetadata_LicenseNo_Required")]
+        //[Required(ErrorMessage="ProMetadata_LicenseNo_Required")]
         public string LicenseNo { get; set; }
         [Display(Name = "ProMetadata_ServicesProvided")]
         [Required(ErrorMessage="ProMetadata_ServicesProvided_Required")]
