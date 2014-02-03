@@ -16,6 +16,15 @@
 </div>
 
 <div class="row">
+    @if (photos.Count() == 0) {
+        <div class="alert alert-info alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Title")</h4>
+            <p>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos")</p>
+            <p><a href="@Url.RouteUrl("CreatePhoto")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Button")</a></p>
+        </div>
+    }
+    
     <div class="col-md-3 sidebar">
         <div class="image text-center">
             <img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
