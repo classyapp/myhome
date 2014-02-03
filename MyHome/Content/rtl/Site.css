@@ -377,6 +377,18 @@ a.action.like-on {
     color: #fff;
     background-color: #f55555;
 }
+/* manage resources*/
+.resourceListContainer {
+    height: 500px;
+}
+.resourceList {
+    overflow-y: scroll;
+    height: 100%;
+}
+.resourceList a.btn {
+    text-align: right;
+    padding-right: 20px;
+}
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,

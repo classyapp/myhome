@@ -8,12 +8,12 @@
 @using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
 {
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 resourceListContainer">
             <a href="#" data-toggle="modal" data-target="#newResourceModal" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-plus"></i> New Resource</a>
-            <ul>
+            <ul class="resourceList list-unstyled">
                 @foreach (var key in Model.ResourceKeys)
                 {
-                    <li>@Html.RouteLink(key, "ManageResources", new { resourceKey = key, selectedCulture = Model.SelectedCulture })</li>
+                    <li>@Html.RouteLink(key, "ManageResources", new { resourceKey = key, selectedCulture = Model.SelectedCulture }, new { @class = "btn btn-block btn-default" })</li>
                 }
             </ul>
         </div>
