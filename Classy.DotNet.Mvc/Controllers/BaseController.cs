@@ -27,7 +27,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
-            Localization.Localizer.Initialize(RouteData.DataTokens[Localizer.ROUTE_LOCALE_DATA_TOKEN_KEY] as string);
+            Localization.Localizer.Initialize(RouteData.DataTokens[Localizer.ROUTE_LOCALE_DATA_TOKEN_KEY] as string, Request["showResourceKeys"] != null);
             return base.BeginExecuteCore(callback, state);
         }
 

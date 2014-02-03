@@ -41,10 +41,14 @@ namespace Classy.DotNet.Mvc.Controllers
         // GET: /resource/manage
         //
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult ManageResources(ManageResourcesViewModel model)
+        public ActionResult ManageResources(string resourceKey)
         {
-            model.SupportedCultures = new SelectList(Localizer.SupportedCultures);
-            model.ResourceKeys = Localizer.GetAllKeys();
+            var model = new ManageResourcesViewModel {
+                SupportedCultures = new SelectList(Localizer.SupportedCultures),
+                ResourceKeys = Localizer.GetAllKeys(),
+                SelectedCulture = GetEnvFromContext().CultureCode,
+                ResourceKey = resourceKey
+            };
             if (!string.IsNullOrEmpty(model.ResourceKey) && !string.IsNullOrEmpty(model.SelectedCulture))
             {
                 model.ResourceValue = Localizer.Get(model.ResourceKey, model.SelectedCulture);
@@ -61,6 +65,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             model.ResourceValue = HttpUtility.HtmlEncode(model.ResourceValue);
             model.ResourceKeys = Localizer.GetAllKeys();
+            model.SelectedCulture = GetEnvFromContext().CultureCode;
             var service = new LocalizationService();
             service.SetResourceValues(model.ResourceKey, new Dictionary<string, string> { { model.SelectedCulture, model.ResourceValue } });
             HttpRuntime.Cache.Remove(model.ResourceKey);

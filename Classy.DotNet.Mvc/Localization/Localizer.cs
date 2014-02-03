@@ -22,6 +22,8 @@ namespace Classy.DotNet.Mvc.Localization
         public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
         public const string ROUTE_LOCALE_DATA_TOKEN_KEY = "classy.routetoken.locale";
 
+        private static bool _showResourceKeys = false;
+
         static Localizer()
         {
             // init db
@@ -29,10 +31,12 @@ namespace Classy.DotNet.Mvc.Localization
 
         public static void Initialize()
         {
-            Initialize(null);
+            Initialize(null, false);
         }
-        public static void Initialize(string forceCulture)
+        public static void Initialize(string forceCulture, bool showResourceKeys)
         {
+            _showResourceKeys = showResourceKeys;
+
             var cookie = HttpContext.Current.Request.Cookies[CULTURE_COOKIE_NAME];
             string cultureName = forceCulture ?? (cookie != null ? cookie.Value : null);
             if (cultureName != null)
@@ -85,7 +89,9 @@ namespace Classy.DotNet.Mvc.Localization
             {
                 value = HttpUtility.HtmlDecode(resource.Values.SingleOrDefault(x => x.Key == culture).Value);
             }
-            return value ?? string.Concat(key, "_", culture);
+            var output = value ?? key;
+            if (_showResourceKeys && !string.IsNullOrEmpty(value)) output = string.Concat(output, " [", key, "]");
+            return output;
         }
 
         public static SelectList GetList(string key)
