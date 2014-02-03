@@ -167,7 +167,8 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 OnProfileRegistered(this, profile);
 
             return RedirectToRoute(
-                    model.IsProfessional ? "CreateProfessionalProfile" : "PublicProfile"
+                    model.IsProfessional ? "CreateProfessionalProfile" : "PublicProfile",
+                    new { ProfileId = profile.Id }
                 );
         }
 
@@ -176,6 +177,8 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         {
             try
             {
+                if (!ModelState.IsValid) return View(model);
+
                 // TODO: validate CSRF token
                 if (!ClassyAuth.Register(model.Username, model.Email, model.Password))
                     throw new Exception("what happened?");
