@@ -31,6 +31,10 @@
             @f.FormGroup().File("file").Label().Class("sr-only")
             </div>
             
+            <p><small>
+                @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(true).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            </small></p>
+            
             @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhoto_Submit")).Class("btn-success"))
             
         }

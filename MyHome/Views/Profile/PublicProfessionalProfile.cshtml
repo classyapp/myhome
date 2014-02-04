@@ -16,7 +16,10 @@
 </div>
 
 <div class="row">
-    @if (photos.Count() == 0) {
+    @if (Model.Profile.IsProfessional && 
+        !Model.Profile.IsProxy &&
+        Request.IsAuthenticated &&
+        photos.Count() == 0) {
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h4>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Title")</h4>

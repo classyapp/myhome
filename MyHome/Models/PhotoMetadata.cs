@@ -19,6 +19,9 @@ namespace MyHome.Models
         public string Style { get; set; }
         [Display(Name = "PhotoMetadata_Copyright")]
         public string CopyrightMessage { get; set; }
+        [Display(Name = "PhotoMetadata_Terms")]
+        [Required(ErrorMessage = "PhotoMetadata_Terms_Required")]
+        public string AgreeToTerms { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
