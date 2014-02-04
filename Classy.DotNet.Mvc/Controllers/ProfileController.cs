@@ -14,6 +14,7 @@ using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
+using System.IO;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -32,6 +33,20 @@ namespace Classy.DotNet.Mvc.Controllers
         /// </summary>
         public override void RegisterRoutes(RouteCollection routes)
         {
+            routes.MapRouteWithName(
+                name: "CreateProxyProfile",
+                url: "profile/new/proxy",
+                defaults: new { controller = "Profile", action = "CreateProxyProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "CreateProxyProfileMass",
+                url: "profile/new/proxy/mass",
+                defaults: new { controller = "Profile", action = "CreateProxyProfileMass" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "EditProfile",
                 url: "profile/edit",
@@ -83,6 +98,57 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         #region // actions
+
+        //
+        // GET: /profile/new/proxy
+        //
+        [AuthorizeWithRedirect("Index")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateProxyProfile()
+        {
+            return View();
+        }
+
+        //
+        // POST: /profile/new/proxy/mass
+        //
+        public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
+        {
+            if (!ModelState.IsValid) return View("CreateProxyProfile", model);
+
+            string line;
+            string[] content;
+            var reader = new StreamReader(model.File.InputStream);
+            // read first line
+            line = reader.ReadLine();
+            if (line != null) 
+            {
+                content = line.Split(',');
+                if ()
+            }
+            else
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    content = line.Split(',');
+
+                    var profile = new ProfileView 
+                    {
+                        ProfessionalInfo = new ProfessionalInfoView
+                        {
+                            CompanyName = content[1],
+                            CompanyContactInfo = new ExtendedContactInfoView
+                            {
+                                Email = ,
+                                WebsiteUrl = ,
+                            }
+                        }
+                    };
+                }   
+            }
+
+            return View("CreateProxyProfile");
+        }
 
         //
         // GET: /profile/edit

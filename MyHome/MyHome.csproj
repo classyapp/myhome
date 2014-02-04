@@ -451,6 +451,7 @@
     <Content Include="Views\Localization\ManageResources.cshtml" />
     <Content Include="Views\Profile\ContactProfessional.cshtml" />
     <Content Include="Views\Profile\PublicProfile.cshtml" />
+    <Content Include="Views\Profile\CreateProxyProfile.cshtml" />
     <None Include="Web.AppHarbor.config" />
   </ItemGroup>
   <ItemGroup>
