@@ -1,4 +1,13 @@
 ﻿$.validator.addMethod('accept', function () { return true; });
+$("#uploadBtn").closest("form").bind('invalid-form.validate', function (form, validator) {
+    var $list = $('.validation-summary-valid ul:first')
+    if ($list.length && validator.errorList.length) {
+        $list.empty();
+        $.each(validator.errorList, function () {
+            $("<li />").html(this.message).appendTo($list);
+        });
+    }
+});
 $("#file").on("change", function () {
     $("#filesPreview").html("");
 
