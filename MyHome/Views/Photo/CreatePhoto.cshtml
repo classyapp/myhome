@@ -28,10 +28,11 @@
             @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
             @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
             <div class="alert alert-warning">
-            @f.FormGroup().File("file").Label().Class("sr-only")
+            @f.FormGroup().File("file").HtmlAttributes(new { multiple = "multiple", accept = "image/*" }).Label().Class("sr-only")
+                <div id="filesPreview" class="row"></div>
             </div>
             
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhoto_Submit")).Class("btn-success"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Class("btn-success"))
             
         }
     </div>
@@ -40,3 +41,13 @@
         <h1>@Localizer.Get("CreatePhoto_Title_DoDont")</h1>
         <div>@Html.Raw(Localizer.Get("CreatePhoto_Content_DoDont"))</div>
     </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/xhr-upload.js"></script>
+    <script type="text/javascript" src="~/Scripts/new_photo.js"></script>
+    <script type="text/javascript">
+        var redirectUrl = '@Url.RouteUrl("PublicProfile", new { httproute = "", controller = "Profile", action = "PublicProfile", profileId = (System.Web.HttpContext.Current.User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id, slug = "public" })?photosUploaded=1';
+    </script>
+}

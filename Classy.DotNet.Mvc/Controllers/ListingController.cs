@@ -110,7 +110,14 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 TempData["CreateListingSuccess"] = listing;
 
-                return View(string.Concat("Create", ListingTypeName));
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(listing);
+                }
+                else
+                {
+                    return View(string.Concat("Create", ListingTypeName));
+                }
             }
             catch(ClassyException cvx)
             {
