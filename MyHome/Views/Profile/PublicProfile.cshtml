@@ -124,7 +124,7 @@
         </ul>
 
         <div class="tab-content row">
-            <div class="tab-pane active" id="photos">
+            <div class="tab-pane" id="photos">
                 @if (photos.Count() > 0)
                 {
                     foreach (var p in photos)
@@ -153,7 +153,7 @@
                 }
             </div>
 
-            <div class="tab-pane" id="collections">
+            <div class="tab-pane active" id="collections">
                 @if (collections.Count() > 0)
                 {
                     foreach (var c in collections)
