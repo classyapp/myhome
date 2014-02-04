@@ -112,43 +112,43 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // POST: /profile/new/proxy/mass
         //
-        public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
-        {
-            if (!ModelState.IsValid) return View("CreateProxyProfile", model);
+        //public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
+        //{
+        //    if (!ModelState.IsValid) return View("CreateProxyProfile", model);
 
-            string line;
-            string[] content;
-            var reader = new StreamReader(model.File.InputStream);
-            // read first line
-            line = reader.ReadLine();
-            if (line != null) 
-            {
-                content = line.Split(',');
-                if ()
-            }
-            else
-            {
-                while ((line = reader.ReadLine()) != null)
-                {
-                    content = line.Split(',');
+        //    string line;
+        //    string[] content;
+        //    var reader = new StreamReader(model.File.InputStream);
+        //    // read first line
+        //    line = reader.ReadLine();
+        //    if (line != null) 
+        //    {
+        //        content = line.Split(',');
+        //        if (content[0].ToUpper() == "")
+        //    }
+        //    else
+        //    {
+        //        while ((line = reader.ReadLine()) != null)
+        //        {
+        //            content = line.Split(',');
 
-                    var profile = new ProfileView 
-                    {
-                        ProfessionalInfo = new ProfessionalInfoView
-                        {
-                            CompanyName = content[1],
-                            CompanyContactInfo = new ExtendedContactInfoView
-                            {
-                                Email = ,
-                                WebsiteUrl = ,
-                            }
-                        }
-                    };
-                }   
-            }
+        //            var profile = new ProfileView 
+        //            {
+        //                ProfessionalInfo = new ProfessionalInfoView
+        //                {
+        //                    CompanyName = content[1],
+        //                    CompanyContactInfo = new ExtendedContactInfoView
+        //                    {
+        //                        Email = ,
+        //                        WebsiteUrl = ,
+        //                    }
+        //                }
+        //            };
+        //        }   
+        //    }
 
-            return View("CreateProxyProfile");
-        }
+        //    return View("CreateProxyProfile");
+        //}
 
         //
         // GET: /profile/edit
