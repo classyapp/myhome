@@ -9,6 +9,7 @@ using Classy.DotNet.Mvc.ViewModels.Localization;
 using Classy.DotNet.Services;
 using System.Web;
 using Classy.DotNet.Mvc.Localization;
+using System.Text.RegularExpressions;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -51,7 +52,18 @@ namespace Classy.DotNet.Mvc.Controllers
             };
             if (!string.IsNullOrEmpty(model.ResourceKey) && !string.IsNullOrEmpty(model.SelectedCulture))
             {
-                model.ResourceValue = Localizer.Get(model.ResourceKey, model.SelectedCulture);
+                if (resourceKey.StartsWith("List__"))
+                {
+                    var regex = new Regex("List__(.*)_(.*)", RegexOptions.Compiled);
+                    var matches = regex.Match(resourceKey);
+                    var key = matches.Groups[1].Value;
+                    var item = Localizer.GetList(key).SingleOrDefault(x => x.Value == matches.Groups[2].Value);
+                    model.ResourceValue = item != null ? item.Text : resourceKey;
+                }
+                else
+                {
+                    model.ResourceValue = Localizer.Get(model.ResourceKey, model.SelectedCulture);
+                }
             }
             return View(model);
         }
@@ -67,8 +79,20 @@ namespace Classy.DotNet.Mvc.Controllers
             model.ResourceKeys = Localizer.GetAllKeys();
             model.SelectedCulture = GetEnvFromContext().CultureCode;
             var service = new LocalizationService();
-            service.SetResourceValues(model.ResourceKey, new Dictionary<string, string> { { model.SelectedCulture, model.ResourceValue } });
-            HttpRuntime.Cache.Remove(model.ResourceKey);
+            if (model.ResourceKey.StartsWith("List__"))
+            {
+                var regex = new Regex("List__(.*)_(.*)", RegexOptions.Compiled);
+                var matches = regex.Match(model.ResourceKey);
+                var key = matches.Groups[1].Value;
+                var value = matches.Groups[2].Value;
+                service.SetListResourceValue(key, model.SelectedCulture, value, model.ResourceValue);
+                HttpRuntime.Cache.Remove(key);
+            }
+            else
+            {
+                service.SetResourceValues(model.ResourceKey, new Dictionary<string, string> { { model.SelectedCulture, model.ResourceValue } });
+                HttpRuntime.Cache.Remove(model.ResourceKey);
+            }
             model.SupportedCultures = new SelectList(Localizer.SupportedCultures);
             return View(model);
         }

@@ -78,5 +78,21 @@ namespace Classy.DotNet.Services
                 throw wex.ToClassyException();
             }
         }
+
+        public LocalizationListResourceView SetListResourceValue(string key, string culture, string value, string text)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var url = string.Format(LIST_RESOURCE_URL, key);
+                var resourceJson = client.UploadString(url, string.Concat("{\"ListItems\":", new List<ListItemView> { new ListItemView { Value = value, Text = new Dictionary<string, string> { { culture, text }} } }.ToJson()));
+                var listResource = resourceJson.FromJson<LocalizationListResourceView>();
+                return listResource;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
     }
 }

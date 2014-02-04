@@ -108,9 +108,7 @@ namespace Classy.DotNet.Mvc.Localization
                 var items = from item in resource.ListItems
                             select new
                             {
-                                Text = item.Text.ContainsKey(System.Threading.Thread.CurrentThread.CurrentUICulture.Name) ? 
-                                    item.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.Name] : 
-                                    string.Concat(item.Value, "_", System.Threading.Thread.CurrentThread.CurrentUICulture.Name),
+                                Text = GetListResourceText(key, item, _showResourceKeys),
                                 Value = HttpUtility.HtmlDecode(item.Value)
                             };
                 return new SelectList(items, "Value", "Text");
@@ -118,11 +116,22 @@ namespace Classy.DotNet.Mvc.Localization
             return null;
         }
 
+        private static string GetListResourceText(string key, ListItemView item, bool showResourceKeys) {
+            var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+            var text = item.Text.ContainsKey(culture) ? item.Text[culture] : item.Value;
+            var output = _showResourceKeys ?
+                string.Concat((text == item.Value) ? null : text, "[List__", key, "_", item.Value, "]") :
+                text;
+            return output;
+        }
+
         public static string[] GetAllKeys()
         {
             var service = new LocalizationService();
             return service.GetResourceKeys();
         }
+
+        #region // localization of routes
 
         // RouteCollection extension to map a route and pass its name as a datatoken
         public static void MapRouteWithName(
@@ -238,6 +247,8 @@ namespace Classy.DotNet.Mvc.Localization
         {
             return string.Concat(name, "_", cultureCode);
         }
+
+        #endregion
 
     }
 }
