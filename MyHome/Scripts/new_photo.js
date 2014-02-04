@@ -28,7 +28,7 @@ function uploadPhotos() {
 function doUpload(idx, extra) {
     if (file.files.length > idx) {
         $("#uploadBtn").data("file-id", idx);
-        var upload = new XHRFileUpload("/photo/new", file.files[idx], extra);
+        var upload = new XHRFileUpload(uploadPhotoUrl, file.files[idx], extra);
         upload.upload(function (e) {
             if (e.lengthComputable) {
                 var percentComplete = (e.loaded / e.total) * 100;

@@ -48,6 +48,7 @@
     <script type="text/javascript" src="~/Scripts/xhr-upload.js"></script>
     <script type="text/javascript" src="~/Scripts/new_photo.js"></script>
     <script type="text/javascript">
+        var uploadPhotoUrl = '@Url.RouteUrl("CreatePhoto", new { httproute = "", controller = "Photo", action = "CreateListing" })';
         var redirectUrl = '@Url.RouteUrl("PublicProfile", new { httproute = "", controller = "Profile", action = "PublicProfile", profileId = (System.Web.HttpContext.Current.User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id, slug = "public" })?photosUploaded=1';
     </script>
 }
