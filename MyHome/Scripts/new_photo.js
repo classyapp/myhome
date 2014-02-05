@@ -29,7 +29,7 @@ function uploadPhotos() {
         var idx = 0;
         $("#uploadBtn").data("file-id", idx);
         var extra = {};
-        frm.find(".form-control").each(function (idx, item) { extra[$(item).attr("name")] = $(item).val() });
+        frm.find(".form-control,input[type=checkbox]").each(function (idx, item) { extra[$(item).attr("name")] = $(item).val() });
         doUpload(idx, extra);
     }
 }

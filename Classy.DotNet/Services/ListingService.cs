@@ -217,7 +217,7 @@ namespace Classy.DotNet.Services
                 {
                     Title = title,
                     Content = content,
-                    IncludedListings = listingIds
+                    IncludedListings = listingIds.Select(l => new IncludedListing { ListingId = l, Comments = string.Empty })
                 }.ToJson();
                 var collectionJson = client.UploadString(CREATE_COLLECTION_URL, data);
                 var collection = collectionJson.FromJson<CollectionView>();

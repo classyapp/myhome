@@ -1,0 +1,72 @@
+@model Classy.DotNet.Responses.CollectionView
+
+@{
+    ViewBag.Title = "CollectionDetails";
+    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
+    var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.ListingId, l => l.Comments) : new Dictionary<string, string>();
+    var proCategories = Localizer.GetList("professional-categories");
+}
+
+<div class="collection row">
+    <h1>@Model.Title</h1>
+    @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+    {
+        <div class="profile-actions">
+            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditCollection")</a>
+        </div>
+    }
+    <div class="profile clearfix">
+        <img src="@Model.Profile.ThumbnailUrl" width="50" class="pull-left" />
+        <div class="details">
+            @Html.ProfileLink(Model.Profile)
+            @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+            {
+                <br />
+                <span>@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span>
+            }
+        </div>
+    </div>
+
+    <p class="article-content">@Model.Content</p>
+
+    <div class="row" id="photos">
+        @if (photos != null)
+        {
+            foreach (var p in photos)
+            {
+                if (p.ExternalMedia.Count() > 0 && !string.IsNullOrEmpty(p.ExternalMedia[0].Url))
+                {
+            <div class="article-paragraph">
+                <div class="article-image hide">
+                    <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" data-id="@p.Id" />
+                </div>
+                <div class="article-comments">@(comments.ContainsKey(p.Id) ? comments[p.Id] : string.Empty)</div>
+                <div class="clearfix"></div>
+            </div>
+                }
+            }
+        }
+</div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $(".article-image img").each(function (idx, item) {
+                var img = new Image();
+                img.src = item.src;
+                img.alt = $(item).data("id");
+                img.onload = function (e) {
+                    if (this.width > 800 && this.width > this.height) { // lanscape
+                        $("img[data-id=" + this.alt + "]").parent().removeClass("hide").addClass("image-block");
+                    } else {
+                        var articleImage = $("img[data-id=" + this.alt + "]").parent();
+                        var articleComments = articleImage.closest(".article-paragraph").find(".article-comments");
+                        articleImage.removeClass("hide").addClass("image-side").prependTo(articleComments);
+                    }
+                }
+            });
+        });
+    </script>
+}
+

@@ -38,6 +38,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteForSupportedLocales(
+                name: "CollectionDetailsView",
+                url: "collection/{collectionId}/{view}/{slug}",
+                defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show", view = "list" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
                 name: "CollectionDetails",
                 url: "collection/{collectionId}/{slug}",
                 defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show" },
