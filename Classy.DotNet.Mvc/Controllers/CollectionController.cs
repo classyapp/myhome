@@ -9,10 +9,11 @@ using Classy.DotNet.Mvc.ViewModels.Collection;
 using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
+using Classy.DotNet.Responses;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
-    public class CollectionController  : BaseController
+    public class CollectionController : BaseController
     {
         public CollectionController() : base() { }
         public CollectionController(string ns) : base(ns) { }
@@ -26,6 +27,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "AddListingToCollection",
                 url: "collection/new",
                 defaults: new { controller = "Collection", action = "AddListingToCollection" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "EditCollection",
+                url: "collection/{collectionId}/edit",
+                defaults: new { controller = "Collection", action = "EditCollection" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -102,7 +110,34 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
-        } 
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [Authorize]
+        public ActionResult EditCollection(string collectionId)
+        {
+            var service = new ListingService();
+            var collection = service.GetCollectionById(collectionId, true, false, false);
+            return View(collection);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize]
+        public ActionResult EditCollection(string collectionId, FormCollection values)
+        {
+            var service = new ListingService();
+            // build comments list
+            IList<IncludedListing> listings = new List<IncludedListing>();
+            foreach (var key in values.AllKeys)
+            {
+                if (key.StartsWith("comment_"))
+                {
+                    listings.Add(new IncludedListing { Comments = values[key], ListingId = key.Substring(8) });
+                }
+            }
+            var collection = service.UpdateCollection(collectionId, values["Title"], values["Content"], listings);
+            return View(collection);
+        }
 
         private SelectList GetCollectionList(string selectedCollectionId)
         {

@@ -1,0 +1,47 @@
+﻿@model Classy.DotNet.Responses.CollectionView
+
+@{
+    ViewBag.Title = "EditCollection";
+    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
+    var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.ListingId, l => l.Comments) : new Dictionary<string, string>();
+}
+
+<div class="row">
+    @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection").HtmlAttributes(new { @class = "form-horizontal" }).LabelWidthLg(2)))
+    {
+        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
+        @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()           
+        
+        <div class="collection-items">
+        @foreach (var item in photos)
+        {
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="thumbnail">
+                    @if (item.ExternalMedia[0].Thumbnails != null)
+                    {
+                        var thumb = item.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
+                        if (thumb != null)
+                        {
+                        <img src="@thumb.Url" title="@item.Title" alt="@item.Title" />
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <textarea class="form-control" name="comment_@item.Id">@(comments.ContainsKey(item.Id) ? comments[item.Id] : string.Empty)</textarea>
+            </div>
+        </div>
+        }
+        </div>
+        
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("pull-right").Text(Localizer.Get("EditCollection_Save")).Class("btn-success"))
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(".collection-items textarea").height($(".collection-items .thumbnail:nth-child(1)").width() + 10 + 'px');
+    </script>
+}
