@@ -26,6 +26,7 @@ namespace Classy.DotNet.Services
         private readonly string FAVORITE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/favorite";
         // collections
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
+        private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/edit";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list";
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
@@ -240,6 +241,31 @@ namespace Classy.DotNet.Services
                 {
                     CollectionId = collectionId,
                     IncludedListings = listingIds
+                }.ToJson();
+                var collectionJson = client.UploadString(url, data);
+                var collection = collectionJson.FromJson<CollectionView>();
+                return collection;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public CollectionView UpdateCollection(string collectionId,
+            string title,
+            string content,
+            IList<IncludedListing> listings)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(UPDATE_COLLECTION_URL, collectionId);
+                var data = new
+                {
+                    Title = title,
+                    Content = content,
+                    IncludedListings = listings
                 }.ToJson();
                 var collectionJson = client.UploadString(url, data);
                 var collection = collectionJson.FromJson<CollectionView>();
