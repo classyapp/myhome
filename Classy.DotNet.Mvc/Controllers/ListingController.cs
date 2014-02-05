@@ -81,7 +81,17 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateListing(CreateListingViewModel<TListingMetadata> model)
         {
-            if (!ModelState.IsValid) return View(string.Concat("Create", ListingTypeName), model);
+            if (!ModelState.IsValid)
+            {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { error = "invalid model" });
+                }
+                else
+                {
+                    return View(string.Concat("Create", ListingTypeName), model);
+                }
+            }
 
             PricingInfoView pricingInfo = null;
             if (model.PricingInfo != null)
