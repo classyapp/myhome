@@ -30,7 +30,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteForSupportedLocales(
+            routes.MapRouteWithName(
                 name: "EditCollection",
                 url: "collection/{collectionId}/edit",
                 defaults: new { controller = "Collection", action = "EditCollection" },
