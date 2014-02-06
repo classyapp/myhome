@@ -1,0 +1,59 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.PhotoMetadata>
+
+@{
+    ViewBag.Title = "EditListing_photo";
+    Html.Bootstrap().Globals().ShowRequiredStar(false);
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+}
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">@Localizer.Get("EditListing_Header_Title")</h4>
+</div>
+<div class="modal-body">
+    @if (TempData["EditListingSuccess"] != null)
+    {
+        //@Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Success)
+    }
+    <div class="col-md-7">
+        <div id="editPhotoPreview">
+            <img src="@Model.Listing.ExternalMedia[0].Url" />
+        </div>
+    </div>
+
+    @using (var f = Ajax.Bootstrap().Begin(new Form("EditListing", "Photo").HtmlAttributes(new { @class = "col-md-5" }), new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "edit-modal-replace",
+            OnSuccess = "CloseModal(data)"
+        }))
+    {
+        @Html.HiddenFor(x => x.Listing.Id)
+        @f.FormGroup().TextBoxFor(x => x.Listing.Title).ShowValidationMessage(false).Label()
+        @f.FormGroup().TextAreaFor(x => x.Listing.Content).ShowValidationMessage(false).Label()
+        @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
+        @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
+        @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Class("btn-success"))
+    }
+    <div class="clearfix"></div>
+</div>
+@*@if (TempData["CreateListingSuccess"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("CreatePhoto_Success")).Style(AlertColor.Success)
+            var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
+            <img src="@listing.ExternalMedia[0].Url" width="350" />
+        }
+
+        
+    </div>
+
+    <div class="col-md-4 col-md-offset-1 well">
+        <h1>@Localizer.Get("CreatePhoto_Title_DoDont")</h1>
+        <div>@Html.Raw(Localizer.Get("CreatePhoto_Content_DoDont"))</div>
+    </div>*@
+

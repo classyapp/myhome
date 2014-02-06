@@ -1,0 +1,16 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel
+
+<div class="actions hide">
+    @if (Model.ShowFavorite)
+    {
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like onphoto")
+    }
+    @if (Model.ShowCollect)
+    {
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add onphoto")
+    }
+    @if (Model.ShowEdit)
+    {
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-pencil\"></i>", "edit", Model.Listing, "btn btn-default action edit onphoto")
+    }
+</div>

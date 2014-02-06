@@ -49,6 +49,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Concat("Edit", ListingTypeName),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/edit"),
+                defaults: new { controller = ListingTypeName, action = "EditListing" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: string.Concat(ListingTypeName, "Details"),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}--{slug}"),
@@ -218,6 +225,72 @@ namespace Classy.DotNet.Mvc.Controllers
             }
 
             return Json(new { IsValid = true });
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult EditListing(string listingId)
+        {
+            try
+            {
+                var service = new ListingService();
+                var listing = service.GetListingById(
+                    listingId,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false);
+                var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
+                var model = new ListingDetailsViewModel<TListingMetadata>
+                {
+                    Listing = listing,
+                    Metadata = listingMetadata
+                };
+                return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditListing(ListingDetailsViewModel<TListingMetadata> model)
+        {
+            try
+            {
+                try
+                {
+                    var service = new ListingService();
+                    var listing = service.UpdateListing(
+                        model.Listing.Id,
+                        model.Listing.Title,
+                        model.Listing.Content,
+                        ListingTypeName,
+                        null,
+                        (model.Metadata == null ? null : model.Metadata.ToDictionary()),
+                        null);
+
+                    TempData["EditListingSuccess"] = listing;
+
+                    return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+                }
+                catch (ClassyException cvx)
+                {
+                    if (cvx.IsValidationError())
+                    {
+                        AddModelErrors(cvx);
+                        return View(string.Concat("Create", ListingTypeName));
+                    }
+                    else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+                }
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
         }
 
         //

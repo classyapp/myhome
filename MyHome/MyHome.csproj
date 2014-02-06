@@ -455,6 +455,8 @@
     <Content Include="Views\Profile\PublicProfile.cshtml" />
     <Content Include="Views\Collection\EditCollection.cshtml" />
     <Content Include="Views\Collection\CollectionDetailsList.cshtml" />
+    <Content Include="Views\Photo\EditPhotoListingModal.cshtml" />
+    <Content Include="Views\Photo\PhotoActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
