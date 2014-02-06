@@ -1,4 +1,4 @@
-﻿@model Classy.DotNet.Responses.CollectionView
+﻿@model Classy.DotNet.Mvc.ViewModels.Collection.EditCollectionViewModel
 
 @{
     ViewBag.Title = "EditCollection";
@@ -7,32 +7,46 @@
 }
 
 <div class="row">
+    @if (TempData["UpdateCollectionSuccess"] != null)
+    {
+        @Html.Bootstrap().Alert(Localizer.Get("UpdateCollection_Success")).Style(AlertColor.Success)
+    }
+    @if (TempData["UpdateCollectionError"] != null)
+    {
+        @Html.Bootstrap().Alert(Localizer.Get("UpdateCollection_Error")).Style(AlertColor.Danger)
+    }
+
     @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection").HtmlAttributes(new { @class = "form-horizontal" }).LabelWidthLg(2)))
     {
-        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
+        @Html.Bootstrap().ValidationSummary()
+        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()           
         
         <div class="collection-items">
-        @foreach (var item in photos)
-        {
-        <div class="row">
-            <div class="col-lg-3 col-md-3">
-                <div class="thumbnail">
-                    @if (item.ExternalMedia[0].Thumbnails != null)
+            @for (int i = 0; i < Model.IncludedListings.Length; i++)
+            {
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <div class="thumbnail">
+                            @{
+                var item = photos.First(p => p.Id == Model.IncludedListings[i].ListingId);
+                if (item.ExternalMedia[0].Thumbnails != null)
+                {
+                    var thumb = item.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
+                    if (thumb != null)
                     {
-                        var thumb = item.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
-                        if (thumb != null)
-                        {
-                        <img src="@thumb.Url" title="@item.Title" alt="@item.Title" />
-                        }
+                                <img src="@thumb.Url" title="@item.Title" alt="@item.Title" />
                     }
-                </div>
-            </div>
-            <div class="col-lg-9 col-md-9">
-                <textarea class="form-control" name="comment_@item.Id">@(comments.ContainsKey(item.Id) ? comments[item.Id] : string.Empty)</textarea>
-            </div>
-        </div>
-        }
+                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9">
+                        @Html.HiddenFor(x => x.IncludedListings[i].ListingId)
+                        <textarea class="form-control" id="@string.Format("IncludedListings_{0}__Comments", i)" name="@string.Format("IncludedListings[{0}].Comments", i)">@(comments.ContainsKey(item.Id) ? comments[item.Id] : string.Empty)</textarea>
+                    </div>
+                </div>        
+            }
         </div>
         
         @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("pull-right").Text(Localizer.Get("EditCollection_Save")).Class("btn-success"))
@@ -41,6 +55,7 @@
 
 @section scripts
 {
+
     <script type="text/javascript">
         $(".collection-items textarea").height($(".collection-items .thumbnail:nth-child(1)").width() + 10 + 'px');
     </script>

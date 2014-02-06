@@ -37,17 +37,17 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteForSupportedLocales(
-                name: "CollectionDetailsView",
-                url: "collection/{collectionId}/{view}/{slug}",
-                defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show", view = "list" },
-                namespaces: new string[] { Namespace }
-            );
+            //routes.MapRouteForSupportedLocales(
+            //    name: "CollectionDetails",
+            //    url: "collection/{collectionId}/{slug}",
+            //    defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show", view = "grid" },
+            //    namespaces: new string[] { Namespace }
+            //);
 
             routes.MapRouteForSupportedLocales(
                 name: "CollectionDetails",
-                url: "collection/{collectionId}/{slug}",
-                defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show" },
+                url: "collection/{collectionId}/{view}/{slug}",
+                defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show", view = "list" },
                 namespaces: new string[] { Namespace }
             );
         }
@@ -125,25 +125,44 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var service = new ListingService();
             var collection = service.GetCollectionById(collectionId, true, false, false);
-            return View(collection);
+
+            return View(new EditCollectionViewModel
+            {
+                CollectionId = collectionId,
+                Title = collection.Title,
+                Content = collection.Content,
+                Listings = collection.Listings,
+                IncludedListings = collection.IncludedListings.ToArray()
+            });
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         [Authorize]
-        public ActionResult EditCollection(string collectionId, FormCollection values)
+        public ActionResult EditCollection(EditCollectionViewModel model)
         {
-            var service = new ListingService();
-            // build comments list
-            IList<IncludedListing> listings = new List<IncludedListing>();
-            foreach (var key in values.AllKeys)
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
             {
-                if (key.StartsWith("comment_"))
+                var service = new ListingService();
+                var collection = service.UpdateCollection(model.CollectionId, model.Title, model.Content, model.IncludedListings);
+                TempData["UpdateCollectionSuccess"] = true;
+
+                return View(new EditCollectionViewModel
                 {
-                    listings.Add(new IncludedListing { Comments = values[key], ListingId = key.Substring(8) });
-                }
+                    CollectionId = collection.Id,
+                    Title = collection.Title,
+                    Content = collection.Content,
+                    Listings = collection.Listings,
+                    IncludedListings = collection.IncludedListings.ToArray()
+                });
             }
-            var collection = service.UpdateCollection(collectionId, values["Title"], values["Content"], listings);
-            return View(collection);
+            catch (Exception ex)
+            {
+                TempData["UpdateCollectionError"] = ex.Message;
+                return View(model);
+            }
         }
 
         private SelectList GetCollectionList(string selectedCollectionId)

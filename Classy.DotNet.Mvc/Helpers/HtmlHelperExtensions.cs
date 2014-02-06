@@ -91,7 +91,7 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString CollectionLink(this System.Web.Mvc.HtmlHelper html, CollectionView collection)
         {
-            return html.RouteLinkForCurrentLocale(collection.Title, "CollectionDetails", new { collectionId = collection.Id, slug = ToSlug(collection.Title) });
+            return html.RouteLinkForCurrentLocale(collection.Title, "CollectionDetails", new { collectionId = collection.Id, view = "grid", slug = ToSlug(collection.Title) });
         }
 
         public static MvcHtmlString ProfileLink(this System.Web.Mvc.HtmlHelper html, ProfileView profile)
