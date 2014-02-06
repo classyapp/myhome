@@ -12,12 +12,12 @@ namespace Classy.DotNet.Mvc.ViewModels.Collection
     {
         public string CollectionId { get; set; }
         [Display(Name = "EditCollection_Title")]
-        [Required]
+        [Required(ErrorMessage = "EditCollection_Title_Required")]
         public string Title { get; set; }
         [Display(Name = "EditCollection_Content")]
         public string Content { get; set; }
-        [Required]
-        [Display(Name = "EditCollection_Title")]
+        [Display(Name = "EditCollection_IncludedListings")]
+        [Required(ErrorMessage = "EditCollection_IncludedListings_Required")]
         public IncludedListing[] IncludedListings { get; set; }
         public IList<ListingView> Listings { get; set; }
     }
