@@ -51,11 +51,8 @@
             @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().ShowRequiredStar(false);
             @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsCommercial, true).Label().ShowRequiredStar(false);
             @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().ShowRequiredStar(false);
-        }
 
-        using (modal.BeginFooter())
-        {
-            @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Register_ContinueToSite"));
+            @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Register_ContinueToSite")).Class("btn-success");
         }
     }
 }

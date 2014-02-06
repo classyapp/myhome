@@ -12,6 +12,7 @@ using Classy.DotNet.Mvc.ActionFilters;
 using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
+using Classy.DotNet.Mvc.Attributes;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -68,7 +69,7 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // GET: /{ListingTypeName}/new
         // 
-        [Authorize]
+        [AuthorizeWithRedirect("Index")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateListing()
         {
