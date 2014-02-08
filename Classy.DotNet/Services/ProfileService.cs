@@ -15,12 +15,13 @@ namespace Classy.DotNet.Services
         private readonly string GET_PROFILE_BY_ID_URL = ENDPOINT_BASE_URL + "/profile/{0}?LogImpression={1}&IncludeFollowedByProfiles={2}&IncludeFollowingProfiles={2}&IncludeReviews={3}&IncludeListings={4}&IncludeCollections={5}";
         private readonly string UPDATE_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}";
         private readonly string SEARCH_PROFILES_URL = ENDPOINT_BASE_URL + "/profile/search?";
-        private readonly string CLAIM_AGENT_PROXY_URL = ENDPOINT_BASE_URL + "/profile/{0}/claim";
+        private readonly string CLAIM_PROXY_URL = ENDPOINT_BASE_URL + "/profile/{0}/claim";
+        private readonly string CREATE_PROXY_URL = ENDPOINT_BASE_URL + "/profile/new";
         private readonly string APPROVE_PROXY_CLAIM_URL = ENDPOINT_BASE_URL + "/profile/{0}/approve";
         private readonly string FOLLOW_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/follow";
         private readonly string GET_AUTHENTICATED_PROFILE = ENDPOINT_BASE_URL + "/profile";
 
-        private readonly string CLAIM_AGENT_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
+        private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
 
         public ProfileView GetProfileById(string profileId)
@@ -55,6 +56,27 @@ namespace Classy.DotNet.Services
                 return profile;
             }
             catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public ProfileView CreateProxyProfile(string batchId, ProfessionalInfoView proInfo, IDictionary<string, string> metadata)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = CREATE_PROXY_URL;
+                var data = new {
+                    BatchId = batchId,
+                    ProfessionalInfo = proInfo,
+                    Metadata = metadata
+                };
+                var profileJson = client.UploadString(url, data.ToJson());
+                var profile = profileJson.FromJson<ProfileView>();
+                return profile;
+            }
+            catch(WebException wex)
             {
                 throw wex.ToClassyException();
             }
@@ -114,8 +136,8 @@ namespace Classy.DotNet.Services
             try
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
-                var url = string.Format(CLAIM_AGENT_PROXY_URL, proxyId);
-                var data = string.Format(CLAIM_AGENT_PROXY_DATA, proInfo.ToJson(), metadata.ToJson());
+                var url = string.Format(CLAIM_PROXY_URL, proxyId);
+                var data = string.Format(CLAIM_PROXY_DATA, proInfo.ToJson(), metadata.ToJson());
                 var claimJson = client.UploadString(url, data);
                 var claim = claimJson.FromJson<ProxyClaimView>();
                 return claim;

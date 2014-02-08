@@ -5,19 +5,22 @@
 }
 
 <div class="row">
-    <div class="col-md-7 main">
-        @if (User.Identity.IsAuthenticated)
+    <div class="col-md-12">
+        @if (TempData["UploadSuccess"] != null)
         {
-            <h1>@Localizer.Get("CreateProxy_PageTitle")</h1>
+            @Html.Bootstrap().Alert((string)TempData["UploadSuccess"]).Closeable().Style(AlertColor.Success)
+        }
+    </div>
+    <div class="col-md-7 main">
+        <h1>@Localizer.Get("CreateProxy_PageTitle")</h1>
 
-            @Html.Bootstrap().ValidationSummary()
-            using (var f = Html.Bootstrap().Begin(new Form("CreateProxyProfileMass").HtmlAttributes(new { enctype = "multipart/form-data" }).FormMethod(FormMethod.Post)))
-            {
-                @f.FormGroup().DropDownList("Category", Localizer.GetList("professional-categories")).OptionLabel(Localizer.Get("CreateProxy_ChooseCategory")).ShowValidationMessage(false).Label()
-                @f.FormGroup().File("File")
+        @Html.Bootstrap().ValidationSummary()
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateProxyProfileMass").HtmlAttributes(new { enctype = "multipart/form-data" }).FormMethod(FormMethod.Post)))
+        {
+            @f.FormGroup().DropDownList("Category", Localizer.GetList("professional-categories")).OptionLabel(Localizer.Get("CreateProxy_ChooseCategory")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("CreateProxyProfile_Category"))
+            @f.FormGroup().File("File").Label().LabelText(Localizer.Get("CreateProxyProfile_File"))
             
-                @Html.Bootstrap().SubmitButton().Text("CreateProxy_Submit")
-            }
+            @Html.Bootstrap().SubmitButton().Text("CreateProxy_Submit").Style(ButtonStyle.Success)
         }
     </div>
 </div>

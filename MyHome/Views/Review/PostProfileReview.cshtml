@@ -45,7 +45,7 @@
             <p>@Localizer.Get("PostReview_ReviewGuidelines")</p>
             @f.FormGroup().TextAreaFor(x => x.Comments).Rows(5).Label().Class("sr-only")
 
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("PostReview_Submit")).HtmlAttributes(new { authorize = "" }))
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("PostReview_Submit")).HtmlAttributes(new { authorize = "" }))
         }
     </div>
 

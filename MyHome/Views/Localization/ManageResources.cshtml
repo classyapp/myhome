@@ -12,7 +12,7 @@
             @using (var f = Html.Bootstrap().Begin(new Form("ManageResources").FormMethod(FormMethod.Get).Type(FormType.Inline)))
             {
                 @f.FormGroup().TextBoxFor(x => x.ResourceKey).Placeholder(Localizer.Get("ManageResources_KeyPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
-                @Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("ManageResources_Get"))
+                @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("ManageResources_Get"))
             }
         </p>
         <ul class="resourceList list-unstyled">
@@ -28,7 +28,7 @@
         {
             @Html.HiddenFor(x => x.ResourceKey)
             @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(20).ShowValidationMessage(false).Label().Class("sr-only")
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("ManageResources_Submit")))
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("ManageResources_Submit")))
         }
     </div>
 </div>
@@ -45,7 +45,7 @@
                 {
                     @f.FormGroup().TextBoxFor(x => x.ResourceKey).ShowValidationMessage(false).Label()
                     @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(10).ShowValidationMessage(false)
-                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("ManageResources_Submit")))
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("ManageResources_Submit")))
                 }
             </div>
         </div>

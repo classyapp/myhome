@@ -20,7 +20,7 @@
         @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel(Localizer.Get("AddToCollection_OptionLabel")).Label().WidthLg(12).ShowRequiredStar(false)
         @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
 
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-success").Text(Localizer.Get("AddToCollection_Submit")))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("AddToCollection_Submit")))
     }
 </div>
 

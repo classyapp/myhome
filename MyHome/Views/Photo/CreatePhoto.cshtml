@@ -35,7 +35,7 @@
             <p><small>
                 @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(true).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             </small></p>
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Class("btn-success"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Style(ButtonStyle.Success))
             
             
         }

@@ -112,43 +112,60 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // POST: /profile/new/proxy/mass
         //
-        //public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
-        //{
-        //    if (!ModelState.IsValid) return View("CreateProxyProfile", model);
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
+        {
+            if (!ModelState.IsValid) return View("CreateProxyProfile", model);
 
-        //    string line;
-        //    string[] content;
-        //    var reader = new StreamReader(model.File.InputStream);
-        //    // read first line
-        //    line = reader.ReadLine();
-        //    if (line != null) 
-        //    {
-        //        content = line.Split(',');
-        //        if (content[0].ToUpper() == "")
-        //    }
-        //    else
-        //    {
-        //        while ((line = reader.ReadLine()) != null)
-        //        {
-        //            content = line.Split(',');
+            string line;
+            string[] content;
+            var reader = new StreamReader(model.File.InputStream);
+            // read first line
+            line = reader.ReadLine();
+            if (line != null) 
+            {
+                content = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
+                if (content[0].CleanCsvString().ToUpper() == "CATEGORY") // ignore the first line if its headers
+                    line = reader.ReadLine();
+            }
 
-        //            var profile = new ProfileView 
-        //            {
-        //                ProfessionalInfo = new ProfessionalInfoView
-        //                {
-        //                    CompanyName = content[1],
-        //                    CompanyContactInfo = new ExtendedContactInfoView
-        //                    {
-        //                        Email = ,
-        //                        WebsiteUrl = ,
-        //                    }
-        //                }
-        //            };
-        //        }   
-        //    }
+            var service = new ProfileService();
+            var batchId = Guid.NewGuid().ToString();
+            while (line != null)
+            {
+                content = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
 
-        //    return View("CreateProxyProfile");
-        //}
+                var professionalInfo = new ProfessionalInfoView
+                    {
+                        Category = model.Category,
+                        CompanyName = content[1].CleanCsvString(),
+                        CompanyContactInfo = new ExtendedContactInfoView
+                        {
+                            Location = new LocationView
+                            {
+                                Address = new PhysicalAddressView
+                                {
+                                    Street1 = content[3].CleanCsvString(),
+                                    City = content[4].CleanCsvString(),
+                                    PostalCode = content[6].CleanCsvString(),
+                                    Country = content[7].CleanCsvString()
+                                }
+                            },
+                            Phone = content[8].CleanCsvString(),
+                            WebsiteUrl = content[9].CleanCsvString(),
+                            Email = content[10].CleanCsvString()
+                        }
+                    };
+
+                service.CreateProxyProfile(batchId, professionalInfo, null);
+
+                line = reader.ReadLine();
+            }   
+
+            TempData["UploadSuccess"] = Localizer.Get("CreateProxyMass_UploadSuccess");
+            return RedirectToRoute("CreateProxyProfile");
+        }
 
         //
         // GET: /profile/edit
