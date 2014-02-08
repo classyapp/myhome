@@ -377,6 +377,10 @@ a.action.like-on {
     color: #fff;
     background-color: #f55555;
 }
+a.action.edit
+{
+    left: 100px;
+}
 /* manage resources*/
 .resourceListContainer {
     height: 500px;
@@ -538,3 +542,18 @@ a.action.like-on {
         float: left;
         margin: 0 15px 15px 0px;
     }
+#photo-modal .modal-dialog
+{
+    width: 1024px;
+}
+#photo-modal #editPhotoPreview
+{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+#photo-modal #editPhotoPreview > img
+{
+    max-width: 100%;
+    max-height: 95%;
+}

@@ -14,7 +14,9 @@ namespace Classy.DotNet.Services
     public class ListingService : ServiceBase
     {
         // create listing
+        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
+        private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/edit";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
         // get listings
@@ -83,6 +85,42 @@ namespace Classy.DotNet.Services
             return listing;
         }
 
+        public ListingView UpdateListing(
+            string listingId,
+            string title,
+            string content,
+            string listingType,
+            //TODO: Investigate combining Request & Response models?
+            PricingInfoView pricingInfo,
+            IDictionary<string, string> metadata,
+            HttpFileCollectionBase files)
+        {
+            var client = ClassyAuth.GetAuthenticatedWebClient();
+            var data = new
+            {
+                Title = title,
+                Content = content,
+                ListingType = listingType,
+                Pricing = pricingInfo,
+                Metadata = metadata
+
+            }.ToJson();
+
+            // create the listing
+            ListingView listing = null;
+            try
+            {
+                var listingJson = client.UploadString(string.Format(UPDATE_LISTING_URL, listingId), data);
+                listing = listingJson.FromJson<ListingView>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+
+            return listing;
+        }
+
         public ListingView GetListingById(
             string listingId,
             bool IncludeComments,
@@ -136,6 +174,28 @@ namespace Classy.DotNet.Services
                 return listings;
             }
             catch(WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts);
+                var data = new
+                {
+                    ProfileId = profileId,
+                    IncludeDrafts = includeDrafts
+                }.ToJson();
+
+                var listingsJson = client.DownloadString(url);
+                var listings = listingsJson.FromJson<IList<ListingView>>();
+                return listings;
+            }
+            catch (WebException wex)
             {
                 throw wex.ToClassyException();
             }

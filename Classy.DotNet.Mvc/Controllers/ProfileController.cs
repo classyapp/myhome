@@ -61,6 +61,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: "PublicProfilePhotos",
+                url: "profile/{profileId}/photos",
+                defaults: new { controller = "Profile", action = "Photos" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "SearchProfiles",
                 url: "profile/search/{*filters}",
@@ -518,6 +525,37 @@ namespace Classy.DotNet.Mvc.Controllers
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        //
+        // GET: /profile/{profileId}/photos
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Photos(string profileId)
+        {
+            try
+            {
+                var profileService = new ProfileService();
+                var profile = profileService.GetProfileById(profileId, false, true, false, false, false);
+
+                var listingService = new ListingService();
+                var listings = listingService.GetListingsByProfileId(AuthenticatedUserProfile.Id, true);
+
+                profile.Listings = listings;
+                var model = new PublicProfileViewModel<TProMetadata, TReviewSubCriteria>
+                {
+                    Profile = profile,
+                    TypedMetadata = default(TProMetadata),
+                    ReviewSubCriteria = default(TReviewSubCriteria)
+                };
+
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
         }
 
         #endregion

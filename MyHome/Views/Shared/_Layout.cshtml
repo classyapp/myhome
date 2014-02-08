@@ -229,6 +229,15 @@
         </div>
     </div>
 
+    <!-- photo edit mpdal -->
+    <div class="modal fade" id="photo-modal" data-remote="" data-url="@Url.RouteUrl("EditPhoto", new { listingId = "ID" })" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" id="edit-modal-replace">
+                <!-- will be replaced -->
+            </div>
+        </div>
+    </div>
+
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
