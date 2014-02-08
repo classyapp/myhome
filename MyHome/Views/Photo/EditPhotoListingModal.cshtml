@@ -1,7 +1,6 @@
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.PhotoMetadata>
 
 @{
-    ViewBag.Title = "EditListing_photo";
     Html.Bootstrap().Globals().ShowRequiredStar(false);
 
     var rooms = Localizer.GetList("rooms");
@@ -16,7 +15,7 @@
 <div class="modal-body">
     @if (TempData["EditListingSuccess"] != null)
     {
-        //@Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Success)
+        @Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Success)
     }
     <div class="col-md-7">
         <div id="editPhotoPreview">
@@ -42,18 +41,4 @@
     }
     <div class="clearfix"></div>
 </div>
-@*@if (TempData["CreateListingSuccess"] != null)
-        {
-            @Html.Bootstrap().Alert(Localizer.Get("CreatePhoto_Success")).Style(AlertColor.Success)
-            var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
-            <img src="@listing.ExternalMedia[0].Url" width="350" />
-        }
-
-        
-    </div>
-
-    <div class="col-md-4 col-md-offset-1 well">
-        <h1>@Localizer.Get("CreatePhoto_Title_DoDont")</h1>
-        <div>@Html.Raw(Localizer.Get("CreatePhoto_Content_DoDont"))</div>
-    </div>*@
 

@@ -273,7 +273,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         null);
 
-                    TempData["EditListingSuccess"] = listing;
+                    TempData["EditListingSuccess"] = true;
 
                     return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
                 }

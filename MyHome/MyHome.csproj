@@ -456,7 +456,9 @@
     <Content Include="Views\Collection\EditCollection.cshtml" />
     <Content Include="Views\Collection\CollectionDetailsList.cshtml" />
     <Content Include="Views\Photo\EditPhotoListingModal.cshtml" />
-    <Content Include="Views\Photo\PhotoActions.cshtml" />
+    <Content Include="Views\Shared\PhotoActions.cshtml" />
+    <Content Include="Views\Profile\Photos.cshtml" />
+    <Content Include="Views\Profile\SideBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

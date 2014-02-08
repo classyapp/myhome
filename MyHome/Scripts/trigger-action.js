@@ -41,8 +41,7 @@
                     $("#editPhotoPreview").width($("#editPhotoPreview").parent().width());
                     $("#editPhotoPreview > img").css("display", "inline");
                 }, 200);
-            })
-            .on('hidden.bs.modal', function() { $(this).removeData("bs.modal") });
+            });
     });
 
     $('[trigger-profile-action="follow"]').click(function (e) {
