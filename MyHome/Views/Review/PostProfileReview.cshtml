@@ -32,7 +32,7 @@
             }
             
             <h3>@Localizer.Get("PostReview_YourRelationship")</h3>
-            @f.FormGroup().DropDownListFor(x => x.Metadata.Relationship, Model.Metadata.RelationshipOptions).OptionLabel(Localizer.Get("PostReview_SelectRelationship")).Label().Class("sr-only")
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Relationship, Localizer.GetList("relationship-with-pro").AsSelectList()).OptionLabel(Localizer.Get("PostReview_SelectRelationship")).Label().Class("sr-only")
 
 
             <h3>@Localizer.Get("PostReview_YourRating")</h3>

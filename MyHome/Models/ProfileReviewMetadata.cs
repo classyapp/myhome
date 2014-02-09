@@ -14,7 +14,6 @@ namespace MyHome.Models
         [Display(Name="ReviewMetadata_Relationship")]
         [Required(ErrorMessage="ReviewMetadata_Relationship_Required")]
         public string Relationship { get; set; }
-        public SelectList RelationshipOptions { get { return new SelectList(Localizer.GetList("relationship-with-pro")); } }
 
         public IDictionary<string, string> ToDictionary()
         {
