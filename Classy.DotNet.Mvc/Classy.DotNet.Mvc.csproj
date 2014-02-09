@@ -73,6 +73,8 @@
     <Compile Include="Helpers\ListingActionTrigger.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ProfileActionTrigger.cs" />
+    <Compile Include="Localization\LocalizationExtensions.cs" />
+    <Compile Include="Localization\LocalizedResourceItem.cs" />
     <Compile Include="Localization\Localizer.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
