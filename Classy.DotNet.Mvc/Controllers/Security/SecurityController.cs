@@ -179,7 +179,6 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             {
                 if (!ModelState.IsValid) return View(model);
 
-                // TODO: validate CSRF token
                 if (!ClassyAuth.Register(model.Username, model.Email, model.Password))
                     throw new Exception("what happened?");
 
