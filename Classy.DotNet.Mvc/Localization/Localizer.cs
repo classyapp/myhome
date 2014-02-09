@@ -94,7 +94,7 @@ namespace Classy.DotNet.Mvc.Localization
             return output;
         }
 
-        public static SelectList GetList(string key)
+        public static IEnumerable<LocalizedListItem> GetList(string key)
         {
             LocalizationListResourceView resource = HttpRuntime.Cache[key] as LocalizationListResourceView;
             if (resource == null)
@@ -106,12 +106,13 @@ namespace Classy.DotNet.Mvc.Localization
             if (resource != null)
             {
                 var items = from item in resource.ListItems
-                            select new
+                            select new LocalizedListItem
                             {
                                 Text = GetListResourceText(key, item, _showResourceKeys),
-                                Value = HttpUtility.HtmlDecode(item.Value)
+                                Value = HttpUtility.HtmlDecode(item.Value),
+                                ParentValue = item.ParentValue
                             };
-                return new SelectList(items, "Value", "Text");
+                return items;
             }
             return null;
         }

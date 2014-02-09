@@ -19,7 +19,7 @@
 
                 <h3>@Localizer.Get("ClaimProxy_BusinessInfo")</h3>
                 @f.FormGroup().TextBoxFor(x => x.CompanyName).Label().WidthLg(12)
-                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories")).OptionLabel(Localizer.Get("ClaimProxy_ChooseCategory")).Label().WidthLg(12)
+                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("ClaimProxy_ChooseCategory")).Label().WidthLg(12)
                 @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Label().WidthLg(12)
                 @f.FormGroup().TextBoxFor(x => x.FirstName).Label().WidthLg(12)
                 @f.FormGroup().TextBoxFor(x => x.LastName).Label().WidthLg(12)
