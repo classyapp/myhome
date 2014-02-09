@@ -73,7 +73,7 @@
                 @f.FormGroup().TextBoxFor(x => x.Location).Placeholder(Localizer.Get("SearchProfiles_Label_City")).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).Label().Class("sr-only")
 
-                @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Class("btn-success")
+                @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Style(ButtonStyle.Success)
             }
         </div>
 

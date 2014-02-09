@@ -65,9 +65,11 @@
     <Compile Include="Controllers\ListingController.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ParseProfilesCsvLineArgs.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\ReviewPostedArgs.cs" />
     <Compile Include="ActionFilters\ModelStateTransfer.cs" />
+    <Compile Include="Extensions\CsvStringExtensions.cs" />
     <Compile Include="Helpers\ListingActionTrigger.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ProfileActionTrigger.cs" />

@@ -99,7 +99,7 @@
                 {
                     @Html.Hidden("ListingId", Model.Listing.Id);
                     @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
-                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Class("btn-success").HtmlAttributes(new { authorize = "true" }))
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Success).HtmlAttributes(new { authorize = "true" }))
                 }
             </div>
         </div>

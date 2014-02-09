@@ -40,7 +40,7 @@
                 @f.FormGroup().TextBoxFor(x => x.Email).Label().WidthLg(12)
                 
                 <br/><br/>
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ClaimProxy_Submit")).Class("btn-success"))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ClaimProxy_Submit")).Style(ButtonStyle.Success))
             }
         }
         else

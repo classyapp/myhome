@@ -26,7 +26,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
 
-        public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional; 
+        public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional;
+        public EventHandler<ParseProfilesCsvLineArgs<TProMetadata>> OnParseProfilesCsvLine;
 
         /// <summary>
         /// register routes within host app's route collection
@@ -112,43 +113,60 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // POST: /profile/new/proxy/mass
         //
-        //public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
-        //{
-        //    if (!ModelState.IsValid) return View("CreateProxyProfile", model);
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
+        {
+            if (OnParseProfilesCsvLine == null) ModelState.AddModelError("OnParseCsvLine", Localizer.Get("CreateProxy_MassUploadNotImplemented"));
+            if (!ModelState.IsValid) return View("CreateProxyProfile", model);
 
-        //    string line;
-        //    string[] content;
-        //    var reader = new StreamReader(model.File.InputStream);
-        //    // read first line
-        //    line = reader.ReadLine();
-        //    if (line != null) 
-        //    {
-        //        content = line.Split(',');
-        //        if (content[0].ToUpper() == "")
-        //    }
-        //    else
-        //    {
-        //        while ((line = reader.ReadLine()) != null)
-        //        {
-        //            content = line.Split(',');
+            // get file stream
+            var reader = new StreamReader(model.File.InputStream);
 
-        //            var profile = new ProfileView 
-        //            {
-        //                ProfessionalInfo = new ProfessionalInfoView
-        //                {
-        //                    CompanyName = content[1],
-        //                    CompanyContactInfo = new ExtendedContactInfoView
-        //                    {
-        //                        Email = ,
-        //                        WebsiteUrl = ,
-        //                    }
-        //                }
-        //            };
-        //        }   
-        //    }
+            // setup event args
+            var args = new ParseProfilesCsvLineArgs<TProMetadata>();
+            args.IsHeaderLine = true;
+            args.Metadata = new TProMetadata();
 
-        //    return View("CreateProxyProfile");
-        //}
+            // professional categories or validation
+            var proCategories = Localizer.GetList("professional-categories");
+
+            // loop file lines and call profile service to create proxies
+            string line;
+            var service = new ProfileService();
+            var batchId = Guid.NewGuid().ToString();
+            int index = 0;
+            while ((line = reader.ReadLine()) != null)
+            {
+                args.LineValues = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
+                
+                // let the implementation handle parsing
+                OnParseProfilesCsvLine(this, args);
+
+                // validate professional info
+                if (!args.IsHeaderLine)
+                {
+                    if (args.ProfessionalInfo == null)
+                    {
+                        throw new ArgumentNullException(string.Format("args.ProfessionalInfo cannot return null from OnParseProfilesCsvLine. Line {0}", index));
+                    }
+                    else
+                    {
+                        if (!proCategories.Any(x => x.Value == args.ProfessionalInfo.Category))
+                        {
+                            throw new ArgumentOutOfRangeException(string.Format("Invalid category from OnParseProfileCsvLine. Value: {0}, Line: {1}", args.ProfessionalInfo.Category, index));
+                        }
+                    }
+                }
+
+                if (args.ProfessionalInfo != null) service.CreateProxyProfile(batchId, args.ProfessionalInfo, args.Metadata.ToDictionary());
+                args.IsHeaderLine = false;
+                index++;
+            }   
+
+            TempData["UploadSuccess"] = Localizer.Get("CreateProxyMass_UploadSuccess");
+            return RedirectToRoute("CreateProxyProfile");
+        }
 
         //
         // GET: /profile/edit
