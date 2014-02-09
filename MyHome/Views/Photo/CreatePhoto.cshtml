@@ -25,10 +25,10 @@
             @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_Title"))
             @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
-            @f.FormGroup().DropDownListFor(x => x.Metadata.Style, new SelectList(styles)).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
             <div class="alert alert-warning">
-            @f.FormGroup().File("file").HtmlAttributes(new { multiple = "multiple", accept = "image/*" }).Label().Class("sr-only")
+                @f.FormGroup().File("file").HtmlAttributes(new { multiple = "multiple", accept = "image/*" }).Label().Class("sr-only")
                 <div id="filesPreview" class="row"></div>
             </div>
             
