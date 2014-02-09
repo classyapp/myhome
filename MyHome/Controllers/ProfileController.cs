@@ -7,6 +7,8 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
+using Classy.DotNet.Responses;
+using Classy.DotNet.Mvc;
 
 namespace MyHome.Controllers
 {
@@ -17,6 +19,36 @@ namespace MyHome.Controllers
         public ProfileController()
             : base("MyHome.Controllers") {
                 base.OnContactProfessional += ProfileController_OnContactProfessional;
+                base.OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
+        }
+
+        public void ProfileController_OnParseProfilesCsvLine(object sender, ParseProfilesCsvLineArgs<ProfessionalMetadata> e)
+        {
+            if (e.IsHeaderLine) return;
+            else
+            {
+                e.ProfessionalInfo = new ProfessionalInfoView
+                {
+                    Category = e.LineValues[0].CleanCsvString(),
+                    CompanyName = e.LineValues[1].CleanCsvString(),
+                    CompanyContactInfo = new ExtendedContactInfoView
+                    {
+                        Location = new LocationView
+                        {
+                            Address = new PhysicalAddressView
+                            {
+                                Street1 = e.LineValues[3].CleanCsvString(),
+                                City = e.LineValues[4].CleanCsvString(),
+                                PostalCode = e.LineValues[6].CleanCsvString(),
+                                Country = e.LineValues[7].CleanCsvString()
+                            }
+                        },
+                        Phone = e.LineValues[8].CleanCsvString(),
+                        WebsiteUrl = e.LineValues[10].CleanCsvString(),
+                        Email = e.LineValues[11].CleanCsvString()
+                    }
+                };
+            }
         }
 
         public void ProfileController_OnContactProfessional(object sender, ContactProfessionalArgs<ProfessionalMetadata> e) {

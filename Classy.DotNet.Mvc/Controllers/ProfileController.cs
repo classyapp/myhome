@@ -26,7 +26,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
 
-        public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional; 
+        public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional;
+        public EventHandler<ParseProfilesCsvLineArgs<TProMetadata>> OnParseProfilesCsvLine;
 
         /// <summary>
         /// register routes within host app's route collection
@@ -116,51 +117,51 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateProxyProfileMass(CreateProxyProfileMassViewModel<TProMetadata> model)
         {
+            if (OnParseProfilesCsvLine == null) ModelState.AddModelError("OnParseCsvLine", Localizer.Get("CreateProxy_MassUploadNotImplemented"));
             if (!ModelState.IsValid) return View("CreateProxyProfile", model);
 
-            string line;
-            string[] content;
+            // get file stream
             var reader = new StreamReader(model.File.InputStream);
-            // read first line
-            line = reader.ReadLine();
-            if (line != null) 
-            {
-                content = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
-                if (content[0].CleanCsvString().ToUpper() == "CATEGORY") // ignore the first line if its headers
-                    line = reader.ReadLine();
-            }
 
+            // setup event args
+            var args = new ParseProfilesCsvLineArgs<TProMetadata>();
+            args.IsHeaderLine = true;
+            args.Metadata = new TProMetadata();
+
+            // professional categories or validation
+            var proCategories = Localizer.GetList("professional-categories");
+
+            // loop file lines and call profile service to create proxies
+            string line;
             var service = new ProfileService();
             var batchId = Guid.NewGuid().ToString();
-            while (line != null)
+            int index = 0;
+            while ((line = reader.ReadLine()) != null)
             {
-                content = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
+                args.LineValues = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
+                
+                // let the implementation handle parsing
+                OnParseProfilesCsvLine(this, args);
 
-                var professionalInfo = new ProfessionalInfoView
+                // validate professional info
+                if (!args.IsHeaderLine)
+                {
+                    if (args.ProfessionalInfo == null)
                     {
-                        Category = model.Category,
-                        CompanyName = content[1].CleanCsvString(),
-                        CompanyContactInfo = new ExtendedContactInfoView
+                        throw new ArgumentNullException(string.Format("args.ProfessionalInfo cannot return null from OnParseProfilesCsvLine. Line {0}", index));
+                    }
+                    else
+                    {
+                        if (!proCategories.Any(x => x.Value == args.ProfessionalInfo.Category))
                         {
-                            Location = new LocationView
-                            {
-                                Address = new PhysicalAddressView
-                                {
-                                    Street1 = content[3].CleanCsvString(),
-                                    City = content[4].CleanCsvString(),
-                                    PostalCode = content[6].CleanCsvString(),
-                                    Country = content[7].CleanCsvString()
-                                }
-                            },
-                            Phone = content[8].CleanCsvString(),
-                            WebsiteUrl = content[9].CleanCsvString(),
-                            Email = content[10].CleanCsvString()
+                            throw new ArgumentOutOfRangeException(string.Format("Invalid category from OnParseProfileCsvLine. Value: {0}, Line: {1}", args.ProfessionalInfo.Category, index));
                         }
-                    };
+                    }
+                }
 
-                service.CreateProxyProfile(batchId, professionalInfo, null);
-
-                line = reader.ReadLine();
+                if (args.ProfessionalInfo != null) service.CreateProxyProfile(batchId, args.ProfessionalInfo, args.Metadata.ToDictionary());
+                args.IsHeaderLine = false;
+                index++;
             }   
 
             TempData["UploadSuccess"] = Localizer.Get("CreateProxyMass_UploadSuccess");

@@ -17,7 +17,6 @@
         @Html.Bootstrap().ValidationSummary()
         @using (var f = Html.Bootstrap().Begin(new Form("CreateProxyProfileMass").HtmlAttributes(new { enctype = "multipart/form-data" }).FormMethod(FormMethod.Post)))
         {
-            @f.FormGroup().DropDownList("Category", Localizer.GetList("professional-categories")).OptionLabel(Localizer.Get("CreateProxy_ChooseCategory")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("CreateProxyProfile_Category"))
             @f.FormGroup().File("File").Label().LabelText(Localizer.Get("CreateProxyProfile_File"))
             
             @Html.Bootstrap().SubmitButton().Text("CreateProxy_Submit").Style(ButtonStyle.Success)
