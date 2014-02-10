@@ -1,16 +1,16 @@
-﻿using Classy.DotNet.Responses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using Classy.DotNet.Responses;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
 {
-    public class ListingDetailsViewModel<TListingMetadata>
+    public class ShowListingByTypeViewModel<TListingMetadata>
     {
-        public ListingView Listing { get; set; }
+        public ProfileView Profile { get; set; }
+        public IList<ListingView> Listings { get; set; }
         public TListingMetadata Metadata { get; set; }
     }
 }

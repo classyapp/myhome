@@ -50,6 +50,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Concat("Edit", ListingTypeName),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/edit"),
+                defaults: new { controller = ListingTypeName, action = "EditListing" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: string.Concat(ListingTypeName, "Details"),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}--{slug}"),
@@ -61,6 +68,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: string.Concat("Search", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
                 defaults: new { controller = ListingTypeName, action = "Search", filters = "", listingType = ListingTypeName },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
+                name: string.Format("PublicProfile{0}s", ListingTypeName),
+                url: string.Concat("profile/{profileId}/all/", string.Format("{0}s", ListingTypeName.ToLower())),
+                defaults: new { controller = ListingTypeName, action = "ShowListingsByType" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -221,6 +235,83 @@ namespace Classy.DotNet.Mvc.Controllers
             return Json(new { IsValid = true });
         }
 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult EditListing(string listingId)
+        {
+            try
+            {
+                var service = new ListingService();
+                var listing = service.GetListingById(
+                    listingId,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false);
+                var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
+                var model = new UpdateListingViewModel<TListingMetadata>
+                {
+                    Id = listing.Id,
+                    Title = listing.Title,
+                    Content = listing.Content,
+                    ExternalMedia = listing.ExternalMedia,
+                    Metadata = listingMetadata
+                };
+                return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditListing(UpdateListingViewModel<TListingMetadata> model)
+        {
+            try
+            {
+                try
+                {
+                    var service = new ListingService();
+                    var listing = service.UpdateListing(
+                        model.Id,
+                        model.Title,
+                        model.Content,
+                        ListingTypeName,
+                        null,
+                        (model.Metadata == null ? null : model.Metadata.ToDictionary()),
+                        null);
+
+                    TempData["EditListingSuccess"] = true;
+
+                    return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName),
+                        new UpdateListingViewModel<TListingMetadata> 
+                        {
+                            Id = listing.Id,
+                            Title = listing.Title,
+                            Content = listing.Content,
+                            ExternalMedia = listing.ExternalMedia,
+                            Metadata = new TListingMetadata().FromDictionary(listing.Metadata)
+                        });
+                }
+                catch (ClassyException cvx)
+                {
+                    if (cvx.IsValidationError())
+                    {
+                        AddModelErrors(cvx);
+                        return View(string.Concat("Create", ListingTypeName));
+                    }
+                    else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+                }
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
         //
         // GET: /{ListingTypeName}/{*filters}
         //
@@ -268,6 +359,37 @@ namespace Classy.DotNet.Mvc.Controllers
             if (model.Metadata == null) model.Metadata = new TListingMetadata();
             var slug = model.Metadata.GetSearchFilterSlug(model.Tag, model.Location);
             return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
+        }
+
+        //
+        // GET: /profile/{ProfileId}/all/{ListingTypeName}s
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ShowListingsByType(string profileId)
+        {
+            try
+            {
+                var profileService = new ProfileService();
+                var profile = profileService.GetProfileById(profileId, false, true, false, false, false);
+
+                var listingService = new ListingService();
+                bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
+                var listings = listingService.GetListingsByProfileId(profileId, true);
+
+                var model = new ShowListingByTypeViewModel<TListingMetadata>
+                {
+                    Profile = profile,
+                    Listings = listings,
+                    Metadata = default(TListingMetadata)
+                };
+
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
         }
     }
 }

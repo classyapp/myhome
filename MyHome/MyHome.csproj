@@ -455,6 +455,10 @@
     <Content Include="Views\Collection\EditCollection.cshtml" />
     <Content Include="Views\Collection\CollectionDetailsList.cshtml" />
     <Content Include="Views\Profile\CreateProxyProfile.cshtml" />
+    <Content Include="Views\Photo\EditPhotoListingModal.cshtml" />
+    <Content Include="Views\Shared\PhotoActions.cshtml" />
+    <Content Include="Views\Photo\ShowListingsByType.cshtml" />
+    <Content Include="Views\Shared\SideBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

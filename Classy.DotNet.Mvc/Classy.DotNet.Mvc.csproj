@@ -81,9 +81,12 @@
     <Compile Include="Controllers\Security\SecurityController.cs" />
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />
+    <Compile Include="ViewModels\Listing\PhotoActionsViewModel.cs" />
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Listing\UpdateListingViewModel.cs" />
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProxyProfileMassViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ContactProfessionalViewModel.cs" />
