@@ -37,17 +37,10 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
-            //routes.MapRouteForSupportedLocales(
-            //    name: "CollectionDetails",
-            //    url: "collection/{collectionId}/{slug}",
-            //    defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show", view = "grid" },
-            //    namespaces: new string[] { Namespace }
-            //);
-
             routes.MapRouteForSupportedLocales(
                 name: "CollectionDetails",
                 url: "collection/{collectionId}/{view}/{slug}",
-                defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show", view = "list" },
+                defaults: new { controller = "Collection", action = "CollectionDetails", slug = "show" },
                 namespaces: new string[] { Namespace }
             );
         }

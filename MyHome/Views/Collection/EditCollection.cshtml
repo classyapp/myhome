@@ -7,57 +7,65 @@
 }
 
 <div class="row">
-    @if (TempData["UpdateCollectionSuccess"] != null)
-    {
-        @Html.Bootstrap().Alert(Localizer.Get("UpdateCollection_Success")).Style(AlertColor.Success)
-    }
-    @if (TempData["UpdateCollectionError"] != null)
-    {
-        @Html.Bootstrap().Alert(Localizer.Get("UpdateCollection_Error")).Style(AlertColor.Danger)
-    }
-    
-    <h1>@Localizer.Get("EditCollection_Title")</h1>
-    <hr />
+    <div class="col-md-12">
+        @if (TempData["UpdateCollectionSuccess"] != null)
+        {
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4>@Localizer.Get("EditCollection_Success_Title")</h4>
+                <p>@Localizer.Get("EditCollection_Success")</p>
+                <p>@Html.RouteLink(Localizer.Get("EditCollection_Success_Action"), "CollectionDetails", new { collectionId = Model.CollectionId, view = "list" }, new { @class = "btn btn-success" })</p>
+            </div>
+        }
+        @if (TempData["UpdateCollectionError"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("UpdateCollection_Error")).Style(AlertColor.Danger)
+        }
 
-    @Html.Bootstrap().ValidationSummary()
+        <h1>@Localizer.Get("EditCollection_Title")</h1>
+        <hr />
 
-    @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection")))
-    {
-        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()           
-        
-        <div class="collection-items">
-            <h4>@Localizer.Get("EditCollection_ExplainPhotoComments")</h4>
-            <hr/>
+        @Html.Bootstrap().ValidationSummary()
 
-            <div class="row">
+        @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection")))
+        {
+            @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
+
+            <div class="collection-items">
+                <h4>@Localizer.Get("EditCollection_ExplainPhotoComments")</h4>
+                <hr />
+
                 @for (int i = 0; i < Model.IncludedListings.Length; i++)
                 {
-                    <div class="col-md-2">
-                        <div class="thumbnail">
-                            @{
-                                var item = photos.First(p => p.Id == Model.IncludedListings[i].ListingId);
-                                if (item.ExternalMedia[0].Thumbnails != null)
-                                {
-                                    var thumb = item.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
-                                    if (thumb != null)
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="thumbnail">
+                                @{
+                                    var item = photos.First(p => p.Id == Model.IncludedListings[i].ListingId);
+                                    if (item.ExternalMedia[0].Thumbnails != null)
                                     {
-                                        <img src="@thumb.Url" title="@item.Title" alt="@item.Title" class="img-responsive" />
+                                        var thumb = item.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
+                                        if (thumb != null)
+                                        {
+                                            <img src="@thumb.Url" title="@item.Title" alt="@item.Title" class="img-responsive" />
+                                        }
                                     }
                                 }
-                            }
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-10">
-                        @Html.HiddenFor(x => x.IncludedListings[i].ListingId)
-                        <textarea class="form-control" id="@string.Format("IncludedListings_{0}__Comments", i)" name="@string.Format("IncludedListings[{0}].Comments", i)">@(comments.ContainsKey(item.Id) ? comments[item.Id] : string.Empty)</textarea>
+                        <div class="col-md-10">
+                            @Html.HiddenFor(x => x.IncludedListings[i].ListingId)
+                            <textarea class="form-control" id="@string.Format("IncludedListings_{0}__Comments", i)" name="@string.Format("IncludedListings[{0}].Comments", i)">@(comments.ContainsKey(item.Id) ? comments[item.Id] : string.Empty)</textarea>
+                        </div>
                     </div>
                 }
             </div>
-        </div>
-        
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditCollection_Save")).Style(ButtonStyle.Success))
-    }
+
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditCollection_Save")).Style(ButtonStyle.Success))
+        }
+    </div>
+
 </div>
 
 @section scripts
