@@ -8,7 +8,11 @@
     @if (Request.QueryString["photosUploaded"] != null)
     {
         <div class="col-md-12">
-            @Html.Bootstrap().Alert(Localizer.Get("UploadPhotos_Success")).Style(AlertColor.Success)
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4>@Localizer.Get("UploadPhotos_Success_Title")</h4>
+                <p>@Localizer.Get("Upload_Success_Content")</p>
+            </div>
         </div>
     }
 
