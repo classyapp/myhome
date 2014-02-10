@@ -262,6 +262,13 @@
                 return true;
             }
         };
+
+        function attachValidation(frm) {
+            jQuery.validator.unobtrusive.parse(frm);
+            $(frm).bind("invalid-form.validate", function (form) {
+                $('.bmvc-3-validation-summary').addClass('alert alert-danger').find('.close').show();
+            });
+        }
     </script>
 
     @RenderSection("scripts", required: false)

@@ -35,11 +35,13 @@
         $('#photo-modal')
             .modal('show')
             .on('loaded.bs.modal', function () {
+                var that = this;
                 $('#listingId').val(listingId);
                 setTimeout(function () {
                     $("#editPhotoPreview").height($('#photo-modal form').height());
                     $("#editPhotoPreview").width($("#editPhotoPreview").parent().width());
                     $("#editPhotoPreview > img").css("display", "inline");
+                    attachValidation($(that).find("form"));
                 }, 200);
             });
     });

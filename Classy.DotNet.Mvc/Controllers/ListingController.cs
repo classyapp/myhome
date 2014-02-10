@@ -70,6 +70,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Format("PublicProfile{0}s", ListingTypeName),
+                url: string.Concat("profile/{profileId}/all/", string.Format("{0}s", ListingTypeName.ToLower())),
+                defaults: new { controller = ListingTypeName, action = "Index" },
+                namespaces: new string[] { Namespace }
+            );
+
         }
 
         //
@@ -242,9 +249,12 @@ namespace Classy.DotNet.Mvc.Controllers
                     false,
                     false);
                 var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
-                var model = new ListingDetailsViewModel<TListingMetadata>
+                var model = new UpdateListingViewModel<TListingMetadata>
                 {
-                    Listing = listing,
+                    Id = listing.Id,
+                    Title = listing.Title,
+                    Content = listing.Content,
+                    ExternalMedia = listing.ExternalMedia,
                     Metadata = listingMetadata
                 };
                 return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
@@ -257,7 +267,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditListing(ListingDetailsViewModel<TListingMetadata> model)
+        public ActionResult EditListing(UpdateListingViewModel<TListingMetadata> model)
         {
             try
             {
@@ -265,9 +275,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     var service = new ListingService();
                     var listing = service.UpdateListing(
-                        model.Listing.Id,
-                        model.Listing.Title,
-                        model.Listing.Content,
+                        model.Id,
+                        model.Title,
+                        model.Content,
                         ListingTypeName,
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
@@ -275,7 +285,15 @@ namespace Classy.DotNet.Mvc.Controllers
 
                     TempData["EditListingSuccess"] = true;
 
-                    return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+                    return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName),
+                        new UpdateListingViewModel<TListingMetadata> 
+                        {
+                            Id = listing.Id,
+                            Title = listing.Title,
+                            Content = listing.Content,
+                            ExternalMedia = listing.ExternalMedia,
+                            Metadata = new TListingMetadata().FromDictionary(listing.Metadata)
+                        });
                 }
                 catch (ClassyException cvx)
                 {
@@ -340,6 +358,37 @@ namespace Classy.DotNet.Mvc.Controllers
             if (model.Metadata == null) model.Metadata = new TListingMetadata();
             var slug = model.Metadata.GetSearchFilterSlug(model.Tag, model.Location);
             return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
+        }
+
+        //
+        // GET: /profile/{profileId}/photos
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Index(string profileId)
+        {
+            try
+            {
+                var profileService = new ProfileService();
+                var profile = profileService.GetProfileById(profileId, false, true, false, false, false);
+
+                var listingService = new ListingService();
+                bool includeDrafts = (User.Identity.IsAuthenticated && profileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id);
+                var listings = listingService.GetListingsByProfileId(profileId, true);
+
+                var model = new ListingsViewModel<TListingMetadata>
+                {
+                    Profile = profile,
+                    Listings = listings,
+                    Metadata = default(TListingMetadata)
+                };
+
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
         }
     }
 }

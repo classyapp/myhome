@@ -29,6 +29,7 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Room)) list.Add("Room", Room);
             if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
             if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
+            if (!string.IsNullOrEmpty(AgreeToTerms)) list.Add("AgreeToTerms", AgreeToTerms);
             return list;
         }
 
@@ -38,6 +39,10 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Room")) output.Room = metadata["Room"];
             if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
             if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
+            if (metadata.ContainsKey("AgreeToTerms"))
+                output.AgreeToTerms = metadata["AgreeToTerms"];
+            else
+                output.AgreeToTerms = true.ToString();
             return output;
         }
     

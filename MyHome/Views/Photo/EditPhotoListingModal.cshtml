@@ -1,4 +1,4 @@
-@model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.PhotoMetadata>
+@model Classy.DotNet.Mvc.ViewModels.Listing.UpdateListingViewModel<MyHome.Models.PhotoMetadata>
 
 @{
     Html.Bootstrap().Globals().ShowRequiredStar(false);
@@ -19,7 +19,7 @@
     }
     <div class="col-md-7">
         <div id="editPhotoPreview">
-            <img src="@Model.Listing.ExternalMedia[0].Url" />
+            <img src="@Model.ExternalMedia[0].Url" />
         </div>
     </div>
 
@@ -31,9 +31,11 @@
             OnSuccess = "CloseModal(data)"
         }))
     {
-        @Html.HiddenFor(x => x.Listing.Id)
-        @f.FormGroup().TextBoxFor(x => x.Listing.Title).ShowValidationMessage(false).Label()
-        @f.FormGroup().TextAreaFor(x => x.Listing.Content).ShowValidationMessage(false).Label()
+        @Html.Bootstrap().ValidationSummary()
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.Metadata.AgreeToTerms)
+        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
+        @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
         @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
         @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
         @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
@@ -41,4 +43,3 @@
     }
     <div class="clearfix"></div>
 </div>
-
