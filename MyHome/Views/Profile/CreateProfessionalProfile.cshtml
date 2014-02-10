@@ -9,7 +9,7 @@
         <h1>@Localizer.Get("CreateProProfile_PageTitle")</h1>
 
         @Html.Bootstrap().ValidationSummary()
-        @using (var f = Html.Bootstrap().Begin(new Form("CreateProfessionalProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateProfessionalProfile").Id("proForm").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
         {
             <h4>@Localizer.Get("CreateProProfile_Teaser")</h4>
             <hr />
@@ -24,7 +24,7 @@
             @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).Rows(5).Label().WidthLg(12)
             @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).Label().WidthLg(12)
             @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).Label().WidthLg(12)
-            <div>job cost from: --- to: ---</div>
+            @*<div>job cost from: --- to: ---</div>*@
             @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).Label().WidthLg(12)
             @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).Label().WidthLg(12)
 
@@ -47,3 +47,9 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script>
+        $.data($('#proForm')[0], 'validator').settings.ignore = ".ignore";
+    </script>
+}

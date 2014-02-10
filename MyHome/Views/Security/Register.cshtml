@@ -25,10 +25,10 @@
                 @f.FormGroup().TextBoxFor(x => x.Username).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
                 @f.FormGroup().PasswordFor(x => x.Password).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
 
-                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, false).Label().ShowRequiredStar(false)
-                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, false).Label().ShowRequiredStar(false)
-                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsCommercial, false).Label().ShowRequiredStar(false);
-                @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, false).Label().ShowRequiredStar(false)
+                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, true).Label().ShowRequiredStar(false)
+                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().ShowRequiredStar(false)
+                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsCommercial, true).Label().ShowRequiredStar(false);
+                @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().ShowRequiredStar(false)
 
                 @Html.Bootstrap().SubmitButton().Class("btn-block btn-success").Text(Localizer.Get("Register_Submit"))
             }
@@ -47,7 +47,7 @@
     {
         using (modal.BeginBody())
         {
-            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, false).Label().ShowRequiredStar(false);
+            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, true).Label().ShowRequiredStar(false);
             @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().ShowRequiredStar(false);
             @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsCommercial, true).Label().ShowRequiredStar(false);
             @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().ShowRequiredStar(false);
