@@ -22,7 +22,6 @@
     }
     
     @if (Model.Profile.IsProfessional && 
-        !Model.Profile.IsProxy &&
         Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
         photos.Count() == 0) {
         <div class="alert alert-info alert-dismissable">
@@ -33,95 +32,19 @@
         </div>
     }
     
-    <div class="col-md-3 sidebar">
-        <div class="image text-center">
-            <img src="@Model.Profile.ImageUrl" title="@Model.Profile.ContactInfo.Name" />
+    @if (Model.Profile.IsProfessional &&
+        Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
+        photos.Any(x => !x.IsPublished))
+    {
+        <div class="alert alert-info alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4>@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Title")</h4>
+            <p>@Localizer.Get("PublicProfile_CallToAction_EditPhotos")</p>
+            <p><a href="@Url.RouteUrl("ShowListingsByType")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Button")</a></p>
         </div>
-
-        <div class="follow text-center">
-            @if (Request.IsAuthenticated &&
-            (Model.Profile.FollowedBy.Any(x => x.Id == user.Profile.Id) ||
-            Model.Profile.Id == user.Profile.Id))
-            {
-                <span><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Profile_Sidebar_Following")</span>
-            }
-            else
-            {
-                @Html.TriggerProfileActionLink(@Localizer.Get("Profile_Sidebar_Follow"), "follow", Model.Profile, "btn btn-block btn-default")
-            }
-        </div>
-
-        <div class="panel panel-default panel-links">
-            <div class="panel-heading">
-                <h3 class="panel-title">@Localizer.Get("Profile_ProfileLinksPanel_Title")</h3>
-            </div>
-            <div class="panel-body">
-                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Overview")</a>
-                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Collections")</a>
-                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Photos")</a>
-                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Reviews")</a>
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-body">
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl))
-                {
-                    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl">Facebook</a>
-                }
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.FacebookUrl))
-                {
-                    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername">Twitter</a>
-                }
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.TwitterUsername))
-                {
-                    <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.LinkedInProfileUrl">LinkedIn</a>
-                }
-            </div>
-        </div>
-
-        @if (Model.Profile.FollowerCount > 0)
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@string.Format(Localizer.Get("Profile_FollowersPanel_Title"), Model.Profile.FollowerCount)</h3>
-                </div>
-                <div class="panel-body social-thumbnails">
-                    <ul class="list-inline">
-                        @foreach (var p in Model.Profile.FollowedBy)
-                        {
-                            <li class="thumbnail">
-                                <a href="@Url.ProfileUrl(p)">
-                                    <img src="@p.ThumbnailUrl" width="30" />
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        }
-
-        @if (Model.Profile.FollowingCount > 0)
-        {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@string.Format(Localizer.Get("Profile_FollowingPanel_Title"), Model.Profile.FollowingCount)</h3>
-                </div>
-                <div class="panel-body social-thumbnails">
-                    <ul class="list-inline">
-                        @foreach (var p in Model.Profile.Following)
-                        {
-                            <li class="thumbnail">
-                                <a href="@Url.ProfileUrl(p)">
-                                    <img src="@p.ThumbnailUrl" width="30" />
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        }
-    </div>
+    }
+    
+    @Html.Partial("SideBar", Model.Profile)
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
         <div class="row">
@@ -303,8 +226,7 @@
                                 <div class="col-md-4">
                                     <div class="thumbnail">
                                         <div class="actions hide">
-                                            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like onphoto")
-                                            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add onphoto")
+                                            @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = true })
                                         </div>
                                         <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
                                         <div class="details">

@@ -36,8 +36,8 @@
         @Html.Hidden("Metadata.AgreeToTerms", true.ToString())
         @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
         @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
-        @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
-        @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
+        @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
+        @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
         @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
         @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Class("btn-success"))
     }
