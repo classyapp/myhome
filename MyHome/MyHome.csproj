@@ -457,7 +457,7 @@
     <Content Include="Views\Collection\CollectionDetailsList.cshtml" />
     <Content Include="Views\Photo\EditPhotoListingModal.cshtml" />
     <Content Include="Views\Shared\PhotoActions.cshtml" />
-    <Content Include="Views\Photo\Index.cshtml" />
+    <Content Include="Views\Photo\ShowListingsByType.cshtml" />
     <Content Include="Views\Shared\SideBar.cshtml" />
   </ItemGroup>
   <ItemGroup>

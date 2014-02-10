@@ -73,7 +73,7 @@ namespace Classy.DotNet.Mvc.Controllers
             routes.MapRoute(
                 name: string.Format("PublicProfile{0}s", ListingTypeName),
                 url: string.Concat("profile/{profileId}/all/", string.Format("{0}s", ListingTypeName.ToLower())),
-                defaults: new { controller = ListingTypeName, action = "Index" },
+                defaults: new { controller = ListingTypeName, action = "ShowListingsByType" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -361,11 +361,11 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         //
-        // GET: /profile/{profileId}/photos
+        // GET: /profile/{ProfileId}/all/{ListingTypeName}s
         // 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Index(string profileId)
+        public ActionResult ShowListingsByType(string profileId)
         {
             try
             {
@@ -373,10 +373,10 @@ namespace Classy.DotNet.Mvc.Controllers
                 var profile = profileService.GetProfileById(profileId, false, true, false, false, false);
 
                 var listingService = new ListingService();
-                bool includeDrafts = (User.Identity.IsAuthenticated && profileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id);
+                bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
                 var listings = listingService.GetListingsByProfileId(profileId, true);
 
-                var model = new ListingsViewModel<TListingMetadata>
+                var model = new ShowListingByTypeViewModel<TListingMetadata>
                 {
                     Profile = profile,
                     Listings = listings,

@@ -7,7 +7,7 @@ using Classy.DotNet.Responses;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
 {
-    public class ListingsViewModel<TListingMetadata>
+    public class ShowListingByTypeViewModel<TListingMetadata>
     {
         public ProfileView Profile { get; set; }
         public IList<ListingView> Listings { get; set; }
