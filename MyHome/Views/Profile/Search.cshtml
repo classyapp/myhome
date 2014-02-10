@@ -44,25 +44,7 @@
     </div>
 
     <div class="main col-md-10">
-        <h1>
-        @if (Model.Location != null && Model.Category != null) {
-            <text>
-            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text, Model.Location)
-            </text>
-        }
-        else if (Model.Category != null)
-        {
-            <text>
-            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text)
-            </text>
-        }
-        else if (Model.Location != null)
-        {
-            <text>
-                @string.Format(Localizer.Get("SearchProfiles_Results_Title_LocationOnly"), Model.Results.Count, Model.Location)
-            </text>
-        }
-        </h1>
+        <h1>@categories.Single(x => x.Value == Model.Category).Text</h1>
 
         <hr/>
 

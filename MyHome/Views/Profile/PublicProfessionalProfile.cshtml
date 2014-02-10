@@ -16,9 +16,14 @@
 </div>
 
 <div class="row">
+    @if (TempData["ReviewSuccess"] != null)
+    {
+        @Html.Bootstrap().Alert(TempData["ReviewSuccess"] as string).Closeable().Style(AlertColor.Success)
+    }
+    
     @if (Model.Profile.IsProfessional && 
         !Model.Profile.IsProxy &&
-        Request.IsAuthenticated &&
+        Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
         photos.Count() == 0) {
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

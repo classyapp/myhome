@@ -9,6 +9,7 @@ using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc;
+using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
 {
@@ -55,7 +56,7 @@ namespace MyHome.Controllers
             // email professional
             var message = new EmailMessage
             {
-                subject = string.Format("פניה מאתר מיי הום: {0}", e.Subject),
+                subject = string.Format(Localizer.Get("Mail_ContactPro_Subject"), e.Subject),
                 to = new List<EmailAddress> {
                     new EmailAddress {
                         email = e.ProfessionalProfile.ContactInfo.Email
@@ -65,7 +66,7 @@ namespace MyHome.Controllers
             message.AddHeader("Reply-To", e.ReplyToEmail);
             message.AddGlobalVariable("CONTENT", e.Content);
             var api = new MandrillApi(MANDRILL_API_KEY);
-            var sendResponse = api.SendMessage(message, "notification_contact_pro", null);
+            var sendResponse = api.SendMessage(message, string.Concat("notification_contact_pro_", System.Threading.Thread.CurrentThread.CurrentUICulture.Name), null);
         }
     }
 }

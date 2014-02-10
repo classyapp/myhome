@@ -55,7 +55,7 @@
                         <ul class="dropdown-menu">
                             @foreach (var r in rooms)
                             {
-                                <li>@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, null) })</li>
+                                <li class="@(r.ParentValue == null ? "top" : "")">@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, null) })</li>
                             }
                         </ul>
                     </li>

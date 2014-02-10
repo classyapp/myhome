@@ -44,13 +44,6 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = "Review", action = "PostProfileReview" },
                 namespaces: new string[] { Namespace }
             );
-
-            routes.MapRouteWithName(
-                name: "ReviewThanks",
-                url: "thanks",
-                defaults: new { controller = "Review", action = "ReviewThanks" },
-                namespaces: new string[] { Namespace }
-            );
         }
 
         #region // actions
@@ -109,7 +102,9 @@ namespace Classy.DotNet.Mvc.Controllers
                         {
                             ReviewResponse = response
                         });
-                    return RedirectToAction("ReviewThanks");
+
+                    TempData["ReviewSuccess"] = Localizer.Get("PublicProfile_ReviewSuccess");
+                    return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId });
                 }
                 catch(ClassyException cvx)
                 {

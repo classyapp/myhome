@@ -430,7 +430,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Review\PostProfileReview.cshtml" />
-    <Content Include="Views\Review\ReviewThanks.cshtml" />
     <Content Include="Views\Profile\ClaimProxyProfile.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Security\Register.cshtml" />
