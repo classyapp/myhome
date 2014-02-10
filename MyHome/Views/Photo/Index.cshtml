@@ -5,8 +5,15 @@
 }
 
 <div class="row">
+    @if (Request.QueryString["photosUploaded"] != null)
+    {
+        <div class="col-md-12">
+            @Html.Bootstrap().Alert(Localizer.Get("UploadPhotos_Success")).Style(AlertColor.Success)
+        </div>
+    }
 
     @Html.Partial("SideBar", Model.Profile)
+
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
         <div id="photos">
