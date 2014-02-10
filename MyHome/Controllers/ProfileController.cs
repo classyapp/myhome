@@ -64,9 +64,9 @@ namespace MyHome.Controllers
                 }
             };
             message.AddHeader("Reply-To", e.ReplyToEmail);
-            message.AddGlobalVariable("CONTENT", e.Content);
+            message.AddGlobalVariable("CONTENT", string.Format(Localizer.Get("Mail_ContactPro_Body"), e.Content));
             var api = new MandrillApi(MANDRILL_API_KEY);
-            var sendResponse = api.SendMessage(message, string.Concat("notification_contact_pro_", System.Threading.Thread.CurrentThread.CurrentUICulture.Name), null);
+            var sendResponse = api.SendMessage(message, "notification_contact_pro", null);
         }
     }
 }

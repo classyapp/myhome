@@ -44,8 +44,12 @@
     </div>
 
     <div class="main col-md-10">
-        <h1>@categories.Single(x => x.Value == Model.Category).Text</h1>
-
+        @if (Model.Category != null) {
+            <h1>@categories.Single(x => x.Value == Model.Category).Text</h1>
+        }
+        else {
+            <h1>@Localizer.Get("ProfileSearch_ResultsHeader_AllPros")</h1>
+        }
         <hr/>
 
         <div class="search-form">
