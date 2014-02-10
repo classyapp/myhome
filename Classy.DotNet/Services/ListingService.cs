@@ -16,7 +16,7 @@ namespace Classy.DotNet.Services
         // create listing
         private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
-        private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/edit";
+        private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
         // get listings
@@ -110,7 +110,7 @@ namespace Classy.DotNet.Services
             ListingView listing = null;
             try
             {
-                var listingJson = client.UploadString(string.Format(UPDATE_LISTING_URL, listingId), data);
+                var listingJson = client.UploadString(string.Format(UPDATE_LISTING_URL, listingId), "PUT", data);
                 listing = listingJson.FromJson<ListingView>();
             }
             catch (WebException wex)
