@@ -301,21 +301,10 @@ a.btn-default {
     border: solid 1px #e5e5e5;
     height: 202px;
     margin-bottom: 10px;
-}
-.results .profile img {
-    margin-right: 10px;
-}
-.results .profile .details {
     padding: 10px;
-    font-size: 12px;
+    overflow: hidden;
 }
-.results .profile .details h4 {
-    margin: 0 0 3px 0;
-}
-.results .profile .details hr {
-    margin: 5px 0;
-}
-.results .profile .details .glyphicon {
+.results .profile .glyphicon {
     color: #47a447;
     font-size: 14px;
 }

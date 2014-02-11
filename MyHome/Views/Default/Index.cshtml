@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Home Page"; 
     var rooms = Localizer.GetList("rooms");
-    var styles = Localizer.GetList("room-styles"); 
+    var styles = Localizer.GetList("room-styles");
+    var proCategories = Localizer.GetList("professional-categories");
 }
 
 @section PreContent {
@@ -61,6 +62,13 @@
             @foreach (var s in styles)
             {
                 <li>@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value }.GetSearchFilterSlug(null, null) })</li>
+            }
+        </ul>
+        <h4>@Localizer.Get("Home_Professionals")</h4>
+        <ul class="list-inline list-unstyled">
+            @foreach (var p in proCategories)
+            {
+                <li>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { category = p.Value })</li>
             }
         </ul>
     </div>

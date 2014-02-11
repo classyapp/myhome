@@ -104,7 +104,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult EnvironmentSettings()
         {
             var model = GetEnvFromContext();
-            //PopulateCultures(model);
             return PartialView(model);
         }
 
@@ -115,28 +114,9 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult EnvironmentSettings(EnvironmentSettingsViewModel model)
         {
             SetContextEnvFromModel(model);
-            //PopulateCultures(model);
             return PartialView(model);
         }
 
-        //private void PopulateCultures(EnvironmentSettingsViewModel model)
-        //{
-        //    model.SupportedCulturesList = new SelectListItem[]
-        //        {
-        //            new SelectListItem {
-        //                Value = "en-US",
-        //                Text = "English (US)"
-        //            },
-        //            new SelectListItem {
-        //                Value = "he-IL",
-        //                Text = "עברית"
-        //            },
-        //            new SelectListItem {
-        //                Value = "fr-BE",
-        //                Text = "Français"
-        //            }
-        //        };
-        //}
 
         private EnvironmentSettingsViewModel GetEnvFromContext()
         {
