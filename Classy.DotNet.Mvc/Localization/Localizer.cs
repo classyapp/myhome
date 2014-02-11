@@ -109,7 +109,7 @@ namespace Classy.DotNet.Mvc.Localization
                             select new LocalizedListItem
                             {
                                 Text = GetListResourceText(key, item, _showResourceKeys),
-                                Value = HttpUtility.HtmlDecode(item.Value),
+                                Value = item.Value,
                                 ParentValue = item.ParentValue
                             };
                 return items;
@@ -119,7 +119,7 @@ namespace Classy.DotNet.Mvc.Localization
 
         private static string GetListResourceText(string key, ListItemView item, bool showResourceKeys) {
             var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
-            var text = item.Text.ContainsKey(culture) ? item.Text[culture] : item.Value;
+            var text = HttpUtility.HtmlDecode(item.Text.ContainsKey(culture) ? item.Text[culture] : item.Value);
             var output = _showResourceKeys ?
                 string.Concat((text == item.Value) ? null : text, "[List__", key, "_", item.Value, "]") :
                 text;
