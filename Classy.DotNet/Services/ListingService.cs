@@ -17,6 +17,7 @@ namespace Classy.DotNet.Services
         private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
         private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
+        private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
         // get listings
@@ -119,6 +120,28 @@ namespace Classy.DotNet.Services
             }
 
             return listing;
+        }
+
+        public object DeleteListing(string listingId)
+        {
+            var client = ClassyAuth.GetAuthenticatedWebClient();
+            var data = new
+            {
+                ListingId = listingId
+
+            }.ToJson();
+
+            // create the listing
+            try
+            {
+                var listingJson = client.UploadString(string.Format(DELETE_LISTING_URL, listingId), "DELETE", data);
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+
+            return listingId;
         }
 
         public ListingView GetListingById(

@@ -46,6 +46,14 @@
             });
     });
 
+    $('[trigger-listing-action="delete"]').click(function (e) {
+        var listingId = $(this).attr('listing-id');
+        var listingType = $(this).attr('listing-type');
+        if (confirm(msgConfirm)) {
+            $.post("/" + listingType + "/" + listingId, function (data) { alert(data) });
+        }
+    });
+
     $('[trigger-profile-action="follow"]').click(function (e) {
         var profileId = $(this).attr('profile-id');
         var url = "/profile/" + profileId + "/follow";

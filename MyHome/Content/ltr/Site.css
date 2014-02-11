@@ -373,6 +373,10 @@ a.action.edit
 {
     right: 100px;
 }
+a.action.delete
+{
+    right: 135px;
+}
 
 /* manage resources*/
 .resourceListContainer {

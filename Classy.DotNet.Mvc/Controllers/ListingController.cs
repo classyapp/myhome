@@ -55,6 +55,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = ListingTypeName, action = "EditListing" },
                 namespaces: new string[] { Namespace }
             );
+            
+            routes.MapRoute(
+                name: string.Concat("Delete", ListingTypeName),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}"),
+                defaults: new { controller = ListingTypeName, action = "DeleteListing" },
+                namespaces: new string[] { Namespace }
+            );
 
             routes.MapRouteForSupportedLocales(
                 name: string.Concat(ListingTypeName, "Details"),
@@ -308,6 +315,30 @@ namespace Classy.DotNet.Mvc.Controllers
             catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DeleteListing(string listingId)
+        {
+            try
+            {
+                var service = new ListingService();
+                var listing = service.GetListingById(listingId, false, false, false, false, false);
+                if (listing.ProfileId == AuthenticatedUserProfile.Id)
+                {
+                    service.DeleteListing(listingId);
+                    return Json(new { listingId = listingId });
+                }
+                else
+                {
+                    return Json(new { error = "Not Authorized"});
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.ToString() });
             }
         }
 
