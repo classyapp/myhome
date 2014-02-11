@@ -231,6 +231,20 @@ namespace Classy.DotNet.Services
             }
         }
 
+        public void UnfavoriteListing(string listingId)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(FAVORITE_LISTING_URL, listingId);
+                client.UploadString(url, "DELETE", "{}");
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
         #endregion
 
         #region // collections

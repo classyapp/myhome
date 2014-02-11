@@ -1,4 +1,32 @@
-﻿$(function () {
+﻿function FavoriteListing(e)
+{
+    var listingId = $(this).attr('listing-id');
+    var listingType = $(this).attr('listing-type');
+    var url = "/" + listingType + "/" + listingId + "/favorite";
+    var button = $(this);
+    $.post(url, null, function (data) {
+        button.addClass('like-on');
+        button.unbind(e);
+        button.click(UnfavoriteListing);
+    });
+}
+
+function UnfavoriteListing(e)
+{
+
+    e.preventDefault();
+    var listingId = $(this).attr('listing-id');
+    var listingType = $(this).attr('listing-type');
+    var url = "/" + listingType + "/" + listingId + "/unfavorite";
+    var button = $(this);
+    $.post(url, null, function (data) {
+        button.removeClass('like-on');
+        button.unbind(e);
+        button.click(FavoriteListing);
+    });
+}
+
+$(function () {
     $('[authorize]').click(function (e) {
         if (!Classy.IsAuthenticated) {
             $('#login-modal').modal('show');
@@ -6,16 +34,9 @@
         }
     });
 
-    $('[trigger-listing-action="favorite"]').click(function (e) {
-        var listingId = $(this).attr('listing-id');
-        var listingType = $(this).attr('listing-type');
-        var url = "/" + listingType + "/" + listingId + "/favorite";
-        var button = $(this);
-        $.post(url, null, function (data)
-        {
-            button.addClass('like-on');
-        })
-    });
+    $('[trigger-listing-action="favorite"]').click(FavoriteListing);
+
+    $('[trigger-listing-action="unfavorite"]').click(UnfavoriteListing);
 
     $('[trigger-listing-action="collect"]').click(function (e) {
         var listingId = $(this).attr('listing-id');

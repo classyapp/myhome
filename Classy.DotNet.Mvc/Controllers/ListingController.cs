@@ -51,6 +51,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRoute(
+                name: string.Concat("Unfavorite", ListingTypeName),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/unfavorite"),
+                defaults: new { controller = ListingTypeName, action = "UnfavoriteListing" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
                 name: string.Concat("Edit", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/edit"),
                 defaults: new { controller = ListingTypeName, action = "EditListing" },
@@ -235,6 +242,30 @@ namespace Classy.DotNet.Mvc.Controllers
             return Json(new { IsValid = true });
         }
 
+        //
+        // POST: /{ListingTypeName}/{listingId}/unfavorite
+        //
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UnfavoriteListing(string listingId, object delete)
+        {
+            try
+            {
+                var service = new ListingService();
+                service.UnfavoriteListing(listingId);
+            }
+            catch (ClassyException cvx)
+            {
+                if (cvx.IsValidationError())
+                {
+                    AddModelErrors(cvx);
+                }
+                else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+            }
+
+            return Json(new { IsValid = true });
+        }
+
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditListing(string listingId)
@@ -371,7 +402,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                var profile = profileService.GetProfileById(profileId, false, true, false, false, false);
+                var profile = profileService.GetProfileById(profileId, false, true, false, false, false, false);
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);

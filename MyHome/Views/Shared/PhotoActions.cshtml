@@ -3,7 +3,14 @@
 <div class="actions hide">
     @if (Model.ShowFavorite)
     {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like onphoto")
+        if (User.Identity.IsAuthenticated && (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.FavoriteListingIds.Any(x => x == Model.Listing.Id)) 
+        {
+            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "unfavorite", Model.Listing, "btn btn-default action like onphoto like-on")
+        }
+        else
+        {
+            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like onphoto")
+        }
     }
     @if (Model.ShowCollect)
     {
