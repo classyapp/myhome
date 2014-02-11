@@ -1,6 +1,13 @@
 ﻿$(document).ready(function () {
-    $("form").bind("invalid-form.validate", function (form) {
+    $("form").bind("invalid-form.validate", function (form, validator) {
         $('.bmvc-3-validation-summary').addClass('alert alert-danger').find('.close').show();
+        var $list = $('.validation-summary-valid ul:first')
+        if ($list.length && validator.errorList.length) {
+            $list.empty();
+            $.each(validator.errorList, function () {
+                $("<li />").html(this.message).appendTo($list);
+            });
+        }
     });
 
     if ($.validator) {

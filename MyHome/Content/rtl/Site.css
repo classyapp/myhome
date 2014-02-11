@@ -378,6 +378,10 @@ a.action.edit
 {
     left: 100px;
 }
+a.action.delete
+{
+    left: 135px;
+}
 /* manage resources*/
 .resourceListContainer {
     height: 500px;
