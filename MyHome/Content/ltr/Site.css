@@ -259,7 +259,21 @@ a.btn-default {
 {
     border-radius: 0;
     padding: 0;
+    margin-bottom: 20px;
+    position: relative;
 }
+    #photos .thumbnail .deleted
+    {    
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #999;
+        opacity: 0.4;
+        z-index: 1000;
+    }
+
 #photos .thumbnail .details,
 #collections .thumbnail .details
 {
