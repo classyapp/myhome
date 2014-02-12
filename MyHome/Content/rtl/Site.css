@@ -578,6 +578,7 @@ a.action.delete
 {
     position: relative;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 .btn-select-files > input[type="file"]
 {
