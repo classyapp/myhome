@@ -34,6 +34,7 @@
         @Html.Bootstrap().ValidationSummary()
         @Html.HiddenFor(x => x.Id)
         @Html.Hidden("Metadata.AgreeToTerms", true.ToString())
+        @Html.Hidden("Metadata.AgreeToRights", true.ToString())
         @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
         @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
         @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
