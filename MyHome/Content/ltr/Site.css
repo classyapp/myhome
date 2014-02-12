@@ -28,6 +28,10 @@ a.btn-default {
     background-color: #efefef;
 }
 
+.media {
+    overflow: hidden;
+}
+
 /* collection - grid */
 .collection .profile img {
     margin-right: 10px;
@@ -82,6 +86,9 @@ a.btn-default {
 }
 .home-content .about {
     margin-top: 40px;
+}
+#articles .media {
+    max-height:100px;
 }
 
 /* fix for inline forms within horizontal forms */

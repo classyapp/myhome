@@ -39,7 +39,14 @@ namespace Classy.DotNet.Mvc.Controllers
                 null,
                 null,
                 null);
-            var model = photos;
+            // get latest collections
+            var collections = service.GetApprovedCollections(null, 5);
+
+            var model = new ViewModels.Default.HomeViewModel
+            {
+                Photos = photos,
+                Collections = collections
+            };
 
             return View(model);
         }

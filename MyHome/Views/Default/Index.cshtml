@@ -1,4 +1,4 @@
-﻿@model IList<Classy.DotNet.Responses.ListingView>
+﻿@model Classy.DotNet.Mvc.ViewModels.Default.HomeViewModel
 @{
     ViewBag.Title = "Home Page"; 
     var rooms = Localizer.GetList("rooms");
@@ -22,9 +22,9 @@
         <h3>@Localizer.Get("Home_LatestPhotos")</h3>
         <hr />
         <div class="row" id="photos">
-            @if (Model.Count() > 0)
+            @if (Model.Photos.Count() > 0)
             {
-                foreach (var p in Model)
+                foreach (var p in Model.Photos)
                 {
                     if (p.ExternalMedia[0].Thumbnails != null){
                         var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
@@ -83,6 +83,33 @@
         </ul>
         <a href="#" class="btn btn-lg btn-block btn-success" authorize>@Localizer.Get("Home_CreateProAccount")</a>
         
+        @if (Model.Collections != null) {
+            <h3>@Localizer.Get("Home_RecentArticles")</h3>
+            <hr />
+            <ul class="media-list" id="articles">
+                @foreach (var c in Model.Collections)
+                {
+                    <li class="media">
+                        <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view="list" })">
+                            <img src="@c.Thumbnails.SingleOrDefault(x => x.Width == 266).Url" class="media-object" width="100" />
+                        </a>
+
+                        <div class="media-body">
+                            <div class="media-body">
+                                <h4 class="media-heading">@Html.RouteLinkForCurrentLocale(c.Title, "CollectionDetails", new { collectionId = c.Id, view="list" })</h4>
+                                <p>
+                                    @Localizer.Get("Home_ArticleBy") @c.Profile.GetProfileName()
+                                </p>
+                                <p>
+                                    @c.Content
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+
         <h3 class="about">@Localizer.Get("Home_AboutUs")</h3>
         <hr/>
         @Html.Raw(Localizer.Get("Home_AboutUs_Content"))

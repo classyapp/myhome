@@ -81,6 +81,7 @@
     <Compile Include="Controllers\Security\SecurityController.cs" />
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />
     <Compile Include="ViewModels\Listing\PhotoActionsViewModel.cs" />
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />

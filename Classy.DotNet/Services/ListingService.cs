@@ -29,10 +29,11 @@ namespace Classy.DotNet.Services
         private readonly string FAVORITE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/favorite";
         // collections
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
-        private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/edit";
+        private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list";
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
+        private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}";
 
         #region // listings
 
@@ -305,7 +306,7 @@ namespace Classy.DotNet.Services
         public CollectionView CreateCollection(
             string title,
             string content,
-            string[] listingIds)
+            IList<IncludedListingView> includedListings)
         {
             try
             {
@@ -314,7 +315,7 @@ namespace Classy.DotNet.Services
                 {
                     Title = title,
                     Content = content,
-                    IncludedListings = listingIds.Select(l => new IncludedListing { ListingId = l, Comments = string.Empty })
+                    IncludedListings = includedListings
                 }.ToJson();
                 var collectionJson = client.UploadString(CREATE_COLLECTION_URL, data);
                 var collection = collectionJson.FromJson<CollectionView>();
@@ -328,7 +329,7 @@ namespace Classy.DotNet.Services
 
         public CollectionView AddListingToCollection(
             string collectionId,
-            string[] listingIds)
+            IList<IncludedListingView> includedListings)
         {
             try
             {
@@ -337,7 +338,7 @@ namespace Classy.DotNet.Services
                 var data = new
                 {
                     CollectionId = collectionId,
-                    IncludedListings = listingIds
+                    IncludedListings = includedListings
                 }.ToJson();
                 var collectionJson = client.UploadString(url, data);
                 var collection = collectionJson.FromJson<CollectionView>();
@@ -352,7 +353,7 @@ namespace Classy.DotNet.Services
         public CollectionView UpdateCollection(string collectionId,
             string title,
             string content,
-            IList<IncludedListing> listings)
+            IList<IncludedListingView> listings)
         {
             try
             {
@@ -364,9 +365,24 @@ namespace Classy.DotNet.Services
                     Content = content,
                     IncludedListings = listings
                 }.ToJson();
-                var collectionJson = client.UploadString(url, data);
+                var collectionJson = client.UploadString(url, "PUT", data);
                 var collection = collectionJson.FromJson<CollectionView>();
                 return collection;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public IList<CollectionView> GetApprovedCollections(string[] categories, int maxCollections)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var collectionsJson = client.DownloadString(string.Format(GET_APPROVED_COLLECTIONS, maxCollections, categories.ToJsv()));
+                var collections = collectionsJson.FromJson<IList<CollectionView>>();
+                return collections;
             }
             catch (WebException wex)
             {

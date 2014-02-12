@@ -273,7 +273,7 @@
                         <div class="discussion">
                             <p>
                                 <strong>@Html.ListingLink("Discussion", d)</strong>
-                                <small>@d.CommentCount תגובות</small>
+                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), d.CommentCount)</small>
                                 <br />@d.Content
                             </p>
                         </div>
@@ -296,7 +296,7 @@
                     {
                         <div class="review">
                             <div class="by">
-                                @Localizer.GetList("PublicProfile_ReviewBy") @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
+                                @Localizer.Get("PublicProfile_ReviewBy") @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
                             </div>
                             <div class="rating">
                                 <span class="stars">
