@@ -147,7 +147,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else
                 {
-                    return View(string.Concat("Create", ListingTypeName));
+                    string url = Url.RouteUrl("PublicProfilePhotos", new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id }) + "?photosUploaded=1";
+                    return Redirect(url);
                 }
             }
             catch(ClassyException cvx)

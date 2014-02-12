@@ -23,7 +23,8 @@
             <div class="alert alert-warning">
                 @*@f.FormGroup().File("file").HtmlAttributes(new { multiple = "multiple", accept = "image/*" }).Label().Class("sr-only")*@
                 <div class=" form-group">
-                    <button class="btn btn-info btn-select-files" type="button">Select Files
+                    <button class="btn btn-info btn-select-files" type="button">
+                        Select Files
                         <input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />
                     </button>
                     <div id="filesPreview" class="row"></div>
@@ -32,7 +33,8 @@
             
             <p>
                 <small>
-                    @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(true).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                    @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                    @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToRights).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 </small>
             </p>
             @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Class("btn-success"))
