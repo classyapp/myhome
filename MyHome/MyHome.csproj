@@ -401,6 +401,7 @@
     <Content Include="Scripts\classy.js" />
     <Content Include="Scripts\fb-login.js" />
     <Content Include="Scripts\hogan-2.0.0.js" />
+    <Content Include="Scripts\iscroll.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -459,6 +460,7 @@
     <Content Include="Views\Shared\PhotoActions.cshtml" />
     <Content Include="Views\Photo\ShowListingsByType.cshtml" />
     <Content Include="Views\Shared\SideBar.cshtml" />
+    <Content Include="Views\Photo\PhotoGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

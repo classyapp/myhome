@@ -436,7 +436,8 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                var listings = listingService.GetListingsByProfileId(profileId, true);
+                int page = (string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]));
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, page);
 
                 var model = new ShowListingByTypeViewModel<TListingMetadata>
                 {
@@ -445,7 +446,14 @@ namespace Classy.DotNet.Mvc.Controllers
                     Metadata = default(TListingMetadata)
                 };
 
-                return View(model);
+                if (page > 1)
+                {
+                    return PartialView("PhotoGrid", model);
+                }
+                else
+                {
+                    return View(model);
+                }
             }
             catch (ClassyException cex)
             {

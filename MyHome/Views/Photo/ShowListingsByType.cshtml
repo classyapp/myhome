@@ -20,31 +20,8 @@
 
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
-        <div id="photos">
-            @if (Model.Listings.Count() > 0)
-            {
-                foreach (var p in Model.Listings)
-                {
-                    if (p.ExternalMedia.Count > 0 && p.ExternalMedia[0].Thumbnails != null)
-                    {
-                        var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
-                        if (thumb != null)
-                        {
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
-                        <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
-                        <div class="details">
-                            <strong>@Html.ListingLink("Photo", p)</strong>
-                            <br />
-                            <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                        </div>
-                    </div>
-                </div>
-                        }
-                    }
-                }
-            }
+        <div id="photos" class="iscroll" data-hasMore="true">
+            @Html.Partial("PhotoGrid", Model)
         </div>
     </div>
 </div>
@@ -63,4 +40,6 @@
         });
 
     </script>
+
+    <script src="~/Scripts/iscroll.js"></script>
 }
