@@ -582,3 +582,10 @@ a.action.delete
     opacity: 0;
     filter: alpha(opacity=0);
 }
+#filesPreview .filename
+{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}

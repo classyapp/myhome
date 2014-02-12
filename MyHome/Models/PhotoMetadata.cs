@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Classy.DotNet.Mvc.Attributes;
 
 namespace MyHome.Models
 {
@@ -20,8 +21,11 @@ namespace MyHome.Models
         [Display(Name = "PhotoMetadata_Copyright")]
         public string CopyrightMessage { get; set; }
         [Display(Name = "PhotoMetadata_Terms")]
-        [Required(ErrorMessage = "PhotoMetadata_Terms_Required")]
+        [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
         public string AgreeToTerms { get; set; }
+        [Display(Name = "PhotoMetadata_Rights")]
+        [BooleanRequired(ErrorMessage = "PhotoMetadata_Rights_Required")]
+        public string AgreeToRights { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -30,6 +34,7 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
             if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
             if (!string.IsNullOrEmpty(AgreeToTerms)) list.Add("AgreeToTerms", AgreeToTerms);
+            if (!string.IsNullOrEmpty(AgreeToRights)) list.Add("AgreeToRights", AgreeToRights);
             return list;
         }
 
@@ -39,10 +44,8 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Room")) output.Room = metadata["Room"];
             if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
             if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
-            if (metadata.ContainsKey("AgreeToTerms"))
-                output.AgreeToTerms = metadata["AgreeToTerms"];
-            else
-                output.AgreeToTerms = true.ToString();
+            output.AgreeToTerms = (metadata.ContainsKey("AgreeToTerms") ? metadata["AgreeToTerms"] : true.ToString());
+            output.AgreeToRights = (metadata.ContainsKey("AgreeToRights") ? metadata["AgreeToRights"] : true.ToString());
             return output;
         }
     
