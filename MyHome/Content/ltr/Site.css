@@ -557,3 +557,18 @@ a.action.delete
     max-height: 95%;
     display: none;
 }
+.btn-select-files
+{
+    position: relative;
+    overflow: hidden;
+}
+.btn-select-files > input[type="file"]
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
