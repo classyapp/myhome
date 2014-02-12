@@ -13,13 +13,6 @@
         <h1>@Localizer.Get("CreatePhoto_PageTitle")</h1>
         @Html.Bootstrap().ValidationSummary()
 
-        @if (TempData["CreateListingSuccess"] != null)
-        {
-            @Html.Bootstrap().Alert(Localizer.Get("CreatePhoto_Success")).Style(AlertColor.Success)
-            var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
-            <img src="@listing.ExternalMedia[0].Url" width="350" />
-        }
-
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
             @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_Title"))

@@ -147,8 +147,6 @@ namespace Classy.DotNet.Mvc.Controllers
                     (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                     Request.Files);
 
-                TempData["CreateListingSuccess"] = listing;
-
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(listing);

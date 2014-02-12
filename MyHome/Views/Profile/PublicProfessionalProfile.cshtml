@@ -296,7 +296,7 @@
                     {
                         <div class="review">
                             <div class="by">
-                                Review by @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
+                                @Localizer.GetList("PublicProfile_ReviewBy") @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
                             </div>
                             <div class="rating">
                                 <span class="stars">
