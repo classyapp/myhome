@@ -83,7 +83,7 @@
         </ul>
         <a href="#" class="btn btn-lg btn-block btn-success" authorize>@Localizer.Get("Home_CreateProAccount")</a>
         
-        @if (Model.Collections != null) {
+        @if (Model.Collections.Count() > 0) {
             <h3>@Localizer.Get("Home_RecentArticles")</h3>
             <hr />
             <ul class="media-list" id="articles">
