@@ -14,7 +14,7 @@ namespace Classy.DotNet.Services
     public class ListingService : ServiceBase
     {
         // create listing
-        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
+        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}&Page={2}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
         private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
@@ -202,16 +202,17 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts)
+        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts, int page)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts);
+                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts, page);
                 var data = new
                 {
                     ProfileId = profileId,
-                    IncludeDrafts = includeDrafts
+                    IncludeDrafts = includeDrafts,
+                    Page = page
                 }.ToJson();
 
                 var listingsJson = client.DownloadString(url);
