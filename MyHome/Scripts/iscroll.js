@@ -8,7 +8,7 @@
                 $.get("/profile/1/all/photos", { page: page }, function (response) {
                     iscroll.data("loading", false);
                     var html = $(response);
-                    if (html.find(".col-md-4").length < 9) { // less then page size
+                    if (html.find(".thumbnail").length < 9) { // less then page size
                         iscroll.data("hasmore", false);
                     } else {
                         iscroll.data("page", page + 1);
