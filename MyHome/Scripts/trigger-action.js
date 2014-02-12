@@ -72,7 +72,7 @@ $(function () {
         var listingType = $(this).attr('listing-type');
         var thumb = $(this).closest(".thumbnail");
         if (confirm(msgConfirm)) {
-            $.post("/" + listingType + "/" + listingId, function (data) { if ("error" in data) { } else { thumb.remove(); } });
+            $.post("/" + listingType + "/" + listingId, function (data) { if ("error" in data) { } else { thumb.prepend("<div class='deleted'></div>"); } });
         }
     });
 
