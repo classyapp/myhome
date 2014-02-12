@@ -62,12 +62,18 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [AcceptVerbs(HttpVerbs.Get)]
         [Authorize]
-        public ActionResult AddListingToCollection(string[] listingIds)
+        public ActionResult AddListingToCollection(string listingId)
         {
             try
             {
                 var model = new AddToCollectionViewModel();
                 model.CollectionList = GetCollectionList(model.CollectionId);
+                model.IncludedListings = new IncludedListingView[]
+                {
+                    new IncludedListingView {
+                        ListingId = listingId
+                    }
+                };
                 return PartialView("AddListingToCollectionModal", model);
             }
             catch (ClassyException cex)
@@ -94,13 +100,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     // create new collection
                     if (string.IsNullOrEmpty(model.CollectionId))
                     {
-                        var collection = service.CreateCollection(model.Title, null, model.ListingIds);
+                        var collection = service.CreateCollection(model.Title, null, model.IncludedListings);
                         model.CollectionId = collection.Id;
                     }
                     // add listings to collection
                     else
                     {
-                        service.AddListingToCollection(model.CollectionId, model.ListingIds);
+                        service.AddListingToCollection(model.CollectionId, model.IncludedListings);
                     }
                 }
                 model.CollectionList = GetCollectionList(model.CollectionId);

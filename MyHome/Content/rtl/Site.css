@@ -37,6 +37,9 @@ a.btn-default {
 .modal-body {
     background-color: #efefef;
 }
+.media {
+    overflow: hidden;
+}
 
 /* collection - grid */
 .collection .profile img {
@@ -92,6 +95,9 @@ a.btn-default {
 }
 .home-content .about {
     margin-top: 40px;
+}
+#articles .media {
+    max-height: 100px;
 }
 
 /* fix for inline forms within horizontal forms */

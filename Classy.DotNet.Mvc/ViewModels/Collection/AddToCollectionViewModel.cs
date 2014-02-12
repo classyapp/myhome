@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Classy.DotNet.Responses;
 
 namespace Classy.DotNet.Mvc.ViewModels.Collection
 {
@@ -15,7 +16,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Collection
         [Display(Name = "AddToCollection_Title")]
         public string Title { get; set; }
         public SelectList CollectionList { get; set; }
-        [Required]
-        public string[] ListingIds { get; set; }
+        public IncludedListingView[] IncludedListings { get; set; }
     }
 }

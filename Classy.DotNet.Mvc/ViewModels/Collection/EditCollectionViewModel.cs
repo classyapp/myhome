@@ -18,7 +18,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Collection
         public string Content { get; set; }
         [Display(Name = "EditCollection_IncludedListings")]
         [Required(ErrorMessage = "EditCollection_IncludedListings_Required")]
-        public IncludedListing[] IncludedListings { get; set; }
+        public IncludedListingView[] IncludedListings { get; set; }
         public IList<ListingView> Listings { get; set; }
     }
 }

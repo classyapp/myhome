@@ -14,12 +14,13 @@ namespace Classy.DotNet.Responses
         public string Title { get; set; }
         public string Content { get; set; }
         public bool IsPublic { get; set; }
-        public IList<IncludedListing> IncludedListings { get; set; }
+        public IList<IncludedListingView> IncludedListings { get; set; }
         public IList<ListingView> Listings { get; set; }
         public IList<string> Collaborators { get; set; }
         public IList<string> PermittedViewers { get; set; }
         public int CommentCount { get; set; }
         public int ViewCount { get; set; }
         public int FavoriteCount { get; set; }
+        public IList<MediaFileThumbnail> Thumbnails { get; set; }
     }
 }
