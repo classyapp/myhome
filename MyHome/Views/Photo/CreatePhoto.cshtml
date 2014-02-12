@@ -23,8 +23,8 @@
             <div class="alert alert-warning">
                 @*@f.FormGroup().File("file").HtmlAttributes(new { multiple = "multiple", accept = "image/*" }).Label().Class("sr-only")*@
                 <div class=" form-group">
-                    <button class="btn btn-info btn-select-files" type="button">
-                        Select Files
+                    <button class="btn btn-warning btn-select-files" type="button">
+                        @Localizer.Get("CreatePhoto_SelectFiles")
                         <input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />
                     </button>
                     <div id="filesPreview" class="row"></div>
