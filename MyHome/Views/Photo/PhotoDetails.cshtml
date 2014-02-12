@@ -64,7 +64,14 @@
 
         <div class="actions">
             <a href="#" class="btn btn-success action share"><i class="glyphicon glyphicon-share"></i></a>
-            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")
+            @if (User.Identity.IsAuthenticated && (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.FavoriteListingIds.Any(x => x == Model.Listing.Id))
+            {
+                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "unfavorite", Model.Listing, "btn btn-default action like like-on")
+            }
+            else
+            {
+                @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")
+            }
             @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")
         </div>
 
