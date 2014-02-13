@@ -38,7 +38,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 null,
                 null,
                 null,
-                null);
+                null,
+                -1);
             var model = photos;
 
             return View(model);

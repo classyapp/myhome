@@ -5,7 +5,8 @@
             if (iscroll.data("loading") != true) {
                 iscroll.data("loading", true);
                 var page = iscroll.data("page") || 2;
-                $.get("/profile/1/all/photos", { page: page }, function (response) {
+                var url = iscroll.data("url");
+                $.get(url, { page: page }, function (response) {
                     iscroll.data("loading", false);
                     var html = $(response);
                     if (html.find(".thumbnail").length < 9) { // less then page size

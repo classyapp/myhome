@@ -370,11 +370,20 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     model.PriceMin,
                     model.PriceMax,
-                    model.Location);
+                    model.Location,
+                    model.Page);
                 model.Results = listings;
 
                 if (model.Metadata == null) model.Metadata = new TListingMetadata();
-                return View(model);
+
+                if (model.Page > 1)
+                {
+                    return PartialView("PhotoGrid", listings);
+                }
+                else
+                {
+                    return View(model);
+                }
             }
             catch(ClassyException cex)
             {
@@ -418,7 +427,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (page > 1)
                 {
-                    return PartialView("PhotoGrid", model);
+                    return PartialView("PhotoGrid", model.Listings);
                 }
                 else
                 {

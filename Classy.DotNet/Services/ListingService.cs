@@ -177,7 +177,8 @@ namespace Classy.DotNet.Services
             IDictionary<string, string> metadata,
             double? priceMin,
             double? priceMax,
-            LocationView location)
+            LocationView location,
+            int page)
         {
             try
             {
@@ -190,7 +191,8 @@ namespace Classy.DotNet.Services
                     Metadata = metadata,
                     PriceMin = priceMin,
                     PriceMax = priceMax,
-                    Location = location
+                    Location = location,
+                    Page = page
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
                 var listings = listingsJson.FromJson<IList<ListingView>>();
