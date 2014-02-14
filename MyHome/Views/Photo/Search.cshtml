@@ -83,7 +83,7 @@
 
     <div class="main col-md-10">
         <h1>
-            @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.Results.Count, Model.Tag)
+            @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.Count, Model.Tag)
         </h1>
         <hr />
 
@@ -109,10 +109,22 @@
                 @Html.Partial("PhotoGrid", Model.Results)
             }
         </div>
+        <div id="pager" class="text-center">
+            <ul class="pagination" data-total="@(Model.Count / 9)">
+                <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
 @section scripts {
+    <script src="~/Scripts/iscroll.js"></script>
     <script>
 
         $(function () {
@@ -122,10 +134,11 @@
             $('.thumbnail').mouseout(function () {
                 $(this).find('.actions').addClass('hide');
             });
+
+            resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         });
 
     </script>
 
-    <script src="~/Scripts/iscroll.js"></script>
 
 }

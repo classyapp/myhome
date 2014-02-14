@@ -171,7 +171,7 @@ namespace Classy.DotNet.Services
             }
         }
         
-        public IList<ListingView> SearchListings(
+        public SearchResultsView SearchListings(
             string tag,
             string listingType,
             IDictionary<string, string> metadata,
@@ -195,8 +195,8 @@ namespace Classy.DotNet.Services
                     Page = page
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
-                var listings = listingsJson.FromJson<IList<ListingView>>();
-                return listings;
+                var results = listingsJson.FromJson<SearchResultsView>();
+                return results;
             }
             catch(WebException wex)
             {

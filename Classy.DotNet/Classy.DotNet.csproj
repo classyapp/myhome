@@ -76,6 +76,7 @@
     <Compile Include="Responses\ProxyClaimView.cs" />
     <Compile Include="Responses\PurchaseOptionView.cs" />
     <Compile Include="Responses\ReviewView.cs" />
+    <Compile Include="Responses\SearchResultsView.cs" />
     <Compile Include="Responses\TimeslotScheduleView.cs" />
     <Compile Include="Responses\TripleView.cs" />
     <Compile Include="Security\ClassyAuth.cs" />

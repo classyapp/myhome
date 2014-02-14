@@ -364,7 +364,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Location = location;
                 }
                 // search
-                var listings = service.SearchListings(
+                var results = service.SearchListings(
                     model.Tag,
                     ListingTypeName,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
@@ -372,13 +372,14 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.PriceMax,
                     model.Location,
                     model.Page);
-                model.Results = listings;
+                model.Results = results.Results;
+                model.Count = results.Count;
 
                 if (model.Metadata == null) model.Metadata = new TListingMetadata();
 
-                if (model.Page > 1)
+                if (!string.IsNullOrEmpty(Request["iscroll"]))
                 {
-                    return PartialView("PhotoGrid", listings);
+                    return PartialView("PhotoGrid", model.Results);
                 }
                 else
                 {
@@ -425,7 +426,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     Metadata = default(TListingMetadata)
                 };
 
-                if (page > 1)
+                if (!string.IsNullOrEmpty(Request["iscroll"]))
                 {
                     return PartialView("PhotoGrid", model.Listings);
                 }

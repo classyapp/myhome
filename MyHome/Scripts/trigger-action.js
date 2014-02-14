@@ -6,13 +6,16 @@
         }
     });
 
-    $('[trigger-listing-action="favorite"]').click(function (e) {
+    bindTriggerActions($(document));
+});
+
+function bindTriggerActions(context) {
+    $('[trigger-listing-action="favorite"]', context).click(function (e) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var url = "/" + listingType + "/" + listingId + "/favorite";
         var button = $(this);
-        $.post(url, null, function (data)
-        {
+        $.post(url, null, function (data) {
             button.addClass('like-on');
         })
     });
@@ -60,4 +63,4 @@
         var url = "/profile/" + profileId + "/follow";
         $.post(url, null, function (data) { console.log(data); })
     });
-});
+}

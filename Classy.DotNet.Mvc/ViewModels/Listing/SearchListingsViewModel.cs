@@ -19,6 +19,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
 
         //
         public IList<ListingView> Results { get; set; }
+        public long Count { get; set; }
 
         public SearchListingsViewModel()
         {
