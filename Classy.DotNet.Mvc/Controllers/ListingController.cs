@@ -377,7 +377,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (model.Metadata == null) model.Metadata = new TListingMetadata();
 
-                if (model.IScroll == 1)
+                if (Request.IsAjaxRequest())
                 {
                     return PartialView("PhotoGrid", model.Results);
                 }
@@ -425,14 +425,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     Metadata = default(TListingMetadata)
                 };
 
-                if (!string.IsNullOrEmpty(Request["iscroll"]))
-                {
-                    return PartialView("PhotoGrid", model.Listings);
-                }
-                else
-                {
-                    return View(model);
-                }
+                return View(model);
             }
             catch (ClassyException cex)
             {

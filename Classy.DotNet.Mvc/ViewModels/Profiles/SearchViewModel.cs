@@ -15,6 +15,5 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public TProMetadata Metadata { get; set; }
         public IList<ProfileView> Results { get; set; }
         public long Count { get; set; }
-        public int IScroll { get; set; }
     }
 }

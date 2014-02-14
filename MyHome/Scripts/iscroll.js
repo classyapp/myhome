@@ -7,7 +7,7 @@
                 iscroll.data("loading", true);
                 var page = iscroll.data("page") + 1;
                 var url = iscroll.data("url");
-                $.get(url, { page: page, iscroll: 1 }, function (response) {
+                $.get(url, { page: page }, function (response) {
                     iscroll.data("loading", false);
                     var html = $(response);
                     var count = html.find(".thumbnail").length;

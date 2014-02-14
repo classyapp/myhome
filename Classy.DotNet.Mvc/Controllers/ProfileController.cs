@@ -316,7 +316,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.Results = resutls.Results;
                 model.Count = resutls.Count;
 
-                if (model.IScroll == 1)
+                if (Request.IsAjaxRequest())
                 {
                     return PartialView("ProfileGrid", model.Results);
                 }
