@@ -40,7 +40,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 null,
                 null,
                 -1);
-            var model = photos;
+            var model = photos.Results;
 
             return View(model);
         }

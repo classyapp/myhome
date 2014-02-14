@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Responses
 {
-    public class SearchResultsView<T>
+    public class AppSettingsResponse
     {
-        public IList<T> Results { get; set; }
-        public long Count { get; set; }
         public int PageSize { get; set; }
         public int PagesCount { get; set; }
     }

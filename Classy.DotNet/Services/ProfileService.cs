@@ -82,7 +82,7 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public IList<ProfileView> SearchProfiles(string displayName, string category, LocationView location, IDictionary<string, string> metadata, bool professionalsOnly)
+        public SearchResultsView<ProfileView> SearchProfiles(string displayName, string category, LocationView location, IDictionary<string, string> metadata, bool professionalsOnly)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace Classy.DotNet.Services
                     ProfessionalsOnly = professionalsOnly
                 }.ToJson();
                 var profilesJson = client.UploadString(url, data);
-                var profiles = profilesJson.FromJson<IList<ProfileView>>();
+                var profiles = profilesJson.FromJson<SearchResultsView<ProfileView>>();
                 return profiles;
             }
             catch (WebException wex)

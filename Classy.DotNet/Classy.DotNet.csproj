@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\ValidationException.cs" />
+    <Compile Include="Responses\AppSettingsResponse.cs" />
     <Compile Include="Responses\BaseDeleteResponse.cs" />
     <Compile Include="Responses\CollectionView.cs" />
     <Compile Include="Responses\CommentView.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\ReviewService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\SettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

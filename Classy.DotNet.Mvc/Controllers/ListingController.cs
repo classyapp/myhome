@@ -416,8 +416,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                int page = (string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]));
-                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, page);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
 
                 var model = new ShowListingByTypeViewModel<TListingMetadata>
                 {

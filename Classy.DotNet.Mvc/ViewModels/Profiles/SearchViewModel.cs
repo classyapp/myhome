@@ -14,5 +14,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public LocationView Location { get; set; }
         public TProMetadata Metadata { get; set; }
         public IList<ProfileView> Results { get; set; }
+        public long Count { get; set; }
     }
 }

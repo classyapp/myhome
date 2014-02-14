@@ -27,15 +27,15 @@
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                     </span>
                 }
-                </div>
             </div>
+        </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">@Localizer.Get("SearchProfiles_Sidebar_Categories")</h3>
             </div>
             <div class="panel-body panel-links">
-                @foreach(var c in categories)
+                @foreach (var c in categories)
                 {
                     @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { category = c.Value })
                 }
@@ -45,26 +45,27 @@
 
     <div class="main col-md-10">
         <h1>
-        @if (Model.Location != null && Model.Category != null) {
-            <text>
-            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text, Model.Location)
-            </text>
-        }
-        else if (Model.Category != null)
-        {
-            <text>
-            @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text)
-            </text>
-        }
-        else if (Model.Location != null)
-        {
-            <text>
+            @if (Model.Location != null && Model.Category != null)
+            {
+                <text>
+                @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text, Model.Location)
+                </text>
+            }
+            else if (Model.Category != null)
+            {
+                <text>
+                @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text)
+                </text>
+            }
+            else if (Model.Location != null)
+            {
+                <text>
                 @string.Format(Localizer.Get("SearchProfiles_Results_Title_LocationOnly"), Model.Results.Count, Model.Location)
-            </text>
-        }
+                </text>
+            }
         </h1>
 
-        <hr/>
+        <hr />
 
         <div class="search-form">
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Type(FormType.Inline).FormMethod(FormMethod.Post)))
@@ -77,15 +78,29 @@
             }
         </div>
 
-        @if (Model.Results != null)
-        {
-            <div class="row results iscroll">
+        <div class="row results iscroll" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
+            data-page-size="@HttpContext.Current.Cache["PAGESIZE"]" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            @if (Model.Results != null)
+            {
                 @Html.Partial("ProfileGrid", Model.Results)
-            </div>
-        }
+            }
+        </div>
+        <div id="pager" class="text-center">
+            <ul class="pagination" data-total="@(Model.Count / (int)HttpContext.Current.Cache["PAGESIZE"])" data-pages="@HttpContext.Current.Cache["PAGESCOUNT"]">
+                <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
+                @for (int i = 0; i < (int)HttpContext.Current.Cache["PAGESCOUNT"]; i++)
+                {
+                    <li><a href="#">@(i + 1)</a></li>
+                }
+                <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
 @section scripts {
     <script src="~/Scripts/iscroll.js"></script>
+    <script>
+        resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+    </script>
 }
