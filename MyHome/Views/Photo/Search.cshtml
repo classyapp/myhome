@@ -104,16 +104,17 @@
         </div>
 
         <div id="photos" class="row iscroll" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchPhoto")"
-            data-page-size="@HttpContext.Current.Cache["PAGESIZE"]" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
                 @Html.Partial("PhotoGrid", Model.Results)
             }
         </div>
         <div id="pager" class="text-center">
-            <ul class="pagination" data-total="@(Model.Count / (int)HttpContext.Current.Cache["PAGESIZE"])" data-pages="@HttpContext.Current.Cache["PAGESCOUNT"]">
+            <ul class="pagination" data-total="@(Model.Count / Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize)" 
+                data-pages="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
-                @for (int i = 0; i < (int)HttpContext.Current.Cache["PAGESCOUNT"]; i++)
+                @for (int i = 0; i < Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount; i++)
                 {
                     <li><a href="#">@(i + 1)</a></li>
                 }

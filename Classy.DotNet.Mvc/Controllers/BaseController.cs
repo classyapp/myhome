@@ -9,15 +9,14 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Services;
+using Classy.DotNet.Mvc.ViewModels.Application;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
     public abstract class BaseController : Controller
     {
         public string Namespace { get; private set; }
-        public int PageSize { get; set; }
-        public int PagesCount { get; set; }
-
+        
         public BaseController()
             : this("Classy.DotNet.Mvc.Controllers")
         {
@@ -26,21 +25,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public BaseController(string ns)
         {
             Namespace = ns;
-            EnsureAppSettings();
-            PageSize = (int)System.Web.HttpContext.Current.Cache["PAGESIZE"];
-            PagesCount = (int)System.Web.HttpContext.Current.Cache["PAGESCOUNT"];
-
-        }
-
-        private void EnsureAppSettings()
-        {
-            if (System.Web.HttpContext.Current.Cache["PAGESIZE"] == null)
-            {
-                var service = new SettingsService();
-                AppSettingsResponse settings = service.GetAppSettings();
-                System.Web.HttpContext.Current.Cache["PAGESIZE"] = settings.PageSize;
-                System.Web.HttpContext.Current.Cache["PAGESCOUNT"] = settings.PagesCount;
-            }
         }
 
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)

@@ -377,7 +377,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (model.Metadata == null) model.Metadata = new TListingMetadata();
 
-                if (!string.IsNullOrEmpty(Request["iscroll"]))
+                if (model.IScroll == 1)
                 {
                     return PartialView("PhotoGrid", model.Results);
                 }

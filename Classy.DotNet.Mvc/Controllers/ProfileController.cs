@@ -316,7 +316,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.Results = resutls.Results;
                 model.Count = resutls.Count;
 
-                if (!string.IsNullOrEmpty(Request["iscroll"]))
+                if (model.IScroll == 1)
                 {
                     return PartialView("ProfileGrid", model.Results);
                 }
