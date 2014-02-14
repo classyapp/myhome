@@ -311,7 +311,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Category, 
                     model.Location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null, 
-                    true);
+                    true,
+                    model.Page);
                 
                 model.Results = resutls.Results;
                 model.Count = resutls.Count;
