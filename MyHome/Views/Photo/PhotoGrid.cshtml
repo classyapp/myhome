@@ -1,8 +1,8 @@
-@model Classy.DotNet.Mvc.ViewModels.Listing.ShowListingByTypeViewModel<MyHome.Models.PhotoMetadata>
+@model IList<Classy.DotNet.Responses.ListingView>
 
-@if (Model.Listings.Count() > 0)
+@if (Model.Count() > 0)
 {
-    foreach (var p in Model.Listings)
+    foreach (var p in Model)
     {
         if (p.ExternalMedia.Count > 0 && p.ExternalMedia[0].Thumbnails != null)
         {

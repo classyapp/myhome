@@ -20,8 +20,8 @@
 
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
-        <div id="photos" class="iscroll" data-hasMore="true">
-            @Html.Partial("PhotoGrid", Model)
+        <div id="photos">
+            @Html.Partial("PhotoGrid", Model.Listings)
         </div>
     </div>
 </div>
@@ -40,6 +40,4 @@
         });
 
     </script>
-
-    <script src="~/Scripts/iscroll.js"></script>
 }

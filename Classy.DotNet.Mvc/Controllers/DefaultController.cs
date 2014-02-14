@@ -44,7 +44,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
             var model = new ViewModels.Default.HomeViewModel
             {
-                Photos = photos,
+                Photos = photos.Results,
                 Collections = collections
             };
 

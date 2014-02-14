@@ -27,15 +27,15 @@
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                     </span>
                 }
-                </div>
             </div>
+        </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">@Localizer.Get("SearchProfiles_Sidebar_Categories")</h3>
             </div>
             <div class="panel-body panel-links">
-                @foreach(var c in categories)
+                @foreach (var c in categories)
                 {
                     @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { category = c.Value })
                 }
@@ -44,13 +44,28 @@
     </div>
 
     <div class="main col-md-10">
-        @if (Model.Category != null) {
-            <h1>@categories.Single(x => x.Value == Model.Category).Text</h1>
-        }
-        else {
-            <h1>@Localizer.Get("ProfileSearch_ResultsHeader_AllPros")</h1>
-        }
-        <hr/>
+        <h1>
+            @if (Model.Location != null && Model.Category != null)
+            {
+                <text>
+                @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryAndLocation"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text, Model.Location)
+                </text>
+            }
+            else if (Model.Category != null)
+            {
+                <text>
+                @string.Format(Localizer.Get("SearchProfiles_Results_Title_CategoryOnly"), Model.Results.Count, categories.Single(x => x.Value == Model.Category).Text)
+                </text>
+            }
+            else if (Model.Location != null)
+            {
+                <text>
+                @string.Format(Localizer.Get("SearchProfiles_Results_Title_LocationOnly"), Model.Results.Count, Model.Location)
+                </text>
+            }
+        </h1>
+
+        <hr />
 
         <div class="search-form">
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Type(FormType.Inline).FormMethod(FormMethod.Post)))
@@ -63,55 +78,29 @@
             }
         </div>
 
-        @if (Model.Results != null)
-        {
-            <div class="row results">
-            @foreach (var p in Model.Results)
+        <div class="row results iscroll" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
+            data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            @if (Model.Results != null)
             {
-                <div class="col-md-4">
-                    <div class="profile">
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="@p.ThumbnailUrl" />
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">@Html.ProfileLink(p)</h4>
-                                @if (p.ReviewCount > 0)
-                                {
-                                    <span class="stars">
-                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        }
-                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star-empty"></span>
-                                        }
-                                    </span>
-                                }
-                                    
-                                @if (p.ProfessionalInfo.CompanyContactInfo != null &&
-                                p.ProfessionalInfo.CompanyContactInfo.Location != null &&
-                                p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
-                                    {
-                                        <div class="contact-info">
-                                            <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
-                                        </div>
-                                    }
-                                        
-                                @if (p.Metadata.ContainsKey("BusinessDescription"))
-                                {
-                                    <p>
-                                        @p.Metadata["BusinessDescription"]
-                                    </p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+                @Html.Partial("ProfileGrid", Model.Results)
             }
-            </div>
-        }
+        </div>
+        <div id="pager" class="text-center">
+            <ul class="pagination" data-total="@(Model.Count / Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize)" data-pages="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount">
+                <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
+                @for (int i = 0; i < Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount; i++)
+                {
+                    <li><a href="#">@(i + 1)</a></li>
+                }
+                <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
+            </ul>
+        </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="~/Scripts/iscroll.js"></script>
+    <script>
+        resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+    </script>
+}

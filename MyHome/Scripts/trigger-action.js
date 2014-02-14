@@ -1,4 +1,4 @@
-﻿function FavoriteListing(e)
+function FavoriteListing(e)
 {
     var listingId = $(this).attr('listing-id');
     var listingType = $(this).attr('listing-type');
@@ -34,9 +34,14 @@ $(function () {
         }
     });
 
-    $('[trigger-listing-action="favorite"]').click(FavoriteListing);
+    bindTriggerActions($(document));
+});
 
+
+sting);
+function bindTriggerActions(con    $('[trigger-listing-action="favorite"]').click(FavoriteListing);
     $('[trigger-listing-action="unfavorite"]').click(UnfavoriteListing);
+    });
 
     $('[trigger-listing-action="collect"]').click(function (e) {
         var listingId = $(this).attr('listing-id');
@@ -81,4 +86,4 @@ $(function () {
         var url = "/profile/" + profileId + "/follow";
         $.post(url, null, function (data) { console.log(data); })
     });
-});
+}

@@ -394,17 +394,27 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Location = location;
                 }
                 // search
-                var listings = service.SearchListings(
+                var results = service.SearchListings(
                     model.Tag,
                     ListingTypeName,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     model.PriceMin,
                     model.PriceMax,
-                    model.Location);
-                model.Results = listings;
+                    model.Location,
+                    model.Page);
+                model.Results = results.Results;
+                model.Count = results.Count;
 
                 if (model.Metadata == null) model.Metadata = new TListingMetadata();
-                return View(model);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("PhotoGrid", model.Results);
+                }
+                else
+                {
+                    return View(model);
+                }
             }
             catch(ClassyException cex)
             {
@@ -436,8 +446,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                int page = (string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]));
-                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, page);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
 
                 var model = new ShowListingByTypeViewModel<TListingMetadata>
                 {
@@ -446,14 +455,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     Metadata = default(TListingMetadata)
                 };
 
-                if (page > 1)
-                {
-                    return PartialView("PhotoGrid", model);
-                }
-                else
-                {
-                    return View(model);
-                }
+                return View(model);
             }
             catch (ClassyException cex)
             {

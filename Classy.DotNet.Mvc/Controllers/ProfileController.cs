@@ -324,19 +324,22 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata.ParseSearchFilters(strings, out name, ref location);
                 }
 
-                var profiles = service.SearchProfiles(
+                var resutls = service.SearchProfiles(
                     model.Name, 
                     model.Category, 
                     model.Location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null, 
                     true);
+                
+                model.Results = resutls.Results;
+                model.Count = resutls.Count;
+
                 if (Request.IsAjaxRequest())
                 {
-                    return Json(profiles, JsonRequestBehavior.AllowGet);
+                    return PartialView("ProfileGrid", model.Results);
                 }
                 else
                 {
-                    model.Results = profiles;
                     return View(model);
                 }
             }

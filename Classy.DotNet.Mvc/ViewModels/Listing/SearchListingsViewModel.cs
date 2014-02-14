@@ -15,8 +15,14 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public LocationView Location { get; set; }
         public double? PriceMin { get; set; }
         public double? PriceMax { get; set; }
-
+        public int Page { get; set; }
         //
         public IList<ListingView> Results { get; set; }
+        public long Count { get; set; }
+
+        public SearchListingsViewModel()
+        {
+            Page = 1;
+        }
     }
 }

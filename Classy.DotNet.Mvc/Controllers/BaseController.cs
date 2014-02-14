@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Classy.DotNet.Services;
+using Classy.DotNet.Mvc.ViewModels.Application;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -16,8 +18,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public string Namespace { get; private set; }
         
         public BaseController()
+            : this("Classy.DotNet.Mvc.Controllers")
         {
-            Namespace = "Classy.DotNet.Mvc.Controllers";
         }
 
         public BaseController(string ns)
