@@ -2,64 +2,45 @@
 
 @foreach (var p in Model)
 {
-    <div class="col-md-12">
-        <div class="profile">
-            <div class="pull-left">
-                @if (p.Listings != null && p.Listings.Count() > 0)
+<div class="col-md-4">
+    <div class="profile">
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="@p.ThumbnailUrl" />
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">@Html.ProfileLink(p)</h4>
+                @if (p.ReviewCount > 0)
                 {
-                    var thumb = p.Listings[0].ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
-                    <img src="@thumb.Url" width="200" />
+                    <span class="stars">
+                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+                        {
+                            <span class="glyphicon glyphicon-star"></span>
+                        }
+                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+                        {
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        }
+                    </span>
                 }
-                else
-                {
-                    <img src="no-photos" width="200" />
-                }
-            </div>
-            <div class="details">
-                <div class="pull-left">
-                    <img src="@p.ThumbnailUrl" width="40" />
-                </div>
-                <h4>@Html.ProfileLink(p)</h4>
-                <div>
-                    @if (p.ReviewCount > 0)
-                    {
-                        <span class="stars">
-                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
-                            {
-                                <span class="glyphicon glyphicon-star"></span>
-                            }
-                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
-                            {
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            }
-                        </span>
-                    }
-                    else
-                    { 
-                        <span class="stars">&nbsp;</span> 
-                    }
-                </div>
-                <hr />
-                <div>
-                    @if (p.ProfessionalInfo.CompanyContactInfo != null &&
-                                    p.ProfessionalInfo.CompanyContactInfo.Location != null &&
-                                    p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
+                                    
+                @if (p.ProfessionalInfo.CompanyContactInfo != null &&
+                p.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                     {
                         <div class="contact-info">
                             <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
                         </div>
                     }
-                </div>
-                <hr />
-                <div>
-                    @if (p.Metadata.ContainsKey("BusinessDescription"))
-                    {
-                        <p>
-                            @p.Metadata["BusinessDescription"]
-                        </p>
-                    }
-                </div>
+                                        
+                @if (p.Metadata.ContainsKey("BusinessDescription"))
+                {
+                    <p>
+                        @p.Metadata["BusinessDescription"]
+                    </p>
+                }
             </div>
         </div>
-    </div>    
+    </div>
+</div>
 }
