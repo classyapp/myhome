@@ -104,7 +104,8 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public SearchResultsView<ProfileView> SearchProfiles(string displayName, string category, LocationView location, IDictionary<string, string> metadata, bool professionalsOnly)
+        public SearchResultsView<ProfileView> SearchProfiles(string displayName, string category, LocationView location, 
+            IDictionary<string, string> metadata, bool professionalsOnly, int page)
         {
             try
             {
@@ -116,7 +117,8 @@ namespace Classy.DotNet.Services
                     Category = category,
                     Location = location,
                     Metadata = metadata,
-                    ProfessionalsOnly = professionalsOnly
+                    ProfessionalsOnly = professionalsOnly,
+                    Page = page
                 }.ToJson();
                 var profilesJson = client.UploadString(url, data);
                 var profiles = profilesJson.FromJson<SearchResultsView<ProfileView>>();

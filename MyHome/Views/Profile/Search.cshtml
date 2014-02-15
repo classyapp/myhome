@@ -78,7 +78,7 @@
             }
         </div>
 
-        <div class="row results iscroll" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
+        <div class="row results iscroll" data-item-class=".profile" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
             data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
