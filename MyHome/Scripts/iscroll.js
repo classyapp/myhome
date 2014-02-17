@@ -17,7 +17,7 @@
                     if (html.find(itemClass).length < pageSize) { // less then page size
                         iscroll.data("hasmore", false);
                     } else {
-                        iscroll.data("page", page + 1);
+                        iscroll.data("page", page);
                     }
                     html.find(itemClass).mouseover(function () {
                         $(this).find('.actions').removeClass('hide');
