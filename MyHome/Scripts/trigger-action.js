@@ -91,4 +91,13 @@ function bindTriggerActions(context) {
         var url = "/profile/" + profileId + "/follow";
         $.post(url, null, function (data) { console.log(data); })
     });
+
+    $('[trigger-listing-action="remove"]').click(function (e) {
+        var listingId = $(this).attr('listing-id');
+        var collectionId = $(this).attr('collection-id');
+        var thumb = $(this).closest(".thumbnail");
+        if (confirm(msgConfirm)) {
+            $.post("/collection/" + collectionId + "/remove/" + listingId, function (data) { if ("error" in data) { } else { thumb.closest(".row").remove(); } });
+        }
+    });
 }

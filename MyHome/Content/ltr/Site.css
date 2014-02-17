@@ -389,6 +389,10 @@ a.action.delete
 {
     right: 135px;
 }
+a.action.remove
+{
+    right: 30px;
+}
 
 /* manage resources*/
 .resourceListContainer {

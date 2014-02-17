@@ -401,6 +401,10 @@ a.action.delete
 {
     left: 135px;
 }
+a.action.remove
+{
+    left: 30px;
+}
 /* manage resources*/
 .resourceListContainer {
     height: 500px;

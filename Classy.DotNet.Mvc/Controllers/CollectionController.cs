@@ -37,6 +37,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "RemoveListing",
+                url: "collection/{collectionId}/remove/{listingId}",
+                defaults: new { controller = "Collection", action = "RemoveListing" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "CollectionDetails",
                 url: "collection/{collectionId}/{view}/{slug}",
@@ -161,6 +168,23 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 TempData["UpdateCollectionError"] = ex.Message;
                 return View(model);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize]
+        public ActionResult RemoveListing(string collectionId, string listingId)
+        {
+            try
+            {
+                var service = new ListingService();
+                service.RemoveListingFromCollection(collectionId, listingId);
+
+                return Json(new { collectionId = collectionId, listingId = listingId });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
             }
         }
 
