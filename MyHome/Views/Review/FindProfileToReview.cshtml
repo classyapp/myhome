@@ -133,7 +133,7 @@
     $('.typeahead').typeahead({
         name: 'profile-names',
         remote: {
-            url: '/profile/search?professionalsonly=true&name=%QUERY',
+            url: '/profile/search?professionalsonly=true&format=json&name=%QUERY',
             filter: function (results) {
                 var profiles = [];
                 $.each(results, function (index, profile) {

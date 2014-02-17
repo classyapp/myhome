@@ -16,10 +16,12 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public IList<ProfileView> Results { get; set; }
         public long Count { get; set; }
         public int Page { get; set; }
+        public string Format { get; set; }
 
         public SearchViewModel()
         {
             Page = 1;
+            Format = "html";
         }
     }
 }
