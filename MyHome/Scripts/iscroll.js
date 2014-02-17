@@ -1,6 +1,7 @@
 ﻿function loadMorePhotos() {
     var iscroll = $(".iscroll");
     var pageSize = parseInt($(".iscroll").data("page-size"));
+    var itemClass = iscroll.data("item-class");
     if (iscroll.data("hasmore")) {
         if ($(document).height() - ($("body").scrollTop()) - $(window).height() < 250) {
             if (iscroll.data("loading") != true) {
@@ -10,18 +11,18 @@
                 $.get(url, { page: page }, function (response) {
                     iscroll.data("loading", false);
                     var html = $(response);
-                    var count = html.find(".thumbnail").length;
+                    var count = html.find(itemClass).length;
                     if (count == 0) return;
-                    html.find(".thumbnail:nth-child(1)").attr("id", "page" + page);
-                    if (html.find(".thumbnail").length < pageSize) { // less then page size
+                    html.find(itemClass + ":nth-child(1)").attr("id", "page" + page);
+                    if (html.find(itemClass).length < pageSize) { // less then page size
                         iscroll.data("hasmore", false);
                     } else {
                         iscroll.data("page", page + 1);
                     }
-                    html.find('.thumbnail').mouseover(function () {
+                    html.find(itemClass).mouseover(function () {
                         $(this).find('.actions').removeClass('hide');
                     });
-                    html.find('.thumbnail').mouseout(function () {
+                    html.find(itemClass).mouseout(function () {
                         $(this).find('.actions').addClass('hide');
                     });
                     iscroll.append(html);
