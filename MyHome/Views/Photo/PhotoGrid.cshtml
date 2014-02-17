@@ -6,7 +6,7 @@
     {
         if (p.ExternalMedia.Count > 0)
         {
-            var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
+            var thumb = (p.ExternalMedia[0].Thumbnails == null ? null : p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266));
     <div class="col-md-4">
         <div class="thumbnail">
             @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
