@@ -337,10 +337,10 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (Request.IsAjaxRequest())
                 {
-                    if (model.Format == "html")
-                        return PartialView("ProfileGrid", model.Results);
-                    else if (model.Format == "json")
+                    if (model.Format == "json")
                         return Json(model.Results, JsonRequestBehavior.AllowGet);
+                    else
+                        return PartialView("ProfileGrid", model.Results);
                 }
                 else
                 {
