@@ -178,7 +178,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                service.RemoveListingFromCollection(collectionId, listingId);
+                service.RemoveListingFromCollection(collectionId, new string[] { listingId });
 
                 return Json(new { collectionId = collectionId, listingId = listingId });
             }

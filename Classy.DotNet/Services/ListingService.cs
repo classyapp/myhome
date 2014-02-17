@@ -31,7 +31,7 @@ namespace Classy.DotNet.Services
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
         private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
-        private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove/{1}";
+        private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list";
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
         private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}";
@@ -393,17 +393,17 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public void RemoveListingFromCollection(string collectionId, string listingId)
+        public void RemoveListingFromCollection(string collectionId, string[] listingIds)
         {
             try
             {
                 var data = new
                 {
                     CollectionId = collectionId,
-                    ListingId = listingId
+                    ListingIds = listingIds
                 }.ToJson();
                 var client = ClassyAuth.GetAuthenticatedWebClient();
-                client.UploadString(string.Format(REMOVE_LISTING_FROM_COLLECTION_URL, collectionId, listingId), data);
+                client.UploadString(string.Format(REMOVE_LISTING_FROM_COLLECTION_URL, collectionId), data);
             }
             catch (WebException wex)
             {
