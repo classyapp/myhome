@@ -8,7 +8,9 @@ namespace Classy.DotNet.Responses
 {
     public class IncludedListingView
     {
-        public string ListingId { get; set; }
+        public string Id { get; set; }
+        public string ProfileId { get; set; }
         public string Comments { get; set; }
+        public string ListingType { get; set; }
     }
 }

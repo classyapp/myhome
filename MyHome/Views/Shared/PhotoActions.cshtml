@@ -21,5 +21,8 @@
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-pencil\"></i>", "edit", Model.Listing, "btn btn-default action edit onphoto")
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "delete", Model.Listing, "btn btn-default action delete onphoto")
     }
-
+    @if (Model.ShowRemove && User.Identity.IsAuthenticated && Model.Listing.ProfileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+    {
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "remove", Model.Listing, "btn btn-danger action remove onphoto")
+    }
 </div>

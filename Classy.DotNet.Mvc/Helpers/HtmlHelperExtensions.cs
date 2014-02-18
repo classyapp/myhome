@@ -46,9 +46,9 @@ namespace Classy.DotNet.Mvc
         {
             var needsAuth = requireLogin && !html.ViewContext.HttpContext.User.Identity.IsAuthenticated;
             string link = "<a href=\"#\" trigger-listing-action=\"{0}\" listing-type=\"{1}\" listing-id=\"{2}\" {3} {4}>{5}</a>";
-            string output = string.Format(link, 
-                actionToTrigger, 
-                listing.ListingType.ToLower(), 
+            string output = string.Format(link,
+                actionToTrigger,
+                listing.ListingType.ToLower(),
                 listing.Id,
                 !string.IsNullOrEmpty(cssClass) ? string.Format("class=\"{0}\"", cssClass) : string.Empty,
                 requireLogin ? "authorize" : string.Empty,
@@ -76,13 +76,46 @@ namespace Classy.DotNet.Mvc
             string output = string.Format(link,
                 actionToTrigger,
                 profile.Id,
-                !string.IsNullOrEmpty(cssClass) ? string.Format("class=\"{0}\"", cssClass) : string.Empty, 
+                !string.IsNullOrEmpty(cssClass) ? string.Format("class=\"{0}\"", cssClass) : string.Empty,
                 requireLogin ? "authorize" : string.Empty,
                 linkText);
             return new MvcHtmlString(output);
         }
 
         #endregion
+
+        // photo thumb
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int size)
+        {
+            if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0 && listing.ExternalMedia[0].Thumbnails != null)
+            {
+                var thumb = listing.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == size);
+                if (thumb != null)
+                {
+                    return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
+                                    thumb.Url, listing.Title, listing.Title));
+                }
+            }
+            
+            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
+                                    "/img/missing-thumb.png", listing.Title, listing.Title));
+        }
+
+        // collection photo thumb
+        public static MvcHtmlString CollectionThumbnail(this System.Web.Mvc.HtmlHelper html, CollectionView collection, int size, int imgWidth)
+        {
+            if (collection.Thumbnails != null)
+            {
+                var thumb = collection.Thumbnails.SingleOrDefault(x => x.Width == size);
+                if (thumb != null)
+                {
+                    return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" width=\"{3}\" class=\"media-object\" />",
+                        thumb.Url, collection.Title, collection.Title, imgWidth));
+                }
+            }
+            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" width=\"{3}\" class=\"media-object\" />",
+                        "/img/missing-thumb.png", collection.Title, collection.Title, imgWidth));
+        }
 
         public static MvcHtmlString ListingLink(this System.Web.Mvc.HtmlHelper html, string listingType, ListingView listing)
         {

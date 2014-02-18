@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "EditCollection";
     var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
-    var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.ListingId, l => l.Comments) : new Dictionary<string, string>();
+    var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
 }
 
 <div class="row">
@@ -32,7 +32,7 @@
             @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
 
-            <div class="collection-items">
+            <div class="collection-items" collection-id="@Model.CollectionId">
                 <h4>@Localizer.Get("EditCollection_ExplainPhotoComments")</h4>
                 <hr />
 
@@ -42,20 +42,14 @@
                         <div class="col-md-2">
                             <div class="thumbnail">
                                 @{
-                                    var item = photos.First(p => p.Id == Model.IncludedListings[i].ListingId);
-                                    if (item.ExternalMedia[0].Thumbnails != null)
-                                    {
-                                        var thumb = item.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 301);
-                                        if (thumb != null)
-                                        {
-                                            <img src="@thumb.Url" title="@item.Title" alt="@item.Title" class="img-responsive" />
-                                        }
-                                    }
+                                    var item = photos.First(p => p.Id == Model.IncludedListings[i].Id);
+                                    @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = item, ShowCollect = false, ShowEdit = false, ShowFavorite = false, ShowRemove = true })
+                                    @Html.Thumbnail(item, 301)
                                 }
                             </div>
                         </div>
                         <div class="col-md-10">
-                            @Html.HiddenFor(x => x.IncludedListings[i].ListingId)
+                            @Html.HiddenFor(x => x.IncludedListings[i].Id)
                             <textarea class="form-control" id="@string.Format("IncludedListings_{0}__Comments", i)" name="@string.Format("IncludedListings[{0}].Comments", i)">@(comments.ContainsKey(item.Id) ? comments[item.Id] : string.Empty)</textarea>
                         </div>
                     </div>
@@ -73,5 +67,14 @@
 
     <script type="text/javascript">
         $(".collection-items textarea").height($(".collection-items .thumbnail:nth-child(1)").width() + 10 + 'px');
+
+        $(function () {
+            $('.thumbnail').mouseover(function () {
+                $(this).find('.actions').removeClass('hide');
+            });
+            $('.thumbnail').mouseout(function () {
+                $(this).find('.actions').addClass('hide');
+            });
+        });
     </script>
 }

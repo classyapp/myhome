@@ -38,15 +38,9 @@ $(function () {
 });
 
 function bindTriggerActions(context) {
-    $('[trigger-listing-action="favorite"]', context).click(function (e) {
-        var listingId = $(this).attr('listing-id');
-        var listingType = $(this).attr('listing-type');
-        var url = "/" + listingType + "/" + listingId + "/favorite";
-        var button = $(this);
-        $.post(url, null, function (data) {
-            button.addClass('like-on');
-        })
-    });
+    $('[trigger-listing-action="favorite"]', context).click(FavoriteListing);
+
+    $('[trigger-listing-action="unfavorite"]', context).click(UnfavoriteListing);
 
     $('[trigger-listing-action="collect"]').click(function (e) {
         var listingId = $(this).attr('listing-id');
@@ -58,7 +52,7 @@ function bindTriggerActions(context) {
             });
     });
 
-    $('[trigger-listing-action="edit"]').click(function (e) {
+    $('[trigger-listing-action="edit"]', context).click(function (e) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var url = $('#photo-modal').data("url");
@@ -77,7 +71,7 @@ function bindTriggerActions(context) {
             });
     });
 
-    $('[trigger-listing-action="delete"]').click(function (e) {
+    $('[trigger-listing-action="delete"]', context).click(function (e) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var thumb = $(this).closest(".thumbnail");
@@ -86,9 +80,18 @@ function bindTriggerActions(context) {
         }
     });
 
-    $('[trigger-profile-action="follow"]').click(function (e) {
+    $('[trigger-profile-action="follow"]', context).click(function (e) {
         var profileId = $(this).attr('profile-id');
         var url = "/profile/" + profileId + "/follow";
         $.post(url, null, function (data) { console.log(data); })
+    });
+
+    $('[trigger-listing-action="remove"]', context).click(function (e) {
+        var listingId = $(this).attr('listing-id');
+        var collectionId = $(this).closest(".collection-items").attr('collection-id');
+        var thumb = $(this).closest(".thumbnail");
+        if (confirm(msgConfirm)) {
+            $.post("/collection/" + collectionId + "/remove/" + listingId, function (data) { if ("error" in data) { } else { thumb.closest(".row").remove(); } });
+        }
     });
 }

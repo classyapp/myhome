@@ -4,13 +4,10 @@
 {
     foreach (var p in Model)
     {
-        if (p.ExternalMedia.Count > 0)
-        {
-            var thumb = (p.ExternalMedia[0].Thumbnails == null ? null : p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266));
     <div class="col-md-4">
         <div class="thumbnail">
             @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
-            <img src="@(thumb != null ? thumb.Url : "/img/missing-thumb.png")" title="@p.Title" alt="@p.Title" />
+            @Html.Thumbnail(p, 266)
             <div class="details">
                 <strong>@Html.ListingLink("Photo", p)</strong>
                 <br />
@@ -18,6 +15,5 @@
             </div>
         </div>
     </div>
-        }
     }
 }

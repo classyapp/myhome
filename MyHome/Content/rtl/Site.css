@@ -276,6 +276,10 @@ a.btn-default {
     font-size: 14px;
     color: #47a447;
 }
+.thumbnail
+{
+    position: relative;
+}
 #photos .thumbnail,
 #collections .thumbnail
 {
@@ -365,6 +369,12 @@ a.btn-default {
 }
 
 /* action button */
+.actions
+{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
 a.action {
     width: 30px;
     height: 30px;
@@ -373,27 +383,29 @@ a.action {
     padding: 6px 0;
     line-height: 1.428571429;
     text-align: center;
+    float: left;
+    margin-right: 10px;
+    z-index: 999;
 }
-a.action.onphoto {
+/*a.action.onphoto {
     position: absolute;
     z-index: 999;
     top: 15px;
 }
 a.action.add {
     left: 65px;
-}
+}*/
 a.action.like {
-    left: 30px;
     color: #f55555;
 }
-a.action.share {
+/*a.action.share {
     left: 100px;
-}
+}*/
 a.action.like-on {
     color: #fff;
     background-color: #f55555;
 }
-a.action.edit
+/*a.action.edit
 {
     left: 100px;
 }
@@ -401,6 +413,10 @@ a.action.delete
 {
     left: 135px;
 }
+a.action.remove
+{
+    left: 30px;
+}*/
 /* manage resources*/
 .resourceListContainer {
     height: 500px;

@@ -1,6 +1,6 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Default.HomeViewModel
 @{
-    ViewBag.Title = "Home Page"; 
+    ViewBag.Title = "Home Page";
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
@@ -26,30 +26,23 @@
             {
                 foreach (var p in Model.Photos)
                 {
-                    if (p.ExternalMedia[0].Thumbnails != null){
-                        var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
-                        if (thumb != null)
-                        {
-                            <div class="col-md-4">
-                                <div class="thumbnail">
-                                    <div class="actions hide">
-                                        @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false })
-                                    </div>
-                                    <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
-                                    <div class="details">
-                                        <strong>@Html.ListingLink("Photo", p)</strong>
-                                        <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
+                        @Html.Thumbnail(p, 266)
+                        <div class="details">
+                            <strong>@Html.ListingLink("Photo", p)</strong>
+                            <br />
+                            <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                        </div>
+                    </div>
+                </div>
                 }
             }
         </div>
 
         <h3>@Localizer.Get("Home_List_Categories")</h3>
-        <hr/>
+        <hr />
         <h4>@Localizer.Get("Home_Rooms")</h4>
         <ul class="list-inline list-unstyled">
             @foreach (var r in rooms)
@@ -76,27 +69,28 @@
         <h3>@Localizer.Get("Home_ProTeaser")</h3>
         <hr />
         <ul class="list-unstyled benefits">
-            <li><i class="glyphicon glyphicon-star"></i> @Localizer.Get("Home_ProTeaser_Benefit1")</li>
-            <li><i class="glyphicon glyphicon-star"></i> @Localizer.Get("Home_ProTeaser_Benefit2")</li>
-            <li><i class="glyphicon glyphicon-star"></i> @Localizer.Get("Home_ProTeaser_Benefit3")</li>
-            <li><i class="glyphicon glyphicon-star"></i> @Localizer.Get("Home_ProTeaser_Benefit4")</li>
+            <li><i class="glyphicon glyphicon-star"></i>@Localizer.Get("Home_ProTeaser_Benefit1")</li>
+            <li><i class="glyphicon glyphicon-star"></i>@Localizer.Get("Home_ProTeaser_Benefit2")</li>
+            <li><i class="glyphicon glyphicon-star"></i>@Localizer.Get("Home_ProTeaser_Benefit3")</li>
+            <li><i class="glyphicon glyphicon-star"></i>@Localizer.Get("Home_ProTeaser_Benefit4")</li>
         </ul>
         <a href="#" class="btn btn-lg btn-block btn-success" authorize>@Localizer.Get("Home_CreateProAccount")</a>
-        
-        @if (Model.Collections.Count() > 0) {
+
+        @if (Model.Collections.Count() > 0)
+        {
             <h3>@Localizer.Get("Home_RecentArticles")</h3>
             <hr />
             <ul class="media-list" id="articles">
                 @foreach (var c in Model.Collections)
                 {
                     <li class="media">
-                        <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view="list" })">
-                            <img src="@c.Thumbnails.SingleOrDefault(x => x.Width == 266).Url" class="media-object" width="100" />
+                        <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "list" })">
+                            @Html.CollectionThumbnail(c, 266, 100)
                         </a>
 
                         <div class="media-body">
                             <div class="media-body">
-                                <h4 class="media-heading">@Html.RouteLinkForCurrentLocale(c.Title, "CollectionDetails", new { collectionId = c.Id, view="list" })</h4>
+                                <h4 class="media-heading">@Html.RouteLinkForCurrentLocale(c.Title, "CollectionDetails", new { collectionId = c.Id, view = "list" })</h4>
                                 <p>
                                     @Localizer.Get("Home_ArticleBy") @c.Profile.GetProfileName()
                                 </p>
@@ -111,7 +105,7 @@
         }
 
         <h3 class="about">@Localizer.Get("Home_AboutUs")</h3>
-        <hr/>
+        <hr />
         @Html.Raw(Localizer.Get("Home_AboutUs_Content"))
     </div>
 </div>
@@ -119,7 +113,7 @@
 @section scripts {
     <script>
         OnFacebookLogin = function (profile) { window.document.location.href = "/profile/reviews/new"; }
-    
+
         $(function () {
             $('.thumbnail').mouseover(function () {
                 $(this).find('.actions').removeClass('hide');

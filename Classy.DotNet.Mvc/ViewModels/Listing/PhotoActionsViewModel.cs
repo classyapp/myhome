@@ -13,5 +13,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public bool ShowFavorite { get; set; }
         public bool ShowCollect { get; set; }
         public bool ShowEdit { get; set; }
+        public bool ShowRemove { get; set; }
     }
 }
