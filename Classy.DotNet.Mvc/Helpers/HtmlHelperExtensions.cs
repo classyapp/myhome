@@ -32,17 +32,17 @@ namespace Classy.DotNet.Mvc
 
         #region // triger listing actions
 
-        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, IListing listing)
+        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing)
         {
             return TriggerListingActionLink(html, linkText, actionToTrigger, listing, null, true);
         }
 
-        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, IListing listing, string cssClass)
+        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing, string cssClass)
         {
             return TriggerListingActionLink(html, linkText, actionToTrigger, listing, cssClass, true);
         }
 
-        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, IListing listing, string cssClass, bool requireLogin)
+        public static MvcHtmlString TriggerListingActionLink(this System.Web.Mvc.HtmlHelper html, string linkText, string actionToTrigger, ListingView listing, string cssClass, bool requireLogin)
         {
             var needsAuth = requireLogin && !html.ViewContext.HttpContext.User.Identity.IsAuthenticated;
             string link = "<a href=\"#\" trigger-listing-action=\"{0}\" listing-type=\"{1}\" listing-id=\"{2}\" {3} {4}>{5}</a>";

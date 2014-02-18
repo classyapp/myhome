@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Responses
 {
-    public class ListingView : IListing
+    public class ListingView 
     {
         public ListingView() { }
         //

@@ -41,9 +41,9 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="thumbnail">
-                                @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = Model.IncludedListings[i], ShowCollect = false, ShowEdit = false, ShowFavorite = false, ShowRemove = true })
                                 @{
                                     var item = photos.First(p => p.Id == Model.IncludedListings[i].Id);
+                                    @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = item, ShowCollect = false, ShowEdit = false, ShowFavorite = false, ShowRemove = true })
                                     @Html.Thumbnail(item, 301)
                                 }
                             </div>
