@@ -139,6 +139,7 @@ namespace Classy.DotNet.Mvc.Controllers
             while ((line = reader.ReadLine()) != null)
             {
                 args.LineValues = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
+                if (args.LineValues.Count() == 1) args.LineValues = line.Split(new string[] { "," }, StringSplitOptions.None);
                 
                 // let the implementation handle parsing
                 OnParseProfilesCsvLine(this, args);
@@ -175,13 +176,24 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditProfile()
         {
+            var contactInfo = AuthenticatedUserProfile.ContactInfo ?? new ContactInfoView();
+            contactInfo.Location = contactInfo.Location ?? new LocationView();
+            contactInfo.Location.Address = contactInfo.Location.Address ?? new PhysicalAddressView();
+
             var model = new EditProfileViewModel<TProMetadata>
             {
                 ProfileId = AuthenticatedUserProfile.Id,
-                Name = AuthenticatedUserProfile.GetProfileName(),
+                FirstName = contactInfo.FirstName,
+                LastName = contactInfo.LastName,
+                Street1 = contactInfo.Location.Address.Street1,
+                Street2 = contactInfo.Location.Address.Street2,
+                City = contactInfo.Location.Address.City,
+                Country = contactInfo.Location.Address.Country,
+                PostalCode = contactInfo.Location.Address.PostalCode,
                 ThumbnailUrl = AuthenticatedUserProfile.ThumbnailUrl,
                 Username = AuthenticatedUserProfile.UserName,
-                Email = AuthenticatedUserProfile.IsProfessional ? AuthenticatedUserProfile.ProfessionalInfo.CompanyContactInfo.Email : AuthenticatedUserProfile.ContactInfo.Email
+                Email = AuthenticatedUserProfile.IsProfessional ? AuthenticatedUserProfile.ProfessionalInfo.CompanyContactInfo.Email : AuthenticatedUserProfile.ContactInfo.Email,
+                IsProfessional = AuthenticatedUserProfile.IsProfessional
             };
             return View(model);
         }

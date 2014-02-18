@@ -10,7 +10,7 @@
             (Model.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) ||
             Model.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
         {
-            <span><i class="glyphicon glyphicon-ok"></i>@Localizer.Get("Profile_Sidebar_Following")</span>
+            <span><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Profile_Sidebar_Following")</span>
         }
         else
         {
@@ -23,9 +23,9 @@
             <h3 class="panel-title">@Localizer.Get("Profile_ProfileLinksPanel_Title")</h3>
         </div>
         <div class="panel-body">
-            <a href="@Url.RouteUrl("PublicProfile")">@Localizer.Get("Profile_ProfileLinksPanel_Overview")</a>
+            @Html.RouteLink(Localizer.Get("Profile_ProfileLinksPanel_Overview"), "PublicProfile", new { ProfileId = Model.Id, slug = Html.ToSlug(Model.GetProfileName()) })
             <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Collections")</a>
-            <a href="@Url.RouteUrl("PublicProfilePhotos")">@Localizer.Get("Profile_ProfileLinksPanel_Photos")</a>
+            @Html.RouteLink(Localizer.Get("Profile_ProfileLinksPanel_Photos"), "PublicProfilePhotos", new { ProfileId = Model.Id })
             <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Reviews")</a>
         </div>
     </div>
