@@ -9,7 +9,7 @@
 }
 
 <div class="row">
-    
+
     @Html.Partial("SideBar", Model.Profile)
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
@@ -20,8 +20,8 @@
                 @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
                 {
                     <div class="profile-actions">
-                        <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
-                        <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+                        <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditProfile")</a>
+                        <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i>@Localizer.Get("Profile_MailLink")</a>
                     </div>
                 }
             </div>
@@ -33,7 +33,7 @@
             <li class="active"><a href="#collections" data-toggle="tab">@Localizer.Get("Profile_Tabs_Collections")</a></li>
             <li><a href="#photos" data-toggle="tab">@Localizer.Get("Profile_Tabs_Photos")</a></li>
             <li><a href="#discussions" data-toggle="tab">@Localizer.Get("Profile_Tabs_Discussions")</a></li>
-            
+
         </ul>
 
         <div class="tab-content row">
@@ -42,25 +42,19 @@
                 {
                     foreach (var p in photos)
                     {
-                        if (p.ExternalMedia[0].Thumbnails != null)
-                        {
-                            var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
-                            if (thumb != null)
-                            {
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <div class="actions hide">
-                                            @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = true })
-                                        </div>
-                                        <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
-                                        <div class="details">
-                                            <strong>@Html.ListingLink("Photo", p)</strong>
-                                            <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <div class="actions hide">
+                                @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = true })
+                            </div>
+                            @Html.Thumbnail(p, 266)
+                            <div class="details">
+                                <strong>@Html.ListingLink("Photo", p)</strong>
+                                <br />
+                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                            </div>
+                        </div>
+                    </div>
                     }
                 }
             </div>
@@ -70,37 +64,35 @@
                 {
                     foreach (var c in collections)
                     {
-                        var thumb = c.Listings[0].ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
-                        if (thumb != null)
-                        {
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img src="@thumb.Url" title="@c.Title" alt="@c.Title" />
-                                <div class="details">
-                                    <strong>@Html.CollectionLink(c)</strong>
-                                    <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), c.CommentCount)</small>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            @Html.CollectionThumbnail(c, 266, 266)
+                            @*<img src="@thumb.Url" title="@c.Title" alt="@c.Title" />*@
+                            <div class="details">
+                                <strong>@Html.CollectionLink(c)</strong>
+                                <br />
+                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), c.CommentCount)</small>
                             </div>
                         </div>
-                        }
+                    </div>
                     }
                 }
             </div>
 
-            
+
 
             <div class="tab-pane" id="discussions">
                 @if (discussions.Count() > 0)
                 {
                     foreach (var d in discussions)
                     {
-                        <div class="discussion">
-                            <p>
-                                <strong>@Html.ListingLink("Discussion", d)</strong>
-                                <small>@d.CommentCount תגובות</small>
-                                <br />@d.Content
-                            </p>
-                        </div>
+                    <div class="discussion">
+                        <p>
+                            <strong>@Html.ListingLink("Discussion", d)</strong>
+                            <small>@d.CommentCount תגובות</small>
+                            <br />@d.Content
+                        </p>
+                    </div>
                     }
                 }
             </div>
@@ -109,9 +101,9 @@
         <!-- feed -->
         <div class="row" id="reviews">
             <div class="col-md-8">
-
             </div>
         </div>
 
-    </div> <!-- main -->
+    </div>
+    <!-- main -->
 </div>

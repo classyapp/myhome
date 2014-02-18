@@ -78,7 +78,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.IncludedListings = new IncludedListingView[]
                 {
                     new IncludedListingView {
-                        ListingId = listingId
+                        Id = listingId
                     }
                 };
                 return PartialView("AddListingToCollectionModal", model);

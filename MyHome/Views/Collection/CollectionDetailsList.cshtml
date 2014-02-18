@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "CollectionDetails";
     var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
-    var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.ListingId, l => l.Comments) : new Dictionary<string, string>();
+    var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
     var proCategories = Localizer.GetList("professional-categories");
 }
 

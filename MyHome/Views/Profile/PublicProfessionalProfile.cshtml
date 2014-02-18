@@ -20,10 +20,11 @@
     {
         @Html.Bootstrap().Alert(TempData["ReviewSuccess"] as string).Closeable().Style(AlertColor.Success)
     }
-    
-    @if (Model.Profile.IsProfessional && 
+
+    @if (Model.Profile.IsProfessional &&
         Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
-        photos.Count() == 0) {
+        photos.Count() == 0)
+    {
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h4>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Title")</h4>
@@ -31,7 +32,7 @@
             <p><a href="@Url.RouteUrl("CreatePhoto")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Button")</a></p>
         </div>
     }
-    
+
     @if (Model.Profile.IsProfessional &&
         Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
         photos.Any(x => !x.IsPublished))
@@ -43,7 +44,7 @@
             <p><a href="@Url.RouteUrl("ShowListingsByType")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Button")</a></p>
         </div>
     }
-    
+
     @Html.Partial("SideBar", Model.Profile)
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
@@ -54,25 +55,26 @@
                 @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
                 {
                     <div class="profile-actions">
-                        <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
-                        <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+                        <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditProfile")</a>
+                        <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i>@Localizer.Get("Profile_MailLink")</a>
                     </div>
                 }
 
                 <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                    @if (Model.Profile.ReviewCount > 0) {
-                    <span class="stars">
-                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                        {
-                        <span class="glyphicon glyphicon-star"></span>
-                        }
-                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                        {
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                        }
-                    </span>
-                    <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
-                    <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
+                    @if (Model.Profile.ReviewCount > 0)
+                    {
+                        <span class="stars">
+                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                            {
+                                <span class="glyphicon glyphicon-star"></span>
+                            }
+                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                            {
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            }
+                        </span>
+                        <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
+                        <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
                     }
                     <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
 
@@ -134,8 +136,9 @@
             <div class="col-md-4">
                 @if (Model.Profile.IsProxy)
                 {
-                    if (!Request.IsAuthenticated || !user.Profile.IsProfessional) {
-                        @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
+                    if (!Request.IsAuthenticated || !user.Profile.IsProfessional)
+                    {
+                    @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
                     }
                 }
                 else
@@ -148,19 +151,21 @@
         <div class="row description">
             <div class="col-md-8">
                 <div itemprop="description">
-                    @if (!string.IsNullOrEmpty(Model.TypedMetadata.ServicesProvided)) {
-                    <p>
-                        <strong>@Localizer.Get("Profile_ServicesProvided")</strong>
-                        <br />
-                        @Model.TypedMetadata.ServicesProvided
-                    </p>
+                    @if (!string.IsNullOrEmpty(Model.TypedMetadata.ServicesProvided))
+                    {
+                        <p>
+                            <strong>@Localizer.Get("Profile_ServicesProvided")</strong>
+                            <br />
+                            @Model.TypedMetadata.ServicesProvided
+                        </p>
                     }
-                    @if (!string.IsNullOrEmpty(Model.TypedMetadata.AreasServed)) {
-                    <p>
-                        <strong>@Localizer.Get("Profile_AreasServed")</strong>
-                        <br />
-                        @Model.TypedMetadata.AreasServed
-                    </p>
+                    @if (!string.IsNullOrEmpty(Model.TypedMetadata.AreasServed))
+                    {
+                        <p>
+                            <strong>@Localizer.Get("Profile_AreasServed")</strong>
+                            <br />
+                            @Model.TypedMetadata.AreasServed
+                        </p>
                     }
                     @if (!string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription))
                     {
@@ -173,32 +178,35 @@
                 </div>
             </div>
             <div class="col-md-4">
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone)) {
-                    <div class="contact-info"><i class="glyphicon glyphicon-phone"></i> <span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone))
+                {
+                    <div class="contact-info"><i class="glyphicon glyphicon-phone"></i><span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
                 }
-                
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl)) {
-                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a></div>
+
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
+                {
+                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i><a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a></div>
                 }
-                
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category)) {
+
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+                {
                     <div class="contact-info">
                         <i class="glyphicon glyphicon-tag"></i>
                         <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                             <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span></a>
-                        </span>                    
+                        </span>
                         <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
                             <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span></a>
                         </span>
                     </div>
                 }
-                
+
                 @if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
                                 Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
                                 Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                 {
                     <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <i class="glyphicon glyphicon-envelope"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2</span>
+                        <i class="glyphicon glyphicon-envelope"></i><span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2</span>
                         <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
                     </div>
                 }
@@ -218,25 +226,19 @@
                 {
                     foreach (var p in photos)
                     {
-                        if (p.ExternalMedia[0].Thumbnails != null)
-                        {
-                            var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
-                            if (thumb != null)
-                            {
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <div class="actions hide">
-                                            @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = true })
-                                        </div>
-                                        <img src="@thumb.Url" title="@p.Title" alt="@p.Title" />
-                                        <div class="details">
-                                            <strong>@Html.ListingLink("Photo", p)</strong>
-                                            <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <div class="actions hide">
+                                @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = true })
+                            </div>
+                            @Html.Thumbnail(p, 266)
+                            <div class="details">
+                                <strong>@Html.ListingLink("Photo", p)</strong>
+                                <br />
+                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                            </div>
+                        </div>
+                    </div>
                     }
                 }
             </div>
@@ -246,37 +248,38 @@
                 {
                     foreach (var c in collections)
                     {
-                        var thumb = c.Listings[0].ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 266);
+                        var thumb = c.Thumbnails.SingleOrDefault(x => x.Width == 266);
                         if (thumb != null)
                         {
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img src="@thumb.Url" title="@c.Title" alt="@c.Title" />
-                                <div class="details">
-                                    <strong>@Html.CollectionLink(c)</strong>
-                                    <br /><small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), c.CommentCount)</small>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="@thumb.Url" title="@c.Title" alt="@c.Title" />
+                            <div class="details">
+                                <strong>@Html.CollectionLink(c)</strong>
+                                <br />
+                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), c.CommentCount)</small>
                             </div>
                         </div>
+                    </div>
                         }
                     }
                 }
             </div>
 
-            
+
 
             <div class="tab-pane" id="discussions">
                 @if (discussions.Count() > 0)
                 {
                     foreach (var d in discussions)
                     {
-                        <div class="discussion">
-                            <p>
-                                <strong>@Html.ListingLink("Discussion", d)</strong>
-                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), d.CommentCount)</small>
-                                <br />@d.Content
-                            </p>
-                        </div>
+                    <div class="discussion">
+                        <p>
+                            <strong>@Html.ListingLink("Discussion", d)</strong>
+                            <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), d.CommentCount)</small>
+                            <br />@d.Content
+                        </p>
+                    </div>
                     }
                 }
             </div>
@@ -285,7 +288,6 @@
         <!-- feed -->
         <div class="row" id="reviews">
             <div class="col-md-8">
-
             </div>
             <div class="col-md-4">
                 @if (reviews.Count() > 0)
@@ -294,41 +296,45 @@
                     
                     foreach (var r in reviews)
                     {
-                        <div class="review">
-                            <div class="by">
-                                @Localizer.Get("PublicProfile_ReviewBy") @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
-                            </div>
-                            <div class="rating">
-                                <span class="stars">
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </span>
-                            </div>
-                            <div class="content">
-                                <blockquote>@r.Content</blockquote>
-                            </div>
+                    <div class="review">
+                        <div class="by">
+                            @Localizer.Get("PublicProfile_ReviewBy") @Html.RouteLinkForCurrentLocale(r.ReviewerUsername, "PublicProfile", new { ProfileId = r.ProfileId })
                         </div>
+                        <div class="rating">
+                            <span class="stars">
+                                @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star"></span>
+                                }
+                                @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                }
+                            </span>
+                        </div>
+                        <div class="content">
+                            <blockquote>@r.Content</blockquote>
+                        </div>
+                    </div>
                     }
                 }
             </div>
         </div>
 
-    </div> <!-- main -->
+    </div>
+    <!-- main -->
 </div>
 
-    <div class="modal fade" id="contact-pro-modal" data-remote="@Url.RouteUrl("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id })">
+<div class="modal fade" id="contact-pro-modal" data-remote="@Url.RouteUrl("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id })">
     <div class="modal-dialog">
         <div class="modal-content" id="contact-pro-replace">
             <!-- modal content here -->
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 @section scripts {
     <script>
@@ -348,5 +354,5 @@
             });
         });
     </script>
-   
+
 }

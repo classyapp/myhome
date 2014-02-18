@@ -62,6 +62,7 @@
     <Compile Include="Responses\CollectionView.cs" />
     <Compile Include="Responses\CommentView.cs" />
     <Compile Include="Responses\ContactInfoView.cs" />
+    <Compile Include="Responses\IListing.cs" />
     <Compile Include="Responses\IncludedListingView.cs" />
     <Compile Include="Responses\ListingView.cs" />
     <Compile Include="Responses\LocalizationListResourceView.cs" />
