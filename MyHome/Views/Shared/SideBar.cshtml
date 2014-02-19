@@ -25,6 +25,10 @@
         <div class="panel-body">
             @Html.RouteLink(Localizer.Get("Profile_ProfileLinksPanel_Overview"), "PublicProfile", new { ProfileId = Model.Id, slug = Html.ToSlug(Model.GetProfileName()) })
             <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Collections")</a>
+            @if (Model.IsProfessional)
+            { 
+            <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Projects")</a>
+            }
             @Html.RouteLink(Localizer.Get("Profile_ProfileLinksPanel_Photos"), "PublicProfilePhotos", new { ProfileId = Model.Id })
             <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Reviews")</a>
         </div>
