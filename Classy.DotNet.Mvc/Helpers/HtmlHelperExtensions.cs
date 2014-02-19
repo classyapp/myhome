@@ -168,5 +168,4 @@ namespace Classy.DotNet.Mvc
                 .Replace(" ", "-") : null;
         }
     }
-    }
 }
