@@ -107,7 +107,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     // create new collection
                     if (string.IsNullOrEmpty(model.CollectionId))
                     {
-                        var collection = service.CreateCollection(model.Title, null, model.IncludedListings);
+                        var collection = service.CreateCollection(model.CollectionType, model.Title, null, model.IncludedListings);
                         model.CollectionId = collection.Id;
                     }
                     // add listings to collection

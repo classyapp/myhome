@@ -15,6 +15,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Collection
         public string CollectionId { get; set; }
         [Display(Name = "AddToCollection_Title")]
         public string Title { get; set; }
+        public string CollectionType { get; set; }
         public SelectList CollectionList { get; set; }
         public IncludedListingView[] IncludedListings { get; set; }
     }

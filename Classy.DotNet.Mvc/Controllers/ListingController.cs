@@ -101,7 +101,18 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateListing()
         {
-            return View(string.Concat("Create", ListingTypeName));
+            CreateListingViewModel<TListingMetadata> model = new CreateListingViewModel<TListingMetadata>();
+            string collectionType = AuthenticatedUserProfile.IsProfessional ? "project" : "generic";
+            model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
+            model.CollectionType = collectionType;
+            return View(string.Concat("Create", ListingTypeName), model);
+        }
+
+        private SelectList GetCollectionList(string selectedCollectionId, string type)
+        {
+            var service = new ListingService();
+            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, false, false, false);
+            return new SelectList(collectionList, "Id", "Title", selectedCollectionId);
         }
 
         // POST: /{ListingTypeName}/new
@@ -122,6 +133,15 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
             }
 
+            var service = new ListingService();
+
+            // check colelction exists
+            if (string.IsNullOrEmpty(model.CollectionId))
+            {
+                var collection = service.CreateCollection(model.CollectionType, model.Title, model.Content, new IncludedListingView[0]);
+                model.CollectionId = collection.Id;
+            }
+
             PricingInfoView pricingInfo = null;
             if (model.PricingInfo != null)
             {
@@ -136,9 +156,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     InternationalShippingPrice = model.PricingInfo.InternationalShippingPrice
                 };
             }
+
             try
             {
-                var service = new ListingService();
                 var listing = service.CreateListing(
                     model.Title,
                     model.Content,
@@ -146,6 +166,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     pricingInfo,
                     (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                     Request.Files);
+                service.AddListingToCollection(model.CollectionId, new IncludedListingView[] { 
+                    new IncludedListingView { ListingType = ListingTypeName, Id = listing.Id, Comments = string.Empty } });
 
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
