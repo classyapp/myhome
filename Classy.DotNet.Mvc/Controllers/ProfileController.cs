@@ -15,6 +15,7 @@ using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using System.IO;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -139,8 +140,9 @@ namespace Classy.DotNet.Mvc.Controllers
             int index = 0;
             while ((line = reader.ReadLine()) != null)
             {
-                args.LineValues = line.Split(new string[] { "\",\"" }, StringSplitOptions.None);
-                if (args.LineValues.Count() == 1) args.LineValues = line.Split(new string[] { "," }, StringSplitOptions.None);
+                TextFieldParser parser = new TextFieldParser(new StringReader(line));
+                parser.SetDelimiters(",");
+                args.LineValues = parser.ReadFields();
                 
                 // let the implementation handle parsing
                 OnParseProfilesCsvLine(this, args);

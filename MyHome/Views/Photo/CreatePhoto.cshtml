@@ -11,6 +11,8 @@
 <div class="row">
     <div class="col-md-7 main">
         <h1>@Localizer.Get("CreatePhoto_PageTitle")</h1>
+        <hr/>
+
         @Html.Bootstrap().ValidationSummary()
 
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new { enctype = "multipart/form-data" })))

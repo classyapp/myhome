@@ -39,6 +39,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ServiceStack.Text">
       <HintPath>..\lib\ServiceStack.Text.dll</HintPath>
     </Reference>
