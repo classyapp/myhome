@@ -102,7 +102,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult CreateListing()
         {
             CreateListingViewModel<TListingMetadata> model = new CreateListingViewModel<TListingMetadata>();
-            string collectionType = AuthenticatedUserProfile.IsProfessional ? "project" : "generic";
+            string collectionType = AuthenticatedUserProfile.IsProfessional ? CollectionType.Project : CollectionType.PhotoBook;
             model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
             model.CollectionType = collectionType;
             return View(string.Concat("Create", ListingTypeName), model);

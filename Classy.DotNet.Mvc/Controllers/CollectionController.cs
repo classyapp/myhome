@@ -74,7 +74,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var model = new AddToCollectionViewModel();
-                model.CollectionList = GetCollectionList(model.CollectionId, "generic");
+                model.CollectionList = GetCollectionList(model.CollectionId, CollectionType.PhotoBook);
                 model.IncludedListings = new IncludedListingView[]
                 {
                     new IncludedListingView {
@@ -116,7 +116,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         service.AddListingToCollection(model.CollectionId, model.IncludedListings);
                     }
                 }
-                model.CollectionList = GetCollectionList(model.CollectionId, "generic");
+                model.CollectionList = GetCollectionList(model.CollectionId, CollectionType.PhotoBook);
                 return PartialView("AddListingToCollectionModal", model);
             }
             catch (ClassyException cex)

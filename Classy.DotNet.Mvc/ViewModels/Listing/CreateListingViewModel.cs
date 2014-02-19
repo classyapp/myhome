@@ -37,17 +37,17 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string CollectionId { get; set; }
         [Required]
         public string CollectionType { get; set; }
-        [Display(Name = "UploadPhoto_Collection_Title")]
-        [Required(ErrorMessage = "UploadPhoto_Collection_Title_Required")]
+        [Display(Name = "CreateListing_CollectionTitle")]
+        [Required(ErrorMessage = "CreateListing_CollectionTitleRequired")]
         public string Title { get; set; }
-        [Display(Name = "UploadPhoto_Collection_Content")]
+        [Display(Name = "CreateListing_CollectionContent")]
         public string Content { get; set; }
         public ProductPricingViewModel PricingInfo { get; set; }
         public LocationView Location { get; set; }
         public bool AutoPublish { get; set; }
         // meta
         public TListingMetadata Metadata { get; set; }
-        [Required(ErrorMessage="UploadPhoto_Files_Required")]
+        [Required(ErrorMessage = "CreateListing_FilesRequired")]
         public string DummyFile { get; set; }
 
         // TODO: products and bookable items
