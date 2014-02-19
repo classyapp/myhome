@@ -44,7 +44,7 @@
                         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like onphoto")
                         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add onphoto")
                     </div>*@
-                    @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false });
+                    @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
                     @Html.Thumbnail(p, 400)
                     @*<img src="@thumb.Url" title="@p.Title" alt="@p.Title" />*@
                     <div class="details">
