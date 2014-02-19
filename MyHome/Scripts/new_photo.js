@@ -52,6 +52,7 @@ function doUpload(idx, extra) {
                 $("#filesPreview > div:nth-child(" + (idx + 1) + ") .progress-bar").css("width", percentComplete + '%');
             }
         }, function (e) {
+            if (extra.CollectionId == "") { extra.CollectionId = e.collectionId }
             setTimeout(function () { doUpload(idx + 1, extra); }, 100);
         }, function (e) {
             alert("Something went wrong!!!");

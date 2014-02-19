@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Responses
 {
+    public static class CollectionType
+    {
+        public static readonly string PhotoBook = "PhotoBook";
+        public static readonly string Project = "Project";
+    }
+
     public class CollectionView
     {
         public string Id { get; set; }

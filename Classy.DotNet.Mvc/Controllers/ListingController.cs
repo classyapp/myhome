@@ -102,7 +102,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult CreateListing()
         {
             CreateListingViewModel<TListingMetadata> model = new CreateListingViewModel<TListingMetadata>();
-            string collectionType = AuthenticatedUserProfile.IsProfessional ? "project" : "generic";
+            string collectionType = AuthenticatedUserProfile.IsProfessional ? CollectionType.Project : CollectionType.PhotoBook;
             model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
             model.CollectionType = collectionType;
             return View(string.Concat("Create", ListingTypeName), model);
@@ -111,7 +111,7 @@ namespace Classy.DotNet.Mvc.Controllers
         private SelectList GetCollectionList(string selectedCollectionId, string type)
         {
             var service = new ListingService();
-            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, false, false, false);
+            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, type, false, false, false);
             return new SelectList(collectionList, "Id", "Title", selectedCollectionId);
         }
 
@@ -161,7 +161,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var listing = service.CreateListing(
                     model.Title,
-                    model.Content,
+                    string.Empty,
                     ListingTypeName,
                     pricingInfo,
                     (model.Metadata == null ? null : model.Metadata.ToDictionary()),
@@ -171,7 +171,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
-                    return Json(listing);
+                    return Json(new { listing = listing, collectionId = model.CollectionId });
                 }
                 else
                 {
