@@ -55,8 +55,8 @@
                 @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
                 {
                     <div class="profile-actions">
-                        <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditProfile")</a>
-                        <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i>@Localizer.Get("Profile_MailLink")</a>
+                        <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
+                        <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
                     </div>
                 }
 
@@ -178,18 +178,15 @@
                 </div>
             </div>
             <div class="col-md-4">
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone))
-                {
-                    <div class="contact-info"><i class="glyphicon glyphicon-phone"></i><span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone)) {
+                    <div class="contact-info"><i class="glyphicon glyphicon-phone"></i> <span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
                 }
-
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
-                {
-                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i><a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a></div>
+                
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl)) {
+                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl"><span itemprop="url">@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl</span></a></div>
                 }
-
-                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
-                {
+                
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category)) {
                     <div class="contact-info">
                         <i class="glyphicon glyphicon-tag"></i>
                         <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
@@ -206,8 +203,8 @@
                                 Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                 {
                     <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                        <i class="glyphicon glyphicon-envelope"></i><span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street2</span>
-                        <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                        <i class="glyphicon glyphicon-envelope"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span>
+                        <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
                     </div>
                 }
             </div>

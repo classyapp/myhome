@@ -13,6 +13,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Security
         public bool IsProfessional { get; set; }
         [Display(Name="Register_Email")]
         [Required(ErrorMessage="Register_Email_Required")]
+        [EmailAddress(ErrorMessage="Register_Email_Invalid")]
         public string Email { get; set; }
         [Display(Name="Register_Username")]
         [Required(ErrorMessage="Register_Username_Required")]

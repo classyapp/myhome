@@ -76,13 +76,18 @@ namespace Classy.DotNet.Services
                 var profile = profileJson.FromJson<ProfileView>();
                 return profile;
             }
-            catch(WebException wex)
+            catch (WebException wex)
             {
                 throw wex.ToClassyException();
             }
         }
 
-        public ProfileView UpdateProfile(string profileId, ProfessionalInfoView proInfo, IDictionary<string, string> metadata, string updateType)
+        public ProfileView UpdateProfile(
+            string profileId, 
+            ExtendedContactInfoView contactInfo, 
+            ProfessionalInfoView proInfo, 
+            IDictionary<string, string> metadata, 
+            UpdateProfileFields fields)
         {
             try
             {
@@ -90,22 +95,28 @@ namespace Classy.DotNet.Services
                 var url = string.Format(UPDATE_PROFILE_URL, profileId);
                 var data = new
                 {
-                    ProfessionalInfo = proInfo,
-                    Metadata = metadata,
-                    UpdateType = updateType
+                    ContactInfo = fields.HasFlag(UpdateProfileFields.ContactInfo) ? contactInfo : null,
+                    ProfessionalInfo = fields.HasFlag(UpdateProfileFields.ProfessionalInfo) ? proInfo : null,
+                    Metadata = fields.HasFlag(UpdateProfileFields.Metadata) ? metadata : null,
+                    Fields = fields
                 }.ToJson();
                 var profileJson = client.UploadString(url, "PUT", data);
                 var profile = profileJson.FromJson<ProfileView>();
                 return profile;
             }
-            catch(WebException wex)
+            catch (WebException wex)
             {
                 throw wex.ToClassyException();
             }
         }
 
-        public SearchResultsView<ProfileView> SearchProfiles(string displayName, string category, LocationView location, 
-            IDictionary<string, string> metadata, bool professionalsOnly, int page)
+        public SearchResultsView<ProfileView> SearchProfiles(
+            string displayName, 
+            string category, 
+            LocationView location, 
+            IDictionary<string, string> metadata, 
+            bool professionalsOnly, 
+            int page)
         {
             try
             {

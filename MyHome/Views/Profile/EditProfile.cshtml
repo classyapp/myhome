@@ -1,24 +1,70 @@
-@model Classy.DotNet.Mvc.ViewModels.Profiles.EditProfileViewModel<MyHome.Models.ProfessionalMetadata>
+@model Classy.DotNet.Mvc.ViewModels.Profiles.EditProfileViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.UserMetadata>
 
 @{
-    ViewBag.Title = "AgentProfile";
+    ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
 }
 
 <div class="row">
-    <div class="col-md-3 sidebar">
-        <div class="image text-center">
-            <img src="@Model.ThumbnailUrl" title="@Model.Name" />
-        </div>
-    </div>
+    @Html.Partial("SideBar", (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile)
 
     <div class="col-md-9 main">
+        @Html.Bootstrap().ValidationSummary()
         @using (var f = Html.Bootstrap().Begin(new Form("EditProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
         {
+            @Html.HiddenFor(x => x.IsProfessional)
+            @Html.HiddenFor(x => x.Username)
+            
             <h4>@Localizer.Get("EditProfile_AccountDetails")</h4>
+            <hr/>
+
+            @Html.DisplayFor(x => x.Username)
+            @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false)
+           
+            <p>&nbsp;</p>
+            <h4>@Localizer.Get("EditProfile_ContactDetails")</h4>
+            <hr/>
+            
+            @f.FormGroup().TextBoxFor(x => x.FirstName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextBoxFor(x => x.LastName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            
+            if (Model.IsProfessional)
+            {
+                @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.Country).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            
+                <p>&nbsp;</p>
+                <h4>@Localizer.Get("EditProfile_BusinessDetails")</h4>
+                <hr/>
+                
+                @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            
+                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Label().WidthLg(12)
+                @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            
+                @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().WidthLg(12)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().WidthLg(12)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Label().WidthLg(12)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().WidthLg(12)
+                @*<div>job cost from: --- to: ---</div>*@
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.CostDetails).ShowValidationMessage(false).Label().WidthLg(12)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().WidthLg(12)
+            }
+            else 
+            {
+                
+            }
+
             <div>
-                @f.FormGroup().TextBoxFor(x => x.Username).Disabled()
-                @f.FormGroup().TextBoxFor(x => x.Email)
+                <p>&nbsp;</p>
+                <hr/>
+
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("EditProfile_Submit").Style(ButtonStyle.Success))
             </div>
-        }  
+        }
+
     </div>
 </div>
