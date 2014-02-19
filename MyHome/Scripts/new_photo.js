@@ -1,9 +1,11 @@
 ﻿$.validator.addMethod('accept', function () { return true; });
 $("#file").on("change", function () {
     $("#filesPreview").html("");
+    $("#DummyFile").val("");
 
     var totalSize = 0;
     $.each(this.files, function (idx, item) {
+        $("#DummyFile").val("x");
         if (!!window.FileReader && totalSize < 4096000) {
             totalSize += item.size;
             var reader = new FileReader();
@@ -30,7 +32,7 @@ function uploadPhotos() {
             var idx = 0;
             $("#uploadBtn").data("file-id", idx);
             var extra = {};
-            frm.find(".form-control,input[type=checkbox]").each(function (idx, item) { extra[$(item).attr("name")] = $(item).val() });
+            frm.find(".form-control,input[type=checkbox],select,input[type=hidden]").each(function (idx, item) { if($(item).attr("id") != null) extra[$(item).attr("name")] = $(item).val() });
             $("#file, #uploadBtn").prop("disabled", "disabled");
             doUpload(idx, extra);
         }

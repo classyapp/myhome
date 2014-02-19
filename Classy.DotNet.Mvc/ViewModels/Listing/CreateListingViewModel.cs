@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
 {
@@ -33,6 +34,9 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
     public class CreateListingViewModel<TListingMetadata>
     {
         // basic
+        public string CollectionId { get; set; }
+        [Required]
+        public string CollectionType { get; set; }
         [Display(Name="CreateListing_Title")]
         [Required(ErrorMessage="CreateListing_Title_Required")]
         public string Title { get; set; }
@@ -44,7 +48,11 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public bool AutoPublish { get; set; }
         // meta
         public TListingMetadata Metadata { get; set; }
+        [Required(ErrorMessage="CreateListing_Files_Required")]
+        public string DummyFile { get; set; }
 
         // TODO: products and bookable items
+
+        public SelectList CollectionList { get; set; }
     }
 }

@@ -15,8 +15,10 @@
 
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
-            @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_Title"))
-            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
+            @Html.HiddenFor(x => x.CollectionType)
+            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_IdeaBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_IdeaBookTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_Title"))
+            @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
             @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
@@ -26,6 +28,7 @@
                     <button class="btn btn-warning btn-select-files" type="button">
                         @Localizer.Get("CreatePhoto_SelectFiles")
                         <input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />
+                        @Html.HiddenFor(x => x.DummyFile)
                     </button>
                     <div id="filesPreview" class="row"></div>
                 </div>
@@ -56,5 +59,17 @@
     <script type="text/javascript">
         var uploadPhotoUrl = '@Url.RouteUrl("CreatePhoto", new { httproute = "", controller = "Photo", action = "CreateListing" })';
         var redirectUrl = '@Url.RouteUrl("PublicProfilePhotos", new { profileId = (System.Web.HttpContext.Current.User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id })?photosUploaded=1';
+
+        $('#CollectionId').change(function () {
+            if ($(this).val() == '') {
+                $('#Title,#Content').val('');
+                $('#title, #content').show();
+            }
+            else {
+                $('#Title').val($(this)[0].options[$(this)[0].selectedIndex].text);
+                $('#Content').val("valid");
+                $('#title, #content').hide();
+            }
+        });
     </script>
 }

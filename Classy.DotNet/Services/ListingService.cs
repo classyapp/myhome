@@ -307,6 +307,7 @@ namespace Classy.DotNet.Services
         }
 
         public CollectionView CreateCollection(
+            string type,
             string title,
             string content,
             IList<IncludedListingView> includedListings)
@@ -316,6 +317,7 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var data = new
                 {
+                    Type = type,
                     Title = title,
                     Content = content,
                     IncludedListings = includedListings
