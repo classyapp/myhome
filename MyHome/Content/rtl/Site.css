@@ -214,13 +214,11 @@ a.btn-default {
 }
 .navbar-nav > li > a {
     font-size: 16px;
-    color: #000;
+    color: #fff;
     margin-top: 8px;
 }
-.navbar-nav > li > a {
-    font-size: 16px;
-    color: #000;
-    margin-top: 8px;
+.navbar-nav > li > a:hover {
+    color: #efefef;
 }
 .dropdown-menu>li.top>a {
     font-weight: bold;
