@@ -111,7 +111,7 @@ namespace Classy.DotNet.Mvc.Controllers
         private SelectList GetCollectionList(string selectedCollectionId, string type)
         {
             var service = new ListingService();
-            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, false, false, false);
+            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, type, false, false, false);
             return new SelectList(collectionList, "Id", "Title", selectedCollectionId);
         }
 
@@ -161,7 +161,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var listing = service.CreateListing(
                     model.Title,
-                    model.Content,
+                    string.Empty,
                     ListingTypeName,
                     pricingInfo,
                     (model.Metadata == null ? null : model.Metadata.ToDictionary()),
@@ -171,7 +171,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
-                    return Json(listing);
+                    return Json(new { listing = listing, collectionId = model.CollectionId });
                 }
                 else
                 {

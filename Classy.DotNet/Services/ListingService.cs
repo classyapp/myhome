@@ -32,7 +32,7 @@ namespace Classy.DotNet.Services
         private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
-        private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list";
+        private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list/{1}";
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
         private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}";
 
@@ -291,12 +291,12 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public IList<CollectionView> GetCollectionsByProfileId(string profileId, bool includeListings, bool increaseViewCounter, bool increaseViewCounterOnListings)
+        public IList<CollectionView> GetCollectionsByProfileId(string profileId, string collectionType, bool includeListings, bool increaseViewCounter, bool increaseViewCounterOnListings)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var collectionsJson = client.DownloadString(string.Format(GET_COLLECTIONS_FOR_PROFILE_URL, profileId));
+                var collectionsJson = client.DownloadString(string.Format(GET_COLLECTIONS_FOR_PROFILE_URL, profileId, collectionType));
                 var collections = collectionsJson.FromJson<IList<CollectionView>>();
                 return collections;
             }

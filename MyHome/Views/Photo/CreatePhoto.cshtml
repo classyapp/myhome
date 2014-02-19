@@ -16,7 +16,7 @@
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
             @Html.HiddenFor(x => x.CollectionType)
-            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_IdeaBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_IdeaBookTitle"))
+            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateCollectionTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_CollectionTitle"))
             @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_Title"))
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
@@ -67,7 +67,6 @@
             }
             else {
                 $('#Title').val($(this)[0].options[$(this)[0].selectedIndex].text);
-                $('#Content').val("valid");
                 $('#title, #content').hide();
             }
         });

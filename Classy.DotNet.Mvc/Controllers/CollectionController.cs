@@ -74,7 +74,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var model = new AddToCollectionViewModel();
-                model.CollectionList = GetCollectionList(model.CollectionId);
+                model.CollectionList = GetCollectionList(model.CollectionId, "generic");
                 model.IncludedListings = new IncludedListingView[]
                 {
                     new IncludedListingView {
@@ -116,7 +116,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         service.AddListingToCollection(model.CollectionId, model.IncludedListings);
                     }
                 }
-                model.CollectionList = GetCollectionList(model.CollectionId);
+                model.CollectionList = GetCollectionList(model.CollectionId, "generic");
                 return PartialView("AddListingToCollectionModal", model);
             }
             catch (ClassyException cex)
@@ -188,10 +188,10 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private SelectList GetCollectionList(string selectedCollectionId)
+        private SelectList GetCollectionList(string selectedCollectionId, string collectionType)
         {
             var service = new ListingService();
-            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, false, false, false);
+            var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, collectionType, false, false, false);
             return new SelectList(collectionList, "Id", "Title", selectedCollectionId);
         }
     }
