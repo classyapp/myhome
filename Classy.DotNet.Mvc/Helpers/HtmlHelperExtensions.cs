@@ -117,10 +117,15 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString ToSlug(this System.Web.Mvc.HtmlHelper html, string content)
         {
-            return new MvcHtmlString(ToSlug(content));
+            return new MvcHtmlString(content.ToSlug());
         }
 
-        private static string ToSlug(string content)
+        public static string ToSlug(this string content)
+        {
+            return _ToSlug(content);
+        }
+
+        private static string _ToSlug(string content)
         {
             return content != null ? content.ToLower()
                 .Replace("?", string.Empty)

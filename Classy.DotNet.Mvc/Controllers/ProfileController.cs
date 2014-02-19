@@ -19,9 +19,10 @@ using System.IO;
 namespace Classy.DotNet.Mvc.Controllers
 {
 
-    public class ProfileController<TProMetadata, TReviewSubCriteria> : BaseController
+    public class ProfileController<TProMetadata, TReviewSubCriteria, TUserMetadata> : BaseController
         where TProMetadata : IMetadata<TProMetadata>, new()
         where TReviewSubCriteria : IReviewSubCriteria<TReviewSubCriteria>, new()
+        where TUserMetadata : IMetadata<TUserMetadata>, new ()
     {
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
@@ -71,7 +72,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRouteWithName(
                 name: "CreateProfessionalProfile",
-                url: "profile/me/gopro",
+                url: "profile/gopro",
                 defaults: new { controller = "Profile", action = "CreateProfessionalProfile" },
                 namespaces: new string[] { Namespace }
             );
@@ -176,26 +177,123 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditProfile()
         {
-            var contactInfo = AuthenticatedUserProfile.ContactInfo ?? new ContactInfoView();
+            var contactInfo = AuthenticatedUserProfile.ContactInfo ?? new ExtendedContactInfoView();
             contactInfo.Location = contactInfo.Location ?? new LocationView();
             contactInfo.Location.Address = contactInfo.Location.Address ?? new PhysicalAddressView();
+            var proContactInfo = AuthenticatedUserProfile.ProfessionalInfo ?? new ProfessionalInfoView();
+            proContactInfo.CompanyContactInfo = proContactInfo.CompanyContactInfo ?? new ExtendedContactInfoView();
+            proContactInfo.CompanyContactInfo.Location = proContactInfo.CompanyContactInfo.Location ?? new LocationView();
+            proContactInfo.CompanyContactInfo.Location.Address = proContactInfo.CompanyContactInfo.Location.Address ?? new PhysicalAddressView();
+            var proMetadata = AuthenticatedUserProfile.IsProfessional ? (AuthenticatedUserProfile.Metadata != null ? new TProMetadata().FromDictionary(AuthenticatedUserProfile.Metadata) : new TProMetadata()) : default(TProMetadata);
+            var userMetadata = !AuthenticatedUserProfile.IsProfessional ? (AuthenticatedUserProfile.Metadata != null ? new TUserMetadata().FromDictionary(AuthenticatedUserProfile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
 
-            var model = new EditProfileViewModel<TProMetadata>
+            var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
                 ProfileId = AuthenticatedUserProfile.Id,
-                FirstName = contactInfo.FirstName,
-                LastName = contactInfo.LastName,
-                Street1 = contactInfo.Location.Address.Street1,
-                Street2 = contactInfo.Location.Address.Street2,
-                City = contactInfo.Location.Address.City,
-                Country = contactInfo.Location.Address.Country,
-                PostalCode = contactInfo.Location.Address.PostalCode,
+                FirstName = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
+                LastName = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
+                Street1 = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street1 : contactInfo.Location.Address.Street1,
+                Street2 = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street2 : contactInfo.Location.Address.Street2,
+                City = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
+                Country = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
+                PostalCode = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
                 ThumbnailUrl = AuthenticatedUserProfile.ThumbnailUrl,
                 Username = AuthenticatedUserProfile.UserName,
-                Email = AuthenticatedUserProfile.IsProfessional ? AuthenticatedUserProfile.ProfessionalInfo.CompanyContactInfo.Email : AuthenticatedUserProfile.ContactInfo.Email,
-                IsProfessional = AuthenticatedUserProfile.IsProfessional
+                Email = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
+                Phone = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
+                IsProfessional = AuthenticatedUserProfile.IsProfessional,
+                Category = proContactInfo.Category,
+                CompanyName = proContactInfo.CompanyName,
+                WebsiteUrl = proContactInfo.CompanyContactInfo.WebsiteUrl,
+                ProfessionalMetadata = proMetadata,
+                UserMetadata = userMetadata
             };
             return View(model);
+        }
+
+        //
+        // POST: /profile/edit
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditProfile(EditProfileViewModel<TProMetadata, TUserMetadata> model)
+        {
+            var fields = UpdateProfileFields.None;
+            dynamic metadata;
+
+            // validation
+            if (model.IsProfessional)
+            {
+                fields |= UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata;
+                if (string.IsNullOrEmpty(model.CompanyName)) ModelState.AddModelError("CompanyName", Localizer.Get("EditProfile_CompanyName_Required"));
+                if (string.IsNullOrEmpty(model.Category)) ModelState.AddModelError("Category", Localizer.Get("EditProfile_Category_Required"));
+                if (string.IsNullOrEmpty(model.Phone)) ModelState.AddModelError("Phone", Localizer.Get("EditProfile_Phone_Required"));
+                if (string.IsNullOrEmpty(model.Street1)) ModelState.AddModelError("Street1", Localizer.Get("EditProfile_Street1_Required"));
+                if (string.IsNullOrEmpty(model.City)) ModelState.AddModelError("City", Localizer.Get("EditProfile_City_Required"));
+                if (string.IsNullOrEmpty(model.Country)) ModelState.AddModelError("Country", Localizer.Get("EditProfile_Country_Required"));
+                if (string.IsNullOrEmpty(model.PostalCode)) ModelState.AddModelError("PostalCode", Localizer.Get("EditProfile_PostalCode_Required"));
+                if (string.IsNullOrEmpty(model.FirstName)) ModelState.AddModelError("FirstName", Localizer.Get("EditProfile_FirstName_Required"));
+                if (string.IsNullOrEmpty(model.LastName)) ModelState.AddModelError("LastName", Localizer.Get("EditProfile_PostalCode_Required"));
+                metadata = model.ProfessionalMetadata;
+            }
+            else
+            {
+                fields |= UpdateProfileFields.ContactInfo;
+                metadata = model.UserMetadata;
+            }
+
+            // update
+            if (ModelState.IsValid)
+            {
+                var service = new ProfileService();
+                service.UpdateProfile(
+                    AuthenticatedUserProfile.Id,
+                    new ExtendedContactInfoView
+                    {
+                        Phone = model.Phone,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Location = new LocationView
+                        {
+                            Address = new PhysicalAddressView
+                            {
+                                Street1 = model.Street1,
+                                Street2 = model.Street2,
+                                City = model.City,
+                                Country = model.Country,
+                                PostalCode = model.PostalCode
+                            }
+                        },
+                        Email = model.Email
+                    },
+                    new ProfessionalInfoView
+                    {
+                        CompanyName = model.CompanyName,
+                        Category = model.Category,
+                        CompanyContactInfo = new ExtendedContactInfoView
+                        {
+                            Phone = model.Phone,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            Location = new LocationView
+                            {
+                                Address = new PhysicalAddressView
+                                {
+                                    Street1 = model.Street1,
+                                    Street2 = model.Street2,
+                                    City = model.City,
+                                    Country = model.Country,
+                                    PostalCode = model.PostalCode
+                                }
+                            },
+                            Email = model.Email
+                        }
+                    },
+                    metadata.ToDictionary(),
+                    fields);
+                return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
+            }
+            else return View(model);
         }
 
         //
@@ -443,9 +541,10 @@ namespace Classy.DotNet.Mvc.Controllers
                 var service = new ProfileService();
                 var profile = service.UpdateProfile(
                     AuthenticatedUserProfile.Id, 
+                    null,
                     professionalInfo, 
                     model.Metadata.ToDictionary(), 
-                    "CreateProfessionalProfile");
+                    UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
             }

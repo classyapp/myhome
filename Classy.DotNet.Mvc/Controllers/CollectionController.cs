@@ -10,6 +10,7 @@ using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
+using Classy.DotNet.Mvc.Attributes;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -119,7 +120,7 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        [Authorize]
+        [AuthorizeWithRedirect("Index")]
         public ActionResult EditCollection(string collectionId)
         {
             var service = new ListingService();

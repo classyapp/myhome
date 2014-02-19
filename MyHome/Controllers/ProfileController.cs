@@ -13,7 +13,7 @@ using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
 {
-    public class ProfileController : Classy.DotNet.Mvc.Controllers.ProfileController<ProfessionalMetadata, ProfileReviewCriteria>
+    public class ProfileController : Classy.DotNet.Mvc.Controllers.ProfileController<ProfessionalMetadata, ProfileReviewCriteria, UserMetadata>
     {
         private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
 

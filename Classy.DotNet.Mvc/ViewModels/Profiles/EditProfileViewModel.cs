@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
-    public class EditProfileViewModel<TProMetadata>
+    public class EditProfileViewModel<TProMetadata, TUserMetadata>
     {
         // account info
         public string ProfileId { get; set; }
@@ -29,7 +29,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public string Category { get; set; }
         [Display(Name = "EditProfile_CompanyName")]
         public string CompanyName { get; set; }
-        public TProMetadata Metadata { get; set; }
+        public TProMetadata ProfessionalMetadata { get; set; }
 
         // contact info
         [Display(Name = "EditProfile_FirstName")]
@@ -46,5 +46,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public string Country { get; set; }
         [Display(Name = "EditProfile_PostalCode")]
         public string PostalCode { get; set; }
+        public TUserMetadata UserMetadata { get; set; }
     }
 }

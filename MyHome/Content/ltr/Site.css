@@ -36,10 +36,7 @@ a.btn-default {
 
 /* home page */
 .home-banner {
-    background-image: url(/img/home-banner.jpg);
-    background-size: cover;
-    background-position-y: -245px;
-    height: 600px;
+    height: 400px;
     position: relative;
     top: -90px;
 }
@@ -224,6 +221,10 @@ a.btn-default {
 }
 .navbar .profile img {
     margin-right: 5px;
+}
+.navbar .login-dropdown {
+    padding: 15px;
+    min-width: 280px;
 }
 /* search pages*/
 .search-form {
@@ -491,7 +492,7 @@ a.action.delete
     background: url(/img/fb.png) left top no-repeat;
     border-right: 1px rgba(255,255,255,0.18) solid;
     display: inline-block;
-    margin-left: 16px;
+    margin-right: 16px;
     vertical-align: -7px;
 }
 
