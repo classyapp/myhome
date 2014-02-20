@@ -111,6 +111,9 @@ a.btn-default {
 }
 
 /* panels*/
+.panel-first {
+    margin-top: 20px;
+}
 .panel {
     margin-bottom: 10px;
     border: none;
@@ -149,7 +152,7 @@ a.btn-default {
 
 /* find pro to review */
 .steps li {
-    color: #47a447;
+    color: #999;
     vertical-align: top;
     width: 40%;
 }
@@ -222,13 +225,13 @@ a.btn-default {
     margin-top: 16px;
     padding: 0;
 }
-.navbar-default .navbar-nav > li > a {
-    font-size: 16px;
-    color: #999;
-    margin-top: 8px;
+.navbar-form .btn-default {
+    color: #777;
+    border-left: none;
 }
-.navbar-default .navbar-nav > li > a:hover {
-    color: #ddd;
+.navbar-nav > li > a {
+    font-size: 16px;
+    margin-top: 8px;
 }
 .dropdown-menu>li.top>a {
     font-weight: bold;
@@ -398,36 +401,13 @@ a.action {
     margin-left: 10px;
     z-index: 999;
 }
-/*a.action.onphoto {
-    position: absolute;
-    z-index: 999;
-    top: 15px;
-}
-a.action.add {
-    right: 65px;
-}*/
 a.action.like {
     color: #f55555;
 }
-/*a.action.share {
-    right: 100px;
-}*/
 a.action.like-on {
     color: #fff;
     background-color: #f55555;
 }
-/*a.action.edit
-{
-    right: 100px;
-}
-a.action.delete
-{
-    right: 135px;
-}
-a.action.remove
-{
-    right: 30px;
-}*/
 
 /* manage resources*/
 .resourceListContainer {

@@ -1,206 +1,54 @@
 ﻿/* Space out content a bit */
 body {
-  font-family: "Alef Hebrew",
-               “Helvetica Neue”,
-               Helvetica,
-               Arial,
-               sans-serif;
-  padding-top: 90px;
-    background: #f0f0f0;
+    font-family: "Alef Hebrew",
+                “Helvetica Neue”,
+                Helvetica,
+                Arial,
+                sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-h1 {
-    color: #444;
-    font-size: 22px;
-    font-weight: bold;
-}
-p {
-    color: #777;
+    font-family: "Alef Hebrew", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-hr {
-    border-bottom: solid 1px #ddd;
-}
-
-a, a:visited {
-    color: #777;
-}
-
-a:hover {
-    color: #999;
-}
-
-a.btn {
-    color: #fff;
-}
-a.btn-default {
-    color: #000;
-}
-
-.content.container {
-    padding: 0;
-    min-height: 620px;
-}
-
-.modal-body {
-    background-color: #efefef;
-}
 
 /* collection - grid */
 .collection .profile img {
     margin-left: 10px;
-    margin-bottom: 10px;
 }
 
 /* home page */
-.home-banner {
-    height: 400px;
-    position: relative;
-    top: -90px;
-}
 .home-banner .slogan {
     text-align: left;
-    position: absolute;
     left: 10%;
-    top: 20%;
-    background-color: rgba(245, 245, 245, 0.4);
-    padding: 20px;
 }
 .home-banner .slogan h1 {
     text-align: right;
-    font-size: 96px;
-    color: #fff;
-    text-shadow: 1.5px 3.33px 13px rgba(0,0,0,0.7);
-    margin: 0;
-}
-.home-banner .slogan .signin {
-    position: relative;
-    right: 0;
-}
-.home-banner .slogan .signin a {
-    margin-top: 20px;
-}
-.home-content {
-    position: relative;
-    top: -90px;
-}
-.home-content .benefits {
-    font-size: 18px;
-}
-.home-content .benefits li {
-    margin-bottom: 20px;
 }
 .home-content .benefits .glyphicon {
-    color: #47a447;
-    font-size: 24px;
     margin-left: 10px;
-}
-.home-content .about {
-    margin-top: 40px;
-}
-#articles .media {
-    max-height: 100px;
 }
 
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group {
     margin-left: 5px;
     margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-/* panels */
-
-.panel {
-    margin-bottom: 10px;
-    border: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    background-color: #f0f0f0; 
-}
-.panel-default > .panel-heading {
-    background-color: #f0f0f0;
-}
-.panel-title {
-    color: #333;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 0;
-}
-.panel-body {
-    padding: 0;
-}
-.panel-body.social-thumbnails {
-    padding: 5px;
-}
-.panel-body.social-thumbnails .thumbnail {
-    border-radius: 0;
-    padding: 1px;
-}
-.panel-links a,
-.panel-links a:hover {
-    display: block;
-    width: 100%;
-    padding: 5px 15px;
-    text-decoration: none;
 }
 
 /* find pro to review */
-.steps li {
-    color: #47a447;
-    vertical-align: top;
-    width: 40%;
-}
 .steps li:first-child {
     margin-left: 40px;
 }
-.steps li .visual {
-    display: block;
-    padding: 20px;
-    font-size: 96px;
-    width: 136px;
-    height: 136px;
-    line-height: 1px;
-}
-.steps li .verbal {
-    font-size: 24px;
-}
-.steps .search,
-.steps .selection {
-    color: #000;
-    margin-top: 10px;
-}
 
 /* photo details */
-.comments {
-    font-size: 13px;
-}
-.comments.panel-body {
-    padding: 10px;
-}
-.comments .comment p {
-    margin: 5px 0 5px 0;
-}
-.comments .comment hr {
-    margin: 5px 0;
-}
 .comments .comment .content {
     margin-right: 12px;
 }
 .photo-details dt {
     text-align: right;
 }
-.photo-details .photo .stats {
-    color: #666;
-}
 .photo-details .photo .stats span {
-    display: inline-block;
     margin-left: 20px;
-    padding: 5px 0;
     float: right;
 }
 .photo-details .photo .actions {
@@ -211,421 +59,47 @@ a.btn-default {
 }
 
 /* navbar */
-.navbar {
-    border: none;
-    background: #333;
-}
-.navbar-brand {
-    background: url(/img/homelab-logo.png) center left no-repeat;
-    width: 50px;
-    height: 60px;
-}
-.navbar-form {
-    margin-top: 16px;
-    padding: 0;
-}
-.navbar-default .navbar-nav > li > a {
-    font-size: 16px;
-    color: #999;
-    margin-top: 8px;
-}
-.navbar-default .navbar-nav > li > a:hover {
-    color: #efefef;
-}
-.dropdown-menu>li.top>a {
-    font-weight: bold;
-}
-.navbar span.glyphicon {
-    top: 2px;
-    font-size: 16px;
-}
-.navbar .profile a {
-    height: 35px;
-}
 .navbar .profile img {
     margin-left: 5px;
 }
-.navbar .login-dropdown {
-    padding: 15px;
-    min-width: 280px;
-}
-/* search pages*/
-.search-form {
-    margin: 20px 0;
-}
 
 /* profile page */
-.sidebar {
 
-}
-.sidebar .image img {
-    margin-bottom: 10px;
-}
-.sidebar .follow {
-    margin-bottom: 10px;
-}
-.main h1 {
-    font-size: 32px;
-    margin-top: 0;
-}
 .main .contact-info {
     margin-left: 10px;
-    margin-bottom: 5px;
-    font-size: 12px;
-}
-.main .profile-actions {
-    margin-bottom: 20px;
-}
-.rating {
-    vertical-align: middle;
 }
 .rating .stars {
     padding-left: 5px;
-    cursor: pointer;
-}
-.rating .glyphicon {
-    font-size: 14px;
-    color: #47a447;
-}
-.thumbnail
-{
-    position: relative;
-}
-#photos .thumbnail,
-#collections .thumbnail
-{
-    border-radius: 0;
-    padding: 0;
-    margin-bottom: 20px;
-    position: relative;
-}
-    #photos .thumbnail .deleted
-    {    
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: #999;
-        opacity: 0.4;
-        z-index: 1000;
-    }
-    #photos .thumbnail > img
-    {
-        width: 100%;
-    }
-#photos .thumbnail .details,
-#collections .thumbnail .details
-{
-    padding: 5px;
-}
-#profileTabs {
-    margin-bottom: 10px;
-}
-/* Login page */
-.login {
-    padding: 0 30px;
 }
 /* search pages*/
 .label {
-    display: inline-block;
-    font-weight: normal;
     margin-left: 10px;
-    font-size: 13px;
-}
-.label a,
-.label a:hover {
-    color: #fff;
-    text-decoration: none;
 }
 .label .dismiss {
-    display: inline-block;
     left: 0;
-    top: 0;
     margin-right: 5px;
-}
-/* profile seach page */
-.results .profile {
-    border: solid 1px #e5e5e5;
-    height: 202px;
-    margin-bottom: 10px;
-    padding: 10px;
-    overflow: hidden;
-}
-.results .profile .glyphicon {
-    color: #47a447;
-    font-size: 14px;
-}
-
-/* login */
-.fb {
-    margin-top: 20px;
-    padding-bottom: 20px;
-    border-bottom: solid 1px #e5e5e5;
-    margin-bottom: 20px;
-}
-.login .form-group {
-    margin-bottom: 0;
-}
-.login .form-control {
-    height: 44px;
-}
-.login form {
-    margin-bottom: 15px; 
-}
-
-/* forms */
-.form-group .col-lg-2,
-.form-group .col-lg-12 {
-    padding: 0;
 }
 
 /* action button */
 .actions
 {
-    position: absolute;
     left: 15px;
-    top: 15px;
 }
 a.action {
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    font-size: 12px;
-    padding: 6px 0;
-    line-height: 1.428571429;
-    text-align: center;
     float: left;
     margin-right: 10px;
-    z-index: 999;
 }
-/*a.action.onphoto {
-    position: absolute;
-    z-index: 999;
-    top: 15px;
-}
-a.action.add {
-    left: 65px;
-}*/
 a.action.like {
     color: #f55555;
 }
-/*a.action.share {
-    left: 100px;
-}*/
-a.action.like-on {
-    color: #fff;
-    background-color: #f55555;
-}
-/*a.action.edit
-{
-    left: 100px;
-}
-a.action.delete
-{
-    left: 135px;
-}
-a.action.remove
-{
-    left: 30px;
-}*/
 /* manage resources*/
-.resourceListContainer {
-    height: 500px;
-}
-.resourceList {
-    overflow-y: scroll;
-    height: 100%;
-}
 .resourceList a.btn {
     text-align: right;
     padding-right: 20px;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-    margin-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-/* Customize container */
-
-
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-}
-
-.marketing p + h4 {
-  margin-top: 28px;
-}
-
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 1200px;
-  }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1200px;
-    }
-}
-
 /* faceook login button */
-.btn-fb-login, .btn-fb-login:hover  {
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6086d5), color-stop(100%, #4567ac));
-    background: -webkit-linear-gradient(#6086d5, #4567ac);
-    background: -moz-linear-gradient(#6086d5, #4567ac);
-    background: -o-linear-gradient(#6086d5, #4567ac);
-    background: linear-gradient(#6086d5,#4567ac);
-    border-color: #5275bc #4363a4 #35518c;
-    color: #fff;
-    font-weight: bolder;
-}
-
 .btn-fb-login:before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    background: url(/img/fb.png) right top no-repeat;
     border-left: 1px rgba(255,255,255,0.18) solid;
-    display: inline-block;
     margin-left: 16px;
-    vertical-align: -7px;
-}
-
-.fb-footnote {
-    color: #BDC3C7;
-    font-size: 14px;
-}
-
-#filesPreview .img-preview
-{
-    height: 150px;
-    margin: 0px auto 5px auto;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-size: contain;
-}
-#filesPreview .progress
-{
-    margin-bottom: 10px;
-    height: 4px;
-}
-.form-control.input-validation-error
-{
-    border-color: #A94442;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-.collection .profile-actions {
-    margin-bottom: 20px;
-}
-.article-content
-{
-    margin: 20px 0px;
-}
-.collection-items
-{
-    margin-top: 40px;
-}
-.article-paragraph
-{
-    clear:both;
-    margin-bottom: 20px;
-}
-.article-image, .article-comments
-{
-    margin: 15px;
-}
-.article-image
-{
-    text-align: center;
-}
-.article-image img
-{
-    max-width: 100%;
-}
-    .article-image.image-side
-    {
-        float: left;
-        margin: 0 15px 15px 0px;
-    }
-#photo-modal .modal-dialog
-{
-    width: 1024px;
-}
-#photo-modal #editPhotoPreview
-{
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-}
-#photo-modal #editPhotoPreview > img
-{
-    max-width: 100%;
-    max-height: 95%;
-}
-}
-.btn-select-files
-{
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-.btn-select-files > input[type="file"]
-{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-#filesPreview .filename
-{
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
 }

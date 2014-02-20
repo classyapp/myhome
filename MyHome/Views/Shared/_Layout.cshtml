@@ -36,7 +36,7 @@
 </head>
 <body>
     <!-- nav -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -59,18 +59,6 @@
                             }
                         </ul>
                     </li>
-                    @*<li class="dropdown">
-                        <a href="@Url.RouteUrlForCurrentLocale("SearchProduct")" class="dropdown-toggle" data-toggle="dropdown">@Localizer.Get("Header_Nav_Products") <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>*@
                     <li><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("Header_Nav_FindPros")</a></li>
                 </ul>
                 <div class="col-sm-3 col-md-3 pull-left">
@@ -84,18 +72,21 @@
                     </form>
                 </div>
                 <ul class="nav navbar-nav">
-                    @*<li><a href="#"><span class="glyphicon glyphicon-book"></span> @Localizer.Get("Header_Nav_Collections")</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_Discussions")</a></li>*@
                     <li><a href="@Url.RouteUrlForCurrentLocale("FindProfileToReview")" authorize><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_WriteReview")</a></li>
-                    <li><a href="@Url.RouteUrlForCurrentLocale("CreatePhoto")" authorize><span class="glyphicon glyphicon-upload"></span> @Localizer.Get("Header_Nav_Upload")</a></li>
+                    <li><a href="@Url.RouteUrlForCurrentLocale("CreatePhoto")" authorize><span class="glyphicon glyphicon-upload"></span> @Localizer.Get("Header_Nav_Upload")</a></li>                        
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#language-select" data-toggle="modal" data-target="#env-modal"><img src="/img/flags/@(env.Culture.Substring(3, 2).ToLower()).png" /> <b class="caret"></b></a>
+                    </li>
+
                     @if (Request.IsAuthenticated)
                     {
                         var p = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile;
                         <li class="dropdown">
                             <a href="@Url.RouteUrl("PublicProfile", env.Culture)" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> @Localizer.Get("Header_Nav_MyProfile")
+                                <span class="glyphicon glyphicon-user"></span> @p.GetProfileName()
+                                <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="profile">
@@ -115,7 +106,7 @@
                     {
                     <li class="dropdown">
                         <a href="@Url.RouteUrl("Login")" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user"></span> @Localizer.Get("Header_Nav_Login")
+                            <span class="glyphicon glyphicon-lock"></span> @Localizer.Get("Header_Nav_Login")
                         </a>
                         <ul class="dropdown-menu login-dropdown">
                             <li>
@@ -168,7 +159,7 @@
 
     <div class="footer text-center">
         <p>@Html.Raw(Localizer.Get("Footer_Copyright"))</p>
-        <p><small><img src="/img/flags/@(env.Culture.Split('-')[1]).png" /> <a href="#language-select" data-toggle="modal" data-target="#env-modal">@Localizer.Get("Template_Language_Change")</a></small></p>
+        <p><small></small></p>
     </div>
 
     <!-- fb api -->
