@@ -1,7 +1,4 @@
-﻿@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
-@import url(http://fonts.googleapis.com/css?family=Roboto:300italic);
-
-/* Space out content a bit */
+﻿/* Space out content a bit */
 body {
   font-family: "Alef Hebrew",
                “Helvetica Neue”,
@@ -9,19 +6,33 @@ body {
                Arial,
                sans-serif;
   padding-top: 90px;
+    background: #f0f0f0;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: "Alef Hebrew",
-               “Helvetica Neue”,
-               Helvetica,
-               Arial,
-               sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+h1 {
+    color: #444;
+    font-size: 22px;
+    font-weight: bold;
+}
+p {
+    color: #777;
 }
 
-a, a:hover, a:visited {
-    color: #47a447;
+hr {
+    border-bottom: solid 1px #ddd;
 }
+
+a, a:visited {
+    color: #777;
+}
+
+a:hover {
+    color: #999;
+}
+
 a.btn {
     color: #fff;
 }
@@ -105,11 +116,20 @@ a.btn-default {
 /* panels */
 
 .panel {
-    border-radius: 0;
     margin-bottom: 10px;
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    background-color: #f0f0f0; 
+}
+.panel-default > .panel-heading {
+    background-color: #f0f0f0;
 }
 .panel-title {
+    color: #333;
     font-weight: bold;
+    font-size: 14px;
+    padding: 0;
 }
 .panel-body {
     padding: 0;
@@ -126,14 +146,7 @@ a.btn-default {
     display: block;
     width: 100%;
     padding: 5px 15px;
-    background: #fff;
-    color: #000;
     text-decoration: none;
-}
-.panel-links a:hover {
-    font-weight: bold;
-    border-right: solid 5px #000;
-    padding-right: 10px;
 }
 
 /* find pro to review */
@@ -200,12 +213,11 @@ a.btn-default {
 /* navbar */
 .navbar {
     border: none;
-    background: #fff;
-    border-bottom: solid 1px #e5e5e5;
+    background: #333;
 }
 .navbar-brand {
-    background: url(/img/myhome-logo.png) center left no-repeat;
-    width: 40px;
+    background: url(/img/homelab-logo.png) center left no-repeat;
+    width: 50px;
     height: 60px;
 }
 .navbar-form {
@@ -214,7 +226,7 @@ a.btn-default {
 }
 .navbar-default .navbar-nav > li > a {
     font-size: 16px;
-    color: #fff;
+    color: #999;
     margin-top: 8px;
 }
 .navbar-default .navbar-nav > li > a:hover {
@@ -315,21 +327,22 @@ a.btn-default {
     padding: 0 30px;
 }
 /* search pages*/
-.panel .label {
+.label {
     display: inline-block;
     font-weight: normal;
-    margin: 2px 4px 2px 0;
+    margin-left: 10px;
+    font-size: 13px;
 }
-.panel .label a,
-.panel .label a:hover {
+.label a,
+.label a:hover {
     color: #fff;
     text-decoration: none;
 }
-.panel .label .dismiss {
+.label .dismiss {
     display: inline-block;
     left: 0;
     top: 0;
-    margin-left: 5px;
+    margin-right: 5px;
 }
 /* profile seach page */
 .results .profile {

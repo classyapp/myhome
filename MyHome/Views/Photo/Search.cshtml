@@ -15,38 +15,7 @@
 }
 
 <div class="row">
-    <div class="sidebar col-md-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">@Localizer.Get("PhotoSearch_Title_Results")</h3>
-            </div>
-            <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                @if (!string.IsNullOrEmpty(Model.Metadata.Room))
-                {
-                    <span class="label label-default">
-                        <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
-                    </span>
-                }
-                <br />
-                @if (!string.IsNullOrEmpty(Model.Metadata.Style))
-                {
-                    <span class="label label-default">
-                        <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@styles.Single(x => x.Value == Model.Metadata.Style).Text</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
-                    </span>
-                }
-                <br />
-                @if (!string.IsNullOrEmpty(Model.Tag))
-                {
-                    <span class="label label-default">
-                        <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Tag</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })">x</a>
-                    </span>
-                }
-            </div>
-        </div>
-
+    <div class="sidebar col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">@Localizer.Get("PhotoSearch_Title_Rooms")</h3>
@@ -81,10 +50,34 @@
         </div>
     </div>
 
-    <div class="main col-md-10">
+    <div class="main col-md-9">
         <h1>
             @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.Count, Model.Tag)
         </h1>
+        <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+            @if (!string.IsNullOrEmpty(Model.Metadata.Room))
+            {
+                <span class="label label-danger">
+                    <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a>
+                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
+                </span>
+            }
+            @if (!string.IsNullOrEmpty(Model.Metadata.Style))
+            {
+                <span class="label label-danger">
+                    <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@styles.Single(x => x.Value == Model.Metadata.Style).Text</a>
+                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
+                </span>
+            }
+            @if (!string.IsNullOrEmpty(Model.Tag))
+            {
+                <span class="label label-danger">
+                    <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Tag</a>
+                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })">x</a>
+                </span>
+            }
+        </div>
+
         <hr />
 
         <div class="search-form">
@@ -110,7 +103,7 @@
                 @Html.Partial("PhotoGrid", Model.Results)
             }
         </div>
-        <div id="pager" class="text-center">
+        <div id="pager" class="text-center hide">
             <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize))" 
                 data-pages="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
