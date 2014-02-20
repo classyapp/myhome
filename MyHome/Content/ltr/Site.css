@@ -382,6 +382,11 @@ a.btn-default {
     padding: 0;
 }
 
+/* footer*/
+.footer-categories li {
+    vertical-align: top;
+}
+
 /* action button */
 .actions
 {

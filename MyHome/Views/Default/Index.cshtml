@@ -40,31 +40,8 @@
                 }
             }
         </div>
-
-        <h3>@Localizer.Get("Home_List_Categories")</h3>
-        <hr />
-        <h4>@Localizer.Get("Home_Rooms")</h4>
-        <ul class="list-inline list-unstyled">
-            @foreach (var r in rooms)
-            {
-                <li>@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, null) })</li>
-            }
-        </ul>
-        <h4>@Localizer.Get("Home_Styles")</h4>
-        <ul class="list-inline list-unstyled">
-            @foreach (var s in styles)
-            {
-                <li>@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value }.GetSearchFilterSlug(null, null) })</li>
-            }
-        </ul>
-        <h4>@Localizer.Get("Home_Professionals")</h4>
-        <ul class="list-inline list-unstyled">
-            @foreach (var p in proCategories)
-            {
-                <li>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { category = p.Value })</li>
-            }
-        </ul>
     </div>
+
     <div class="col-md-4">
         <h3>@Localizer.Get("Home_ProTeaser")</h3>
         <hr />
@@ -109,6 +86,42 @@
         @Html.Raw(Localizer.Get("Home_AboutUs_Content"))
     </div>
 </div>
+
+@section PreFooter{
+    <div class="container">
+        <h3>@Localizer.Get("Home_List_Categories")</h3>
+        <hr />
+        <ul class="list-inline list-unstyled footer-categories">
+            <li>
+                <dl class="dl-horizontal">
+                    <dt>@Localizer.Get("Home_Rooms")</dt>
+                    @foreach (var r in rooms)
+                    {
+                        <dd>@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, null) })</dd>
+                    }
+                </dl>
+            </li>
+            <li>
+                <dl class="dl-horizontal">
+                    <dt>@Localizer.Get("Home_Styles")</dt>
+                    @foreach (var s in styles)
+                    {
+                        <dd>@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value }.GetSearchFilterSlug(null, null) })</dd>
+                    }
+                </dl>
+            </li>
+            <li>
+                <dl class="dl-horizontal">
+                    <dt>@Localizer.Get("Home_Professionals")</dt>
+                    @foreach (var p in proCategories)
+                    {
+                        <dd>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { category = p.Value })</dd>
+                    }
+                </dl>
+            </li>
+        </ul>
+    </div>
+}
 
 @section scripts {
     @Scripts.Render("~/scripts/jquery.backstretch.js")

@@ -157,9 +157,12 @@
         @RenderBody()
     </div> <!-- /container -->
 
+    <div class="pre-footer">
+        @RenderSection("PreFooter", false)
+    </div>
+
     <div class="footer text-center">
         <p>@Html.Raw(Localizer.Get("Footer_Copyright"))</p>
-        <p><small></small></p>
     </div>
 
     <!-- fb api -->
