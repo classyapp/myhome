@@ -63,6 +63,14 @@ h1, h2, h3, h4, h5 {
     margin-left: 5px;
 }
 
+.navbar-form .btn-default {
+    border-right: none;
+}
+
+.navbar-form .form-control {
+    border-left: none;
+}
+
 /* profile page */
 
 .main .contact-info {
