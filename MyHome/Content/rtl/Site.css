@@ -15,18 +15,21 @@ h1, h2, h3, h4, h5 {
 /* collection - grid */
 .collection .profile img {
     margin-left: 10px;
+    margin-right: 0;
 }
 
 /* home page */
 .home-banner .slogan {
     text-align: left;
     left: 10%;
+    right: auto;
 }
 .home-banner .slogan h1 {
     text-align: right;
 }
 .home-content .benefits .glyphicon {
     margin-left: 10px;
+    margin-right: 0;
 }
 
 /* fix for inline forms within horizontal forms */
@@ -38,11 +41,13 @@ h1, h2, h3, h4, h5 {
 /* find pro to review */
 .steps li:first-child {
     margin-left: 40px;
+    margin-right: 0;
 }
 
 /* photo details */
 .comments .comment .content {
     margin-right: 12px;
+    margin-left: 0;
 }
 .photo-details dt {
     text-align: right;
@@ -56,11 +61,13 @@ h1, h2, h3, h4, h5 {
 }
 .photo-details .profile img {
     margin-left: 10px;
+    margin-right: 0;
 }
 
 /* navbar */
 .navbar .profile img {
     margin-left: 5px;
+    margin-right: 0;
 }
 
 .navbar-form .btn-default {
@@ -75,30 +82,32 @@ h1, h2, h3, h4, h5 {
 
 .main .contact-info {
     margin-left: 10px;
+    margin-right: 0;
 }
 .rating .stars {
     padding-left: 5px;
+    padding-right: 0;
 }
 /* search pages*/
-.label {
+.label-container .label {
     margin-left: 10px;
+    margin-right: 0;
 }
-.label .dismiss {
+.label-container .label .dismiss {
     left: 0;
     margin-right: 5px;
+    margin-right: 0;
 }
 
 /* action button */
 .actions
 {
+    right: 0;
     left: 15px;
 }
 a.action {
     float: left;
     margin-right: 10px;
-}
-a.action.like {
-    color: #f55555;
 }
 /* manage resources*/
 .resourceList a.btn {
@@ -108,6 +117,9 @@ a.action.like {
 
 /* faceook login button */
 .btn-fb-login:before {
+    border-right: none;
     border-left: 1px rgba(255,255,255,0.18) solid;
     margin-left: 16px;
+    margin-right: auto;
+    background-position: right;
 }

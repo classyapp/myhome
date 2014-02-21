@@ -9,6 +9,10 @@
 }
 
 <div class="row">
+    @if (TempData.ContainsKey("EditProfile_Successs"))
+    {
+        @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
+    }
 
     @Html.Partial("SideBar", Model.Profile)
 

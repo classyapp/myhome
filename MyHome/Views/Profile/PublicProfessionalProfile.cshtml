@@ -20,6 +20,11 @@
     {
         @Html.Bootstrap().Alert(TempData["ReviewSuccess"] as string).Closeable().Style(AlertColor.Success)
     }
+    
+    @if (TempData.ContainsKey("EditProfile_Successs"))
+    {
+        @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
+    }
 
     @if (Model.Profile.IsProfessional &&
         Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
