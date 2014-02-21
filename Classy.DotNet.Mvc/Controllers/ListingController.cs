@@ -275,7 +275,7 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult UnfavoriteListing(string listingId, object delete)
+        public ActionResult UnfavoriteListing(string listingId)
         {
             try
             {
