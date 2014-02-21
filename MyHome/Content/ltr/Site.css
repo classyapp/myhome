@@ -616,3 +616,8 @@ a.action.like-on {
     text-overflow: ellipsis;
     width: 100%;
 }
+.lnk-select-contant
+{
+    color: green;
+    text-align: right;
+}

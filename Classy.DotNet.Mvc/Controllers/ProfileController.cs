@@ -57,6 +57,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteForSupportedLocales(
+                name: "AskForReview",
+                url: "profile/askreview",
+                defaults: new { controller = "Profile", action = "AskForReview" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteWithName(
                 name: "ClaimProxyProfile",
                 url: "profile/{profileId}/claim",
@@ -297,6 +304,16 @@ namespace Classy.DotNet.Mvc.Controllers
                 return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
             }
             else return View(model);
+        }
+
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult AskForReview()
+        {
+            AskForReviewModel model = new AskForReviewModel();
+            model.ProfileId = AuthenticatedUserProfile.Id;
+            return View(model);
         }
 
         //

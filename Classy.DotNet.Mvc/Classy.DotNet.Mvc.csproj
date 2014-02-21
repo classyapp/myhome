@@ -92,6 +92,7 @@
     <Compile Include="ViewModels\Listing\ListingDetailsViewModel.cs" />
     <Compile Include="ViewModels\Listing\UpdateListingViewModel.cs" />
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\AskForReviewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProxyProfileMassViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ContactProfessionalViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProfessionalProfileViewModel.cs" />

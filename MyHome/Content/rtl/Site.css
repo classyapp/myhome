@@ -123,3 +123,9 @@ a.action {
     margin-right: auto;
     background-position: right;
 }
+
+.lnk-select-contant
+{
+    text-align: left;
+    color: green;
+}
