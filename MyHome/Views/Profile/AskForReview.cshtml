@@ -46,21 +46,22 @@
                 // Hide the sign-in button now that the user is authorized, for example:
 
                 var authParams = gapi.auth.getToken(); // from Google oAuth
-                authParams.alt = 'json';
-                authParams["max-results"] = 1000;
-                $.ajax({
-                    url: 'https://www.google.com/m8/feeds/contacts/default/full',
-                    dataType: 'jsonp',
-                    data: authParams,
-                    success: function (data) {
-                        $.each(data.feed.entry, function (idx, item) {
-                            if (item.gd$email) {
-                                gmailContacts.push({ email: item.gd$email[0].address, name: item.title.$t });
-                            }
-                        });
-                        alert("Got " + gmailContacts.length + " contacts.");
-                    }
-                });
+                GoogleLogin(authParams.access_token);
+                //authParams.alt = 'json';
+                //authParams["max-results"] = 1000;
+                //$.ajax({
+                //    url: 'https://www.google.com/m8/feeds/contacts/default/full',
+                //    dataType: 'jsonp',
+                //    data: authParams,
+                //    success: function (data) {
+                //        $.each(data.feed.entry, function (idx, item) {
+                //            if (item.gd$email) {
+                //                gmailContacts.push({ email: item.gd$email[0].address, name: item.title.$t });
+                //            }
+                //        });
+                //        alert("Got " + gmailContacts.length + " contacts.");
+                //    }
+                //});
             } else {
                 additionalParams.immediate = false;
                 gapi.auth.authorize(additionalParams, signinCallback);

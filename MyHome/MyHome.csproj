@@ -400,6 +400,7 @@
     <Content Include="img\missing-thumb.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\classy.js" />
+    <Content Include="Scripts\google-login.js" />
     <Content Include="Scripts\fb-login.js" />
     <Content Include="Scripts\hogan-2.0.0.js" />
     <Content Include="Scripts\iscroll.js" />

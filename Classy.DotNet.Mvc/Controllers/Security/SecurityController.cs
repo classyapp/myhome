@@ -52,6 +52,13 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 namespaces: new string[] { Namespace }
                 );
 
+            routes.MapRoute(
+                name: "AuthenticateGoogleUser",
+                url: "login/google",
+                defaults: new { controller = "Security", action = "AuthenticateWithGoogle" },
+                namespaces: new string[] { Namespace }
+                );
+
             routes.MapRouteWithName(
                 name: "Register",
                 url: "register",
@@ -112,6 +119,25 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             try
             {
                 var isValid = ClassyAuth.AuthenticateFacebookUser(token);
+                if (isValid) return Json(new { IsValid = true, Profile = (User.Identity as ClassyIdentity).Profile });
+                else return Json(new { IsValid = false });
+            }
+            catch (WebException wex)
+            {
+                return new HttpStatusCodeResult((wex.Response as HttpWebResponse).StatusCode);
+            }
+            catch (UnauthorizedAccessException uex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized, uex.Message);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AuthenticateWithGoogle(string token)
+        {
+            try
+            {
+                var isValid = ClassyAuth.AuthenticateGoogleUser(token);
                 if (isValid) return Json(new { IsValid = true, Profile = (User.Identity as ClassyIdentity).Profile });
                 else return Json(new { IsValid = false });
             }
