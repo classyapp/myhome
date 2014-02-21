@@ -11,15 +11,23 @@
 <div class="row">
     <div class="col-md-7 main">
         <h1>@Localizer.Get("CreatePhoto_PageTitle")</h1>
-        <hr/>
+        <hr />
 
         @Html.Bootstrap().ValidationSummary()
 
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
             @Html.HiddenFor(x => x.CollectionType)
-            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateCollectionTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_CollectionTitle"))
-            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_Title"))
+            if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
+            {
+            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_PhotoBookTitle"))
+            }
+            else
+            {
+            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateProjectTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_ProjectTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_ProjectTitle"))
+            }
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
             @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
@@ -49,8 +57,16 @@
     </div>
 
     <div class="col-md-4 col-md-offset-1 well">
-        <h1>@Localizer.Get("CreatePhoto_Title_DoDont")</h1>
-        <div>@Html.Raw(Localizer.Get("CreatePhoto_Content_DoDont"))</div>
+        @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
+        {
+            <h1>@Localizer.Get("CreatePhoto_PhotoBook_Title_DoDont")</h1>
+            <div>@Html.Raw(Localizer.Get("CreatePhoto_PhotoBook_Content_DoDont"))</div>
+        }
+        else
+        {
+            <h1>@Localizer.Get("CreatePhoto_Project_Title_DoDont")</h1>
+            <div>@Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))</div> 
+        }
     </div>
 </div>
 
@@ -72,5 +88,10 @@
                 $('#title, #content').hide();
             }
         });
+
+        @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.Project)
+        {
+            @:$("#title").attr("data-val-required", "@Localizer.Get("CreateListing_ProjectTitleRequired")");
+                }
     </script>
 }

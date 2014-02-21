@@ -37,8 +37,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string CollectionId { get; set; }
         [Required]
         public string CollectionType { get; set; }
-        [Display(Name = "CreateListing_CollectionTitle")]
-        [Required(ErrorMessage = "CreateListing_CollectionTitleRequired")]
+        [Required(ErrorMessage = "CreateListing_PhotoBookTitleRequired")]
         public string Title { get; set; }
         [Display(Name = "CreateListing_CollectionContent")]
         public string Content { get; set; }

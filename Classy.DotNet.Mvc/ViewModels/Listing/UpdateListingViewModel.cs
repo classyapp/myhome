@@ -17,7 +17,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         [Required(ErrorMessage = "UpdateListing_Title_Required")]
         public string Title { get; set; }
         [Display(Name = "UpdateListing_Content")]
-        [Required(ErrorMessage = "UpdateListing_Content_Required")]
         public string Content { get; set; }
         public IList<MediaFileView> ExternalMedia { get; set; }
 
