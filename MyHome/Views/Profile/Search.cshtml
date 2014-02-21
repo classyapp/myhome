@@ -6,31 +6,8 @@
 }
 
 <div class="row">
-    <div class="sidebar col-md-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">@Localizer.Get("SearchProfiles_Title_Results")</h3>
-            </div>
-            <div class="panel-body" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                @if (!string.IsNullOrEmpty(Model.Category))
-                {
-                    <span class="label label-default">
-                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
-                    </span>
-                }
-                <br />
-                @if (Model.Location != null)
-                {
-                    <span class="tag">
-                        <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
-                        <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
-                    </span>
-                }
-            </div>
-        </div>
-
-        <div class="panel panel-default">
+    <div class="sidebar col-md-3">
+        <div class="panel panel-default panel-first">
             <div class="panel-heading">
                 <h3 class="panel-title">@Localizer.Get("SearchProfiles_Sidebar_Categories")</h3>
             </div>
@@ -43,7 +20,7 @@
         </div>
     </div>
 
-    <div class="main col-md-10">
+    <div class="main col-md-9">
         @if (Model.Category != null)
         {
             <h1>@categories.Single(x => x.Value == Model.Category).Text</h1>
@@ -52,6 +29,24 @@
         {
             <h1>@Localizer.Get("ProfileSearch_ResultsHeader_AllPros")</h1>
         }
+
+        <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+            @if (!string.IsNullOrEmpty(Model.Category))
+            {
+                <span class="label label-danger">
+                    <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
+                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
+                </span>
+            }
+            @if (Model.Location != null)
+            {
+                <span class="label label-danger">
+                    <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
+                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
+                </span>
+            }
+        </div>
+
         <hr />
 
         <div class="search-form">
@@ -72,7 +67,7 @@
                 @Html.Partial("ProfileGrid", Model.Results)
             }
         </div>
-        <div id="pager" class="text-center">
+        <div id="pager" class="text-center hide">
             <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize))" 
                 data-pages="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>

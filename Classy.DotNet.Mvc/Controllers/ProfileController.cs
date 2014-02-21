@@ -291,8 +291,9 @@ namespace Classy.DotNet.Mvc.Controllers
                             Email = model.Email
                         }
                     },
-                    metadata.ToDictionary(),
+                    metadata != null ? metadata.ToDictionary() : null,
                     fields);
+                TempData["EditProfile_Success"] = true;
                 return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
             }
             else return View(model);

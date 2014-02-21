@@ -26,6 +26,7 @@ namespace MyHome
             bundles.Add(new StyleBundle("~/Content/css/rtl").Include(
                       "~/Content/rtl/fonts.css",
                       "~/Content/rtl/bootstrap.css",
+                      "~/Content/ltr/site.css", /* yes, ltr first */
                       "~/Content/rtl/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/ltr").Include(

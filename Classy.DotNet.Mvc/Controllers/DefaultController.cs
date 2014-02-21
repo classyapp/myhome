@@ -39,7 +39,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 null,
                 null,
                 null,
-                -1);
+                1);
             // get latest collections
             var collections = service.GetApprovedCollections(null, 5);
 
