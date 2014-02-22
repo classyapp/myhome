@@ -61,6 +61,14 @@ a.btn-default {
     filter: alpha(opacity=100);
 }
 
+.media > .pull-left {
+    margin-right: 0;
+}
+.media-body {
+    background: #fff;
+    padding: 10px;
+}
+
 .content.container {
     padding: 0;
     min-height: 620px;
@@ -313,12 +321,13 @@ a.btn-default {
 .thumbnail
 {
     position: relative;
+    padding: 0;
+    border: none;
 }
 #photos .thumbnail,
 #collections .thumbnail
 {
     border-radius: 0;
-    padding: 10px;
     margin-bottom: 20px;
     position: relative;
 }
