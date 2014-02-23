@@ -1,0 +1,58 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.LoadFacebookAlbumsViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">@Localizer.Get("LoadFacebookAlbums_Title")</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        @foreach (var album in Model.Albums)
+        {
+            <div class="col-md-4 album" data-album-id="@album.Id">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img src="@album.Photos[0].Url" width="64" />
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">@album.Name</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 hidden fb-photos" data-album-id="@album.Id"></div>
+        }
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('div.album').click(function() {
+            var albumId = $(this).attr('data-album-id');
+            $.get('@Url.RouteUrl("LoadFacebookAlbums")' + albumId, function (data) {
+                var html = '<div><p><a href="#" class="back">&larr; back</a></p></div>';
+
+                $.each(data.Album.Photos, function (index, element) {
+                    html += '<div class="col-md-4">' + 
+                                '<div class="thumbnail">' +
+                                    '<a href="#">' +
+                                        '<span class="select"><i class="glyphicon glyphicon-ok"></i></span>' +
+                                        '<img src="' + element.Url + '" class="img-responsive" />' +
+                                    '</a>' +
+                                '</div>' + 
+                            '</div>';
+                });
+
+                $('div.album').addClass('hidden');
+                $('.fb-photos[data-album-id="' + albumId + '"]')
+                    .html(html)
+                    .removeClass('hidden');
+
+                $('a.back').click(function () {
+                    $('div.album').removeClass('hidden');
+                    $('.fb-photos[data-album-id="' + albumId + '"]').addClass('hidden');
+                });
+
+                $('.fb-photos .thumbnail').click(function() { $(this).find('.select').toggleClass('selected') });
+            });
+        });
+    });
+</script>

@@ -40,6 +40,11 @@
                         <input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />
                         @Html.HiddenFor(x => x.DummyFile)
                     </button>
+
+                    @if ((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsFacebookConnected) {                        
+                        <a id="load-fb" href="#" data-toggle="modal" data-target="#load-fb-modal" class="btn btn-primary btn-select-files">@Localizer.Get("CreatePhoto_LoadFromFacebook")</a>
+                    }
+                    
                     <div id="filesPreview" class="row"></div>
                 </div>
             </div>
@@ -74,6 +79,15 @@
     </div>
 </div>
 
+    <!-- photo edit mpdal -->
+<div class="modal fade" id="load-fb-modal" data-remote="@Url.RouteUrl("LoadFacebookAlbums")" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="load-fb-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
 @section scripts
 {
     <script type="text/javascript" src="~/Scripts/xhr-upload.js"></script>
@@ -96,6 +110,6 @@
         @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.Project)
         {
             @:$("#Title").attr("data-val-required", "@Localizer.Get("CreateListing_ProjectTitleRequired")");
-                }
+        }
     </script>
 }

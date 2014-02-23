@@ -24,6 +24,8 @@ namespace Classy.DotNet.Services
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
 
+        private readonly string GET_FACEBOOK_ALBUMS = ENDPOINT_BASE_URL + "/profile/social/facebook/albums";
+
         public ProfileView GetProfileById(string profileId)
         {
             return GetProfileById(profileId, false, false, false, false, false, false);
@@ -184,6 +186,20 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var url = string.Format(FOLLOW_PROFILE_URL, username);
                 client.UploadString(url, "{}");
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public IList<SocialPhotoAlbumView> GetFacebookAlbums()
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var json = client.DownloadString(GET_FACEBOOK_ALBUMS);
+                return json.FromJson<IList<SocialPhotoAlbumView>>();
             }
             catch (WebException wex)
             {

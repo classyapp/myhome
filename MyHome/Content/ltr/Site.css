@@ -673,3 +673,20 @@ a.action.like-on {
     text-overflow: ellipsis;
     width: 100%;
 }
+
+/* facebook photos */
+.fb-photos .thumbnail {
+    position: relative;
+}
+.fb-photos .thumbnail .select {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    background-color: #6086d5;
+    color: #6086d5;
+}
+.fb-photos .thumbnail .select.selected .glyphicon {
+    color: #fff;
+}

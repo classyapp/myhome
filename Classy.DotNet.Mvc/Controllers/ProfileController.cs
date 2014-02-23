@@ -92,6 +92,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: "LoadFacebookAlbums",
+                url: "profile/social/facebook/albums/{*albumId}",
+                defaults: new { controller = "Profile", action = "LoadFacebookAlbums", albumId = UrlParameter.Optional },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "PublicProfile",
                 url: "profile/{profileId}/{slug}",
@@ -657,6 +664,33 @@ namespace Classy.DotNet.Mvc.Controllers
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult LoadFacebookAlbums(string albumId)
+        {
+            try
+            {
+                var service = new ProfileService();
+                var albums = service.GetFacebookAlbums();
+                if (string.IsNullOrEmpty(albumId))
+                {
+                    var model = new LoadFacebookAlbumsViewModel
+                    {
+                        Albums = albums.Where(x => x.Photos != null).ToList()
+                    };
+                    return PartialView(model);
+                }
+                else
+                {
+                    return Json(new { Album = albums.SingleOrDefault(x => x.Id == albumId) }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         #endregion
