@@ -24,20 +24,7 @@
         <div class="row" id="photos">
             @if (Model.Photos.Count() > 0)
             {
-                foreach (var p in Model.Photos)
-                {
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
-                        @Html.Thumbnail(p, 266)
-                        <div class="details">
-                            <strong>@Html.ListingLink("Photo", p)</strong>
-                            <br />
-                            <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                        </div>
-                    </div>
-                </div>
-                }
+                @Html.Partial("PhotoGrid", Model.Photos)
             }
         </div>
     </div>
@@ -129,13 +116,6 @@
 
         $(function () {
             $('.home-banner').backstretch('/img/home-banner.jpg');
-
-            $('.thumbnail').mouseover(function () {
-                $(this).find('.actions').removeClass('hide');
-            });
-            $('.thumbnail').mouseout(function () {
-                $(this).find('.actions').addClass('hide');
-            });
         });
 
     </script>

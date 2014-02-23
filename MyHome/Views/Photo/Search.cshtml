@@ -122,13 +122,6 @@
     <script>
 
         $(function () {
-            $('.thumbnail').mouseover(function () {
-                $(this).find('.actions').removeClass('hide');
-            });
-            $('.thumbnail').mouseout(function () {
-                $(this).find('.actions').addClass('hide');
-            });
-
             resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         });
 

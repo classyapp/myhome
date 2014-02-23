@@ -61,20 +61,3 @@
     </div>
 
 </div>
-
-@section scripts
-{
-
-    <script type="text/javascript">
-        $(".collection-items textarea").height($(".collection-items .thumbnail:nth-child(1)").width() + 10 + 'px');
-
-        $(function () {
-            $('.thumbnail').mouseover(function () {
-                $(this).find('.actions').removeClass('hide');
-            });
-            $('.thumbnail').mouseout(function () {
-                $(this).find('.actions').addClass('hide');
-            });
-        });
-    </script>
-}

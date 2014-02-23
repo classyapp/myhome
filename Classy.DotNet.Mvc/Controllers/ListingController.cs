@@ -457,7 +457,6 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // GET: /profile/{ProfileId}/all/{ListingTypeName}s
         // 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ShowListingsByType(string profileId)
         {

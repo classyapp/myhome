@@ -13,17 +13,11 @@
         else {
             <h1>@string.Format(Localizer.Get("PostReview_PageTitle"), Model.ProfessionalName)</h1>
         }
+        <hr />
 
         @Html.Bootstrap().ValidationSummary()
         @using (var f = Html.Bootstrap().Begin(new Form("PostProfileReview").FormMethod(FormMethod.Post)))
         {
-            
-            if (Request.IsAuthenticated)
-            {
-                <h4>@string.Format(Localizer.Get("PostReview_Teaser"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.ContactInfo.Name)</h4>
-                <hr />
-            }
-            
             if (Model.IsNewProfessional)
             {
                 <h3>@Localizer.Get("PostReview_ProContactInfo")</h3>
@@ -49,9 +43,11 @@
         }
     </div>
 
-    <div class="col-md-4 col-md-offset-1 well">
+    <div class="col-md-4 col-md-offset-1 helpbar">
         <h1>@Localizer.Get("PostReview_Copy_Title")</h1>
-        <div>@Html.Raw(Localizer.Get("PostReview_Copy_Content"))</div>
+        <div class="content">
+            @Html.Raw(Localizer.Get("PostReview_Copy_Content"))
+        </div>
     </div>
 
     @if (!Request.IsAuthenticated)

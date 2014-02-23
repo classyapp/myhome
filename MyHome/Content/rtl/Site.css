@@ -59,9 +59,6 @@ h1, h2, h3, h4, h5 {
     margin-left: 20px;
     float: right;
 }
-.photo-details .photo .actions {
-    float: left;
-}
 .photo-details .profile img {
     margin-left: 10px;
     margin-right: 0;
@@ -102,16 +99,7 @@ h1, h2, h3, h4, h5 {
     margin-right: 0;
 }
 
-/* action button */
-.actions
-{
-    right: 0;
-    left: 15px;
-}
-a.action {
-    float: left;
-    margin-right: 10px;
-}
+
 /* manage resources*/
 .resourceList a.btn {
     text-align: right;
@@ -125,4 +113,16 @@ a.action {
     margin-left: 16px;
     margin-right: auto;
     background-position: right;
+}
+/* action buttons */
+.actions {
+    right: auto;
+    left: 5px;
+}
+
+a.action {
+    float: right;
+}
+.photo-details .actions {
+    right: 0;
 }

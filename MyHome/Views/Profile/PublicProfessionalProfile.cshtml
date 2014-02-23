@@ -226,22 +226,7 @@
             <div class="tab-pane active" id="photos">
                 @if (photos.Count() > 0)
                 {
-                    foreach (var p in photos)
-                    {
-                    <div class="col-md-4">
-                        <div class="thumbnail">
-                            <div class="actions hide">
-                                @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = true })
-                            </div>
-                            @Html.Thumbnail(p, 266)
-                            <div class="details">
-                                <strong>@Html.ListingLink("Photo", p)</strong>
-                                <br />
-                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                            </div>
-                        </div>
-                    </div>
-                    }
+                    @Html.Partial("PhotoGrid", photos.ToList())
                 }
             </div>
 
@@ -335,24 +320,3 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-@section scripts {
-    <script>
-        $(function () {
-            $('#contact-pro').click(function () {
-                $('#contact-pro-modal').modal({ 'keyboard': true });
-            });
-
-            $('.thumbnail').mouseover(function () {
-                $(this).find('.actions').removeClass('hide');
-            });
-            $('.thumbnail').mouseout(function () {
-                $(this).find('.actions').addClass('hide');
-            });
-            $('.rating .stars').click(function () {
-                $('.rating .details').removeClass('hide');
-            });
-        });
-    </script>
-
-}

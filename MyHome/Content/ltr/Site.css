@@ -82,6 +82,25 @@ a.btn-default {
     background-color: #f0f0f0;
 }
 
+.helpbar .content {
+    background-color: #f5f5f5;
+    padding: 10px;
+}
+.helpbar h1 {
+    margin-top: 22px;
+    border-bottom: solid 5px #333;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+    color: #333;
+}
+
+.photo.thumbnail ul.stats {
+    color: #aaa;
+}
+.photo.thumbnail a {
+    text-decoration: none;
+}
+
 /* collection - grid */
 .collection .profile img {
     margin-right: 10px;
@@ -232,7 +251,8 @@ a.btn-default {
     text-align: left;
 }
 .photo-details .photo .stats {
-    color: #666;
+    color: #aaa;
+    margin-top: 10px;
 }
 .photo-details .photo .stats span {
     display: inline-block;
@@ -240,8 +260,10 @@ a.btn-default {
     padding: 5px 0;
     float: left;
 }
-.photo-details .photo .actions {
-    float: right;
+.photo-details .actions {
+    position: relative;
+    bottom: initial;
+    height: 32px;
 }
 .photo-details .profile img {
     margin-right: 10px;
@@ -425,8 +447,8 @@ a.btn-default {
 .actions
 {
     position: absolute;
-    right: 15px;
-    top: 15px;
+    right: 5px;
+    bottom: 15px;
 }
 a.action {
     width: 30px;
@@ -436,9 +458,10 @@ a.action {
     padding: 6px 0;
     line-height: 1.428571429;
     text-align: center;
-    float: right;
-    margin-left: 10px;
+    float: left;
+    margin-left: 5px;
     z-index: 999;
+    background-color: #fff;
 }
 a.action.like {
     color: #f55555;

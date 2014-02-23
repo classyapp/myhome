@@ -1,28 +1,32 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel
 
-<div class="actions hide">
+<div class="actions @(Model.IsStatic ? "" : "hidden")">
+    @if (Model.ShowCollect)
+    {
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")
+    }
     @if (Model.ShowFavorite)
     {
-        if (User.Identity.IsAuthenticated && (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.FavoriteListingIds.Any(x => x == Model.Listing.Id)) 
+        if (User.Identity.IsAuthenticated && (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.FavoriteListingIds.Any(x => x == Model.Listing.Id))
         {
-            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "unfavorite", Model.Listing, "btn btn-default action like onphoto like-on")
+            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "unfavorite", Model.Listing, "btn btn-default action like like-on")
         }
         else
         {
-            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like onphoto")
+            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")
         }
     }
-    @if (Model.ShowCollect)
+    @if (Model.ShowShare)
     {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add onphoto")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")
     }
     @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.ProfileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
     {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-pencil\"></i>", "edit", Model.Listing, "btn btn-default action edit onphoto")
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "delete", Model.Listing, "btn btn-default action delete onphoto")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-pencil\"></i>", "edit", Model.Listing, "btn btn-default action edit")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "delete", Model.Listing, "btn btn-default action delete")
     }
     @if (Model.ShowRemove && User.Identity.IsAuthenticated)
     {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "remove", Model.Listing, "btn btn-danger action remove onphoto")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "remove", Model.Listing, "btn btn-danger action remove")
     }
 </div>

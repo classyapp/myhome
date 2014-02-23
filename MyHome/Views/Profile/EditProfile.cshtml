@@ -17,7 +17,12 @@
             <h4>@Localizer.Get("EditProfile_AccountDetails")</h4>
             <hr/>
 
-            @Html.DisplayFor(x => x.Username)
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(x => x.Username)
+                <div>
+                    <p class="form-control-static">@Html.DisplayFor(x => x.Username)</p>
+                </div>
+            </div>
             @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false)
            
             <p>&nbsp;</p>

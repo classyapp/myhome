@@ -56,16 +56,20 @@
         }
     </div>
 
-    <div class="col-md-4 col-md-offset-1 well">
+    <div class="col-md-4 col-md-offset-1 helpbar">
         @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
         {
             <h1>@Localizer.Get("CreatePhoto_PhotoBook_Title_DoDont")</h1>
-            <div>@Html.Raw(Localizer.Get("CreatePhoto_PhotoBook_Content_DoDont"))</div>
+            <div class="content">
+                @Html.Raw(Localizer.Get("CreatePhoto_PhotoBook_Content_DoDont"))
+            </div>
         }
         else
         {
             <h1>@Localizer.Get("CreatePhoto_Project_Title_DoDont")</h1>
-            <div>@Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))</div> 
+            <div class="content">
+                @Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))
+            </div> 
         }
     </div>
 </div>

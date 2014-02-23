@@ -462,7 +462,7 @@
     <Content Include="Views\Shared\PhotoActions.cshtml" />
     <Content Include="Views\Photo\ShowListingsByType.cshtml" />
     <Content Include="Views\Shared\SideBar.cshtml" />
-    <Content Include="Views\Photo\PhotoGrid.cshtml" />
+    <Content Include="Views\Shared\PhotoGrid.cshtml" />
     <Content Include="Views\Profile\ProfileGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
