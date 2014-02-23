@@ -10,45 +10,48 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
-<div id="contactSuccess" class="alert alert-success alert-dismissable hide">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    @Localizer.Get("ContactPro_Success")
-</div>
-
 <div class="row">
-    @if (TempData["ReviewSuccess"] != null)
-    {
-        @Html.Bootstrap().Alert(TempData["ReviewSuccess"] as string).Closeable().Style(AlertColor.Success)
-    }
-    
-    @if (TempData.ContainsKey("EditProfile_Successs"))
-    {
-        @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
-    }
+    <div class="col-md-12">
+        <div id="contactSuccess" class="alert alert-success alert-dismissable hide">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Localizer.Get("ContactPro_Success")
+        </div>
 
-    @if (Model.Profile.IsProfessional &&
+        @if (TempData["ReviewSuccess"] != null)
+        {
+            @Html.Bootstrap().Alert(TempData["ReviewSuccess"] as string).Closeable().Style(AlertColor.Success)
+        }
+
+        @if (TempData.ContainsKey("EditProfile_Successs"))
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
+        }
+
+        @if (Model.Profile.IsProfessional &&
         Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
         photos.Count() == 0)
-    {
-        <div class="alert alert-info alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h4>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Title")</h4>
-            <p>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos")</p>
-            <p><a href="@Url.RouteUrl("CreatePhoto")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Button")</a></p>
-        </div>
-    }
+        {
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Title")</h4>
+                <p>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos")</p>
+                <p><a href="@Url.RouteUrl("CreatePhoto")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Button")</a></p>
+            </div>
+        }
 
-    @if (Model.Profile.IsProfessional &&
+        @if (Model.Profile.IsProfessional &&
         Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
         photos.Any(x => !x.IsPublished))
-    {
-        <div class="alert alert-info alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h4>@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Title")</h4>
-            <p>@Localizer.Get("PublicProfile_CallToAction_EditPhotos")</p>
-            <p><a href="@Url.RouteUrl("ShowListingsByType")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Button")</a></p>
-        </div>
-    }
+        {
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4>@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Title")</h4>
+                <p>@Localizer.Get("PublicProfile_CallToAction_EditPhotos")</p>
+                <p><a href="@Url.RouteUrl("ShowListingsByType")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_EditPhotos_Button")</a></p>
+            </div>
+        }
+    </div>
+
 
     @Html.Partial("SideBar", Model.Profile)
 
@@ -320,3 +323,18 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#contact-pro').click(function () {
+                $('#contact-pro-modal').modal({ 'keyboard': true });
+            });
+
+            $('.rating .stars').click(function () {
+                $('.rating .details').removeClass('hide');
+            });
+        });
+    </script>
+
+}
