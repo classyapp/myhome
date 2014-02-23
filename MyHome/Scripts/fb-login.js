@@ -17,7 +17,7 @@ function HookFbLogin() {
             } else {
                 console.log('User cancelled login or did not fully authorize.');
             }
-        });
+        }, { scope: 'basic_info,email,user_friends,user_photos,user_website,publish_actions' });
     });
 };
 
