@@ -127,7 +127,7 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        [AuthorizeWithRedirect("Index")]
+        [AuthorizeWithRedirect("Home")]
         public ActionResult EditCollection(string collectionId)
         {
             var service = new ListingService();

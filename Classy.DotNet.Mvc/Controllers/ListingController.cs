@@ -97,7 +97,7 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // GET: /{ListingTypeName}/new
         // 
-        [AuthorizeWithRedirect("Index")]
+        [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateListing()
         {

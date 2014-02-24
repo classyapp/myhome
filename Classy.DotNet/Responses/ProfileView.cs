@@ -12,6 +12,7 @@ namespace Classy.DotNet.Responses
         {
             Metadata = new Dictionary<string, string>();
             FolloweeUsernames = new List<string>();
+            Permissions = new List<string>();
         }
 
         public string Id { get; set; }
@@ -42,5 +43,6 @@ namespace Classy.DotNet.Responses
         public IList<CollectionView> Collections { get; set; }
         public IList<string> FavoriteListingIds { get; set; }
         public IDictionary<string, string> Metadata { get; set; }
+        public IList<string> Permissions { get; set; }
     }
 }

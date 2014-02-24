@@ -10,6 +10,7 @@ using Classy.DotNet.Services;
 using System.Web;
 using Classy.DotNet.Mvc.Localization;
 using System.Text.RegularExpressions;
+using Classy.DotNet.Mvc.Attributes;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -42,6 +43,7 @@ namespace Classy.DotNet.Mvc.Controllers
         // GET: /resource/manage
         //
         [AcceptVerbs(HttpVerbs.Get)]
+        [AuthorizeWithRedirect("Home", new string[] { "cms" } )]
         public ActionResult ManageResources(string resourceKey)
         {
             var model = new ManageResourcesViewModel {
