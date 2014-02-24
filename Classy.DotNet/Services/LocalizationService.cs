@@ -67,7 +67,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                var client = ClassyAuth.GetWebClient();
+                var client = ClassyAuth.GetAuthenticatedWebClient();
                 var url = string.Format(RESOURCE_URL, key);
                 var resourceJson = client.UploadString(url, string.Concat("{\"Values\":", values.ToJson()));
                 var resource = resourceJson.FromJson<LocalizationResourceView>();
@@ -83,7 +83,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                var client = ClassyAuth.GetWebClient();
+                var client = ClassyAuth.GetAuthenticatedWebClient();
                 var url = string.Format(LIST_RESOURCE_URL, key);
                 var resourceJson = client.UploadString(url, string.Concat("{\"ListItems\":", new List<ListItemView> { new ListItemView { Value = value, Text = new Dictionary<string, string> { { culture, text }} } }.ToJson()));
                 var listResource = resourceJson.FromJson<LocalizationListResourceView>();
