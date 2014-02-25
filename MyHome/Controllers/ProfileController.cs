@@ -21,6 +21,7 @@ namespace MyHome.Controllers
             : base("MyHome.Controllers") {
                 base.OnContactProfessional += ProfileController_OnContactProfessional;
                 base.OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
+                base.OnAskForReview += ProfileController_OnAskForReview;
         }
 
         public void ProfileController_OnParseProfilesCsvLine(object sender, ParseProfilesCsvLineArgs<ProfessionalMetadata> e)
@@ -67,6 +68,26 @@ namespace MyHome.Controllers
             message.AddGlobalVariable("CONTENT", string.Format(Localizer.Get("Mail_ContactPro_Body"), e.Content));
             var api = new MandrillApi(MANDRILL_API_KEY);
             var sendResponse = api.SendMessage(message, "notification_contact_pro", null);
+        }
+
+        public void ProfileController_OnAskForReview(object sender, AskForReviewArgs<ProfessionalMetadata> e) {
+            foreach (var contact in e.Emails)
+            {
+                // email professional
+                var message = new EmailMessage
+                {
+                    subject = string.Format(Localizer.Get("Mail_ReviewRequest_Subject")),
+                    to = new List<EmailAddress> {
+                    new EmailAddress {
+                        email = e.Profile.ContactInfo.Email
+                    }
+                }
+                };
+                message.AddHeader("Reply-To", e.Profile.ContactInfo.Email);
+                message.AddGlobalVariable("CONTENT", string.Format(Localizer.Get("Mail_ReviewRequest_Body"), e.Message));
+                var api = new MandrillApi(MANDRILL_API_KEY);
+                var sendResponse = api.SendMessage(message, "notification_request_review", null);   
+            }
         }
     }
 }

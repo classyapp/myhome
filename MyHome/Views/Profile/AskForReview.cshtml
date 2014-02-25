@@ -8,12 +8,32 @@
     <div class="col-md-9 main">
         <h1>@Localizer.Get("Profile_AskForReview")</h1>
         <div>@Localizer.Get("AskForReviews_SelectClients")</div>
-        <div class="lnk-select-contant">
-            <a href="#" onclick="auth()">@Localizer.Get("AskForReviews_ImportFromGmail")</a>
-        </div>
+        @if (Model.NeedAuthentication)
+        {
+            <div class="lnk-select-contant">
+                <a href="#" onclick="auth()">@Localizer.Get("AskForReviews_ImportFromGmail")</a>
+            </div>
+        }
+        else
+        {
+            <div class="google-contacts">
+                @foreach (var contact in Model.GoogleContacts)
+                {
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="@contact.ImageUrl" width="50" height="50" /><span class="name">@contact.Name</span>
+                        </div>
+                        <div class="col-md-7"><a class="email" onclick="addContact(this)"><span>@contact.Email</span></a></div>
+                    </div>
+                }
+            </div>
+        }
         @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
         {
-             @f.FormGroup().TextAreaFor(x => x.Contacts).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput"}).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Message).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
+            @Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success"))
         }
     </div>
     <div class="col-md-3"></div>
@@ -21,51 +41,55 @@
 
 @section scripts
 {
-    <script type="text/javascript">
-        (function () {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/client:plusone.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
+    <script src="~/Scripts/bootstrap-tagsinput.js"></script>
+    @if (Model.NeedAuthentication)
+    {
+        <script type="text/javascript">
+            (function () {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
 
-        var gmailContacts = [];
+            var gmailContacts = [];
 
-        var additionalParams = {
-            client_id: "506100905279-ehjeh85fna4i912qss80p8m95d2adrt0.apps.googleusercontent.com",
-            scope: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/contacts.readonly",
-            immediate: true
-        };
+            var additionalParams = {
+                client_id: "506100905279-ehjeh85fna4i912qss80p8m95d2adrt0.apps.googleusercontent.com",
+                scope: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/contacts.readonly",
+                immediate: true
+            };
 
-        function auth() {
-            gapi.auth.authorize(additionalParams, signinCallback);
-        }
-
-        function signinCallback(authResult) {
-            if (authResult && !authResult.error) {
-                // Update the app to reflect a signed in user
-                // Hide the sign-in button now that the user is authorized, for example:
-
-                var authParams = gapi.auth.getToken(); // from Google oAuth
-                GoogleLogin(authParams.access_token);
-                //authParams.alt = 'json';
-                //authParams["max-results"] = 1000;
-                //$.ajax({
-                //    url: 'https://www.google.com/m8/feeds/contacts/default/full',
-                //    dataType: 'jsonp',
-                //    data: authParams,
-                //    success: function (data) {
-                //        $.each(data.feed.entry, function (idx, item) {
-                //            if (item.gd$email) {
-                //                gmailContacts.push({ email: item.gd$email[0].address, name: item.title.$t });
-                //            }
-                //        });
-                //        alert("Got " + gmailContacts.length + " contacts.");
-                //    }
-                //});
-            } else {
-                additionalParams.immediate = false;
+            function auth() {
                 gapi.auth.authorize(additionalParams, signinCallback);
             }
-        }
-    </script>
+
+            function signinCallback(authResult) {
+                if (authResult && !authResult.error) {
+                    var authParams = gapi.auth.getToken();
+                    GoogleLogin(authParams.access_token);
+                } else {
+                    additionalParams.immediate = false;
+                    gapi.auth.authorize(additionalParams, signinCallback);
+                }
+            }
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            $('#Contacts').tagsinput({
+                itemValue: 'Email',
+                itemText: 'Name',
+                tagClass: function (item) { return 'label label-success' },
+                confirmKeys: [188],
+                freeInput: true
+            });
+
+            function addContact(anchor) {
+                var name = $(anchor).closest(".row").find(".name").html().trim();
+                var email = $(anchor).find("span").html();
+                $('#Contacts').tagsinput('add', { "Email": email, "Name": (name == "" ? email : name) });
+            }
+        </script>
+    }
 }
