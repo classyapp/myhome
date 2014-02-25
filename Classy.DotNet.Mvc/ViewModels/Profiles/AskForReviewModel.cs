@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Classy.DotNet.Mvc.ModelBinders;
 using Classy.DotNet.Mvc.Validation;
 using Classy.DotNet.Services;
 

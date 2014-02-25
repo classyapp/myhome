@@ -9,18 +9,27 @@ namespace Classy.DotNet.Mvc.ModelBinders
 {
     public class CommaSeparatedToList : DefaultModelBinder
     {
-        public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        protected override void BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, System.ComponentModel.PropertyDescriptor propertyDescriptor)
         {
-            var valueResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            if (valueResult == null)
-                return null;
-            var commaSeparated = (string)valueResult.ConvertTo(typeof(string));
-            if (string.IsNullOrWhiteSpace(commaSeparated))
-                return null;
+            if (propertyDescriptor.Name == "Contacts" && propertyDescriptor.PropertyType == typeof(IList<string>))
+            {
+                var valueResult = bindingContext.ValueProvider.GetValue(propertyDescriptor.Name);
+                if (valueResult != null)
+                {
+                    var commaSeparated = (string)valueResult.ConvertTo(typeof(string));
+                    if (!string.IsNullOrWhiteSpace(commaSeparated))
+                    {
+                        List<string> vals = new List<string>();
+                        commaSeparated.Split(',').ToList().ForEach(x => vals.Add(x.Trim()));
 
-            List<string> vals = new List<string>();
-            commaSeparated.Split(',').ToList().ForEach(x => vals.Add(x.Trim()));
-            return vals.AsEnumerable<string>();
+                        propertyDescriptor.SetValue(bindingContext.Model, vals);
+                    }
+                }
+            }
+            else
+            {
+                base.BindProperty(controllerContext, bindingContext, propertyDescriptor);
+            }
         }
     }
 }

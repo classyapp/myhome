@@ -79,7 +79,7 @@ namespace MyHome.Controllers
                     subject = string.Format(Localizer.Get("Mail_ReviewRequest_Subject")),
                     to = new List<EmailAddress> {
                     new EmailAddress {
-                        email = e.Profile.ContactInfo.Email
+                        email = contact
                     }
                 }
                 };
