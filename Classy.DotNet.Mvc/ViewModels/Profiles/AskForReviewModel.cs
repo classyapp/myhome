@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Classy.DotNet.Mvc.ModelBinders;
-using Classy.DotNet.Mvc.Validation;
+using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Services;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles

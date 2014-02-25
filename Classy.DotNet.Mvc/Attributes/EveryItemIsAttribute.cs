@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Classy.DotNet.Mvc.Validation
+namespace Classy.DotNet.Mvc.Attributes
 {
     public class EveryItemIsAttribute : ValidationAttribute
     {
         public Type[] Validators { get; set; }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (Validators.Count() == null)
+            if (Validators.Count() == 0)
                 return ValidationResult.Success;
 
             var enumerable = value as IEnumerable;

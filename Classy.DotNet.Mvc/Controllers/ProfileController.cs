@@ -308,17 +308,24 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
 
-        [Authorize]
+        [AuthorizeWithRedirect]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult AskForReview()
         {
-            AskForReviewModel model = new AskForReviewModel();
-            model.ProfileId = AuthenticatedUserProfile.Id;
-            var service = new ProfileService();
-            var contacts = service.GetGoogleContacts();
-            model.NeedAuthentication = (contacts == null);
-            model.GoogleContacts = contacts;
-            return View(model);
+            try
+            {
+                AskForReviewModel model = new AskForReviewModel();
+                model.ProfileId = AuthenticatedUserProfile.Id;
+                var service = new ProfileService();
+                var contacts = service.GetGoogleContacts();
+                model.NeedAuthentication = (contacts == null);
+                model.GoogleContacts = contacts;
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
         }
 
         [Authorize]
