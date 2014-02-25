@@ -9,7 +9,7 @@
 }
 
 <div class="row">
-    @if (TempData.ContainsKey("EditProfile_Successs"))
+    @if (TempData["EditProfile_Successs"] != null)
     {
         @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
     }
