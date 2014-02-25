@@ -27,7 +27,7 @@
                 }
             </div>
         }
-        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
+        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm")))
         {
             <div class="form-group">
                 <label class="control-label col-md-3" for="manualEmail">@Localizer.Get("AskForReview_AddAddressManually")</label>
@@ -41,7 +41,7 @@
             @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput" }).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
             @f.FormGroup().TextAreaFor(x => x.Message).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
             @Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success").HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
         }
     </div>
     <div class="col-md-3"></div>

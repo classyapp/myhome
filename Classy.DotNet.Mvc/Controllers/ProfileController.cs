@@ -332,7 +332,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 args.Emails = model.Contacts;
                 args.Message = model.Message;
                 args.Profile = AuthenticatedUserProfile;
-                args.ReviewLink = Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id });
+                args.ReviewLink = Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }, Request.Url.Scheme);
 
                 if (OnAskForReview != null)
                 {
