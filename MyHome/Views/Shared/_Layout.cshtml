@@ -61,7 +61,7 @@
                     </li>
                     <li><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("Header_Nav_FindPros")</a></li>
                 </ul>
-                <div class="col-sm-3 col-md-3 pull-left">
+                @*<div class="col-sm-3 col-md-3 pull-left">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="@Localizer.Get("Header_Nav_Search")" name="srch-term" id="srch-term">
@@ -70,14 +70,14 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>*@
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.RouteUrlForCurrentLocale("FindProfileToReview")" authorize><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_WriteReview")</a></li>
                     <li><a href="@Url.RouteUrlForCurrentLocale("CreatePhoto")" authorize><span class="glyphicon glyphicon-upload"></span> @Localizer.Get("Header_Nav_Upload")</a></li>                        
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#language-select" data-toggle="modal" data-target="#env-modal"><img src="/img/flags/@(env.Culture.Substring(3, 2).ToLower()).png" /> <b class="caret"></b></a>
+                        <a href="#language-select" data-toggle="modal" data-target="#env-modal">@env.Culture.Substring(0, 2).ToUpper() <b class="caret"></b></a>
                     </li>
 
                     @if (Request.IsAuthenticated)

@@ -4,7 +4,6 @@ body {
     padding-top: 90px;
     background: #f0f0f0;
 }
-
 h1, h2, h3, h4, h5 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -16,38 +15,30 @@ h1 {
 p {
     color: #777;
 }
-
 hr {
     border-bottom: solid 1px #ddd;
 }
-
 a, a:visited {
     color: #777;
 }
-
 a:hover {
     color: #999;
 }
-
 a.btn {
     color: #fff;
 }
-
 a.btn-default {
     background-color: #f0f0f0;
     color: #777;
     border-color: #999;
 }
-
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover {
     background-color: #f0f0f0;
 }
-
 .nav-tabs > li > a:hover {
     background-color: #ddd;
 }
-
 .close {
     color: #777;
     text-shadow: 0 1px 0 #000;
@@ -60,20 +51,17 @@ a.btn-default {
     text-shadow: 0 1px 0 #000;
     filter: alpha(opacity=100);
 }
-
 .media > .pull-left {
     margin-right: 0;
 }
 .media-body {
     background: #fff;
-    padding: 10px;
+    padding: 0 10px;
 }
-
 .content.container {
     padding: 0;
     min-height: 620px;
 }
-
 .modal-header {
     background-color: #333;
     color: #fff;
@@ -81,7 +69,6 @@ a.btn-default {
 .modal-body {
     background-color: #f0f0f0;
 }
-
 .helpbar .content {
     background-color: #f5f5f5;
     padding: 10px;
@@ -93,14 +80,12 @@ a.btn-default {
     margin-bottom: 0;
     color: #333;
 }
-
 .photo.thumbnail ul.stats {
     color: #aaa;
 }
 .photo.thumbnail a {
     text-decoration: none;
 }
-
 /* collection - grid */
 .collection .profile img {
     margin-right: 10px;
