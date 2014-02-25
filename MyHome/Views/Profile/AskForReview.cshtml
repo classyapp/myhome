@@ -41,7 +41,7 @@
             @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput" }).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
             @f.FormGroup().TextAreaFor(x => x.Message).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
             @Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success"))
         }
     </div>
     <div class="col-md-3"></div>
@@ -91,6 +91,7 @@
                 itemText: 'Name',
                 tagClass: function (item) { return 'label label-success' },
             });
+            $(".bootstrap-tagsinput input").attr("readonly", "readonly");
 
             function addContact(anchor) {
                 var name = $(anchor).data("name");
@@ -102,7 +103,7 @@
                 var email = $("#manualEmail").val();
                 if (email.trim() != "") {
                     $('#Contacts').tagsinput('add', { "Email": email, "Name": email });
-                    $("#manualEmail").val();
+                    $("#manualEmail").val('');
                 }
 
             }
@@ -131,7 +132,7 @@
                     });
                 },
                 updater: function(item) { return item.Email }
-            });
+            }).on("change", function(){addManualContact()});
         </script>
     }
 }

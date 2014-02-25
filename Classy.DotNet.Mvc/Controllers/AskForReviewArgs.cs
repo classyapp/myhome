@@ -12,6 +12,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public IList<string> Emails { get; set; }
         public string Message { get; set; }
         public ProfileView Profile { get; set; }
+        public string ReviewLink { get; set; }
         public TProMetadata Metadata { get; set; }
     }
 }
