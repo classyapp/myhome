@@ -66,7 +66,7 @@ namespace Classy.DotNet.Mvc.Controllers
             
             routes.MapRoute(
                 name: string.Concat("Delete", ListingTypeName),
-                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}"),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/delete"),
                 defaults: new { controller = ListingTypeName, action = "DeleteListing" },
                 namespaces: new string[] { Namespace }
             );
@@ -233,6 +233,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ListingService();
                 service.PostComment(listingId, content);
+                TempData["PostComment_Success"] = true;
             }
             catch(ClassyException cvx)
             {
