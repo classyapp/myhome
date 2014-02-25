@@ -479,8 +479,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
             if (model.Metadata == null) model.Metadata = new TProMetadata();
-            var slug = model.Metadata.GetSearchFilterSlug(model.Name, model.Location);
-            return RedirectToRoute("SearchProfiles", new { filters = slug });
+            // var slug = model.Metadata.GetSearchFilterSlug(model.Name, model.Location);
+            return RedirectToRoute("SearchProfiles", new { /* filters = slug */ name = model.Name, location = model.Location, category = model.Category });
         }
 
         // 
