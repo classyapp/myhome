@@ -55,10 +55,20 @@ namespace Classy.DotNet.Mvc.Localization
 
             // init country
             cookie = HttpContext.Current.Request.Cookies[COUNTRY_COOKIE_NAME];
+            Classy.DotNet.Mvc.GeoIP.Location location = Helpers.IPLocator.GetLocationByRequestIP();
             if (cookie == null)
             {
-                string countryCode = Helpers.IPLocator.GetLocationByRequestIP().CountryCode ?? "FR";
+                string countryCode = location.CountryCode ?? "FR";
                 cookie = new HttpCookie(COUNTRY_COOKIE_NAME, countryCode);
+                cookie.Expires = DateTime.Now.AddYears(1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+
+            // init gps coordinates cookie 
+            cookie = HttpContext.Current.Request.Cookies[GPS_LOCATION_COOKIE_NAME];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(GPS_LOCATION_COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
