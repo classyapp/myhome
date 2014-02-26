@@ -10,8 +10,8 @@ namespace Classy.DotNet.Mvc.GeoIP
     {
         public string Country { get; set; }
         public string CountryCode { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         public Location(Newtonsoft.Json.Linq.JToken json)
         {
@@ -19,6 +19,8 @@ namespace Classy.DotNet.Mvc.GeoIP
             {
                 CountryCode = json["country"].Value<string>("iso_code");
                 Country = json["country"]["names"].Value<string>("en");
+                Longitude = json["location"].Value<double>("longitude");
+                Latitude = json["location"].Value<double>("latitude");
             }
         }
     }

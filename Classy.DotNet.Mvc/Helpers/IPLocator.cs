@@ -15,7 +15,7 @@ namespace Classy.DotNet.Mvc.Helpers
 
         static IPLocator()
         {
-            dbReader = new Reader(AppDomain.CurrentDomain.BaseDirectory + "bin\\GeoIP\\GeoLite2-Country.mmdb", FileAccessMode.Memory);
+            dbReader = new Reader(AppDomain.CurrentDomain.BaseDirectory + "bin\\GeoIP\\GeoLite2-City.mmdb", FileAccessMode.Memory);
         }
 
         public static Location GetLocationByRequestIP()

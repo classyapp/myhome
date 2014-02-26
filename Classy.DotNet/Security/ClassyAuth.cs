@@ -210,11 +210,26 @@ namespace Classy.DotNet.Security
 
         private static string GetEnvHeader()
         {
-            var gpsCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.gps_location"];
+            HttpCookie gpsCookie = null;
+            HttpCookie countryCookie = null;
+            HttpRequest request = null;
+
+            try
+            {
+                // on register routes the request is not applicable
+                request = System.Web.HttpContext.Current.Request;
+            }
+            catch { }
+
+            if (request != null)
+            {
+                gpsCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.gps_location"];
+                countryCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.country"];
+            }
             return new
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
-                CountryCode = System.Web.HttpContext.Current.Request.Cookies["classy.env.country"].Value,
+                CountryCode = countryCookie == null ? "FR" : countryCookie.Value,
                 GPSCoordinates = gpsCookie == null ? string.Empty : gpsCookie.Value,
                 CurrencyCode = "ILS",
                 AppId = ApiKey
