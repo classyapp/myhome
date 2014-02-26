@@ -21,12 +21,12 @@
             if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
             {
             @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
-            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_PhotoBookTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_CollectionTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_PhotoBookTitle"))
             }
             else
             {
             @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateProjectTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_ProjectTitle"))
-            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_ProjectTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title)(Localizer.Get("CreatePhoto_ProjectTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_ProjectTitle"))
             }
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
