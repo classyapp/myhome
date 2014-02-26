@@ -675,3 +675,50 @@ a.action.like-on {
 .fb-photos .thumbnail .select.selected .glyphicon {
     color: #fff;
 }
+.lnk-select-contant
+{
+    color: green;
+    text-align: right;
+}
+.google-contacts
+{
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 20px auto;
+    border: 1px solid #CECECE;
+    padding: 2px 0px 0px 2px;
+}
+    .google-contacts .row
+    {
+        background-color: #FFF;
+        height: 50px;
+        margin-bottom: 2px;
+    }
+        .google-contacts .row img
+        {
+            float: left;
+        }
+        .google-contacts .row .name
+        {
+            padding-left: 5px;
+        }
+        .google-contacts .row .name, .google-contacts .row .email
+        {
+            display: table-cell;
+            vertical-align: middle;
+            height: 50px;
+        }
+        .google-contacts .row .email
+        {
+            cursor: pointer;
+        }
+            .google-contacts .row .email span
+            {
+                padding: 4px;
+            }
+        .google-contacts .row .email:hover span
+        {
+            background: green;
+            color: #fff;
+        }

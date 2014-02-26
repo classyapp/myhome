@@ -126,3 +126,12 @@ a.action {
 .photo-details .actions {
     right: 0;
 }
+
+.lnk-select-contant
+{
+    text-align: left;
+}        
+.google-contacts .row .name
+{
+	padding-right: 5px;
+}

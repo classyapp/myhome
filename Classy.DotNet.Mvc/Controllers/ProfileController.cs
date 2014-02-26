@@ -30,6 +30,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional;
         public EventHandler<ParseProfilesCsvLineArgs<TProMetadata>> OnParseProfilesCsvLine;
+        public EventHandler<AskForReviewArgs<TProMetadata>> OnAskForReview;
 
         /// <summary>
         /// register routes within host app's route collection
@@ -54,6 +55,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "EditProfile",
                 url: "profile/edit",
                 defaults: new { controller = "Profile", action = "EditProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
+                name: "AskForReview",
+                url: "profile/askreview",
+                defaults: new { controller = "Profile", action = "AskForReview" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -304,6 +312,57 @@ namespace Classy.DotNet.Mvc.Controllers
                 return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
             }
             else return View(model);
+        }
+
+
+        [AuthorizeWithRedirect]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult AskForReview()
+        {
+            try
+            {
+                AskForReviewModel model = new AskForReviewModel();
+                model.ProfileId = AuthenticatedUserProfile.Id;
+                var service = new ProfileService();
+                var contacts = service.GetGoogleContacts();
+                model.NeedAuthentication = (contacts == null);
+                model.GoogleContacts = contacts;
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AskForReview(AskForReviewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var service = new ProfileService();
+                AskForReviewArgs<TProMetadata> args = new AskForReviewArgs<TProMetadata>();
+                args.Emails = model.Contacts;
+                args.Message = model.Message;
+                args.Profile = AuthenticatedUserProfile;
+                args.ReviewLink = Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }, Request.Url.Scheme);
+
+                if (OnAskForReview != null)
+                {
+                    OnAskForReview(this, args);
+                }
+            }
+            else
+            {
+                var service = new ProfileService();
+                var contacts = service.GetGoogleContacts();
+                model.NeedAuthentication = (contacts == null);
+                model.GoogleContacts = contacts;
+                return View(model);
+            }
+
+            return RedirectToAction("PublicProfile", new { profileId = AuthenticatedUserProfile.Id});
         }
 
         //

@@ -1,0 +1,138 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.AskForReviewModel
+
+@{
+    ViewBag.Title = Localizer.Get("Profile_AskForReview");
+}
+
+<div class="row">
+    <div class="col-md-9 main">
+        <h1>@Localizer.Get("Profile_AskForReview")</h1>
+        <div>@Localizer.Get("AskForReviews_SelectClients")</div>
+        @if (Model.NeedAuthentication)
+        {
+            <div class="lnk-select-contant">
+                <a href="#" onclick="auth()">@Localizer.Get("AskForReviews_ImportFromGmail")</a>
+            </div>
+        }
+        else
+        {
+            <div class="google-contacts">
+                @foreach (var contact in Model.GoogleContacts)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="email" data-name="@(string.IsNullOrEmpty(contact.Name) ? contact.Email : contact.Name)" data-email="@contact.Email" onclick="addContact(this)"><span>@(string.IsNullOrEmpty(contact.Name) ? contact.Email : string.Format("{0} <{1}>", contact.Name, contact.Email))</span></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm")))
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3" for="manualEmail">@Localizer.Get("AskForReview_AddAddressManually")</label>
+                <div class="input-group col-md-9">
+                    <input type="text" id="manualEmail" data-provide="typeahead" autocomplete="off" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="addManualContact();">@Localizer.Get("AskForReview_AddAddress")</button>
+                    </span>
+                </div>
+            </div>
+            @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput" }).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Message).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
+            @Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success").HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
+        }
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/bootstrap-tagsinput.js"></script>
+    @if (Model.NeedAuthentication)
+    {
+        <script type="text/javascript">
+            (function () {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+
+            var gmailContacts = [];
+
+            var additionalParams = {
+                client_id: "506100905279-ehjeh85fna4i912qss80p8m95d2adrt0.apps.googleusercontent.com",
+                scope: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/contacts.readonly",
+                immediate: true
+            };
+
+            function auth() {
+                gapi.auth.authorize(additionalParams, signinCallback);
+            }
+
+            function signinCallback(authResult) {
+                if (authResult && !authResult.error) {
+                    var authParams = gapi.auth.getToken();
+                    GoogleLogin(authParams.access_token);
+                } else {
+                    additionalParams.immediate = false;
+                    gapi.auth.authorize(additionalParams, signinCallback);
+                }
+            }
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            $('#Contacts').tagsinput({
+                itemValue: 'Email',
+                itemText: 'Name',
+                tagClass: function (item) { return 'label label-success' },
+            });
+            $(".bootstrap-tagsinput input").attr("readonly", "readonly");
+
+            function addContact(anchor) {
+                var name = $(anchor).data("name");
+                var email = $(anchor).data("email");
+                $('#Contacts').tagsinput('add', { "Email": email, "Name": name });
+            }
+
+            function addManualContact() {
+                var email = $("#manualEmail").val();
+                if (email.trim() != "") {
+                    $('#Contacts').tagsinput('add', { "Email": email, "Name": email });
+                    $("#manualEmail").val('');
+                }
+
+            }
+
+            $('#manualEmail').typeahead({
+                source: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GoogleContacts)),
+                matcher: function (item) { return ~item.Email.toLowerCase().indexOf(this.query.toLowerCase()) },
+                sorter: function (items) {
+                    var beginswith = []
+                      , caseSensitive = []
+                      , caseInsensitive = []
+                      , item;
+
+                    while ((item = items.shift())) {
+                        if (!item.Email.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item);
+                        else if (~item.Email.indexOf(this.query)) caseSensitive.push(item);
+                        else caseInsensitive.push(item);
+                    }
+
+                    return beginswith.concat(caseSensitive, caseInsensitive);
+                },
+                highlighter: function (item) {
+                    var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+                    return item.Email.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                        return '<strong>' + match + '</strong>';
+                    });
+                },
+                updater: function(item) { return item.Email }
+            }).on("change", function(){addManualContact()});
+        </script>
+    }
+}

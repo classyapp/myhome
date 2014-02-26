@@ -65,6 +65,7 @@
                     <div class="profile-actions">
                         <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
                         <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), Model.Profile.Id, Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+                        <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>
                     </div>
                 }
 

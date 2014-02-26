@@ -20,6 +20,7 @@ namespace Classy.DotNet.Services
         private readonly string APPROVE_PROXY_CLAIM_URL = ENDPOINT_BASE_URL + "/profile/{0}/approve";
         private readonly string FOLLOW_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/follow";
         private readonly string GET_AUTHENTICATED_PROFILE = ENDPOINT_BASE_URL + "/profile";
+        private readonly string GET_GOOGLE_CONTACTS_URL = ENDPOINT_BASE_URL + "/profile/social/google/contacts";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -200,6 +201,21 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var json = client.DownloadString(GET_FACEBOOK_ALBUMS);
                 return json.FromJson<IList<SocialPhotoAlbumView>>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public IList<GoogleContactView> GetGoogleContacts()
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = GET_GOOGLE_CONTACTS_URL;
+                var contactsJson = client.DownloadString(url);
+                return contactsJson.FromJson<IList<GoogleContactView>>();
             }
             catch (WebException wex)
             {

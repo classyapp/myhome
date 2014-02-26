@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using TwitterBootstrapMVC;
+using Classy.DotNet.Mvc.ViewModels.Profiles;
+using Classy.DotNet.Mvc.ModelBinders;
 
 namespace MyHome
 {
@@ -29,6 +31,7 @@ namespace MyHome
             ModelMetadataProviders.Current = new Classy.DotNet.Mvc.Localization.MyLocalizationProvider();
 
             //RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(AskForReviewModel), new CommaSeparatedToList());
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

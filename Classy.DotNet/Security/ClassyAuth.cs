@@ -107,6 +107,32 @@ namespace Classy.DotNet.Security
             }
         }
 
+        public static bool AuthenticateGoogleUser(string token)
+        {
+            try
+            {
+                var context = System.Web.HttpContext.Current;
+                var client = HttpWebRequest.Create(string.Concat(EndpointBaseUrl, "/auth/GoogleOAuth?format=json&oauth_token=", token)) as HttpWebRequest;
+                client.Method = "GET";
+                client.ContentType = "application/json";
+                client.Accept = "application/json";
+                client.Headers.Add("X-Classy-Env", GetEnvHeader());
+                var response = client.GetResponse() as HttpWebResponse;
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    FillInCookiesCollection(context.Response.Cookies, response.Headers[HttpResponseHeader.SetCookie], context.Request.Url);
+                    var authJson = (new StreamReader(response.GetResponseStream())).ReadToEnd();
+                    var auth = authJson.FromJson<ClassyAuthResponse>();
+                    return SetPrincipalInternal(auth.SessionId);
+                }
+                return true;
+            }
+            catch (WebException)
+            {
+                return false;
+            }
+        }
+
         public static void Logout()
         {
             var client = GetWebClient();
