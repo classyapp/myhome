@@ -124,6 +124,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
                 CultureName = System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName,
+                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Localizer.COUNTRY_COOKIE_NAME].Value
             };
         }
 
@@ -132,6 +133,11 @@ namespace Classy.DotNet.Mvc.Controllers
             Response.Cookies.Add(new System.Web.HttpCookie(Localization.Localizer.CULTURE_COOKIE_NAME)
             {
                 Value = model.CultureCode,
+                Expires = DateTime.UtcNow.AddYears(30)
+            });
+            Response.Cookies.Add(new System.Web.HttpCookie(Localization.Localizer.COUNTRY_COOKIE_NAME)
+            {
+                Value = model.CountryCode,
                 Expires = DateTime.UtcNow.AddYears(30)
             });
         }

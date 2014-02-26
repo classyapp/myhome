@@ -39,9 +39,19 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IP2Location">
+      <HintPath>..\packages\IP2Location.IPGeolocation.1.0.1\lib\net40\IP2Location.dll</HintPath>
+    </Reference>
+    <Reference Include="MaxMind.Db">
+      <HintPath>..\packages\MaxMind.Db.0.2.2.0\lib\net40\MaxMind.Db.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\lib\ServiceStack.Text.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Text.3.9.70\lib\net35\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -73,9 +83,12 @@
     <Compile Include="Controllers\ReviewPostedArgs.cs" />
     <Compile Include="ActionFilters\ModelStateTransfer.cs" />
     <Compile Include="Extensions\CsvStringExtensions.cs" />
+    <Compile Include="GeoIP\Location.cs" />
+    <Compile Include="Helpers\IPLocator.cs" />
     <Compile Include="Helpers\ListingActionTrigger.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ProfileActionTrigger.cs" />
+    <Compile Include="Localization\CountryInfo.cs" />
     <Compile Include="Localization\LocalizationExtensions.cs" />
     <Compile Include="Localization\LocalizedResourceItem.cs" />
     <Compile Include="Localization\Localizer.cs" />
@@ -115,6 +128,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GeoIP\GeoLite2-City.mmdb" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
