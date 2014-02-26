@@ -26,7 +26,7 @@
             else
             {
             @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateProjectTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_ProjectTitle"))
-            @f.FormGroup().Id("title").TextBoxFor(x => x.Title)(Localizer.Get("CreatePhoto_ProjectTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_ProjectTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_ProjectTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide") //.Label().WidthLg(12).LabelText(Localizer.Get("CreateListing_ProjectTitle"))
             }
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
             @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
@@ -55,7 +55,7 @@
                     @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToRights).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 </small>
             </p>
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Style(ButtonStyle.Success))
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Style(ButtonStyle.Danger))
             
             
         }

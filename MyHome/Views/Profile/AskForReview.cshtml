@@ -41,7 +41,7 @@
             @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput" }).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
             @f.FormGroup().TextAreaFor(x => x.Message).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
             @Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Class("btn-success").HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Style(ButtonStyle.Danger).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
         }
     </div>
     <div class="col-md-3"></div>

@@ -22,7 +22,7 @@
         @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.IncludedListings[0].Comments).Label().WidthLg(12).LabelText(Localizer.Get("AddListingToCollection_Comment"))
 
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("AddToCollection_Submit")))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Danger).Text(Localizer.Get("AddToCollection_Submit")))
     }
 </div>
 

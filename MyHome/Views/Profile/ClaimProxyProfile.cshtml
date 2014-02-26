@@ -40,14 +40,14 @@
                 @f.FormGroup().TextBoxFor(x => x.Email).Label().WidthLg(12)
                 
                 <br/><br/>
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ClaimProxy_Submit")).Style(ButtonStyle.Success))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ClaimProxy_Submit")).Style(ButtonStyle.Danger))
             }
         }
         else
         {
             <div>
                 <h2>@Localizer.Get("ClaimProxy_MustBeLoggedIn")</h2>
-                <a href="#" class="btn btn-success" authorize>@Localizer.Get("ClaimProxy_Login")</a>
+                <a href="#" class="btn btn-danger" authorize>@Localizer.Get("ClaimProxy_Login")</a>
             </div>
             @section scripts {
                 <script>$(function () { $('#login-modal').modal('show'); })</script>
@@ -55,12 +55,12 @@
         }
     </div>
     <div class="col-md-4 col-md-offset-1">
-        <div class="well">
+        <div class="helpbar">
             <h1>@Localizer.Get("ClaimProxy_Copy_Title")</h1>
-            <div>@Html.Raw(Localizer.Get("ClaimProxy_Copy_Content"))</div>
-        </div>
-        <div>
-            <p>@Html.Raw(Localizer.Get("ClaimProxy_ExplainForm"))</p>
+            <div class="content">
+                @Html.Raw(Localizer.Get("ClaimProxy_Copy_Content"))
+                <p>@Html.Raw(Localizer.Get("ClaimProxy_ExplainForm"))</p>
+            </div>
         </div>
     </div>
 </div>

@@ -9,7 +9,7 @@
 
 @if (TempData["PostComment_Success"] != null)
 {
-    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Danger)
 }
 
 
@@ -99,7 +99,7 @@
             {
                 @Html.Hidden("ListingId", Model.Listing.Id);
                 @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Success).HtmlAttributes(new { authorize = "true" }))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Danger).HtmlAttributes(new { authorize = "true" }))
             }
         </div>
     </div>
