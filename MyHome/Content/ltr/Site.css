@@ -101,14 +101,14 @@ a.btn-default {
 .home-banner .slogan {
     text-align: right;
     position: absolute;
-    right: 10%;
+    right: 15%;
     top: 20%;
     background-color: rgba(245, 245, 245, 0.4);
     padding: 20px;
 }
 .home-banner .slogan h1 {
     text-align: left;
-    font-size: 96px;
+    font-size: 36px;
     color: #fff;
     text-shadow: 1.5px 3.33px 13px rgba(0,0,0,0.7);
     margin: 0;
