@@ -472,7 +472,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata.ToDictionary());
                 service.ApproveProxyClaim(claim.Id);
 
-                return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId });
+                return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
             }
             catch (ClassyException cvx)
             {
