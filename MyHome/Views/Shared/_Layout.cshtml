@@ -111,6 +111,10 @@
                         </a>
                         <ul class="dropdown-menu login-dropdown">
                             <li>
+                                <button id="sign-in-facebook" class="btn btn-fb-login btn-block">@Localizer.Get("Login_Facebook")</button>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <form class="form" role="form" method="post" action="@Url.RouteUrl("Login")" id="login-nav">
@@ -136,10 +140,6 @@
                                         </form>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <button id="sign-in-facebook" class="btn btn-fb-login btn-block">@Localizer.Get("Login_Facebook")</button>
                             </li>
                         </ul>
                     </li>
