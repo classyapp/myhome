@@ -12,10 +12,10 @@
 
 <div class="row">
     <div class="col-md-12">
-        @if (TempData["ContactPro_Success"] != null)
-        {
-            @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_ContactPro_Success")).Closeable().Style(AlertColor.Success)
-        }
+        <div id="contactSuccess" class="alert alert-success alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Localizer.Get("ContactPro_Success")
+        </div>
 
         @if (TempData["ReviewSuccess"] != null)
         {
@@ -453,6 +453,10 @@
 @section scripts {
     <script>
         $(function () {
+            $('#contact-pro-modal').on('hidden.bs.modal', function () {
+                $('#contactSuccess').removeClass('hidden');
+            });
+
             $('#contact-pro').click(function () {
                 $('#contact-pro-modal').modal({ 'keyboard': true });
             });
