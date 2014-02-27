@@ -213,6 +213,7 @@ namespace Classy.DotNet.Security
             HttpCookie gpsCookie = null;
             HttpCookie countryCookie = null;
             HttpRequest request = null;
+            GPSLocation location = null;
 
             try
             {
@@ -224,13 +225,17 @@ namespace Classy.DotNet.Security
             if (request != null)
             {
                 gpsCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.gps_location"];
+                if (gpsCookie != null)
+                {
+                    location = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
+                }
                 countryCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.country"];
             }
             return new
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
                 CountryCode = countryCookie == null ? "FR" : countryCookie.Value,
-                GPSCoordinates = gpsCookie == null ? string.Empty : gpsCookie.Value,
+                GPSCoordinates = location,
                 CurrencyCode = "ILS",
                 AppId = ApiKey
             }.ToJson();
