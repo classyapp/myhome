@@ -369,10 +369,6 @@
 @section scripts {
     <script>
         $(function () {
-            $('#contact-pro-modal').on('hidden.bs.modal', function () {
-                $('#contactSuccess').removeClass('hidden');
-            });
-
             $('#contact-pro').click(function () {
                 $('#contact-pro-modal').modal({ 'keyboard': true });
             });
