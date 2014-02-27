@@ -9,7 +9,7 @@
 
 @if (TempData["PostComment_Success"] != null)
 {
-    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Danger)
+    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
 }
 
 
@@ -20,7 +20,7 @@
             <div class="stats">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
-                <span><i class="glyphicon glyphicon-heart"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
+                <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
                 <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("PhotoDetails_CommentCount"), Model.Listing.CommentCount)</span>
             </div>
         </div>
@@ -99,7 +99,7 @@
             {
                 @Html.Hidden("ListingId", Model.Listing.Id);
                 @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Danger).HtmlAttributes(new { authorize = "true" }))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
         </div>
     </div>

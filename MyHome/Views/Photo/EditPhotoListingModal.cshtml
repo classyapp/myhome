@@ -15,7 +15,7 @@
 <div class="modal-body">
     @if (TempData["EditListingSuccess"] != null)
     {
-        @Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Danger)
+        @Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Success)
     }
     <div class="col-md-7">
         <div id="editPhotoPreview">
@@ -40,7 +40,7 @@
         @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
         @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
         @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Danger))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
     }
     <div class="clearfix"></div>
 </div>

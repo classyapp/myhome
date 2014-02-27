@@ -15,7 +15,7 @@
         @Html.Bootstrap().ValidationSummary()
         @f.FormGroup().DropDownListFor(x => x.CultureCode, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCultures, "Name", "NativeName", Model.CultureCode))
                 
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Danger).Text(Localizer.Get("EnvSettings_Submit")))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("EnvSettings_Submit")))
     }
     </div>
 
