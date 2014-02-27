@@ -17,7 +17,7 @@ $("#file").on("change", function () {
             reader.readAsDataURL(item);
         }
         else {
-            var img = $("<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-6\"><div class=\"img-preview\" style=\"background-image: url(/img/myhome-logo.png)\"></div><div class=\"filename\">" + item.name + "</div><div class=\"progress\"><div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div></div></div>");
+            var img = $("<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-6\"><div class=\"img-preview\" style=\"background-image: url(/img/homelab-logo.png)\"></div><div class=\"filename\">" + item.name + "</div><div class=\"progress\"><div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div></div></div>");
             $("#filesPreview").append(img);
         }
     });
