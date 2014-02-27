@@ -26,6 +26,12 @@ function UnfavoriteListing(e)
     });
 }
 
+function ChangePassword(e) {
+    $('#change-password-modal')
+        .modal('show')
+        .on("loaded.bs.modal", function () { attachValidation(frmChangePassword); });
+}
+
 $(function () {
     $('.thumbnail').mouseover(function () {
         $(this).find('.actions').removeClass('hidden');

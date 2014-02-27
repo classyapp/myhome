@@ -65,6 +65,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: "ChangePassword",
+                url: "profile/changepassword",
+                defaults: new { controller = "Profile", action = "ChangePassword" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteWithName(
                 name: "ClaimProxyProfile",
                 url: "profile/{profileId}/claim",
@@ -749,6 +756,32 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 throw ex;
             }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ChangePassword()
+        {
+            return PartialView();
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var service = new ProfileService();
+                    service.ChangePassword(model.NewPassword, AuthenticatedUserProfile.Id);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return PartialView(model);
         }
 
         #endregion
