@@ -137,12 +137,40 @@ button.btn-default
     background-color: #f0f0f0;
     padding: 0 20px;
 }
-.profile-header h1 {
+.profile-title h1 {
     font-size: 36px;
+    vertical-align: top;
+}
+.profile-title h1 a,
+.profile-title h1 a:hover,
+.profile-title h1 a:visited {
+    color: #444;
+    text-decoration: none;
+}
+.profile-title small {
+    font-size: 12px;
 }
 .social-stats li {
-
+    font-size: 14px;
+    margin-right: 10px;
+    padding: 0 10px 0 0;
+    border-right: solid 1px #ddd;
+    vertical-align: top;
 }
+.social-stats li:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border: none;
+    padding-top: 5px;
+}
+.social-stats li:last-child span {
+    display: inline-block;
+    padding-top: 10px;
+}
+.social-stats li strong {
+    font-size: 18px;
+}
+
 
 /* collection - grid */
 .collection .profile img
@@ -259,7 +287,6 @@ button.btn-default
     color: #333;
     font-weight: bold;
     font-size: 14px;
-}
 .panel-body {
     padding: 0;
 }

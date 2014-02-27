@@ -60,133 +60,6 @@
                         <img class="img-circle" src="@Model.Profile.ImageUrl" title="@Model.Profile.GetProfileName()" width="80px" />
                     </div>
                     <div class="media-body">
-                        <h1 class="media-heading" itemprop="name">@Model.Profile.GetProfileName()</h1>
-
-                        <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                            @if (Model.Profile.ReviewCount > 0)
-                            {
-                                <span class="stars">
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </span>
-                                <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
-                                <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
-                            }
-                            <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
-
-                            @if (Model.ReviewSubCriteria != null)
-                            {
-                                <div class="details hide">
-                                    <dl class="dl-horizontal">
-                                        <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
-                                        <dd>
-                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star"></span>
-                                            }
-                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star-empty"></span>
-                                            }
-                                        </dd>
-                                        <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
-                                        <dd>
-                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star"></span>
-                                            }
-                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star-empty"></span>
-                                            }
-                                        </dd>
-                                        <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
-                                        <dd>
-                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star"></span>
-                                            }
-                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star-empty"></span>
-                                            }
-                                        </dd>
-                                        <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
-                                        <dd>
-                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star"></span>
-                                            }
-                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                            {
-                                                <span class="glyphicon glyphicon-star-empty"></span>
-                                            }
-                                        </dd>
-                                    </dl>
-                                </div>
-                            }
-                        </div>   
-                        
-                        @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
-                        {
-                            <div class="profile-actions">
-                                <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
-                                @if (Model.Profile.IsProfessional) {
-                                    <a href="mailto:?subject=@(Localizer.Get("Profile_Pro_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("http://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
-                                    <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>
-                                }
-                                else {
-                                    <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("http://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
-                                }
-                            </div>
-                        }                     
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="social-stats">
-                    <ul class="list-inline list-unstyled">
-                        <li>
-                            <div><strong>@Model.Profile.FollowerCount</strong></div>
-                            <div>@Localizer.Get("PublicProfile_Followers")</div>
-                        </li>
-                        <li>
-                            <div><strong>@Model.Profile.FollowingCount</strong></div>
-                            <div>@Localizer.Get("PublicProfile_Following")</div>
-                        </li>
-                        <li>
-                            @if (Request.IsAuthenticated &&
-                                (Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) ||
-                                Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
-                            {
-                                <span><i class="glyphicon glyphicon-ok"></i> @Localizer.Get("Profile_Sidebar_Following")</span>
-                            }
-                            else
-                            {
-                                @Html.TriggerProfileActionLink(Localizer.Get("Profile_Sidebar_Follow"), "follow", Model.Profile, "btn btn-block btn-default")
-                            }
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @Html.Partial("SideBar", Model.Profile)
-
-        <div class="row">
-            <div class="profile-header col-md-9" >
-                <div class="media">
-                    <div class="pull-left">
-                        <img class="img-circle" src="@Model.Profile.ImageUrl" title="@Model.Profile.GetProfileName()" width="80px" />
-                    </div>
-                    <div class="media-body">
                         <div class="profile-title clearfix">
                             <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
                             <small class="pull-left"><span class="label label-default">PRO</span></small>
@@ -279,21 +152,122 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4">
-                @if (Model.Profile.IsProxy)
-                {
-                    if (!Request.IsAuthenticated || !user.Profile.IsProfessional)
-                    {
-                    @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
-                    }
-                }
-                else
-                {
-                    <a id="contact-pro" href="#" class="btn btn-primary btn-block">@Localizer.Get("Profile_Main_ContactPro")</a>
-                }
+            <div class="col-md-3 text-right">
+                <div class="social-stats">
+                    <ul class="list-inline list-unstyled">
+                        <li class="text-left">
+                            <div><strong>@Model.Profile.FollowerCount</strong></div>
+                            <div>@Localizer.Get("PublicProfile_Followers")</div>
+                        </li>
+                        <li class="text-left">
+                            <div><strong>@Model.Profile.FollowingCount</strong></div>
+                            <div>@Localizer.Get("PublicProfile_Following")</div>
+                        </li>
+                        <li class="text-left">
+                            @if (Request.IsAuthenticated &&
+                                (Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) ||
+                                Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
+                            {
+                                @Html.TriggerProfileActionLink(Localizer.Get("Profile_Sidebar_Unfollow"), "unfollow", Model.Profile, "btn btn-default")
+                            }
+                            else
+                            {
+                                @Html.TriggerProfileActionLink(string.Concat("<i class=\"glyphicon glyphicon-plus-sign\"></i> ", Localizer.Get("Profile_Sidebar_Follow")), "follow", Model.Profile, "btn btn-primary")
+                            }
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="profile-header col-md-9" >
+                <div class="media">
+                    <div class="pull-left">
+                        <img class="img-circle" src="@Model.Profile.ImageUrl" title="@Model.Profile.GetProfileName()" width="80px" />
+                    <div class="media-body">
+                        <div class="profile-title clearfix">
+                            <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
+                            <small class="pull-left"><span class="label label-default">PRO</span></small>
+                        </div>
+                        <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                            @if (Model.Profile.ReviewCount > 0)
+                                <span class="stars">
+                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                </span>
+                                <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
+                                <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
+                            }
+                            <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
+
+                            @if (Model.ReviewSubCriteria != null)
+                            {
+                                <div class="details hide">
+                                    <dl class="dl-horizontal">
+                                        <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
+                                        <dd>
+                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            }
+                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                            }
+                                        </dd>
+                                        <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
+                                        <dd>
+                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            }
+                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                            }
+                                        </dd>
+                                        <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
+                                        <dd>
+                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            }
+                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                            }
+                                        </dd>
+                                        <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
+                                        <dd>
+                                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            }
+                                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
+                                            {
+                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                            }
+                                        </dd>
+                                    </dl>
+                                </div>
+                            }
+                        </div>   
+                        
+                        @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+                        {
+                            <div class="profile-actions">
+                                <a href="@Url.RouteUrlForCurrentLocale("EditProfile")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
+                                @if (Model.Profile.IsProfessional) {
+                                    <a href="mailto:?subject=@(Localizer.Get("Profile_Pro_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("http://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+                                    <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>
+                                }
+                                else {
+                                    <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("http://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+                                }
+                            </div>
+                        }                     
+                    </div>
 
         <div class="row">
             <div class="col-md-9">
@@ -323,7 +297,6 @@
                         </p>
                     }
                 </div>
-                    <div class="contact-info"><i class="glyphicon glyphicon-earphone"></i> <span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
 
                 <!-- tabs -->
                 <ul class="nav nav-tabs" id="profileTabs">
