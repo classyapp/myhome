@@ -60,8 +60,10 @@
             }
         </div>
 
-        <div class="row results iscroll" data-item-class=".profile" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
-            data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+        <div class="row results iscroll" data-item-class=".profile" data-hasMore="@(Model.Results.Count == Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize ? "true" : "false")"
+            data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
+            data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" 
+            data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
                 @Html.Partial("ProfileGrid", Model.Results)
