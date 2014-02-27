@@ -21,6 +21,7 @@ namespace Classy.DotNet.Services
         private readonly string FOLLOW_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/follow";
         private readonly string GET_AUTHENTICATED_PROFILE = ENDPOINT_BASE_URL + "/profile";
         private readonly string GET_GOOGLE_CONTACTS_URL = ENDPOINT_BASE_URL + "/profile/social/google/contacts";
+        private readonly string CHANGE_PASSWORD_URL = ENDPOINT_BASE_URL + "/profile/{0}";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -216,6 +217,25 @@ namespace Classy.DotNet.Services
                 var url = GET_GOOGLE_CONTACTS_URL;
                 var contactsJson = client.DownloadString(url);
                 return contactsJson.FromJson<IList<GoogleContactView>>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void ChangePassword(string password, string profileId)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(CHANGE_PASSWORD_URL, profileId);
+                var data = new
+                {
+                    Password = password,
+                    Fields = 1 // Set Password
+                }.ToJson();
+                client.UploadString(url, "PUT", data);
             }
             catch (WebException wex)
             {

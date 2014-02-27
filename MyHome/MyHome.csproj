@@ -472,6 +472,7 @@
     <Content Include="Views\Profile\ProfileGrid.cshtml" />
     <Content Include="Views\Profile\LoadFacebookAlbums.cshtml" />
     <Content Include="Views\Profile\AskForReview.cshtml" />
+    <Content Include="Views\Profile\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
