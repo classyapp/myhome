@@ -112,6 +112,11 @@ namespace Classy.DotNet.Mvc.Localization
             }
         }
 
+        public static string GetCountryName(string countryCode)
+        {
+            return SupportedCountries.First(c => c.Code == countryCode).Name;
+        }
+
         public static string Get(string key)
         {
             return Get(key, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
