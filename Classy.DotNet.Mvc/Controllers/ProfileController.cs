@@ -59,6 +59,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteForSupportedLocales(
+                name: "ChangeProfileImage",
+                url: "profile/editimage",
+                defaults: new { controller = "Profile", action = "ChangeProfileImage" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
                 name: "AskForReview",
                 url: "profile/askreview",
                 defaults: new { controller = "Profile", action = "AskForReview" },
@@ -321,6 +328,22 @@ namespace Classy.DotNet.Mvc.Controllers
             else return View(model);
         }
 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ChangeProfileImage()
+        {
+            if (Request.Files.Count == 1)
+            {
+                var service = new ProfileService();
+                string url = service.UpdateProfile(
+                    AuthenticatedUserProfile.Id,
+                    Request.Files[0]);
+
+                return Json(new { url = url });
+            }
+            else
+                throw new InvalidOperationException("Invalid number of images");
+        }
 
         [AuthorizeWithRedirect]
         [AcceptVerbs(HttpVerbs.Get)]
