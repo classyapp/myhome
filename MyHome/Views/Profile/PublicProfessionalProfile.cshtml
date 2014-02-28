@@ -214,7 +214,7 @@
                 {
                     <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                         <i class="glyphicon glyphicon-envelope"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span>
-                        <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                        <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Localizer.GetCountryName(Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country)
                     </div>
                 }
             </div>

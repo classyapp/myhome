@@ -17,6 +17,8 @@ namespace Classy.DotNet.Mvc.Localization
     public static class Localizer
     {
         public const string CULTURE_COOKIE_NAME = "classy.env.culture";
+        public const string COUNTRY_COOKIE_NAME = "classy.env.country";
+        public const string GPS_LOCATION_COOKIE_NAME = "classy.env.gps_location";
         public const string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
         public const string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
         public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
@@ -33,6 +35,7 @@ namespace Classy.DotNet.Mvc.Localization
         {
             Initialize(null, false);
         }
+
         public static void Initialize(string forceCulture, bool showResourceKeys)
         {
             _showResourceKeys = showResourceKeys;
@@ -48,6 +51,26 @@ namespace Classy.DotNet.Mvc.Localization
             {
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
                 System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+            }
+
+            // init country
+            cookie = HttpContext.Current.Request.Cookies[COUNTRY_COOKIE_NAME];
+            Classy.DotNet.Mvc.GeoIP.Location location = Helpers.IPLocator.GetLocationByRequestIP();
+            if (cookie == null)
+            {
+                string countryCode = location.CountryCode ?? "FR";
+                cookie = new HttpCookie(COUNTRY_COOKIE_NAME, countryCode);
+                cookie.Expires = DateTime.Now.AddYears(1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+
+            // init gps coordinates cookie 
+            cookie = HttpContext.Current.Request.Cookies[GPS_LOCATION_COOKIE_NAME];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(GPS_LOCATION_COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
+                cookie.Expires = DateTime.Now.AddYears(1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
             }
         }
 
@@ -68,6 +91,30 @@ namespace Classy.DotNet.Mvc.Localization
                 }
                 return languages;
             }
+        }
+
+        public static IEnumerable<CountryInfo> SupportedCountries
+        {
+            get
+            {
+                var countries = HttpRuntime.Cache[SUPPORTED_COUNTRIES_CACHE_KEY] as List<CountryInfo>;
+                if (countries == null)
+                {
+                    var items = GetList("supported-countries");
+                    countries = new List<CountryInfo>();
+                    foreach (var li in items)
+                    {
+                        countries.Add(new CountryInfo { Name = li.Text, Code = li.Value });
+                    }
+                    HttpRuntime.Cache[SUPPORTED_COUNTRIES_CACHE_KEY] = countries;
+                }
+                return countries;
+            }
+        }
+
+        public static string GetCountryName(string countryCode)
+        {
+            return SupportedCountries.First(c => c.Code == countryCode).Name;
         }
 
         public static string Get(string key)

@@ -42,7 +42,7 @@
                 @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextBoxFor(x => x.Country).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().DropDownListFor(x => x.Country, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCountries, "Code", "Name", Model.Country)).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
                 <p>&nbsp;</p>
