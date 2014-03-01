@@ -7,6 +7,7 @@ using ServiceStack.Text;
 using Classy.DotNet.Security;
 using System.Net;
 using Classy.DotNet.Responses;
+using System.IO;
 
 namespace Classy.DotNet.Services
 {
@@ -22,6 +23,7 @@ namespace Classy.DotNet.Services
         private readonly string GET_AUTHENTICATED_PROFILE = ENDPOINT_BASE_URL + "/profile";
         private readonly string GET_GOOGLE_CONTACTS_URL = ENDPOINT_BASE_URL + "/profile/social/google/contacts";
         private readonly string CHANGE_PASSWORD_URL = ENDPOINT_BASE_URL + "/profile/{0}";
+        private readonly string CHANGE_IMAGE_URL = ENDPOINT_BASE_URL + "/profile/{0}";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -43,7 +45,7 @@ namespace Classy.DotNet.Services
                 var profile = profileJson.FromJson<ProfileView>();
                 return profile;
             }
-            catch(WebException wex)
+            catch (WebException wex)
             {
                 throw wex.ToClassyException();
             }
@@ -71,7 +73,8 @@ namespace Classy.DotNet.Services
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var url = CREATE_PROXY_URL;
-                var data = new {
+                var data = new
+                {
                     BatchId = batchId,
                     ProfessionalInfo = proInfo,
                     Metadata = metadata
@@ -87,10 +90,10 @@ namespace Classy.DotNet.Services
         }
 
         public ProfileView UpdateProfile(
-            string profileId, 
-            ExtendedContactInfoView contactInfo, 
-            ProfessionalInfoView proInfo, 
-            IDictionary<string, string> metadata, 
+            string profileId,
+            ExtendedContactInfoView contactInfo,
+            ProfessionalInfoView proInfo,
+            IDictionary<string, string> metadata,
             UpdateProfileFields fields)
         {
             try
@@ -115,11 +118,11 @@ namespace Classy.DotNet.Services
         }
 
         public SearchResultsView<ProfileView> SearchProfiles(
-            string displayName, 
-            string category, 
-            LocationView location, 
-            IDictionary<string, string> metadata, 
-            bool professionalsOnly, 
+            string displayName,
+            string category,
+            LocationView location,
+            IDictionary<string, string> metadata,
+            bool professionalsOnly,
             int page)
         {
             try
@@ -242,5 +245,91 @@ namespace Classy.DotNet.Services
                 throw wex.ToClassyException();
             }
         }
+
+        public string UpdateProfile(string profileId, System.Web.HttpPostedFileBase image)
+        {
+            try
+            {
+                var url = string.Format(CHANGE_IMAGE_URL, profileId);
+                var fileContent = new byte[image.ContentLength];
+                image.InputStream.Read(fileContent, 0, image.ContentLength);
+                var req = ClassyAuth.GetAuthenticatedWebRequest(url);
+                WebResponse response = HttpUploadFile(req, fileContent, image.ContentType, new Dictionary<string, object> { { "ProfileId", profileId }, { "Fields", 16 } });
+
+                byte[] bytes = response.GetResponseStream().ReadFully();
+                string json = Encoding.UTF8.GetString(bytes);
+                ProfileView profile = json.FromJson<ProfileView>();
+
+                return profile.ImageUrl;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        #region // upload file
+
+        private static WebResponse HttpUploadFile(HttpWebRequest request, byte[] fileContent, string contentType, Dictionary<string, object> fields)
+        {
+            request.PreAuthenticate = true;
+            request.AllowWriteStreamBuffering = true;
+
+            string boundary = System.Guid.NewGuid().ToString();
+
+            request.ContentType = string.Format("multipart/form-data;boundary={0}", boundary);
+            request.Method = "PUT";
+            
+            // Build Contents for Post
+            string header = string.Format("--{0}", boundary);
+            string footer = header + "--";
+            // string builders are for the text above and below the file - file is kept in its original format.
+            StringBuilder contents = new StringBuilder();
+            StringBuilder contents2 = new StringBuilder();
+
+            // Zip File
+            contents.AppendLine(header);
+            contents.AppendLine("Content-Disposition:form-data; name=\"myFile\"; filename=\"file\"");
+            contents.AppendLine("Content-Type: " + contentType);
+            contents.AppendLine();
+
+            contents2.AppendLine();
+            foreach (var field in fields.Keys)
+            {
+                contents2.AppendLine(header);
+                contents2.AppendLine(string.Format("Content-Disposition:form-data; name=\"{0}\"", field));
+                contents2.AppendLine();
+                contents2.AppendLine(fields[field].ToString());
+            }
+            // Form Field 1
+            
+            // Footer
+            contents2.AppendLine(footer);
+
+            // This is sent to the Post
+            byte[] bytes = Encoding.UTF8.GetBytes(contents.ToString());
+            byte[] bytes2 = Encoding.UTF8.GetBytes(contents2.ToString());
+
+            // now we have all of the bytes we are going to send, so we can calculate the size of the stream
+            request.ContentLength = bytes.Length + fileContent.Length + bytes2.Length;
+
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(bytes, 0, bytes.Length);
+            requestStream.Write(fileContent, 0, fileContent.Length);
+            requestStream.Write(bytes2, 0, bytes2.Length);
+            requestStream.Flush();
+            requestStream.Close();
+
+            try
+            {
+                return request.GetResponse();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        #endregion
     }
 }
