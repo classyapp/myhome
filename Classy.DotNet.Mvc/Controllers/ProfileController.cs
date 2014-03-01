@@ -415,7 +415,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     ReviewSubCriteria = subCriteria
                 };
 
-                return View(profile.IsProfessional ? "PublicProfessionalProfile" : "PublicProfile", model);
+                return View(model);
             }
             catch(ClassyException cex)
             {

@@ -71,13 +71,13 @@ button.btn-default
     filter: alpha(opacity=100);
 }
 
-    .close:hover
-    {
-        color: #fff;
-        opacity: 1;
-        text-shadow: 0 1px 0 #000;
-        filter: alpha(opacity=100);
-    }
+.close:hover
+{
+    color: #fff;
+    opacity: 1;
+    text-shadow: 0 1px 0 #000;
+    filter: alpha(opacity=100);
+}
 
 .media > .pull-left
 {
@@ -133,6 +133,16 @@ button.btn-default
 }
 
 /* profile page */
+.contact-button {
+    margin-bottom: 10px;
+}
+.contact-info {
+    margin-bottom: 5px;
+}
+.profile-header {
+    margin-bottom: 20px;
+}
+
 .profile-header .media-body {
     background-color: #f0f0f0;
     padding: 0 20px;
@@ -187,35 +197,35 @@ button.btn-default
     top: -90px;
 }
 
-    .home-banner .slogan
-    {
-        text-align: right;
-        position: absolute;
-        right: 15%;
-        top: 20%;
-        background-color: rgba(245, 245, 245, 0.4);
-        padding: 20px;
-    }
+.home-banner .slogan
+{
+    text-align: right;
+    position: absolute;
+    right: 15%;
+    top: 20%;
+    background-color: rgba(245, 245, 245, 0.4);
+    padding: 20px;
+}
 
-        .home-banner .slogan h1
-        {
-            text-align: left;
-            font-size: 36px;
-            color: #fff;
-            text-shadow: 1.5px 3.33px 13px rgba(0,0,0,0.7);
-            margin: 0;
-        }
+.home-banner .slogan h1
+{
+    text-align: left;
+    font-size: 36px;
+    color: #fff;
+    text-shadow: 1.5px 3.33px 13px rgba(0,0,0,0.7);
+    margin: 0;
+}
 
-        .home-banner .slogan .signin
-        {
-            position: relative;
-            right: 0;
-        }
+.home-banner .slogan .signin
+{
+    position: relative;
+    right: 0;
+}
 
-            .home-banner .slogan .signin a
-            {
-                margin-top: 20px;
-            }
+.home-banner .slogan .signin a
+{
+    margin-top: 20px;
+}
 
 .home-content
 {
@@ -223,27 +233,27 @@ button.btn-default
     top: -90px;
 }
 
-    .home-content .benefits
-    {
-        font-size: 18px;
-    }
+.home-content .benefits
+{
+    font-size: 18px;
+}
 
-        .home-content .benefits li
-        {
-            margin-bottom: 20px;
-        }
+.home-content .benefits li
+{
+    margin-bottom: 20px;
+}
 
-        .home-content .benefits .glyphicon
-        {
-            color: #47a447;
-            font-size: 24px;
-            margin-right: 10px;
-        }
+.home-content .benefits .glyphicon
+{
+    color: #47a447;
+    font-size: 24px;
+    margin-right: 10px;
+}
 
-    .home-content .about
-    {
-        margin-top: 40px;
-    }
+.home-content .about
+{
+    margin-top: 40px;
+}
 
 #articles .media
 {
@@ -282,26 +292,26 @@ button.btn-default
 .panel-default > .panel-body {
     padding: 10px 0;
 }
-.panel-title
-{
+.panel-title {
     color: #333;
     font-weight: bold;
     font-size: 14px;
+}
 .panel-body {
     padding: 0;
 }
 
-    .panel-body.social-thumbnails
-    {
-        padding: 5px;
-    }
+.panel-body.social-thumbnails
+{
+    padding: 5px;
+}
 
-        .panel-body.social-thumbnails .thumbnail
-        {
-            border-radius: 0;
-            padding: 1px;
-            margin-bottom: 0;
-        }
+.panel-body.social-thumbnails .thumbnail
+{
+    border-radius: 0;
+    padding: 1px;
+    margin-bottom: 0;
+}
 
 .panel-links a,
 .panel-links a:hover

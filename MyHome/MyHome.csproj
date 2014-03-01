@@ -449,7 +449,7 @@
     <Content Include="Views\Security\Register.cshtml" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Profile\CreateProfessionalProfile.cshtml" />
-    <Content Include="Views\Profile\PublicProfessionalProfile.cshtml" />
+    <Content Include="Views\Profile\PublicProfile.cshtml" />
     <Content Include="Views\Review\FindProfileToReview.cshtml" />
     <Content Include="TwitterBootstrapMvcLicense.lic" />
     <Content Include="Views\Photo\CreatePhoto.cshtml" />
@@ -465,7 +465,6 @@
     <Content Include="Views\Localization\EnvironmentSettings.cshtml" />
     <Content Include="Views\Localization\ManageResources.cshtml" />
     <Content Include="Views\Profile\ContactProfessional.cshtml" />
-    <Content Include="Views\Profile\PublicProfile.cshtml" />
     <Content Include="Views\Collection\EditCollection.cshtml" />
     <Content Include="Views\Collection\CollectionDetailsList.cshtml" />
     <Content Include="Views\Profile\CreateProxyProfile.cshtml" />
