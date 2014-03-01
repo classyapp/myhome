@@ -172,6 +172,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 TextFieldParser parser = new TextFieldParser(new StringReader(line));
                 parser.SetDelimiters(",");
                 args.LineValues = parser.ReadFields();
+                args.LineCount = index;
                 
                 // let the implementation handle parsing
                 OnParseProfilesCsvLine(this, args);

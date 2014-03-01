@@ -10,6 +10,7 @@ namespace Classy.DotNet.Mvc.Controllers
     {
         public bool IsHeaderLine { get; set; }
         public string[] LineValues { get; set; }
+        public int LineCount { get; set; }
         public ProfessionalInfoView ProfessionalInfo { get; set; }
         public TProMetadata Metadata { get; set; }
     }
