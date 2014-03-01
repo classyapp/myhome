@@ -30,6 +30,10 @@
             </div>
             @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
            
+            <div>
+                <a onclick="ChangePassword()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-lock">@Localizer.Get("Profile_ChangePassword")</i></a>
+            </div>
+            
             <p>&nbsp;</p>
             <h4>@Localizer.Get("EditProfile_ContactDetails")</h4>
             <hr/>
@@ -78,3 +82,22 @@
 
     </div>
 </div>
+
+<!-- change password -->
+<div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="change-password-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    function ChangePassword(e) {
+        $('#change-password-modal')
+            .modal('show')
+            .on("loaded.bs.modal", function () { attachValidation(frmChangePassword); });
+    }
+</script>
+}

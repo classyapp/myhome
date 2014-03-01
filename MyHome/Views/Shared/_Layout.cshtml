@@ -93,7 +93,7 @@
                                 <li class="profile">
                                     <a href="@Url.RouteUrl("PublicProfile", new { ProfileId = p.Id })">
                                         <div class="pull-left">
-                                            <img src="@p.ThumbnailUrl" width="30px" height="30px" />
+                                            <img src="@p.AvatarUrl(30, true)" width="30" />
                                             @Localizer.Get("Header_Nav_MyProfile")
                                         </div>
                                     </a>

@@ -61,17 +61,17 @@
         </div>
 
         <div class="row results iscroll" data-item-class=".profile" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
-            data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
                 @Html.Partial("ProfileGrid", Model.Results)
             }
         </div>
         <div id="pager" class="text-center hide">
-            <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize))" 
-                data-pages="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount">
+            <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize))"
+                data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
-                @for (int i = 0; i < Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount; i++)
+                @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
                 {
                     <li><a href="#">@(i + 1)</a></li>
                 }

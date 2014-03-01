@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
 
-namespace Classy.DotNet.Mvc.ViewModels.Application
+namespace Classy.DotNet.Responses
 {
     public class AppView
     {
         public static int PageSize { get; set; }
         public static int PagesCount { get; set; }
+        public static string DefaultProfileImage { get; set; }
 
         static AppView()
         {
@@ -19,6 +20,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Application
             AppSettingsResponse settings = service.GetAppSettings();
             PageSize = settings.PageSize;
             PagesCount = settings.PagesCount;
+            DefaultProfileImage = settings.DefaultProfileImage;
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
     {
         // account info
         public string ProfileId { get; set; }
-        public string ThumbnailUrl { get; set; }
         [Display(Name = "EditProfile_Username")]
         [Required(ErrorMessage = "EditProfile_Username_Required")]
         public string Username { get; set; }

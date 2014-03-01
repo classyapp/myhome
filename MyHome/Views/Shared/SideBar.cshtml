@@ -2,7 +2,7 @@
 
 <div class="col-md-3 sidebar">
     <div class="image text-center">
-        <img src="@Model.ImageUrl" title="@Model.ContactInfo.Name" />
+        <img src="@Model.AvatarUrl()" title="@Model.ContactInfo.Name" />
         @if (Request.IsAuthenticated && Model.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
         {
             <div class="update-image text-center">
@@ -72,7 +72,7 @@
                     {
                         <li class="thumbnail">
                             <a href="@Url.ProfileUrl(p)">
-                                <img src="@p.ThumbnailUrl" width="30" />
+                                <img src="@p.AvatarUrl(30, true)" width="30" />
                             </a>
                         </li>
                     }
@@ -93,7 +93,7 @@
                     {
                         <li class="thumbnail">
                             <a href="@Url.ProfileUrl(p)">
-                                <img src="@p.ThumbnailUrl" width="30" />
+                                <img src="@p.AvatarUrl(30, true)" width="30" />
                             </a>
                         </li>
                     }
