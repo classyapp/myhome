@@ -27,7 +27,7 @@
                 @f.FormGroup().CheckBoxFor(x => x.RememberMe).Label().LabelText(Localizer.Get("Login_RememberMe")).ShowRequiredStar(false)
                 @Html.HiddenFor(x => x.RedirectUrl)
 
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-block btn-success").Text(Localizer.Get("Login_Submit")))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Class("btn-block btn-primary").Text(Localizer.Get("Login_Submit")))
             }
 
             <p>

@@ -27,12 +27,14 @@ namespace MyHome
                       "~/Content/rtl/fonts.css",
                       "~/Content/rtl/bootstrap.css",
                       "~/Content/ltr/site.css", /* yes, ltr first */
-                      "~/Content/rtl/site.css"));
+                      "~/Content/rtl/site.css",
+                      "~/Content/rtl/bootstrap-tagsinput.css"));
 
             bundles.Add(new StyleBundle("~/Content/css/ltr").Include(
                       "~/Content/ltr/fonts.css",
                       "~/Content/ltr/bootstrap.min.css",
-                      "~/Content/ltr/site.css"));
+                      "~/Content/ltr/site.css",
+                      "~/Content/ltr/bootstrap-tagsinput.css"));
         }
     }
 }

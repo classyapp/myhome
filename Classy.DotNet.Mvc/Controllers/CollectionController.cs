@@ -108,7 +108,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     // create new collection
                     if (string.IsNullOrEmpty(model.CollectionId))
                     {
-                        var collection = service.CreateCollection(model.CollectionType, model.Title, null, model.IncludedListings);
+                        var collection = service.CreateCollection(CollectionType.PhotoBook, model.Title, null, model.IncludedListings);
                         model.CollectionId = collection.Id;
                     }
                     // add listings to collection
@@ -116,14 +116,20 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         service.AddListingToCollection(model.CollectionId, model.IncludedListings);
                     }
+
+                    return Json(new { IsValid = true });
                 }
-                model.CollectionList = GetCollectionList(model.CollectionId, CollectionType.PhotoBook);
-                return PartialView("AddListingToCollectionModal", model);
             }
             catch (ClassyException cex)
             {
-                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+                if (cex.IsValidationError())
+                {
+                    AddModelErrors(cex);
+                }
+                else return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
+            model.CollectionList = GetCollectionList(model.CollectionId, CollectionType.PhotoBook); 
+            return PartialView("AddListingToCollectionModal", model);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]

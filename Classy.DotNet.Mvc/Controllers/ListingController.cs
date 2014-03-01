@@ -66,7 +66,7 @@ namespace Classy.DotNet.Mvc.Controllers
             
             routes.MapRoute(
                 name: string.Concat("Delete", ListingTypeName),
-                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}"),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/delete"),
                 defaults: new { controller = ListingTypeName, action = "DeleteListing" },
                 namespaces: new string[] { Namespace }
             );
@@ -233,6 +233,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ListingService();
                 service.PostComment(listingId, content);
+                TempData["PostComment_Success"] = true;
             }
             catch(ClassyException cvx)
             {
@@ -331,7 +332,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
-                try
+                if (ModelState.IsValid)
                 {
                     var service = new ListingService();
                     var listing = service.UpdateListing(
@@ -343,31 +344,18 @@ namespace Classy.DotNet.Mvc.Controllers
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         null);
 
-                    TempData["EditListingSuccess"] = true;
-
-                    return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName),
-                        new UpdateListingViewModel<TListingMetadata> 
-                        {
-                            Id = listing.Id,
-                            Title = listing.Title,
-                            Content = listing.Content,
-                            ExternalMedia = listing.ExternalMedia,
-                            Metadata = new TListingMetadata().FromDictionary(listing.Metadata)
-                        });
+                    return Json(new { IsValid = true });
                 }
-                catch (ClassyException cvx)
-                {
-                    if (cvx.IsValidationError())
-                    {
-                        AddModelErrors(cvx);
-                        return View(string.Concat("Create", ListingTypeName));
-                    }
-                    else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
-                }
+                else return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
             }
-            catch (ClassyException cex)
+            catch (ClassyException cvx)
             {
-                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+                if (cvx.IsValidationError())
+                {
+                    AddModelErrors(cvx);
+                    return View(string.Concat("Create", ListingTypeName));
+                }
+                else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
         }
 

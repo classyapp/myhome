@@ -61,7 +61,7 @@
                     </li>
                     <li><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("Header_Nav_FindPros")</a></li>
                 </ul>
-                <div class="col-sm-3 col-md-3 pull-left">
+                @*<div class="col-sm-3 col-md-3 pull-left">
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="@Localizer.Get("Header_Nav_Search")" name="srch-term" id="srch-term">
@@ -70,14 +70,15 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>*@
                 <ul class="nav navbar-nav">
-                    <li><a href="@Url.RouteUrlForCurrentLocale("FindProfileToReview")" authorize><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_WriteReview")</a></li>
-                    <li><a href="@Url.RouteUrlForCurrentLocale("CreatePhoto")" authorize><span class="glyphicon glyphicon-upload"></span> @Localizer.Get("Header_Nav_Upload")</a></li>                        
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.RouteUrlForCurrentLocale("FindProfileToReview")" authorize><span class="glyphicon glyphicon-comment"></span> @Localizer.Get("Header_Nav_WriteReview")</a></li>
+                    <li><a href="@Url.RouteUrlForCurrentLocale("CreatePhoto")" authorize><span class="glyphicon glyphicon-upload"></span> @Localizer.Get("Header_Nav_Upload")</a></li>
+
                     <li class="dropdown">
-                        <a href="#language-select" data-toggle="modal" data-target="#env-modal"><img src="/img/flags/@(env.Culture.Substring(3, 2).ToLower()).png" /> <b class="caret"></b></a>
+                        <a href="#language-select" data-toggle="modal" data-target="#env-modal">@env.Culture.Substring(0, 2).ToUpper() <b class="caret"></b></a>
                     </li>
 
                     @if (Request.IsAuthenticated)
@@ -92,13 +93,13 @@
                                 <li class="profile">
                                     <a href="@Url.RouteUrl("PublicProfile", new { ProfileId = p.Id })">
                                         <div class="pull-left">
-                                            <img src="@p.ThumbnailUrl" width="30px" height="30px" />
+                                            <img src="@p.AvatarUrl(30, true)" width="30" />
                                             @Localizer.Get("Header_Nav_MyProfile")
                                         </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="@Url.RouteUrl("Logout")">@Localizer.Get("Header_Nav_Logout")</a></li>
+                                <li><a href="@Url.RouteUrl("Logout")"><i class="glyphicon glyphicon-log-out"></i> @Localizer.Get("Header_Nav_Logout")</a></li>
                             </ul>
                         </li>
                     }
@@ -106,9 +107,13 @@
                     {
                     <li class="dropdown">
                         <a href="@Url.RouteUrl("Login")" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-lock"></span> @Localizer.Get("Header_Nav_Login")
+                            <span class="glyphicon glyphicon-log-in"></span> @Localizer.Get("Header_Nav_Login")
                         </a>
                         <ul class="dropdown-menu login-dropdown">
+                            <li>
+                                <button id="sign-in-facebook" class="btn btn-fb-login btn-block">@Localizer.Get("Login_Facebook")</button>
+                            </li>
+                            <li class="divider"></li>
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -127,7 +132,7 @@
                                                 </label>
                                             </div>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-success btn-block">@Localizer.Get("Login_Submit")</button>
+                                                <button type="submit" class="btn btn-primary btn-block">@Localizer.Get("Login_Submit")</button>
                                             </div>
                                             <div class="text-center">
                                                 @Html.RouteLink(Localizer.Get("Login_Register"), "Register")
@@ -135,10 +140,6 @@
                                         </form>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <button id="sign-in-facebook" class="btn btn-fb-login btn-block">@Localizer.Get("Login_Facebook")</button>
                             </li>
                         </ul>
                     </li>
@@ -194,6 +195,7 @@
 
     @Scripts.Render("~/scripts/classy.js")
     @Scripts.Render("~/scripts/fb-login.js")
+    @Scripts.Render("~/scripts/google-login.js")
     @Scripts.Render("~/scripts/trigger-action.js")
 
     <!-- login modal -->
@@ -232,6 +234,15 @@
         </div>
     </div>
 
+    <!-- change password -->
+    <div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" id="change-password-replace">
+                <!-- will be replaced -->
+            </div>
+        </div>
+    </div>
+
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
@@ -249,9 +260,7 @@
         });
 
         function CloseModal(data) { 
-            if (data.indexOf("validation-summary-errors") > -1) 
-                return false;
-            else {
+            if (data.IsValid) {
                 $('.modal').modal('hide');
                 return true;
             }
@@ -265,6 +274,8 @@
         }
 
         var msgConfirm = '@Localizer.Get("Global_Message_Confirm")';
+
+        Classy.AcquireGPSCoordinates();
     </script>
 
     @RenderSection("scripts", required: false)

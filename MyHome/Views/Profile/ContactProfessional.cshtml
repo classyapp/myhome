@@ -20,12 +20,12 @@
         }
         @f.FormGroup().TextBoxFor(x => x.Subject ).Value(Localizer.Get("Profile_ContactPro_SubjectPlaceholder")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Profile_ContactPro_Subject"))
         @f.FormGroup().TextAreaFor(x => x.Content).Value(Localizer.Get("Profile_ContactPro_ContentPlaceholder")).Rows(5).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("Profile_ContactPro_Content"))
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Profile_ContactPro_Submit")).Style(ButtonStyle.Success))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("Profile_ContactPro_Submit")).Style(ButtonStyle.Primary))
     }
 </div>
 
 <script>
     function CloseContactModal(data) {
-        if (CloseModal(data)) { $('#contactSuccess').removeClass('hide'); }
+        if (CloseModal(data)) { $('#contactSuccess').removeClass('hidden'); }
     }
 </script>

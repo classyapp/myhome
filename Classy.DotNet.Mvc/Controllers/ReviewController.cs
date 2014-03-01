@@ -103,7 +103,7 @@ namespace Classy.DotNet.Mvc.Controllers
                             ReviewResponse = response
                         });
 
-                    TempData["ReviewSuccess"] = Localizer.Get("PublicProfile_ReviewSuccess");
+                    TempData["ReviewSuccess"] = true;
                     return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId });
                 }
                 catch(ClassyException cvx)

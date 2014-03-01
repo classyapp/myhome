@@ -5,6 +5,17 @@
 }
 
 <div class="row">
+    <div class="col-md-12">
+        <div id="changePasswordSuccess" class="alert alert-success alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Localizer.Get("ChangePassword_Success")
+        </div>
+        <div id="uploadProfilePicSuccess" class="alert alert-success alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Localizer.Get("UploadProfilePic_Success")
+        </div>
+    </div>
+
     @Html.Partial("SideBar", (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile)
 
     <div class="col-md-9 main">
@@ -18,13 +29,23 @@
             <hr/>
 
             <div class="form-group">
-                @Html.Bootstrap().LabelFor(x => x.Username)
+                @Html.Bootstrap().LabelFor(x => x.Username).ShowRequiredStar(false)
                 <div>
                     <p class="form-control-static">@Html.DisplayFor(x => x.Username)</p>
                 </div>
             </div>
-            @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false)
+            
+            @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
            
+            <div>
+                <a href="#" onclick="ChangePassword()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-lock"></i> @Localizer.Get("Profile_ChangePassword")</a>
+
+                <button class="update-image btn btn-default btn-sm ">
+                    <i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_Change_Photo")
+                    <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage")" value="" onchange="ChangeProfilePhoto(this)" />
+                </button>
+            </div>
+            
             <p>&nbsp;</p>
             <h4>@Localizer.Get("EditProfile_ContactDetails")</h4>
             <hr/>
@@ -37,7 +58,7 @@
                 @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextBoxFor(x => x.Country).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().DropDownListFor(x => x.Country, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCountries, "Code", "Name", Model.Country)).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
                 <p>&nbsp;</p>
@@ -47,16 +68,16 @@
                 @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
-                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Label().WidthLg(12)
+                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().WidthLg(12).ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
-                @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().WidthLg(12)
-                @*<div>job cost from: --- to: ---</div>*@
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.CostDetails).ShowValidationMessage(false).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().WidthLg(12)
+                @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().WidthLg(12).ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().WidthLg(12).ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+                @*<div>job cost from: --- to: ---</div>
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.CostDetails).ShowValidationMessage(false).Label().WidthLg(12)*@
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
             }
             else 
             {
@@ -67,9 +88,42 @@
                 <p>&nbsp;</p>
                 <hr/>
 
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditProfile_Submit")).Style(ButtonStyle.Success))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditProfile_Submit")).Style(ButtonStyle.Primary))
             </div>
         }
 
     </div>
 </div>
+
+<!-- change password -->
+<div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="change-password-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/scripts/xhr-upload.js")
+
+<script>
+    function ChangePassword(e) {
+        $('#change-password-modal')
+            .modal('show')
+            .on("loaded.bs.modal", function () { attachValidation(frmChangePassword); });
+    }
+
+    function ChangeProfilePhoto(file) {
+        if (file.value != "") {
+            var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: 2 });
+            upload.upload(function (e) { }, function (e) {
+                $(file).closest(".image").find("img").attr("src", e.url);
+                $('#uploadProfilePicSuccess').removeClass('hidden');
+            }, function (e) {
+                // failed
+            });
+        }
+    }
+</script>
+}

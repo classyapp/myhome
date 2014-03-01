@@ -7,15 +7,20 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
-<div class="row photo-details">
-    <div class="col-md-7">
+@if (TempData["PostComment_Success"] != null)
+{
+    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+}
 
+
+<div class="row photo-details">    
+    <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
             <div class="stats">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
-                <span><i class="glyphicon glyphicon-heart"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
+                <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
                 <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("PhotoDetails_CommentCount"), Model.Listing.CommentCount)</span>
             </div>
         </div>
@@ -49,7 +54,7 @@
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
-            <img src="@Model.Listing.Profile.ThumbnailUrl" width="50" class="pull-left" />
+            <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left" />
             <div class="details">
                 @Html.ProfileLink(Model.Listing.Profile)
                 @if (Model.Listing.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
@@ -65,39 +70,37 @@
         @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
 
         <hr />
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h3>
-            </div>
-            <div class="panel-body comments">
-                @if (Model.Listing.CommentCount == 0)
-                {
-                    <p>@Localizer.Get("PhotoDetails_NoComments")</p>
-                }
-                @foreach (var c in Model.Listing.Comments)
-                {
-                    <div class="comment">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <img src="@c.Profile.ThumbnailUrl" width="40" />
-                            </div>
-                            <div class="col-md-10 content">
-                                <strong>@Html.ProfileLink(c.Profile):</strong>
-                                <p>@c.Content</p>
-                            </div>
+        <div>
+            <p>
+                <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
+            </p>
+        
+            @if (Model.Listing.CommentCount == 0)
+            {
+                <p>@Localizer.Get("PhotoDetails_NoComments")</p>
+            }
+            
+            @foreach (var c in Model.Listing.Comments)
+            {
+                <p class="comment">
+                    <div class="media">
+                        <div class="pull-left">
+                            <img src="@c.Profile.AvatarUrl(40, true)" width="40" />
                         </div>
-                        <hr />
+                        <div class="media-body">
+                            <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                            <p>@c.Content</p>
+                        </div>
                     </div>
-                }
+                </p>
+            }
 
-                @using (var f = Html.Bootstrap().Begin(new Form("PostComment")))
-                {
-                    @Html.Hidden("ListingId", Model.Listing.Id);
-                    @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
-                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Success).HtmlAttributes(new { authorize = "true" }))
-                }
-            </div>
+            @using (var f = Html.Bootstrap().Begin(new Form("PostComment")))
+            {
+                @Html.Hidden("ListingId", Model.Listing.Id);
+                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+            }
         </div>
     </div>
 </div>

@@ -2,7 +2,8 @@
 
 <div class="col-md-3 sidebar">
     <div class="image text-center">
-        <img src="@Model.ImageUrl" title="@Model.ContactInfo.Name" />
+        <img src="@Model.AvatarUrl()" title="@Model.ContactInfo.Name" />
+       
     </div>
 
     <div class="follow text-center">
@@ -27,7 +28,7 @@
             <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Collections")</a>
             @if (Model.IsProfessional)
             { 
-            <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Projects")</a>
+                <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Projects")</a>
             }
             @Html.RouteLink(Localizer.Get("Profile_ProfileLinksPanel_Photos"), "PublicProfilePhotos", new { ProfileId = Model.Id })
             <a href="#">@Localizer.Get("Profile_ProfileLinksPanel_Reviews")</a>
@@ -63,7 +64,7 @@
                     {
                         <li class="thumbnail">
                             <a href="@Url.ProfileUrl(p)">
-                                <img src="@p.ThumbnailUrl" width="30" />
+                                <img src="@p.AvatarUrl(30, true)" width="30" />
                             </a>
                         </li>
                     }
@@ -84,7 +85,7 @@
                     {
                         <li class="thumbnail">
                             <a href="@Url.ProfileUrl(p)">
-                                <img src="@p.ThumbnailUrl" width="30" />
+                                <img src="@p.AvatarUrl(30, true)" width="30" />
                             </a>
                         </li>
                     }

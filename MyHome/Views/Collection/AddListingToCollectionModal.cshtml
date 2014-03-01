@@ -20,9 +20,9 @@
         @Html.HiddenFor(x => x.IncludedListings[0].Id, new { @id = "listingId" })
         @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel(Localizer.Get("AddToCollection_OptionLabel")).Label().WidthLg(12).ShowRequiredStar(false)
         @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.IncludedListings[0].Comments).Label().WidthLg(12).LabelText("AddListingToCollection_Comment")
+        @f.FormGroup().TextAreaFor(x => x.IncludedListings[0].Comments).Label().WidthLg(12).LabelText(Localizer.Get("AddListingToCollection_Comment"))
 
-        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("AddToCollection_Submit")))
+        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("AddToCollection_Submit")))
     }
 </div>
 

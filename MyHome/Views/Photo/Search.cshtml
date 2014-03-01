@@ -92,22 +92,23 @@
                     @f.FormGroup().TextBoxFor(x => x.Tag).Placeholder(Localizer.Get("Search_Keyword")).Label().Class("sr-only")
                     @f.FormGroup().TextBoxFor(x => x.PriceMin).Placeholder(Localizer.Get("Search_CostFrom")).Label().Class("sr-only")
                     @f.FormGroup().TextBoxFor(x => x.PriceMax).Placeholder(Localizer.Get("Search_CostTo")).Label().Class("sr-only")
-                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Success).Text(Localizer.Get("Search_Submit"))
+                    @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("Search_Submit"))
             }-->
         </div>
 
-        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="true" data-url="@Url.RouteUrlForCurrentLocale("SearchPhoto")"
-            data-page-size="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="@(Model.Results.Count == Classy.DotNet.Responses.AppView.PageSize ? "true" : "false")" 
+            data-url="@Url.RouteUrlForCurrentLocale("SearchPhoto")"
+            data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
                 @Html.Partial("PhotoGrid", Model.Results)
             }
         </div>
         <div id="pager" class="text-center hide">
-            <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize))" 
-                data-pages="@Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount">
+            <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize))" 
+                data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
-                @for (int i = 0; i < Classy.DotNet.Mvc.ViewModels.Application.AppView.PagesCount; i++)
+                @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
                 {
                     <li><a href="#">@(i + 1)</a></li>
                 }

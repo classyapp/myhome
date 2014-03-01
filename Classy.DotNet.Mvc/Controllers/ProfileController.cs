@@ -30,6 +30,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional;
         public EventHandler<ParseProfilesCsvLineArgs<TProMetadata>> OnParseProfilesCsvLine;
+        public EventHandler<AskForReviewArgs<TProMetadata>> OnAskForReview;
 
         /// <summary>
         /// register routes within host app's route collection
@@ -54,6 +55,27 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "EditProfile",
                 url: "profile/edit",
                 defaults: new { controller = "Profile", action = "EditProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
+                name: "ChangeProfileImage",
+                url: "profile/editimage",
+                defaults: new { controller = "Profile", action = "ChangeProfileImage" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
+                name: "AskForReview",
+                url: "profile/askreview",
+                defaults: new { controller = "Profile", action = "AskForReview" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
+                name: "ChangePassword",
+                url: "profile/changepassword",
+                defaults: new { controller = "Profile", action = "ChangePassword" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -150,6 +172,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 TextFieldParser parser = new TextFieldParser(new StringReader(line));
                 parser.SetDelimiters(",");
                 args.LineValues = parser.ReadFields();
+                args.LineCount = index;
                 
                 // let the implementation handle parsing
                 OnParseProfilesCsvLine(this, args);
@@ -206,7 +229,6 @@ namespace Classy.DotNet.Mvc.Controllers
                 City = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
                 Country = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
                 PostalCode = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
-                ThumbnailUrl = AuthenticatedUserProfile.ThumbnailUrl,
                 Username = AuthenticatedUserProfile.UserName,
                 Email = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
                 Phone = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
@@ -306,6 +328,73 @@ namespace Classy.DotNet.Mvc.Controllers
             else return View(model);
         }
 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ChangeProfileImage()
+        {
+            if (Request.Files.Count == 1)
+            {
+                var service = new ProfileService();
+                string url = service.UpdateProfile(
+                    AuthenticatedUserProfile.Id,
+                    Request.Files[0]);
+
+                return Json(new { url = url });
+            }
+            else
+                throw new InvalidOperationException("Invalid number of images");
+        }
+
+        [AuthorizeWithRedirect]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult AskForReview()
+        {
+            try
+            {
+                AskForReviewModel model = new AskForReviewModel();
+                model.ProfileId = AuthenticatedUserProfile.Id;
+                var service = new ProfileService();
+                var contacts = service.GetGoogleContacts();
+                model.NeedAuthentication = (contacts == null);
+                model.GoogleContacts = contacts;
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AskForReview(AskForReviewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var service = new ProfileService();
+                AskForReviewArgs<TProMetadata> args = new AskForReviewArgs<TProMetadata>();
+                args.Emails = model.Contacts;
+                args.Message = model.Message;
+                args.Profile = AuthenticatedUserProfile;
+                args.ReviewLink = Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }, Request.Url.Scheme);
+
+                if (OnAskForReview != null)
+                {
+                    OnAskForReview(this, args);
+                }
+            }
+            else
+            {
+                var service = new ProfileService();
+                var contacts = service.GetGoogleContacts();
+                model.NeedAuthentication = (contacts == null);
+                model.GoogleContacts = contacts;
+                return View(model);
+            }
+
+            return RedirectToAction("PublicProfile", new { profileId = AuthenticatedUserProfile.Id});
+        }
+
         //
         // GET: /profile/{ProfileId}/{Slug}
         //
@@ -326,7 +415,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     ReviewSubCriteria = subCriteria
                 };
 
-                return View(profile.IsProfessional ? "PublicProfessionalProfile" : "PublicProfile", model);
+                return View(model);
             }
             catch(ClassyException cex)
             {
@@ -413,7 +502,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Metadata.ToDictionary());
                 service.ApproveProxyClaim(claim.Id);
 
-                return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId });
+                return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
             }
             catch (ClassyException cvx)
             {
@@ -479,8 +568,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
             if (model.Metadata == null) model.Metadata = new TProMetadata();
-            var slug = model.Metadata.GetSearchFilterSlug(model.Name, model.Location);
-            return RedirectToRoute("SearchProfiles", new { filters = slug });
+            // var slug = model.Metadata.GetSearchFilterSlug(model.Name, model.Location);
+            return RedirectToRoute("SearchProfiles", new { /* filters = slug */ name = model.Name, location = model.Location, category = model.Category });
         }
 
         // 
@@ -597,7 +686,6 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // POST: /profile/{ProfessionalProfileId}/contact
         [AcceptVerbs((HttpVerbs.Post))]
-        //[ExportModelStateToTempData]
         public ActionResult ContactProfessional(ContactProfessionalViewModel model, object dummy)
         {
             try
@@ -627,12 +715,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (OnContactProfessional != null)
                         OnContactProfessional(this, args);
 
-                    var analytics = new AnalyticsService();
                     //TODO: this doesn't belong in the frontend 
+                    var analytics = new AnalyticsService();
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
-                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    return Json(new { IsValid = true });
                 }
+                else return PartialView(model);
             }
             catch (ClassyException cvx)
             {
@@ -691,6 +780,32 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 throw ex;
             }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ChangePassword()
+        {
+            return PartialView();
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var service = new ProfileService();
+                    service.ChangePassword(model.NewPassword, AuthenticatedUserProfile.Id);
+                    return Json(new { IsValid = true });
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            } else return PartialView(model);
         }
 
         #endregion

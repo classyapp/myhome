@@ -107,6 +107,32 @@ namespace Classy.DotNet.Security
             }
         }
 
+        public static bool AuthenticateGoogleUser(string token)
+        {
+            try
+            {
+                var context = System.Web.HttpContext.Current;
+                var client = HttpWebRequest.Create(string.Concat(EndpointBaseUrl, "/auth/GoogleOAuth?format=json&oauth_token=", token)) as HttpWebRequest;
+                client.Method = "GET";
+                client.ContentType = "application/json";
+                client.Accept = "application/json";
+                client.Headers.Add("X-Classy-Env", GetEnvHeader());
+                var response = client.GetResponse() as HttpWebResponse;
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    FillInCookiesCollection(context.Response.Cookies, response.Headers[HttpResponseHeader.SetCookie], context.Request.Url);
+                    var authJson = (new StreamReader(response.GetResponseStream())).ReadToEnd();
+                    var auth = authJson.FromJson<ClassyAuthResponse>();
+                    return SetPrincipalInternal(auth.SessionId);
+                }
+                return true;
+            }
+            catch (WebException)
+            {
+                return false;
+            }
+        }
+
         public static void Logout()
         {
             var client = GetWebClient();
@@ -184,10 +210,32 @@ namespace Classy.DotNet.Security
 
         private static string GetEnvHeader()
         {
+            HttpCookie gpsCookie = null;
+            HttpCookie countryCookie = null;
+            HttpRequest request = null;
+            GPSLocation location = null;
+
+            try
+            {
+                // on register routes the request is not applicable
+                request = System.Web.HttpContext.Current.Request;
+            }
+            catch { }
+
+            if (request != null)
+            {
+                gpsCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.gps_location"];
+                if (gpsCookie != null)
+                {
+                    location = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
+                }
+                countryCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.country"];
+            }
             return new
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
-                CountryCode = "IL",
+                CountryCode = countryCookie == null ? "FR" : countryCookie.Value,
+                GPSCoordinates = location,
                 CurrencyCode = "ILS",
                 AppId = ApiKey
             }.ToJson();
