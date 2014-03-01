@@ -38,7 +38,7 @@
             @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
            
             <div>
-                <a onclick="ChangePassword()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-lock">@Localizer.Get("Profile_ChangePassword")</i></a>
+                <a href="#" onclick="ChangePassword()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-lock"></i> @Localizer.Get("Profile_ChangePassword")</a>
 
                 <button class="update-image btn btn-default btn-sm ">
                     <i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_Change_Photo")
@@ -121,7 +121,7 @@
                 $(file).closest(".image").find("img").attr("src", e.url);
                 $('#uploadProfilePicSuccess').removeClass('hidden');
             }, function (e) {
-                alert("oops.");
+                // failed
             });
         }
     }
