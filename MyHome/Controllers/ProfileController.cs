@@ -26,6 +26,7 @@ namespace MyHome.Controllers
 
         public void ProfileController_OnParseProfilesCsvLine(object sender, ParseProfilesCsvLineArgs<ProfessionalMetadata> e)
         {
+            var countries = Localizer.GetList("supported-countries");
             if (e.IsHeaderLine) return;
             else
             {
@@ -51,6 +52,7 @@ namespace MyHome.Controllers
                     }
                 };
             }
+            if (!countries.Any(x => x.Value == e.ProfessionalInfo.CompanyContactInfo.Location.Address.Country)) throw new ArgumentException(string.Format("invalid country code in line {0}", e.LineCount));
         }
 
         public void ProfileController_OnContactProfessional(object sender, ContactProfessionalArgs<ProfessionalMetadata> e) {
