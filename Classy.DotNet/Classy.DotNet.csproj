@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Responses\AppSettingsResponse.cs" />
+    <Compile Include="Responses\AppView.cs" />
     <Compile Include="Responses\BaseDeleteResponse.cs" />
     <Compile Include="Responses\CollectionView.cs" />
     <Compile Include="Responses\CommentView.cs" />

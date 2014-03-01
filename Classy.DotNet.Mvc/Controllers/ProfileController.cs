@@ -228,7 +228,6 @@ namespace Classy.DotNet.Mvc.Controllers
                 City = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
                 Country = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
                 PostalCode = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
-                ThumbnailUrl = AuthenticatedUserProfile.ThumbnailUrl,
                 Username = AuthenticatedUserProfile.UserName,
                 Email = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
                 Phone = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
@@ -798,13 +797,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     var service = new ProfileService();
                     service.ChangePassword(model.NewPassword, AuthenticatedUserProfile.Id);
+                    return Json(new { IsValid = true });
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
-            }
-            return PartialView(model);
+            } else return PartialView(model);
         }
 
         #endregion

@@ -260,7 +260,7 @@ namespace Classy.DotNet.Services
                 string json = Encoding.UTF8.GetString(bytes);
                 ProfileView profile = json.FromJson<ProfileView>();
 
-                return profile.ImageUrl;
+                return profile.Avatar.Url;
             }
             catch (WebException wex)
             {
