@@ -96,7 +96,7 @@
             }-->
         </div>
 
-        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="@(Model.Results.Count == Classy.DotNet.Mvc.ViewModels.Application.AppView.PageSize ? "true" : "false")" 
+        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="@(Model.Results.Count == Classy.DotNet.Responses.AppView.PageSize ? "true" : "false")" 
             data-url="@Url.RouteUrlForCurrentLocale("SearchPhoto")"
             data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
