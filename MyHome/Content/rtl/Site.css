@@ -1,113 +1,173 @@
 ﻿/* Space out content a bit */
-body {
-    font-family: "Alef Hebrew",
-                “Helvetica Neue”,
-                Helvetica,
-                Arial,
-                sans-serif;
+body
+{
+    font-family: "Alef Hebrew", “Helvetica Neue”, Helvetica, Arial, sans-serif;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5
+{
     font-family: "Alef Hebrew", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.media > .pull-left {
+.media > .pull-left
+{
     margin-left: 0;
 }
 
 /* collection - grid */
-.collection .profile img {
+.collection .profile img
+{
     margin-left: 10px;
     margin-right: 0;
 }
 
 /* home page */
-.home-banner .slogan {
+.home-banner .slogan
+{
     text-align: left;
     left: 10%;
     right: auto;
 }
-.home-banner .slogan h1 {
-    text-align: right;
-}
-.home-content .benefits .glyphicon {
+
+    .home-banner .slogan h1
+    {
+        text-align: right;
+    }
+
+.home-content .benefits .glyphicon
+{
     margin-left: 10px;
     margin-right: 0;
 }
 
 /* fix for inline forms within horizontal forms */
-.form-inline .form-group {
+.form-inline .form-group
+{
     margin-left: 5px;
     margin-right: 0;
 }
 
 /* find pro to review */
-.steps li:first-child {
+.steps li:first-child
+{
     margin-left: 40px;
     margin-right: 0;
 }
 
 /* photo details */
-.comments .comment .content {
+.comments .comment .content
+{
     margin-right: 12px;
     margin-left: 0;
 }
-.photo-details dt {
+
+.photo-details dt
+{
     text-align: right;
 }
-.photo-details .photo .stats span {
+
+.photo-details .photo .stats span
+{
     margin-left: 20px;
     float: right;
 }
-.photo-details .profile img {
+
+.photo-details .profile img
+{
     margin-left: 10px;
     margin-right: 0;
 }
 
 /* navbar */
-.navbar .profile img {
+.navbar .profile img
+{
     margin-left: 5px;
     margin-right: 0;
 }
 
-.navbar-form .btn-default {
+.navbar-form .btn-default
+{
     border-right: none;
 }
 
-.navbar-form .form-control {
+.navbar-form .form-control
+{
     border-left: none;
+}
+
+.sidebar .image
+{
+    position: relative;
+}
+.sidebar .image img
+{
+    width: 100%;
+}
+
+    .sidebar .image .update-image
+    {
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        right: auto;
+        display: none;
+    }
+
+    .sidebar .image:hover .update-image
+    {
+        display: block;
+    }
+
+button > input[type=file]
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 
 /* profile page */
 
-.main .contact-info {
+.main .contact-info
+{
     margin-left: 10px;
     margin-right: 0;
 }
-.rating .stars {
+
+.rating .stars
+{
     padding-left: 5px;
     padding-right: 0;
 }
 /* search pages*/
-.label-container .label {
+.label-container .label
+{
     margin-left: 10px;
     margin-right: 0;
 }
-.label-container .label .dismiss {
-    left: 0;
-    margin-right: 5px;
-    margin-right: 0;
-}
+
+    .label-container .label .dismiss
+    {
+        left: 0;
+        margin-right: 5px;
+        margin-right: 0;
+    }
 
 
 /* manage resources*/
-.resourceList a.btn {
+.resourceList a.btn
+{
     text-align: right;
     padding-right: 20px;
 }
 
 /* faceook login button */
-.btn-fb-login:before {
+.btn-fb-login:before
+{
     border-right: none;
     border-left: 1px rgba(255,255,255,0.18) solid;
     margin-left: 16px;
@@ -115,23 +175,28 @@ h1, h2, h3, h4, h5 {
     background-position: right;
 }
 /* action buttons */
-.actions {
+.actions
+{
     right: auto;
     left: 5px;
 }
 
-a.action {
+a.action
+{
     float: right;
 }
-.photo-details .actions {
+
+.photo-details .actions
+{
     right: 0;
 }
 
 .lnk-select-contant
 {
     text-align: left;
-}        
+}
+
 .google-contacts .row .name
 {
-	padding-right: 5px;
+    padding-right: 5px;
 }
