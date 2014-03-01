@@ -8,8 +8,7 @@ namespace Classy.DotNet.Responses
 {
     public class LocationView
     {
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
+        public CoordsView Coords { get; set; }
         public PhysicalAddressView Address { get; set; }
     }
 }
