@@ -5,9 +5,15 @@
 }
 
 <div class="row">
-    <div id="changePasswordSuccess" class="alert alert-success alert-dismissable hidden">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @Localizer.Get("ChangePassword_Success")
+    <div class="col-md-12">
+        <div id="changePasswordSuccess" class="alert alert-success alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Localizer.Get("ChangePassword_Success")
+        </div>
+        <div id="uploadProfilePicSuccess" class="alert alert-success alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Localizer.Get("UploadProfilePic_Success")
+        </div>
     </div>
 
     @Html.Partial("SideBar", (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile)
@@ -28,10 +34,16 @@
                     <p class="form-control-static">@Html.DisplayFor(x => x.Username)</p>
                 </div>
             </div>
+            
             @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
            
             <div>
                 <a onclick="ChangePassword()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-lock">@Localizer.Get("Profile_ChangePassword")</i></a>
+
+                <button class="update-image btn btn-default btn-sm ">
+                    <i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_Change_Photo")
+                    <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage")" value="" onchange="ChangeProfilePhoto(this)" />
+                </button>
             </div>
             
             <p>&nbsp;</p>
@@ -93,11 +105,25 @@
 </div>
 
 @section scripts {
+    @Scripts.Render("~/scripts/xhr-upload.js")
+
 <script>
     function ChangePassword(e) {
         $('#change-password-modal')
             .modal('show')
             .on("loaded.bs.modal", function () { attachValidation(frmChangePassword); });
+    }
+
+    function ChangeProfilePhoto(file) {
+        if (file.value != "") {
+            var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: 2 });
+            upload.upload(function (e) { }, function (e) {
+                $(file).closest(".image").find("img").attr("src", e.url);
+                $('#uploadProfilePicSuccess').removeClass('hidden');
+            }, function (e) {
+                alert("oops.");
+            });
+        }
     }
 </script>
 }

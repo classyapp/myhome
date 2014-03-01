@@ -718,8 +718,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     var analytics = new AnalyticsService();
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
-                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    return Json(new { IsValid = true });
                 }
+                else return PartialView(model);
             }
             catch (ClassyException cvx)
             {

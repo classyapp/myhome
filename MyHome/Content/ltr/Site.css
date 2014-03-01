@@ -33,22 +33,24 @@ a, a:visited
     color: #777;
 }
 
-    a:hover
-    {
-        color: #999;
-    }
+a:hover
+{
+    color: #999;
+}
 
-    a.btn
-    {
-        color: #fff;
-    }
+a.btn,
+button.btn
+{
+    color: #fff;
+}
 
-    a.btn-default
-    {
-        background-color: #f0f0f0;
-        color: #777;
-        border-color: #999;
-    }
+a.btn-default,
+button.btn-default
+{
+    background-color: #f0f0f0;
+    color: #777;
+    border-color: #999;
+}
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover
@@ -473,40 +475,25 @@ a, a:visited
     position: relative;
 }
 
-    .sidebar .image img
-    {
-        margin-bottom: 10px;
-        width: 100%;
-    }
+.sidebar .image img
+{
+    margin-bottom: 10px;
+    width: 100%;
+}
 
-    .sidebar .image .update-image
-    {
-        position: absolute;
-        top: 6px;
-        right: 10px;
-        display: none;
-    }
+.update-image
+{
+    position: relative;
+    overflow: hidden;
+}
 
-    .sidebar .image:hover .update-image
-    {
-        display: block;
-    }
-
-button > input[type=file]
+.update-image > input[type=file]
 {
     position: absolute;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
     opacity: 0;
     filter: alpha(opacity=0);
-}
-
-.sidebar .follow
-{
-    margin-bottom: 10px;
+    height: 35px;
 }
 
 .main h1

@@ -116,9 +116,14 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         service.AddListingToCollection(model.CollectionId, model.IncludedListings);
                     }
+
+                    return Json(new { IsValid = true });
                 }
-                model.CollectionList = GetCollectionList(model.CollectionId, CollectionType.PhotoBook);
-                return PartialView("AddListingToCollectionModal", model);
+                else
+                {
+                    model.CollectionList = GetCollectionList(model.CollectionId, CollectionType.PhotoBook);
+                    return PartialView("AddListingToCollectionModal", model);
+                }
             }
             catch (ClassyException cex)
             {

@@ -115,8 +115,11 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EnvironmentSettings(EnvironmentSettingsViewModel model)
         {
-            SetContextEnvFromModel(model);
-            return PartialView(model);
+            if (ModelState.IsValid)
+            {
+                SetContextEnvFromModel(model);
+            }
+            return Json(new { IsValid = true });
         }
 
 
