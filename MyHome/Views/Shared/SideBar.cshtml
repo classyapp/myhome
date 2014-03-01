@@ -3,15 +3,7 @@
 <div class="col-md-3 sidebar">
     <div class="image text-center">
         <img src="@Model.AvatarUrl()" title="@Model.ContactInfo.Name" />
-        @if (Request.IsAuthenticated && Model.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
-        {
-            <div class="update-image text-center">
-                <button class="btn btn-sm btn-default" title="@Localizer.Get("Profile_Change_Photo")">
-                    <i class="glyphicon glyphicon-picture"></i>
-                    <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage")" value="" onchange="Classy.ChangeProfilePhoto(this)" />
-                </button>
-            </div>
-        }
+       
     </div>
 
     <div class="follow text-center">

@@ -260,9 +260,7 @@
         });
 
         function CloseModal(data) { 
-            if (data.indexOf("validation-summary-errors") > -1) 
-                return false;
-            else {
+            if (data.IsValid) {
                 $('.modal').modal('hide');
                 return true;
             }

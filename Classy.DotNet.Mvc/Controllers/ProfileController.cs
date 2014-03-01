@@ -719,9 +719,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     //TODO: this doesn't belong in the frontend 
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
-                    TempData["ContactPro_Success"] = true;
-                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    return Json(new { IsValid = true });
                 }
+                else return PartialView(model);
             }
             catch (ClassyException cvx)
             {
