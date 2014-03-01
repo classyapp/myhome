@@ -415,7 +415,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     ReviewSubCriteria = subCriteria
                 };
 
-                return View(profile.IsProfessional ? "PublicProfessionalProfile" : "PublicProfile", model);
+                return View(model);
             }
             catch(ClassyException cex)
             {
@@ -686,7 +686,6 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // POST: /profile/{ProfessionalProfileId}/contact
         [AcceptVerbs((HttpVerbs.Post))]
-        //[ExportModelStateToTempData]
         public ActionResult ContactProfessional(ContactProfessionalViewModel model, object dummy)
         {
             try
@@ -716,8 +715,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (OnContactProfessional != null)
                         OnContactProfessional(this, args);
 
-                    var analytics = new AnalyticsService();
                     //TODO: this doesn't belong in the frontend 
+                    var analytics = new AnalyticsService();
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
                     return Json(new { IsValid = true });
