@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Classy.DotNet.Mvc.GeoIP;
 using MaxMind.Db;
+using System.Web;
 
 namespace Classy.DotNet.Mvc.Helpers
 {
@@ -15,7 +16,7 @@ namespace Classy.DotNet.Mvc.Helpers
 
         static IPLocator()
         {
-            dbReader = new MaxMind.Db.Reader(System.IO.Directory.GetCurrentDirectory() + "bin\\GeoIP\\GeoLite2-City.mmdb", FileAccessMode.Memory);
+            dbReader = new MaxMind.Db.Reader(HttpContext.Current.Server.MapPath("~/App_Data/GeoLite2-City.mmdb"), FileAccessMode.Memory);
         }
 
         public static Location GetLocationByRequestIP()

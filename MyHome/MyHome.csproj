@@ -396,7 +396,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="GeoIP\GeoLite2-City.mmdb">
+    <Content Include="App_Data\GeoLite2-City.mmdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
@@ -479,9 +479,7 @@
     <Content Include="Views\Profile\AskForReview.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
