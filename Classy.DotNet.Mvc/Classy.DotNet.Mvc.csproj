@@ -83,11 +83,11 @@
     <Compile Include="Controllers\ReviewPostedArgs.cs" />
     <Compile Include="ActionFilters\ModelStateTransfer.cs" />
     <Compile Include="Extensions\CsvStringExtensions.cs" />
+    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="GeoIP\Location.cs" />
     <Compile Include="Helpers\IPLocator.cs" />
     <Compile Include="Helpers\ListingActionTrigger.cs" />
-    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ProfileActionTrigger.cs" />
     <Compile Include="Localization\CountryInfo.cs" />
     <Compile Include="Localization\LocalizationExtensions.cs" />

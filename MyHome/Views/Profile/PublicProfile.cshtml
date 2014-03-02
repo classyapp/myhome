@@ -5,7 +5,8 @@
     var photos = Model.Profile.Listings.Where(x => x.ListingType == "Photo");
     var reviews = Model.Profile.Reviews;
     var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
-    var collections = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0);
+    var collections = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.PhotoBook);
+    var projects = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.Project);
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
     var proCategories = Localizer.GetList("professional-categories");
 }
@@ -219,40 +220,66 @@
 
                     <!-- tabs -->
                     <ul class="nav nav-tabs" id="profileTabs">
-                        <li class="active"><a href="#photos" data-toggle="tab">@Localizer.Get("Profile_Tabs_Photos")</a></li>
-                        <li><a href="#discussions" data-toggle="tab">@Localizer.Get("Profile_Tabs_Discussions")</a></li>
-                        <li><a href="#collections" data-toggle="tab">@Localizer.Get("Profile_Tabs_Collections")</a></li>
+                        @if (Model.Profile.IsProfessional)
+                        {
+                            <li class="active"><a href="#projects" data-toggle="tab">@Localizer.Get("Profile_Tabs_Projects")</a></li>
+                        }
+                        <li class="@(Model.Profile.IsProfessional ? "" : "active")"><a href="#collections" data-toggle="tab">@Localizer.Get("Profile_Tabs_Collections")</a></li>
+                        <li><a href="#activity" data-toggle="tab">@Localizer.Get("Profile_Tabs_Activity")</a></li>                        
                     </ul>
 
                     <div class="tab-content row">
-                        <div class="tab-pane active" id="photos">
-                            @if (photos.Count() > 0)
-                        {
-                                @Html.Partial("PhotoGrid", photos.ToList())
-                        }
-                        </div>
-
-                        <div class="tab-pane" id="collections">
-                            @if (collections.Count() > 0)
-                        {
-                            foreach (var c in collections)
+                        @if (Model.Profile.IsProfessional) {
+                        <div class="tab-pane active" id="projects">
+                            @if (projects.Count() > 0)
                             {
-                                var thumb = c.Thumbnails.SingleOrDefault(x => x.Width == 266);
-                                if (thumb != null)
+                                foreach (var p in projects)
                                 {
                                     <div class="col-md-4">
-                                        <div class="thumbnail">
-                                            <img src="@thumb.Url" title="@c.Title" alt="@c.Title" />
-                                            <div class="details">
-                                                <strong>@Html.CollectionLink(c)</strong>
-                                                <br />
-                                                <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), c.CommentCount)</small>
-                                            </div>
+                                        <div class="photo thumbnail">
+                                            <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
+                                                <img src="@p.ThumbnailUrl(266, true)" title="@p.Title" alt="@p.Title" />
+                                                <div class="details">
+                                                    <strong>@p.Title</strong>
+                                                    <ul class="stats list-inline list-unstyled">
+                                                        <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
+                                                        <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
+                                                        <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
+                                                    </ul>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 }
                             }
-                        }
+                        </div>
+                        } 
+
+                        <div class="tab-pane @(Model.Profile.IsProfessional ? "" : "active")" id="collections">
+                            @if (collections.Count() > 0)
+                            {
+                                foreach (var c in collections)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="photo thumbnail">
+                                            <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "grid" })">
+                                                <img src="@c.ThumbnailUrl(266, true)" title="@c.Title" alt="@c.Title" />
+                                                <div class="details">
+                                                    <strong>@c.Title</strong>
+                                                    <ul class="stats list-inline list-unstyled">
+                                                        <li><span><i class="glyphicon glyphicon-eye-open"></i> @c.ViewCount</span></li>
+                                                        <li><span><i class="glyphicon glyphicon-heart-empty"></i> @c.FavoriteCount</span></li>
+                                                        <li><span><i class="glyphicon glyphicon-comment"></i> @c.CommentCount</span></li>
+                                                    </ul>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="tab-pane" id="activity">
                         </div>
                     </div>
                 </div>

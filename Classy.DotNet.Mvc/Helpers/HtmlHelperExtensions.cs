@@ -92,12 +92,12 @@ namespace Classy.DotNet.Mvc
                 var thumb = listing.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == size);
                 if (thumb != null)
                 {
-                    return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
+                    return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" />",
                                     thumb.Url, listing.Title, listing.Title));
                 }
             }
             
-            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
+            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" />",
                                     "/img/missing-thumb.png", listing.Title, listing.Title));
         }
 
@@ -163,6 +163,7 @@ namespace Classy.DotNet.Mvc
             return content != null ? content.ToLower()
                 .Replace("?", string.Empty)
                 .Replace("&", "-and-")
+                .Replace("+", "-and-")
                 .Replace(".", "")
                 .Replace("  ", " ")
                 .Replace(" ", "-") : null;

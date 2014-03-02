@@ -16,7 +16,9 @@
         </div>
     </div>
 
-    @Html.Partial("SideBar", (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile)
+    <div class="col-md-3">
+        <img class="img-circle" src="@((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.AvatarUrl(150, true))">
+    </div>
 
     <div class="col-md-9 main">
         @Html.Bootstrap().ValidationSummary()
@@ -126,5 +128,4 @@
         }
     }
 </script>
-}
 }

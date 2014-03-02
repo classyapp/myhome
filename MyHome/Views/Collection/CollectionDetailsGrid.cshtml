@@ -17,7 +17,7 @@
     <p>@Model.Content</p>
 
     <div class="profile clearfix">
-        <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left" />
+        <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
         <div class="details">
             @Html.ProfileLink(Model.Profile)
             @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
