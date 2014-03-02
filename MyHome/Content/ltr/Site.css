@@ -133,11 +133,6 @@ button.btn-default
     text-decoration: none;
 }
 
-.photo.thumbnail a>img
-{
-    width: 270px;
-}
-
 /* profile page */
 .contact-button {
     margin-bottom: 10px;

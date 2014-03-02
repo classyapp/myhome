@@ -67,7 +67,7 @@
                         <div class="media-body">
                             <div class="profile-title clearfix">
                                 <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
-                                <small class="pull-left"><span class="label label-default">PRO</span></small>
+                                @if (Model.Profile.IsProfessional) { <small class="pull-left"><span class="label label-default">PRO</span></small> }
                             </div>
 
                             @if (Model.Profile.IsProfessional) {
