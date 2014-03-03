@@ -53,7 +53,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRouteForSupportedLocales(
                 name: "EditProfile",
-                url: "profile/edit",
+                url: "profile/{ProfileId}/edit",
                 defaults: new { controller = "Profile", action = "EditProfile" },
                 namespaces: new string[] { Namespace }
             );
@@ -207,32 +207,36 @@ namespace Classy.DotNet.Mvc.Controllers
         // 
         [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult EditProfile()
+        public ActionResult EditProfile(string profileId)
         {
-            var contactInfo = AuthenticatedUserProfile.ContactInfo ?? new ExtendedContactInfoView();
+            var service = new ProfileService();
+            var profile = profileId == AuthenticatedUserProfile.Id ? AuthenticatedUserProfile : service.GetProfileById(profileId);
+            if (!profile.CanEdit()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            var contactInfo = profile.ContactInfo ?? new ExtendedContactInfoView();
             contactInfo.Location = contactInfo.Location ?? new LocationView();
             contactInfo.Location.Address = contactInfo.Location.Address ?? new PhysicalAddressView();
-            var proContactInfo = AuthenticatedUserProfile.ProfessionalInfo ?? new ProfessionalInfoView();
+            var proContactInfo = profile.ProfessionalInfo ?? new ProfessionalInfoView();
             proContactInfo.CompanyContactInfo = proContactInfo.CompanyContactInfo ?? new ExtendedContactInfoView();
             proContactInfo.CompanyContactInfo.Location = proContactInfo.CompanyContactInfo.Location ?? new LocationView();
             proContactInfo.CompanyContactInfo.Location.Address = proContactInfo.CompanyContactInfo.Location.Address ?? new PhysicalAddressView();
-            var proMetadata = AuthenticatedUserProfile.IsProfessional ? (AuthenticatedUserProfile.Metadata != null ? new TProMetadata().FromDictionary(AuthenticatedUserProfile.Metadata) : new TProMetadata()) : default(TProMetadata);
-            var userMetadata = !AuthenticatedUserProfile.IsProfessional ? (AuthenticatedUserProfile.Metadata != null ? new TUserMetadata().FromDictionary(AuthenticatedUserProfile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
+            var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata) : new TProMetadata()) : default(TProMetadata);
+            var userMetadata = !profile.IsProfessional ? (profile.Metadata != null ? new TUserMetadata().FromDictionary(profile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
 
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
-                ProfileId = AuthenticatedUserProfile.Id,
-                FirstName = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
-                LastName = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
-                Street1 = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street1 : contactInfo.Location.Address.Street1,
-                Street2 = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street2 : contactInfo.Location.Address.Street2,
-                City = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
-                Country = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
-                PostalCode = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
-                Username = AuthenticatedUserProfile.UserName,
-                Email = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
-                Phone = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
-                IsProfessional = AuthenticatedUserProfile.IsProfessional,
+                ProfileId = profile.Id,
+                FirstName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
+                LastName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
+                Street1 = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street1 : contactInfo.Location.Address.Street1,
+                Street2 = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street2 : contactInfo.Location.Address.Street2,
+                City = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
+                Country = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
+                PostalCode = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
+                Username = profile.UserName,
+                Email = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
+                Phone = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
+                IsProfessional = profile.IsProfessional,
                 Category = proContactInfo.Category,
                 CompanyName = proContactInfo.CompanyName,
                 WebsiteUrl = proContactInfo.CompanyContactInfo.WebsiteUrl,
@@ -278,7 +282,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 service.UpdateProfile(
-                    AuthenticatedUserProfile.Id,
+                    model.ProfileId,
                     new ExtendedContactInfoView
                     {
                         Phone = model.Phone,
