@@ -8,7 +8,9 @@
                 iscroll.data("loading", true);
                 var page = iscroll.data("page") + 1;
                 var url = iscroll.data("url");
-                $.get(url, { page: page }, function (response) {
+                var data = parseQueryString();
+                data.page = page;
+                $.get(url, data, function (response) {
                     iscroll.data("loading", false);
                     var html = $(response);
                     var count = html.find(itemClass).length;
@@ -31,6 +33,16 @@
                 });
             }
         }
+    }
+}
+
+function parseQueryString() {
+    var data = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        data[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
     }
 }
 
