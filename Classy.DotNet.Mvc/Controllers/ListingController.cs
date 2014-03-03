@@ -366,8 +366,8 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                var listing = service.GetListingById(listingId, false, false, false, false, false);
-                if (listing.ProfileId == AuthenticatedUserProfile.Id)
+                var listing = service.GetListingById(listingId, false, true, false, false, false);
+                if (listing.Profile.CanEdit())
                 {
                     service.DeleteListing(listingId);
                     return Json(new { listingId = listingId });
