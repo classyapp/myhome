@@ -311,7 +311,7 @@
 
                             @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
                             {
-                                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank"><span itemprop="url">@Localizer.GetList("PublicProfile_VisitWebsite")</span></a></div>
+                                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i> <a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank"><span itemprop="url">@Localizer.Get("PublicProfile_VisitWebsite")</span></a></div>
                             }
 
                             @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
