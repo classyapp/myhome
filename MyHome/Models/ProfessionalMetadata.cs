@@ -14,7 +14,6 @@ namespace MyHome.Models
         //[Required(ErrorMessage="ProMetadata_LicenseNo_Required")]
         public string LicenseNo { get; set; }
         [Display(Name = "ProMetadata_ServicesProvided")]
-        [Required(ErrorMessage="ProMetadata_ServicesProvided_Required")]
         public string ServicesProvided { get; set; }
         [Display(Name = "ProMetadata_AreasServed")]
         public string AreasServed { get; set; }
@@ -25,7 +24,6 @@ namespace MyHome.Models
         [Display(Name = "ProMetadata_Awards")]
         public string Awards { get; set; }
         [Display(Name = "ProMetadata_BusinessDescription")]
-        [Required(ErrorMessage = "ProMetadata_BusinessDescription_Required")]
         public string BusinessDescription { get; set; }
 
         public IDictionary<string, string> ToDictionary()

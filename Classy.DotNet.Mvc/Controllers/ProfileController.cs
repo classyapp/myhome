@@ -299,7 +299,8 @@ namespace Classy.DotNet.Mvc.Controllers
                                 PostalCode = model.PostalCode
                             }
                         },
-                        Email = model.Email
+                        Email = model.Email,
+                        WebsiteUrl = model.WebsiteUrl
                     },
                     new ProfessionalInfoView
                     {
@@ -321,7 +322,8 @@ namespace Classy.DotNet.Mvc.Controllers
                                     PostalCode = model.PostalCode
                                 }
                             },
-                            Email = model.Email
+                            Email = model.Email,
+                            WebsiteUrl = model.WebsiteUrl
                         }
                     },
                     metadata != null ? metadata.ToDictionary() : null,
