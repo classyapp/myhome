@@ -261,14 +261,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 fields |= UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata;
                 if (string.IsNullOrEmpty(model.CompanyName)) ModelState.AddModelError("CompanyName", Localizer.Get("EditProfile_CompanyName_Required"));
-                if (string.IsNullOrEmpty(model.Category)) ModelState.AddModelError("Category", Localizer.Get("EditProfile_Category_Required"));
-                if (string.IsNullOrEmpty(model.Phone)) ModelState.AddModelError("Phone", Localizer.Get("EditProfile_Phone_Required"));
-                if (string.IsNullOrEmpty(model.Street1)) ModelState.AddModelError("Street1", Localizer.Get("EditProfile_Street1_Required"));
-                if (string.IsNullOrEmpty(model.City)) ModelState.AddModelError("City", Localizer.Get("EditProfile_City_Required"));
                 if (string.IsNullOrEmpty(model.Country)) ModelState.AddModelError("Country", Localizer.Get("EditProfile_Country_Required"));
-                if (string.IsNullOrEmpty(model.PostalCode)) ModelState.AddModelError("PostalCode", Localizer.Get("EditProfile_PostalCode_Required"));
-                if (string.IsNullOrEmpty(model.FirstName)) ModelState.AddModelError("FirstName", Localizer.Get("EditProfile_FirstName_Required"));
-                if (string.IsNullOrEmpty(model.LastName)) ModelState.AddModelError("LastName", Localizer.Get("EditProfile_PostalCode_Required"));
                 metadata = model.ProfessionalMetadata;
             }
             else
