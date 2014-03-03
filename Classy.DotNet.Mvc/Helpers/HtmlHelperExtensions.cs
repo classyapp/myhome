@@ -168,5 +168,11 @@ namespace Classy.DotNet.Mvc
                 .Replace("  ", " ")
                 .Replace(" ", "-") : null;
         }
+
+        public static string ToValidUrl(this string content)
+        {
+            var url = content.StartsWith("http://") ? content : string.Concat("http://", content);
+            return url;
+        }
     }
 }
