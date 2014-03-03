@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Services;
-using Classy.DotNet.Mvc.ViewModels.Application;
 
 namespace Classy.DotNet.Mvc.Controllers
 {

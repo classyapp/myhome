@@ -53,8 +53,15 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRouteForSupportedLocales(
                 name: "EditProfile",
-                url: "profile/edit",
+                url: "profile/{ProfileId}/edit",
                 defaults: new { controller = "Profile", action = "EditProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteForSupportedLocales(
+                name: "ChangeProfileImage",
+                url: "profile/editimage",
+                defaults: new { controller = "Profile", action = "ChangeProfileImage" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -165,6 +172,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 TextFieldParser parser = new TextFieldParser(new StringReader(line));
                 parser.SetDelimiters(",");
                 args.LineValues = parser.ReadFields();
+                args.LineCount = index;
                 
                 // let the implementation handle parsing
                 OnParseProfilesCsvLine(this, args);
@@ -199,33 +207,36 @@ namespace Classy.DotNet.Mvc.Controllers
         // 
         [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult EditProfile()
+        public ActionResult EditProfile(string profileId)
         {
-            var contactInfo = AuthenticatedUserProfile.ContactInfo ?? new ExtendedContactInfoView();
+            var service = new ProfileService();
+            var profile = profileId == AuthenticatedUserProfile.Id ? AuthenticatedUserProfile : service.GetProfileById(profileId);
+            if (!profile.CanEdit()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            var contactInfo = profile.ContactInfo ?? new ExtendedContactInfoView();
             contactInfo.Location = contactInfo.Location ?? new LocationView();
             contactInfo.Location.Address = contactInfo.Location.Address ?? new PhysicalAddressView();
-            var proContactInfo = AuthenticatedUserProfile.ProfessionalInfo ?? new ProfessionalInfoView();
+            var proContactInfo = profile.ProfessionalInfo ?? new ProfessionalInfoView();
             proContactInfo.CompanyContactInfo = proContactInfo.CompanyContactInfo ?? new ExtendedContactInfoView();
             proContactInfo.CompanyContactInfo.Location = proContactInfo.CompanyContactInfo.Location ?? new LocationView();
             proContactInfo.CompanyContactInfo.Location.Address = proContactInfo.CompanyContactInfo.Location.Address ?? new PhysicalAddressView();
-            var proMetadata = AuthenticatedUserProfile.IsProfessional ? (AuthenticatedUserProfile.Metadata != null ? new TProMetadata().FromDictionary(AuthenticatedUserProfile.Metadata) : new TProMetadata()) : default(TProMetadata);
-            var userMetadata = !AuthenticatedUserProfile.IsProfessional ? (AuthenticatedUserProfile.Metadata != null ? new TUserMetadata().FromDictionary(AuthenticatedUserProfile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
+            var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata) : new TProMetadata()) : default(TProMetadata);
+            var userMetadata = !profile.IsProfessional ? (profile.Metadata != null ? new TUserMetadata().FromDictionary(profile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
 
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
-                ProfileId = AuthenticatedUserProfile.Id,
-                FirstName = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
-                LastName = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
-                Street1 = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street1 : contactInfo.Location.Address.Street1,
-                Street2 = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street2 : contactInfo.Location.Address.Street2,
-                City = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
-                Country = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
-                PostalCode = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
-                ThumbnailUrl = AuthenticatedUserProfile.ThumbnailUrl,
-                Username = AuthenticatedUserProfile.UserName,
-                Email = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
-                Phone = AuthenticatedUserProfile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
-                IsProfessional = AuthenticatedUserProfile.IsProfessional,
+                ProfileId = profile.Id,
+                FirstName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
+                LastName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
+                Street1 = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street1 : contactInfo.Location.Address.Street1,
+                Street2 = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street2 : contactInfo.Location.Address.Street2,
+                City = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.City : contactInfo.Location.Address.City,
+                Country = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Country : contactInfo.Location.Address.Country,
+                PostalCode = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.PostalCode : contactInfo.Location.Address.PostalCode,
+                Username = profile.UserName,
+                Email = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Email : contactInfo.Email,
+                Phone = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Phone : contactInfo.Phone,
+                IsProfessional = profile.IsProfessional,
                 Category = proContactInfo.Category,
                 CompanyName = proContactInfo.CompanyName,
                 WebsiteUrl = proContactInfo.CompanyContactInfo.WebsiteUrl,
@@ -250,14 +261,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 fields |= UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata;
                 if (string.IsNullOrEmpty(model.CompanyName)) ModelState.AddModelError("CompanyName", Localizer.Get("EditProfile_CompanyName_Required"));
-                if (string.IsNullOrEmpty(model.Category)) ModelState.AddModelError("Category", Localizer.Get("EditProfile_Category_Required"));
-                if (string.IsNullOrEmpty(model.Phone)) ModelState.AddModelError("Phone", Localizer.Get("EditProfile_Phone_Required"));
-                if (string.IsNullOrEmpty(model.Street1)) ModelState.AddModelError("Street1", Localizer.Get("EditProfile_Street1_Required"));
-                if (string.IsNullOrEmpty(model.City)) ModelState.AddModelError("City", Localizer.Get("EditProfile_City_Required"));
                 if (string.IsNullOrEmpty(model.Country)) ModelState.AddModelError("Country", Localizer.Get("EditProfile_Country_Required"));
-                if (string.IsNullOrEmpty(model.PostalCode)) ModelState.AddModelError("PostalCode", Localizer.Get("EditProfile_PostalCode_Required"));
-                if (string.IsNullOrEmpty(model.FirstName)) ModelState.AddModelError("FirstName", Localizer.Get("EditProfile_FirstName_Required"));
-                if (string.IsNullOrEmpty(model.LastName)) ModelState.AddModelError("LastName", Localizer.Get("EditProfile_PostalCode_Required"));
                 metadata = model.ProfessionalMetadata;
             }
             else
@@ -271,7 +275,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 service.UpdateProfile(
-                    AuthenticatedUserProfile.Id,
+                    model.ProfileId,
                     new ExtendedContactInfoView
                     {
                         Phone = model.Phone,
@@ -288,7 +292,8 @@ namespace Classy.DotNet.Mvc.Controllers
                                 PostalCode = model.PostalCode
                             }
                         },
-                        Email = model.Email
+                        Email = model.Email,
+                        WebsiteUrl = model.WebsiteUrl
                     },
                     new ProfessionalInfoView
                     {
@@ -310,7 +315,8 @@ namespace Classy.DotNet.Mvc.Controllers
                                     PostalCode = model.PostalCode
                                 }
                             },
-                            Email = model.Email
+                            Email = model.Email,
+                            WebsiteUrl = model.WebsiteUrl
                         }
                     },
                     metadata != null ? metadata.ToDictionary() : null,
@@ -321,6 +327,22 @@ namespace Classy.DotNet.Mvc.Controllers
             else return View(model);
         }
 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ChangeProfileImage()
+        {
+            if (Request.Files.Count == 1)
+            {
+                var service = new ProfileService();
+                string url = service.UpdateProfile(
+                    AuthenticatedUserProfile.Id,
+                    Request.Files[0]);
+
+                return Json(new { url = url });
+            }
+            else
+                throw new InvalidOperationException("Invalid number of images");
+        }
 
         [AuthorizeWithRedirect]
         [AcceptVerbs(HttpVerbs.Get)]
@@ -392,7 +414,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     ReviewSubCriteria = subCriteria
                 };
 
-                return View(profile.IsProfessional ? "PublicProfessionalProfile" : "PublicProfile", model);
+                return View(model);
             }
             catch(ClassyException cex)
             {
@@ -499,22 +521,15 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
-                var service = new ProfileService();
-                // add the filters from the url
-                if (filters != null)
-                {
-                    var strings = filters.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (model.Metadata == null) model.Metadata = new TProMetadata();
-                    string name;
-                    LocationView location = null;
-                    model.Metadata.ParseSearchFilters(strings, out name, ref location);
-                }
+                if (string.IsNullOrEmpty(model.Country)) model.Country = Request.Cookies[Localizer.COUNTRY_COOKIE_NAME].Value;
 
+                var service = new ProfileService();
                 var resutls = service.SearchProfiles(
-                    model.Name, 
-                    model.Category, 
-                    model.Location,
-                    model.Metadata != null ? model.Metadata.ToDictionary() : null, 
+                    model.Name,
+                    model.Category,
+                    /* ------------------------------------------ this is midle of Australia for now -- */
+                    new LocationView { Coords = new CoordsView { Longitude = 137.656247, Latitude = -25.539181 }, Address = new PhysicalAddressView { Country = model.Country } },
+                    model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
                     model.Page);
                 
@@ -545,8 +560,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
             if (model.Metadata == null) model.Metadata = new TProMetadata();
-            // var slug = model.Metadata.GetSearchFilterSlug(model.Name, model.Location);
-            return RedirectToRoute("SearchProfiles", new { /* filters = slug */ name = model.Name, location = model.Location, category = model.Category });
+            return RedirectToRoute("SearchProfiles", new { name = model.Name, country = model.Country, category = model.Category });
         }
 
         // 
@@ -663,7 +677,6 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // POST: /profile/{ProfessionalProfileId}/contact
         [AcceptVerbs((HttpVerbs.Post))]
-        //[ExportModelStateToTempData]
         public ActionResult ContactProfessional(ContactProfessionalViewModel model, object dummy)
         {
             try
@@ -693,13 +706,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (OnContactProfessional != null)
                         OnContactProfessional(this, args);
 
-                    var analytics = new AnalyticsService();
                     //TODO: this doesn't belong in the frontend 
+                    var analytics = new AnalyticsService();
                     analytics.LogActivity(Request.IsAuthenticated ? (User.Identity as ClassyIdentity).Profile.Id : "guest", "contact-profile", model.ProfessionalProfileId);
 
-                    TempData["ContactPro_Success"] = true;
-                    return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    return Json(new { IsValid = true });
                 }
+                else return PartialView(model);
             }
             catch (ClassyException cvx)
             {
@@ -777,13 +790,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     var service = new ProfileService();
                     service.ChangePassword(model.NewPassword, AuthenticatedUserProfile.Id);
+                    return Json(new { IsValid = true });
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
-            }
-            return PartialView(model);
+            } else return PartialView(model);
         }
 
         #endregion

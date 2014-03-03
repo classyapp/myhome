@@ -54,7 +54,7 @@
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
-            <img src="@Model.Listing.Profile.ThumbnailUrl" width="50" class="pull-left" />
+            <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
             <div class="details">
                 @Html.ProfileLink(Model.Listing.Profile)
                 @if (Model.Listing.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
@@ -85,7 +85,7 @@
                 <p class="comment">
                     <div class="media">
                         <div class="pull-left">
-                            <img src="@c.Profile.ThumbnailUrl" width="40" />
+                            <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
                         </div>
                         <div class="media-body">
                             <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>

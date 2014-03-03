@@ -93,7 +93,7 @@
                                 <li class="profile">
                                     <a href="@Url.RouteUrl("PublicProfile", new { ProfileId = p.Id })">
                                         <div class="pull-left">
-                                            <img src="@p.ThumbnailUrl" width="30px" height="30px" />
+                                            <img src="@p.AvatarUrl(30, true)" width="30" class="img-circle" />
                                             @Localizer.Get("Header_Nav_MyProfile")
                                         </div>
                                     </a>
@@ -260,9 +260,7 @@
         });
 
         function CloseModal(data) { 
-            if (data.indexOf("validation-summary-errors") > -1) 
-                return false;
-            else {
+            if (data.IsValid) {
                 $('.modal').modal('hide');
                 return true;
             }
@@ -276,6 +274,8 @@
         }
 
         var msgConfirm = '@Localizer.Get("Global_Message_Confirm")';
+
+        Classy.AcquireGPSCoordinates();
     </script>
 
     @RenderSection("scripts", required: false)

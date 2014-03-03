@@ -31,7 +31,7 @@
             <h3>@Localizer.Get("CreateProProfile_ContactInfo")</h3>
             @f.FormGroup().TextBoxFor(x => x.Street1).Label().WidthLg(12)
             @f.FormGroup().TextBoxFor(x => x.City).Label().WidthLg(12)
-            @f.FormGroup().TextBoxFor(x => x.Country).Label().WidthLg(12)
+            @f.FormGroup().DropDownListFor(x => x.Country, new SelectList(Classy.DotNet.Mvc.Localization.Localizer.SupportedCountries, "Code", "Name", Model.Country)).Label().WidthLg(12)
             @f.FormGroup().TextBoxFor(x => x.PostalCode).Label().WidthLg(12)
             @f.FormGroup().TextBoxFor(x => x.Phone).Label().WidthLg(12)
             @f.FormGroup().TextBoxFor(x => x.Email).Label().WidthLg(12)
@@ -41,7 +41,7 @@
         }
     </div>
     <div class="col-md-4 col-md-offset-1">
-        <div class="well">
+        <div class="helpbar">
             <h1>@Localizer.Get("CreateProProfile_Copy_Title")</h1>
             <div>@Html.Raw(Localizer.Get("CreateProProfile_Copy_Content"))</div>
         </div>

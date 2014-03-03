@@ -39,7 +39,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ServiceStack.Text">
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -57,11 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\ValidationException.cs" />
+    <Compile Include="ProfileViewExtensions.cs" />
     <Compile Include="Responses\AppSettingsResponse.cs" />
+    <Compile Include="Responses\AppView.cs" />
     <Compile Include="Responses\BaseDeleteResponse.cs" />
     <Compile Include="Responses\CollectionView.cs" />
     <Compile Include="Responses\CommentView.cs" />
     <Compile Include="Responses\ContactInfoView.cs" />
+    <Compile Include="Responses\CoordsView.cs" />
     <Compile Include="Responses\SocialPhotoAlbumView.cs" />
     <Compile Include="Responses\IncludedListingView.cs" />
     <Compile Include="Responses\ListingView.cs" />
@@ -88,6 +95,7 @@
     <Compile Include="Security\ClassyPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ClassyRegistrationResponse.cs" />
+    <Compile Include="Security\GPSLocation.cs" />
     <Compile Include="Services\AnalyticsService.cs" />
     <Compile Include="Services\GoogleContactView.cs" />
     <Compile Include="Services\ListingService.cs" />
