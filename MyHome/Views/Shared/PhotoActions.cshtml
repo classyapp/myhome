@@ -1,6 +1,6 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel
 
-<div class="actions @(Model.IsStatic ? "" : "hidden")">
+<div class="actions">
     @if (Model.ShowCollect)
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")

@@ -33,12 +33,12 @@ function ChangePassword(e) {
 }
 
 $(function () {
-    $('.thumbnail').mouseover(function () {
-        $(this).find('.actions').removeClass('hidden');
-    });
-    $('.thumbnail').mouseout(function () {
-        $(this).find('.actions').addClass('hidden');
-    });
+    //$('.thumbnail').mouseover(function () {
+    //    $(this).find('.actions').removeClass('hidden');
+    //});
+    //$('.thumbnail').mouseout(function () {
+    //    $(this).find('.actions').addClass('hidden');
+    //});
 
     $('[authorize]').click(function (e) {
         if (!Classy.IsAuthenticated) {

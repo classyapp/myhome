@@ -417,6 +417,16 @@ button.btn-default
     margin-right: 10px;
 }
 
+.photo.thumbnail .actions
+{
+    display: none;
+}
+
+.photo.thumbnail:hover .actions
+{
+    display: block;
+}
+
 /* navbar */
 .navbar
 {

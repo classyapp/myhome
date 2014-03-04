@@ -21,12 +21,6 @@
                     } else {
                         iscroll.data("page", page);
                     }
-                    html.find(itemClass).mouseover(function () {
-                        $(this).find('.actions').removeClass('hide');
-                    });
-                    html.find(itemClass).mouseout(function () {
-                        $(this).find('.actions').addClass('hide');
-                    });
                     iscroll.append(html);
                     bindTriggerActions(html);
                     resetPagination(page);
@@ -73,19 +67,19 @@ function resetPagination(page) {
 }
 
 $(document)
-    .on("scroll", loadMorePhotos)
-    .on("classy.ajax.reconnect", function (e) {
-        HookPhotoActions();
-    });
+    .on("scroll", loadMorePhotos);
+    //.on("classy.ajax.reconnect", function (e) {
+    //    HookPhotoActions();
+    //});
 
 function HookPhotoActions() {
-    $('.thumbnail')
-        .off('mouseover')
-        .off('mouseout')
-        .mouseover(function () {
-            $(this).find('.actions').removeClass('hidden');
-        })
-        .mouseout(function () {
-            $(this).find('.actions').addClass('hidden');
-        });
+    //$('.thumbnail')
+    //    .off('mouseover')
+    //    .off('mouseout')
+    //    .mouseover(function () {
+    //        $(this).find('.actions').removeClass('hidden');
+    //    })
+    //    .mouseout(function () {
+    //        $(this).find('.actions').addClass('hidden');
+    //    });
 }
