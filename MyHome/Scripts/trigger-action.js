@@ -33,12 +33,12 @@ function ChangePassword(e) {
 }
 
 $(function () {
-    $('.thumbnail').mouseover(function () {
-        $(this).find('.actions').removeClass('hidden');
-    });
-    $('.thumbnail').mouseout(function () {
-        $(this).find('.actions').addClass('hidden');
-    });
+    //$('.thumbnail').mouseover(function () {
+    //    $(this).find('.actions').removeClass('hidden');
+    //});
+    //$('.thumbnail').mouseout(function () {
+    //    $(this).find('.actions').addClass('hidden');
+    //});
 
     $('[authorize]').click(function (e) {
         if (!Classy.IsAuthenticated) {
@@ -89,7 +89,7 @@ function bindTriggerActions(context) {
         var listingType = $(this).attr('listing-type');
         var thumb = $(this).closest(".thumbnail");
         if (confirm(msgConfirm)) {
-            $.post("/" + listingType + "/" + listingId, function (data) { if ("error" in data) { } else { thumb.prepend("<div class='deleted'></div>"); } });
+            $.post("/" + listingType + "/" + listingId + "/delete", function (data) { if ("error" in data) { } else { thumb.prepend("<div class='deleted'></div>"); } });
         }
     });
 

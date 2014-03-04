@@ -58,7 +58,7 @@ namespace Classy.DotNet.Mvc.Localization
             Classy.DotNet.Mvc.GeoIP.Location location = Helpers.IPLocator.GetLocationByRequestIP();
             if (cookie == null)
             {
-                string countryCode = location.CountryCode ?? "FR";
+                string countryCode = SupportedCountries.Any(c => c.Code == location.CountryCode) ? location.CountryCode : "FR";
                 cookie = new HttpCookie(COUNTRY_COOKIE_NAME, countryCode);
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);

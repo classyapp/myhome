@@ -204,6 +204,16 @@ a.action
     right: 0;
 }
 
+.photo.thumbnail .actions
+{
+    display: none;
+}
+
+.photo.thumbnail:hover .actions
+{
+    display: block;
+}
+
 .lnk-select-contant
 {
     text-align: left;

@@ -16,7 +16,9 @@
         </div>
     </div>
 
-    @Html.Partial("SideBar", (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile)
+    <div class="col-md-3">
+        <img id="profileImage" class="img-circle" src="@Model.AvatarUrl" width="150">
+    </div>
 
     <div class="col-md-9 main">
         @Html.Bootstrap().ValidationSummary()
@@ -42,7 +44,7 @@
 
                 <button class="update-image btn btn-default btn-sm ">
                     <i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_Change_Photo")
-                    <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage")" value="" onchange="ChangeProfilePhoto(this)" />
+                    <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage", new { ProfileId = Model.ProfileId })" data-profile-id="@Model.ProfileId" value="" onchange="ChangeProfilePhoto(this)" />
                 </button>
             </div>
             
@@ -96,7 +98,7 @@
 </div>
 
 <!-- change password -->
-<div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
+<div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword", new { ProfileId = Model.ProfileId })" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content" id="change-password-replace">
             <!-- will be replaced -->
@@ -116,9 +118,9 @@
 
     function ChangeProfilePhoto(file) {
         if (file.value != "") {
-            var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: 2 });
+            var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: $(file).data("profile-id") });
             upload.upload(function (e) { }, function (e) {
-                $(file).closest(".image").find("img").attr("src", e.url);
+                $('#profileImage').attr("src", e.url);
                 $('#uploadProfilePicSuccess').removeClass('hidden');
             }, function (e) {
                 // failed
@@ -126,5 +128,4 @@
         }
     }
 </script>
-}
 }

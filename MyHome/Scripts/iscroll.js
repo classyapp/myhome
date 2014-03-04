@@ -8,7 +8,9 @@
                 iscroll.data("loading", true);
                 var page = iscroll.data("page") + 1;
                 var url = iscroll.data("url");
-                $.get(url, { page: page }, function (response) {
+                var data = parseQueryString();
+                data.page = page;
+                $.get(url, data, function (response) {
                     iscroll.data("loading", false);
                     var html = $(response);
                     var count = html.find(itemClass).length;
@@ -19,19 +21,28 @@
                     } else {
                         iscroll.data("page", page);
                     }
-                    html.find(itemClass).mouseover(function () {
-                        $(this).find('.actions').removeClass('hide');
-                    });
-                    html.find(itemClass).mouseout(function () {
-                        $(this).find('.actions').addClass('hide');
-                    });
                     iscroll.append(html);
                     bindTriggerActions(html);
                     resetPagination(page);
+                    
+                    Classy.AjaxReconnect();
                 });
             }
         }
     }
+}
+
+function parseQueryString() {
+    var data = {};
+    var query = window.location.search.substring(1);
+    if (query != "") {
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            data[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+    }
+    return data;
 }
 
 function resetPagination(page) {
@@ -55,4 +66,20 @@ function resetPagination(page) {
     $("ul.pagination li:nth-child(1)").toggleClass("hide", page == 1);
 }
 
-$(document).on("scroll", loadMorePhotos);
+$(document)
+    .on("scroll", loadMorePhotos);
+    //.on("classy.ajax.reconnect", function (e) {
+    //    HookPhotoActions();
+    //});
+
+function HookPhotoActions() {
+    //$('.thumbnail')
+    //    .off('mouseover')
+    //    .off('mouseout')
+    //    .mouseover(function () {
+    //        $(this).find('.actions').removeClass('hidden');
+    //    })
+    //    .mouseout(function () {
+    //        $(this).find('.actions').addClass('hidden');
+    //    });
+}

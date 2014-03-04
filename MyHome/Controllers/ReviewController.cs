@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
+using Classy.DotNet.Mvc;
 using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
@@ -29,7 +30,7 @@ namespace MyHome.Controllers
             // email professional
             var message = new EmailMessage
             {
-                subject = string.Format(Localizer.Get("Mail_NewReview_Subject"), e.ReviewResponse.ReviewerProfile.ProfessionalInfo.CompanyContactInfo.Name),
+                subject = string.Format(Localizer.Get("Mail_NewReview_Subject"), e.ReviewResponse.ReviewerProfile.GetProfileName()),
                 to = new List<EmailAddress> {
                     new EmailAddress {
                         email = e.ReviewResponse.RevieweeProfile.ProfessionalInfo.CompanyContactInfo.Email

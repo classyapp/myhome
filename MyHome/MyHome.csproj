@@ -440,7 +440,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\500.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Review\PostProfileReview.cshtml" />
@@ -471,12 +471,13 @@
     <Content Include="Views\Photo\EditPhotoListingModal.cshtml" />
     <Content Include="Views\Shared\PhotoActions.cshtml" />
     <Content Include="Views\Photo\ShowListingsByType.cshtml" />
-    <Content Include="Views\Shared\SideBar.cshtml" />
     <Content Include="Views\Shared\PhotoGrid.cshtml" />
     <Content Include="Views\Profile\ProfileGrid.cshtml" />
     <Content Include="Views\Profile\LoadFacebookAlbums.cshtml" />
     <Content Include="Views\Profile\AskForReview.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
+    <Content Include="Views\Shared\404.cshtml" />
+    <Content Include="Views\Shared\401.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

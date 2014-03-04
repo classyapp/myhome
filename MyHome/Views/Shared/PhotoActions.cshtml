@@ -1,6 +1,6 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel
 
-<div class="actions @(Model.IsStatic ? "" : "hidden")">
+<div class="actions" @(Model.IsStatic ? "style=\"dispaly: block;\"" : "")>
     @if (Model.ShowCollect)
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")
@@ -23,7 +23,7 @@
         @*Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")*@
     }
     
-    @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.ProfileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+    @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.CanEdit())
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-pencil\"></i>", "edit", Model.Listing, "btn btn-default action edit")
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "delete", Model.Listing, "btn btn-default action delete")

@@ -38,10 +38,10 @@
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
-            @if (Model.Location != null)
+            @if (!string.IsNullOrEmpty(Model.Country))
             {
                 <span class="label label-danger">
-                    <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
+                    <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Country })">@Model.Country</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                 </span>
             }
@@ -53,7 +53,7 @@
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
-                @*f.FormGroup().TextBoxFor(x => x.Location).Placeholder(Localizer.Get("SearchProfiles_Label_City")).ShowValidationMessage(false).Label().Class("sr-only")*@
+                @f.FormGroup().DropDownListFor(x => x.Country, new SelectList(Localizer.SupportedCountries, "Code", "Name", Model.Country)).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
 
                 @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Style(ButtonStyle.Primary)

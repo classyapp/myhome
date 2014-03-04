@@ -24,6 +24,7 @@ namespace Classy.DotNet.Responses
         public int BookingCount { get; set; }
         public int PurchaseCount { get; set; }
         public int AddToCollectionCount { get; set; }
+        public int DisplayOrder { get; set; }
         public bool IsPublished { get; set; }
         //
         public IList<CommentView> Comments { get; set; }

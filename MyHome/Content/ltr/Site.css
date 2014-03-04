@@ -125,6 +125,7 @@ button.btn-default
 .photo.thumbnail ul.stats
 {
     color: #aaa;
+    margin-bottom: 0;
 }
 
 .photo.thumbnail a
@@ -416,6 +417,16 @@ button.btn-default
     margin-right: 10px;
 }
 
+.photo.thumbnail .actions
+{
+    display: none;
+}
+
+.photo.thumbnail:hover .actions
+{
+    display: block;
+}
+
 /* navbar */
 .navbar
 {
@@ -544,15 +555,15 @@ button.btn-default
     border: none;
 }
 
-#photos .thumbnail,
-#collections .thumbnail
+ .thumbnail,
+ .thumbnail
 {
     border-radius: 0;
     margin-bottom: 20px;
     position: relative;
 }
 
-    #photos .thumbnail .deleted
+     .thumbnail .deleted
     {
         position: absolute;
         top: 0;
@@ -564,13 +575,13 @@ button.btn-default
         z-index: 1000;
     }
 
-    #photos .thumbnail > img
+     .thumbnail > img
     {
         width: 100%;
     }
 
-    #photos .thumbnail .details,
-    #collections .thumbnail .details
+     .thumbnail .details,
+     .thumbnail .details
     {
         padding: 5px;
     }
@@ -628,6 +639,14 @@ button.btn-default
         color: #47a447;
         font-size: 14px;
     }
+
+.results .profile .media {
+    max-height: 168px;
+}
+.results .profile .media-body {
+    font-size: 12px;
+}
+
 
 /* login */
 .fb
