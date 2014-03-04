@@ -98,7 +98,7 @@
 </div>
 
 <!-- change password -->
-<div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
+<div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword", new { ProfileId = Model.ProfileId })" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content" id="change-password-replace">
             <!-- will be replaced -->

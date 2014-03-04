@@ -775,9 +775,11 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult ChangePassword()
+        public ActionResult ChangePassword(string profileId)
         {
-            return PartialView();
+            if (AuthenticatedUserProfile.Id != profileId && !AuthenticatedUserProfile.Permissions.Contains("admin")) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            var model = new ChangePasswordViewModel { ProfileId = profileId };
+            return PartialView(model);
         }
 
         [Authorize]
@@ -789,7 +791,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 try
                 {
                     var service = new ProfileService();
-                    service.ChangePassword(model.NewPassword, AuthenticatedUserProfile.Id);
+                    service.ChangePassword(model.NewPassword, model.ProfileId);
                     return Json(new { IsValid = true });
                 }
                 catch (Exception ex)
