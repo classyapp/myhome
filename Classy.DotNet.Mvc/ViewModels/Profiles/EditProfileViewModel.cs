@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Classy.DotNet.Responses;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
     {
         // account info
         public string ProfileId { get; set; }
+        public string AvatarUrl { get; set; }
         [Display(Name = "EditProfile_Username")]
         public string Username { get; set; }
         [Display(Name = "EditProfile_Email")]

@@ -51,30 +51,30 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteForSupportedLocales(
+            routes.MapRouteWithName(
                 name: "EditProfile",
                 url: "profile/{ProfileId}/edit",
                 defaults: new { controller = "Profile", action = "EditProfile" },
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteForSupportedLocales(
+            routes.MapRouteWithName(
                 name: "ChangeProfileImage",
-                url: "profile/editimage",
+                url: "profile/{ProfileId}/editimage",
                 defaults: new { controller = "Profile", action = "ChangeProfileImage" },
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteForSupportedLocales(
+            routes.MapRouteWithName(
                 name: "AskForReview",
                 url: "profile/askreview",
                 defaults: new { controller = "Profile", action = "AskForReview" },
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRoute(
+            routes.MapRouteWithName(
                 name: "ChangePassword",
-                url: "profile/changepassword",
+                url: "profile/{ProfileId}/changepassword",
                 defaults: new { controller = "Profile", action = "ChangePassword" },
                 namespaces: new string[] { Namespace }
             );
@@ -226,6 +226,7 @@ namespace Classy.DotNet.Mvc.Controllers
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
                 ProfileId = profile.Id,
+                AvatarUrl = profile.AvatarUrl(150, true).ToString(),
                 FirstName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
                 LastName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
                 Street1 = profile.IsProfessional ? proContactInfo.CompanyContactInfo.Location.Address.Street1 : contactInfo.Location.Address.Street1,
@@ -329,13 +330,15 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ChangeProfileImage()
+        public ActionResult ChangeProfileImage(string profileId)
         {
+            if (AuthenticatedUserProfile.Id != profileId && !AuthenticatedUserProfile.Permissions.Contains("admin")) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
             if (Request.Files.Count == 1)
             {
                 var service = new ProfileService();
                 string url = service.UpdateProfile(
-                    AuthenticatedUserProfile.Id,
+                    profileId,
                     Request.Files[0]);
 
                 return Json(new { url = url });
