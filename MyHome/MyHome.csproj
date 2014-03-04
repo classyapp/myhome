@@ -131,6 +131,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="401.html" />
+    <Content Include="404.html" />
+    <Content Include="500.html" />
     <Content Include="channel.html" />
     <Content Include="Content\ltr\bootstrap-tagsinput.css" />
     <Content Include="Content\ltr\bootstrap.min.css" />
@@ -435,12 +438,13 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\500.cshtml" />
+    <Content Include="500.aspx" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Review\PostProfileReview.cshtml" />
@@ -476,8 +480,8 @@
     <Content Include="Views\Profile\LoadFacebookAlbums.cshtml" />
     <Content Include="Views\Profile\AskForReview.cshtml" />
     <Content Include="Views\Profile\ChangePassword.cshtml" />
-    <Content Include="Views\Shared\404.cshtml" />
-    <Content Include="Views\Shared\401.cshtml" />
+    <Content Include="404.aspx" />
+    <Content Include="401.aspx" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
