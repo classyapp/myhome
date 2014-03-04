@@ -7,10 +7,9 @@
     <div class="col-md-4">
         <div class="photo thumbnail">
             @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
-            <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })">
+            <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })" title="@p.Title">
                 @Html.Thumbnail(p, 266)
                 <div class="details">
-                    <strong>@p.Title</strong>
                     <ul class="stats list-inline list-unstyled">
                         <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
                         <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>

@@ -9,6 +9,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
     public class ChangePasswordViewModel
     {
+        public string ProfileId { get; set; }
         [Required(ErrorMessage = "ChangePassword_NewPassword_Required")]
         [Display(Name = "ChangePassword_NewPassword")]
         public string NewPassword { get; set; }

@@ -30,6 +30,8 @@
                     iscroll.append(html);
                     bindTriggerActions(html);
                     resetPagination(page);
+                    
+                    Classy.AjaxReconnect();
                 });
             }
         }
@@ -70,4 +72,20 @@ function resetPagination(page) {
     $("ul.pagination li:nth-child(1)").toggleClass("hide", page == 1);
 }
 
-$(document).on("scroll", loadMorePhotos);
+$(document)
+    .on("scroll", loadMorePhotos)
+    .on("classy.ajax.reconnect", function (e) {
+        HookPhotoActions();
+    });
+
+function HookPhotoActions() {
+    $('.thumbnail')
+        .off('mouseover')
+        .off('mouseout')
+        .mouseover(function () {
+            $(this).find('.actions').removeClass('hidden');
+        })
+        .mouseout(function () {
+            $(this).find('.actions').addClass('hidden');
+        });
+}

@@ -630,6 +630,14 @@ button.btn-default
         font-size: 14px;
     }
 
+.results .profile .media {
+    max-height: 168px;
+}
+.results .profile .media-body {
+    font-size: 12px;
+}
+
+
 /* login */
 .fb
 {
