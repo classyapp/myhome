@@ -10,9 +10,9 @@
                 var url = iscroll.data("url");
                 var data = parseQueryString();
                 data.page = page;
-                $("#iscrollLoading").toggleClass("hide");
+                $("#iscrollLoading").toggleClass("hidden");
                 $.get(url, data, function (response) {
-                    $("#iscrollLoading").toggleClass("hide");
+                    $("#iscrollLoading").toggleClass("hidden");
                     iscroll.data("loading", false);
                     var html = $(response);
                     var count = html.find(itemClass).length;

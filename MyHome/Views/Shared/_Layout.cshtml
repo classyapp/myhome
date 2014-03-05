@@ -248,6 +248,15 @@
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
         Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string)";
 
+        Classy.Env = { 
+            GPSCookieName : "@Classy.DotNet.Responses.AppView.GPSLocationCookieName",
+            CountryCookieName : "@Classy.DotNet.Responses.AppView.CountryCookieName",
+            CultureCookieName : "@Classy.DotNet.Responses.AppView.CultureCookieName"
+        };
+        Classy.Strings = {
+            NearMe: "@Localizer.Get("Location_NearMe").Replace("\"", "\\\"")"
+        };
+
         $(function () {
             $('.modal[data-remote]')
                 .on('shown.bs.modal', function() {
