@@ -524,14 +524,26 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
-                if (string.IsNullOrEmpty(model.Country)) model.Country = Request.Cookies[Localizer.COUNTRY_COOKIE_NAME].Value;
+                if (string.IsNullOrEmpty(model.Country)) model.Country = Request.Cookies[AppView.CountryCookieName].Value;
+
+                LocationView location = new LocationView();
+                if (model.Country == "My Location")
+                {
+                    location.Coords = new CoordsView { Longitude = model.Longitude.Value, Latitude = model.Latitude.Value };
+                }
+                else
+                {
+                    location.Address = new PhysicalAddressView { Country = model.Country };
+                    //location.Coords = ?? Default coords for selected country
+                }
 
                 var service = new ProfileService();
                 var resutls = service.SearchProfiles(
                     model.Name,
                     model.Category,
                     /* ------------------------------------------ this is midle of Australia for now -- */
-                    new LocationView { Coords = new CoordsView { Longitude = 137.656247, Latitude = -25.539181 }, Address = new PhysicalAddressView { Country = model.Country } },
+                    //new LocationView { Coords = new CoordsView { Longitude = 137.656247, Latitude = -25.539181 }, Address = new PhysicalAddressView { Country = model.Country } },
+                    location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
                     model.Page);
@@ -563,7 +575,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult Search(SearchViewModel<TProMetadata> model, object dummyforpost)
         {
             if (model.Metadata == null) model.Metadata = new TProMetadata();
-            return RedirectToRoute("SearchProfiles", new { name = model.Name, country = model.Country, category = model.Category });
+            return RedirectToRoute("SearchProfiles", new { name = model.Name, country = model.Country, category = model.Category, Longitude = model.Longitude, Latitude = model.Latitude });
         }
 
         // 

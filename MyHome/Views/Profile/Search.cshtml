@@ -55,6 +55,8 @@
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Country, new SelectList(Localizer.SupportedCountries, "Code", "Name", Model.Country)).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
+                @Html.TextBoxFor(x => x.Latitude, new { @class = "hide" })
+                @Html.TextBoxFor(x => x.Longitude, new { @class = "hide" })
 
                 @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Style(ButtonStyle.Primary)
             }
@@ -69,6 +71,7 @@
                 @Html.Partial("ProfileGrid", Model.Results)
             }
         </div>
+        <div class="clearfix text-center hide" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
         <div id="pager" class="text-center hide">
             <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize))"
                 data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
@@ -87,5 +90,10 @@
     <script src="~/Scripts/iscroll.js"></script>
     <script>
         resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        $(document).on("classy.gps.available", function (e, data) {
+            $("#Country").prepend("<option value=\"My Location\">Around Me</option>");
+            $("#Latitude").val(data.Latitude);
+            $("#Longitude").val(data.Longitude);
+        });
     </script>
 }

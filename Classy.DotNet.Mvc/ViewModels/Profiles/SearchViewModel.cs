@@ -17,6 +17,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public long Count { get; set; }
         public int Page { get; set; }
         public string Format { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
 
         public SearchViewModel()
         {

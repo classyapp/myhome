@@ -224,12 +224,12 @@ namespace Classy.DotNet.Security
 
             if (request != null)
             {
-                gpsCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.gps_location"];
+                gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
                 if (gpsCookie != null)
                 {
                     location = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                 }
-                countryCookie = System.Web.HttpContext.Current.Request.Cookies["classy.env.country"];
+                countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
             }
             return new
             {

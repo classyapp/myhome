@@ -10,6 +10,7 @@ Classy.AcquireGPSCoordinates = function () {
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
             Classy.SetCookie("classy.env.gps_location", JSON.stringify({ latitude: lat, longitude: long }), 365);
+            $(document).trigger("classy.gps.available", {Latitude: lat, Longitude: long});
         }, function () {
             Classy.SetCookie("classy.env.gps_location", "", -365);
         });

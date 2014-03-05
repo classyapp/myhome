@@ -104,6 +104,7 @@
                 @Html.Partial("PhotoGrid", Model.Results)
             }
         </div>
+        <div class="clearfix text-center hide" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
         <div id="pager" class="text-center" style="font-size: 12px">
             <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize))" 
                 data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
