@@ -133,12 +133,8 @@
 @section scripts {
     <script src="~/Scripts/iscroll.js"></script>
     <script>
-
         $(function () {
             resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         });
-
     </script>
-
-
 }

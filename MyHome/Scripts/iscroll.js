@@ -70,18 +70,4 @@ function resetPagination(page) {
 
 $(document)
     .on("scroll", loadMorePhotos);
-    //.on("classy.ajax.reconnect", function (e) {
-    //    HookPhotoActions();
-    //});
 
-function HookPhotoActions() {
-    //$('.thumbnail')
-    //    .off('mouseover')
-    //    .off('mouseout')
-    //    .mouseover(function () {
-    //        $(this).find('.actions').removeClass('hidden');
-    //    })
-    //    .mouseout(function () {
-    //        $(this).find('.actions').addClass('hidden');
-    //    });
-}

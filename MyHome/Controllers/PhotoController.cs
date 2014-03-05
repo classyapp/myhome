@@ -15,6 +15,22 @@ namespace MyHome.Controllers
         public PhotoController()
             : base("MyHome.Controllers") { }
 
+        public override void RegisterRoutes(RouteCollection routes)
+        {
+            base.RegisterRoutes(routes);
+
+            routes.MapRoute(
+                "CreatePhotoFromUrl",
+                "web/photo/from",
+                new { controller = "Photo", action = "CreatePhotoFromUrl" });
+        }
+
+        public ActionResult CreatePhotoFromUrl(string url)
+        {
+            ViewBag.Url = url;
+            return View();
+        }
+
         public override string ListingTypeName
         {
 	        get 

@@ -1,0 +1,76 @@
+﻿@model dynamic
+@{
+    Layout = null;
+    
+    var env = new
+    {
+        Culture = UICulture,
+        Currency = Request["env.currency"] ?? "ILS",
+        Country = Request["enc.locaction"] ?? "IL"
+    };
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    @if (env.Culture == "he-IL")
+    {
+        @Styles.Render("~/Content/css/rtl")
+    }
+    else
+    {
+        @Styles.Render("~/Content/css/ltr")
+    }
+</head>
+<body>
+    <div>
+        <h1>Add Photo To Collection</h1>
+        <img class="pull-left" src="@ViewBag.Url" width="100" />
+    </div>
+
+    <div id="fb-root"></div>
+    <script>
+        // Additional JS functions here
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '13237044783', // App ID
+                channelUrl: '//www.myhome.co.il/channel.html', // Channel File
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true  // parse XFBML
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function (d) {
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document));
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/fb-login.js")
+
+    <!-- login modal -->
+    <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- will be replaced -->
+            </div>
+        </div>
+    </div>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <script>$(function () { $('#login-modal').modal('show'); })</script>
+    }
+</body>
+</html>
