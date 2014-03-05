@@ -482,6 +482,8 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="404.aspx" />
     <Content Include="401.aspx" />
+    <Content Include="Views\Default\Terms.cshtml" />
+    <Content Include="Views\Default\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

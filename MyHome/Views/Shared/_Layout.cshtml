@@ -17,7 +17,6 @@
 
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
-    <link rel="canonical" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" />
     <link rel="alternate" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.SupportedCultures)
     {
@@ -25,6 +24,7 @@
     }
     
     <title>@ViewBag.Title</title>
+
     @if (env.Culture == "he-IL") {
         @Styles.Render("~/Content/css/rtl")
     }
@@ -164,6 +164,9 @@
 
     <div class="footer text-center">
         <p>&copy; @Html.Raw(Localizer.Get("Footer_Copyright"))</p>
+        <p>
+            @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
+        </p>
     </div>
 
     <!-- fb api -->
