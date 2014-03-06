@@ -32,7 +32,7 @@
         }
 
         <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-            @if (string.IsNullOrEmpty(Model.Country))
+            @if (string.IsNullOrEmpty(Model.Location))
             {
                 <span class="label label-danger hidden">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("ProfileSearch_AllProfessionals")</a>
@@ -42,14 +42,14 @@
             @if (!string.IsNullOrEmpty(Model.Category))
             {
                 <span class="label label-danger">
-                    <a itemprop="@(string.IsNullOrEmpty(Model.Country) ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
+                    <a itemprop="@(string.IsNullOrEmpty(Model.Location) ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Location))
             {
                 <span class="label label-danger">
-                    <a itemprop="child" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
+                    <a itemprop="child" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@countries.Single(x => x.Value == Model.Location).Text</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                 </span>
             }
