@@ -546,15 +546,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                     if (model.Location == "current-location")
                     {
-                        // first search, when defaulted to current-location doesn't send coordinates via querystring
-                        if (model.Longitude.HasValue)
-                        {
-                            location.Coords = new CoordsView { Longitude = model.Longitude.Value, Latitude = model.Latitude.Value };
-                        }
-                        else
-                        {
-                            return View(model);
-                        }
+                        location.Coords = new CoordsView { Longitude = model.Longitude.Value, Latitude = model.Latitude.Value };
                     }
                     else
                     {

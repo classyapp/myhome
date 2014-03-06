@@ -100,11 +100,11 @@
         resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         $(document).on("classy.gps.available", function (e, data) {
             if (data.Available) {
+                $("#Location").prepend("<option value=\"current-location\">" + Classy.Strings.NearMe + "</option>");
                 $("#Latitude").val(data.Latitude);
                 $("#Longitude").val(data.Longitude);
                 $("#Location").val(Classy.ParseQueryString().location || Classy.GetCookie(Classy.Env.CountryCookieName) || $("#Location_Address_Country").val());
             } else {
-                $("#Location option[value=current-location]").remove();
                 $("#Latitude").val("");
                 $("#Longitude").val("");
             }
