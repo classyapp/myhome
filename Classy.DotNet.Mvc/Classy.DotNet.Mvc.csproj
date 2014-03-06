@@ -117,7 +117,7 @@
     <Compile Include="ViewModels\Profiles\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\LoadFacebookAlbumsViewModel.cs" />
     <Compile Include="ViewModels\Profiles\PublicProfileViewModel.cs" />
-    <Compile Include="ViewModels\Profiles\SearchViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\SearchProfileViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
     <Compile Include="ViewModels\Security\LoginViewModel.cs" />

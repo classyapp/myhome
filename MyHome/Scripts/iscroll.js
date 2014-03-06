@@ -10,7 +10,9 @@
                 var url = iscroll.data("url");
                 var data = parseQueryString();
                 data.page = page;
+                $("#iscrollLoading").toggleClass("hidden");
                 $.get(url, data, function (response) {
+                    $("#iscrollLoading").toggleClass("hidden");
                     iscroll.data("loading", false);
                     var html = $(response);
                     var count = html.find(itemClass).length;
@@ -24,7 +26,7 @@
                     iscroll.append(html);
                     bindTriggerActions(html);
                     resetPagination(page);
-                    
+
                     Classy.AjaxReconnect();
                 });
             }

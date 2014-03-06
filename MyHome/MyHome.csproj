@@ -146,6 +146,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
+    <Content Include="img\ajax-loader.gif" />
     <Content Include="img\fb.png" />
     <Content Include="img\flags\ad.png" />
     <Content Include="img\flags\ae.png" />

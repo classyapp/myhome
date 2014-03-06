@@ -1,8 +1,9 @@
-@model Classy.DotNet.Mvc.ViewModels.Profiles.SearchViewModel<MyHome.Models.ProfessionalMetadata>
+@model Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata>
 
 @{
     ViewBag.Title = "SearchProfiles";
     var categories = Localizer.GetList("professional-categories");
+    var countries = Localizer.GetList("supported-countries");
 }
 
 <div class="row">
@@ -38,10 +39,10 @@
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
-            @if (!string.IsNullOrEmpty(Model.Country))
+            @if (!string.IsNullOrEmpty(Model.Location))
             {
                 <span class="label label-danger">
-                    <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Country })">@Model.Country</a>
+                    <a itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@Model.Location</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                 </span>
             }
@@ -53,8 +54,10 @@
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
-                @f.FormGroup().DropDownListFor(x => x.Country, new SelectList(Localizer.SupportedCountries, "Code", "Name", Model.Country)).ShowValidationMessage(false).Label().Class("sr-only")
+                @f.FormGroup().DropDownListFor(x => x.Location, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
+                @Html.TextBoxFor(x => x.Latitude, new { @class = "hidden" })
+                @Html.TextBoxFor(x => x.Longitude, new { @class = "hidden" })
 
                 @Html.Bootstrap().SubmitButton().Text(Localizer.Get("SearchProfiles_Label_Submit")).Style(ButtonStyle.Primary)
             }
@@ -69,6 +72,7 @@
                 @Html.Partial("ProfileGrid", Model.Results)
             }
         </div>
+        <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
         <div id="pager" class="text-center hide">
             <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize))"
                 data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
@@ -87,5 +91,16 @@
     <script src="~/Scripts/iscroll.js"></script>
     <script>
         resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        $(document).on("classy.gps.available", function (e, data) {
+            if (data.Available) {
+                $("#Location").prepend("<option value=\"current-location\">" + Classy.Strings.NearMe + "</option>");
+                $("#Latitude").val(data.Latitude);
+                $("#Longitude").val(data.Longitude);
+                $("#Location").val(Classy.ParseQueryString().location || Classy.GetCookie(Classy.Env.CountryCookieName) || $("#Location_Address_Country").val());
+            } else {
+                $("#Latitude").val("");
+                $("#Longitude").val("");
+            }
+        });
     </script>
 }

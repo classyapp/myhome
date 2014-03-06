@@ -129,18 +129,18 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
                 CultureName = System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName,
-                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Localizer.COUNTRY_COOKIE_NAME].Value
+                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value
             };
         }
 
         private void SetContextEnvFromModel(EnvironmentSettingsViewModel model)
         {
-            Response.Cookies.Add(new System.Web.HttpCookie(Localization.Localizer.CULTURE_COOKIE_NAME)
+            Response.Cookies.Add(new System.Web.HttpCookie(Classy.DotNet.Responses.AppView.CultureCookieName)
             {
                 Value = model.CultureCode,
                 Expires = DateTime.UtcNow.AddYears(30)
             });
-            Response.Cookies.Add(new System.Web.HttpCookie(Localization.Localizer.COUNTRY_COOKIE_NAME)
+            Response.Cookies.Add(new System.Web.HttpCookie(Classy.DotNet.Responses.AppView.CountryCookieName)
             {
                 Value = model.CountryCode,
                 Expires = DateTime.UtcNow.AddYears(30)

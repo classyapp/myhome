@@ -16,9 +16,6 @@ namespace Classy.DotNet.Mvc.Localization
 {
     public static class Localizer
     {
-        public const string CULTURE_COOKIE_NAME = "classy.env.culture";
-        public const string COUNTRY_COOKIE_NAME = "classy.env.country";
-        public const string GPS_LOCATION_COOKIE_NAME = "classy.env.gps_location";
         public const string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
         public const string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
         public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
@@ -40,7 +37,7 @@ namespace Classy.DotNet.Mvc.Localization
         {
             _showResourceKeys = showResourceKeys;
 
-            var cookie = HttpContext.Current.Request.Cookies[CULTURE_COOKIE_NAME];
+            var cookie = HttpContext.Current.Request.Cookies[AppView.CultureCookieName];
             string cultureName = forceCulture ?? (cookie != null ? cookie.Value : null);
             if (cultureName != null)
             {
@@ -54,21 +51,21 @@ namespace Classy.DotNet.Mvc.Localization
             }
 
             // init country
-            cookie = HttpContext.Current.Request.Cookies[COUNTRY_COOKIE_NAME];
+            cookie = HttpContext.Current.Request.Cookies[AppView.CountryCookieName];
             Classy.DotNet.Mvc.GeoIP.Location location = Helpers.IPLocator.GetLocationByRequestIP();
             if (cookie == null)
             {
                 string countryCode = SupportedCountries.Any(c => c.Code == location.CountryCode) ? location.CountryCode : "FR";
-                cookie = new HttpCookie(COUNTRY_COOKIE_NAME, countryCode);
+                cookie = new HttpCookie(AppView.CountryCookieName, countryCode);
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
 
             // init gps coordinates cookie 
-            cookie = HttpContext.Current.Request.Cookies[GPS_LOCATION_COOKIE_NAME];
+            cookie = HttpContext.Current.Request.Cookies[AppView.GPSLocationCookieName];
             if (cookie == null)
             {
-                cookie = new HttpCookie(GPS_LOCATION_COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
+                cookie = new HttpCookie(AppView.GPSLocationCookieName, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
