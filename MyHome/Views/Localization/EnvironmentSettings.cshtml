@@ -26,7 +26,8 @@
     }
 
     if (Classy.Env.GPSEnabled || false) {
-        $("#CountryCode").prepend("<option value=\"current-location\">" + Classy.Strings.NearMe + "</option>");
         $("#CountryCode").val(Classy.GetCookie(Classy.Env.CountryCookieName) || $("#Country").val());
+    } else {
+        $("#CountryCode option[value=current-location]").remove();
     }
 </script>
