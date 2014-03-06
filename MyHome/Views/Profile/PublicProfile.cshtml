@@ -332,7 +332,7 @@
                             {
                                 <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                                     <i class="glyphicon glyphicon-map-marker"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br/>
-                                    <span class="address2" itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                                    <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> <span>@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country</span>
                                 </div>
                             }
                         </div>
