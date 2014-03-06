@@ -58,21 +58,21 @@
             @if (!string.IsNullOrEmpty(Model.Metadata.Room))
             {
                 <span class="label label-danger">
-                    <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a>
+                    <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Metadata.Style))
             {
                 <span class="label label-danger">
-                    <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@styles.Single(x => x.Value == Model.Metadata.Style).Text</a>
+                    <a class="content" itemprop="@(!string.IsNullOrEmpty(Model.Metadata.Room) ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@styles.Single(x => x.Value == Model.Metadata.Style).Text</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Tag))
             {
                 <span class="label label-danger">
-                    <a class="content" itemscope itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Tag</a>
+                    <a class="content" itemprop="@(!string.IsNullOrEmpty(Model.Metadata.Style) && !string.IsNullOrEmpty(Model.Metadata.Room) ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })">@Model.Tag</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })">x</a>
                 </span>
             }

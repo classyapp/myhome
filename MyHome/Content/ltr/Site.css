@@ -547,7 +547,9 @@ button.btn-default
         font-size: 14px;
         color: #47a447;
     }
-
+span.address2 {
+    padding-left: 20px;
+}
 .thumbnail
 {
     position: relative;

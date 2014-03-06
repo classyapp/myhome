@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
+using Classy.DotNet;
 using Classy.DotNet.Mvc;
 using Classy.DotNet.Mvc.Localization;
 

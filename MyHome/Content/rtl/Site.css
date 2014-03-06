@@ -156,6 +156,11 @@ button > input[type=file]
     padding-left: 5px;
     padding-right: 0;
 }
+
+span.address2 {
+    padding-left: 0;
+    padding-right: 20px;
+}
 /* search pages*/
 .label-container .label
 {

@@ -138,16 +138,6 @@ namespace Classy.DotNet.Mvc
             return url.RouteUrlForCurrentLocale("PublicProfile", new { profileId = profile.Id });
         }
 
-        public static string GetProfileName(this ProfileView profile)
-        {
-            if (profile.ContactInfo == null && !profile.IsProfessional) return "unknown";
-            string name;
-            if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
-            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
-            else name = string.IsNullOrEmpty(profile.ContactInfo.Name) ? profile.UserName : profile.ContactInfo.Name;
-            return name ?? "unknown";
-        }
-
         public static MvcHtmlString ToSlug(this System.Web.Mvc.HtmlHelper html, string content)
         {
             return new MvcHtmlString(content.ToSlug());

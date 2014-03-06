@@ -1,7 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
 
 @{
-    ViewBag.Title = "PublicProfessionalProfile";
+    ViewBag.Title = string.Concat(Model.Profile.GetProfileName(), " - ", Model.Profile.GetProfessionalAddressOneLine());
     var photos = Model.Profile.Listings.Where(x => x.ListingType == "Photo");
     var reviews = Model.Profile.Reviews;
     var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
@@ -72,7 +72,7 @@
 
                             @if (Model.Profile.IsProfessional) {
                                 <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                                    @if (Model.Profile.ReviewCount > 0)
+                                @if (Model.Profile.ReviewCount > 0)
                                 {
                                         <span class="stars">
                                             @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
@@ -89,7 +89,7 @@
                                 }
                                     <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
 
-                                    @if (Model.ReviewSubCriteria != null)
+                                @if (Model.ReviewSubCriteria != null)
                                 {
                                         <div class="details hide">
                                             <dl class="dl-horizontal">
@@ -319,12 +319,10 @@
                             {
                                     <div class="contact-info">
                                         <i class="glyphicon glyphicon-tag"></i>
-                                        <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                                        <span>
                                             <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span></a>
                                         </span>
-                                        <span itemscope class="hide" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
-                                            <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span></a>
-                                        </span>
+                                        
                                     </div>
                             }
 
@@ -333,8 +331,8 @@
                                         Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                             {
                                 <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                                    <i class="glyphicon glyphicon-map-marker"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span>
-                                    <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                                    <i class="glyphicon glyphicon-map-marker"></i> <span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br/>
+                                    <span class="address2" itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode, @Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
                                 </div>
                             }
                         </div>
