@@ -1,0 +1,20 @@
+﻿@model IList<string>
+
+@{
+    var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+    Dictionary<int,System.Drawing.Point[]> sizes = new Dictionary<int, System.Drawing.Point[]>();
+    sizes.Add(1, new System.Drawing.Point[] { new System.Drawing.Point{ X = 220, Y = 220 }});
+    sizes.Add(2, new System.Drawing.Point[] { new System.Drawing.Point{ X = 107, Y = 220 }, new System.Drawing.Point{ X = 107, Y = 220 }});
+    sizes.Add(3, new System.Drawing.Point[] { new System.Drawing.Point{ X = 107, Y = 220 }, new System.Drawing.Point{ X = 107, Y = 107 }, new System.Drawing.Point{ X = 107, Y = 107 }});
+    sizes.Add(4, new System.Drawing.Point[] { new System.Drawing.Point{ X = 151, Y = 220 }, new System.Drawing.Point{ X = 64, Y = 70 }, new System.Drawing.Point{ X = 64, Y = 70 }, new System.Drawing.Point{ X = 64, Y = 70 }});
+}
+
+@if (Model.Count > 0)
+{
+    <div class="@string.Format("thumbs{0}", Model.Count)">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <img src="@string.Format("//{3}/thumbnail/{0}?Width={1}&Height={2}&format=json", Model[i], sizes[Model.Count][i].X, sizes[Model.Count][i].Y, cdnurl)" />
+        }
+    </div>
+}
