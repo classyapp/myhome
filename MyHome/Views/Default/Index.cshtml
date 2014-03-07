@@ -52,7 +52,7 @@
                 {
                     <li class="media">
                         <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "list" })">
-                            @Html.CollectionThumbnail(c, 266, 100)
+                            @Html.Partial("Thumbnails", c)
                         </a>
 
                         <div class="media-body">
