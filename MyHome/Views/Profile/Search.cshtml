@@ -3,8 +3,8 @@
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
-    ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_AllProfessionals"), !string.IsNullOrEmpty(Model.Location) ? countries.Single(x => x.Value == Model.Location).Text : "");
-    ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_AllProfessionals"), !string.IsNullOrEmpty(Model.Location) ? countries.Single(x => x.Value == Model.Location).Text : "");
+    ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), !string.IsNullOrEmpty(Model.Location) ? countries.Single(x => x.Value == Model.Location).Text : "");
+    ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), !string.IsNullOrEmpty(Model.Location) ? countries.Single(x => x.Value == Model.Location).Text : "");
 }
 
 <div class="row">
