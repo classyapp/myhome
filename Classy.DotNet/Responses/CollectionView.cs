@@ -29,5 +29,6 @@ namespace Classy.DotNet.Responses
         public int ViewCount { get; set; }
         public int FavoriteCount { get; set; }
         public IList<MediaFileThumbnail> Thumbnails { get; set; }
+        public IList<string> CoverPhotos { get; set; }
     }
 }

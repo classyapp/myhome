@@ -485,6 +485,7 @@
     <Content Include="401.aspx" />
     <Content Include="Views\Default\Terms.cshtml" />
     <Content Include="Views\Default\Privacy.cshtml" />
+    <Content Include="Views\Shared\Thumbnails.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

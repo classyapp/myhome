@@ -33,24 +33,24 @@ a, a:visited
     color: #777;
 }
 
-a:hover
-{
-    color: #999;
-}
+    a:hover
+    {
+        color: #999;
+    }
 
-a.btn,
-button.btn
-{
-    color: #fff;
-}
+    a.btn,
+    button.btn
+    {
+        color: #fff;
+    }
 
-a.btn-default,
-button.btn-default
-{
-    background-color: #f0f0f0;
-    color: #777;
-    border-color: #999;
-}
+    a.btn-default,
+    button.btn-default
+    {
+        background-color: #f0f0f0;
+        color: #777;
+        border-color: #999;
+    }
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover
@@ -134,53 +134,73 @@ button.btn-default
 }
 
 /* profile page */
-.contact-button {
+.contact-button
+{
     margin-bottom: 10px;
 }
-.contact-info {
+
+.contact-info
+{
     margin-bottom: 5px;
 }
-.profile-header {
+
+.profile-header
+{
     margin-bottom: 20px;
 }
 
-.profile-header .media-body {
-    background-color: #f0f0f0;
-    padding: 0 20px;
-}
-.profile-title h1 {
+    .profile-header .media-body
+    {
+        background-color: #f0f0f0;
+        padding: 0 20px;
+    }
+
+.profile-title h1
+{
     font-size: 36px;
     vertical-align: top;
 }
-.profile-title h1 a,
-.profile-title h1 a:hover,
-.profile-title h1 a:visited {
-    color: #444;
-    text-decoration: none;
-}
-.profile-title small {
+
+    .profile-title h1 a,
+    .profile-title h1 a:hover,
+    .profile-title h1 a:visited
+    {
+        color: #444;
+        text-decoration: none;
+    }
+
+.profile-title small
+{
     font-size: 12px;
 }
-.social-stats li {
+
+.social-stats li
+{
     font-size: 14px;
     margin-right: 10px;
     padding: 0 10px 0 0;
     border-right: solid 1px #ddd;
     vertical-align: top;
 }
-.social-stats li:last-child {
-    margin-right: 0;
-    padding-right: 0;
-    border: none;
-    padding-top: 5px;
-}
-.social-stats li:last-child span {
-    display: inline-block;
-    padding-top: 10px;
-}
-.social-stats li strong {
-    font-size: 18px;
-}
+
+    .social-stats li:last-child
+    {
+        margin-right: 0;
+        padding-right: 0;
+        border: none;
+        padding-top: 5px;
+    }
+
+        .social-stats li:last-child span
+        {
+            display: inline-block;
+            padding-top: 10px;
+        }
+
+    .social-stats li strong
+    {
+        font-size: 18px;
+    }
 
 
 /* collection - grid */
@@ -239,10 +259,11 @@ button.btn-default
     {
         font-size: 18px;
     }
-.home-content .benefits
-{
-            margin-bottom: 20px;
-        }
+
+    .home-content .benefits
+    {
+        margin-bottom: 20px;
+    }
 
         .home-content .benefits .glyphicon
         {
@@ -289,9 +310,12 @@ button.btn-default
     background-color: #f0f0f0;
     padding: 10px 0;
 }
-.panel-default > .panel-body {
+
+.panel-default > .panel-body
+{
     padding: 10px 0;
 }
+
 .panel-title
 {
     color: #333;
@@ -497,11 +521,11 @@ button.btn-default
     position: relative;
 }
 
-.sidebar .image img
-{
-    margin-bottom: 10px;
-    width: 100%;
-}
+    .sidebar .image img
+    {
+        margin-bottom: 10px;
+        width: 100%;
+    }
 
 .update-image
 {
@@ -509,14 +533,14 @@ button.btn-default
     overflow: hidden;
 }
 
-.update-image > input[type=file]
-{
-    position: absolute;
-    top: 0;
-    opacity: 0;
-    filter: alpha(opacity=0);
-    height: 35px;
-}
+    .update-image > input[type=file]
+    {
+        position: absolute;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        height: 35px;
+    }
 
 .main h1
 {
@@ -547,9 +571,12 @@ button.btn-default
         font-size: 14px;
         color: #47a447;
     }
-span.address2 {
+
+span.address2
+{
     padding-left: 20px;
 }
+
 .thumbnail
 {
     position: relative;
@@ -557,15 +584,15 @@ span.address2 {
     border: none;
 }
 
- .thumbnail,
- .thumbnail
+.thumbnail,
+.thumbnail
 {
     border-radius: 0;
     margin-bottom: 20px;
     position: relative;
 }
 
-     .thumbnail .deleted
+    .thumbnail .deleted
     {
         position: absolute;
         top: 0;
@@ -577,13 +604,13 @@ span.address2 {
         z-index: 1000;
     }
 
-     .thumbnail > img
+    .thumbnail > img
     {
         width: 100%;
     }
 
-     .thumbnail .details,
-     .thumbnail .details
+    .thumbnail .details,
+    .thumbnail .details
     {
         padding: 5px;
     }
@@ -642,12 +669,15 @@ span.address2 {
         font-size: 14px;
     }
 
-.results .profile .media {
-    max-height: 168px;
-}
-.results .profile .media-body {
-    font-size: 12px;
-}
+    .results .profile .media
+    {
+        max-height: 168px;
+    }
+
+    .results .profile .media-body
+    {
+        font-size: 12px;
+    }
 
 
 /* login */
@@ -1039,3 +1069,63 @@ a.action
                 background: green;
                 color: #fff;
             }
+
+.thumbs1, .thumbs2, .thumbs3, .thumbs4
+{
+    width: 220px;
+    height: 220px;
+    margin: 0px auto;
+}
+
+div[class^=thumbs] img
+{
+    float: right;
+}
+
+    div[class^=thumbs] img:first-child
+    {
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 0px;
+    }
+
+.thumbs1 img
+{
+    width: 220px;
+    height: 220px;
+    margin: 0px;
+}
+
+.thumbs2 img
+{
+    width: 107px;
+    height: 220px;
+}
+
+div.thumbs3 img
+{
+    margin-bottom: 6px;
+    width: 107px;
+    height: 107px;
+}
+
+    div.thumbs3 img:first-child
+    {
+        float: left;
+        width: 107px;
+        height: 220px;
+    }
+
+div.thumbs4 img
+{
+    margin-bottom: 5px;
+    width: 64px;
+    height: 70px;
+}
+
+    div.thumbs4 img:first-child
+    {
+        float: left;
+        width: 151px;
+        height: 220px;
+    }
