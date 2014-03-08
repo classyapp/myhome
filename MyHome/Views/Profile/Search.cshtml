@@ -33,7 +33,7 @@
         }
 
         <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-            @{ var hasLocation = string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location"; }
+            @{ var hasLocation = !string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location"; }
             @if (hasLocation)
             {
                 <span class="label label-danger hidden">
