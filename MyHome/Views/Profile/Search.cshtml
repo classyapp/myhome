@@ -3,8 +3,8 @@
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
-    ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), !string.IsNullOrEmpty(Model.Location) ? countries.Single(x => x.Value == Model.Location).Text : "");
-    ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), !string.IsNullOrEmpty(Model.Location) ? countries.Single(x => x.Value == Model.Location).Text : "");
+    ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), (!string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location") ? countries.Single(x => x.Value == Model.Location).Text : "");
+    ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), (!string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location") ? countries.Single(x => x.Value == Model.Location).Text : "");
 }
 
 <div class="row">
@@ -33,7 +33,8 @@
         }
 
         <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-            @if (string.IsNullOrEmpty(Model.Location))
+            @{ var hasLocation = string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location"; }
+            @if (hasLocation)
             {
                 <span class="label label-danger hidden">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("ProfileSearch_AllProfessionals")</a>
@@ -43,11 +44,11 @@
             @if (!string.IsNullOrEmpty(Model.Category))
             {
                 <span class="label label-danger">
-                    <a itemprop="@(string.IsNullOrEmpty(Model.Location) ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
+                    <a itemprop="@(hasLocation ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
-            @if (!string.IsNullOrEmpty(Model.Location))
+            @if (hasLocation)
             {
                 <span class="label label-danger">
                     <a itemprop="child" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@countries.Single(x => x.Value == Model.Location).Text</a>

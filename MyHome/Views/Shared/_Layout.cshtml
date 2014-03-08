@@ -40,8 +40,12 @@
         @if (new[] { "fr", "en", "nl" }.Contains(env.Culture))
         {
             <div id="cookie-policy" class="hidden">
-                @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
-                <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookies_Agree") <b>x</b></span>
+                <div class="container">
+                    <div class="row">
+                        @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
+                        <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookies_Agree") <b>x</b></span>
+                    </div>
+                </div>
             </div>
         }
         <div class="container">
