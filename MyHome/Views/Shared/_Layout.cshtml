@@ -39,9 +39,9 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         @if (new[] { "fr", "en", "nl" }.Contains(env.Culture))
         {
-            <div class="cookie-policy alert alert-warning alert-dismissable">
+            <div id="cookie-policy" class="hidden">
                 @string.Format(Localizer.Get("Header_Cookie_Policy"), Html.RouteLinkForCurrentLocale(Localizer.Get("Header_Cookies"), "Privacy"))
-                <span class="pull-right" data-dismiss="alert">@Localizer.Get("Header_Cookies_Agree") <b class="close">x</b></span>
+                <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookies_Agree") <b>x</b></span>
             </div>
         }
         <div class="container">
@@ -280,6 +280,12 @@
                     $(this).removeData('bs.modal');
                     $(this).find('.modal-body').html("");
                 });
+
+            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) $('#cookie-policy').removeClass('hidden');
+            $('#close-cookie-policy').click(function() {
+                Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 365);
+                $('#cookie-policy').addClass('hidden');
+            });
         });
 
         function CloseModal(data) { 

@@ -452,6 +452,10 @@ a, a:visited
 }
 
 /* navbar */
+#cookie-policy {
+    background-color: #f0f0f0;
+    color: #777;
+}
 .navbar
 {
     border: none;
