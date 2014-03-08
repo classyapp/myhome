@@ -519,9 +519,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62599</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://www.myhome.co.il</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://www.myhome.co.il</IISAppRootUrl>
+          <IISUrl>http://www.homelab.com</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
