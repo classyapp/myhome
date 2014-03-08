@@ -40,7 +40,7 @@
         @if (new[] { "fr", "en", "nl" }.Contains(env.Culture))
         {
             <div id="cookie-policy" class="hidden">
-                @string.Format(Localizer.Get("Header_Cookie_Policy"), Html.RouteLinkForCurrentLocale(Localizer.Get("Header_Cookies"), "Privacy"))
+                @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
                 <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookies_Agree") <b>x</b></span>
             </div>
         }
