@@ -47,8 +47,8 @@ namespace Classy.DotNet.Mvc.Localization
             var supportedCultures = GetList("supported-cultures");
             if (supportedCultures.SingleOrDefault(x => x.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name) == null)
             {
-                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
             }
 
             // init country
