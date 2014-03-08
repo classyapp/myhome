@@ -1,6 +1,7 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Default.HomeViewModel
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = Localizer.Get("HomePage_Title");
+    ViewBag.MetaDescription = Localizer.Get("HomePage_MetaDescription");
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
@@ -51,7 +52,7 @@
                 {
                     <li class="media">
                         <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "list" })">
-                            @Html.CollectionThumbnail(c, 266, 100)
+                            @Html.Partial("Thumbnails", c)
                         </a>
 
                         <div class="media-body">
@@ -75,7 +76,7 @@
 </div>
 
 @section PreFooter{
-    <div class="container">
+    <div class="row">
         <h3>@Localizer.Get("Home_List_Categories")</h3>
         <hr />
         <ul class="list-inline list-unstyled footer-categories">

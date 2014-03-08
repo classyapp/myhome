@@ -8,6 +8,8 @@ using System.Web.Mvc.Html;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
+using System.Configuration;
+using System.Text;
 
 namespace Classy.DotNet.Mvc
 {
@@ -87,34 +89,16 @@ namespace Classy.DotNet.Mvc
         // photo thumb
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int size)
         {
-            if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0 && listing.ExternalMedia[0].Thumbnails != null)
+            if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0)
             {
-                var thumb = listing.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == size);
-                if (thumb != null)
-                {
-                    return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
-                                    thumb.Url, listing.Title, listing.Title));
-                }
+                string url = string.Format("//{0}/thumbnail/{1}?Width={2}&format-json",
+                    ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, size);
+                return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
+                                    url, listing.Title, listing.Title));
             }
-            
+
             return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
                                     "/img/missing-thumb.png", listing.Title, listing.Title));
-        }
-
-        // collection photo thumb
-        public static MvcHtmlString CollectionThumbnail(this System.Web.Mvc.HtmlHelper html, CollectionView collection, int size, int imgWidth)
-        {
-            if (collection.Thumbnails != null)
-            {
-                var thumb = collection.Thumbnails.SingleOrDefault(x => x.Width == size);
-                if (thumb != null)
-                {
-                    return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" width=\"{3}\" class=\"media-object\" />",
-                        thumb.Url, collection.Title, collection.Title, imgWidth));
-                }
-            }
-            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" width=\"{3}\" class=\"media-object\" />",
-                        "/img/missing-thumb.png", collection.Title, collection.Title, imgWidth));
         }
 
         public static MvcHtmlString ListingLink(this System.Web.Mvc.HtmlHelper html, string listingType, ListingView listing)
@@ -136,16 +120,6 @@ namespace Classy.DotNet.Mvc
         public static string ProfileUrl(this System.Web.Mvc.UrlHelper url, ProfileView profile)
         {
             return url.RouteUrlForCurrentLocale("PublicProfile", new { profileId = profile.Id });
-        }
-
-        public static string GetProfileName(this ProfileView profile)
-        {
-            if (profile.ContactInfo == null && !profile.IsProfessional) return "unknown";
-            string name;
-            if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
-            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
-            else name = string.IsNullOrEmpty(profile.ContactInfo.Name) ? profile.UserName : profile.ContactInfo.Name;
-            return name ?? "unknown";
         }
 
         public static MvcHtmlString ToSlug(this System.Web.Mvc.HtmlHelper html, string content)

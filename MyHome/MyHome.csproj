@@ -146,6 +146,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
+    <Content Include="img\ajax-loader.gif" />
     <Content Include="img\fb.png" />
     <Content Include="img\flags\ad.png" />
     <Content Include="img\flags\ae.png" />
@@ -482,6 +483,9 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="404.aspx" />
     <Content Include="401.aspx" />
+    <Content Include="Views\Default\Terms.cshtml" />
+    <Content Include="Views\Default\Privacy.cshtml" />
+    <Content Include="Views\Shared\Thumbnails.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

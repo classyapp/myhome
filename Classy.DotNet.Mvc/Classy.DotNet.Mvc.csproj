@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -117,7 +118,7 @@
     <Compile Include="ViewModels\Profiles\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\LoadFacebookAlbumsViewModel.cs" />
     <Compile Include="ViewModels\Profiles\PublicProfileViewModel.cs" />
-    <Compile Include="ViewModels\Profiles\SearchViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\SearchProfileViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
     <Compile Include="ViewModels\Security\LoginViewModel.cs" />

@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
-    public class SearchViewModel<TProMetadata>
+    public class SearchProfileViewModel<TProMetadata>
     {
         public string Name { get; set; }
         public string Category { get; set; }
-        public string Country { get; set; }
+        public string Location { get; set; }
         public TProMetadata Metadata { get; set; }
         public IList<ProfileView> Results { get; set; }
         public long Count { get; set; }
         public int Page { get; set; }
         public string Format { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
 
-        public SearchViewModel()
+        public SearchProfileViewModel()
         {
             Page = 1;
             Format = "html";

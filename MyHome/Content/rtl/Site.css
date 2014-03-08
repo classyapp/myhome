@@ -15,17 +15,20 @@ h1, h2, h3, h4, h5
 }
 
 /* profile page*/
-.social-stats li {
+.social-stats li
+{
     margin-right: 0;
     margin-left: 10px;
     padding: 0 0 0 10px;
     border-left: solid 1px #ddd;
     border-right: none;
 }
-.social-stats li:last-child {
-    margin-left: 0;
-    padding-left: 0;
-}
+
+    .social-stats li:last-child
+    {
+        margin-left: 0;
+        padding-left: 0;
+    }
 
 /* collection - grid */
 .collection .profile img
@@ -112,10 +115,11 @@ h1, h2, h3, h4, h5
 {
     position: relative;
 }
-.sidebar .image img
-{
-    width: 100%;
-}
+
+    .sidebar .image img
+    {
+        width: 100%;
+    }
 
     .sidebar .image .update-image
     {
@@ -155,6 +159,12 @@ button > input[type=file]
 {
     padding-left: 5px;
     padding-right: 0;
+}
+
+span.address2
+{
+    padding-left: 0;
+    padding-right: 20px;
 }
 /* search pages*/
 .label-container .label
@@ -223,3 +233,63 @@ a.action
 {
     padding-right: 5px;
 }
+
+.thumbs1, .thumbs2, .thumbs3, .thumbs4
+{
+    width: 220px;
+    height: 220px;
+    margin: 0px auto;
+}
+
+div[class^=thumbs] img
+{
+    float: right;
+}
+
+    div[class^=thumbs] img:first-child
+    {
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 0px;
+    }
+
+.thumbs1 img
+{
+    width: 220px;
+    height: 220px;
+    margin: 0px;
+}
+
+.thumbs2 img
+{
+    width: 107px;
+    height: 220px;
+}
+
+div.thumbs3 img
+{
+    margin-bottom: 6px;
+    width: 107px;
+    height: 107px;
+}
+
+    div.thumbs3 img:first-child
+    {
+        float: left;
+        width: 107px;
+        height: 220px;
+    }
+
+div.thumbs4 img
+{
+    margin-bottom: 5px;
+    width: 64px;
+    height: 70px;
+}
+
+    div.thumbs4 img:first-child
+    {
+        float: left;
+        width: 151px;
+        height: 220px;
+    }

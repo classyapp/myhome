@@ -13,19 +13,19 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
-    <link rel="canonical" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" />
     <link rel="alternate" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
-    @foreach (var culture in Localizer.SupportedCultures)
+    @foreach (var culture in Localizer.GetList("supported-cultures"))
     {
-        <link rel="alternate" hreflang="@culture.Name" href="http://www.myhome.co.il@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Name))" />    
+        <link rel="alternate" hreflang="@culture.Value" href="http://www.myhome.co.il@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
     }
     
     <title>@ViewBag.Title</title>
-    @if (env.Culture == "he-IL") {
+
+    @if (env.Culture == "he") {
         @Styles.Render("~/Content/css/rtl")
     }
     else 
@@ -37,6 +37,13 @@
 <body>
     <!-- nav -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        @if (new[] { "fr", "en", "nl" }.Contains(env.Culture))
+        {
+            <div id="cookie-policy" class="hidden">
+                @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
+                <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookies_Agree") <b>x</b></span>
+            </div>
+        }
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -164,6 +171,12 @@
 
     <div class="footer text-center">
         <p>&copy; @Html.Raw(Localizer.Get("Footer_Copyright"))</p>
+        <p>
+            @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
+        </p>
+        <p>
+            <a href="/en">English</a> | <a href="/fr">Français</a> | <a href="/nl">Néerlandais</a> | <a href="/he">עברית</a>
+        </p>
     </div>
 
     <!-- fb api -->
@@ -248,6 +261,16 @@
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
         Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string)";
 
+        Classy.Env = { 
+            GPSCookieName : "@Classy.DotNet.Responses.AppView.GPSLocationCookieName",
+            CountryCookieName : "@Classy.DotNet.Responses.AppView.CountryCookieName",
+            CultureCookieName : "@Classy.DotNet.Responses.AppView.CultureCookieName",
+            AgreeToCookiePolicyCookieName : "classy.env.cpagree"
+        };
+        Classy.Strings = {
+            NearMe: "@Localizer.Get("Location_NearMe").Replace("\"", "\\\"")"
+        };
+
         $(function () {
             $('.modal[data-remote]')
                 .on('shown.bs.modal', function() {
@@ -257,6 +280,12 @@
                     $(this).removeData('bs.modal');
                     $(this).find('.modal-body').html("");
                 });
+
+            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) $('#cookie-policy').removeClass('hidden');
+            $('#close-cookie-policy').click(function() {
+                Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 365);
+                $('#cookie-policy').addClass('hidden');
+            });
         });
 
         function CloseModal(data) { 

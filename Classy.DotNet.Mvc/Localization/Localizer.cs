@@ -16,9 +16,6 @@ namespace Classy.DotNet.Mvc.Localization
 {
     public static class Localizer
     {
-        public const string CULTURE_COOKIE_NAME = "classy.env.culture";
-        public const string COUNTRY_COOKIE_NAME = "classy.env.country";
-        public const string GPS_LOCATION_COOKIE_NAME = "classy.env.gps_location";
         public const string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
         public const string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
         public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
@@ -40,81 +37,40 @@ namespace Classy.DotNet.Mvc.Localization
         {
             _showResourceKeys = showResourceKeys;
 
-            var cookie = HttpContext.Current.Request.Cookies[CULTURE_COOKIE_NAME];
+            var cookie = HttpContext.Current.Request.Cookies[AppView.CultureCookieName];
             string cultureName = forceCulture ?? (cookie != null ? cookie.Value : null);
             if (cultureName != null)
             {
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
                 System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
             }
-            if (SupportedCultures.SingleOrDefault(x => x.Name == System.Threading.Thread.CurrentThread.CurrentUICulture.Name) == null)
+            var supportedCultures = GetList("supported-cultures");
+            if (supportedCultures.SingleOrDefault(x => x.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name) == null)
             {
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
                 System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             }
 
             // init country
-            cookie = HttpContext.Current.Request.Cookies[COUNTRY_COOKIE_NAME];
+            cookie = HttpContext.Current.Request.Cookies[AppView.CountryCookieName];
             Classy.DotNet.Mvc.GeoIP.Location location = Helpers.IPLocator.GetLocationByRequestIP();
             if (cookie == null)
             {
-                string countryCode = SupportedCountries.Any(c => c.Code == location.CountryCode) ? location.CountryCode : "FR";
-                cookie = new HttpCookie(COUNTRY_COOKIE_NAME, countryCode);
+                var supportedCountries = GetList("supported-countries");
+                string countryCode = supportedCountries.Any(c => c.Value == location.CountryCode) ? location.CountryCode : "FR";
+                cookie = new HttpCookie(AppView.CountryCookieName, countryCode);
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
 
             // init gps coordinates cookie 
-            cookie = HttpContext.Current.Request.Cookies[GPS_LOCATION_COOKIE_NAME];
+            cookie = HttpContext.Current.Request.Cookies[AppView.GPSLocationCookieName];
             if (cookie == null)
             {
-                cookie = new HttpCookie(GPS_LOCATION_COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
+                cookie = new HttpCookie(AppView.GPSLocationCookieName, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
-        }
-
-        public static IEnumerable<CultureInfo> SupportedCultures
-        {
-            get
-            {
-                var languages = HttpRuntime.Cache[SUPPORTED_CULTURES_CACHE_KEY] as List<CultureInfo>;
-                if (languages == null)
-                {
-                    var cultures = GetList("supported-cultures");
-                    languages = new List<CultureInfo>();
-                    foreach(var li in cultures)
-                    {
-                        languages.Add(CultureInfo.CreateSpecificCulture(li.Value));
-                    }
-                    HttpRuntime.Cache[SUPPORTED_CULTURES_CACHE_KEY] = languages;
-                }
-                return languages;
-            }
-        }
-
-        public static IEnumerable<CountryInfo> SupportedCountries
-        {
-            get
-            {
-                var countries = HttpRuntime.Cache[SUPPORTED_COUNTRIES_CACHE_KEY] as List<CountryInfo>;
-                if (countries == null)
-                {
-                    var items = GetList("supported-countries");
-                    countries = new List<CountryInfo>();
-                    foreach (var li in items)
-                    {
-                        countries.Add(new CountryInfo { Name = li.Text, Code = li.Value });
-                    }
-                    HttpRuntime.Cache[SUPPORTED_COUNTRIES_CACHE_KEY] = countries;
-                }
-                return countries;
-            }
-        }
-
-        public static string GetCountryName(string countryCode)
-        {
-            return SupportedCountries.First(c => c.Code == countryCode).Name;
         }
 
         public static string Get(string key)
@@ -204,7 +160,6 @@ namespace Classy.DotNet.Mvc.Localization
             string[] namespaces)
         {
             Route route;
-
             // map the route directly
             if (name != "Default") // edge case where the default route must be mapped after the localized versions of it
             { 
@@ -215,18 +170,20 @@ namespace Classy.DotNet.Mvc.Localization
             }
 
             // then add another route for each supported culture
-            foreach (var culture in SupportedCultures)
+            var cultures = Localizer.GetList("supported-cultures");
+            foreach (var culture in cultures)
             {
-                var routeName = GetRouteNameForLocale(name, culture.Name);
+                var cultureName = culture.Value.Substring(0, 2);
+                var routeName = GetRouteNameForLocale(name, cultureName);
                 route = routes.MapRoute(
                     routeName,
-                    string.Concat(culture.Name, "/", url), 
+                    string.Concat(cultureName, "/", url), 
                     defaults, 
                     namespaces);
                 route.DataTokens = new RouteValueDictionary();
                 route.DataTokens.Add("RouteName", routeName);
                 route.DataTokens.Add("OriginalRouteName", name);
-                route.DataTokens.Add(ROUTE_LOCALE_DATA_TOKEN_KEY, culture.Name);
+                route.DataTokens.Add(ROUTE_LOCALE_DATA_TOKEN_KEY, cultureName);
             }
 
             // map the route directly

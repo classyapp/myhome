@@ -22,5 +22,30 @@ namespace Classy.DotNet
             }
             return isAdmin || isProfileOwner;
         }
+
+        public static string GetProfileName(this ProfileView profile)
+        {
+            if (profile.ContactInfo == null && !profile.IsProfessional) return "unknown";
+            string name;
+            if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
+            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
+            else name = string.IsNullOrEmpty(profile.ContactInfo.Name) ? profile.UserName : profile.ContactInfo.Name;
+            return name ?? "unknown";
+        }
+
+        public static string GetProfessionalAddressOneLine(this ProfileView profile)
+        {
+            if (profile.ProfessionalInfo.CompanyContactInfo != null &&
+                profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
+            {
+                var address = string.Concat(
+                    profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, ", ", 
+                    profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country, ", ",
+                    profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode);
+                return address;
+            }
+            else return null;
+        }
     }
 }

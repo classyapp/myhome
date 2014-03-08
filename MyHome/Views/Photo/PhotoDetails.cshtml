@@ -1,7 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.PhotoMetadata>
 
 @{
-    ViewBag.Title = "PhotoDetails";
+    ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Metadata.Style, " - ", Model.Metadata.Room, " - ", Model.Listing.Profile.GetProfileName());
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");

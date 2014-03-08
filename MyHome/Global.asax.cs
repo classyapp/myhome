@@ -30,7 +30,10 @@ namespace MyHome
             // localization of display and validation attribtues
             ModelMetadataProviders.Current = new Classy.DotNet.Mvc.Localization.MyLocalizationProvider();
 
+            // uncomment to enable route debugger 
             //RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
+            
+            // binder for comma separataed strings
             ModelBinders.Binders.Add(typeof(AskForReviewModel), new CommaSeparatedToList());
         }
 
