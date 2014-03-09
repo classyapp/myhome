@@ -5,16 +5,11 @@
 }
 
 <div class="row">
-    <div class="col-md-9 main">
+    <div class="col-md-8 main">
         <h1>@Localizer.Get("Profile_AskForReview")</h1>
-        <div>@Localizer.Get("AskForReviews_SelectClients")</div>
-        @if (Model.NeedAuthentication)
-        {
-            <div class="lnk-select-contant">
-                <a href="#" onclick="auth()">@Localizer.Get("AskForReviews_ImportFromGmail")</a>
-            </div>
-        }
-        else
+        <hr />
+       
+        @if (Model.GoogleContacts != null && Model.GoogleContacts.Count() > 0)
         {
             <div class="google-contacts">
                 @foreach (var contact in Model.GoogleContacts)
@@ -27,33 +22,49 @@
                 }
             </div>
         }
+
         @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm")))
         {
             <div class="form-group">
-                <label class="control-label col-md-3" for="manualEmail">@Localizer.Get("AskForReview_AddAddressManually")</label>
-                <div class="input-group col-md-9">
+                <label class="control-label" for="manualEmail">@Localizer.Get("AskForReview_AddAddressManually")</label>
+                <div class="input-group">
                     <input type="text" id="manualEmail" data-provide="typeahead" autocomplete="off" class="form-control">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" onclick="addManualContact();">@Localizer.Get("AskForReview_AddAddress")</button>
                     </span>
                 </div>
             </div>
-            @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput" }).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
-            @f.FormGroup().TextAreaFor(x => x.Message).ShowValidationMessage(false).Label().WidthMd(3).ShowRequiredStar(false)
-            @Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Contacts).HtmlAttributes(new { data_role = "tagsinput" }).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReviews_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
             @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
         }
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-3 col-md-offset-1 helpbar">
+        <div class="helpbar">
+            <h1>@Localizer.Get("AskForReview_Help_Title")</h1>
+            <div class="content">
+                @Localizer.Get("AskForReview_Help_Content")
+                <div class="text-center">
+                    <hr/>
+                    @if (!Model.IsGoogleConnected)
+                    {
+                        <div class="lnk-select-contant">
+                            <a href="#" onclick="auth()" class="btn btn-danger">@Localizer.Get("AskForReviews_ImportFromGmail")</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts
 {
-    @*<script src="~/Scripts/bootstrap3-typeahead.js"></script>*@
     @Scripts.Render("~/scripts/hogan-2.0.0.js")
     @Scripts.Render("~/scripts/typeahead.min.js")
     <script src="~/Scripts/bootstrap-tagsinput.js"></script>
-    @if (Model.NeedAuthentication)
+    @if (!Model.IsGoogleConnected)
     {
         <script type="text/javascript">
             (function () {
@@ -107,34 +118,21 @@
                     $('#Contacts').tagsinput('add', { "Email": email, "Name": email });
                     $("#manualEmail").val('');
                 }
-
             }
 
+            var contacts = @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GoogleContacts)));
             $('#manualEmail').typeahead({
-                source: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GoogleContacts)),
-                matcher: function (item) { return ~item.Email.toLowerCase().indexOf(this.query.toLowerCase()) },
-                sorter: function (items) {
-                    var beginswith = []
-                      , caseSensitive = []
-                      , caseInsensitive = []
-                      , item;
-
-                    while ((item = items.shift())) {
-                        if (!item.Email.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item);
-                        else if (~item.Email.indexOf(this.query)) caseSensitive.push(item);
-                        else caseInsensitive.push(item);
-                    }
-
-                    return beginswith.concat(caseSensitive, caseInsensitive);
-                },
-                highlighter: function (item) {
-                    var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
-                    return item.Email.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-                        return '<strong>' + match + '</strong>';
-                    });
-                },
-                updater: function(item) { return item.Email }
-            }).on("change", function(){addManualContact()});
+                name: 'mail-contacts',
+                local: $.map(contacts, function(contact) {
+                    return {
+                        'value': (contact.Name != null && contact.Name != '') ? contact.Name : contact.Email,
+                        'name': contact.Name,
+                        'email': contact.Email
+                    };
+                }),
+                template: '<p><strong>{{name}}</strong><p><p>{{email}}</p>',
+                engine: Hogan
+            }).on('typeahead:selected', function(obj, item) { $('#manualEmail').val(item.email); });
         </script>
     }
 }

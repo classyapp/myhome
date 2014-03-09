@@ -44,9 +44,10 @@
 
 @section scripts {
     @Scripts.Render("~/scripts/fb-login.js")
-    <script>
+    <script> 
         OnFacebookLogin = function (profile) {
-            window.document.location.href = "/profile/me";
+            console.log(profile);
+            window.document.location.href = "/profile/"+profile.Id;
         }
     </script>
 }

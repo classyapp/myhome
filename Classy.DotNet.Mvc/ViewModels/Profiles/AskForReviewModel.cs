@@ -21,7 +21,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public string Message { get; set; }
         [Display(Name = "AskForReview_SetAsDefaultMessage")]
         public bool SaveAsDefault { get; set; }
-        public bool NeedAuthentication { get; set; }
+        public bool IsGoogleConnected { get; set; }
         public IList<GoogleContactView> GoogleContacts { get; set; }
     }
 }
