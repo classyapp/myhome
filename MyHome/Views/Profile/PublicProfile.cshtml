@@ -1,7 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
 
 @{
-    ViewBag.Title = string.Concat(Model.Profile.GetProfileName(), " - ", Model.Profile.GetProfessionalAddressOneLine());
+    ViewBag.Title = string.Concat(Model.Profile.GetProfileName(), " - ", Model.Profile.IsProfessional ? Model.Profile.GetProfessionalAddressOneLine() : Localizer.Get("PublicProfile_MyHomeLabProfile"));
     if (Model.Profile.IsProfessional)
     {
         ViewBag.MetaDescription = Model.TypedMetadata.BusinessDescription;
