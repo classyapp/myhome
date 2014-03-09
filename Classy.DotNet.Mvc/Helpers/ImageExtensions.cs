@@ -12,15 +12,10 @@ namespace Classy.DotNet.Mvc
     {
         #region // profile 
 
-        public static MvcHtmlString AvatarUrl(this ProfileView profile)
-        {
-            return AvatarUrl(profile, null, false);
-        }
-
-        public static MvcHtmlString AvatarUrl(this ProfileView profile, int? width, bool cropSquare)
+        public static MvcHtmlString AvatarUrl(this ProfileView profile, int width, bool cropSquare)
         {
             if (profile.Avatar == null) return new MvcHtmlString(AppView.DefaultProfileImage);
-            else return new MvcHtmlString(profile.Avatar.Url);
+            else return new MvcHtmlString(string.Format("//{3}/thumbnail/{0}?Width={1}&Height={2}&format=json", profile.Avatar.Key, width, cropSquare ? width : width, System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]));
         }
 
         #endregion
