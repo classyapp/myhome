@@ -287,7 +287,7 @@
 
             if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) $('#cookie-policy').removeClass('hidden');
             $('#close-cookie-policy').click(function() {
-                Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 365);
+                Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
                 $('#cookie-policy').addClass('hidden');
             });
         });
@@ -304,7 +304,7 @@
             $(frm).bind("invalid-form.validate", function (form) {
                 $('.bmvc-3-validation-summary').addClass('alert alert-danger').find('.close').show();
             });
-        }
+        };
 
         var msgConfirm = '@Localizer.Get("Global_Message_Confirm")';
 

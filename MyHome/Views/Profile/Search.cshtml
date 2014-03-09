@@ -34,9 +34,10 @@
 
         <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
             @{ 
-                var hasLocation = !string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location"; 
+                var hasLocation = !string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location";
+                var hasCategory = !string.IsNullOrEmpty(Model.Category);
             }
-            @if (hasLocation)
+            @if (!hasLocation || !hasCategory)
             {
                 <span class="label label-danger hidden">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("ProfileSearch_AllProfessionals")</a>
@@ -46,7 +47,7 @@
             @if (!string.IsNullOrEmpty(Model.Category))
             {
                 <span class="label label-danger">
-                    <a itemprop="@(hasLocation ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
+                    <a itemprop="@(!hasLocation ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
