@@ -1,6 +1,8 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Reviews.ProfileReviewViewModel<MyHome.Models.ProfileReviewMetadata, MyHome.Models.ProfileReviewCriteria, MyHome.Models.ProfessionalMetadata>
 
 @{
+    ViewBag.Title = Localizer.Get("PostProfileReview_PageTitle");
+    ViewBag.NoIndex = true;
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
 }
 

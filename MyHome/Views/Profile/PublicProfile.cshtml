@@ -1,7 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Profiles.PublicProfileViewModel<MyHome.Models.ProfessionalMetadata, MyHome.Models.ProfileReviewCriteria>
 
 @{
-    ViewBag.Title = string.Concat(Model.Profile.GetProfileName(), " - ", Model.Profile.GetProfessionalAddressOneLine());
+    ViewBag.Title = string.Concat(Model.Profile.GetProfileName(), " - ", Model.Profile.IsProfessional ? Model.Profile.GetProfessionalAddressOneLine() : Localizer.Get("PublicProfile_MyHomeLabProfile"));
     if (Model.Profile.IsProfessional)
     {
         ViewBag.MetaDescription = Model.TypedMetadata.BusinessDescription;
@@ -158,7 +158,7 @@
                                     <a href="@Url.RouteUrlForCurrentLocale("EditProfile", new { ProfileId = Model.Profile.Id })" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
                                     @if (Model.Profile.IsProfessional) {
                                         <a href="mailto:?subject=@(Localizer.Get("Profile_Pro_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("http://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
-                                        @*<a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>*@
+                                        <!--<a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>-->
                                     }
                                     else {
                                         <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("http://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
@@ -247,7 +247,6 @@
                                     <div class="col-md-4">
                                         <div class="photo thumbnail">
                                             <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
-                                                @*<img src="@p.ThumbnailUrl(266, true)" title="@p.Title" alt="@p.Title" />*@
                                                 @Html.Partial("Thumbnails", p.CoverPhotos)
                                                 <div class="details">
                                                     <strong>@p.Title</strong>

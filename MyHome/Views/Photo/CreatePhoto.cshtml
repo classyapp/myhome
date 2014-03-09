@@ -1,7 +1,8 @@
 @model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.PhotoMetadata>
 
 @{
-    ViewBag.Title = "CreateListing_photo";
+    ViewBag.Title = Localizer.Get("CreatePhoto_PageTitle");
+    ViewBag.NoIndex = true;
     Html.Bootstrap().Globals().ShowRequiredStar(false);
 
     var rooms = Localizer.GetList("rooms");

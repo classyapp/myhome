@@ -357,7 +357,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.ProfileId = AuthenticatedUserProfile.Id;
                 var service = new ProfileService();
                 var contacts = service.GetGoogleContacts();
-                model.NeedAuthentication = (contacts == null);
+                model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
                 model.GoogleContacts = contacts;
                 return View(model);
             }
@@ -389,7 +389,7 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 var contacts = service.GetGoogleContacts();
-                model.NeedAuthentication = (contacts == null);
+                model.IsGoogleConnected = (contacts == null);
                 model.GoogleContacts = contacts;
                 return View(model);
             }

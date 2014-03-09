@@ -14,6 +14,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if (ViewBag.NoIndex != null)
+    {
+        <meta name="robots" content="noindex, follow" />
+    }
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
@@ -43,7 +47,7 @@
                 <div class="container">
                     <div class="row">
                         @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
-                        <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookies_Agree") <b>x</b></span>
+                        <span id="close-cookie-policy" class="pull-right">@Localizer.Get("Header_Cookie_Agree") <b>x</b></span>
                     </div>
                 </div>
             </div>

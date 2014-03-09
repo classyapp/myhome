@@ -1,7 +1,8 @@
 @model Classy.DotNet.Mvc.ViewModels.Profiles.ClaimProfileViewModel<MyHome.Models.ProfessionalMetadata>
 
 @{
-    ViewBag.Title = "CompleteProfile";
+    ViewBag.Title = Localizer.Get("ClaimProxy_PageTitle");
+    ViewBag.NoIndex = true;
     Html.Bootstrap().Globals().ShowRequiredStar(false);
 }
 
