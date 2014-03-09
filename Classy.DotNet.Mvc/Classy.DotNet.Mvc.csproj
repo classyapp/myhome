@@ -90,7 +90,6 @@
     <Compile Include="Helpers\IPLocator.cs" />
     <Compile Include="Helpers\ListingActionTrigger.cs" />
     <Compile Include="Helpers\ProfileActionTrigger.cs" />
-    <Compile Include="Localization\CountryInfo.cs" />
     <Compile Include="Localization\LocalizationExtensions.cs" />
     <Compile Include="Localization\LocalizedResourceItem.cs" />
     <Compile Include="Localization\Localizer.cs" />

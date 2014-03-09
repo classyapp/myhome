@@ -37,6 +37,10 @@ namespace Classy.DotNet.Mvc.Localization
         {
             _showResourceKeys = showResourceKeys;
 
+            var supportedCultures = GetList("supported-cultures");
+
+            // first we check if the culture is forced (by using a direct url containing a culture)
+            // second we check if there is a culture cookie 
             var cookie = HttpContext.Current.Request.Cookies[AppView.CultureCookieName];
             string cultureName = forceCulture ?? (cookie != null ? cookie.Value : null);
             if (cultureName != null)
@@ -44,11 +48,17 @@ namespace Classy.DotNet.Mvc.Localization
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
                 System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
             }
-            var supportedCultures = GetList("supported-cultures");
-            if (supportedCultures.SingleOrDefault(x => x.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name) == null)
+            // third, use only the country part of the browser default culture
+            else 
             {
-                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(System.Threading.Thread.CurrentThread.CurrentCulture.Name.Substring(0,2));
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.Name.Substring(0,2));
+            }
+            // if the culture we ended up with is not supported, fallback to the default culture for the app
+            if (!supportedCultures.Any(x => x.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name))
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(AppView.DefaultCulture);
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(AppView.DefaultCulture);
             }
 
             // init country
@@ -57,7 +67,7 @@ namespace Classy.DotNet.Mvc.Localization
             if (cookie == null)
             {
                 var supportedCountries = GetList("supported-countries");
-                string countryCode = supportedCountries.Any(c => c.Value == location.CountryCode) ? location.CountryCode : "FR";
+                string countryCode = supportedCountries.Any(c => c.Value == location.CountryCode) ? location.CountryCode : AppView.DefaultCountry;
                 cookie = new HttpCookie(AppView.CountryCookieName, countryCode);
                 cookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);

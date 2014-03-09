@@ -18,5 +18,7 @@ namespace Classy.DotNet.Responses
         public string GPSLocationCookieName { get; set; }
         public string CountryCookieName { get; set; }
         public string CultureCookieName { get; set; }
+        public string DefaultCountry { get; set; }
+        public string DefaultCulture { get; set; }
     }
 }

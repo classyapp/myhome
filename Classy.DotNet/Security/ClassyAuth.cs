@@ -234,7 +234,7 @@ namespace Classy.DotNet.Security
             return new
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
-                CountryCode = countryCookie == null ? "FR" : countryCookie.Value,
+                CountryCode = countryCookie == null ? Classy.DotNet.Responses.AppView.DefaultCountry : countryCookie.Value,
                 GPSCoordinates = location,
                 CurrencyCode = "ILS",
                 AppId = ApiKey

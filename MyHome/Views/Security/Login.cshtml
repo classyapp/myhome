@@ -1,7 +1,8 @@
 @model Classy.DotNet.Mvc.ViewModels.Security.LoginViewModel
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = Localizer.Get("Login_Welcome");
+    ViewBag.NoIndex = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

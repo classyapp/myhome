@@ -16,6 +16,8 @@ namespace Classy.DotNet.Responses
         public static string GPSLocationCookieName { get; set; }
         public static string CountryCookieName { get; set; }
         public static string CultureCookieName { get; set; }
+        public static string DefaultCountry { get; set; }
+        public static string DefaultCulture { get; set; }
 
         static AppView()
         {
@@ -27,6 +29,8 @@ namespace Classy.DotNet.Responses
             GPSLocationCookieName = settings.GPSLocationCookieName;
             CountryCookieName = settings.CountryCookieName;
             CultureCookieName = settings.CultureCookieName;
+            DefaultCountry = settings.DefaultCountry;
+            DefaultCulture = settings.DefaultCulture;
         }
     }
 }
