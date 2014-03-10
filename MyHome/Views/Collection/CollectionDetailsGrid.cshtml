@@ -11,7 +11,8 @@
     @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
     {
         <div class="profile-actions">
-            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditCollection")</a>
+            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditCollection")</a>
+            <a href="@Url.RouteUrl("DeleteCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
         </div>
     }
     <p>@Model.Content</p>

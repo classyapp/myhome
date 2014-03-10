@@ -39,6 +39,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteWithName(
+                name: "DeleteCollection",
+                url: "collection/{collectionId}/delete",
+                defaults: new { controller = "Collection", action = "DeleteCollection" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
                 name: "RemoveListing",
                 url: "collection/{collectionId}/remove/{listingId}",
                 defaults: new { controller = "Collection", action = "RemoveListing" },
@@ -192,6 +199,25 @@ namespace Classy.DotNet.Mvc.Controllers
             catch (Exception ex)
             {
                 return Json(new { error = ex.Message });
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [Authorize]
+        public ActionResult DeleteCollection(string collectionId)
+        {
+            try
+            {
+                var service = new ListingService();
+                service.DeleteCollection(collectionId);
+                TempData["DeleteCollectionSuccess"] = true;
+
+                return RedirectToRoute("PublicProfile", new { profileId = AuthenticatedUserProfile.Id });
+            }
+            catch (Exception ex)
+            {
+                TempData["DeleteCollectionError"] = ex.Message;
+                return RedirectToAction("EditCollection", new { collectionId = collectionId });
             }
         }
 
