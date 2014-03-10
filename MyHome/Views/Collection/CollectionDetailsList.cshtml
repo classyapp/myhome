@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = string.Concat(Model.Title, " - ", Model.Profile.GetProfileName());
     var meta = Model.Content ?? string.Empty;
-    ViewBag.MetaDescription = Model.Content.Length > 256 ? Model.Content.Substring(0, 256) : Model.Content;
+    ViewBag.MetaDescription = (!string.IsNullOrEmpty(Model.Content) && Model.Content.Length > 256) ? Model.Content.Substring(0, 256) : Model.Content;
     var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
     var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
     var proCategories = Localizer.GetList("professional-categories");
