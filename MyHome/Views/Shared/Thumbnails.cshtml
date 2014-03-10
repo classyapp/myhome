@@ -14,7 +14,7 @@
     <div class="@string.Format("thumbs{0}", Model.Count)">
         @for (int i = 0; i < Model.Count; i++)
         {
-            <div style="background-image: url(@string.Format("//{3}/thumbnail/{0}?Width={1}&Height={2}&format=json", Model[i], sizes[Model.Count][i].X, sizes[Model.Count][i].Y, cdnurl))"></div>
+            <div class="thumb" style="background-image: url(@string.Format("//{3}/thumbnail/{0}?Width={1}&Height={2}&format=json", Model[i], sizes[Model.Count][i].X, sizes[Model.Count][i].Y, cdnurl))"></div>
         }
     </div>
 }
