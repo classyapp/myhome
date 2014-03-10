@@ -272,7 +272,7 @@
                                     <div class="col-md-4">
                                         <div class="photo thumbnail">
                                             <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "grid" })">
-                                                <img src="@c.ThumbnailUrl(266, true)" title="@c.Title" alt="@c.Title" />
+                                                 @Html.Partial("Thumbnails", c.CoverPhotos)
                                                 <div class="details">
                                                     <strong>@c.Title</strong>
                                                     <ul class="stats list-inline list-unstyled">
