@@ -91,7 +91,7 @@ namespace Classy.DotNet.Mvc
         {
             if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0)
             {
-                string url = string.Format("//{0}/thumbnail/{1}?Width={2}&format-json",
+                string url = string.Format("//{0}/thumbnail/{1}?Width={2}&format=json",
                     ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, size);
                 return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
                                     url, listing.Title, listing.Title));

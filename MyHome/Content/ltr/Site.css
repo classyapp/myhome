@@ -452,6 +452,23 @@ a, a:visited
 }
 
 /* navbar */
+#cookie-policy
+{
+    background-color: #f0f0f0;
+    color: #777;
+    padding: 5px;
+}
+
+    #cookie-policy a
+    {
+        text-decoration: underline;
+    }
+
+#close-cookie-policy
+{
+    cursor: pointer;
+}
+
 .navbar
 {
     border: none;
@@ -463,7 +480,14 @@ a, a:visited
     background: url(/img/homelab-logo.png) center left no-repeat;
     width: 50px;
     height: 60px;
+    overflow: hidden;
 }
+
+    .navbar-brand .name
+    {
+        padding-top: 100px;
+        display: inline-block;
+    }
 
 .navbar-form
 {
@@ -750,6 +774,11 @@ a.action
         color: #fff;
         background-color: #f55555;
     }
+    a.action.remove
+    {
+        color: #fff;
+        background-color: #D9534F;
+    }
 
 /* manage resources*/
 .resourceListContainer
@@ -909,6 +938,16 @@ a.action
 {
     margin-top: 40px;
 }
+
+    .collection-items > .row
+    {
+        height: 190px;
+    }
+    .collection-items textarea
+    {
+        height: 170px;
+        resize:none;
+    }
 
 .collection .profile-actions
 {
@@ -1070,69 +1109,131 @@ a.action
                 color: #fff;
             }
 
+.twitter-typeahead .tt-hint
+{
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.twitter-typeahead .hint-small
+{
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    line-height: 1.5;
+}
+
+.twitter-typeahead .hint-large
+{
+    height: 45px;
+    padding: 10px 16px;
+    font-size: 18px;
+    border-radius: 6px;
+    line-height: 1.33;
+}
+
+.tt-suggestion.tt-is-under-cursor a
+{
+    color: #fff;
+}
+
+.tt-suggestion p
+{
+    margin: 0;
+}
+
+.twitter-typeahead
+{
+    width: 100%;
+}
+
+.tt-dropdown-menu
+{
+    width: 100%;
+}
+
+.tt-hint
+{
+    width: 100%;
+}
+
+span.error
+{
+    color: red;
+}
+
 .thumbs1, .thumbs2, .thumbs3, .thumbs4
-        {
-            width: 100%;
-            height: 220px;
-            border: 1px solid #ececec;
-            margin-bottom: 20px;
-        }
-        div.thumbs1 > div.thumb
-        {
-            width: 100%;
-            height: 100%;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            background-color: #fff;
-        }
-        
-        div.thumbs2 > div.thumb
-        {
-            width: 49%;
-            height: 100%;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            background-color: #fff;
-            display: inline-block;
-            float: left;
-        }
-            div.thumbs2 > div.thumb:last-child
-            {
-                float: right;
-            }
+{
+    width: 100%;
+    height: 220px;
+    border: 1px solid #ececec;
+    margin-bottom: 20px;
+}
 
-        div.thumbs3 > div.thumb
-        {
-            width: 24%;
-            height: 49%;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            background-color: #fff;
-            display: inline-block;
-            float: right;
-            margin-bottom: 2%;
-        }
-        div.thumbs3 > div.thumb:first-child, div.thumbs4 > div.thumb:first-child
-        {
-            width: 74%;
-            height: 100%;
-            float: left;
-            margin-bottom: 0px;
-        }
-        
-        div.thumbs3 > div.thumb:last-child, div.thumbs4 > div.thumb:last-child
-        {
-            margin-bottom: 0px;
-        }
+div.thumbs1 > div.thumb
+{
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
 
-        div.thumbs4 > div.thumb
-        {
-            width: 24%;
-            height: 31.7%;
-            background-position: 50% 50%;
-            background-repeat: no-repeat;
-            background-color: #fff;
-            display: inline-block;
-            float: right;
-            margin-bottom: 2%;
-        }
+div.thumbs2 > div.thumb
+{
+    width: 49%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: left;
+}
+
+    div.thumbs2 > div.thumb:last-child
+    {
+        float: right;
+    }
+
+div.thumbs3 > div.thumb
+{
+    width: 24%;
+    height: 49%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: right;
+    margin-bottom: 2%;
+}
+
+    div.thumbs3 > div.thumb:first-child, div.thumbs4 > div.thumb:first-child
+    {
+        width: 74%;
+        height: 100%;
+        float: left;
+        margin-bottom: 0px;
+    }
+
+    div.thumbs3 > div.thumb:last-child, div.thumbs4 > div.thumb:last-child
+    {
+        margin-bottom: 0px;
+    }
+
+div.thumbs4 > div.thumb
+{
+    width: 24%;
+    height: 31.7%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: right;
+    margin-bottom: 2%;
+}
