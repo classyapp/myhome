@@ -452,17 +452,23 @@ a, a:visited
 }
 
 /* navbar */
-#cookie-policy {
+#cookie-policy
+{
     background-color: #f0f0f0;
     color: #777;
     padding: 5px;
 }
-#cookie-policy a {
-    text-decoration: underline;
-}
-#close-cookie-policy {
+
+    #cookie-policy a
+    {
+        text-decoration: underline;
+    }
+
+#close-cookie-policy
+{
     cursor: pointer;
 }
+
 .navbar
 {
     border: none;
@@ -477,7 +483,8 @@ a, a:visited
     overflow: hidden;
 }
 
-    .navbar-brand .name {
+    .navbar-brand .name
+    {
         padding-top: 100px;
         display: inline-block;
     }
@@ -767,6 +774,11 @@ a.action
         color: #fff;
         background-color: #f55555;
     }
+    a.action.remove
+    {
+        color: #fff;
+        background-color: #D9534F;
+    }
 
 /* manage resources*/
 .resourceListContainer
@@ -926,6 +938,16 @@ a.action
 {
     margin-top: 40px;
 }
+
+    .collection-items > .row
+    {
+        height: 190px;
+    }
+    .collection-items textarea
+    {
+        height: 170px;
+        resize:none;
+    }
 
 .collection .profile-actions
 {
@@ -1087,155 +1109,120 @@ a.action
                 color: #fff;
             }
 
+.twitter-typeahead .tt-hint
+{
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.twitter-typeahead .hint-small
+{
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    line-height: 1.5;
+}
+
+.twitter-typeahead .hint-large
+{
+    height: 45px;
+    padding: 10px 16px;
+    font-size: 18px;
+    border-radius: 6px;
+    line-height: 1.33;
+}
+
+.tt-suggestion.tt-is-under-cursor a
+{
+    color: #fff;
+}
+
+.tt-suggestion p
+{
+    margin: 0;
+}
+
+.twitter-typeahead
+{
+    width: 100%;
+}
+
+.tt-dropdown-menu
+{
+    width: 100%;
+}
+
+.tt-hint
+{
+    width: 100%;
+}
+
+span.error
+{
+    color: red;
+}
+
 .thumbs1, .thumbs2, .thumbs3, .thumbs4
 {
-    width: 220px;
+    width: 100%;
     height: 220px;
-    margin: 0px auto;
+    border: 1px solid #ececec;
+    margin-bottom: 20px;
 }
 
-div[class^=thumbs] img
+div.thumbs1 > div.thumb
 {
-    float: right;
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
 }
 
-    div[class^=thumbs] img:first-child
+div.thumbs2 > div.thumb
+{
+    width: 49%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: left;
+}
+
+    div.thumbs2 > div.thumb:last-child
     {
+        float: right;
+    }
+
+div.thumbs3 > div.thumb
+{
+    width: 24%;
+    height: 49%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: right;
+    margin-bottom: 2%;
+}
+
+    div.thumbs3 > div.thumb:first-child, div.thumbs4 > div.thumb:first-child
+    {
+        width: 74%;
+        height: 100%;
         float: left;
-        margin-right: 5px;
         margin-bottom: 0px;
     }
 
-.thumbs1 img
-{
-    width: 220px;
-    height: 220px;
-    margin: 0px;
-}
-
-.thumbs2 img
-{
-    width: 107px;
-    height: 220px;
-}
-
-div.thumbs3 img
-{
-    margin-bottom: 6px;
-    width: 107px;
-    height: 107px;
-}
-
-    div.thumbs3 img:first-child
+    div.thumbs3 > div.thumb:last-child, div.thumbs4 > div.thumb:last-child
     {
-        float: left;
-        width: 107px;
-        height: 220px;
+        margin-bottom: 0px;
     }
 
-div.thumbs4 img
-{
-    margin-bottom: 5px;
-    width: 64px;
-    height: 70px;
-}
-
-    div.thumbs4 img:first-child
-    {
-        float: left;
-        width: 151px;
-        height: 220px;
-    }
-
-/* twitter typeahead */
-.twitter-typeahead .tt-query,
-    .twitter-typeahead .tt-hint {
-        margin-bottom: 0;
-    }
-
-    .tt-dropdown-menu {
-        min-width: 160px;
-        margin-top: 2px;
-        padding: 5px 0;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border: 1px solid rgba(0,0,0,.2);
-        *border-right-width: 2px;
-        *border-bottom-width: 2px;
-        -webkit-border-radius: 6px;
-        -moz-border-radius: 6px;
-        border-radius: 6px;
-        -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-        -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-        box-shadow: 0 5px 10px rgba(0,0,0,.2);
-        -webkit-background-clip: padding-box;
-        -moz-background-clip: padding;
-        background-clip: padding-box;
-    }
-
-    .tt-suggestion {
-        display: block;
-        padding: 3px 20px;
-    }
-
-        .tt-suggestion.tt-is-under-cursor {
-            color: #fff;
-            background-color: #0081c2;
-            background-image: -moz-linear-gradient(top, #47a447, #63c663);
-            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#47a447), to(#63c663));
-            background-image: -webkit-linear-gradient(top, #47a447, #63c663);
-            background-image: -o-linear-gradient(top, #47a447, #63c663);
-            background-image: linear-gradient(to bottom, #47a447, #63c663);
-            background-repeat: repeat-x;
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#47a447', endColorstr='#63c663', GradientType=0);
-        }
-
-    .twitter-typeahead .tt-hint {
-        display: block;
-        height: 34px;
-        padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.428571429;
-        border: 1px solid transparent;
-        border-radius: 4px;
-    }
-
-    .twitter-typeahead .hint-small {
-        height: 30px;
-        padding: 5px 10px;
-        font-size: 12px;
-        border-radius: 3px;
-        line-height: 1.5;
-    }
-
-    .twitter-typeahead .hint-large {
-        height: 45px;
-        padding: 10px 16px;
-        font-size: 18px;
-        border-radius: 6px;
-        line-height: 1.33;
-    }
-
-    .tt-suggestion.tt-is-under-cursor a {
-        color: #fff;
-    }
-
-    .tt-suggestion p {
-        margin: 0;
-    }
-
-    .twitter-typeahead {
-        width: 100%;
-    }
-
-    .tt-dropdown-menu {
-        width: 100%;
-    }
-
-    .tt-hint {
-        width: 100%;
-    }
-
-    span.error {
-        color: red;
-    }

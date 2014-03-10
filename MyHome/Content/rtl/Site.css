@@ -235,61 +235,68 @@ a.action
 }
 
 .thumbs1, .thumbs2, .thumbs3, .thumbs4
-{
-    width: 220px;
-    height: 220px;
-    margin: 0px auto;
-}
+        {
+            width: 100%;
+            height: 220px;
+            border: 1px solid #ececec;
+            margin-bottom: 20px;
+        }
+        div.thumbs1 > div.thumb
+        {
+            width: 100%;
+            height: 100%;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-color: #fff;
+        }
+        
+        div.thumbs2 > div.thumb
+        {
+            width: 49%;
+            height: 100%;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-color: #fff;
+            display: inline-block;
+            float: left;
+        }
+            div.thumbs2 > div.thumb:last-child
+            {
+                float: right;
+            }
 
-div[class^=thumbs] img
-{
-    float: right;
-}
+        div.thumbs3 > div.thumb
+        {
+            width: 24%;
+            height: 49%;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-color: #fff;
+            display: inline-block;
+            float: right;
+            margin-bottom: 2%;
+        }
+        div.thumbs3 > div.thumb:first-child, div.thumbs4 > div.thumb:first-child
+        {
+            width: 74%;
+            height: 100%;
+            float: left;
+            margin-bottom: 0px;
+        }
+        
+        div.thumbs3 > div.thumb:last-child, div.thumbs4 > div.thumb:last-child
+        {
+            margin-bottom: 0px;
+        }
 
-    div[class^=thumbs] img:first-child
-    {
-        float: left;
-        margin-right: 5px;
-        margin-bottom: 0px;
-    }
-
-.thumbs1 img
-{
-    width: 220px;
-    height: 220px;
-    margin: 0px;
-}
-
-.thumbs2 img
-{
-    width: 107px;
-    height: 220px;
-}
-
-div.thumbs3 img
-{
-    margin-bottom: 6px;
-    width: 107px;
-    height: 107px;
-}
-
-    div.thumbs3 img:first-child
-    {
-        float: left;
-        width: 107px;
-        height: 220px;
-    }
-
-div.thumbs4 img
-{
-    margin-bottom: 5px;
-    width: 64px;
-    height: 70px;
-}
-
-    div.thumbs4 img:first-child
-    {
-        float: left;
-        width: 151px;
-        height: 220px;
-    }
+        div.thumbs4 > div.thumb
+        {
+            width: 24%;
+            height: 31.7%;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-color: #fff;
+            display: inline-block;
+            float: right;
+            margin-bottom: 2%;
+        }
