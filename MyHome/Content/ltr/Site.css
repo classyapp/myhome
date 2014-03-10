@@ -477,10 +477,10 @@ a, a:visited
     overflow: hidden;
 }
 
-    .navbar-brand .name {
-        padding-top: 100px;
-        display: inline-block;
-    }
+.navbar-brand .name {
+    padding-top: 100px;
+    display: inline-block;
+}
 
 .navbar-form
 {
