@@ -217,7 +217,7 @@ namespace Classy.DotNet.Mvc.Controllers
             catch (Exception ex)
             {
                 TempData["DeleteCollectionError"] = ex.Message;
-                return RedirectToAction("EditCollection", new { collectionId = collectionId });
+                return RedirectToAction("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" });
             }
         }
 

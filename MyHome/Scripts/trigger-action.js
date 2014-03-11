@@ -100,4 +100,14 @@ function bindTriggerActions(context) {
             $.post("/collection/" + collectionId + "/remove/" + listingId, function (data) { if ("error" in data) { } else { thumb.closest(".row").remove(); } });
         }
     });
+
+    $('[trigger-collection-action="delete"]', context).click(function (e) {
+        bootbox.confirm({
+            title: "HomeLab", message: msgConfirm, callback: function (result) {
+                if (!result) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 }
