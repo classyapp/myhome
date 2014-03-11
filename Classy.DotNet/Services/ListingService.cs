@@ -30,6 +30,7 @@ namespace Classy.DotNet.Services
         // collections
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
         private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
+        private readonly string DELETE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list/{1}";
@@ -411,6 +412,23 @@ namespace Classy.DotNet.Services
             {
                 throw wex.ToClassyException();
             } 
+        }
+
+        public void DeleteCollection(string collectionId)
+        {
+            try
+            {
+                var data = new
+                {
+                    CollectionId = collectionId
+                }.ToJson();
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                client.UploadString(string.Format(DELETE_COLLECTION_URL, collectionId), "DELETE", data);
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }  
         }
 
         #endregion

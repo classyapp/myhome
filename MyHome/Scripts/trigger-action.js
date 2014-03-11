@@ -108,4 +108,14 @@ function bindTriggerActions(context) {
             }
         });
     });
+
+    $('[trigger-collection-action="delete"]', context).click(function (e) {
+        bootbox.confirm({
+            title: "HomeLab", message: msgConfirm, callback: function (result) {
+                if (!result) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 }
