@@ -21,10 +21,10 @@
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
-    <link rel="alternate" href="http://www.myhome.co.il@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
+    <link rel="alternate" href="http://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.GetList("supported-cultures"))
     {
-        <link rel="alternate" hreflang="@culture.Value" href="http://www.myhome.co.il@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
+        <link rel="alternate" hreflang="@culture.Value" href="http://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
     }
     
     <title>@ViewBag.Title</title>
