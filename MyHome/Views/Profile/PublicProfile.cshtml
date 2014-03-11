@@ -36,11 +36,6 @@
             @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
         }
 
-        @if (TempData["DeleteCollection_Success"] != null)
-        {
-            @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_DeleteCollectionSuccess")).Closeable().Style(AlertColor.Success)
-        }
-
         @if (Model.Profile.IsProfessional &&
             Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
             photos.Count() == 0)

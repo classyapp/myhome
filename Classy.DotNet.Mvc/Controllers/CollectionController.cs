@@ -210,13 +210,13 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ListingService();
                 service.DeleteCollection(collectionId);
-                TempData["DeleteCollection_Success"] = true;
+                TempData["DeleteCollectionSuccess"] = true;
 
                 return RedirectToRoute("PublicProfile", new { profileId = AuthenticatedUserProfile.Id });
             }
             catch (Exception ex)
             {
-                TempData["DeleteCollection_Error"] = ex.Message;
+                TempData["DeleteCollectionError"] = ex.Message;
                 return RedirectToAction("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" });
             }
         }

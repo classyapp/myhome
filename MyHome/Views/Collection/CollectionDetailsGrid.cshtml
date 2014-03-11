@@ -8,12 +8,6 @@
 
 <div class="collection row">
     <h1>@Model.Title</h1>
-
-    @if (TempData["DeleteCollection_Error"] != null)
-    {
-        @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_DeleteCollectionError")).Closeable().Style(AlertColor.Danger)
-    }
-
     @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
     {
         <div class="profile-actions">
