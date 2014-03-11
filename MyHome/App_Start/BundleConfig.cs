@@ -21,7 +21,8 @@ namespace MyHome
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/TwitterBootstrapMvcJs.js"));
+                      "~/Scripts/TwitterBootstrapMvcJs.js",
+                      "~/Scripts/bootbox.js"));
 
             bundles.Add(new StyleBundle("~/Content/css/rtl").Include(
                       "~/Content/rtl/fonts.css",

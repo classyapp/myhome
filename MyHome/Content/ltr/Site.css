@@ -107,6 +107,17 @@ a, a:visited
     background-color: #f0f0f0;
 }
 
+.modal-content
+{
+    border-radius: 0px;
+}
+
+.modal-footer
+{
+    margin-top: 0px;
+    background-color: #F0F0F0;
+}
+
 .helpbar .content
 {
     background-color: #f5f5f5;

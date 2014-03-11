@@ -81,9 +81,13 @@ function bindTriggerActions(context) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var thumb = $(this).closest(".thumbnail");
-        if (confirm(msgConfirm)) {
-            $.post("/" + listingType + "/" + listingId + "/delete", function (data) { if ("error" in data) { } else { thumb.prepend("<div class='deleted'></div>"); } });
-        }
+        bootbox.confirm({
+            title: "HomeLab", message: msgConfirm, callback: function (result) {
+                if (result) {
+                    $.post("/" + listingType + "/" + listingId + "/delete", function (data) { if ("error" in data) { } else { thumb.prepend("<div class='deleted'></div>"); } });
+                }
+            }
+        });
     });
 
     $('[trigger-profile-action="follow"]', context).click(function (e) {
@@ -96,8 +100,12 @@ function bindTriggerActions(context) {
         var listingId = $(this).attr('listing-id');
         var collectionId = $(this).closest(".collection-items").attr('collection-id');
         var thumb = $(this).closest(".thumbnail");
-        if (confirm(msgConfirm)) {
-            $.post("/collection/" + collectionId + "/remove/" + listingId, function (data) { if ("error" in data) { } else { thumb.closest(".row").remove(); } });
-        }
+        bootbox.confirm({
+            title: "HomeLab", message: msgConfirm, callback: function (result) {
+                if (result) {
+                    $.post("/collection/" + collectionId + "/remove/" + listingId, function (data) { if ("error" in data) { } else { thumb.closest(".row").remove(); } });
+                }
+            }
+        });
     });
 }
