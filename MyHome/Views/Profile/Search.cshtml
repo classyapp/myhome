@@ -3,8 +3,9 @@
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
-    ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), (!string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location") ? countries.Single(x => x.Value == Model.Location).Text : "");
-    ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), (!string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location") ? countries.Single(x => x.Value == Model.Location).Text : "");
+    var loc = (!string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location" && countries.Any(x => x.Value == Model.Location)) ? countries.Single(x => x.Value == Model.Location).Text : "";
+    ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
+    ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
 }
 
 <div class="row">
@@ -32,29 +33,29 @@
             <h1>@Localizer.Get("ProfileSearch_ResultsHeader_AllPros")</h1>
         }
 
-        <div class="label-container" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <div class="label-container">
             @{ 
-                var hasLocation = !string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location";
+                var hasLocation = !string.IsNullOrEmpty(loc);
                 var hasCategory = !string.IsNullOrEmpty(Model.Category);
             }
             @if (!hasLocation || !hasCategory)
             {
-                <span class="label label-danger hidden">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("ProfileSearch_AllProfessionals")</a>
+                <span class="label label-danger hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")"><span itemprop="title">@Localizer.Get("ProfileSearch_AllProfessionals")</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Category))
             {
-                <span class="label label-danger">
-                    <a itemprop="@(!hasLocation ? "child" : "url")" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">@categories.Single(x => x.Value == Model.Category).Text</a>
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" @Html.Raw(!hasLocation ? "itemprop=\"child\"" : "")>
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })"><span itemprop="title">@categories.Single(x => x.Value == Model.Category).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
             @if (hasLocation)
             {
-                <span class="label label-danger">
-                    <a itemprop="child" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })">@countries.Single(x => x.Value == Model.Location).Text</a>
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })"><span itemprop="title">@countries.Single(x => x.Value == Model.Location).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                 </span>
             }
