@@ -8,10 +8,11 @@
 
 <div class="collection row">
     <h1>@Model.Title</h1>
-    @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+    @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
     {
         <div class="profile-actions">
-            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditCollection")</a>
+            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditCollection")</a>
+            <a href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
         </div>
     }
     <p>@Model.Content</p>
@@ -33,28 +34,16 @@
         {
             foreach (var p in photos)
             {
-                //if (p.ExternalMedia.Count() > 0 && p.ExternalMedia[0].Thumbnails != null)
-                //{
-                //    var thumb = p.ExternalMedia[0].Thumbnails.SingleOrDefault(x => x.Width == 400);
-                //    if (thumb != null)
-                //    {
             <div class="col-md-4">
                 <div class="thumbnail">
-                    @*<div class="actions hide">
-                        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", p, "btn btn-default action like onphoto")
-                        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", p, "btn btn-default action add onphoto")
-                    </div>*@
                     @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
                     @Html.Thumbnail(p, 400)
-                    @*<img src="@thumb.Url" title="@p.Title" alt="@p.Title" />*@
                     <div class="details">
                         <strong>@Html.ListingLink("Photo", p)</strong><br />
                         <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
                     </div>
                 </div>
             </div>
-                //    }
-                //}
             }
         }
     </div>
