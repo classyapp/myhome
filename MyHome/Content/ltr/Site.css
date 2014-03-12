@@ -692,7 +692,7 @@ span.address2
 .results .profile
 {
     border: solid 1px #e5e5e5;
-    height: 202px;
+    height: 205px;
     margin-bottom: 10px;
     padding: 10px;
     overflow: hidden;
@@ -706,14 +706,19 @@ span.address2
 
     .results .profile .media
     {
-        max-height: 168px;
+        max-height: 185px;
     }
 
     .results .profile .media-body
     {
         font-size: 12px;
+        padding: 5px 10px;
     }
 
+        .results .profile .media-body .media-info, .results .profile .media-body .contact-info
+        {
+            margin-right: 185px;
+        }
 
 /* login */
 .fb
@@ -1248,3 +1253,44 @@ div.thumbs4 > div.thumb
     margin-bottom: 2%;
 }
  
+/* Cover photos */
+.my-photos .thumbnail
+{
+    position: relative;
+}
+
+    .my-photos .thumbnail .select
+    {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px 10px;
+        background-color: #6086d5;
+        color: #6086d5;
+    }
+
+        .my-photos .thumbnail .select.selected .glyphicon
+        {
+            color: #fff;
+        }
+
+.cover-photos
+{
+    width: 175px;
+}
+
+    .cover-photos img
+    {
+        width: 85px;
+        height: 85px;
+        margin-bottom: 5px;
+    }
+        .cover-photos img:nth-child(odd)
+        {
+            float: left;
+        }
+        .cover-photos img:nth-child(even)
+        {
+            float: right;
+        }
