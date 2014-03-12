@@ -599,6 +599,7 @@ span.address2
     position: relative;
     padding: 0;
     border: none;
+    background-color: #f0f0f0;
 }
 
 .thumbnail,
@@ -739,7 +740,7 @@ span.address2
 {
     position: absolute;
     right: 5px;
-    bottom: 15px;
+    bottom: 35px;
 }
 
 a.action
