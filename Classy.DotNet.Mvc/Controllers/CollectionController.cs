@@ -202,7 +202,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
+        [AcceptVerbs(HttpVerbs.Post)]
         [Authorize]
         public ActionResult DeleteCollection(string collectionId)
         {
@@ -210,12 +210,12 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ListingService();
                 service.DeleteCollection(collectionId);
-                
-                return RedirectToRoute("PublicProfile", new { profileId = AuthenticatedUserProfile.Id });
+
+                return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = AuthenticatedUserProfile.Id }) });
             }
             catch (Exception ex)
             {
-                return RedirectToAction("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" });
+                return Json(new { error = Localizer.Get("DeleteCollection_Error") });
             }
         }
 

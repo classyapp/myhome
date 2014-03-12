@@ -112,8 +112,14 @@ function bindTriggerActions(context) {
     $('[trigger-collection-action="delete"]', context).click(function (e) {
         bootbox.confirm({
             title: "HomeLab", message: msgConfirm, callback: function (result) {
-                if (!result) {
-                    e.preventDefault();
+                if (result) {
+                    $.post($(e.target).data("href"), {}, function (response) {
+                        if ("error" in response) {
+                            $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
+                        } else {
+                            document.location.href = response.url;
+                        }
+                    });
                 }
             }
         });
