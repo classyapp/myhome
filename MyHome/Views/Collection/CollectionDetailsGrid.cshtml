@@ -16,7 +16,14 @@
     {
         <div class="profile-actions">
             <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditCollection")</a>
-            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
+            @if (Model.Type == "Project")
+            {
+                <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-project-action="delete" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteProject")</a> 
+            }
+            else
+            {
+                <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
+            }
         </div>
     }
     <p>@Model.Content</p>

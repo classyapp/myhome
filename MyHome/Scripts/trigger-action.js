@@ -81,10 +81,25 @@ function bindTriggerActions(context) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var thumb = $(this).closest(".thumbnail");
-        bootbox.confirm({
-            title: "HomeLab", message: msgConfirm, callback: function (result) {
-                if (result) {
-                    $.post("/" + listingType + "/" + listingId + "/delete", function (data) { if ("error" in data) { } else { thumb.prepend("<div class='deleted'></div>"); } });
+        bootbox.dialog({
+            title: Classy.Messages["Delete" + listingType + "_ConfirmTitle"],
+            message: Classy.Messages["Delete" + listingType + "_ConfirmText"],
+            onEscape: function () { },
+            show: true,
+            buttons: {
+                cancel: {
+                    label: Classy.Messages.Confirm_Cancel, className: "btn-default", callback: function () { }
+                },
+                success: {
+                    label: Classy.Messages.Confirm_Yes, className: "btn-danger", callback: function () {
+                        $.post("/" + listingType + "/" + listingId + "/delete", function (response) {
+                            if ("error" in response) {
+                                $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
+                            } else {
+                                thumb.prepend("<div class='deleted'></div>");
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -98,28 +113,78 @@ function bindTriggerActions(context) {
 
     $('[trigger-listing-action="remove"]', context).click(function (e) {
         var listingId = $(this).attr('listing-id');
+        var listingType = $(this).attr('listing-type');
         var collectionId = $(this).closest(".collection-items").attr('collection-id');
         var thumb = $(this).closest(".thumbnail");
-        bootbox.confirm({
-            title: "HomeLab", message: msgConfirm, callback: function (result) {
-                if (result) {
-                    $.post("/collection/" + collectionId + "/remove/" + listingId, function (data) { if ("error" in data) { } else { thumb.closest(".row").remove(); } });
+        bootbox.dialog({
+            title: Classy.Messages["CollectionRemove" + listingType + "_ConfirmTitle"],
+            message: Classy.Messages["CollectionRemove" + listingType + "_ConfirmText"],
+            onEscape: function () { },
+            show: true,
+            buttons: {
+                cancel: {
+                    label: Classy.Messages.Confirm_Cancel, className: "btn-default", callback: function () { }
+                },
+                success: {
+                    label: Classy.Messages.Confirm_Yes, className: "btn-danger", callback: function () {
+                        $.post("/collection/" + collectionId + "/remove/" + listingId, function (response) {
+                            if ("error" in response) {
+                                $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
+                            } else {
+                                thumb.closest(".row").remove();
+                            }
+                        });
+                    }
                 }
             }
         });
     });
 
     $('[trigger-collection-action="delete"]', context).click(function (e) {
-        bootbox.confirm({
-            title: "HomeLab", message: msgConfirm, callback: function (result) {
-                if (result) {
-                    $.post($(e.target).data("href"), {}, function (response) {
-                        if ("error" in response) {
-                            $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
-                        } else {
-                            document.location.href = response.url;
-                        }
-                    });
+        bootbox.dialog({
+            title: Classy.Messages.DeleteCollection_ConfirmTitle,
+            message: Classy.Messages.DeleteCollection_ConfirmText,
+            onEscape: function () { },
+            show: true,
+            buttons: {
+                cancel: {
+                    label: Classy.Messages.Confirm_Cancel, className: "btn-default", callback: function () { }
+                },
+                success: {
+                    label: Classy.Messages.Confirm_Yes, className: "btn-danger", callback: function () {
+                        $.post($(e.target).data("href"), {}, function (response) {
+                            if ("error" in response) {
+                                $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
+                            } else {
+                                document.location.href = response.url;
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+    $('[trigger-project-action="delete"]', context).click(function (e) {
+        bootbox.dialog({
+            title: Classy.Messages.DeleteProject_ConfirmTitle,
+            message: Classy.Messages.DeleteProject_ConfirmText,
+            onEscape: function () {},
+            show: true,
+            buttons: {
+                cancel: {
+                    label: Classy.Messages.Cancel, className: "btn-default", callback: function () { }
+                },
+                success: {
+                    label: Classy.Messages.Yes, className: "btn-danger", callback: function () {
+                        $.post($(e.target).data("href"), {}, function (response) {
+                            if ("error" in response) {
+                                $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
+                            } else {
+                                document.location.href = response.url;
+                            }
+                        });
+                    }
                 }
             }
         });
