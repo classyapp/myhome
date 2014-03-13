@@ -6,22 +6,14 @@
 
 @foreach (var p in Model)
 {
-    <div class="@(p.Rank > 2 ? (p.ProfessionalInfo.CoverPhotos != null ? "col-md-12" : "col-md-6") : "col-md-4")">
-        <div class="profile thumbnail">      
-            @if (p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0)
-            {
-                <div class="cover-photos pull-right">
-                    @foreach (var photo in p.ProfessionalInfo.CoverPhotos)
-                    {
-                        <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
-                    }
-                </div>
-            }     
+    var colSize = p.Rank > 2 ? (p.ProfessionalInfo.CoverPhotos != null ? 12 : 6) : 6;
+    <div class="col-md-@colSize">
+        <div class="profile thumbnail"> 
             <div class="pull-left">
                 <div class="media">
-                    <a class="pull-left" href="#">
+                    <div class="pull-left">
                         <img class="media-object img-circle" src="@p.AvatarUrl(50, true)" width="50" />
-                    </a>
+                    </div>
                     <div class="media-body">
                         <h4 class="media-heading">@Html.ProfileLink(p)</h4>
                         @if (p.ReviewCount > 0)
@@ -47,7 +39,6 @@
                                 <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
                             </div>
                         }
-
                         @if (p.Metadata.ContainsKey("BusinessDescription"))
                         {
                             <p>
@@ -56,7 +47,17 @@
                         }
                     </div>
                 </div>
-            </div>       
+
+            </div>  
+            @if (p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0)
+            {
+                <div class="cover-photos pull-right">
+                    @foreach (var photo in p.ProfessionalInfo.CoverPhotos)
+                    {
+                        <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
+                    }
+                </div>
+            }     
         </div>       
     </div>
 }
