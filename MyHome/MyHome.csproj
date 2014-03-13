@@ -491,6 +491,7 @@
     <Content Include="Views\Profile\SelectCoverPhotos.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -52,6 +52,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "SelectCollectionCoverPhotos",
+                url: "collection/{collectionId}/coverphotos",
+                defaults: new { controller = "Collection", action = "SelectCollectionCoverPhotos" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "CollectionDetails",
                 url: "collection/{collectionId}/{view}/{slug}",
@@ -224,6 +231,40 @@ namespace Classy.DotNet.Mvc.Controllers
             var service = new ListingService();
             var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, collectionType, false, false, false);
             return new SelectList(collectionList, "Id", "Title", selectedCollectionId);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [Authorize]
+        public ActionResult SelectCollectionCoverPhotos(string collectionId) 
+        {
+            try
+            {
+                var listingService = new ListingService();
+                var collection = listingService.GetCollectionById(collectionId, true, false, false);
+
+                return PartialView(collection.Listings);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize]
+        public ActionResult SelectCollectionCoverPhotos(string collectionId, string[] keys)
+        {
+            try
+            {
+                var listingService = new ListingService();
+                listingService.UpdateCollectionCoverPhotos(collectionId, keys);
+
+                return Json(new { url = Url.RouteUrl("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" }) });
+            }
+            catch (ClassyException cex)
+            {
+                return Json(new { error = Localizer.Get("SelectCollectionCoverPhotos_Error") });
+            }
         }
     }
 }

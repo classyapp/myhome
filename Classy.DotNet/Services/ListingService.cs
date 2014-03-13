@@ -30,6 +30,7 @@ namespace Classy.DotNet.Services
         // collections
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
         private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
+        private readonly string UPDATE_COLLECTION_COVER_URL = ENDPOINT_BASE_URL + "/collection/{0}/cover";
         private readonly string DELETE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
@@ -374,6 +375,24 @@ namespace Classy.DotNet.Services
                 var collectionJson = client.UploadString(url, "PUT", data);
                 var collection = collectionJson.FromJson<CollectionView>();
                 return collection;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void UpdateCollectionCoverPhotos(string collectionId, string[] keys)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(UPDATE_COLLECTION_COVER_URL, collectionId);
+                var data = new
+                {
+                    Keys = keys
+                }.ToJson();
+                client.UploadString(url, "POST", data);
             }
             catch (WebException wex)
             {
