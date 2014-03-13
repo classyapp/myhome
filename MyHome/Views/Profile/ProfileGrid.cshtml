@@ -6,54 +6,57 @@
 
 @foreach (var p in Model)
 {
-    <div class="@(p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0 ? "col-md-12" : "col-md-4")">
-        <div class="profile thumbnail">
-            <div class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object img-circle" src="@p.AvatarUrl(50, true)" width="50" />
-                </a>
-                <div class="media-body">
-                    @if (p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0)
+    <div class="@(p.Rank > 2 ? (p.ProfessionalInfo.CoverPhotos != null ? "col-md-12" : "col-md-6") : "col-md-4")">
+        <div class="profile thumbnail">      
+            @if (p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0)
+            {
+                <div class="cover-photos pull-right">
+                    @foreach (var photo in p.ProfessionalInfo.CoverPhotos)
                     {
-                        <div class="cover-photos pull-right">
-                            @foreach (var photo in p.ProfessionalInfo.CoverPhotos)
-                            {
-                                <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
-                            }
-                        </div> 
-                    }
-                    <h4 class="media-heading">@Html.ProfileLink(p)</h4>
-                    @if (p.ReviewCount > 0)
-                    {
-                        <span class="stars">
-                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
-                            {
-                                <span class="glyphicon glyphicon-star"></span>
-                            }
-                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
-                            {
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            }
-                        </span>
-                    }
-
-                    @if (p.ProfessionalInfo.CompanyContactInfo != null &&
-                p.ProfessionalInfo.CompanyContactInfo.Location != null &&
-                p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
-                    {
-                        <div class="contact-info">
-                            <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
-                        </div>
-                    }
-
-                    @if (p.Metadata.ContainsKey("BusinessDescription"))
-                    {
-                        <p>
-                            @p.Metadata["BusinessDescription"]
-                        </p>
+                        <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
                     }
                 </div>
-            </div>
-        </div>
+            }     
+            <div class="pull-left">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object img-circle" src="@p.AvatarUrl(50, true)" width="50" />
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">@Html.ProfileLink(p)</h4>
+                        @if (p.ReviewCount > 0)
+                        {
+                            <span class="stars">
+                                @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star"></span>
+                                }
+                                @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                }
+                                &nbsp; @p.ReviewCount @Localizer.Get("ProfileSearch_ReviewCount")
+                            </span>
+                        }
+
+                        @if (p.ProfessionalInfo.CompanyContactInfo != null &&
+                            p.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                            p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
+                        {
+                            <div class="contact-info">
+                                <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                            </div>
+                        }
+
+                        @if (p.Metadata.ContainsKey("BusinessDescription"))
+                        {
+                            <p>
+                                @p.Metadata["BusinessDescription"]
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>       
+        </div>       
     </div>
 }

@@ -1,46 +1,62 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.AskForReviewModel
 
 @{
-    ViewBag.Title = Localizer.Get("Profile_AskForReview");
+    ViewBag.Title = Localizer.Get("AskForReview_PageTitle");
 }
 
 <div class="row">
     <div class="col-md-8 main">
-        <h1>@Localizer.Get("Profile_AskForReview")</h1>
+        <h1>@Localizer.Get("AskForReview_PageTitle")</h1>
         <hr />
+
+        @Html.Bootstrap().ValidationSummary()
        
-        @if (Model.GoogleContacts != null && Model.GoogleContacts.Count() > 0)
+        @if (Model.IsGoogleConnected)
         {
-            <h4>@Localizer.Get("AskForReview_GoogleContactsTitle")</h4>
-            <div class="google-contacts list-group">
-                @foreach (var contact in Model.GoogleContacts)
-                {
-                    <a class="email list-group-item" data-name="@(string.IsNullOrEmpty(contact.Name) ? contact.Email : contact.Name)" data-email="@contact.Email" onclick="addContact(this)"><span>@(string.IsNullOrEmpty(contact.Name) ? contact.Email : string.Format("{0} <{1}>", contact.Name, contact.Email))</span></a>
-                }
-            </div>
+            if (Model.GoogleContacts != null && Model.GoogleContacts.Count() > 0)
+            {
+                <h4>@Localizer.Get("AskForReview_GoogleContactsTitle")</h4>
+                <div class="google-contacts">
+                    <table class="table table-condensed">
+                        @foreach (var contact in Model.GoogleContacts)
+                        {
+                            <tr>
+                                <td>@contact.Name</td>
+                                <td><a class="email" data-email="@contact.Email" onclick="addContact(this)">@contact.Email</a></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+            else
+            {
+                <h4>@Localizer.Get("AskForReview_LoadingGmailContacts")</h4>
+            }
         }
 
-        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
-        {
-            <span class="contactList">
-                @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReviews_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            </span>
-            @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReviews_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
-        }
+    @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
+    {
+        <span class="contactList">
+            @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReview_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        </span>
+        @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
+        @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
+    }
     </div>
+
     <div class="col-md-3 col-md-offset-1 helpbar">
         <div class="helpbar">
             <h1>@Localizer.Get("AskForReview_Help_Title")</h1>
             <div class="content">
-                @Localizer.Get("AskForReview_Help_Content")
+                <p>@Localizer.Get("AskForReview_Help_Content")</p>
                 <div class="text-center">
                     @if (!Model.IsGoogleConnected)
                     {
                         <hr/>
+                        <p><strong>@Localizer.Get("AskForReview_Help_ImportTitle")</strong></p>
                         <div class="lnk-select-contant">
-                            <a href="#" onclick="auth()" class="btn btn-danger">@Localizer.Get("AskForReviews_ImportFromGmail")</a>
+                            <a href="#" onclick="auth()" class="btn btn-danger">@Localizer.Get("AskForReview_ImportFromGmail")</a>
                         </div>
                     }
                 </div>
@@ -60,27 +76,27 @@
     }
 
         div.tagsinput span.tag {
-            border: 1px solid #a5d24a;
+            border: 1px solid #3276b1;
             -moz-border-radius: 2px;
             -webkit-border-radius: 2px;
             display: block;
             float: left;
             padding: 5px;
             text-decoration: none;
-            background: #cde69c;
-            color: #638421;
+            background: #d9edf7;
+            color: #3276b1;
             margin-right: 5px;
             margin-bottom: 5px;
             font-family: helvetica;
             font-size: 13px;
         }
 
-            div.tagsinput span.tag a {
-                font-weight: bold;
-                color: #82ad2b;
-                text-decoration: none;
-                font-size: 11px;
-            }
+        div.tagsinput span.tag a {
+            font-weight: bold;
+            color: #3276b1;
+            text-decoration: none;
+            font-size: 11px;
+        }
 
         div.tagsinput input {
             width: 80px;
@@ -149,17 +165,23 @@
         }
 
         function addContact(anchor) {
-            var name = $(anchor).data("name");
             var email = $(anchor).data("email");
-            $('#Contacts').addTag(email);
+            if (!$('#Contacts').tagExist(email)) {
+                $(anchor).parents('tr').toggleClass('selected');
+                $('#Contacts').addTag(email);
+            }
         }
+
 
         $('#Contacts').tagsInput({
             width: 'auto',
-            defaultText: '@Localizer.Get("AskForReview_AddEmail")'
+            defaultText: '@Localizer.Get("AskForReview_AddEmail")',
+            onRemoveTag: function (email) {
+                $('a[data-email="' + email + '"]').parents('tr').toggleClass('selected');
+            }
         });
 
-        function gsReady() {
+        function gapiReady() {
             @if (Model.IsGoogleConnected && Model.GoogleContacts == null)
             {
                 <text>
