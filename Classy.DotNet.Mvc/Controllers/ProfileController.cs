@@ -540,11 +540,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                         location.Coords = new CoordsView { Latitude = coords.Latitude, Longitude = coords.Longitude };
+                        model.Location = "current-location";
                     }
                     System.Web.HttpCookie countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
                     if (countryCookie != null)
                     {
                         location.Address = new PhysicalAddressView { Country = countryCookie.Value };
+                        model.Location = countryCookie.Value;
                     }
                 }
                 else
