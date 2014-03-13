@@ -1,0 +1,28 @@
+{
+ "browser_action": {
+ "default_title": "Add to HomeLab"
+ },
+ "name": "Add to HomeLab",
+ "description": "Add images to your idea collections on HomeLab.com",
+ "homepage_url": "http://www.homelab.com",
+ "icons": {},
+ "permissions": [
+     "tabs",
+     "contextMenus",
+     "http://*/*",
+     "https://*/*",
+     "file:///*"
+ ],
+"content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "exclude_globs": ["*://*.houzz.*/*","*//*.facebook.*/*"],
+      "css": ["homelab-collect.css"],
+      "js": ["homelab-collect.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+ "version": "0.1",
+ "manifest_version": 2
+} 

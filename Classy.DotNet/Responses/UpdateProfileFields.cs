@@ -13,6 +13,8 @@ namespace Classy.DotNet.Responses
         SetPassword = 1,
         ContactInfo = 2,
         ProfessionalInfo = 4,
-        Metadata = 8
+        Metadata = 8,
+        Password = 16,
+        CoverPhotos = 32
     }
 }

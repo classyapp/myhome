@@ -14,12 +14,12 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
     {
         public string ProfileId { get; set; }
         [Required(ErrorMessage="AskForReview_ContactsRequired")]
-        [Display(Name = "AskForReview_SelectContacts")]
+        [Display(Name = "AskForReview_SelectContacts_Label")]
         [EveryItemIs(Validators = new Type[] { typeof(EmailAddressAttribute) })]
         public IList<string> Contacts { get; set; }
-        [Display(Name = "AskForReview_Message")]
+        [Display(Name = "AskForReview_Message_Label")]
         public string Message { get; set; }
-        [Display(Name = "AskForReview_SetAsDefaultMessage")]
+        [Display(Name = "AskForReview_SetAsDefaultMessage_Label")]
         public bool SaveAsDefault { get; set; }
         public bool IsGoogleConnected { get; set; }
         public IList<GoogleContactView> GoogleContacts { get; set; }
