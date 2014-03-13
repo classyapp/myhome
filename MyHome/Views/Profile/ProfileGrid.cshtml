@@ -6,7 +6,7 @@
 
 @foreach (var p in Model)
 {
-    var colSize = p.Rank > 2 ? (p.ProfessionalInfo.CoverPhotos != null ? 12 : 6) : 6;
+    var colSize = p.ProfessionalInfo.CoverPhotos != null ? 12 : 6;
     <div class="col-md-@colSize">
         <div class="profile thumbnail"> 
             <div class="pull-left">
