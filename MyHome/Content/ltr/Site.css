@@ -710,22 +710,17 @@ span.address2
     {
         background-color: #fff;
         max-height: 170px;
-        overflow-y: hidden;
+        overflow: hidden;
     }
- .results .col-md-12 .profile .media {
-    width: 600px;
-}
+    .results .col-md-12 .profile .media {
+        width: 600px;
+    }
 
     .results .profile .media-body
     {
         font-size: 12px;
         padding: 5px 10px;
     }
-
-        .results .profile .media-body .media-info, .results .profile .media-body .contact-info
-        {
-            margin-right: 185px;
-        }
 
 /* login */
 .fb
