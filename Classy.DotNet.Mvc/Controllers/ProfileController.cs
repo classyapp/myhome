@@ -883,7 +883,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             catch (ClassyException cex)
             {
-                return Json(new { error = "aaa" });
+                return Json(new { error = Localizer.Get("SelectCoverPhotos_Error") });
             }
         }
 
