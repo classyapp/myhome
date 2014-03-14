@@ -31,6 +31,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: "PostComment",
+                url: "collection/{collectionId}/comments/new",
+                defaults: new { controller = "Collection", action = "PostComment" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteWithName(
                 name: "EditCollection",
                 url: "collection/{collectionId}/edit",
@@ -73,13 +80,39 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                var collection = service.GetCollectionById(collectionId, true, true, false);
+                var collection = service.GetCollectionById(collectionId, true, true, false, true);
                 return View((view ?? "grid").ToLower() == "list" ? "CollectionDetailsList" : "CollectionDetailsGrid", collection);
             }
             catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
+        }
+
+        //
+        // POST: /collection/{collectionId}/comments/new
+        //
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        //[ExportModelStateToTempData]
+        public ActionResult PostComment(string collectionId, string content)
+        {
+            try
+            {
+                var service = new ListingService();
+                service.PostComment(collectionId, content, ListingService.ObjectType.Collection);
+                TempData["PostComment_Success"] = true;
+            }
+            catch (ClassyException cvx)
+            {
+                if (cvx.IsValidationError())
+                {
+                    AddModelErrors(cvx);
+                }
+                else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+            }
+
+            return RedirectToAction("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" });
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -151,7 +184,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult EditCollection(string collectionId)
         {
             var service = new ListingService();
-            var collection = service.GetCollectionById(collectionId, true, false, false);
+            var collection = service.GetCollectionById(collectionId, true, false, false, false);
 
             return View(new EditCollectionViewModel
             {
@@ -240,7 +273,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var listingService = new ListingService();
-                var collection = listingService.GetCollectionById(collectionId, true, false, false);
+                var collection = listingService.GetCollectionById(collectionId, true, false, false, false);
 
                 return PartialView(collection.Listings);
             }

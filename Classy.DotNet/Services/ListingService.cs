@@ -13,6 +13,12 @@ namespace Classy.DotNet.Services
 {
     public class ListingService : ServiceBase
     {
+        public enum ObjectType
+        {
+            Listing,
+            Collection
+        }
+
         // create listing
         private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
@@ -24,7 +30,7 @@ namespace Classy.DotNet.Services
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
         // post comment
-        private readonly string POST_COMMENT_URL = ENDPOINT_BASE_URL + "/listing/{0}/comment/new";
+        private readonly string POST_COMMENT_URL = ENDPOINT_BASE_URL + "/{0}/{1}/comment/new";
         // favorite listing
         private readonly string FAVORITE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/favorite";
         // collections
@@ -35,7 +41,7 @@ namespace Classy.DotNet.Services
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list/{1}";
-        private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
+        private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}&IncludeComments={4}&IncludeCommenterProfiles={5}";
         private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}";
 
         #region // listings
@@ -230,13 +236,14 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public CommentView PostComment(string listingId, string content)
+        public CommentView PostComment(string objectId, string content, ObjectType type)
         {
             try
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
-                var url = string.Format(POST_COMMENT_URL, listingId);
-                var commentJson = client.UploadString(url, string.Concat("{\"Content\":\"", content, "\"}"));
+                var url = string.Format(POST_COMMENT_URL, type.ToString().ToLower(), objectId);
+                var commentJson = client.UploadString(url, 
+                    new { Content = content, Type = type }.ToJson());
                 var comment = commentJson.FromJson<CommentView>();
                 return comment;
             }
@@ -278,12 +285,12 @@ namespace Classy.DotNet.Services
 
         #region // collections
 
-        public CollectionView GetCollectionById(string collectionId, bool includeListings, bool increaseViewCounter, bool increaseViewCounterOnListings)
+        public CollectionView GetCollectionById(string collectionId, bool includeListings, bool increaseViewCounter, bool increaseViewCounterOnListings, bool includeComments)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var collectionJson = client.DownloadString(string.Format(GET_COLLECTION_BY_ID_URL, collectionId, includeListings, increaseViewCounter, increaseViewCounterOnListings));
+                var collectionJson = client.DownloadString(string.Format(GET_COLLECTION_BY_ID_URL, collectionId, includeListings, increaseViewCounter, increaseViewCounterOnListings, includeComments, includeComments));
                 var collection = collectionJson.FromJson<CollectionView>();
                 return collection;
             }
