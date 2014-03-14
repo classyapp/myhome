@@ -53,4 +53,11 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
 
         public SelectList CollectionList { get; set; }
     }
+
+    public class CreateListingFromUrlViewModel<TListingMetadata> : CreateListingViewModel<TListingMetadata>
+    {
+        [Required]
+        [Display(Name = "CreateListingFromUrl_Url")]
+        public string ListingUrl { get; set; }
+    }
 }

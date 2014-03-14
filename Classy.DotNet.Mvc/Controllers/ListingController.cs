@@ -36,8 +36,15 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: string.Format("Create{0}FromUrl", ListingTypeName),
+                url: string.Format("{0}/addFromUrl", ListingTypeName.ToLower()),
+                defaults: new { controller = ListingTypeName, action = "CreateListingFromUrl" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRoute(
-                name: string.Concat("PostCommentFor" ,ListingTypeName),
+                name: string.Concat("PostCommentFor", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/comments/new"),
                 defaults: new { controller = ListingTypeName, action = "PostComment" },
                 namespaces: new string[] { Namespace }
@@ -63,7 +70,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = ListingTypeName, action = "EditListing" },
                 namespaces: new string[] { Namespace }
             );
-            
+
             routes.MapRoute(
                 name: string.Concat("Delete", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/delete"),
@@ -106,6 +113,79 @@ namespace Classy.DotNet.Mvc.Controllers
             model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
             model.CollectionType = collectionType;
             return View(string.Concat("Create", ListingTypeName), model);
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateListingFromUrl(string url)
+        {
+            CreateListingFromUrlViewModel<TListingMetadata> model = new CreateListingFromUrlViewModel<TListingMetadata>();
+            string collectionType = CollectionType.PhotoBook;
+            model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
+            model.CollectionType = collectionType;
+            model.ListingUrl = url;
+            return View(string.Format("Create{0}FromUrl", ListingTypeName), model);
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateListingFromUrl(CreateListingFromUrlViewModel<TListingMetadata> model)
+        {
+            var service = new ListingService();
+
+            // check colelction exists
+            if (string.IsNullOrEmpty(model.CollectionId))
+            {
+                var collection = service.CreateCollection(model.CollectionType, model.Title, model.Content, new IncludedListingView[0]);
+                model.CollectionId = collection.Id;
+            }
+
+            PricingInfoView pricingInfo = null;
+            if (model.PricingInfo != null)
+            {
+                pricingInfo = new PricingInfoView()
+                {
+                    SKU = model.PricingInfo.SKU,
+                    Price = model.PricingInfo.Price,
+                    CompareAtPrice = model.PricingInfo.CompareAtPrice,
+                    Quantity = model.PricingInfo.Quantity.Value,
+                    DomesticRadius = model.PricingInfo.DomesticRadius,
+                    DomesticShippingPrice = model.PricingInfo.DomesticShippingPrice,
+                    InternationalShippingPrice = model.PricingInfo.InternationalShippingPrice
+                };
+            }
+
+            try
+            {
+                // Check the file exists
+                WebClient wc = new WebClient();
+                byte[] fileBytes = wc.DownloadData(model.ListingUrl);
+                wc.Dispose();
+
+                var listing = service.CreateListing(
+                    model.Title,
+                    string.Empty,
+                    ListingTypeName,
+                    pricingInfo,
+                    (model.Metadata == null ? null : model.Metadata.ToDictionary()),
+                    fileBytes,
+                    "image/jpg");
+                service.AddListingToCollection(model.CollectionId, new IncludedListingView[] { 
+                    new IncludedListingView { ListingType = ListingTypeName, Id = listing.Id, Comments = string.Empty } });
+
+            }
+            catch (ClassyException cvx)
+            {
+                if (cvx.IsValidationError())
+                {
+                    AddModelErrors(cvx);
+                    return View(string.Concat("Create", ListingTypeName));
+                }
+                else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+            }
+
+            TempData["Success"] = true;
+            return View(string.Format("Create{0}FromUrl", ListingTypeName), model);
         }
 
         private SelectList GetCollectionList(string selectedCollectionId, string type)
@@ -179,7 +259,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     return Redirect(url);
                 }
             }
-            catch(ClassyException cvx)
+            catch (ClassyException cvx)
             {
                 if (cvx.IsValidationError())
                 {
@@ -215,7 +295,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 };
                 return View(string.Concat(ListingTypeName, "Details"), model);
             }
-            catch(ClassyException cex)
+            catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
@@ -235,7 +315,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 service.PostComment(listingId, content);
                 TempData["PostComment_Success"] = true;
             }
-            catch(ClassyException cvx)
+            catch (ClassyException cvx)
             {
                 if (cvx.IsValidationError())
                 {
@@ -244,7 +324,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
 
-            return RedirectToAction("GetListingById", new { listingId = listingId });    
+            return RedirectToAction("GetListingById", new { listingId = listingId });
         }
 
         //
@@ -374,7 +454,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else
                 {
-                    return Json(new { error = "Not Authorized"});
+                    return Json(new { error = "Not Authorized" });
                 }
             }
             catch (Exception ex)
@@ -426,7 +506,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     return View(model);
                 }
             }
-            catch(ClassyException cex)
+            catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
@@ -439,7 +519,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (model.Metadata == null) model.Metadata = new TListingMetadata();
             var slug = model.Metadata.GetSearchFilterSlug(model.Tag, model.Location);
-            return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
+            return RedirectToRoute(string.Concat("Search", ListingTypeName), new { filters = slug });
         }
 
         //
