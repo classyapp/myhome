@@ -89,6 +89,52 @@ namespace Classy.DotNet.Services
             return listing;
         }
 
+        public ListingView CreateListing(
+            string title,
+            string content,
+            string listingType,
+            //TODO: Investigate combining Request & Response models?
+            PricingInfoView pricingInfo,
+            IDictionary<string, string> metadata,
+            byte[] fileBytes,
+            string contentType)
+        {
+            var client = ClassyAuth.GetAuthenticatedWebClient();
+            var data = new
+            {
+                Title = title,
+                Content = content,
+                ListingType = listingType,
+                Pricing = pricingInfo,
+                Metadata = metadata
+
+            }.ToJson();
+
+            // create the listing
+            ListingView listing = null;
+            try
+            {
+                var listingJson = client.UploadString(CREATE_LISTING_URL, data);
+                listing = listingJson.FromJson<ListingView>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+
+            // add media files
+            var url = string.Format(ADD_EXTERNAL_MEDIA_URL, listing.Id);
+            var req = ClassyAuth.GetAuthenticatedWebRequest(url);
+            HttpUploadFile(req, fileBytes, contentType);
+            
+            // publish
+            url = string.Format(PUBLISH_LISTING_URL, listing.Id);
+            var updatedJson = client.UploadString(url, "".ToJson());
+            listing = updatedJson.FromJson<ListingView>();
+
+            return listing;
+        }
+
         public ListingView UpdateListing(
             string listingId,
             string title,

@@ -1,0 +1,117 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingFromUrlViewModel<MyHome.Models.PhotoMetadata>
+
+@{
+    ViewBag.Title = Localizer.Get("CreatePhoto_PageTitle");
+    ViewBag.NoIndex = true;
+    Html.Bootstrap().Globals().ShowRequiredStar(false);
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+}
+
+@if (TempData["Success"] == null)
+{
+<div class="row">
+    <div class="col-md-7 main">
+        <h1>@Localizer.Get("CreatePhoto_PageTitle")</h1>
+        <hr />
+
+        @Html.Bootstrap().ValidationSummary()
+
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateListingFromUrl", "Photo")))
+        {
+            @Html.HiddenFor(x => x.CollectionType)
+            if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
+            {
+            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_CollectionTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide")
+            }
+            else
+            {
+            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateProjectTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_ProjectTitle"))
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_ProjectTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide")
+            }
+            @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12)
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
+            @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
+            @f.FormGroup().TextBoxFor(x => x.ListingUrl).HtmlAttributes(new { _readonly = "readonly" }).Placeholder(Localizer.Get("CreatePhotoFromUrl_UrlPlaceholder")).ShowValidationMessage(false).Label().WidthLg(12)
+            <p>
+                <small>
+                    @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                    @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToRights).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                </small>
+            </p>
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhoto_Submit")).Style(ButtonStyle.Primary))
+            
+            
+        }
+    </div>
+
+    @*<div class="col-md-4 col-md-offset-1 helpbar">
+        @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
+        {
+            <h1>@Localizer.Get("CreatePhoto_PhotoBook_Title_DoDont")</h1>
+            <div class="content">
+                @Html.Raw(Localizer.Get("CreatePhoto_PhotoBook_Content_DoDont"))
+            </div>
+        }
+        else
+        {
+            <h1>@Localizer.Get("CreatePhoto_Project_Title_DoDont")</h1>
+            <div class="content">
+                @Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))
+            </div> 
+        }
+    </div>*@
+</div>
+}
+
+@*    <!-- photo edit mpdal -->
+<div class="modal fade" id="load-fb-modal" data-remote="@Url.RouteUrl("LoadFacebookAlbums")" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="load-fb-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>*@
+
+@section scripts
+{
+    @if (TempData["Success"] != null)
+    {
+        <script type="text/javascript">
+            window.close(); 
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            jQuery.validator.unobtrusive.adapters.add("brequired", function (options) {
+                //b-required for checkboxes
+                if (options.element.tagName.toUpperCase() == "INPUT" && options.element.type.toUpperCase() == "CHECKBOX") {
+                    //setValidationValues(options, "required", true);
+                    options.rules["required"] = true;
+                    if (options.message) {
+                        options.messages["required"] = options.message;
+                    }
+                }
+            });
+            $('#CollectionId').change(function () {
+                if ($(this).val() == '') {
+                    $('#Title,#Content').val('');
+                    $('#title, #content').show();
+                }
+                else {
+                    $('#Title').val($(this)[0].options[$(this)[0].selectedIndex].text);
+                    $('#title, #content').hide();
+                }
+            });
+
+            @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.Project)
+            {
+                @:$("#Title").attr("data-val-required", "@Localizer.Get("CreateListing_ProjectTitleRequired")");
+            }
+        </script>
+    }
+}

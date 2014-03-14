@@ -48,7 +48,7 @@ function IsValidImageElement(img)
 function AddToHomeLab(e)
 {
 	var url = e.srcElement.getAttribute('data-url');
-	var win = window.open('http://www.myhome.co.il/web/photo/from?url=' + encodeURIComponent(url), 'HomeLabWindow', 'width=550,height=600,scrollbars=no,location=no,resizable=no,status=no,toolbar=no');
+	var win = window.open('http://www.homelab.com/photo/addFromUrl?url=' + encodeURIComponent(url), 'HomeLabWindow', 'width=800,height=600,scrollbars=no,location=no,resizable=no,status=no,toolbar=no');
 }
 
 function RealOffset(element) {
