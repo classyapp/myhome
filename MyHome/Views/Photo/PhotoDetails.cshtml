@@ -95,7 +95,7 @@
                 </p>
             }
 
-            @using (var f = Html.Bootstrap().Begin(new Form("PostComment")))
+            @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
             {
                 @Html.Hidden("ListingId", Model.Listing.Id);
                 @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))

@@ -24,6 +24,14 @@
             {
                 <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
             }
+            @if (Model.Type == "Project")
+            {
+                <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-picture"></i>@Localizer.Get("Project_SelectCoverPhotos")</a>
+            }
+            else
+            {
+                <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-picture"></i>@Localizer.Get("Collection_SelectCoverPhotos")</a>
+            }
         </div>
     }
     <p>@Model.Content</p>
@@ -40,22 +48,77 @@
         </div>
     </div>
 
-    <div class="row" id="photos">
-        @if (photos != null)
-        {
-            foreach (var p in photos)
+    <div class="col-md-7">
+        <div class="row" id="photos">
+            @if (photos != null)
             {
-            <div class="col-md-4">
-                <div class="thumbnail">
-                    @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
-                    @Html.Thumbnail(p, 400)
-                    <div class="details">
-                        <strong>@Html.ListingLink("Photo", p)</strong><br />
-                        <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                foreach (var p in photos)
+                {
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
+                        @Html.Thumbnail(p, 400)
+                        <div class="details">
+                            <strong>@Html.ListingLink("Photo", p)</strong><br />
+                            <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
+                        </div>
                     </div>
                 </div>
-            </div>
+                }
             }
-        }
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="profile clearfix">
+            <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
+            <div class="details">
+                @Html.ProfileLink(Model.Profile)
+                @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
+        </div>
+        <hr />
+        <div>
+            <p>
+                <h4 class="panel-title">@Localizer.Get("CollectionDetails_Comments")</h4>
+            </p>
+        
+            @if (Model.Comments.Count == 0)
+            {
+                <p>@Localizer.Get("CollectionDetails_NoComments")</p>
+            }
+            
+            @foreach (var c in Model.Comments)
+            {
+                <p class="comment">
+                    <div class="media">
+                        <div class="pull-left">
+                            <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
+                        </div>
+                        <div class="media-body">
+                            <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                            <p>@c.Content</p>
+                        </div>
+                    </div>
+                </p>
+            }
+
+            @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Collection")))
+            {
+                @Html.Hidden("CollectionId", Model.Id);
+                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("CollectionComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CollectionDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="select-cover-modal" data-backdrop="static" data-remote="@Url.RouteUrl("SelectCollectionCoverPhotos", new { collectionId = Model.Id })">
+    <div class="modal-dialog">
+        <div class="modal-content" id="select-cover-replace">
+        </div>
     </div>
 </div>
