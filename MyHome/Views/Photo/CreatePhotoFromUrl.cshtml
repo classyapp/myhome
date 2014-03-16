@@ -19,7 +19,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title></title>
+    <title>@Localizer.Get("CreatePhotoFromUrl_PageTitle")</title>
 
     @if (env.Culture == "he-IL")
     {
@@ -46,6 +46,14 @@
     </style>
 </head>
 <body>
+    @if (TempData["CreateListing_Success"] != null) {
+        @Html.Bootstrap().Alert(Localizer.Get("CreatePhotoFromUrl_Success")).Style(AlertColor.Success)
+        <script>
+            self.setInterval('window.close()', 1000)
+        </script>
+    }
+    else
+    {
     <h1>Add Photo To Collection</h1>
 
     <div class="container">
@@ -66,11 +74,12 @@
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
                     
-                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhotoFromUrl_Submit")))
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhotoFromUrl_Submit")).Style(ButtonStyle.Primary))
                 }
             </div>
         </div>
     </div>
+    }
 
     <div id="fb-root"></div>
     <script>
@@ -118,12 +127,12 @@
     <script>
         $('#CollectionId').change(function () {
             if ($(this).val() == '') {
-                $('#title, #content').val('');
-                $('#title, #content').show();
+                $('#Title').val('');
+                $('#title').show();
             }
             else {
-                $('#title').val($(this)[0].options[$(this)[0].selectedIndex].text);
-                $('#title, #content').hide();
+                $('#Title').val($(this)[0].options[$(this)[0].selectedIndex].text);
+                $('#title').hide();
             }
         });
     </script>

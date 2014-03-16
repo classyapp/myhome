@@ -180,6 +180,7 @@ namespace Classy.DotNet.Mvc.Controllers
             // load collections
             model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
 
+            TempData["CreateListing_Success"] = true;
             return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }
 
