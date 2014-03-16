@@ -13,6 +13,12 @@ namespace Classy.DotNet.Services
 {
     public class ListingService : ServiceBase
     {
+        private class FileToUpload
+        {
+            public byte[] Data { get; set; }
+            public string ContentType { get; set; }
+        }
+
         // create listing
         private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
@@ -48,10 +54,66 @@ namespace Classy.DotNet.Services
             IDictionary<string, string> metadata,
             HttpFileCollectionBase files)
         {
+            var filesToUpload = new List<FileToUpload>();
+            foreach(var f in files.AllKeys)
+            {
+                var fileToUpload = new FileToUpload();
+                fileToUpload.Data = new byte[files[f].ContentLength];
+                files[f].InputStream.Read(fileToUpload.Data, 0, files[f].ContentLength);
+                fileToUpload.ContentType = files[f].ContentType;
+                filesToUpload.Add(fileToUpload);
+            }
+
+            return CreateListing(
+                title,
+                content,
+                listingType,
+                pricingInfo,
+                metadata,
+                filesToUpload);
+        }
+
+        public ListingView CreateListing(
+            string title,
+            string content,
+            string listingType,
+            //TODO: Investigate combining Request & Response models?
+            PricingInfoView pricingInfo,
+            IDictionary<string, string> metadata,
+            string externalMediaUrl)
+        {
+            var wc = new WebClient();
+            var data = wc.DownloadData(externalMediaUrl);
+            var contentType = wc.ResponseHeaders[HttpResponseHeader.ContentType];
+            var filesToUpload = new List<FileToUpload>() {
+                new FileToUpload {
+                    Data = data,
+                    ContentType = contentType
+                }
+            };
+
+            return CreateListing(
+                title,
+                content,
+                listingType,
+                pricingInfo,
+                metadata,
+                filesToUpload);
+        }
+
+        private ListingView CreateListing(
+            string title, 
+            string content,
+            string listingType,
+            //TODO: Investigate combining Request & Response models?
+            PricingInfoView pricingInfo,
+            IDictionary<string, string> metadata,
+            IList<FileToUpload> files)
+        {
             var client = ClassyAuth.GetAuthenticatedWebClient();
             var data = new
             {
-                Title = title, 
+                Title = title,
                 Content = content,
                 ListingType = listingType,
                 Pricing = pricingInfo,
@@ -66,19 +128,17 @@ namespace Classy.DotNet.Services
                 var listingJson = client.UploadString(CREATE_LISTING_URL, data);
                 listing = listingJson.FromJson<ListingView>();
             }
-            catch(WebException wex)
+            catch (WebException wex)
             {
                 throw wex.ToClassyException();
             }
 
             // add media files
             var url = string.Format(ADD_EXTERNAL_MEDIA_URL, listing.Id);
-            foreach (var f in files.AllKeys)
+            foreach (var f in files)
             {
-                var fileContent = new byte[files[f].ContentLength];
-                files[f].InputStream.Read(fileContent, 0, files[f].ContentLength);
                 var req = ClassyAuth.GetAuthenticatedWebRequest(url);
-                HttpUploadFile(req, fileContent, files[f].ContentType);
+                HttpUploadFile(req, f.Data, f.ContentType);
             }
 
             // publish
@@ -307,7 +367,17 @@ namespace Classy.DotNet.Services
             }
         }
 
+         public CollectionView CreateCollection(
+            string type,
+            string title,
+            string content,
+            IList<IncludedListingView> includedListings)
+        {
+            return CreateCollection(null, type, title, content, includedListings);
+        }
+
         public CollectionView CreateCollection(
+            string profileId,
             string type,
             string title,
             string content,
@@ -318,6 +388,7 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var data = new
                 {
+                    ProfileId = profileId,
                     Type = type,
                     Title = title,
                     Content = content,

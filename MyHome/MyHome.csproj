@@ -129,6 +129,8 @@
     <Compile Include="Models\ProfileReviewMetadata.cs" />
     <Compile Include="Models\UserMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\ViewModels\PhotoActionsViewModel.cs" />
+    <Compile Include="Views\ViewModels\PhotoGridViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="401.html" />
@@ -491,6 +493,8 @@
     <Content Include="Views\Profile\SelectCoverPhotos.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Photo\CreatePhotoFromUrl.cshtml" />
+    <Content Include="Views\Shared\PhotoCopyrightMessage.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -525,6 +529,8 @@
           <DevelopmentServerPort>62599</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://www.homelab.com</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://www.homelab.com</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

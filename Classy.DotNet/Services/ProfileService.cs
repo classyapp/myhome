@@ -123,6 +123,7 @@ namespace Classy.DotNet.Services
             LocationView location,
             IDictionary<string, string> metadata,
             bool professionalsOnly,
+            bool ignoreLocation,
             int page)
         {
             try
@@ -136,6 +137,7 @@ namespace Classy.DotNet.Services
                     Location = location,
                     Metadata = metadata,
                     ProfessionalsOnly = professionalsOnly,
+                    IgnoreLocation = ignoreLocation,
                     Page = page
                 }.ToJson();
                 var profilesJson = client.UploadString(url, data);

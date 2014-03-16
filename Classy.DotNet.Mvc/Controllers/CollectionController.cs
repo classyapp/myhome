@@ -75,8 +75,8 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
         [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult AddListingToCollection(string listingId)
         {
             try

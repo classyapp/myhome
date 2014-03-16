@@ -10,6 +10,7 @@ namespace Classy.DotNet.Responses
     {
         public static readonly string PhotoBook = "PhotoBook";
         public static readonly string Project = "Project";
+        public static readonly string WebPhotos = "WebPhotos";
     }
 
     public class CollectionView

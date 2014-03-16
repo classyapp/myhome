@@ -579,6 +579,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
+                    false,
                     model.Page);
                 
                 model.Results = resutls.Results;
