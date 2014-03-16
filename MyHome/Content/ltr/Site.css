@@ -144,6 +144,21 @@ a, a:visited
     text-decoration: none;
 }
 
+.photo.thumbnail .origin {
+    position: relative;
+    bottom: 70px;
+    left: 20px;
+    background-color: #000;
+    display: inline-block;
+    min-height: 18px;
+}
+.photo.thumbnail .origin a {
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    padding: 3px 5px;
+}
+
 /* profile page */
 .contact-button
 {

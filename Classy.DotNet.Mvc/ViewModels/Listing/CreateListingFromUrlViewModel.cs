@@ -13,15 +13,13 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
     {
         // basic
         public string CollectionId { get; set; }
-        [Required]
-        public string CollectionType { get; set; }
-        [Required(ErrorMessage = "CreateListing_PhotoBookTitleRequired")]
+        [Required(ErrorMessage = "CreateListingFromUrl_CollectionNameRequired")]
         public string Title { get; set; }
-        [Display(Name = "CreateListing_CollectionContent")]
+        [Display(Name = "CreateListingFromUrl_Note")]
         public string Content { get; set; }
         public PricingViewModel PricingInfo { get; set; }
         public LocationView Location { get; set; }
-        public bool AutoPublish { get; set; }
+        public string OriginUrl { get; set; }
         public string ExternalMediaUrl { get; set; }
 
         // meta

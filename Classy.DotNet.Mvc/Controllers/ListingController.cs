@@ -25,8 +25,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public ListingController() : base() { }
         public ListingController(string ns) : base(ns) { }
 
-        public EventHandler<CreateListingFromUrlArgs<TListingMetadata>> OnParseListingFromUrl;
-
         /// <summary>
         /// register routes within host app's route collection
         /// </summary>
@@ -122,18 +120,12 @@ namespace Classy.DotNet.Mvc.Controllers
         // GET: /{ListingTypeName}/new/fromurl
         // 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult CreateListingFromUrl(string url)
+        public ActionResult CreateListingFromUrl(string originUrl, string externalMediaUrl)
         {
             var model = new CreateListingFromUrlViewModel<TListingMetadata>();
+            model.OriginUrl = originUrl;
+            model.ExternalMediaUrl = externalMediaUrl;
             model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
-            model.CollectionType = CollectionType.PhotoBook;
-
-            if (OnParseListingFromUrl != null)
-            {
-                var arg = new CreateListingFromUrlArgs<TListingMetadata> { RequestUri = Request.Url };
-                OnParseListingFromUrl(this, arg);
-                model.ExternalMediaUrl = HttpUtility.UrlDecode(arg.ExternalMediaUrl);
-            }
 
             return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }
@@ -156,11 +148,18 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.ExternalMediaUrl);
 
             // add to the selected collection
-            //listingService.AddListingToCollection(model.CollectionId, new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ProfileId = listing.ProfileId, ListingType = "Photo" } });
+            var includedListings = new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ListingType = ListingTypeName, ProfileId = AuthenticatedUserProfile.Id } };
+            if (string.IsNullOrEmpty(model.CollectionId))
+            {
+                var collection = listingService.CreateCollection(CollectionType.PhotoBook, model.Title, model.Content, includedListings);
+                model.CollectionId = collection.Id;
+            }
+            else listingService.AddListingToCollection(model.CollectionId, includedListings);
 
             // search for a matching professional
+            var originDomain = new Uri(model.OriginUrl).Host;
             var profileService = new ProfileService();
-            var matches = profileService.SearchProfiles("www.homelab.com", null, null, null, true, true, 1);
+            var matches = profileService.SearchProfiles(originDomain, null, null, null, true, true, 1);
 
             // if professional found, create a web clips collection and add the listing
             var pro = matches.Count > 0 ? matches.Results[0] : null;
@@ -170,9 +169,16 @@ namespace Classy.DotNet.Mvc.Controllers
                 var collection = collections.FirstOrDefault();
                 if (collection == null)
                 {
-                    listingService.CreateCollection(CollectionType.WebPhotos, "web-photos", null, new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ListingType = ListingTypeName, ProfileId = AuthenticatedUserProfile.Id } });
+                    listingService.CreateCollection(pro.Id, CollectionType.WebPhotos, "web-photos", null, includedListings);
+                }
+                else
+                {
+                    listingService.AddListingToCollection(collection.Id, includedListings);
                 }
             }
+
+            // load collections
+            model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
 
             return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }

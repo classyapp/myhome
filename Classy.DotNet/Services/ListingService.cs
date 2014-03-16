@@ -367,7 +367,17 @@ namespace Classy.DotNet.Services
             }
         }
 
+         public CollectionView CreateCollection(
+            string type,
+            string title,
+            string content,
+            IList<IncludedListingView> includedListings)
+        {
+            return CreateCollection(null, type, title, content, includedListings);
+        }
+
         public CollectionView CreateCollection(
+            string profileId,
             string type,
             string title,
             string content,
@@ -378,6 +388,7 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var data = new
                 {
+                    ProfileId = profileId,
                     Type = type,
                     Title = title,
                     Content = content,

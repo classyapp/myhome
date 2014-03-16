@@ -43,19 +43,7 @@
     <div class="row" id="photos">
         @if (photos != null)
         {
-            foreach (var p in photos)
-            {
-            <div class="col-md-4">
-                <div class="thumbnail">
-                    @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowFavorite = true, ShowCollect = true, ShowEdit = false, ShowRemove = false })
-                    @Html.Thumbnail(p, 400)
-                    <div class="details">
-                        <strong>@Html.ListingLink("Photo", p)</strong><br />
-                        <small>@string.Format(Localizer.Get("PublicProfile_Photo_Comments"), p.CommentCount)</small>
-                    </div>
-                </div>
-            </div>
-            }
+            @Html.Partial("PhotoGrid", new MyHome.Views.ViewModels.PhotoGridViewModel { Photos = photos.ToList(), ThumbnailSize = 380, ShowCopyrightMessages = true })
         }
     </div>
 </div>
