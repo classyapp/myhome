@@ -80,11 +80,11 @@ namespace Classy.DotNet.Services
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
-            string fromUrl)
+            string externalMediaUrl)
         {
             var wc = new WebClient();
-            var data = wc.DownloadData(fromUrl);
-            var contentType = wc.ResponseHeaders[HttpRequestHeader.ContentType];
+            var data = wc.DownloadData(externalMediaUrl);
+            var contentType = wc.ResponseHeaders[HttpResponseHeader.ContentType];
             var filesToUpload = new List<FileToUpload>() {
                 new FileToUpload {
                     Data = data,

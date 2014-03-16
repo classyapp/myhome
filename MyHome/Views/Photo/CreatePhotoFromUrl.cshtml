@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingFromUrlViewModel<MyHome.Models.PhotoMetadata>
 @{
     Layout = null;
     
@@ -14,7 +14,8 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title></title>
 
     @if (env.Culture == "he-IL")
@@ -27,9 +28,22 @@
     }
 </head>
 <body>
-    <div>
-        <h1>Add Photo To Collection</h1>
-        <img class="pull-left" src="@ViewBag.Url" width="100" />
+    <div class="container">
+        <div class="row">
+            <h1>Add Photo To Collection</h1>
+            <div class="col-xs-3">
+                <img src="@Model.ExternalMediaUrl" class="img-responsive" />
+            </div>
+            <div class="col-xs-9">
+                @using (var f = Html.Bootstrap().Begin(new Form("CreateListingFromUrl", "Photo")))
+                {
+                    @Html.HiddenFor(x => x.ExternalMediaUrl)
+                    @f.FormGroup().TextBoxFor(x => x.Title)
+                    
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhotoFromUrl_Submit")))
+                }
+            </div>
+        </div>
     </div>
 
     <div id="fb-root"></div>
@@ -38,7 +52,7 @@
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '13237044783', // App ID
-                channelUrl: '//www.myhome.co.il/channel.html', // Channel File
+                channelUrl: '//www.homelab.com/channel.html', // Channel File
                 status: true, // check login status
                 cookie: true, // enable cookies to allow the server to access the session
                 xfbml: true  // parse XFBML

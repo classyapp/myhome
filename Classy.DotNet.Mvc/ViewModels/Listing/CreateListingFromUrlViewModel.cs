@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
-{    
-    public class CreateListingViewModel<TListingMetadata>
+{
+    public class CreateListingFromUrlViewModel<TListingMetadata>
     {
         // basic
         public string CollectionId { get; set; }
@@ -22,13 +22,12 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public PricingViewModel PricingInfo { get; set; }
         public LocationView Location { get; set; }
         public bool AutoPublish { get; set; }
+        public string ExternalMediaUrl { get; set; }
+
         // meta
         public TListingMetadata Metadata { get; set; }
-        [Required(ErrorMessage = "CreateListing_FilesRequired")]
-        public string DummyFile { get; set; }
 
-        // TODO: products and bookable items
-
+        // select lists
         public SelectList CollectionList { get; set; }
     }
 }

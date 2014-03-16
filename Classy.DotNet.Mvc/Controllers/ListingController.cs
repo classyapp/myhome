@@ -13,6 +13,7 @@ using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
+using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -23,6 +24,8 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public ListingController() : base() { }
         public ListingController(string ns) : base(ns) { }
+
+        public EventHandler<CreateListingFromUrlArgs<TListingMetadata>> OnParseListingFromUrl;
 
         /// <summary>
         /// register routes within host app's route collection
@@ -118,14 +121,59 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         // GET: /{ListingTypeName}/new/fromurl
         // 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult CreateListingFromUrl()
+        public ActionResult CreateListingFromUrl(string url)
         {
-            CreateListingViewModel<TListingMetadata> model = new CreateListingViewModel<TListingMetadata>();
-            string collectionType = AuthenticatedUserProfile.IsProfessional ? CollectionType.Project : CollectionType.PhotoBook;
-            model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
-            model.CollectionType = collectionType;
+            var model = new CreateListingFromUrlViewModel<TListingMetadata>();
+            model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
+            model.CollectionType = CollectionType.PhotoBook;
+
+            if (OnParseListingFromUrl != null)
+            {
+                var arg = new CreateListingFromUrlArgs<TListingMetadata> { RequestUri = Request.Url };
+                OnParseListingFromUrl(this, arg);
+                model.ExternalMediaUrl = HttpUtility.UrlDecode(arg.ExternalMediaUrl);
+            }
+
+            return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+        }
+
+        //
+        // POST: /{ListingTypeName}/new/fromurl
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateListingFromUrl(CreateListingFromUrlViewModel<TListingMetadata> model)
+        {
+            // create the listing
+            var listingService = new ListingService();
+            var listing = listingService.CreateListing(
+                model.Title,
+                model.Content,
+                ListingTypeName,
+                model.PricingInfo.ToPricingInfo(),
+                model.Metadata != null ? model.Metadata.ToDictionary() : null,
+                model.ExternalMediaUrl);
+
+            // add to the selected collection
+            //listingService.AddListingToCollection(model.CollectionId, new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ProfileId = listing.ProfileId, ListingType = "Photo" } });
+
+            // search for a matching professional
+            var profileService = new ProfileService();
+            var matches = profileService.SearchProfiles("www.homelab.com", null, null, null, true, true, 1);
+
+            // if professional found, create a web clips collection and add the listing
+            var pro = matches.Count > 0 ? matches.Results[0] : null;
+            if (pro != null)
+            {
+                var collections = listingService.GetCollectionsByProfileId(pro.Id, CollectionType.WebPhotos, false, false, false);
+                var collection = collections.FirstOrDefault();
+                if (collection == null)
+                {
+                    listingService.CreateCollection(CollectionType.WebPhotos, "web-photos", null, new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ListingType = ListingTypeName, ProfileId = AuthenticatedUserProfile.Id } });
+                }
+            }
+
             return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }
 
@@ -163,20 +211,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.CollectionId = collection.Id;
             }
 
-            PricingInfoView pricingInfo = null;
-            if (model.PricingInfo != null)
-            {
-                pricingInfo = new PricingInfoView()
-                {
-                    SKU = model.PricingInfo.SKU,
-                    Price = model.PricingInfo.Price,
-                    CompareAtPrice = model.PricingInfo.CompareAtPrice,
-                    Quantity = model.PricingInfo.Quantity.Value,
-                    DomesticRadius = model.PricingInfo.DomesticRadius,
-                    DomesticShippingPrice = model.PricingInfo.DomesticShippingPrice,
-                    InternationalShippingPrice = model.PricingInfo.InternationalShippingPrice
-                };
-            }
+            PricingInfoView pricingInfo = model.PricingInfo.ToPricingInfo();
 
             try
             {
