@@ -36,6 +36,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: string.Concat("Create", ListingTypeName, "FromUrl"),
+                url: string.Concat(ListingTypeName.ToLower(), "/new/fromurl"),
+                defaults: new { controller = ListingTypeName, action = "CreateListingFromUrl" },
+                namespaces: new string[] { Namespace }
+                );
+
             routes.MapRoute(
                 name: string.Concat("PostCommentFor" ,ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/comments/new"),
@@ -106,6 +113,20 @@ namespace Classy.DotNet.Mvc.Controllers
             model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
             model.CollectionType = collectionType;
             return View(string.Concat("Create", ListingTypeName), model);
+        }
+
+        //
+        // GET: /{ListingTypeName}/new/fromurl
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateListingFromUrl()
+        {
+            CreateListingViewModel<TListingMetadata> model = new CreateListingViewModel<TListingMetadata>();
+            string collectionType = AuthenticatedUserProfile.IsProfessional ? CollectionType.Project : CollectionType.PhotoBook;
+            model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
+            model.CollectionType = collectionType;
+            return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }
 
         private SelectList GetCollectionList(string selectedCollectionId, string type)
