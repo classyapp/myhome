@@ -1,5 +1,6 @@
 function FavoriteListing(e)
 {
+    e.preventDefault();
     var listingId = $(this).attr('listing-id');
     var listingType = $(this).attr('listing-type');
     var url = "/" + listingType + "/" + listingId + "/favorite";
@@ -11,9 +12,7 @@ function FavoriteListing(e)
     });
 }
 
-function UnfavoriteListing(e)
-{
-
+function UnfavoriteListing(e) {
     e.preventDefault();
     var listingId = $(this).attr('listing-id');
     var listingType = $(this).attr('listing-type');
@@ -33,6 +32,10 @@ function ChangePassword(e) {
 }
 
 $(function () {
+    bindTriggerActions($(document));
+});
+
+function bindTriggerActions(context) {
     $('[authorize]').click(function (e) {
         if (!Classy.IsAuthenticated) {
             $('#login-modal').modal('show');
@@ -40,15 +43,12 @@ $(function () {
         }
     });
 
-    bindTriggerActions($(document));
-});
-
-function bindTriggerActions(context) {
     $('[trigger-listing-action="favorite"]', context).click(FavoriteListing);
 
     $('[trigger-listing-action="unfavorite"]', context).click(UnfavoriteListing);
 
     $('[trigger-listing-action="collect"]').click(function (e) {
+        e.preventDefault();
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         $('#collect-modal')
@@ -59,6 +59,7 @@ function bindTriggerActions(context) {
     });
 
     $('[trigger-listing-action="edit"]', context).click(function (e) {
+        e.preventDefault();
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var url = $('#photo-modal').data("url");
@@ -78,6 +79,7 @@ function bindTriggerActions(context) {
     });
 
     $('[trigger-listing-action="delete"]', context).click(function (e) {
+        e.preventDefault();
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var thumb = $(this).closest(".thumbnail");
@@ -106,12 +108,14 @@ function bindTriggerActions(context) {
     });
 
     $('[trigger-profile-action="follow"]', context).click(function (e) {
+        e.preventDefault();
         var profileId = $(this).attr('profile-id');
         var url = "/profile/" + profileId + "/follow";
         $.post(url, null, function (data) { console.log(data); })
     });
 
     $('[trigger-listing-action="remove"]', context).click(function (e) {
+        e.preventDefault();
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var collectionId = $(this).closest(".collection-items").attr('collection-id');
@@ -141,6 +145,7 @@ function bindTriggerActions(context) {
     });
 
     $('[trigger-collection-action="delete"]', context).click(function (e) {
+        e.preventDefault();
         bootbox.dialog({
             title: Classy.Messages.DeleteCollection_ConfirmTitle,
             message: Classy.Messages.DeleteCollection_ConfirmText,
@@ -166,6 +171,7 @@ function bindTriggerActions(context) {
     });
 
     $('[trigger-project-action="delete"]', context).click(function (e) {
+        e.preventDefault();
         bootbox.dialog({
             title: Classy.Messages.DeleteProject_ConfirmTitle,
             message: Classy.Messages.DeleteProject_ConfirmText,

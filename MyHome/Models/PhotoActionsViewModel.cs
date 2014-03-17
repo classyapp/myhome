@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Classy.DotNet.Responses;
 
-namespace MyHome.Views.ViewModels
+namespace MyHome.Models
 {
     public class PhotoActionsViewModel
     {

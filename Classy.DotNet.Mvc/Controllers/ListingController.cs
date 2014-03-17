@@ -17,8 +17,9 @@ using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
-    public class ListingController<TListingMetadata> : BaseController
+    public class ListingController<TListingMetadata, TListingGridViewModel> : BaseController
         where TListingMetadata : IMetadata<TListingMetadata>, new()
+        where TListingGridViewModel : IListingGridViewModel, new()
     {
         public virtual string ListingTypeName { get { return "Listing"; } }
 
@@ -482,7 +483,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (Request.IsAjaxRequest())
                 {
-                    return PartialView("PhotoGrid", model.Results);
+                    return PartialView(string.Concat(ListingTypeName, "Grid"), new TListingGridViewModel { Results = model.Results });
                 }
                 else
                 {
@@ -502,7 +503,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (model.Metadata == null) model.Metadata = new TListingMetadata();
             var slug = model.Metadata.GetSearchFilterSlug(model.Tag, model.Location);
-            return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
+            return RedirectToRoute(string.Concat("Search", ListingTypeName), new { filters = slug });
         }
 
         //

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MyHome.Controllers
 {
-    public class ProductController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.ProductMetadata>
+    public class ProductController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.ProductMetadata, MyHome.Models.PhotoGridViewModel>
     {
         public ProductController()
             : base("MyHome.Controllers") { }

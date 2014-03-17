@@ -112,7 +112,7 @@
             data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
-                @Html.Partial("PhotoGrid", new MyHome.Views.ViewModels.PhotoGridViewModel { Photos = Model.Results, ShowCopyrightMessages = false, ThumbnailSize = 270 })
+                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ShowCopyrightMessages = false, ThumbnailSize = 270 })
             }
         </div>
         <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>

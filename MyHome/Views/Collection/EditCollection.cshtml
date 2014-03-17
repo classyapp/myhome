@@ -43,7 +43,7 @@
                             <div class="thumbnail">
                                 @{
                                     var item = photos.First(p => p.Id == Model.IncludedListings[i].Id);
-                                    @Html.Partial("PhotoActions", new MyHome.Views.ViewModels.PhotoActionsViewModel { Listing = item, ShowCollect = false, ShowEdit = false, ShowFavorite = false, ShowRemove = true })
+                                    @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = item, ShowCollect = false, ShowEdit = false, ShowFavorite = false, ShowRemove = true })
                                     @Html.Thumbnail(item, 301)
                                 }
                             </div>

@@ -10,7 +10,7 @@ using Classy.DotNet;
 
 namespace MyHome.Controllers
 {
-    public class DiscussionController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.DiscussionMetadata>
+    public class DiscussionController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.DiscussionMetadata, MyHome.Models.PhotoGridViewModel>
     {
         public DiscussionController()
             : base("MyHome.Controllers") { }

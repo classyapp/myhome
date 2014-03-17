@@ -1,12 +1,12 @@
-@model MyHome.Views.ViewModels.PhotoGridViewModel
+@model MyHome.Models.PhotoGridViewModel
 
-@if (Model.Photos.Count() > 0)
+@if (Model.Results.Count() > 0)
 {
-    foreach (var p in Model.Photos)
+    foreach (var p in Model.Results)
     {
         <div class="col-md-4">
             <div class="photo thumbnail">
-                @Html.Partial("PhotoActions", new MyHome.Views.ViewModels.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
+                @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
                 <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })" title="@p.Title">
                     @Html.Thumbnail(p, Model.ThumbnailSize)
                     <div class="details">

@@ -25,7 +25,7 @@
         <div class="row" id="photos">
             @if (Model.Photos.Count() > 0)
             {
-                @Html.Partial("PhotoGrid", new MyHome.Views.ViewModels.PhotoGridViewModel { Photos = Model.Photos, ShowCopyrightMessages = false, ThumbnailSize = 270 })
+                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Photos, ShowCopyrightMessages = false, ThumbnailSize = 270 })
             }
         </div>
     </div>
