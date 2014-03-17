@@ -125,7 +125,7 @@ namespace Classy.DotNet.Mvc.Controllers
             var model = new CreateListingFromUrlViewModel<TListingMetadata>();
             model.OriginUrl = originUrl;
             model.ExternalMediaUrl = externalMediaUrl;
-            model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
+            model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : new SelectList(new List<CollectionView>());
 
             return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }
