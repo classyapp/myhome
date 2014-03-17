@@ -48,11 +48,7 @@
         </div>
     </div>
 
-    <div class="row" id="photos">
-        @if (photos != null)
-        {
-            
-    <div class="col-md-7">
+    <div class="col-md-9">
         <div class="row" id="photos">
             @if (photos != null)
             {
@@ -60,19 +56,8 @@
             }
         </div>
     </div>
-    <div class="col-md-5">
-        <div class="profile clearfix">
-            <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
-            <div class="details">
-                @Html.ProfileLink(Model.Profile)
-                @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
-                {
-                    <br />
-                    <span>@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span>
-                }
-            </div>
-        </div>
-        <hr />
+
+    <div class="col-md-3">
         <div>
             <p>
                 <h4 class="panel-title">@Localizer.Get("CollectionDetails_Comments")</h4>
