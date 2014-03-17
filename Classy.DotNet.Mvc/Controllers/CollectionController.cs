@@ -31,6 +31,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: "PostComment",
+                url: "collection/{collectionId}/comments/new",
+                defaults: new { controller = "Collection", action = "PostComment" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteWithName(
                 name: "EditCollection",
                 url: "collection/{collectionId}/edit",
@@ -52,6 +59,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "SelectCollectionCoverPhotos",
+                url: "collection/{collectionId}/coverphotos",
+                defaults: new { controller = "Collection", action = "SelectCollectionCoverPhotos" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "CollectionDetails",
                 url: "collection/{collectionId}/{view}/{slug}",
@@ -66,7 +80,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                var collection = service.GetCollectionById(collectionId, true, true, false);
+                var collection = service.GetCollectionById(collectionId, true, true, false, true);
                 return View((view ?? "grid").ToLower() == "list" ? "CollectionDetailsList" : "CollectionDetailsGrid", collection);
             }
             catch (ClassyException cex)
@@ -75,7 +89,32 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
+        //
+        // POST: /collection/{collectionId}/comments/new
+        //
         [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        //[ExportModelStateToTempData]
+        public ActionResult PostComment(string collectionId, string content)
+        {
+            try
+            {
+                var service = new ListingService();
+                service.PostComment(collectionId, content, ListingService.ObjectType.Collection);
+                TempData["PostComment_Success"] = true;
+            }
+            catch (ClassyException cvx)
+            {
+                if (cvx.IsValidationError())
+                {
+                    AddModelErrors(cvx);
+                }
+                else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+            }
+
+            return Redirect(Request.UrlReferrer.AbsoluteUri);
+        }
+
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult AddListingToCollection(string listingId)
         {
@@ -144,7 +183,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult EditCollection(string collectionId)
         {
             var service = new ListingService();
-            var collection = service.GetCollectionById(collectionId, true, false, false);
+            var collection = service.GetCollectionById(collectionId, true, false, false, false);
 
             return View(new EditCollectionViewModel
             {
@@ -224,6 +263,40 @@ namespace Classy.DotNet.Mvc.Controllers
             var service = new ListingService();
             var collectionList = service.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, collectionType, false, false, false);
             return new SelectList(collectionList, "Id", "Title", selectedCollectionId);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [Authorize]
+        public ActionResult SelectCollectionCoverPhotos(string collectionId) 
+        {
+            try
+            {
+                var listingService = new ListingService();
+                var collection = listingService.GetCollectionById(collectionId, true, false, false, false);
+
+                return PartialView(collection.Listings);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [Authorize]
+        public ActionResult SelectCollectionCoverPhotos(string collectionId, string[] keys)
+        {
+            try
+            {
+                var listingService = new ListingService();
+                listingService.UpdateCollectionCoverPhotos(collectionId, keys);
+
+                return Json(new { url = Url.RouteUrl("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" }) });
+            }
+            catch (ClassyException cex)
+            {
+                return Json(new { error = Localizer.Get("SelectCollectionCoverPhotos_Error") });
+            }
         }
     }
 }

@@ -498,6 +498,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\ViewModels\" />
+    <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

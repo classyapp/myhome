@@ -296,7 +296,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                service.PostComment(listingId, content);
+                service.PostComment(listingId, content, ListingService.ObjectType.Listing);
                 TempData["PostComment_Success"] = true;
             }
             catch(ClassyException cvx)
