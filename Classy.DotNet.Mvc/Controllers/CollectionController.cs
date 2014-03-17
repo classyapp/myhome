@@ -112,7 +112,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
 
-            return RedirectToAction("CollectionDetails", new { collectionId = collectionId, view = "grid", slug = "public" });
+            return Redirect(Request.UrlReferrer.AbsoluteUri);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
