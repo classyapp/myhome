@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
+    <Compile Include="Attributes\RequireHttpsAttribute.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />

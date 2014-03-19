@@ -7,7 +7,7 @@ namespace MyHome
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new RequireHttpsAttribute());
+            filters.Add(new AppHarbor.Web.RequireHttpsAttribute());
             // error handling is dealt with via web.config & iis
            //  filters.Add(new HandleErrorAttribute());
         }
