@@ -242,9 +242,9 @@ namespace Classy.DotNet.Services
         }
         
         public SearchResultsView<ListingView> SearchListings(
-            string tag,
-            string listingType,
-            IDictionary<string, string> metadata,
+            string[] tags,
+            string[] listingTypes,
+            IDictionary<string, string[]> metadata,
             double? priceMin,
             double? priceMax,
             LocationView location,
@@ -256,8 +256,8 @@ namespace Classy.DotNet.Services
                 var url = SEARCH_LISTINGS_URL;
                 var data = new
                 {
-                    Tag = tag,
-                    ListingType = listingType,
+                    Tags = tags,
+                    ListingTypes = listingTypes,
                     Metadata = metadata,
                     PriceMin = priceMin,
                     PriceMax = priceMax,

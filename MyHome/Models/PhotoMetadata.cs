@@ -49,8 +49,12 @@ namespace MyHome.Models
             return output;
         }
     
-        public void ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
+        public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
         {
+            var dict = new Dictionary<string, string[]>();
+            string[] room = null;
+            string[] style = null;
+            keyword = null;
             switch(filters.Count())
             {
                 case 0:
@@ -59,41 +63,76 @@ namespace MyHome.Models
                     break;
                 case 1:
                     // is it a room?
-                    Room = MatchRoom(filters[0]);
-                    // if not, is it a style? if not a room and not a style, its a tag.
-                    keyword = (string.IsNullOrEmpty(Room) && string.IsNullOrEmpty(Style = MatchStyle(filters[0]))) ? filters[0] : null;
+                    room = MatchRoom(filters[0]);
+                    // if not, is it a style?
+                    if (room == null)
+                    {
+                        style = MatchStyle(filters[0]);
+                        if (style != null)
+                        {
+                            dict.Add("Style", style);
+                            Style = filters[0];
+                        }
+                    }
+                    else
+                    {
+                        dict.Add("Room", room);
+                        Room = filters[0];
+                    }
+                    // if not a room and not a style, its a tag.
+                    if (room == null && style == null) keyword = filters[0];
                     break;
                 case 2:
-                    Room = MatchRoom(filters[0]); // if more than one filter, first one is a room. if not, its a tag and break
-                    if (string.IsNullOrEmpty(Room)) keyword = filters[0];
+                    room = MatchRoom(filters[0]); // if more than one filter, first one is a room. if not, its a tag and break
+                    if (room == null) keyword = filters[0];
                     else // done with room match, second one is a style or its a tag
                     {
-                        Style = MatchStyle(filters[1]); 
-                        keyword = string.IsNullOrEmpty(Style) ? filters[1] : null; 
+                        dict.Add("Room", room);
+                        Room = filters[0];
+                        style = MatchStyle(filters[1]);
+                        if (style != null)
+                        {
+                            dict.Add("Style", style);
+                            Style = filters[1];
+                        }
+                        else keyword = filters[1]; 
                     }
                     break;
                 case 3:
                     // if more than one filter, first one is a room. if not, its a tag and break
-                    if (string.IsNullOrEmpty(Room = MatchRoom(filters[0]))) keyword = filters[0];
-                    // second filter is style, or a tag and break
-                    if (string.IsNullOrEmpty(Style = MatchStyle(filters[1]))) keyword = filters[1];
-                    keyword = filters[2];
+                    room = MatchRoom(filters[0]);
+                    if (room == null) keyword = filters[0];
+                    else
+                    {
+                        dict.Add("Room", room);
+                        Room = filters[0];
+                        // second filter is style, or a tag and break
+                        style = MatchStyle(filters[1]);
+                        if (style == null) keyword = filters[1];
+                        else
+                        {
+                            dict.Add("Style", style);
+                            Style = filters[1];
+                            keyword = filters[2];
+                        }
+                    }
                     break;
             }
+            return dict;
         }
 
-        private string MatchStyle(string p)
+        private string[] MatchStyle(string p)
         {
             var styles = Localizer.GetList("room-styles");
             var style = styles.SingleOrDefault(x => x.Value == p);
-            return style != null ? style.Value : null;
+            return style != null ? new string[] { style.Value } : null;
         }
 
-        private string MatchRoom(string p)
+        private string[] MatchRoom(string p)
         {
             var rooms = Localizer.GetList("rooms");
-            var room = rooms.SingleOrDefault(x => x.Value == p);
-            return room != null ? room.Value : null;
+            var room = rooms.Where(x => x.Value == p).Union(rooms.Where(x => x.ParentValue == p));
+            return room.Count() > 0 ? room.Select(x => x.Value).ToArray() : null;
         }
 
 

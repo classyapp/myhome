@@ -17,7 +17,7 @@ namespace Classy.DotNet.Mvc.Controllers
         /// </summary>
         /// <param name="filters">the strings parsed from the request url by the controller</param>
         /// <returns></returns>
-        void ParseSearchFilters(string[] filters, out string keyword, ref LocationView location);
+        Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref LocationView location);
         /// <summary>
         /// constructs a url slug from the metadata properties
         /// </summary>

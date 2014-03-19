@@ -456,6 +456,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
+                Dictionary<string, string[]> searchMetadata = null;
                 // add the filters from the url
                 if (filters != null)
                 {
@@ -463,15 +464,15 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (model.Metadata == null) model.Metadata = new TListingMetadata();
                     string tag;
                     LocationView location = null;
-                    model.Metadata.ParseSearchFilters(strings, out tag, ref location);
+                    searchMetadata = model.Metadata.ParseSearchFilters(strings, out tag, ref location);
                     model.Tag = tag;
                     model.Location = location;
                 }
                 // search
                 var results = service.SearchListings(
-                    model.Tag,
-                    ListingTypeName,
-                    model.Metadata != null ? model.Metadata.ToDictionary() : null,
+                    new string[] { model.Tag },
+                    new string[] { ListingTypeName }, 
+                    searchMetadata,
                     model.PriceMin,
                     model.PriceMax,
                     model.Location,
