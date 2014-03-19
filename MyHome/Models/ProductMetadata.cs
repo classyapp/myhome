@@ -21,7 +21,7 @@ namespace MyHome.Models
 
 
 
-        public void ParseSearchFilters(string[] filters, out string keyword, ref Classy.DotNet.Responses.LocationView location)
+        public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref Classy.DotNet.Responses.LocationView location)
         {
             throw new NotImplementedException();
         }
