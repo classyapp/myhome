@@ -21,10 +21,10 @@
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
-    <link rel="alternate" href="http://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
+    <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.GetList("supported-cultures"))
     {
-        <link rel="alternate" hreflang="@culture.Value" href="http://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
+        <link rel="alternate" hreflang="@culture.Value" href="https://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
     }
     
     <title>@ViewBag.Title</title>
@@ -178,7 +178,7 @@
     </div>
 
     <div class="footer text-center">
-        <p>&copy; <a href="http://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
+        <p>&copy; <a href="https://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
         <p>
             @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
         </p>
