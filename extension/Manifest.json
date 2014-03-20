@@ -16,7 +16,13 @@
 "content_scripts": [
     {
       "matches": ["http://*/*","https://*/*"],
-      "exclude_globs": ["*://*.houzz.*/*","*//*.facebook.*/*"],
+      "exclude_globs": [
+		"*://*.houzz.*/*",
+		"*//*.facebook.*/*",
+		"*//*.google.*/*",
+		"*//*.homelab.*/*",
+		"*//*.flickr.*/*"
+		],
       "css": ["homelab-collect.css"],
       "js": ["homelab-collect.js"],
       "run_at": "document_end",
