@@ -26,14 +26,15 @@
                 @f.FormGroup().TextBoxFor(x => x.Username).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
                 @f.FormGroup().PasswordFor(x => x.Password).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
 
-                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, true).Label().ShowRequiredStar(false)
-                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().ShowRequiredStar(false)
-                @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsCommercial, true).Label().ShowRequiredStar(false);
-                @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().ShowRequiredStar(false)
+                @Html.Bootstrap().CheckBoxFor(x => x.IsProfessional).IsChecked(false).Label().ShowRequiredStar(false)
 
+                <p>
+                    <hr />
+                    <br/>
+                    @Html.Bootstrap().CheckBoxFor(x => x.AgreeToTerms).IsChecked(false).Label().LabelText(string.Format(Localizer.Get("Register_AgreeToTerms"), Html.RouteLink(Localizer.Get("Regsiter_TermsOfUse"), "Terms"))).ShowRequiredStar(false)
+                </p>
                 <div>
                     @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Register_Submit")).Style(ButtonStyle.Primary)
-                    <p><small>@Html.Raw(string.Format(Localizer.Get("Register_AgreeToTerms"), Html.RouteLink(Localizer.Get("Register_AgreeToTerms_Terms"), "Terms"), Html.RouteLink(Localizer.Get("Register_AgreeToTerms_Privacy"), "Privacy")))</small></p>
                 </div>
             }
         </div>
@@ -51,14 +52,13 @@
     {
         using (modal.BeginBody())
         {
-            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsRenter, true).Label().ShowRequiredStar(false);
-            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsHomeOwner, true).Label().ShowRequiredStar(false);
-            @Html.Bootstrap().RadioButtonFor(x => x.Metadata.IsCommercial, true).Label().ShowRequiredStar(false);
-            @Html.Bootstrap().RadioButtonFor(x => x.IsProfessional, true).Label().ShowRequiredStar(false);
+                @Html.Bootstrap().CheckBoxFor(x => x.IsProfessional).IsChecked(false).Label().ShowRequiredStar(false)
 
+                <hr/>
+                <br/>
+                @Html.Bootstrap().CheckBoxFor(x => x.AgreeToTerms).IsChecked(false).Label().LabelText(string.Format(Localizer.Get("Register_AgreeToTerms"), Html.RouteLink(Localizer.Get("Regsiter_TermsOfUse"), "Terms"))).ShowRequiredStar(false)
             <div>
                 @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Register_ContinueToSite")).Style(ButtonStyle.Primary);
-                <p><small>@Html.Raw(string.Format(Localizer.Get("Register_AgreeToTerms"), Html.RouteLink(Localizer.Get("Register_AgreeToTerms_Terms"), "Terms"), Html.RouteLink(Localizer.Get("Register_AgreeToTerms_Privacy"), "Privacy")))</small></p>
             </div>
         }
     }
@@ -68,6 +68,17 @@
     @Scripts.Render("~/scripts/fb-login.js")
     <script>
 
+    // bind boolean validation
+    jQuery.validator.unobtrusive.adapters.add("brequired", function (options) {
+        //b-required for checkboxes
+        if (options.element.tagName.toUpperCase() == "INPUT" && options.element.type.toUpperCase() == "CHECKBOX") {
+            //setValidationValues(options, "required", true);
+            options.rules["required"] = true;
+            if (options.message) {
+                options.messages["required"] = options.message;
+            }
+        }
+    });
 
         $(function () {
             // faux radio group
