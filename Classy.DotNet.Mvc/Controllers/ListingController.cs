@@ -13,11 +13,13 @@ using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
+using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
-    public class ListingController<TListingMetadata> : BaseController
+    public class ListingController<TListingMetadata, TListingGridViewModel> : BaseController
         where TListingMetadata : IMetadata<TListingMetadata>, new()
+        where TListingGridViewModel : IListingGridViewModel, new()
     {
         public virtual string ListingTypeName { get { return "Listing"; } }
 
@@ -35,6 +37,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = ListingTypeName, action = "CreateListing" },
                 namespaces: new string[] { Namespace }
             );
+
+            routes.MapRouteWithName(
+                name: string.Concat("Create", ListingTypeName, "FromUrl"),
+                url: string.Concat(ListingTypeName.ToLower(), "/new/fromurl"),
+                defaults: new { controller = ListingTypeName, action = "CreateListingFromUrl" },
+                namespaces: new string[] { Namespace }
+                );
 
             routes.MapRoute(
                 name: string.Concat("PostCommentFor" ,ListingTypeName),
@@ -108,6 +117,74 @@ namespace Classy.DotNet.Mvc.Controllers
             return View(string.Concat("Create", ListingTypeName), model);
         }
 
+        //
+        // GET: /{ListingTypeName}/new/fromurl
+        // 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateListingFromUrl(string originUrl, string externalMediaUrl)
+        {
+            var model = new CreateListingFromUrlViewModel<TListingMetadata>();
+            model.OriginUrl = originUrl;
+            model.ExternalMediaUrl = externalMediaUrl;
+            model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : new SelectList(new List<CollectionView>());
+
+            return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+        }
+
+        //
+        // POST: /{ListingTypeName}/new/fromurl
+        // 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateListingFromUrl(CreateListingFromUrlViewModel<TListingMetadata> model)
+        {
+            // create the listing
+            var listingService = new ListingService();
+            var listing = listingService.CreateListing(
+                model.Title,
+                model.Content,
+                ListingTypeName,
+                model.PricingInfo.ToPricingInfo(),
+                model.Metadata != null ? model.Metadata.ToDictionary() : null,
+                model.ExternalMediaUrl);
+
+            // add to the selected collection
+            var includedListings = new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ListingType = ListingTypeName, ProfileId = AuthenticatedUserProfile.Id } };
+            if (string.IsNullOrEmpty(model.CollectionId))
+            {
+                var collection = listingService.CreateCollection(CollectionType.PhotoBook, model.Title, model.Content, includedListings);
+                model.CollectionId = collection.Id;
+            }
+            else listingService.AddListingToCollection(model.CollectionId, includedListings);
+
+            // search for a matching professional
+            var originDomain = new Uri(model.OriginUrl).Host;
+            var profileService = new ProfileService();
+            var matches = profileService.SearchProfiles(originDomain, null, null, null, true, true, 1);
+
+            // if professional found, create a web clips collection and add the listing
+            var pro = matches.Count > 0 ? matches.Results[0] : null;
+            if (pro != null)
+            {
+                var collections = listingService.GetCollectionsByProfileId(pro.Id, CollectionType.WebPhotos, false, false, false);
+                var collection = collections.FirstOrDefault();
+                if (collection == null)
+                {
+                    listingService.CreateCollection(pro.Id, CollectionType.WebPhotos, "web-photos", null, includedListings);
+                }
+                else
+                {
+                    listingService.AddListingToCollection(collection.Id, includedListings);
+                }
+            }
+
+            // load collections
+            model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
+
+            TempData["CreateListing_Success"] = true;
+            return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+        }
+
         private SelectList GetCollectionList(string selectedCollectionId, string type)
         {
             var service = new ListingService();
@@ -142,20 +219,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.CollectionId = collection.Id;
             }
 
-            PricingInfoView pricingInfo = null;
-            if (model.PricingInfo != null)
-            {
-                pricingInfo = new PricingInfoView()
-                {
-                    SKU = model.PricingInfo.SKU,
-                    Price = model.PricingInfo.Price,
-                    CompareAtPrice = model.PricingInfo.CompareAtPrice,
-                    Quantity = model.PricingInfo.Quantity.Value,
-                    DomesticRadius = model.PricingInfo.DomesticRadius,
-                    DomesticShippingPrice = model.PricingInfo.DomesticShippingPrice,
-                    InternationalShippingPrice = model.PricingInfo.InternationalShippingPrice
-                };
-            }
+            PricingInfoView pricingInfo = model.PricingInfo.ToPricingInfo();
 
             try
             {
@@ -232,7 +296,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                service.PostComment(listingId, content);
+                service.PostComment(listingId, content, ListingService.ObjectType.Listing);
                 TempData["PostComment_Success"] = true;
             }
             catch(ClassyException cvx)
@@ -392,6 +456,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
+                Dictionary<string, string[]> searchMetadata = null;
                 // add the filters from the url
                 if (filters != null)
                 {
@@ -399,15 +464,15 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (model.Metadata == null) model.Metadata = new TListingMetadata();
                     string tag;
                     LocationView location = null;
-                    model.Metadata.ParseSearchFilters(strings, out tag, ref location);
+                    searchMetadata = model.Metadata.ParseSearchFilters(strings, out tag, ref location);
                     model.Tag = tag;
                     model.Location = location;
                 }
                 // search
                 var results = service.SearchListings(
-                    model.Tag,
-                    ListingTypeName,
-                    model.Metadata != null ? model.Metadata.ToDictionary() : null,
+                    new string[] { model.Tag },
+                    new string[] { ListingTypeName }, 
+                    searchMetadata,
                     model.PriceMin,
                     model.PriceMax,
                     model.Location,
@@ -419,7 +484,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 if (Request.IsAjaxRequest())
                 {
-                    return PartialView("PhotoGrid", model.Results);
+                    return PartialView(string.Concat(ListingTypeName, "Grid"), new TListingGridViewModel { Results = model.Results });
                 }
                 else
                 {
@@ -439,7 +504,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (model.Metadata == null) model.Metadata = new TListingMetadata();
             var slug = model.Metadata.GetSearchFilterSlug(model.Tag, model.Location);
-            return RedirectToRoute(string.Concat("Search",ListingTypeName), new { filters = slug });
+            return RedirectToRoute(string.Concat("Search", ListingTypeName), new { filters = slug });
         }
 
         //

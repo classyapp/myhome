@@ -18,7 +18,7 @@
 
     <div class="col-md-9 main" itemscope itemtype="http://schema.org/LocalBusiness">
         <div id="photos">
-            @Html.Partial("PhotoGrid", Model.Listings)
+            @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Listings, ShowCopyrightMessages = false, ThumbnailSize = 300})
         </div>
     </div>
 </div>

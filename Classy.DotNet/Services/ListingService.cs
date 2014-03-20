@@ -13,6 +13,18 @@ namespace Classy.DotNet.Services
 {
     public class ListingService : ServiceBase
     {
+        private class FileToUpload
+        {
+            public byte[] Data { get; set; }
+            public string ContentType { get; set; }
+        }
+
+        public enum ObjectType
+        {
+            Listing,
+            Collection
+        }
+
         // create listing
         private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
@@ -24,17 +36,18 @@ namespace Classy.DotNet.Services
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
         // post comment
-        private readonly string POST_COMMENT_URL = ENDPOINT_BASE_URL + "/listing/{0}/comment/new";
+        private readonly string POST_COMMENT_URL = ENDPOINT_BASE_URL + "/{0}/{1}/comment/new";
         // favorite listing
         private readonly string FAVORITE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/favorite";
         // collections
         private readonly string CREATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/new";
         private readonly string UPDATE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
+        private readonly string UPDATE_COLLECTION_COVER_URL = ENDPOINT_BASE_URL + "/collection/{0}/cover";
         private readonly string DELETE_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}";
         private readonly string ADD_LISTINGS_TO_CLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/listing/new";
         private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list/{1}";
-        private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}";
+        private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}&IncludeComments={4}&IncludeCommenterProfiles={5}";
         private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}";
 
         #region // listings
@@ -48,10 +61,66 @@ namespace Classy.DotNet.Services
             IDictionary<string, string> metadata,
             HttpFileCollectionBase files)
         {
+            var filesToUpload = new List<FileToUpload>();
+            foreach(var f in files.AllKeys)
+            {
+                var fileToUpload = new FileToUpload();
+                fileToUpload.Data = new byte[files[f].ContentLength];
+                files[f].InputStream.Read(fileToUpload.Data, 0, files[f].ContentLength);
+                fileToUpload.ContentType = files[f].ContentType;
+                filesToUpload.Add(fileToUpload);
+            }
+
+            return CreateListing(
+                title,
+                content,
+                listingType,
+                pricingInfo,
+                metadata,
+                filesToUpload);
+        }
+
+        public ListingView CreateListing(
+            string title,
+            string content,
+            string listingType,
+            //TODO: Investigate combining Request & Response models?
+            PricingInfoView pricingInfo,
+            IDictionary<string, string> metadata,
+            string externalMediaUrl)
+        {
+            var wc = new WebClient();
+            var data = wc.DownloadData(externalMediaUrl);
+            var contentType = wc.ResponseHeaders[HttpResponseHeader.ContentType];
+            var filesToUpload = new List<FileToUpload>() {
+                new FileToUpload {
+                    Data = data,
+                    ContentType = contentType
+                }
+            };
+
+            return CreateListing(
+                title,
+                content,
+                listingType,
+                pricingInfo,
+                metadata,
+                filesToUpload);
+        }
+
+        private ListingView CreateListing(
+            string title, 
+            string content,
+            string listingType,
+            //TODO: Investigate combining Request & Response models?
+            PricingInfoView pricingInfo,
+            IDictionary<string, string> metadata,
+            IList<FileToUpload> files)
+        {
             var client = ClassyAuth.GetAuthenticatedWebClient();
             var data = new
             {
-                Title = title, 
+                Title = title,
                 Content = content,
                 ListingType = listingType,
                 Pricing = pricingInfo,
@@ -66,19 +135,17 @@ namespace Classy.DotNet.Services
                 var listingJson = client.UploadString(CREATE_LISTING_URL, data);
                 listing = listingJson.FromJson<ListingView>();
             }
-            catch(WebException wex)
+            catch (WebException wex)
             {
                 throw wex.ToClassyException();
             }
 
             // add media files
             var url = string.Format(ADD_EXTERNAL_MEDIA_URL, listing.Id);
-            foreach (var f in files.AllKeys)
+            foreach (var f in files)
             {
-                var fileContent = new byte[files[f].ContentLength];
-                files[f].InputStream.Read(fileContent, 0, files[f].ContentLength);
                 var req = ClassyAuth.GetAuthenticatedWebRequest(url);
-                HttpUploadFile(req, fileContent, files[f].ContentType);
+                HttpUploadFile(req, f.Data, f.ContentType);
             }
 
             // publish
@@ -175,9 +242,9 @@ namespace Classy.DotNet.Services
         }
         
         public SearchResultsView<ListingView> SearchListings(
-            string tag,
-            string listingType,
-            IDictionary<string, string> metadata,
+            string[] tags,
+            string[] listingTypes,
+            IDictionary<string, string[]> metadata,
             double? priceMin,
             double? priceMax,
             LocationView location,
@@ -189,8 +256,8 @@ namespace Classy.DotNet.Services
                 var url = SEARCH_LISTINGS_URL;
                 var data = new
                 {
-                    Tag = tag,
-                    ListingType = listingType,
+                    Tags = tags,
+                    ListingTypes = listingTypes,
                     Metadata = metadata,
                     PriceMin = priceMin,
                     PriceMax = priceMax,
@@ -229,13 +296,14 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public CommentView PostComment(string listingId, string content)
+        public CommentView PostComment(string objectId, string content, ObjectType type)
         {
             try
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
-                var url = string.Format(POST_COMMENT_URL, listingId);
-                var commentJson = client.UploadString(url, string.Concat("{\"Content\":\"", content, "\"}"));
+                var url = string.Format(POST_COMMENT_URL, type.ToString().ToLower(), objectId);
+                var commentJson = client.UploadString(url, 
+                    new { Content = content, Type = type }.ToJson());
                 var comment = commentJson.FromJson<CommentView>();
                 return comment;
             }
@@ -277,12 +345,12 @@ namespace Classy.DotNet.Services
 
         #region // collections
 
-        public CollectionView GetCollectionById(string collectionId, bool includeListings, bool increaseViewCounter, bool increaseViewCounterOnListings)
+        public CollectionView GetCollectionById(string collectionId, bool includeListings, bool increaseViewCounter, bool increaseViewCounterOnListings, bool includeComments)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var collectionJson = client.DownloadString(string.Format(GET_COLLECTION_BY_ID_URL, collectionId, includeListings, increaseViewCounter, increaseViewCounterOnListings));
+                var collectionJson = client.DownloadString(string.Format(GET_COLLECTION_BY_ID_URL, collectionId, includeListings, increaseViewCounter, increaseViewCounterOnListings, includeComments, includeComments));
                 var collection = collectionJson.FromJson<CollectionView>();
                 return collection;
             }
@@ -307,7 +375,17 @@ namespace Classy.DotNet.Services
             }
         }
 
+         public CollectionView CreateCollection(
+            string type,
+            string title,
+            string content,
+            IList<IncludedListingView> includedListings)
+        {
+            return CreateCollection(null, type, title, content, includedListings);
+        }
+
         public CollectionView CreateCollection(
+            string profileId,
             string type,
             string title,
             string content,
@@ -318,6 +396,7 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var data = new
                 {
+                    ProfileId = profileId,
                     Type = type,
                     Title = title,
                     Content = content,
@@ -374,6 +453,24 @@ namespace Classy.DotNet.Services
                 var collectionJson = client.UploadString(url, "PUT", data);
                 var collection = collectionJson.FromJson<CollectionView>();
                 return collection;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void UpdateCollectionCoverPhotos(string collectionId, string[] keys)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(UPDATE_COLLECTION_COVER_URL, collectionId);
+                var data = new
+                {
+                    Keys = keys
+                }.ToJson();
+                client.UploadString(url, "POST", data);
             }
             catch (WebException wex)
             {

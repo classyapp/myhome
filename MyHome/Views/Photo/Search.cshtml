@@ -112,7 +112,7 @@
             data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
-                @Html.Partial("PhotoGrid", Model.Results)
+                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ShowCopyrightMessages = false, ThumbnailSize = 270 })
             }
         </div>
         <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
@@ -133,12 +133,8 @@
 @section scripts {
     <script src="~/Scripts/iscroll.js"></script>
     <script>
-
         $(function () {
             resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         });
-
     </script>
-
-
 }

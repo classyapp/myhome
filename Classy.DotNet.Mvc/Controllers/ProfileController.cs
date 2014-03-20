@@ -121,6 +121,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: "SelectCoverPhotos",
+                url: "profile/{profileId}/photos",
+                defaults: new { controller = "Profile", action = "SelectCoverPhotos" },
+                namespaces: new string[] { Namespace}
+                );
+
             routes.MapRouteForSupportedLocales(
                 name: "PublicProfile",
                 url: "profile/{profileId}/{slug}",
@@ -533,11 +540,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                         location.Coords = new CoordsView { Latitude = coords.Latitude, Longitude = coords.Longitude };
+                        model.Location = "current-location";
                     }
                     System.Web.HttpCookie countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
                     if (countryCookie != null)
                     {
                         location.Address = new PhysicalAddressView { Country = countryCookie.Value };
+                        model.Location = countryCookie.Value;
                     }
                 }
                 else
@@ -570,6 +579,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
+                    false,
                     model.Page);
                 
                 model.Results = resutls.Results;
@@ -840,6 +850,44 @@ namespace Classy.DotNet.Mvc.Controllers
                     throw ex;
                 }
             } else return PartialView(model);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SelectCoverPhotos(string profileId)
+        {
+            try
+            {
+                var profileService = new ProfileService();
+                var profile = profileService.GetProfileById(profileId, false, true, false, false, false, false);
+
+                var listingService = new ListingService();
+                bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
+
+                return PartialView(listings);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SelectCoverPhotos(string profileId, string[] keys)
+        {
+            try
+            {
+                var profileService = new ProfileService();
+                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, UpdateProfileFields.CoverPhotos);
+
+                return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = profileId}) });
+            }
+            catch (ClassyException cex)
+            {
+                return Json(new { error = Localizer.Get("SelectCoverPhotos_Error") });
+            }
         }
 
         #endregion

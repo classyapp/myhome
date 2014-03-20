@@ -1,0 +1,140 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingFromUrlViewModel<MyHome.Models.PhotoMetadata>
+@{
+    Layout = null;
+    
+    var env = new
+    {
+        Culture = UICulture,
+        Currency = Request["env.currency"] ?? "ILS",
+        Country = Request["enc.locaction"] ?? "IL"
+    };
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@Localizer.Get("CreatePhotoFromUrl_PageTitle")</title>
+
+    @if (env.Culture == "he-IL")
+    {
+        @Styles.Render("~/Content/css/rtl")
+    }
+    else
+    {
+        @Styles.Render("~/Content/css/ltr")
+    }
+
+    <style>
+        body {
+            margin-top: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    @if (TempData["CreateListing_Success"] != null) {
+        @Html.Bootstrap().Alert(Localizer.Get("CreatePhotoFromUrl_Success")).Style(AlertColor.Success)
+        <script>
+            self.setInterval('window.close()', 1000)
+        </script>
+    }
+    else
+    {
+    <h1>Add Photo To Collection</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <img src="@Model.ExternalMediaUrl" class="img-responsive" />
+            </div>
+
+            <div class="col-xs-9">
+                @Html.Bootstrap().ValidationSummary()
+
+                @using (var f = Html.Bootstrap().Begin(new Form("CreateListingFromUrl", "Photo")))
+                {
+                    <input type="hidden" name="Metadata.CopyrightMessage" value="@Model.OriginUrl" />
+                    
+                    @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
+                    @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_CollectionTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hidden")           
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
+                    
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhotoFromUrl_Submit")).Style(ButtonStyle.Primary))
+                }
+            </div>
+        </div>
+    </div>
+    }
+
+    <div id="fb-root"></div>
+    <script>
+        // Additional JS functions here
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '13237044783', // App ID
+                channelUrl: '//www.homelab.com/channel.html', // Channel File
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true  // parse XFBML
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function (d) {
+            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement('script'); js.id = id; js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            ref.parentNode.insertBefore(js, ref);
+        }(document));
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/fb-login.js")
+
+    <!-- login modal -->
+    <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- will be replaced -->
+            </div>
+        </div>
+    </div>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <script>
+            $(function () { $('#login-modal').modal('show'); })
+        </script>
+    }
+
+    <script>
+        $('#CollectionId').change(function () {
+            if ($(this).val() == '') {
+                $('#Title').val('');
+                $('#title').show();
+            }
+            else {
+                $('#Title').val($(this)[0].options[$(this)[0].selectedIndex].text);
+                $('#title').hide();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -10,6 +10,7 @@ namespace Classy.DotNet.Responses
     {
         public static readonly string PhotoBook = "PhotoBook";
         public static readonly string Project = "Project";
+        public static readonly string WebPhotos = "WebPhotos";
     }
 
     public class CollectionView
@@ -30,5 +31,7 @@ namespace Classy.DotNet.Responses
         public int FavoriteCount { get; set; }
         public IList<MediaFileThumbnail> Thumbnails { get; set; }
         public IList<string> CoverPhotos { get; set; }
+        //
+        public IList<CommentView> Comments { get; set; }
     }
 }

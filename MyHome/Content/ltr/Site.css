@@ -63,6 +63,16 @@ a, a:visited
     background-color: #ddd;
 }
 
+.action-bar {
+    margin-top: -30px;
+    background-color: #fff;
+    z-index: 999;
+}
+
+.action-bar .btn {
+    margin: 10px 0;
+}
+
 .close
 {
     color: #777;
@@ -142,6 +152,21 @@ a, a:visited
 .photo.thumbnail a
 {
     text-decoration: none;
+}
+
+.photo.thumbnail .origin {
+    position: relative;
+    bottom: 70px;
+    left: 20px;
+    background-color: #000;
+    display: inline-block;
+    min-height: 18px;
+}
+.photo.thumbnail .origin a {
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    padding: 3px 5px;
 }
 
 /* profile page */
@@ -494,11 +519,10 @@ a, a:visited
     overflow: hidden;
 }
 
-    .navbar-brand .name
-    {
-        padding-top: 100px;
-        display: inline-block;
-    }
+.navbar-brand .name {
+    padding-top: 100px;
+    display: inline-block;
+}
 
 .navbar-form
 {
@@ -617,6 +641,11 @@ span.address2
     position: relative;
     padding: 0;
     border: none;
+    background-color: #f0f0f0;
+}
+
+.profile.thumbnail {
+    background-color: #fff;
 }
 
 .thumbnail,
@@ -688,14 +717,13 @@ span.address2
         top: 0;
         margin-left: 5px;
     }
-/* profile seach page */
+/* profile search page */
 .results .profile
 {
     border: solid 1px #e5e5e5;
-    height: 202px;
     margin-bottom: 10px;
     padding: 10px;
-    overflow: hidden;
+    height: 205px;
 }
 
     .results .profile .glyphicon
@@ -703,17 +731,21 @@ span.address2
         color: #47a447;
         font-size: 14px;
     }
-
     .results .profile .media
     {
-        max-height: 168px;
+        background-color: #fff;
+        max-height: 170px;
+        overflow: hidden;
+    }
+    .results .col-md-12 .profile .media {
+        width: 600px;
     }
 
     .results .profile .media-body
     {
         font-size: 12px;
+        padding: 5px 10px;
     }
-
 
 /* login */
 .fb
@@ -757,7 +789,7 @@ span.address2
 {
     position: absolute;
     right: 5px;
-    bottom: 15px;
+    bottom: 35px;
 }
 
 a.action
@@ -1080,45 +1112,20 @@ a.action
     padding: 2px 0px 0px 2px;
 }
 
-    .google-contacts .row
-    {
-        background-color: #FFF;
-        height: 50px;
-        margin-bottom: 2px;
-    }
+.google-contacts tr
+{
+    background-color: #FFF;
+}
 
-        .google-contacts .row img
-        {
-            float: left;
-        }
+.google-contacts tr .email
+{
+    cursor: pointer;
+}
 
-        .google-contacts .row .name
-        {
-            padding-left: 5px;
-        }
-
-        .google-contacts .row .name, .google-contacts .row .email
-        {
-            display: table-cell;
-            vertical-align: middle;
-            height: 50px;
-        }
-
-        .google-contacts .row .email
-        {
-            cursor: pointer;
-        }
-
-            .google-contacts .row .email span
-            {
-                padding: 4px;
-            }
-
-            .google-contacts .row .email:hover span
-            {
-                background: green;
-                color: #fff;
-            }
+.google-contacts tr.selected
+{
+    background: #d9edf7;
+}
 
 .twitter-typeahead .tt-hint
 {
@@ -1236,3 +1243,45 @@ div.thumbs3 > div.thumb
         margin-bottom: 0px;
     }
 
+ 
+/* Cover photos */
+.my-photos .thumbnail
+{
+    position: relative;
+}
+
+    .my-photos .thumbnail .select
+    {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px 10px;
+        background-color: #6086d5;
+        color: #6086d5;
+    }
+
+        .my-photos .thumbnail .select.selected .glyphicon
+        {
+            color: #fff;
+        }
+
+.cover-photos
+{
+    width: 175px;
+}
+
+    .cover-photos img
+    {
+        width: 85px;
+        height: 85px;
+        margin-bottom: 5px;
+    }
+        .cover-photos img:nth-child(odd)
+        {
+            float: left;
+        }
+        .cover-photos img:nth-child(even)
+        {
+            float: right;
+        }

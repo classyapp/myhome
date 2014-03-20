@@ -9,46 +9,87 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
+@if (TempData["PostComment_Success"] != null)
+{
+    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+}
+
 <div class="collection row">
-    <h1>@Model.Title</h1>
-    @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
-    {
-        <div class="profile-actions">
-            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditCollection")</a>
+    <div class="col-md-9">
+        <h1>@Model.Title</h1>
+        @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+        {
+            <div class="profile-actions">
+                <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditCollection")</a>
+            </div>
+        }
+        <div class="profile clearfix">
+            <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
+            <div class="details">
+                @Html.ProfileLink(Model.Profile)
+                @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
         </div>
-    }
-    <div class="profile clearfix">
-        <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
-        <div class="details">
-            @Html.ProfileLink(Model.Profile)
-            @if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+
+        <p class="article-content">@Model.Content</p>
+
+        <div class="row" id="photos">
+            @if (photos != null)
             {
-                <br />
-                <span>@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span>
+                foreach (var p in photos)
+                {
+                    if (p.ExternalMedia.Count() > 0 && !string.IsNullOrEmpty(p.ExternalMedia[0].Url))
+                    {
+                <div class="article-paragraph">
+                    <div class="article-image hide">
+                        <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" data-id="@p.Id" />
+                    </div>
+                    <div class="article-comments">@(comments.ContainsKey(p.Id) ? comments[p.Id] : string.Empty)</div>
+                    <div class="clearfix"></div>
+                </div>
+                    }
+                }
             }
         </div>
     </div>
-
-    <p class="article-content">@Model.Content</p>
-
-    <div class="row" id="photos">
-        @if (photos != null)
-        {
-            foreach (var p in photos)
-            {
-                if (p.ExternalMedia.Count() > 0 && !string.IsNullOrEmpty(p.ExternalMedia[0].Url))
-                {
-            <div class="article-paragraph">
-                <div class="article-image hide">
-                    <img src="@p.ExternalMedia[0].Url" title="@p.Title" alt="@p.Title" data-id="@p.Id" />
-                </div>
-                <div class="article-comments">@(comments.ContainsKey(p.Id) ? comments[p.Id] : string.Empty)</div>
-                <div class="clearfix"></div>
-            </div>
-                }
-            }
-        }
 </div>
+<div class="row">
+    <div class="col-md-9">
+        <p>
+            <h4 class="panel-title">@Localizer.Get("CollectionDetails_Comments")</h4>
+        </p>
+
+        @if (Model.Comments.Count == 0)
+        {
+            <p>@Localizer.Get("CollectionDetails_NoComments")</p>
+        }
+
+        @foreach (var c in Model.Comments)
+        {
+            <p class="comment">
+                <div class="media">
+                    <div class="pull-left">
+                        <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
+                    </div>
+                    <div class="media-body">
+                        <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                        <p>@c.Content</p>
+                    </div>
+                </div>
+            </p>
+        }
+
+        @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Collection")))
+        {
+            @Html.Hidden("CollectionId", Model.Id);
+            @f.FormGroup().TextArea("Content").Value(string.Empty).Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("CollectionComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CollectionDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+        }
+    </div>
 </div>
 
 @section scripts {

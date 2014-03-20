@@ -1,23 +1,27 @@
-@model IList<Classy.DotNet.Responses.ListingView>
+@model MyHome.Models.PhotoGridViewModel
 
-@if (Model.Count() > 0)
+@if (Model.Results.Count() > 0)
 {
-    foreach (var p in Model)
+    foreach (var p in Model.Results)
     {
-    <div class="col-md-4">
-        <div class="photo thumbnail">
-            @Html.Partial("PhotoActions", new Classy.DotNet.Mvc.ViewModels.Listing.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
-            <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })" title="@p.Title">
-                @Html.Thumbnail(p, 266)
-                <div class="details">
-                    <ul class="stats list-inline list-unstyled">
-                        <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
-                        <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
-                        <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
-                    </ul>
-                </div>
-            </a>
+        <div class="col-md-4">
+            <div class="photo thumbnail">
+                @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
+                <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })" title="@p.Title">
+                    @Html.Thumbnail(p, Model.ThumbnailSize)
+                    <div class="details">
+                        <ul class="stats list-inline list-unstyled">
+                            <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
+                            <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
+                            <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
+                        </ul>
+                    </div>
+                </a>
+
+                @if (Model.ShowCopyrightMessages) {
+                    @Html.Partial("PhotoCopyrightMessage", p)
+                }
+            </div>
         </div>
-    </div>
     }
 }

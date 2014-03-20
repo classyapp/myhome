@@ -1,46 +1,63 @@
 @model IList<Classy.DotNet.Responses.ProfileView>
 
+@{
+    var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+}
+
 @foreach (var p in Model)
 {
-<div class="col-md-4">
-    <div class="profile thumbnail">
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object img-circle" src="@p.AvatarUrl(50, true)" width="50" />
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">@Html.ProfileLink(p)</h4>
-                @if (p.ReviewCount > 0)
-                {
-                    <span class="stars">
-                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+    var colSize = p.ProfessionalInfo.CoverPhotos != null ? 12 : 6;
+    <div class="col-md-@colSize">
+        <div class="profile thumbnail"> 
+            <div class="pull-left">
+                <div class="media">
+                    <div class="pull-left">
+                        <img class="media-object img-circle" src="@p.AvatarUrl(50, true)" width="50" />
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">@Html.ProfileLink(p)</h4>
+                        @if (p.ReviewCount > 0)
                         {
-                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="stars">
+                                @for (var i = 1; i <= Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star"></span>
+                                }
+                                @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                }
+                                &nbsp; @p.ReviewCount @Localizer.Get("ProfileSearch_ReviewCount")
+                            </span>
                         }
-                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(p.ReviewAverageScore, 0)); i++)
+
+                        @if (p.ProfessionalInfo.CompanyContactInfo != null &&
+                            p.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                            p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                         {
-                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <div class="contact-info">
+                                <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                            </div>
                         }
-                    </span>
-                }
-                                    
-                @if (p.ProfessionalInfo.CompanyContactInfo != null &&
-                p.ProfessionalInfo.CompanyContactInfo.Location != null &&
-                p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
+                        @if (p.Metadata.ContainsKey("BusinessDescription"))
+                        {
+                            <p>
+                                @p.Metadata["BusinessDescription"]
+                            </p>
+                        }
+                    </div>
+                </div>
+
+            </div>  
+            @if (p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0)
+            {
+                <div class="cover-photos pull-right">
+                    @foreach (var photo in p.ProfessionalInfo.CoverPhotos)
                     {
-                        <div class="contact-info">
-                            <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
-                        </div>
+                        <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
                     }
-                                        
-                @if (p.Metadata.ContainsKey("BusinessDescription"))
-                {
-                    <p>
-                        @p.Metadata["BusinessDescription"]
-                    </p>
-                }
-            </div>
-        </div>
+                </div>
+            }     
+        </div>       
     </div>
-</div>
 }

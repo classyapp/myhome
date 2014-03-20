@@ -103,7 +103,7 @@ namespace Classy.DotNet.Services
                 var data = new
                 {
                     ContactInfo = fields.HasFlag(UpdateProfileFields.ContactInfo) ? contactInfo : null,
-                    ProfessionalInfo = fields.HasFlag(UpdateProfileFields.ProfessionalInfo) ? proInfo : null,
+                    ProfessionalInfo = fields.HasFlag(UpdateProfileFields.ProfessionalInfo) || fields.HasFlag(UpdateProfileFields.CoverPhotos) ? proInfo : null,
                     Metadata = fields.HasFlag(UpdateProfileFields.Metadata) ? metadata : null,
                     Fields = fields
                 }.ToJson();
@@ -123,6 +123,7 @@ namespace Classy.DotNet.Services
             LocationView location,
             IDictionary<string, string> metadata,
             bool professionalsOnly,
+            bool ignoreLocation,
             int page)
         {
             try
@@ -136,6 +137,7 @@ namespace Classy.DotNet.Services
                     Location = location,
                     Metadata = metadata,
                     ProfessionalsOnly = professionalsOnly,
+                    IgnoreLocation = ignoreLocation,
                     Page = page
                 }.ToJson();
                 var profilesJson = client.UploadString(url, data);
@@ -236,7 +238,7 @@ namespace Classy.DotNet.Services
                 var data = new
                 {
                     Password = password,
-                    Fields = 1 // Set Password
+                    Fields = UpdateProfileFields.Password // Set Password
                 }.ToJson();
                 client.UploadString(url, "PUT", data);
             }

@@ -42,7 +42,7 @@ namespace MyHome.Controllers
                 e.ReviewResponse.RevieweeProfile.ProfessionalInfo.CompanyContactInfo.Name, 
                 e.ReviewResponse.ReviewerProfile.ContactInfo.Name, 
                 e.ReviewResponse.Review.Content, 
-                string.Concat("http://www.homelab.com/", VirtualPathUtility.ToAbsolute(string.Concat("~/profile/", e.ReviewResponse.RevieweeProfile.Id, "/claim")))));
+                string.Concat("https://www.homelab.com/", VirtualPathUtility.ToAbsolute(string.Concat("~/profile/", e.ReviewResponse.RevieweeProfile.Id, "/claim")))));
             var api = new MandrillApi(MANDRILL_API_KEY);
             var sendResponse = api.SendMessage(message, "notification_new_review", null);
         }

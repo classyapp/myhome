@@ -69,10 +69,12 @@
   <ItemGroup>
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
+    <Compile Include="Attributes\RequireHttpsAttribute.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContactProfessionalArgs.cs" />
+    <Compile Include="Controllers\CreateListingFromUrlArgs.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
@@ -101,6 +103,9 @@
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
+    <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
+    <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
+    <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
     <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />
     <Compile Include="ViewModels\Listing\PhotoActionsViewModel.cs" />
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />

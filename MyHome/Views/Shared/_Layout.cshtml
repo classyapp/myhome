@@ -21,10 +21,10 @@
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
 
-    <link rel="alternate" href="http://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
+    <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.GetList("supported-cultures"))
     {
-        <link rel="alternate" hreflang="@culture.Value" href="http://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
+        <link rel="alternate" hreflang="@culture.Value" href="https://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
     }
     
     <title>@ViewBag.Title</title>
@@ -165,6 +165,14 @@
         </div>
     </nav>
 
+    <div class="action-bar">
+        <div class="container">
+            <div class="row">
+                @RenderSection("ActionBar", false)
+            </div>
+        </div>
+    </div>
+
     <div class="pre-content">
         @RenderSection("PreContent", false)
     </div>
@@ -178,7 +186,7 @@
     </div>
 
     <div class="footer text-center">
-        <p>&copy; <a href="http://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
+        <p>&copy; <a href="https://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
         <p>
             @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
         </p>
@@ -194,7 +202,7 @@
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '13237044783', // App ID
-                channelUrl: '//www.myhome.co.il/channel.html', // Channel File
+                channelUrl: '//www.homelab.com/channel.html', // Channel File
                 status: true, // check login status
                 cookie: true, // enable cookies to allow the server to access the session
                 xfbml: true  // parse XFBML
@@ -310,9 +318,21 @@
             });
         };
 
-        var msgConfirm = '@Localizer.Get("Global_Message_Confirm")';
-
         Classy.AcquireGPSCoordinates();
+    </script>
+
+    <script type="text/javascript">
+        Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> { 
+                { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") }, 
+                { "DeleteCollection_ConfirmTitle", Localizer.Get("DeleteCollection_ConfirmTitle")},
+                { "DeleteCollection_ConfirmText", Localizer.Get("DeleteCollection_ConfirmText")},
+                { "DeleteProject_ConfirmTitle", Localizer.Get("DeleteProject_ConfirmTitle")},
+                { "DeleteProject_ConfirmText", Localizer.Get("DeleteProject_ConfirmText")},
+                { "CollectionRemovephoto_ConfirmTitle", Localizer.Get("CollectionRemovephoto_ConfirmTitle")},
+                { "CollectionRemovephoto_ConfirmText", Localizer.Get("CollectionRemovephoto_ConfirmText")},
+                { "Deletephoto_ConfirmTitle", Localizer.Get("Deletephoto_ConfirmTitle")},
+                { "Deletephoto_ConfirmText", Localizer.Get("Deletephoto_ConfirmText")},
+        })));
     </script>
 
     @RenderSection("scripts", required: false)
