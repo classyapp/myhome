@@ -63,6 +63,16 @@ a, a:visited
     background-color: #ddd;
 }
 
+.action-bar {
+    margin-top: -30px;
+    background-color: #fff;
+    z-index: 999;
+}
+
+.action-bar .btn {
+    margin: 10px 0;
+}
+
 .close
 {
     color: #777;
