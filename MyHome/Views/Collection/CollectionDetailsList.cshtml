@@ -9,6 +9,11 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
+@if (TempData["PostComment_Success"] != null)
+{
+    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+}
+
 <div class="collection row">
     <h1>@Model.Title</h1>
     @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
