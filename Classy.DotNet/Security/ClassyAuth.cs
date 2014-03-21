@@ -379,6 +379,8 @@ namespace Classy.DotNet.Security
                     }
                 }
                 cookie.Domain = uri.Host;
+                cookie.HttpOnly = true;
+                cookie.Secure = true;
                 cookieCollection.Add(ToHttpCookie(cookie));
             }
         }
