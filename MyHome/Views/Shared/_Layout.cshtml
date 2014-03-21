@@ -307,6 +307,9 @@
         function CloseModal(data) { 
             if (data.IsValid) {
                 $('.modal').modal('hide');
+                if (data.SuccessMessage){
+                    $(".ajax-alert").html("<div class=\"alert alert-success\">" + data.SuccessMessage + "</div>");
+                }
                 return true;
             }
         };

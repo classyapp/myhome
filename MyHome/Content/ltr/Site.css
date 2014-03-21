@@ -1296,3 +1296,12 @@ div.thumbs4 > div.thumb
         {
             float: right;
         }
+
+.edit-actions
+{
+    margin-top: 20px;
+}
+.form-buttons
+{
+    text-align: right;
+}

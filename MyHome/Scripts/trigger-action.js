@@ -195,4 +195,12 @@ function bindTriggerActions(context) {
             }
         });
     });
+
+    $('[trigger-profile-action="translate"]', context).click(function (e) {
+        var objectId = $(this).attr('object-id');
+        var objectType = $(this).attr('object-type');
+        $('#translate-modal')
+            .data("remote", "/" + objectType + "/" + objectId + "/translate")
+            .modal('show');
+    });
 }

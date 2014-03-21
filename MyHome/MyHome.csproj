@@ -18,6 +18,9 @@
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -492,9 +495,9 @@
     </Content>
     <Content Include="Views\Photo\CreatePhotoFromUrl.cshtml" />
     <Content Include="Views\Shared\PhotoCopyrightMessage.cshtml" />
+    <Content Include="Views\Profile\Translate.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\ViewModels\" />
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -509,6 +512,9 @@
       <Project>{77ef7d41-3685-4b0e-91e7-3121dc4f4695}</Project>
       <Name>Classy.DotNet</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\ViewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

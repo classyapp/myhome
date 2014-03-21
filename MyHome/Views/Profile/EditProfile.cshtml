@@ -18,9 +18,16 @@
 
     <div class="col-md-3">
         <img id="profileImage" class="img-circle" src="@Model.AvatarUrl" width="150">
+        @if (Model.IsProfessional && User.Identity.IsAuthenticated && Model.ProfileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+        {
+            <div class="edit-actions">
+                <a class="btn btn-default" trigger-profile-action="translate" object-id="@Model.ProfileId" object-type="profile"><i class="glyphicon glyphicon-globe"></i> @Localizer.Get("EditProfile_Translate")</a>
+            </div>
+        }
     </div>
 
     <div class="col-md-9 main">
+        <div class="ajax-alert"></div>
         @Html.Bootstrap().ValidationSummary()
         @using (var f = Html.Bootstrap().Begin(new Form("EditProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
         {
@@ -101,6 +108,14 @@
 <div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword", new { ProfileId = Model.ProfileId })" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content" id="change-password-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
             <!-- will be replaced -->
         </div>
     </div>
