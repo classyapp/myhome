@@ -23,9 +23,6 @@ namespace MyHome.Models
         [Display(Name = "PhotoMetadata_Terms")]
         [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
         public string AgreeToTerms { get; set; }
-        [Display(Name = "PhotoMetadata_Rights")]
-        [BooleanRequired(ErrorMessage = "PhotoMetadata_Rights_Required")]
-        public string AgreeToRights { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {

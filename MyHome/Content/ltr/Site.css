@@ -2,7 +2,7 @@
 body
 {
     font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
-    padding-top: 90px;
+    padding-top: 120px;
     background: #f0f0f0;
 }
 
@@ -940,12 +940,12 @@ a.action
     .btn-fb-login:before
     {
         content: '';
-        width: 24px;
+        width: 16px;
         height: 24px;
         background: url(/img/fb.png) left top no-repeat;
         border-right: 1px rgba(255,255,255,0.18) solid;
         display: inline-block;
-        margin-right: 16px;
+        margin-right: 8px;
         vertical-align: -7px;
     }
 

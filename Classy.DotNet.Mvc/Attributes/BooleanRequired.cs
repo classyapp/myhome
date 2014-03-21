@@ -16,7 +16,9 @@ namespace Classy.DotNet.Mvc.Attributes
 
         public override bool IsValid(object value)
         {
-            return value != null && Boolean.Parse((string)value) == true;
+            if (value == null) return false;
+            if (value.GetType() == typeof(System.Boolean)) return (bool)value;
+            return Boolean.Parse(value.ToString()) == true;
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
