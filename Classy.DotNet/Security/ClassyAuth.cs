@@ -392,7 +392,8 @@ namespace Classy.DotNet.Security
                 Domain = cookie.Domain,
                 Expires = cookie.Expires,
                 Path = cookie.Path,
-                Secure = cookie.Secure
+                Secure = cookie.Secure,
+                HttpOnly = cookie.HttpOnly
             };
         }
 
@@ -405,7 +406,8 @@ namespace Classy.DotNet.Security
                 Domain = newDomain,
                 Expires = cookie.Expires,
                 Path = cookie.Path,
-                Secure = cookie.Secure
+                Secure = cookie.Secure,
+                HttpOnly = cookie.HttpOnly
             };
         }
         
