@@ -36,9 +36,12 @@
                 <div>
                     @Html.Bootstrap().SubmitButton().Text(Localizer.Get("Register_Submit")).Style(ButtonStyle.Primary)
                 </div>
+                
+                <br /><br /><br /><br />
             }
         </div>
     </div>
+
 </div>
 
 @using (var modal = Html.Bootstrap().Begin(new Modal().Id("more-details")))
