@@ -1249,17 +1249,6 @@ div.thumbs3 > div.thumb
         margin-bottom: 0px;
     }
 
-div.thumbs4 > div.thumb
-{
-    width: 24%;
-    height: 31.7%;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-color: #fff;
-    display: inline-block;
-    float: right;
-    margin-bottom: 2%;
-}
  
 /* Cover photos */
 .my-photos .thumbnail
