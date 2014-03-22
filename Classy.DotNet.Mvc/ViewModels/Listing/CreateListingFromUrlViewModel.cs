@@ -15,7 +15,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string CollectionId { get; set; }
         [Required(ErrorMessage = "CreateListingFromUrl_CollectionNameRequired")]
         public string Title { get; set; }
-        [Display(Name = "CreateListingFromUrl_Note")]
+        [Display(Name = "CreateListingFromUrl_Content")]
         public string Content { get; set; }
         public PricingViewModel PricingInfo { get; set; }
         public LocationView Location { get; set; }
