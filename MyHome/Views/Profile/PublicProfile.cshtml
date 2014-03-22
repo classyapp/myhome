@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = string.Concat(Model.Profile.GetProfileName(), " - ", Model.Profile.IsProfessional ? Model.Profile.GetProfessionalAddressOneLine() : Localizer.Get("PublicProfile_MyHomeLabProfile"));
-    if (Model.Profile.IsProfessional)
+    if (Model.Profile.IsProfessional && !string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription))
     {
         ViewBag.MetaDescription = Model.TypedMetadata.BusinessDescription;
     }
@@ -101,24 +101,21 @@
                         @if (Model.Profile.IsProfessional) { <small class="pull-left"><span class="label label-default">PRO</span></small> }
                     </div>
 
-                    @if (Model.Profile.IsProfessional)
+                    @if (Model.Profile.IsProfessional && Model.Profile.ReviewCount > 0)
                     {
                         <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                            @if (Model.Profile.ReviewCount > 0)
-                            {
-                                <span class="stars">
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </span>
-                                <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
-                                <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
-                            }
+                            <span class="stars">
+                                @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star"></span>
+                                }
+                                @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                {
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                }
+                            </span>
+                            <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
+                            <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
                             <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
 
                             @if (Model.ReviewSubCriteria != null)
@@ -171,7 +168,6 @@
                                         </dd>
                                     </dl>
                                 </div>
-                                
                             }
                         </div>
                     }
@@ -210,7 +206,7 @@
         <div class="col-md-9">
             @if (Model.Profile.IsProfessional)
             {
-                <div class="description" itemprop="description">
+                <div>
                     @if (!string.IsNullOrEmpty(Model.TypedMetadata.ServicesProvided))
                     {
                         <p>
@@ -232,7 +228,7 @@
                         <p>
                             <strong>@Localizer.Get("Profile_BusinessDescription")</strong>
                             <br />
-                            @Model.TypedMetadata.BusinessDescription
+                            <span class="description" itemprop="description">@Model.TypedMetadata.BusinessDescription</span>
                         </p>
                     }
                 </div>
@@ -276,27 +272,25 @@
                                 }
                             </div>
                             <div class="tab-pane @(projects.Count() == 0 ? "active" : "")" id="webphotos">
-                                <div class="col-md-4">
-                                    <p>@Localizer.Get("PublicProfile_WhatAreWebPhotos")</p>
-                                    @if (webphotos.Count() > 0)
+                                <p>@Localizer.Get("PublicProfile_WhatAreWebPhotos")</p>
+                                @if (webphotos.Count() > 0)
+                                {
+                                    foreach (var p in webphotos)
                                     {
-                                        foreach (var p in webphotos)
-                                        {
-                                            <div class="photo thumbnail">
-                                                <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
-                                                    @Html.Partial("Thumbnails", p.CoverPhotos)
-                                                    <div class="details">
-                                                        <ul class="stats list-inline list-unstyled">
-                                                            <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
-                                                            <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
-                                                            <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
-                                                        </ul>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        }
+                                        <div class="photo thumbnail">
+                                            <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
+                                                @Html.Partial("Thumbnails", p.CoverPhotos)
+                                                <div class="details">
+                                                    <ul class="stats list-inline list-unstyled">
+                                                        <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
+                                                        <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
+                                                        <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
+                                                    </ul>
+                                                </div>
+                                            </a>
+                                        </div>
                                     }
-                                </div>
+                                }
                             </div>
                         } 
 
@@ -357,7 +351,7 @@
 
                         @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
                         {
-                            <div class="contact-info"><i class="glyphicon glyphicon-globe"></i><a href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank"><span itemprop="url">@Localizer.Get("PublicProfile_VisitWebsite")</span></a></div>
+                            <div class="contact-info"><i class="glyphicon glyphicon-globe"></i><a itemprop="url" href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank" rel="nofollow">@Localizer.Get("PublicProfile_VisitWebsite")</a></div>
                         }
 
                         @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
@@ -365,7 +359,7 @@
                             <div class="contact-info">
                                 <i class="glyphicon glyphicon-tag"></i>
                                 <span>
-                                    <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })" itemprop="url"><span itemprop="title">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</span></a>
+                                    <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</a>
                                 </span>
 
                             </div>
