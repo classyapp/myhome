@@ -11,7 +11,7 @@
         {
             if (photoMetadata.CopyrightMessage.StartsWith("http"))
             {
-                <a href="@photoMetadata.CopyrightMessage" target="_blank">@Localizer.Get("PhotoCopyrightMessage_VisitWebsite")</a>
+                <a href="@photoMetadata.CopyrightMessage" target="_blank" rel="nofollow">@Localizer.Get("PhotoCopyrightMessage_VisitWebsite")</a>
             }
             else
             {
