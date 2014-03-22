@@ -64,7 +64,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else
                 {
-                    model.ResourceValue = Localizer.Get(model.ResourceKey, model.SelectedCulture);
+                    var service = new LocalizationService();
+                    var resource = service.GetResourceByKey(resourceKey, false);
+                    if (resource != null && resource.Values.ContainsKey(model.SelectedCulture))
+                    {
+                        model.ResourceValue = resource.Values[model.SelectedCulture];
+                    }
+                    else model.ResourceValue = null;
                 }
             }
             return View(model);
@@ -77,7 +83,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [ValidateInput(false)]
         public ActionResult ManageResources(ManageResourcesViewModel model, object dummy)
         {
-            model.ResourceValue = HttpUtility.HtmlEncode(model.ResourceValue);
+            model.ResourceValue = model.ResourceValue;
             model.ResourceKeys = Localizer.GetAllKeys();
             model.SelectedCulture = GetEnvFromContext().CultureCode;
             var service = new LocalizationService();
