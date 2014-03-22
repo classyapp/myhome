@@ -31,13 +31,13 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public LocalizationResourceView GetResourceByKey(string key)
+        public LocalizationResourceView GetResourceByKey(string key, bool processMarkdown = true)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
                 var url = string.Format(RESOURCE_URL, key);
-                var resourceJson = client.DownloadString(url);
+                var resourceJson = client.DownloadString(string.Concat(url, "?processMarkdown=", processMarkdown.ToString()));
                 var resource = resourceJson.FromJson<LocalizationResourceView>();
                 return resource;
             }
