@@ -2,7 +2,7 @@
 body
 {
     font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
-    padding-top: 120px;
+    padding-top: 90px;
     background: #f0f0f0;
 }
 
@@ -65,12 +65,17 @@ a, a:visited
 
 .action-bar {
     margin-top: -30px;
-    background-color: #fff;
+    background-color: #428bca;
     z-index: 999;
+    margin-bottom: 30px;
 }
 
 .action-bar .btn {
     margin: 10px 0;
+}
+
+.action-bar .btn-primary {
+    border: none;       
 }
 
 .close
@@ -264,7 +269,8 @@ a, a:visited
         padding: 20px;
     }
 
-        .home-banner .slogan h1
+        .home-banner .slogan h1,
+        .home-banner .slogan h1 p
         {
             text-align: left;
             font-size: 36px;

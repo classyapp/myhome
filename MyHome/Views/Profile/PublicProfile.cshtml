@@ -20,6 +20,25 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
+@section ActionBar {
+    @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
+    {
+        <div class="profile-actions">
+            <a href="@Url.RouteUrlForCurrentLocale("EditProfile", new { ProfileId = Model.Profile.Id })" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
+            @if (Model.Profile.IsProfessional)
+            {
+                <a href="mailto:?subject=@(Localizer.Get("Profile_Pro_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+                <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>
+                <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_SelectCoverPhotos")</a>
+            }
+            else
+            {
+                <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
+            }
+        </div>
+    }
+}
+
 <div class="row">
     <div class="col-md-12">
         <div id="contactSuccess" class="alert alert-success alert-dismissable hidden">
@@ -153,23 +172,6 @@
                                     </dl>
                                 </div>
                                 
-                            }
-                        </div>
-                    }
-
-                    @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
-                    {
-                        <div class="profile-actions">
-                            <a href="@Url.RouteUrlForCurrentLocale("EditProfile", new { ProfileId = Model.Profile.Id })" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditProfile")</a>
-                            @if (Model.Profile.IsProfessional)
-                            {
-                                <a href="mailto:?subject=@(Localizer.Get("Profile_Pro_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i>@Localizer.Get("Profile_MailLink")</a>
-                                <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-comment"></i>@Localizer.Get("Profile_AskForReview")</a>
-                                <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-picture"></i>@Localizer.Get("Profile_SelectCoverPhotos")</a>
-                            }
-                            else
-                            {
-                                <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-envelope"></i>@Localizer.Get("Profile_MailLink")</a>
                             }
                         </div>
                     }
