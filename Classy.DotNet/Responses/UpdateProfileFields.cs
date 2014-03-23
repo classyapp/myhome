@@ -14,7 +14,7 @@ namespace Classy.DotNet.Responses
         ContactInfo = 2,
         ProfessionalInfo = 4,
         Metadata = 8,
-        Password = 16,
+        ProfileImage = 16,
         CoverPhotos = 32
     }
 }
