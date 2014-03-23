@@ -4,6 +4,15 @@
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
 }
 
+@section ActionBar {
+    <a href="#" onclick="ChangePassword()" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-lock"></i> @Localizer.Get("Profile_ChangePassword")</a>
+
+    <button class="update-image btn btn-primary btn-sm ">
+        <i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_Change_Photo")
+        <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage", new { ProfileId = Model.ProfileId })" data-profile-id="@Model.ProfileId" value="" onchange="ChangeProfilePhoto(this)" />
+    </button>
+} 
+        
 <div class="row">
     <div class="col-md-12">
         <div id="changePasswordSuccess" class="alert alert-success alert-dismissable hidden">
@@ -39,15 +48,6 @@
             
             @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
            
-            <div>
-                <a href="#" onclick="ChangePassword()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-lock"></i> @Localizer.Get("Profile_ChangePassword")</a>
-
-                <button class="update-image btn btn-default btn-sm ">
-                    <i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_Change_Photo")
-                    <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage", new { ProfileId = Model.ProfileId })" data-profile-id="@Model.ProfileId" value="" onchange="ChangeProfilePhoto(this)" />
-                </button>
-            </div>
-            
             <p>&nbsp;</p>
             <h4>@Localizer.Get("EditProfile_ContactDetails")</h4>
             <hr/>
