@@ -238,7 +238,7 @@ namespace Classy.DotNet.Services
                 var data = new
                 {
                     Password = password,
-                    Fields = UpdateProfileFields.Password // Set Password
+                    Fields = UpdateProfileFields.SetPassword // Set Password
                 }.ToJson();
                 client.UploadString(url, "PUT", data);
             }
