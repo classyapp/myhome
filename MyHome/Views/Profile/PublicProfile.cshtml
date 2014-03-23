@@ -346,18 +346,18 @@
 
                         @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone))
                         {
-                            <div class="contact-info"><i class="glyphicon glyphicon-earphone"></i><span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
+                            <div class="contact-info"><i class="glyphicon glyphicon-earphone"></i>&nbsp;<span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
                         }
 
                         @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
                         {
-                            <div class="contact-info"><i class="glyphicon glyphicon-globe"></i><a itemprop="url" href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank" rel="nofollow">@Localizer.Get("PublicProfile_VisitWebsite")</a></div>
+                            <div class="contact-info"><i class="glyphicon glyphicon-globe"></i>&nbsp;<a itemprop="url" href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank" rel="nofollow">@Localizer.Get("PublicProfile_VisitWebsite")</a></div>
                         }
 
                         @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
                         {
                             <div class="contact-info">
-                                <i class="glyphicon glyphicon-tag"></i>
+                                <i class="glyphicon glyphicon-tag"></i>&nbsp;
                                 <span>
                                     <a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</a>
                                 </span>
@@ -370,7 +370,7 @@
                                         Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                         {
                             <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                                <i class="glyphicon glyphicon-map-marker"></i><span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br />
+                                <i class="glyphicon glyphicon-map-marker"></i>&nbsp;<span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br />
                                 <span class="address2">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,</span> <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> <span>@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country</span>
                             </div>
                         }
