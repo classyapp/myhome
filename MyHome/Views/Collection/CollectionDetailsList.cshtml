@@ -14,15 +14,32 @@
     @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
 }
 
+@section ActionBar {
+    @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
+    {
+        <a href="@Url.RouteUrl("EditCollection")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditCollection")</a>
+        if (Model.Type == "Project")
+        {
+            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-project-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteProject")</a>
+        }
+        else
+        {
+            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
+        }
+        if (Model.Type == "Project")
+        {
+            <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Project_SelectCoverPhotos")</a>
+        }
+        else
+        {
+            <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Collection_SelectCoverPhotos")</a>
+        }
+    }
+}
+
 <div class="collection row">
     <div class="col-md-9">
         <h1>@Model.Title</h1>
-        @if (User.Identity.IsAuthenticated && Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
-        {
-            <div class="profile-actions">
-                <a href="@Url.RouteUrl("EditCollection")" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i>@Localizer.Get("Profile_EditCollection")</a>
-            </div>
-        }
         <div class="profile clearfix">
             <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
             <div class="details">

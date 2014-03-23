@@ -65,12 +65,17 @@ a, a:visited
 
 .action-bar {
     margin-top: -30px;
-    background-color: #fff;
+    background-color: #428bca;
     z-index: 999;
+    margin-bottom: 30px;
 }
 
 .action-bar .btn {
     margin: 10px 0;
+}
+
+.action-bar .btn-primary {
+    border: none;       
 }
 
 .close
@@ -264,7 +269,8 @@ a, a:visited
         padding: 20px;
     }
 
-        .home-banner .slogan h1
+        .home-banner .slogan h1,
+        .home-banner .slogan h1 p
         {
             text-align: left;
             font-size: 36px;
@@ -940,12 +946,12 @@ a.action
     .btn-fb-login:before
     {
         content: '';
-        width: 24px;
+        width: 16px;
         height: 24px;
         background: url(/img/fb.png) left top no-repeat;
         border-right: 1px rgba(255,255,255,0.18) solid;
         display: inline-block;
-        margin-right: 16px;
+        margin-right: 8px;
         vertical-align: -7px;
     }
 

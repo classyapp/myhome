@@ -5,22 +5,24 @@ Classy.AjaxReconnect = function () {
 }
 
 Classy.AcquireGPSCoordinates = function () {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function successFunction(position) {
-            var lat = position.coords.latitude;
-            var long = position.coords.longitude;
-            Classy.SetCookie(Classy.Env.GPSCookieName, JSON.stringify({ latitude: lat, longitude: long }), 365);
-            $(document).trigger("classy.gps.available", { Available: true, Latitude: lat, Longitude: long });
-            Classy.Env.GPSEnabled = true;
-        }, function () {
-            Classy.SetCookie(Classy.Env.GPSCookieName, "", -365);
+    if (Classy.GetCookie(Classy.Env.GPSCookieName) == null) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function successFunction(position) {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                Classy.SetCookie(Classy.Env.GPSCookieName, JSON.stringify({ latitude: lat, longitude: long }), 365);
+                $(document).trigger("classy.gps.available", { Available: true, Latitude: lat, Longitude: long });
+                Classy.Env.GPSEnabled = true;
+            }, function () {
+                Classy.SetCookie(Classy.Env.GPSCookieName, "", 7);
+                $(document).trigger("classy.gps.available", { Available: false });
+                Classy.Env.GPSEnabled = false;
+            });
+        } else {
+            Classy.SetCookie(Classy.Env.GPSCookieName, "", 7);
             $(document).trigger("classy.gps.available", { Available: false });
             Classy.Env.GPSEnabled = false;
-        });
-    } else {
-        Classy.SetCookie(Classy.Env.GPSCookieName, "", -365);
-        $(document).trigger("classy.gps.available", { Available: false });
-        Classy.Env.GPSEnabled = false;
+        }
     }
 };
 
@@ -40,6 +42,8 @@ Classy.GetCookie = function (cname)
         var c = ca[i].trim();
         if (c.indexOf(name)==0) return c.substring(name.length,c.length);
     }
+
+    return null;
 }
 
 Classy.ParseQueryString = function () {

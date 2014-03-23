@@ -5,7 +5,7 @@
     var styles = Localizer.GetList("room-styles");
 
     ViewBag.Title = string.Format(Localizer.Get("PhotoSearch_PageTitle"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
-    ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : Localizer.Get("PhotoSearch_Home"), !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
 }
 
 <div class="row">

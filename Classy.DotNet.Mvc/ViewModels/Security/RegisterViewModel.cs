@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Classy.DotNet.Mvc.Attributes;
 
 namespace Classy.DotNet.Mvc.ViewModels.Security
 {
@@ -21,6 +22,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Security
         [Display(Name="Register_Password")]
         [Required(ErrorMessage="Register_Password_Required")]
         public string Password { get; set; }
+        [BooleanRequired(ErrorMessage = "Register_AgreeToTerms_Required")]
+        public bool AgreeToTerms { get; set; }
 
         public TMetadata Metadata { get; set; }
     }

@@ -23,9 +23,6 @@ namespace MyHome.Models
         [Display(Name = "PhotoMetadata_Terms")]
         [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
         public string AgreeToTerms { get; set; }
-        [Display(Name = "PhotoMetadata_Rights")]
-        [BooleanRequired(ErrorMessage = "PhotoMetadata_Rights_Required")]
-        public string AgreeToRights { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -34,7 +31,6 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
             if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
             if (!string.IsNullOrEmpty(AgreeToTerms)) list.Add("AgreeToTerms", AgreeToTerms);
-            if (!string.IsNullOrEmpty(AgreeToRights)) list.Add("AgreeToRights", AgreeToRights);
             return list;
         }
 
@@ -45,7 +41,6 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
             if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
             output.AgreeToTerms = (metadata.ContainsKey("AgreeToTerms") ? metadata["AgreeToTerms"] : true.ToString());
-            output.AgreeToRights = (metadata.ContainsKey("AgreeToRights") ? metadata["AgreeToRights"] : true.ToString());
             return output;
         }
     

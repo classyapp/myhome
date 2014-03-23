@@ -379,6 +379,8 @@ namespace Classy.DotNet.Security
                     }
                 }
                 cookie.Domain = uri.Host;
+                //cookie.HttpOnly = true;
+                //cookie.Secure = true;
                 cookieCollection.Add(ToHttpCookie(cookie));
             }
         }
@@ -389,8 +391,9 @@ namespace Classy.DotNet.Security
             {
                 Domain = cookie.Domain,
                 Expires = cookie.Expires,
-                Path = cookie.Path,
-                Secure = cookie.Secure
+                Path = cookie.Path//,
+                //Secure = cookie.Secure,
+                //HttpOnly = cookie.HttpOnly
             };
         }
 
@@ -402,8 +405,9 @@ namespace Classy.DotNet.Security
                 Value = cookie.Value,
                 Domain = newDomain,
                 Expires = cookie.Expires,
-                Path = cookie.Path,
-                Secure = cookie.Secure
+                Path = cookie.Path//,
+                //Secure = cookie.Secure,
+                //HttpOnly = cookie.HttpOnly
             };
         }
         

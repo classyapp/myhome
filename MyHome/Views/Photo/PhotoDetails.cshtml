@@ -31,13 +31,10 @@
 
         <hr/>
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
-        <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-            <span class="hide">
-                <a href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new {})" itemprop="url"><span itemprop="title">@Localizer.Get("Breadcrumb_AllRooms")</span></a>
-            </span>
+        <div>
             <dl class="dl-horizontal">
                 <dt>@Localizer.Get("PhotoDetails_Room")</dt>
-                <dd><a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, null) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a></dd>
+                <dd><a href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, null) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a></dd>
                 <dt>@Localizer.Get("PhotoDetails_Style")</dt>
                 <dd>@Html.RouteLinkForCurrentLocale(styles.Single(x => x.Value == Model.Metadata.Style).Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = Model.Metadata.Style }.GetSearchFilterSlug(null, null) })</dd>
                 <dt>@Localizer.Get("PhotoDetails_Keywords")</dt>

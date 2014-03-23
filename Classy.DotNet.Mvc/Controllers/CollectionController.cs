@@ -75,6 +75,7 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [ImportModelStateFromTempData]
         public ActionResult CollectionDetails(string collectionId, string view)
         {
             try
@@ -94,7 +95,7 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        //[ExportModelStateToTempData]
+        [ExportModelStateToTempData]
         public ActionResult PostComment(string collectionId, string content)
         {
             try
