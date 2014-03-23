@@ -16,21 +16,16 @@
 @section ActionBar {
     @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
     {
-        <a href="@Url.RouteUrl("EditCollection")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditCollection")</a>
         if (Model.Type == "Project")
         {
+            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProject")</a>
             <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-project-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteProject")</a>
-        }
-        else
-        {
-            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
-        }
-        if (Model.Type == "Project")
-        {
             <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Project_SelectCoverPhotos")</a>
         }
         else
         {
+            <a href="@Url.RouteUrl("EditCollection")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditCollection")</a>
+            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
             <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Collection_SelectCoverPhotos")</a>
         }
     }
