@@ -496,6 +496,7 @@
     <Content Include="Views\Photo\CreatePhotoFromUrl.cshtml" />
     <Content Include="Views\Shared\PhotoCopyrightMessage.cshtml" />
     <Content Include="Views\Profile\Translate.cshtml" />
+    <Content Include="Views\Photo\TranslatePhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

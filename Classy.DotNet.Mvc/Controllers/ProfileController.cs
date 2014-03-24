@@ -93,13 +93,6 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
-            routes.MapRouteWithName(
-                name: "DeleteTranslation",
-                url: "profile/{profileId}/translate/{cultureCode}",
-                defaults: new { controller = "Profile", action = "DeleteTranslation", cultureCode = UrlParameter.Optional },
-                namespaces: new string[] { Namespace }
-            );
-
             routes.MapRouteForSupportedLocales(
                 name: "SearchProfiles",
                 url: "profile/search/{*filters}",

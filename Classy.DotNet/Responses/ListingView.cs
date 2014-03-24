@@ -53,5 +53,7 @@ namespace Classy.DotNet.Responses
         public bool HasSchedulingInfo { get; set; }
         public TimeslotScheduleView SchedulingTemplate { get; set; }
         public IList<BookedTimeslotView> BookedTimeslots { get; set; }
+
+        public string DefaultCulture { get; set; }
     }
 }
