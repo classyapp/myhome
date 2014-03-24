@@ -17,8 +17,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string Title { get; set; }
         [Display(Name = "CreateListingFromUrl_Content")]
         public string Content { get; set; }
-        public PricingViewModel PricingInfo { get; set; }
-        public LocationView Location { get; set; }
         public string OriginUrl { get; set; }
         public string ExternalMediaUrl { get; set; }
 
