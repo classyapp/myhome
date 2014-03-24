@@ -79,6 +79,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = ListingTypeName, action = "DeleteListing" },
                 namespaces: new string[] { Namespace }
             );
+            
+            routes.MapRoute(
+                name: string.Concat("Translate", ListingTypeName),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/translate/{cultureCode}"),
+                defaults: new { controller = ListingTypeName, action = string.Concat("Translate", ListingTypeName), cultureCode = UrlParameter.Optional },
+                namespaces: new string[] { Namespace }
+            );
 
             routes.MapRouteForSupportedLocales(
                 name: string.Concat(ListingTypeName, "Details"),
@@ -537,6 +544,63 @@ namespace Classy.DotNet.Mvc.Controllers
             catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult TranslatePhoto(string listingId, string cultureCode)
+        {
+            var listingService = new ListingService();
+            TranslatePhotoViewModel model = null;
+            ListingTranslationView translation = null;
+
+            if (cultureCode == null)
+            {
+                var listing = listingService.GetListingById(listingId, false, false, false, false, false);
+                model = new TranslatePhotoViewModel { ListingId = listingId, CultureCode = listing.DefaultCulture, Title = listing.Title, Content = listing.Content };
+            }
+            else
+            {
+                translation = listingService.GetTranslation(listingId, cultureCode);
+            }
+
+            if (Request.Headers["Accept"].ToLower().Contains("text/html"))
+            {
+                return PartialView(model);
+            }
+            else
+            {
+                return Json(translation, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult TranslatePhoto(TranslatePhotoViewModel model)
+        {
+            try
+            {
+                var listingService = new ListingService();
+                if (string.IsNullOrEmpty(model.Action))
+                {
+                    listingService.SaveTranslation(model.ListingId, new ListingTranslationView
+                    {
+                        Culture = model.CultureCode,
+                        Title = model.Title, 
+                        Content = model.Content
+                    });
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditListing_SaveTranslation_Success") });
+                }
+                else
+                {
+                    listingService.DeleteTranslation(model.ListingId, model.CultureCode);
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditListing_DeleteTranslation_Success") });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

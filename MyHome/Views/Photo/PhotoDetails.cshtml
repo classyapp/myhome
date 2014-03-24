@@ -55,6 +55,7 @@
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
+            <div class="ajax-alert"></div>
             <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
             <div class="details">
                 @Html.ProfileLink(Model.Listing.Profile)
@@ -68,7 +69,7 @@
         
         <hr />
 
-        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
+        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true, ShowTranslate = true })
 
         <hr />
         <div>
@@ -102,6 +103,14 @@
                 @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
         </div>
     </div>
 </div>

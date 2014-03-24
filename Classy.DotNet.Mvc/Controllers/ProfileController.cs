@@ -86,6 +86,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "TranslateProfile",
+                url: "profile/{profileId}/translate/{cultureCode}",
+                defaults: new { controller = "Profile", action = "Translate", cultureCode = UrlParameter.Optional },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "SearchProfiles",
                 url: "profile/search/{*filters}",
@@ -887,6 +894,62 @@ namespace Classy.DotNet.Mvc.Controllers
             catch (ClassyException cex)
             {
                 return Json(new { error = Localizer.Get("SelectCoverPhotos_Error") });
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Translate(string profileId, string cultureCode)
+        {
+            var profileService = new ProfileService();
+            TranslateProfileViewModel model = null;
+            ProfileTranslationView translation = null;
+
+            if (cultureCode == null)
+            {
+                var profile = profileService.GetProfileById(profileId);
+                model = new TranslateProfileViewModel { ProfileId = profileId, CultureCode = profile.DefaultCulture, BusinessDescription = profile.Metadata["BusinessDescription"] };
+            }
+            else
+            {
+                translation = profileService.GetTranslation(profileId, cultureCode);
+            }
+
+            if (Request.Headers["Accept"].ToLower().Contains("text/html"))
+            {
+                return PartialView(model);
+            }
+            else
+            {
+                return Json(translation, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Translate(TranslateProfileViewModel model)
+        {
+            try
+            {
+                var profileService = new ProfileService();
+                if (string.IsNullOrEmpty(model.Action))
+                {
+                    profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
+                    {
+                        Culture = model.CultureCode,
+                        Metadata = new Dictionary<string, string> { { "BusinessDescription", model.BusinessDescription } }
+                    });
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
+                }
+                else
+                {
+                    profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

@@ -24,6 +24,7 @@ namespace Classy.DotNet.Services
         private readonly string GET_GOOGLE_CONTACTS_URL = ENDPOINT_BASE_URL + "/profile/social/google/contacts";
         private readonly string CHANGE_PASSWORD_URL = ENDPOINT_BASE_URL + "/profile/{0}";
         private readonly string CHANGE_IMAGE_URL = ENDPOINT_BASE_URL + "/profile/{0}";
+        private readonly string PROFILE_TRANSLATION_URL = ENDPOINT_BASE_URL + "/profile/{0}/translation/{1}";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -281,7 +282,7 @@ namespace Classy.DotNet.Services
 
             request.ContentType = string.Format("multipart/form-data;boundary={0}", boundary);
             request.Method = "PUT";
-            
+
             // Build Contents for Post
             string header = string.Format("--{0}", boundary);
             string footer = header + "--";
@@ -304,7 +305,7 @@ namespace Classy.DotNet.Services
                 contents2.AppendLine(fields[field].ToString());
             }
             // Form Field 1
-            
+
             // Footer
             contents2.AppendLine(footer);
 
@@ -333,5 +334,58 @@ namespace Classy.DotNet.Services
         }
 
         #endregion
+
+        public ProfileTranslationView GetTranslation(string profileId, string cultureCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(PROFILE_TRANSLATION_URL, profileId, cultureCode);
+                string json = client.DownloadString(url);
+                return json.FromJson<ProfileTranslationView>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void SaveTranslation(string profileId, ProfileTranslationView profileTranslation)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(PROFILE_TRANSLATION_URL, profileId, profileTranslation.Culture);
+                var data = new { 
+                    ProfileId = profileId,
+                    CultureCode = profileTranslation.Culture,
+                    Metadata = profileTranslation.Metadata
+                };
+                string json = client.UploadString(url, data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void DeleteTranslation(string profileId, string cultureCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(PROFILE_TRANSLATION_URL, profileId, cultureCode);
+                var data = new
+                {
+                    ProfileId = profileId,
+                    CultureCode = cultureCode
+                };
+                string json = client.UploadString(url, "DELETE", data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
     }
 }

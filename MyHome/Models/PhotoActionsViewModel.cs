@@ -16,5 +16,6 @@ namespace MyHome.Models
         public bool ShowRemove { get; set; }
         public bool ShowShare { get; set; }
         public bool IsStatic { get; set; }
+        public bool ShowTranslate { get; set; }
     }
 }

@@ -300,3 +300,8 @@ a.action
             float: right;
             margin-bottom: 2%;
         }
+
+.form-buttons
+{
+    text-align: left;
+}
