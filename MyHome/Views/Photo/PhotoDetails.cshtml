@@ -44,8 +44,8 @@
                         @Html.RouteLinkForCurrentLocale(t, "SearchPhoto", new { filters = t.TrimStart('#') })<span>&nbsp;</span>
                     }
                 </dd>
-                @if(Model.Metadata.CopyrightMessage != null && 
-                    (Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//"))
+                @if (Model.Metadata.CopyrightMessage != null && 
+                    (Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
                 {
                     <dt>URL</dt>
                     <dd>@Model.Metadata.CopyrightMessage</dd>

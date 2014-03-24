@@ -138,13 +138,16 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateListingFromUrl(CreateListingFromUrlViewModel<TListingMetadata> model)
         {
+            // parse the listing from the origin url
+            // TODO: add an event that allows subclasses to parse the listing from the page at the originUrl
+
             // create the listing
             var listingService = new ListingService();
             var listing = listingService.CreateListing(
                 model.Title,
                 model.Content,
                 ListingTypeName,
-                model.PricingInfo.ToPricingInfo(),
+                null,
                 model.Metadata != null ? model.Metadata.ToDictionary() : null,
                 model.ExternalMediaUrl);
 
