@@ -102,6 +102,7 @@
     <Compile Include="Attributes\EveryItemIsAttribute.cs" />
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />

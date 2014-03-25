@@ -33,5 +33,6 @@ namespace Classy.DotNet.Responses
         public IList<string> CoverPhotos { get; set; }
         //
         public IList<CommentView> Comments { get; set; }
+        public string DefaultCulture { get; set; }
     }
 }

@@ -389,7 +389,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     ExternalMedia = listing.ExternalMedia,
                     Metadata = listingMetadata
                 };
-                return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+                return View(string.Format("Edit{0}", ListingTypeName), model);
             }
             catch (ClassyException cex)
             {

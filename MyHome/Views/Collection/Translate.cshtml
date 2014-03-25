@@ -1,11 +1,11 @@
-﻿@model Classy.DotNet.Mvc.ViewModels.Listing.TranslatePhotoViewModel
+﻿@model Classy.DotNet.Mvc.ViewModels.Collection.TranslateCollectionViewModel
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">@Localizer.Get("EditListing_TranslateTitle")</h4>
+    <h4 class="modal-title">@Localizer.Get("EditCollection_TranslateTitle")</h4>
 </div>
 <div class="modal-body">
-    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslatePhoto", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
+    @using (var f = Ajax.Bootstrap().Begin(new Form("Translate", "Collection").RouteValues(new { CollectionId = Model.CollectionId }).Id("frmTranslate"), new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
         HttpMethod = "POST",
@@ -28,7 +28,7 @@
 </div>
 <script type="text/ecmascript">
     $("#CultureCode").on("change", function () {
-        $.get("/photo/@Model.ListingId/translate/" + $("#CultureCode").val(), function (response) {
+        $.get("/collection/@Model.CollectionId/translate/" + $("#CultureCode").val(), function (response) {
             $("#frmTranslate #Title").val(response.Title || "");
             $("#frmTranslate #Content").val(response.Content || "");
         });

@@ -18,4 +18,11 @@ namespace Classy.DotNet.Responses
         public string Title { get; set; }
         public string Content { get; set; }
     }
+
+    public class CollectionTranslationView
+    {
+        public string Culture { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+    }
 }
