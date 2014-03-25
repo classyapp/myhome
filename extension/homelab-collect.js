@@ -10,17 +10,22 @@ homeLabButton.className = 'addToHomeLabLink';
 homeLabButton.addEventListener('click', AddToHomeLab, true);
 homeLabButton.href = 'javascript:void(0)';
 
+
+var images = [];
+
 document.body.appendChild(homeLabButton);
 
 function Initialize() {
-	var imgElements = document.getElementsByTagName('img');
-	for (i = 0; i < imgElements.length; i++) {
-		var img = imgElements[i];
+	for (i = 0; i < document.images.length; i++) {
+		var img = document.images[i];
+
 		if (IsValidImageElement(img)) {
 			img.addEventListener('mouseover', ShowHomeLabButton, true);
 			img.addEventListener('mouseout', HideHomeLabButton, true);
+            images.push(img);
 		}
 	}
+	if (images.length > 0) images.sort(function(a,b) { return (b.width * b.height) - (a.width * a.height); });
 }
 
 function ShowHomeLabButton(e)
@@ -43,7 +48,7 @@ function HideHomeLabButton(e)
 function IsValidImageElement(img)
 {
 	var isValid = img.src != null && 
-		img.src != "" && 
+		img.src.replace(/\s/g, '') && 
 		img.src.indexOf('base64') == -1  && 
 		img.width > 300;
 	return isValid;
