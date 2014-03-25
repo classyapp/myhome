@@ -12,3 +12,52 @@ a.addToHomeLabLink:hover {
 	text-decoration: none;
 }
 
+.full-bg {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	border: 0;
+}
+
+#homelab-bg {
+	z-index: 99991;
+	background-color: #fff;
+	opacity: 0.8;
+}
+
+#homelab-imagebox {
+	z-index: 999992;
+	text-align: center;
+	width: 768px;
+	height: 820px;
+	left: 50%;
+	margin-left: -385px;
+	background: #FFF;
+	box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
+	border: 1px solid #EDEDE9;
+}
+
+.imageWrapper {
+	position: relative;
+	display: inline-block;
+	width: 236px;
+	height: 236px;
+	margin: 5px;
+	border: 1px solid #EDEDE9;
+	text-align: left;
+	cursor: pointer;
+	background: #FFF;
+	zoom: 1;
+}
+
+.imageWrapper .thumb {
+	position: relative;
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+	margin: 18px;
+	background: #F8F8FC;
+}
