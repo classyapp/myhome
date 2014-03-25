@@ -10,6 +10,7 @@ using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using System.Configuration;
 using System.Text;
+using System.Globalization;
 
 namespace Classy.DotNet.Mvc
 {
@@ -136,6 +137,7 @@ namespace Classy.DotNet.Mvc
         {
             return content != null ? content.ToLower()
                 .Replace("?", string.Empty)
+                .Replace("-", string.Empty)
                 .Replace("&", "-and-")
                 .Replace("+", "-and-")
                 .Replace(".", "")

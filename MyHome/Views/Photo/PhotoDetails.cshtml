@@ -17,7 +17,11 @@
     <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
-            @Html.Partial("PhotoCopyrightMessage", Model.Listing)
+            @if (Model.Metadata.CopyrightMessage != null &&
+                    !(Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
+            {
+                <span>@Model.Metadata.CopyrightMessage</span>
+            }
             <div class="stats">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
@@ -33,6 +37,12 @@
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
         <div>
             <dl class="dl-horizontal">
+                @if (Model.Metadata.CopyrightMessage != null &&
+                    (Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
+                {
+                    <dt>@Localizer.Get("PhotoDetails_FoundOn")</dt>
+                    <dd><a href="@Model.Metadata.CopyrightMessage" rel="nofollow">@(new Uri(Model.Metadata.CopyrightMessage).Host)</a></dd>
+                }
                 <dt>@Localizer.Get("PhotoDetails_Room")</dt>
                 <dd><a href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, null) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a></dd>
                 <dt>@Localizer.Get("PhotoDetails_Style")</dt>
@@ -44,12 +54,6 @@
                         @Html.RouteLinkForCurrentLocale(t, "SearchPhoto", new { filters = t.TrimStart('#') })<span>&nbsp;</span>
                     }
                 </dd>
-                @if (Model.Metadata.CopyrightMessage != null && 
-                    (Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
-                {
-                    <dt>URL</dt>
-                    <dd>@Model.Metadata.CopyrightMessage</dd>
-                }
             </dl>
         </div>
     </div>

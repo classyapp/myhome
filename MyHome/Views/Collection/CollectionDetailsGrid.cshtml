@@ -38,8 +38,6 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <span></span>
         </div>
-        <p>@Model.Content</p>
-
         <div class="profile clearfix">
             <img src="@Model.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
             <div class="details">
@@ -52,16 +50,17 @@
             </div>
         </div>
     </div>
+
     <div class="col-md-9">
+        <hr />
+        <p>@Model.Content</p>
         <div class="row" id="photos">
             @if (photos != null)
             {
                 @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = photos.ToList(), ThumbnailSize = 380, ShowCopyrightMessages = true })
             }
         </div>
-    </div>
 
-    <div class="col-md-3">
         <div>
             <p>
                 <h4 class="panel-title">@Localizer.Get("CollectionDetails_Comments")</h4>

@@ -7,13 +7,13 @@
 <div class="origin">
     @if (!string.IsNullOrEmpty(photoMetadata.CopyrightMessage))
     {
-        if (photoMetadata.CopyrightMessage.StartsWith("http"))
+        if (photoMetadata.CopyrightMessage.StartsWith("http") || photoMetadata.CopyrightMessage.StartsWith("//"))
         {
-            <a href="@photoMetadata.CopyrightMessage" target="_blank" rel="nofollow">@Localizer.Get("PhotoCopyrightMessage_VisitWebsite")</a>
+            <a href="@photoMetadata.CopyrightMessage" target="_blank" rel="nofollow">@(new Uri(photoMetadata.CopyrightMessage).Host)</a>
         }
         else
         {
-            <span>@string.Format(Localizer.Get("PhotoCopyrightMessage_PhotoBy"), photoMetadata.CopyrightMessage)</span>
+            <span>@photoMetadata.CopyrightMessage</span>
         }
     }
 </div>
