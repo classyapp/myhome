@@ -18,8 +18,11 @@
         {
             @Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Success)
         }
-        <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
+        <h1>@Localizer.Get("EditListing_FormTitle")</h1>
         <hr />
+        <p>
+            @Localizer.Get("EditLsiting_DefaultCulture") @Model.DefaultCulture
+        </p>
         <div class="row">
             <div class="col-md-7">
                 <div id="editPhotoPreview">

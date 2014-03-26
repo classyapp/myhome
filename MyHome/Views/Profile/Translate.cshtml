@@ -5,6 +5,9 @@
     <h4 class="modal-title">@Localizer.Get("TrasnlateProfile_TranslateTitle")</h4>
 </div>
 <div class="modal-body">
+    <p>
+        @Localizer.Get("TranslateProfile_DefaultLanguageInstructions")
+    </p>
     @using (var f = Ajax.Bootstrap().Begin(new Form("Translate", "Profile").RouteValues(new { ProfileId = Model.ProfileId }).Id("frmTranslate"), new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
@@ -14,7 +17,7 @@
     }))
     {
         @Html.Bootstrap().ValidationSummary()
-        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList()).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.BusinessDescription).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
         @Html.HiddenFor(x => x.Action)
 

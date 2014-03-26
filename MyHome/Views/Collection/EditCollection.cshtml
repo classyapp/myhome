@@ -29,7 +29,9 @@
 
         <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
         <hr />
-
+        <p>
+            @Localizer.Get("EditCollection_DefaultCulture") @Model.DefaultCulture
+        </p>
         @Html.Bootstrap().ValidationSummary()
 
         @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection")))

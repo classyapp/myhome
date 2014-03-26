@@ -240,6 +240,7 @@ namespace Classy.DotNet.Mvc.Controllers
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
                 ProfileId = profile.Id,
+                DefaultCulture = profile.DefaultCulture,
                 AvatarUrl = profile.AvatarUrl(150, true).ToString(),
                 FirstName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.FirstName : contactInfo.FirstName,
                 LastName = profile.IsProfessional ? proContactInfo.CompanyContactInfo.LastName : contactInfo.LastName,
