@@ -5,14 +5,13 @@
 }
 
 <div class="origin">
-    @if (!string.IsNullOrEmpty(photoMetadata.CopyrightMessage))
+    @if (photoMetadata.IsWebPhoto)
     {
-        if (photoMetadata.CopyrightMessage.StartsWith("http") || photoMetadata.CopyrightMessage.StartsWith("//"))
-        {
-            <a href="@photoMetadata.CopyrightMessage" target="_blank" rel="nofollow">@(new Uri(photoMetadata.CopyrightMessage).Host)</a>
-        }
-        else
-        {
+        <a href="@photoMetadata.CopyrightMessage" target="_blank" rel="nofollow">@(new Uri(photoMetadata.CopyrightMessage).Host)</a>
+    }
+    else
+    {
+        if (!string.IsNullOrEmpty(photoMetadata.CopyrightMessage)) {
             <span>@photoMetadata.CopyrightMessage</span>
         }
     }

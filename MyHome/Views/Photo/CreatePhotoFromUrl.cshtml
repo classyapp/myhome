@@ -68,6 +68,7 @@
                 @using (var f = Html.Bootstrap().Begin(new Form("CreateListingFromUrl", "Photo")))
                 {
                     <input type="hidden" name="Metadata.CopyrightMessage" value="@Model.OriginUrl" />
+                    <input type="hidden" name="Metadata.IsWebPhoto" value="True" />
                     
                     @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
                     @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_CollectionTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hidden")           

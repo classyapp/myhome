@@ -20,7 +20,7 @@
 
     @if (Model.ShowShare)
     {
-@*Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")*@
+        @*Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")*@
     }
 
     @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.CanEdit())
@@ -31,9 +31,5 @@
     @if (Model.ShowRemove && User.Identity.IsAuthenticated)
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "remove", Model.Listing, "btn btn-danger action remove")
-    }
-    @if (Model.ShowTranslate && User.Identity.IsAuthenticated && Model.Listing.CanEdit())
-    {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-globe\"></i>", "translate", Model.Listing, "btn btn-default action translate")
     }
 </div>

@@ -7,6 +7,11 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
+@section ActionBar {
+    <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditPhoto")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("PhotoDetails_Edit")</a>
+    @Html.TriggerListingActionLink(string.Concat("<i class=\"glyphicon glyphicon-trash\"></i>&nbsp;", Localizer.Get("PhotoDetails_Delete")), "delete", Model.Listing, "btn btn-primary btn-sm")
+}
+
 <div class="row photo-details">    
     <div class="col-md-12">
         @if (TempData["PostComment_Success"] != null)
@@ -20,9 +25,7 @@
     <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
-            @if (Model.Metadata.CopyrightMessage != null &&
-                    !(Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
-            {
+            @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto)            {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
             <div class="stats">
@@ -75,7 +78,7 @@
         
         <hr />
 
-        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true, ShowTranslate = true })
+        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
 
         <hr />
         <div>
