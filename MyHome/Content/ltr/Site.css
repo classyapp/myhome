@@ -655,14 +655,6 @@ span.address2
     background-color: #fff;
 }
 
-.thumbnail,
-.thumbnail
-{
-    border-radius: 0;
-    margin-bottom: 20px;
-    position: relative;
-}
-
     .thumbnail .deleted
     {
         position: absolute;
