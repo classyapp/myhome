@@ -7,6 +7,10 @@
     var styles = Localizer.GetList("room-styles");
 }
 
+@section ActionBar {
+    <a class="btn btn-sm btn-primary" trigger-listing-action="translate" object-id="@Model.Id" object-type="photo"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditListing_Translate")</a>
+}
+
 <div class="row">
     <div class="col-md-12">
         <div class="ajax-alert"></div>
@@ -16,9 +20,6 @@
         }
         <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
         <hr />
-        <div>
-            <a class="btn btn-default" trigger-listing-action="translate" object-id="@Model.Id" object-type="photo"><i class="glyphicon glyphicon-globe"></i> @Localizer.Get("EditListing_Translate")</a>
-        </div>
         <div class="row">
             <div class="col-md-7">
                 <div id="editPhotoPreview">

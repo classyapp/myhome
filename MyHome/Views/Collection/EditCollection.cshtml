@@ -6,6 +6,10 @@
     var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
 }
 
+@section ActionBar {
+    <a class="btn btn-primary btn-sm" trigger-collection-action="translate" object-id="@Model.CollectionId" object-type="collection"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditCollection_Translate")</a>
+}
+
 <div class="row">
     <div class="col-md-12">
         <div class="ajax-alert"></div>
@@ -25,9 +29,6 @@
 
         <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
         <hr />
-        <div>
-            <a class="btn btn-default" trigger-collection-action="translate" object-id="@Model.CollectionId" object-type="collection"><i class="glyphicon glyphicon-globe"></i> @Localizer.Get("EditCollection_Translate")</a>
-        </div>
 
         @Html.Bootstrap().ValidationSummary()
 
