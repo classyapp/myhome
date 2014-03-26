@@ -201,7 +201,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 Title = collection.Title,
                 Content = collection.Content,
                 Listings = collection.Listings,
-                IncludedListings = collection.IncludedListings.ToArray()
+                IncludedListings = collection.IncludedListings.ToArray(),
+                DefaultCulture = collection.DefaultCulture
             });
         }
 

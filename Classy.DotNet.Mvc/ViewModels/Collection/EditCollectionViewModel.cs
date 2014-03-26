@@ -20,5 +20,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Collection
         [Required(ErrorMessage = "EditCollection_IncludedListings_Required")]
         public IncludedListingView[] IncludedListings { get; set; }
         public IList<ListingView> Listings { get; set; }
+        public string DefaultCulture { get; set; }
     }
 }

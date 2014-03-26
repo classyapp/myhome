@@ -392,7 +392,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     Title = listing.Title,
                     Content = listing.Content,
                     ExternalMedia = listing.ExternalMedia,
-                    Metadata = listingMetadata
+                    Metadata = listingMetadata,
+                    DefaultCulture = listing.DefaultCulture
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }

@@ -22,5 +22,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
 
         // meta
         public TListingMetadata Metadata { get; set; }
+
+        public string DefaultCulture { get; set; }
     }
 }
