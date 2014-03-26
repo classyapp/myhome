@@ -908,7 +908,8 @@ namespace Classy.DotNet.Mvc.Controllers
             if (cultureCode == null)
             {
                 var profile = profileService.GetProfileById(profileId);
-                model = new TranslateProfileViewModel { ProfileId = profileId, CultureCode = profile.DefaultCulture, BusinessDescription = profile.Metadata["BusinessDescription"] };
+                model = new TranslateProfileViewModel { ProfileId = profileId, CultureCode = profile.DefaultCulture, 
+                    BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty};
             }
             else
             {
