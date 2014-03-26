@@ -56,6 +56,11 @@ h1, h2, h3, h4, h5
     margin-right: 0;
 }
 
+.photo.thumbnail .origin {
+    left: inherit;
+    right: 10px;
+}
+
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group
 {
@@ -300,3 +305,8 @@ a.action
             float: right;
             margin-bottom: 2%;
         }
+
+.form-buttons
+{
+    text-align: left;
+}

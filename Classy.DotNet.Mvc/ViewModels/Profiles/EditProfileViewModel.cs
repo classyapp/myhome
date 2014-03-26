@@ -18,6 +18,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Display(Name = "EditProfile_Email")]
         [Required(ErrorMessage = "EditProfile_Email_Required")]
         public string Email { get; set; }
+        public string DefaultCulture { get; set; }
 
         // pro info
         public bool IsProfessional { get; set; }

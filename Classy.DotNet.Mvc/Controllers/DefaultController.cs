@@ -35,6 +35,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteForSupportedLocales(
+                name: "Carrers",
+                url: "careers",
+                defaults: new { controller = "Default", action = "Careers" },
+                namespaces: null
+            );
+
+            routes.MapRouteForSupportedLocales(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional },
@@ -72,6 +79,11 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        public ActionResult Careers()
         {
             return View();
         }

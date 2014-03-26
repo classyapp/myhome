@@ -18,6 +18,7 @@
     var webphotos = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.WebPhotos);
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
     var proCategories = Localizer.GetList("professional-categories");
+    var countries = Localizer.GetList("supported-countries");
 }
 
 @section ActionBar {
@@ -365,7 +366,7 @@
                     {
                         <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                             <i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;<span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br />
-                            <span class="address2">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,</span> <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> <span>@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country</span>
+                            <span class="address2">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,</span> <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> <span>@countries.Single(x => x.Value == Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text</span>
                         </div>
                     }
                 </div>

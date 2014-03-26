@@ -1,0 +1,39 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Collection.TranslateCollectionViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">@Localizer.Get("EditCollection_TranslateTitle")</h4>
+</div>
+<div class="modal-body">
+    <p>
+        @Localizer.Get("TranslateCollection_DefaultLanguageInstructions")
+    </p>
+    @using (var f = Ajax.Bootstrap().Begin(new Form("Translate", "Collection").RouteValues(new { CollectionId = Model.CollectionId }).Id("frmTranslate"), new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "translate-modal-replace",
+        OnSuccess = "CloseModal(data)"
+    }))
+    {
+        @Html.Bootstrap().ValidationSummary()
+        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @Html.HiddenFor(x => x.Action)
+
+        <div class="form-buttons">
+            <button class="btn btn-default" data-dismiss="modal">@Localizer.Get("Cancel")</button>
+            <button class="btn btn-primary" type="submit">@Localizer.Get("Save")</button>
+            <button class="btn btn-danger" type="submit" onclick="$('#Action').val('DELETE');">@Localizer.Get("Delete")</button>
+        </div>
+    }
+</div>
+<script type="text/ecmascript">
+    $("#CultureCode").on("change", function () {
+        $.get("/collection/@Model.CollectionId/translate/" + $("#CultureCode").val(), function (response) {
+            $("#frmTranslate #Title").val(response.Title || "");
+            $("#frmTranslate #Content").val(response.Content || "");
+        });
+    });
+</script>

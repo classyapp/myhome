@@ -6,8 +6,13 @@
     var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
 }
 
+@section ActionBar {
+    <a class="btn btn-primary btn-sm" trigger-collection-action="translate" object-id="@Model.CollectionId" object-type="collection"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditCollection_Translate")</a>
+}
+
 <div class="row">
     <div class="col-md-12">
+        <div class="ajax-alert"></div>
         @if (TempData["UpdateCollectionSuccess"] != null)
         {
             <div class="alert alert-success alert-dismissable">
@@ -24,7 +29,9 @@
 
         <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
         <hr />
-
+        <p>
+            @Localizer.Get("EditCollection_DefaultCulture") @Model.DefaultCulture
+        </p>
         @Html.Bootstrap().ValidationSummary()
 
         @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection")))
@@ -58,5 +65,13 @@
 
             @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditCollection_Save")).Style(ButtonStyle.Primary))
         }
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
+        </div>
     </div>
 </div>

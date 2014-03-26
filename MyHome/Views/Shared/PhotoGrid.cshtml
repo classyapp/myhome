@@ -7,7 +7,7 @@
         <div class="col-md-4">
             <div class="photo thumbnail">
                 @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
-                <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })" title="@p.Title">
+                <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id, Slug = p.Title.ToSlug() })" title="@p.Title">
                     @Html.Thumbnail(p, Model.ThumbnailSize)
                     <div class="details">
                         <ul class="stats list-inline list-unstyled">

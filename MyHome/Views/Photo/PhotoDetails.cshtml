@@ -7,17 +7,26 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
-@if (TempData["PostComment_Success"] != null)
-{
-    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+@section ActionBar {
+    <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditPhoto")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("PhotoDetails_Edit")</a>
 }
 
-
 <div class="row photo-details">    
+    <div class="col-md-12">
+        @if (TempData["PostComment_Success"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+        }
+
+        <div class="ajax-alert"></div>
+    </div>
+
     <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
-            @Html.Partial("PhotoCopyrightMessage", Model.Listing)
+            @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto)            {
+                <span>@Model.Metadata.CopyrightMessage</span>
+            }
             <div class="stats">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
@@ -33,6 +42,12 @@
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
         <div>
             <dl class="dl-horizontal">
+                @if (Model.Metadata.CopyrightMessage != null &&
+                    (Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
+                {
+                    <dt>@Localizer.Get("PhotoDetails_FoundOn")</dt>
+                    <dd><a href="@Model.Metadata.CopyrightMessage" rel="nofollow">@(new Uri(Model.Metadata.CopyrightMessage).Host)</a></dd>
+                }
                 <dt>@Localizer.Get("PhotoDetails_Room")</dt>
                 <dd><a href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, null) })">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</a></dd>
                 <dt>@Localizer.Get("PhotoDetails_Style")</dt>
@@ -44,12 +59,6 @@
                         @Html.RouteLinkForCurrentLocale(t, "SearchPhoto", new { filters = t.TrimStart('#') })<span>&nbsp;</span>
                     }
                 </dd>
-                @if (Model.Metadata.CopyrightMessage != null && 
-                    (Model.Metadata.CopyrightMessage.StartsWith("http") || Model.Metadata.CopyrightMessage.StartsWith("//")))
-                {
-                    <dt>URL</dt>
-                    <dd>@Model.Metadata.CopyrightMessage</dd>
-                }
             </dl>
         </div>
     </div>
@@ -68,7 +77,7 @@
         
         <hr />
 
-        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
+        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
 
         <hr />
         <div>
@@ -102,6 +111,14 @@
                 @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
         </div>
     </div>
 </div>

@@ -2,12 +2,15 @@
 
 @{
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+    var countries = Localizer.GetList("supported-countries");
 }
 
 @foreach (var p in Model)
 {
     var colSize = p.ProfessionalInfo.CoverPhotos != null ? 12 : 6;
     <div class="col-md-@colSize">
+        <div class="clearfix"></div>  
+
         <div class="profile thumbnail"> 
             <div class="pull-left">
                 <div class="media">
@@ -36,7 +39,7 @@
                             p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                         {
                             <div class="contact-info">
-                                <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                                <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @countries.Single(x => x.Value == p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text
                             </div>
                         }
                         @if (p.Metadata.ContainsKey("BusinessDescription"))
@@ -58,6 +61,6 @@
                     }
                 </div>
             }     
-        </div>       
+        </div>     
     </div>
 }

@@ -18,5 +18,10 @@ namespace Classy.DotNet.Mvc.Localization
         {
             return new SelectList(list, "Value", "Text");
         }
+
+        public static SelectList AsSelectList(this IEnumerable<LocalizedListItem> list, string[] blacklist)
+        {
+            return new SelectList(list.Where(l => !blacklist.Contains(l.Value)), "Value", "Text");
+        }
     }
 }

@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionViewExtensions.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="ListingViewExtentions.cs" />
     <Compile Include="ProfileViewExtensions.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Responses\ReviewView.cs" />
     <Compile Include="Responses\SearchResultsView.cs" />
     <Compile Include="Responses\TimeslotScheduleView.cs" />
+    <Compile Include="Responses\TranslationView.cs" />
     <Compile Include="Responses\TripleView.cs" />
     <Compile Include="Responses\UpdateProfileFields.cs" />
     <Compile Include="Security\ClassyAuth.cs" />

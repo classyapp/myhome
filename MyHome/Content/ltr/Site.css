@@ -161,15 +161,16 @@ a, a:visited
 
 .photo.thumbnail .origin {
     position: relative;
-    bottom: 70px;
-    left: 20px;
+    bottom: 60px;
+    left: 10px;
     background-color: #000;
     display: inline-block;
     min-height: 18px;
 }
-.photo.thumbnail .origin a {
+.photo.thumbnail .origin a,
+.photo.thumbnail .origin span {
     color: #fff;
-    font-size: 12px;
+    font-size: 10px;
     display: inline-block;
     padding: 3px 5px;
 }
@@ -652,14 +653,6 @@ span.address2
 
 .profile.thumbnail {
     background-color: #fff;
-}
-
-.thumbnail,
-.thumbnail
-{
-    border-radius: 0;
-    margin-bottom: 20px;
-    position: relative;
 }
 
     .thumbnail .deleted
@@ -1249,7 +1242,7 @@ div.thumbs3 > div.thumb
         margin-bottom: 0px;
     }
 
- 
+   
 /* Cover photos */
 .my-photos .thumbnail
 {
@@ -1291,3 +1284,14 @@ div.thumbs3 > div.thumb
         {
             float: right;
         }
+
+.edit-actions
+{
+    margin-top: 20px;
+}
+.form-buttons
+{
+    text-align: right;
+}
+
+

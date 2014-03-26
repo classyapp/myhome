@@ -11,6 +11,7 @@ using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
+using System.Net;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -63,6 +64,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "SelectCollectionCoverPhotos",
                 url: "collection/{collectionId}/coverphotos",
                 defaults: new { controller = "Collection", action = "SelectCollectionCoverPhotos" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "TranslateCollection",
+                url: "collection/{collectionId}/translate/{cultureCode}",
+                defaults: new { controller = "Collection", action = "Translate", cultureCode = UrlParameter.Optional },
                 namespaces: new string[] { Namespace }
             );
 
@@ -185,6 +193,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var service = new ListingService();
             var collection = service.GetCollectionById(collectionId, true, false, false, false);
+            if (!collection.CanEdit()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             return View(new EditCollectionViewModel
             {
@@ -192,7 +201,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 Title = collection.Title,
                 Content = collection.Content,
                 Listings = collection.Listings,
-                IncludedListings = collection.IncludedListings.ToArray()
+                IncludedListings = collection.IncludedListings.ToArray(),
+                DefaultCulture = collection.DefaultCulture
             });
         }
 
@@ -297,6 +307,63 @@ namespace Classy.DotNet.Mvc.Controllers
             catch (ClassyException cex)
             {
                 return Json(new { error = Localizer.Get("SelectCollectionCoverPhotos_Error") });
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Translate(string collectionId, string cultureCode)
+        {
+            var collectionService = new ListingService();
+            TranslateCollectionViewModel model = null;
+            CollectionTranslationView translation = null;
+
+            if (cultureCode == null)
+            {
+                var collection = collectionService.GetCollectionById(collectionId, false, false, false, false);
+                model = new TranslateCollectionViewModel { CollectionId = collectionId, CultureCode = collection.DefaultCulture, Title = collection.Title, Content = collection.Content };
+            }
+            else
+            {
+                translation = collectionService.GetCollectionTranslation(collectionId, cultureCode);
+            }
+
+            if (Request.Headers["Accept"].ToLower().Contains("text/html"))
+            {
+                return PartialView(model);
+            }
+            else
+            {
+                return Json(translation, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Translate(TranslateCollectionViewModel model)
+        {
+            try
+            {
+                var collectionService = new ListingService();
+                if (string.IsNullOrEmpty(model.Action))
+                {
+                    collectionService.SaveCollectionTranslation(model.CollectionId, new CollectionTranslationView
+                    {
+                        Culture = model.CultureCode,
+                        Title = model.Title,
+                        Content = model.Content
+                    });
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditCollection_SaveTranslation_Success") });
+                }
+                else
+                {
+                    collectionService.DeleteCollectionTranslation(model.CollectionId, model.CultureCode);
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditCollection_DeleteTranslation_Success") });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

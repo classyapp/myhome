@@ -22,7 +22,8 @@ namespace MyHome.Models
         public string CopyrightMessage { get; set; }
         [Display(Name = "PhotoMetadata_Terms")]
         [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
-        public string AgreeToTerms { get; set; }
+        public bool AgreeToTerms { get; set; }
+        public bool IsWebPhoto { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -30,7 +31,7 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Room)) list.Add("Room", Room);
             if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
             if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
-            if (!string.IsNullOrEmpty(AgreeToTerms)) list.Add("AgreeToTerms", AgreeToTerms);
+            list.Add("IsWebPhoto", IsWebPhoto.ToString());
             return list;
         }
 
@@ -40,7 +41,7 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Room")) output.Room = metadata["Room"];
             if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
             if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
-            output.AgreeToTerms = (metadata.ContainsKey("AgreeToTerms") ? metadata["AgreeToTerms"] : true.ToString());
+            if (metadata.ContainsKey("IsWebPhoto")) output.IsWebPhoto = bool.Parse(metadata["IsWebPhoto"]);
             return output;
         }
     

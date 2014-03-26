@@ -1,0 +1,63 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.UpdateListingViewModel<MyHome.Models.PhotoMetadata>
+
+@{
+    Html.Bootstrap().Globals().ShowRequiredStar(false);
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+}
+
+@section ActionBar {
+    <a class="btn btn-sm btn-primary" trigger-listing-action="translate" object-id="@Model.Id" object-type="photo"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditListing_Translate")</a>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="ajax-alert"></div>
+        @if (TempData["EditListingSuccess"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("EditListing_Success")).Style(AlertColor.Success)
+        }
+        <h1>@Localizer.Get("EditListing_FormTitle")</h1>
+        <hr />
+        <p>
+            @Localizer.Get("EditLsiting_DefaultCulture") @Model.DefaultCulture
+        </p>
+        <div class="row">
+            <div class="col-md-7">
+                <div id="editPhotoPreview">
+                    <img src="@Model.ExternalMedia[0].Url" class="img-responsive" />
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                @using (var f = Ajax.Bootstrap().Begin(new Form("EditListing", "Photo"), new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            UpdateTargetId = "edit-modal-replace",
+            OnSuccess = "CloseModal(data)"
+        }))
+                {
+                    @Html.Bootstrap().ValidationSummary()
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.Hidden("Metadata.AgreeToTerms", true.ToString())
+                    @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label()
+                    @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label()
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label()
+                    @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false).Label().WidthLg(12)
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
