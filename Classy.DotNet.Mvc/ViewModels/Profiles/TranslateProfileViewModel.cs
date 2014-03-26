@@ -11,9 +11,10 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
     {
         public string ProfileId { get; set; }
 
+        [Display(Name = "TranslateProfle_Language")]
         public string CultureCode { get; set; }
 
-        [Display(Name = "ProMetadata_BusinessDescription")]
+        [Display(Name = "TranslateProfile_BusinessDescription")]
         public string BusinessDescription { get; set; }
 
         public string Action { get; set; }

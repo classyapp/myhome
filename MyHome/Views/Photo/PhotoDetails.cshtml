@@ -7,13 +7,16 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
-@if (TempData["PostComment_Success"] != null)
-{
-    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
-}
-
-
 <div class="row photo-details">    
+    <div class="col-md-12">
+        @if (TempData["PostComment_Success"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+        }
+
+        <div class="ajax-alert"></div>
+    </div>
+
     <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
@@ -52,7 +55,6 @@
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
-            <div class="ajax-alert"></div>
             <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
             <div class="details">
                 @Html.ProfileLink(Model.Listing.Profile)

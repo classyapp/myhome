@@ -307,8 +307,8 @@
         function CloseModal(data) { 
             if (data.IsValid) {
                 $('.modal').modal('hide');
-                if (data.SuccessMessage){
-                    $(".ajax-alert").html("<div class=\"alert alert-success\">" + data.SuccessMessage + "</div>");
+                if (data.SuccessMessage) {
+                    $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
                 }
                 return true;
             }

@@ -6,6 +6,8 @@
 
 <div class="row">
     <div class="col-md-12">
+        <div class="ajax-alert"></div>
+
         <div id="changePasswordSuccess" class="alert alert-success alert-dismissable hidden">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             @Localizer.Get("ChangePassword_Success")
@@ -27,7 +29,6 @@
     </div>
 
     <div class="col-md-9 main">
-        <div class="ajax-alert"></div>
         @Html.Bootstrap().ValidationSummary()
         @using (var f = Html.Bootstrap().Begin(new Form("EditProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
         {
