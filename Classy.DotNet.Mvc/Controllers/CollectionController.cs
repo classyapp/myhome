@@ -11,6 +11,7 @@ using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
+using System.Net;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -192,6 +193,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var service = new ListingService();
             var collection = service.GetCollectionById(collectionId, true, false, false, false);
+            if (!collection.CanEdit()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             return View(new EditCollectionViewModel
             {

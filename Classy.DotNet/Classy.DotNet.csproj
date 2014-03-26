@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionViewExtensions.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="ListingViewExtentions.cs" />
     <Compile Include="ProfileViewExtensions.cs" />

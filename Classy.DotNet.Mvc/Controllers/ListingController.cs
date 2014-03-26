@@ -383,6 +383,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     false,
                     false,
                     false);
+                if (!listing.CanEdit()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
                 var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
                 var model = new UpdateListingViewModel<TListingMetadata>
                 {
