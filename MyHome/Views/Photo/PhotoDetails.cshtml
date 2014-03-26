@@ -7,13 +7,16 @@
     var proCategories = Localizer.GetList("professional-categories");
 }
 
-@if (TempData["PostComment_Success"] != null)
-{
-    @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
-}
-
-
 <div class="row photo-details">    
+    <div class="col-md-12">
+        @if (TempData["PostComment_Success"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+        }
+
+        <div class="ajax-alert"></div>
+    </div>
+
     <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
@@ -72,7 +75,7 @@
         
         <hr />
 
-        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
+        @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowEdit = true, ShowFavorite = true, ShowShare = true, IsStatic = true, ShowTranslate = true })
 
         <hr />
         <div>
@@ -106,6 +109,14 @@
                 @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
         </div>
     </div>
 </div>

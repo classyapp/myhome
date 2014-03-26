@@ -5,31 +5,35 @@
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")
     }
-    
+
     @if (Model.ShowFavorite)
     {
         if (User.Identity.IsAuthenticated && (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.FavoriteListingIds.Any(x => x == Model.Listing.Id))
         {
-            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "unfavorite", Model.Listing, "btn btn-default action like like-on")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "unfavorite", Model.Listing, "btn btn-default action like like-on")
         }
         else
         {
-            @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-heart\"></i>", "favorite", Model.Listing, "btn btn-default action like")
         }
     }
-    
+
     @if (Model.ShowShare)
     {
-        @*Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")*@
+@*Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")*@
     }
-    
+
     @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.CanEdit())
     {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-pencil\"></i>", "edit", Model.Listing, "btn btn-default action edit")
+        <a href="@Url.RouteUrl("EditPhoto", new { listingId = @Model.Listing.Id })" class="btn btn-default action edit" authorize=""><i class="glyphicon glyphicon-pencil"></i></a>
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "delete", Model.Listing, "btn btn-default action delete")
     }
     @if (Model.ShowRemove && User.Identity.IsAuthenticated)
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "remove", Model.Listing, "btn btn-danger action remove")
+    }
+    @if (Model.ShowTranslate && User.Identity.IsAuthenticated && Model.Listing.CanEdit())
+    {
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-globe\"></i>", "translate", Model.Listing, "btn btn-default action translate")
     }
 </div>

@@ -35,6 +35,9 @@ namespace Classy.DotNet.Services
         // get listings
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
+        // translations
+        private readonly string LISTING_TRANSLATION_URL = ENDPOINT_BASE_URL + "/listing/{0}/translation/{1}";
+        private readonly string COLLECTION_TRANSLATION_URL = ENDPOINT_BASE_URL + "/collection/{0}/translation/{1}";
         // post comment
         private readonly string POST_COMMENT_URL = ENDPOINT_BASE_URL + "/{0}/{1}/comment/new";
         // favorite listing
@@ -565,6 +568,118 @@ namespace Classy.DotNet.Services
             }
         }
 
+        #endregion
+
+        #region Translation
+        public ListingTranslationView GetTranslation(string listingId, string cultureCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(LISTING_TRANSLATION_URL, listingId, cultureCode);
+                string json = client.DownloadString(url);
+                return json.FromJson<ListingTranslationView>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void SaveTranslation(string listingId, ListingTranslationView listingTranslation)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(LISTING_TRANSLATION_URL, listingId, listingTranslation.Culture);
+                var data = new
+                {
+                    ListingId = listingId,
+                    CultureCode = listingTranslation.Culture,
+                    Title = listingTranslation.Title,
+                    Content = listingTranslation.Content
+                };
+                string json = client.UploadString(url, data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void DeleteTranslation(string listingId, string cultureCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(LISTING_TRANSLATION_URL, listingId, cultureCode);
+                var data = new
+                {
+                    ProfileId = listingId,
+                    CultureCode = cultureCode
+                };
+                string json = client.UploadString(url, "DELETE", data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public CollectionTranslationView GetCollectionTranslation(string collectionId, string cultureCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(COLLECTION_TRANSLATION_URL, collectionId, cultureCode);
+                string json = client.DownloadString(url);
+                return json.FromJson<CollectionTranslationView>();
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void SaveCollectionTranslation(string collectionId, CollectionTranslationView translation)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(COLLECTION_TRANSLATION_URL, collectionId, translation.Culture);
+                var data = new
+                {
+                    CollectionId = collectionId,
+                    CultureCode = translation.Culture,
+                    Title = translation.Title,
+                    Content = translation.Content
+                };
+                string json = client.UploadString(url, data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void DeleteCollectionTranslation(string collectionId, string cultureCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(COLLECTION_TRANSLATION_URL, collectionId, cultureCode);
+                var data = new
+                {
+                    CollectionId = collectionId,
+                    CultureCode = cultureCode
+                };
+                string json = client.UploadString(url, "DELETE", data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
         #endregion
     }
 }

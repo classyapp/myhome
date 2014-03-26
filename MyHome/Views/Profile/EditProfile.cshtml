@@ -15,6 +15,8 @@
         
 <div class="row">
     <div class="col-md-12">
+        <div class="ajax-alert"></div>
+
         <div id="changePasswordSuccess" class="alert alert-success alert-dismissable hidden">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             @Localizer.Get("ChangePassword_Success")
@@ -27,6 +29,12 @@
 
     <div class="col-md-3">
         <img id="profileImage" class="img-circle" src="@Model.AvatarUrl" width="150">
+        @if (Model.IsProfessional && User.Identity.IsAuthenticated && Model.ProfileId == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id)
+        {
+            <div class="edit-actions">
+                <a class="btn btn-default" trigger-profile-action="translate" object-id="@Model.ProfileId" object-type="profile"><i class="glyphicon glyphicon-globe"></i> @Localizer.Get("EditProfile_Translate")</a>
+            </div>
+        }
     </div>
 
     <div class="col-md-9 main">
@@ -101,6 +109,14 @@
 <div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword", new { ProfileId = Model.ProfileId })" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content" id="change-password-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
             <!-- will be replaced -->
         </div>
     </div>

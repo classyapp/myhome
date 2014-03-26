@@ -195,4 +195,12 @@ function bindTriggerActions(context) {
             }
         });
     });
+
+    $('[trigger-profile-action="translate"], [trigger-listing-action="translate"], [trigger-collection-action="translate"]', context).click(function (e) {
+        var objectId = $(this).attr('object-id') || $(this).attr('listing-id');
+        var objectType = $(this).attr('object-type') || $(this).attr('listing-type');
+        $('#translate-modal')
+            .data("remote", "/" + objectType + "/" + objectId + "/translate")
+            .modal('show');
+    });
 }

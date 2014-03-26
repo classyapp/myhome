@@ -477,7 +477,7 @@
     <Content Include="Views\Collection\EditCollection.cshtml" />
     <Content Include="Views\Collection\CollectionDetailsList.cshtml" />
     <Content Include="Views\Profile\CreateProxyProfile.cshtml" />
-    <Content Include="Views\Photo\EditPhotoListingModal.cshtml" />
+    <Content Include="Views\Photo\EditPhoto.cshtml" />
     <Content Include="Views\Shared\PhotoActions.cshtml" />
     <Content Include="Views\Photo\ShowListingsByType.cshtml" />
     <Content Include="Views\Shared\PhotoGrid.cshtml" />
@@ -496,6 +496,9 @@
     <Content Include="Views\Photo\CreatePhotoFromUrl.cshtml" />
     <Content Include="Views\Shared\PhotoCopyrightMessage.cshtml" />
     <Content Include="Views\Default\Careers.cshtml" />
+    <Content Include="Views\Profile\Translate.cshtml" />
+    <Content Include="Views\Photo\TranslatePhoto.cshtml" />
+    <Content Include="Views\Collection\Translate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

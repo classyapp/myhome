@@ -8,6 +8,7 @@
 
 <div class="row">
     <div class="col-md-12">
+        <div class="ajax-alert"></div>
         @if (TempData["UpdateCollectionSuccess"] != null)
         {
             <div class="alert alert-success alert-dismissable">
@@ -24,6 +25,9 @@
 
         <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
         <hr />
+        <div>
+            <a class="btn btn-default" trigger-collection-action="translate" object-id="@Model.CollectionId" object-type="collection"><i class="glyphicon glyphicon-globe"></i> @Localizer.Get("EditCollection_Translate")</a>
+        </div>
 
         @Html.Bootstrap().ValidationSummary()
 
@@ -58,5 +62,13 @@
 
             @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditCollection_Save")).Style(ButtonStyle.Primary))
         }
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
+        </div>
     </div>
 </div>

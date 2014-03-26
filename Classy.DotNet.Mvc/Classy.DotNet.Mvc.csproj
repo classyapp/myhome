@@ -102,6 +102,7 @@
     <Compile Include="Attributes\EveryItemIsAttribute.cs" />
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Listing\TranslatePhotoViewModel.cs" />
     <Compile Include="ViewModels\Listing\UpdateListingViewModel.cs" />
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
     <Compile Include="ViewModels\Profiles\AskForReviewModel.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="ViewModels\Profiles\LoadFacebookAlbumsViewModel.cs" />
     <Compile Include="ViewModels\Profiles\PublicProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\SearchProfileViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\TranslateProfileViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
     <Compile Include="ViewModels\Security\LoginViewModel.cs" />
