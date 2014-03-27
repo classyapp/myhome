@@ -355,10 +355,10 @@ namespace Classy.DotNet.Services
             try
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
-                var url = string.Format(PROFILE_TRANSLATION_URL, profileId, profileTranslation.Culture);
+                var url = string.Format(PROFILE_TRANSLATION_URL, profileId, profileTranslation.CultureCode);
                 var data = new { 
                     ProfileId = profileId,
-                    CultureCode = profileTranslation.Culture,
+                    CultureCode = profileTranslation.CultureCode,
                     Metadata = profileTranslation.Metadata
                 };
                 string json = client.UploadString(url, data.ToJson());

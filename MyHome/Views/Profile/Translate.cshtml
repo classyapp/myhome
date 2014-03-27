@@ -18,7 +18,9 @@
     {
         @Html.Bootstrap().ValidationSummary()
         @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.BusinessDescription).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.ServicesProvided).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
         @Html.HiddenFor(x => x.Action)
 
         <div class="form-buttons">
@@ -31,7 +33,9 @@
 <script type="text/ecmascript">
     $("#CultureCode").on("change", function () {
         $.get("/profile/@Model.ProfileId/translate/" + $("#CultureCode").val(), function (response) {
+            $("#CompanyName").val(response.CompanyName || "");
             $("#BusinessDescription").val(response.Metadata.BusinessDescription || "");
+            $("#ServicesProvided").val(response.Metadata.ServicesProvided || "");
         });
     });
     $("#CultureCode").trigger("change");
