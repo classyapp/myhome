@@ -47,7 +47,7 @@
             }
             @if (!string.IsNullOrEmpty(Model.Category))
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb")>
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })"><span itemprop="title">@categories.Single(x => x.Value == Model.Category).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>

@@ -34,15 +34,15 @@
             }
         }
 
-    @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
-    {
-        <span class="contactList">
-            @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReview_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-        </span>
-        @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
-        @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
-    }
+        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
+        {
+            
+                @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReview_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            
+            @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
+        }
     </div>
 
     <div class="col-md-3 col-md-offset-1 helpbar">
@@ -50,14 +50,12 @@
             <h1>@Localizer.Get("AskForReview_Help_Title")</h1>
             <div class="content">
                 <p>@Localizer.Get("AskForReview_Help_Content")</p>
-                <div class="text-center">
+                <div>
                     @if (!Model.IsGoogleConnected)
                     {
                         <hr/>
                         <p><strong>@Localizer.Get("AskForReview_Help_ImportTitle")</strong></p>
-                        <div class="lnk-select-contant">
-                            <a href="#" onclick="auth()" class="btn btn-danger">@Localizer.Get("AskForReview_ImportFromGmail")</a>
-                        </div>
+                        <a href="#" onclick="auth()" class="btn btn-danger btn-block">@Localizer.Get("AskForReview_ImportFromGmail")</a>
                     }
                 </div>
             </div>
@@ -175,6 +173,7 @@
 
         $('#Contacts').tagsInput({
             width: 'auto',
+            minInputWidth: 'auto',
             defaultText: '@Localizer.Get("AskForReview_AddEmail")',
             onRemoveTag: function (email) {
                 $('a[data-email="' + email + '"]').parents('tr').toggleClass('selected');
