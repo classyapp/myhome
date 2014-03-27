@@ -56,33 +56,31 @@
                 var hasRoomOrStyle = hasRoom || hasStyle;
                 var hasStyleOrTag = hasStyle || hasTag;
                 var hasRoomOrTag = hasRoom || hasTag;
-                var hasHead = false;
             }
+
             @if (!(hasStyleOrTag && hasRoomOrStyle && hasRoomOrTag))
             {
                 <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = "" })"><span itemprop="title">@Localizer.Get("PhotoSearch_AllPhotos")</span></a>
                 </span>
-                hasHead = true;
             }
-                        @if (hasRoom)
+            @if (hasRoom)
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" @Html.Raw(hasHead ? "itemprop=\"child\"" : "")>
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })"><span itemprop="title">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                 </span>
-                hasHead = true;
             }
             @if (hasStyle)
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" @Html.Raw(hasHead ? "itemprop=\"child\"" : "")>
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })"><span itemprop="title">@styles.Single(x => x.Value == Model.Metadata.Style).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, Model.Location) })">x</a>
                 </span>
             }
             @if (hasTag)
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(Model.Tag, Model.Location) })"><span itemprop="title">@Model.Tag</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, Model.Location) })">x</a>
                 </span>
