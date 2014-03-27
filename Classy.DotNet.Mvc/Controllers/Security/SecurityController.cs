@@ -45,6 +45,20 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 namespaces: new string[] { Namespace }
                 );
 
+            routes.MapRouteWithName(
+                name: "ResetPassword",
+                url: "reset/{resetHash}",
+                defaults: new { controller = "Security", action = "ResetPassword" },
+                namespaces: new string[] { Namespace }
+                );
+
+            routes.MapRouteWithName(
+                name: "ForgotPassword",
+                url: "forgot",
+                defaults: new { controller = "Security", action = "ForgotPassword" },
+                namespaces: new string[] { Namespace }
+                );
+
             routes.MapRoute(
                 name: "AuthenticateFacebookUser",
                 url: "login/fb",
@@ -112,6 +126,43 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 throw;
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            TempData["ForgotPassword_RequestSuccess"] = ClassyAuth.RequestPasswordReset(model.Email);
+
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ResetPassword(string resetHash)
+        {
+            // Validate hash
+            
+            return View(new ResetPasswordViewModel { Hash= resetHash });
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.Hash))
+            {
+                TempData["ResetPassword_Error"] = Localizer.Get("ResetPassword_InvalidUrl");
+            }
+            else
+            {
+                // get user auth by hash
+            }
+            return View();
+        }
+
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AuthenticateWithFacebook(string token)

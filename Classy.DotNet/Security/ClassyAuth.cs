@@ -414,5 +414,23 @@ namespace Classy.DotNet.Security
         #endregion
 
         #endregion
+
+        public static bool RequestPasswordReset(string email)
+        {
+            try
+            {
+                var wc = GetWebClient();
+                string json = wc.UploadString(string.Concat(EndpointBaseUrl, "/auth/forgot"),
+                    new
+                    {
+                        Email = email
+                    }.ToJson());
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
