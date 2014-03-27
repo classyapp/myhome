@@ -35,7 +35,7 @@
 
         <div class="label-container">
             @{ 
-                var hasLocation = !string.IsNullOrEmpty(loc);
+                var hasLocation = !string.IsNullOrEmpty(Model.Location);
                 var hasCategory = !string.IsNullOrEmpty(Model.Category);
             }
             @if (!hasLocation || !hasCategory)
@@ -47,14 +47,14 @@
             }
             @if (!string.IsNullOrEmpty(Model.Category))
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" @Html.Raw(!hasLocation ? "itemprop=\"child\"" : "")>
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb")>
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })"><span itemprop="title">@categories.Single(x => x.Value == Model.Category).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
             @if (hasLocation)
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })"><span itemprop="title">@countries.Single(x => x.Value == Model.Location).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
                 </span>
