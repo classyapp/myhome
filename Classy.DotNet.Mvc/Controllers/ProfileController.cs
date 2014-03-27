@@ -582,8 +582,6 @@ namespace Classy.DotNet.Mvc.Controllers
                 var resutls = service.SearchProfiles(
                     model.Name,
                     model.Category,
-                    /* ------------------------------------------ this is midle of Australia for now -- */
-                    //new LocationView { Coords = new CoordsView { Longitude = 137.656247, Latitude = -25.539181 }, Address = new PhysicalAddressView { Country = model.Country } },
                     location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
