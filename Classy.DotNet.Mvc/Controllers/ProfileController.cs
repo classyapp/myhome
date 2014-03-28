@@ -614,10 +614,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchProfileViewModel<TProMetadata> model, object dummyforpost)
         {
-            if (model.Metadata == null) model.Metadata = new TProMetadata();
-            return RedirectToRoute("SearchProfiles", new { name = model.Name, category = model.Category, 
-                location = model.Location, Longitude = model.Longitude, Latitude = model.Latitude 
-            });
+            return RedirectToRoute("SearchProfiles", new { filters = model.ToSlug() });
         }
 
         // 

@@ -1,9 +1,11 @@
 ﻿using Classy.DotNet.Responses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
@@ -24,6 +26,14 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         {
             Page = 1;
             Format = "html";
+        }
+
+        public string ToSlug()
+        {
+            return Path.Combine(
+                this.Category ?? string.Empty, 
+                this.Location ?? string.Empty, 
+                this.Name ?? string.Empty).ToLower().Replace('\\', '/');
         }
     }
 }
