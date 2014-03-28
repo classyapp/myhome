@@ -359,6 +359,7 @@ namespace Classy.DotNet.Services
                 var data = new { 
                     ProfileId = profileId,
                     CultureCode = profileTranslation.CultureCode,
+                    CompanyName = profileTranslation.CompanyName,
                     Metadata = profileTranslation.Metadata
                 };
                 string json = client.UploadString(url, data.ToJson());
