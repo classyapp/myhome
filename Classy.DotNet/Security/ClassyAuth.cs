@@ -423,7 +423,27 @@ namespace Classy.DotNet.Security
                 string json = wc.UploadString(string.Concat(EndpointBaseUrl, "/auth/forgot"),
                     new
                     {
+                        Host = HttpContext.Current.Request.Url.Authority,
                         Email = email
+                    }.ToJson());
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool ResetPassword(string hash, string password)
+        {
+            try
+            {
+                var wc = GetWebClient();
+                string json = wc.UploadString(string.Concat(EndpointBaseUrl, "/auth/reset"),
+                    new
+                    {
+                        Hash = hash,
+                        Password = password 
                     }.ToJson());
                 return true;
             }

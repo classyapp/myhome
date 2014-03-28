@@ -130,21 +130,28 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ForgotPassword()
         {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
+
             return View();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
-            TempData["ForgotPassword_RequestSuccess"] = ClassyAuth.RequestPasswordReset(model.Email);
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
 
+            TempData["ForgotPassword_RequestSuccess"] = ClassyAuth.RequestPasswordReset(model.Email);
+            
             return View();
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ResetPassword(string resetHash)
         {
-            // Validate hash
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
             
             return View(new ResetPasswordViewModel { Hash= resetHash });
         }
@@ -152,6 +159,9 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ResetPassword(ResetPasswordViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
+
             if (string.IsNullOrEmpty(model.Hash))
             {
                 TempData["ResetPassword_Error"] = Localizer.Get("ResetPassword_InvalidUrl");
@@ -159,6 +169,14 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             else
             {
                 // get user auth by hash
+                if (ClassyAuth.ResetPassword(model.Hash, model.Password))
+                {
+                    return Redirect("/login");
+                }
+                else
+                {
+                    TempData["ResetPassword_Error"] = Localizer.Get("ResetPassword_Failure");
+                }
             }
             return View();
         }
