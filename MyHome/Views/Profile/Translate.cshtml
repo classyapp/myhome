@@ -33,9 +33,9 @@
 <script type="text/ecmascript">
     $("#CultureCode").on("change", function () {
         $.get("/profile/@Model.ProfileId/translate/" + $("#CultureCode").val(), function (response) {
-            $("#CompanyName").val(response.CompanyName || "");
-            $("#BusinessDescription").val(response.Metadata.BusinessDescription || "");
-            $("#ServicesProvided").val(response.Metadata.ServicesProvided || "");
+            $("#frmTranslate #CompanyName").val(response.CompanyName || "");
+            $("#frmTranslate #BusinessDescription").val(response.Metadata.BusinessDescription || "");
+            $("#frmTranslate #ServicesProvided").val(response.Metadata.ServicesProvided || "");
         });
     });
     $("#CultureCode").trigger("change");
