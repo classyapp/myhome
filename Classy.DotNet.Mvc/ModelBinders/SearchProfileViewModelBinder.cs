@@ -17,7 +17,7 @@ namespace Classy.DotNet.Mvc.ModelBinders
         {
             SearchProfileViewModel<TProMetadata> model = base.BindModel(controllerContext, bindingContext) as SearchProfileViewModel<TProMetadata>;
             var filtersValue = bindingContext.ValueProvider.GetValue("filters");
-            if (filtersValue != null)
+            if (filtersValue != null && !string.IsNullOrEmpty(filtersValue.RawValue as string))
             {
                 var filters = ((string)filtersValue.RawValue).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 filters.ForEach((x) => { x = x.ToLower(); });
