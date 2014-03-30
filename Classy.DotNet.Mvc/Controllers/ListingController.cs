@@ -83,7 +83,7 @@ namespace Classy.DotNet.Mvc.Controllers
             routes.MapRoute(
                 name: string.Concat("Translate", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/translate/{cultureCode}"),
-                defaults: new { controller = ListingTypeName, action = string.Concat("Translate", ListingTypeName), cultureCode = UrlParameter.Optional },
+                defaults: new { controller = ListingTypeName, action = "TranslateListing", cultureCode = UrlParameter.Optional },
                 namespaces: new string[] { Namespace }
             );
 
