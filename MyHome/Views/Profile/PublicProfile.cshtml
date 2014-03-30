@@ -35,7 +35,7 @@
             else
             {
                 <a href="mailto:?subject=@(Localizer.Get("Profile_MailLinkSubject"))&body=@(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
-                <a href="@Url.RouteUrl("CreateProfessionalProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GorPro")</a>
+                <a href="@Url.RouteUrl("CreateProfessionalProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoPro")</a>
             }
         </div>
     }
