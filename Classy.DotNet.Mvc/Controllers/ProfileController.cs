@@ -910,7 +910,10 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var profile = profileService.GetProfileById(profileId);
                 model = new TranslateProfileViewModel { ProfileId = profileId, CultureCode = profile.DefaultCulture, 
-                    BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty};
+                    CompanyName = profile.ProfessionalInfo.CompanyName,
+                    BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
+                    ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["BusinessDescription"] : string.Empty
+                };
             }
             else
             {
@@ -938,8 +941,12 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
                     {
-                        Culture = model.CultureCode,
-                        Metadata = new Dictionary<string, string> { { "BusinessDescription", model.BusinessDescription } }
+                        CultureCode = model.CultureCode,
+                        CompanyName = model.CompanyName,
+                        Metadata = new Dictionary<string, string> { 
+                            { "BusinessDescription", model.BusinessDescription },
+                            { "ServicesProvided", model.ServicesProvided }
+                        }
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
                 }

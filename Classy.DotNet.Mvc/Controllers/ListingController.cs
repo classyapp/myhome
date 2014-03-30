@@ -369,7 +369,7 @@ namespace Classy.DotNet.Mvc.Controllers
             return Json(new { IsValid = true });
         }
 
-        [Authorize]
+        [AuthorizeWithRedirect("Index")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditListing(string listingId)
         {
@@ -552,16 +552,16 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult TranslatePhoto(string listingId, string cultureCode)
+        public ActionResult TranslateListing(string listingId, string cultureCode)
         {
             var listingService = new ListingService();
-            TranslatePhotoViewModel model = null;
+            TranslateListingViewModel model = null;
             ListingTranslationView translation = null;
 
             if (cultureCode == null)
             {
                 var listing = listingService.GetListingById(listingId, false, false, false, false, false);
-                model = new TranslatePhotoViewModel { ListingId = listingId, CultureCode = listing.DefaultCulture, Title = listing.Title, Content = listing.Content };
+                model = new TranslateListingViewModel { ListingId = listingId, CultureCode = listing.DefaultCulture, Title = listing.Title, Content = listing.Content };
             }
             else
             {
@@ -580,7 +580,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult TranslatePhoto(TranslatePhotoViewModel model)
+        public ActionResult TranslateListing(TranslateListingViewModel model)
         {
             try
             {

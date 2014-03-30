@@ -8,8 +8,9 @@
 }
 
 @section ActionBar {
-    <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditPhoto")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("PhotoDetails_Edit")</a>
-    @Html.TriggerListingActionLink(string.Concat("<i class=\"glyphicon glyphicon-trash\"></i>&nbsp;", Localizer.Get("PhotoDetails_Delete")), "delete", Model.Listing, "btn btn-primary btn-sm")
+    @if (Model.Listing.CanEdit()) {
+        <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditPhoto")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("PhotoDetails_Edit")</a>
+    }
 }
 
 <div class="row photo-details">    

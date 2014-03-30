@@ -8,7 +8,8 @@ namespace Classy.DotNet.Responses
 {
     public class ProfileTranslationView
     {
-        public string Culture { get; set; }
+        public string CultureCode { get; set; }
+        public string CompanyName { get; set; }
         public Dictionary<string, string> Metadata { get; set; }
     }
 
