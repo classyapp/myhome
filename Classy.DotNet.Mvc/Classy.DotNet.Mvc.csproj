@@ -112,7 +112,7 @@
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Listing\TranslatePhotoViewModel.cs" />
+    <Compile Include="ViewModels\Listing\TranslateListingViewModel.cs" />
     <Compile Include="ViewModels\Listing\UpdateListingViewModel.cs" />
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
     <Compile Include="ViewModels\Profiles\AskForReviewModel.cs" />

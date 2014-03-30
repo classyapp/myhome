@@ -1,4 +1,4 @@
-﻿@model Classy.DotNet.Mvc.ViewModels.Listing.TranslatePhotoViewModel
+﻿@model Classy.DotNet.Mvc.ViewModels.Listing.TranslateListingViewModel
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -6,9 +6,9 @@
 </div>
 <div class="modal-body">
     <p>
-        @Localizer.Get("TranslatePhoto_DefaultLanguageInstructions")
+        @Localizer.Get("TranslateListing_DefaultLanguageInstructions")
     </p>
-    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslatePhoto", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
+    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslateListing", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
         HttpMethod = "POST",
