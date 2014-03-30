@@ -8,7 +8,7 @@
     <p>
         @Localizer.Get("TranslateListing_DefaultLanguageInstructions")
     </p>
-    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslateListing", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
+    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslatePhoto", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
         HttpMethod = "POST",
