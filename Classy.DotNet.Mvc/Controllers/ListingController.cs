@@ -369,7 +369,7 @@ namespace Classy.DotNet.Mvc.Controllers
             return Json(new { IsValid = true });
         }
 
-        [Authorize]
+        [AuthorizeWithRedirect("Index")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditListing(string listingId)
         {
