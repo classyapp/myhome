@@ -13,7 +13,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
     {
         public string Name { get; set; }
         public string Category { get; set; }
-        public string Location { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
         public TProMetadata Metadata { get; set; }
         public IList<ProfileView> Results { get; set; }
         public long Count { get; set; }
@@ -31,8 +32,9 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public string ToSlug()
         {
             return Path.Combine(
-                this.Category ?? string.Empty, 
-                this.Location ?? string.Empty, 
+                this.Category ?? string.Empty,
+                this.City ?? string.Empty,
+                this.Country ?? string.Empty, 
                 this.Name ?? string.Empty).ToLower().Replace('\\', '/');
         }
     }
