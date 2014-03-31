@@ -12,7 +12,9 @@
         <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage", new { ProfileId = Model.ProfileId })" data-profile-id="@Model.ProfileId" value="" onchange="ChangeProfilePhoto(this)" />
     </button>
 
-    <a class="btn btn-primary btn-sm" trigger-profile-action="translate" object-id="@Model.ProfileId" object-type="profile"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditProfile_Translate")</a>
+    @if (Model.IsProfessional) {
+        <a class="btn btn-primary btn-sm" trigger-profile-action="translate" object-id="@Model.ProfileId" object-type="profile"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditProfile_Translate")</a>
+    }
 } 
         
 <div class="row">
