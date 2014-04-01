@@ -268,6 +268,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                     null, 
                     null,
                     model.Metadata.ToDictionary(), 
+                    null,
                     UpdateProfileFields.Metadata);
             }
 

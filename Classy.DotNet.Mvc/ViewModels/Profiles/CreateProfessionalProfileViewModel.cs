@@ -45,6 +45,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Display(Name = "ClaimProxy_CompanyName")]
         [Required(ErrorMessage = "ClaimProxy_CompanyName_Required")]
         public string CompanyName { get; set; }
+        [Display(Name = "ClaimProxy_DefaultCulture")]
+        public string DefaultCulture { get; set; }
         public TProMetadata Metadata { get; set; }
     }
 }
