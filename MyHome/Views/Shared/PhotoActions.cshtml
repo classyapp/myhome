@@ -30,6 +30,6 @@
     }
     @if (Model.ShowRemove && User.Identity.IsAuthenticated)
     {
-        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-trash\"></i>", "remove", Model.Listing, "btn btn-danger action remove")
+        @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-minus-sign\"></i>", "remove", Model.Listing, "btn btn-danger action remove")
     }
 </div>
