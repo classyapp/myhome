@@ -45,6 +45,20 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 namespaces: new string[] { Namespace }
                 );
 
+            routes.MapRouteWithName(
+                name: "ResetPassword",
+                url: "reset/{resetHash}",
+                defaults: new { controller = "Security", action = "ResetPassword" },
+                namespaces: new string[] { Namespace }
+                );
+
+            routes.MapRouteWithName(
+                name: "ForgotPassword",
+                url: "forgot",
+                defaults: new { controller = "Security", action = "ForgotPassword" },
+                namespaces: new string[] { Namespace }
+                );
+
             routes.MapRoute(
                 name: "AuthenticateFacebookUser",
                 url: "login/fb",
@@ -112,6 +126,69 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 throw;
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ForgotPassword()
+        {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
+
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
+
+            TempData["ForgotPassword_RequestSuccess"] = ClassyAuth.RequestPasswordReset(model.Email);
+            
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ResetPassword(string resetHash)
+        {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
+            
+            // verify password request
+            if (ClassyAuth.VerifyResetRequest(resetHash))
+            {
+                return View(new ResetPasswordViewModel { Hash = resetHash });
+            }
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/");
+
+            if (string.IsNullOrEmpty(model.Hash))
+            {
+                TempData["ResetPassword_Error"] = Localizer.Get("ResetPassword_InvalidUrl");
+            }
+            else
+            {
+                // get user auth by hash
+                if (ClassyAuth.ResetPassword(model.Hash, model.Password))
+                {
+                    return Redirect("/login");
+                }
+                else
+                {
+                    TempData["ResetPassword_Error"] = Localizer.Get("ResetPassword_Failure");
+                }
+            }
+            return View();
+        }
+
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AuthenticateWithFacebook(string token)
