@@ -153,7 +153,15 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             if (User.Identity.IsAuthenticated)
                 return Redirect("/");
             
-            return View(new ResetPasswordViewModel { Hash= resetHash });
+            // verify password request
+            if (ClassyAuth.VerifyResetRequest(resetHash))
+            {
+                return View(new ResetPasswordViewModel { Hash = resetHash });
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

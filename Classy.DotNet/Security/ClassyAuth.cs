@@ -452,5 +452,19 @@ namespace Classy.DotNet.Security
                 return false;
             }
         }
+
+        public static bool VerifyResetRequest(string hash)
+        {
+            try
+            {
+                var wc = GetWebClient();
+                wc.DownloadString(string.Format("{0}/auth/reset?Hash={1}", EndpointBaseUrl, hash));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
