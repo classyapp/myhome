@@ -1,12 +1,14 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Collection.TranslateCollectionViewModel
-
+@{
+    IEnumerable<LocalizedListItem> cultures = Localizer.GetList("supported-cultures");
+}
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">@Localizer.Get("EditCollection_TranslateTitle")</h4>
 </div>
 <div class="modal-body">
     <p>
-        @Localizer.Get("TranslateCollection_DefaultLanguageInstructions")
+        @string.Format(Localizer.Get("TranslateCollection_DefaultLanguageInstructions"), cultures.First(c => c.Value == Model.CultureCode).Text)
     </p>
     @using (var f = Ajax.Bootstrap().Begin(new Form("Translate", "Collection").RouteValues(new { CollectionId = Model.CollectionId }).Id("frmTranslate"), new AjaxOptions
     {
