@@ -1,7 +1,7 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Collection.EditCollectionViewModel
 
 @{
-    ViewBag.Title = "EditCollection";
+    ViewBag.Title = Localizer.Get("EditCollection_BrowserTitle");
     var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
     var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
 }
@@ -17,17 +17,17 @@
         {
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h4>@Localizer.Get("EditCollection_Success_Title")</h4>
-                <p>@Localizer.Get("EditCollection_Success")</p>
-                <p>@Html.RouteLink(Localizer.Get("EditCollection_Success_Action"), "CollectionDetails", new { collectionId = Model.CollectionId, view = "list" }, new { @class = "btn btn-success" })</p>
+                <h4>@Model.GetLocalizedString("Edit{0}_Success_Title")</h4>
+                <p>@Model.GetLocalizedString("Edit{0}_Success")</p>
+                <p>@Html.RouteLink(Model.GetLocalizedString("Edit{0}_Success_Action"), "CollectionDetails", new { collectionId = Model.CollectionId, view = "list" }, new { @class = "btn btn-success" })</p>
             </div>
         }
         @if (TempData["UpdateCollectionError"] != null)
         {
-            @Html.Bootstrap().Alert(Localizer.Get("UpdateCollection_Error")).Style(AlertColor.Danger)
+            @Html.Bootstrap().Alert(Model.GetLocalizedString("Update{0}_Error")).Style(AlertColor.Danger)
         }
 
-        <h1>@Localizer.Get("EditCollection_FormTitle")</h1>
+        <h1>@Model.GetLocalizedString("Edit{0}_FormTitle")</h1>
         <hr />
         @Html.Bootstrap().ValidationSummary()
 
@@ -37,7 +37,7 @@
             @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
 
             <div class="collection-items" collection-id="@Model.CollectionId">
-                <h4>@Localizer.Get("EditCollection_ExplainPhotoComments")</h4>
+                <h4>@Model.GetLocalizedString("EditCollection_ExplainPhotoComments")</h4>
                 <hr />
 
                 @for (int i = 0; i < Model.IncludedListings.Length; i++)

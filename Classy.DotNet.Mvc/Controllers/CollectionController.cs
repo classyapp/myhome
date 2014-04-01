@@ -198,6 +198,7 @@ namespace Classy.DotNet.Mvc.Controllers
             return View(new EditCollectionViewModel
             {
                 CollectionId = collectionId,
+                CollectionType = collection.Type,
                 Title = collection.Title,
                 Content = collection.Content,
                 Listings = collection.Listings,
@@ -222,6 +223,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 return View(new EditCollectionViewModel
                 {
                     CollectionId = collection.Id,
+                    CollectionType = collection.Type,
                     Title = collection.Title,
                     Content = collection.Content,
                     Listings = collection.Listings,
