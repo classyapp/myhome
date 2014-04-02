@@ -201,8 +201,8 @@
         // Additional JS functions here
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '13237044783', // App ID
-                channelUrl: '//www.homelab.com/channel.html', // Channel File
+                appId: '281478942020037',
+                channelUrl: document.location.origin + '/channel.html',
                 status: true, // check login status
                 cookie: true, // enable cookies to allow the server to access the session
                 xfbml: true  // parse XFBML
@@ -326,6 +326,8 @@
                 { "CollectionRemovephoto_ConfirmText", Localizer.Get("CollectionRemovephoto_ConfirmText")},
                 { "Deletephoto_ConfirmTitle", Localizer.Get("Deletephoto_ConfirmTitle")},
                 { "Deletephoto_ConfirmText", Localizer.Get("Deletephoto_ConfirmText")},
+                { "CreatePhoto_ChangeSelectionTitle", Localizer.Get("CreatePhoto_ChangeSelectionTitle")},
+                { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")}
         })));
     </script>
 
