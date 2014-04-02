@@ -911,7 +911,7 @@ a.action
     }
 
 
-@media (min-width: 768px)
+@media (min-width: 200px) /* change to 768px to make responsive again*/
 {
     .container
     {

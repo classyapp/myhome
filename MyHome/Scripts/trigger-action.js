@@ -179,10 +179,10 @@ function bindTriggerActions(context) {
             show: true,
             buttons: {
                 cancel: {
-                    label: Classy.Messages.Cancel, className: "btn-default", callback: function () { }
+                    label: Classy.Messages.Confirm_Cancel, className: "btn-default", callback: function () { }
                 },
                 success: {
-                    label: Classy.Messages.Yes, className: "btn-danger", callback: function () {
+                    label: Classy.Messages.Confirm_Yes, className: "btn-danger", callback: function () {
                         $.post($(e.target).data("href"), {}, function (response) {
                             if ("error" in response) {
                                 $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);

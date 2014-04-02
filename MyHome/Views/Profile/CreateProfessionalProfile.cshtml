@@ -46,9 +46,11 @@
                 <h1>@Localizer.Get("CreateProProfile_Copy_Title")</h1>
                 <div>@Html.Raw(Localizer.Get("CreateProProfile_Copy_Content"))</div>
             </div>
-            <div class="default-culture alert alert-info">
+            <hr/>
+            <div class="alert alert-info">
                 @Localizer.Get("CreateProProfile_DefaultCultureInfo")
-                @f.FormGroup().DropDownListFor(x => x.DefaultCulture, Localizer.GetList("supported-cultures").AsSelectList())
+                <br/><br/>
+                @f.FormGroup().DropDownListFor(x => x.DefaultCulture, Localizer.GetList("supported-cultures").AsSelectList()).Label().Class("hidden")
             </div>
         </div>
     }
