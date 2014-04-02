@@ -175,7 +175,7 @@ function bindTriggerActions(context) {
         bootbox.dialog({
             title: Classy.Messages.DeleteProject_ConfirmTitle,
             message: Classy.Messages.DeleteProject_ConfirmText,
-            onEscape: function () {},
+            onEscape: function () {}, 
             show: true,
             buttons: {
                 cancel: {
