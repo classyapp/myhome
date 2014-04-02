@@ -484,6 +484,10 @@ a, a:visited
     margin-right: 10px;
 }
 
+.photo.thumbnail {
+    min-height: 300px;
+}
+
 .photo.thumbnail .actions
 {
     display: none;

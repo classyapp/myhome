@@ -263,15 +263,6 @@
         </div>
     </div>
 
-    <!-- change password -->
-    <div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content" id="change-password-replace">
-                <!-- will be replaced -->
-            </div>
-        </div>
-    </div>
-
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
