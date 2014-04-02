@@ -248,11 +248,15 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Register()
+        public ActionResult Register(string referrerUrl)
         {
             if (Request.IsAuthenticated) return RedirectToRoute("PublicProfile");
 
-            return View(new RegistrationViewModel<TMetadata>());
+            var model = new RegistrationViewModel<TMetadata>
+            {
+                ReferrerUrl = referrerUrl
+            };
+            return View(model);
         }
 
         [Authorize]
@@ -275,7 +279,8 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             if (OnProfileRegistered != null)
                 OnProfileRegistered(this, profile);
 
-            return RedirectToRoute(
+            if (!string.IsNullOrEmpty(model.ReferrerUrl)) return Redirect(HttpUtility.UrlDecode(model.ReferrerUrl));
+            else return RedirectToRoute(
                     model.IsProfessional ? "CreateProfessionalProfile" : "PublicProfile",
                     new { ProfileId = profile.Id }
                 );
