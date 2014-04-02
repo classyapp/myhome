@@ -34,12 +34,14 @@
                     html += '<div class="col-md-4">' + 
                                 '<div class="thumbnail">' +
                                     '<a href="#">' +
-                                        '<span class="select"><i class="glyphicon glyphicon-ok"></i></span>' +
+                                        '<span class="select" data-url="' + element.Url + '"><i class="glyphicon glyphicon-ok"></i></span>' +
                                         '<img src="' + element.Url + '" class="img-responsive" />' +
                                     '</a>' +
                                 '</div>' + 
                             '</div>';
                 });
+
+                html += '<div class="col-md-12"><a class="btn btn-primary" onclick="uploadSelectedPhotos()">@Localizer.Get("LoadFacebookAlbums_UploadSelected")</a></div>';
 
                 $('div.album').addClass('hidden');
                 $('.fb-photos[data-album-id="' + albumId + '"]')
@@ -55,4 +57,14 @@
             });
         });
     });
+
+    function uploadSelectedPhotos() {
+        var urls = [];
+        $("span.select.selected").each(function (idx, item) { urls.push($(item).data("url")) });
+        $(".fb-photos").addClass('hidden');
+        $("#Metadata_CopyrightMessage").val("http://www.facebook.com/" + FB.getUserID());
+        $("#Metadata_IsWebPhoto").val("True");
+        $("#load-fb-modal").modal('hide');
+        previewSelectedFBPhotos(urls);
+    }
 </script>
