@@ -140,7 +140,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         public ActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
             if (User.Identity.IsAuthenticated)
-                return Redirect("/");
+                return RedirectToRoute("Index");
 
             TempData["ForgotPassword_RequestSuccess"] = ClassyAuth.RequestPasswordReset(model.Email);
             

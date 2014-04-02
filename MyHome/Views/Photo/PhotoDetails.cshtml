@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Metadata.Style, " - ", Model.Metadata.Room, " - ", Model.Listing.Profile.GetProfileName());
+    ViewBag.MetaDescription = Model.Listing.Content;
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
