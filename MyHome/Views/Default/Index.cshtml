@@ -8,12 +8,15 @@
 }
 
 @section PreContent {
-    <div class="slogan">
-        <h1>@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
-        <div class="signin">
-            <a id="sign-in-facebook" class="btn btn-sm btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="slogan">
+            <h1>@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
+            <div class="signin">
+                <a id="sign-in-facebook" class="btn btn-sm btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
+            </div>
         </div>
-    </div>
+    }
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 400px; top: -90px;">
         <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
