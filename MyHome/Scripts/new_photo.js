@@ -32,10 +32,10 @@ function showFBPhotoChooser() {
             show: true,
             buttons: {
                 cancel: {
-                    label: Classy.Messages.Cancel, className: "btn-default", callback: function () { }
+                    label: Classy.Messages.Confirm_Cancel, className: "btn-default", callback: function () { }
                 },
                 success: {
-                    label: Classy.Messages.Yes, className: "btn-danger", callback: function () {
+                    label: Classy.Messages.Confirm_Yes, className: "btn-danger", callback: function () {
                         $("#DummyFile").val("");
                         $("#filesPreview").html("");
                         $("#load-fb-modal").modal('show');

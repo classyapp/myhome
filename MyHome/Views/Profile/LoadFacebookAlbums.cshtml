@@ -6,9 +6,12 @@
 </div>
 <div class="modal-body">
     <div class="row">
+        <div class="col-md-12">@Localizer.Get("LoadFacebookAlbums_PhotosSelected")&nbsp;<span id="photos-count"></span></div>
+    </div>
+    <div class="row" style="margin: 20px auto;">
         @foreach (var album in Model.Albums)
         {
-            <div class="col-md-4 album" data-album-id="@album.Id">
+            <div class="col-md-4 album" data-album-id="@album.Id" data-loaded="false">
                 <div class="media">
                     <a class="pull-left" href="#">
                         <img src="@album.Photos[0].Url" width="64" />
@@ -21,40 +24,48 @@
             <div class="col-md-12 hidden fb-photos" data-album-id="@album.Id"></div>
         }
     </div>
+    <div class="row">
+        <div class="col-md-12"><a class="btn btn-primary" onclick="uploadSelectedPhotos()">@Localizer.Get("LoadFacebookAlbums_UploadSelected")</a></div>
+    </div>
 </div>
 
 <script>
     $(function () {
         $('div.album').click(function() {
             var albumId = $(this).attr('data-album-id');
-            $.get('@Url.RouteUrl("LoadFacebookAlbums")' + albumId, function (data) {
-                var html = '<div><p><a href="#" class="back">&larr; back</a></p></div>';
+            if ($(this).data("loaded") != true) {
+                $.get('@Url.RouteUrl("LoadFacebookAlbums")' + albumId, function (data) {
+                    $("div[data-album-id=" + albumId + "]").data("loaded", true);
+                    var html = '<div><p><a href="#" class="back">&larr; back</a></p></div>';
 
-                $.each(data.Album.Photos, function (index, element) {
-                    html += '<div class="col-md-4">' + 
-                                '<div class="thumbnail">' +
-                                    '<a href="#">' +
-                                        '<span class="select" data-url="' + element.Url + '"><i class="glyphicon glyphicon-ok"></i></span>' +
-                                        '<img src="' + element.Url + '" class="img-responsive" />' +
-                                    '</a>' +
-                                '</div>' + 
-                            '</div>';
+                    $.each(data.Album.Photos, function (index, element) {
+                        html += '<div class="col-md-4">' +
+                                    '<div class="thumbnail">' +
+                                        '<a href="#">' +
+                                            '<span class="select" data-url="' + element.Url + '"><i class="glyphicon glyphicon-ok"></i></span>' +
+                                            '<img src="' + element.Url + '" class="img-responsive" />' +
+                                        '</a>' +
+                                    '</div>' +
+                                '</div>';
+                    });
+
+                    $('.fb-photos[data-album-id="' + albumId + '"]')
+                        .html(html);
+
+                    $('a.back').click(function () {
+                        $('div.album').removeClass('hidden');
+                        $('.fb-photos[data-album-id="' + albumId + '"]').addClass('hidden');
+                    });
+
+                    $('.fb-photos .thumbnail').click(function () {
+                        $(this).find('.select').toggleClass('selected');
+                        $("#photos-count").html($("span.select.selected").length);
+                    });
                 });
+            }
 
-                html += '<div class="col-md-12"><a class="btn btn-primary" onclick="uploadSelectedPhotos()">@Localizer.Get("LoadFacebookAlbums_UploadSelected")</a></div>';
-
-                $('div.album').addClass('hidden');
-                $('.fb-photos[data-album-id="' + albumId + '"]')
-                    .html(html)
-                    .removeClass('hidden');
-
-                $('a.back').click(function () {
-                    $('div.album').removeClass('hidden');
-                    $('.fb-photos[data-album-id="' + albumId + '"]').addClass('hidden');
-                });
-
-                $('.fb-photos .thumbnail').click(function() { $(this).find('.select').toggleClass('selected') });
-            });
+            $('div.album').addClass('hidden');
+            $('.fb-photos[data-album-id="' + albumId + '"]').removeClass('hidden');
         });
     });
 
@@ -62,8 +73,7 @@
         var urls = [];
         $("span.select.selected").each(function (idx, item) { urls.push($(item).data("url")) });
         $(".fb-photos").addClass('hidden');
-        $("#Metadata_CopyrightMessage").val("http://www.facebook.com/" + FB.getUserID());
-        $("#Metadata_IsWebPhoto").val("True");
+        $("#Metadata_IsWebPhoto").val("False");
         $("#load-fb-modal").modal('hide');
         previewSelectedFBPhotos(urls);
     }
