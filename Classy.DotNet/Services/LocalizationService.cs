@@ -13,10 +13,25 @@ namespace Classy.DotNet.Services
     public class LocalizationService : ServiceBase
     {
         private readonly string GET_RESOURCE_KEYS_URL = ENDPOINT_BASE_URL + "/resource/keys";
+        private readonly string GET_UNTRANSLATED_RESOURCE_KEYS_URL = ENDPOINT_BASE_URL + "/resources/untranslated/{0}";
         private readonly string RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/{0}";
         private readonly string LIST_RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/list/{0}";
         private readonly string CITIES_RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/list/cities/{0}";
 
+        public string[] GetUntranslatedResourceKeys(string culture)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var resourceJson = client.DownloadString(string.Format(GET_UNTRANSLATED_RESOURCE_KEYS_URL, culture));
+                var resourceKeys = resourceJson.FromJson<string[]>();
+                return resourceKeys;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
         public string[] GetResourceKeys()
         {
             try
