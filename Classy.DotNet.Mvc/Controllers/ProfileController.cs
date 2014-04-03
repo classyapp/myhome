@@ -518,7 +518,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 var claim = service.ClaimProfileProxy(
                     model.ProfileId,
                     professionalInfo,
-                    model.Metadata.ToDictionary());
+                    model.Metadata.ToDictionary(),
+                    model.DefaultCulture);
                 service.ApproveProxyClaim(claim.Id);
 
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });

@@ -26,7 +26,7 @@ namespace Classy.DotNet.Services
         private readonly string CHANGE_IMAGE_URL = ENDPOINT_BASE_URL + "/profile/{0}";
         private readonly string PROFILE_TRANSLATION_URL = ENDPOINT_BASE_URL + "/profile/{0}/translation/{1}";
 
-        private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}}}";
+        private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}, ""DefaultCulture"":""{2}""}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
 
         private readonly string GET_FACEBOOK_ALBUMS = ENDPOINT_BASE_URL + "/profile/social/facebook/albums";
@@ -156,13 +156,14 @@ namespace Classy.DotNet.Services
         public ProxyClaimView ClaimProfileProxy(
             string proxyId,
             ProfessionalInfoView proInfo,
-            IDictionary<string, string> metadata)
+            IDictionary<string, string> metadata,
+            string defaultCulture)
         {
             try
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var url = string.Format(CLAIM_PROXY_URL, proxyId);
-                var data = string.Format(CLAIM_PROXY_DATA, proInfo.ToJson(), metadata.ToJson());
+                var data = string.Format(CLAIM_PROXY_DATA, proInfo.ToJson(), metadata.ToJson(), defaultCulture);
                 var claimJson = client.UploadString(url, data);
                 var claim = claimJson.FromJson<ProxyClaimView>();
                 return claim;
