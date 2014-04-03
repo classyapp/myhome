@@ -336,6 +336,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         }
                     },
                     metadata != null ? metadata.ToDictionary() : null,
+                    model.DefaultCulture,
                     fields);
                 TempData["EditProfile_Success"] = true;
                 return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
@@ -468,6 +469,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     City = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
                     Country = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
                     PostalCode = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,
+                    DefaultCulture = proxy.DefaultCulture,
                     Metadata = metadata
                 };
                 return View(model);
@@ -647,6 +649,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     City = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City : null,
                     Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
                     PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
+                    DefaultCulture = profile.DefaultCulture,
                     Metadata = metadata
                 };
                 return View(model);
@@ -696,6 +699,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     null,
                     professionalInfo, 
                     model.Metadata.ToDictionary(), 
+                    model.DefaultCulture,
                     UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
@@ -888,7 +892,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, UpdateProfileFields.CoverPhotos);
+                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, null, UpdateProfileFields.CoverPhotos);
 
                 return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = profileId}) });
             }

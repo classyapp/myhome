@@ -16,7 +16,11 @@
             }
         </p>
         <ul class="resourceList list-unstyled">
-            @foreach (var key in Model.ResourceKeys)
+            @foreach (var key in Model.UntranslatedResourceKeys)
+            {
+                <li>@Html.RouteLink(key, "ManageResources", new { resourceKey = key, selectedCulture = Model.SelectedCulture }, new { @class = "btn btn-block btn-primary" })</li>
+            }
+            @foreach (var key in Model.TranslatedResourceKeys)
             {
                 <li>@Html.RouteLink(key, "ManageResources", new { resourceKey = key, selectedCulture = Model.SelectedCulture }, new { @class = "btn btn-block btn-default" })</li>
             }

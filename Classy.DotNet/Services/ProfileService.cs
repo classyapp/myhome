@@ -95,6 +95,7 @@ namespace Classy.DotNet.Services
             ExtendedContactInfoView contactInfo,
             ProfessionalInfoView proInfo,
             IDictionary<string, string> metadata,
+            string defaultCulture,
             UpdateProfileFields fields)
         {
             try
@@ -106,6 +107,7 @@ namespace Classy.DotNet.Services
                     ContactInfo = fields.HasFlag(UpdateProfileFields.ContactInfo) ? contactInfo : null,
                     ProfessionalInfo = fields.HasFlag(UpdateProfileFields.ProfessionalInfo) || fields.HasFlag(UpdateProfileFields.CoverPhotos) ? proInfo : null,
                     Metadata = fields.HasFlag(UpdateProfileFields.Metadata) ? metadata : null,
+                    DefaultCulture = defaultCulture,
                     Fields = fields
                 }.ToJson();
                 var profileJson = client.UploadString(url, "PUT", data);

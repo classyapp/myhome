@@ -1,4 +1,7 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Listing.TranslateListingViewModel
+@{
+    IEnumerable<LocalizedListItem> cultures = Localizer.GetList("supported-cultures");
+}
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -6,7 +9,7 @@
 </div>
 <div class="modal-body">
     <p>
-        @Localizer.Get("TranslateListing_DefaultLanguageInstructions")
+        @string.Format(Localizer.Get("TranslateListing_DefaultLanguageInstructions"), cultures.First(c => c.Value == Model.CultureCode).Text)
     </p>
     @using (var f = Ajax.Bootstrap().Begin(new Form("TranslateListing", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
     {

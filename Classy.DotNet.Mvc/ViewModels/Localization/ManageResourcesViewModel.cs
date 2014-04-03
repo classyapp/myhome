@@ -11,7 +11,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Localization
     public class ManageResourcesViewModel
     {
         public SelectList SupportedCultures { get; set; }
-        public string[] ResourceKeys { get; set; }
+        public string[] UntranslatedResourceKeys { get; set; }
+        public string[] TranslatedResourceKeys { get; set; }
         
         [Required]
         public string ResourceKey { get; set; }
