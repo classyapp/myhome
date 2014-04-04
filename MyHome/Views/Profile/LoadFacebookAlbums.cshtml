@@ -38,7 +38,7 @@
                     $("div[data-album-id=" + albumId + "]").data("loaded", true);
                     var html = '<div><p><a href="#" class="back">&larr; back</a></p></div>';
 
-                    $.each(data.Album.Photos, function (index, element) {
+                $.each(data.Album.Photos, function (index, element) {
                         html += '<div class="col-md-4">' +
                                     '<div class="thumbnail">' +
                                         '<a href="#">' +
