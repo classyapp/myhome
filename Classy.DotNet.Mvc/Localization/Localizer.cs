@@ -16,9 +16,6 @@ namespace Classy.DotNet.Mvc.Localization
 {
     public static class Localizer
     {
-        public const string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
-        public const string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
-        public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
         public const string ROUTE_LOCALE_DATA_TOKEN_KEY = "classy.routetoken.locale";
 
         private static bool _showResourceKeys = false;

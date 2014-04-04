@@ -35,6 +35,8 @@ namespace MyHome
             
             // binder for comma separataed strings
             ModelBinders.Binders.Add(typeof(AskForReviewModel), new CommaSeparatedToList());
+            // binder for profile search
+            ModelBinders.Binders.Add(typeof(SearchProfileViewModel<MyHome.Models.ProfessionalMetadata>), new SearchProfileViewModelBinder<MyHome.Models.ProfessionalMetadata>());
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

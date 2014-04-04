@@ -543,7 +543,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 LocationView location = new LocationView();
-                if (model.Location == null) // First request
+                if (model.Country == null) // First request
                 {
                     // Get data from cookies
                     System.Web.HttpCookie gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
@@ -551,20 +551,20 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                         location.Coords = new CoordsView { Latitude = coords.Latitude, Longitude = coords.Longitude };
-                        model.Location = "current-location";
+                        model.Country = "current-location";
                     }
                     System.Web.HttpCookie countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
                     if (countryCookie != null)
                     {
                         location.Address = new PhysicalAddressView { Country = countryCookie.Value };
-                        model.Location = countryCookie.Value;
+                        model.Country = countryCookie.Value;
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(model.Location)) model.Location = Request.Cookies[AppView.CountryCookieName].Value;
+                    if (string.IsNullOrEmpty(model.Country)) model.Country = Request.Cookies[AppView.CountryCookieName].Value;
 
-                    if (model.Location == "current-location")
+                    if (model.Country == "current-location")
                     {
                         // first search, when defaulted to current-location doesn't send coordinates via querystring
                         if (model.Longitude.HasValue)
@@ -578,15 +578,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     }
                     else
                     {
-                        location.Address = new PhysicalAddressView { Country = model.Location };
+                        location.Address = new PhysicalAddressView { Country = model.Country, City = model.City };
                     }
                 }
                 var service = new ProfileService();
                 var resutls = service.SearchProfiles(
                     model.Name,
                     model.Category,
-                    /* ------------------------------------------ this is midle of Australia for now -- */
-                    //new LocationView { Coords = new CoordsView { Longitude = 137.656247, Latitude = -25.539181 }, Address = new PhysicalAddressView { Country = model.Country } },
                     location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
@@ -619,10 +617,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchProfileViewModel<TProMetadata> model, object dummyforpost)
         {
-            if (model.Metadata == null) model.Metadata = new TProMetadata();
-            return RedirectToRoute("SearchProfiles", new { name = model.Name, category = model.Category, 
-                location = model.Location, Longitude = model.Longitude, Latitude = model.Latitude 
-            });
+            return RedirectToRoute("SearchProfiles", new { filters = model.ToSlug() });
         }
 
         // 
