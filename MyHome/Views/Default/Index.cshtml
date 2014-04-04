@@ -5,6 +5,7 @@
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
+    var countries = Localizer.GetList("supported-countries");
 }
 
 @section PreContent {
@@ -104,7 +105,14 @@
                     <dt>@Localizer.Get("Home_Professionals")</dt>
                     @foreach (var p in proCategories)
                     {
-                        <dd>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { category = p.Value })</dd>
+                        <dd>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = p.Value }.ToSlug() })</dd>
+                    }
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>@Localizer.Get("Home_Professionals_ByCountry")</dt>
+                    @foreach (var c in countries)
+                    {
+                        <dd>@Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = c.Value }.ToSlug() })</dd>
                     }
                 </dl>
             </li>

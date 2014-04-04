@@ -22,8 +22,10 @@ namespace Classy.DotNet.Mvc.ModelBinders
                 var filters = ((string)filtersValue.RawValue).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 filters.ForEach((x) => { x = x.ToLower(); });
                 model.Category = ParseCategory(filters);
-                model.Country = ParseCountry(filters);
-                if (!string.IsNullOrEmpty(model.Country)) model.City = ParseCity(filters, model.Country);
+                string city, country = null;
+                ParseCityAndCountry(filters, out city, out country);
+                model.Country = country;
+                model.City = city;
                 model.Name = ParseQuery(filters);
             }
             return model;
@@ -44,11 +46,14 @@ namespace Classy.DotNet.Mvc.ModelBinders
             return category;
         }
 
-        private string ParseCountry(IList<string> filters)
+        private void ParseCityAndCountry(IList<string> filters, out string city, out string country)
         {
+            country = null;
+            city = null;
+
+            // parse country
             var countries = Localizer.GetList("supported-countries");
-            string country = null;
-            foreach(var val in filters)
+            foreach (var val in filters)
             {
                 if (countries.Any(x => x.Value.ToLower() == val))
                 {
@@ -57,24 +62,25 @@ namespace Classy.DotNet.Mvc.ModelBinders
                 }
             }
             if (country != null) filters.Remove(country.ToLower());
-            return country;
-        }
 
-        private string ParseCity(IList<string> filters, string country)
-        {
+            // parse city
             var cities = Localizer.GetList("supported-cities");
-            string city = null;
+            var lCountry = country;
+            if (!string.IsNullOrEmpty(lCountry)) cities = cities.Where(x => x.ParentValue == lCountry.ToUpper());
             foreach (var val in filters)
             {
                 if (cities.Any(x => x.Value.ToLower() == val))
                 {
-                    var cityItem = cities.SingleOrDefault(x => x.Value.ToLower() == val && x.ParentValue == country.ToUpper());
-                    if (cityItem != null) city = cityItem.Value;
+                    var cityItem = cities.SingleOrDefault(x => x.Value.ToLower() == val);
+                    if (cityItem != null)
+                    {
+                        city = cityItem.Value;
+                        country = cityItem.ParentValue.ToUpper();
+                    }
                     break;
                 }
             }
             if (city != null) filters.Remove(city.ToLower());
-            return city;
         }
 
         private string ParseQuery(IList<string> filters)
