@@ -17,23 +17,11 @@
             </div>
         </div>
     }
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="height: 400px; top: -90px;">
-        <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="item active">
-                <div style="background: transparent url(/img/home-banner.jpg) no-repeat 50% 50%; height: 400px;"></div>
-            </div>
-            <div class="item">
-                <div style="background: transparent url(/img/home-banner.jpg) no-repeat 50% 50%; height: 400px;"></div>
-            </div>
-        </div>
-        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+    <div id="homeslide" class="carousel">
+        <a class="left carousel-control prev" href="#homeslide">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
-        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+        <a class="right carousel-control next" href="#homeslide">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
@@ -141,7 +129,18 @@
         OnFacebookLogin = function (profile) { window.document.location.href = "/profile/reviews/new"; }
 
         $(function () {
-            $('.home-banner').backstretch('/img/home-banner.jpg');
+            $('#homeslide').backstretch([
+                    '/img/home-banner.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/5b183a25-1fdd-4e82-85a2-c041b9ac2a7f'
+            ], { fade: 700, duration: 4000 });
+
+            $('#homeslide .next').click(function () {
+                $('#homeslide').data('backstretch').next();
+            });
+
+            $('#homeslide .prev').click(function () {
+                $('#homeslide').data('backstretch').prev();
+            });
         });
 
     </script>

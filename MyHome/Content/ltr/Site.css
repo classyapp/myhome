@@ -283,7 +283,10 @@ a, a:visited
         {
             margin-top: 20px;
         }
-
+.pre-content .carousel {
+    height: 400px;
+    top: -90px;
+}
 
 .home-content
 {
