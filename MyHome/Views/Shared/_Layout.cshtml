@@ -206,7 +206,7 @@
         // Additional JS functions here
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '281478942020037',
+                appId: '@System.Configuration.ConfigurationManager.AppSettings["Facebook:AppId"]',
                 channelUrl: document.location.origin + '/channel.html',
                 status: true, // check login status
                 cookie: true, // enable cookies to allow the server to access the session
