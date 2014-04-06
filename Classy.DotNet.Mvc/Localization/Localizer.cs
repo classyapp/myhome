@@ -11,6 +11,7 @@ using Classy.DotNet.Services;
 using System.Globalization;
 using System.Web.Routing;
 using Classy.DotNet.Responses;
+using System.Web.Caching;
 
 namespace Classy.DotNet.Mvc.Localization
 {
@@ -140,6 +141,19 @@ namespace Classy.DotNet.Mvc.Localization
         {
             var service = new LocalizationService();
             return service.GetResourceKeys();
+        }
+
+        public static IList<string> GetCitiesByCountryCode(string countryCode)
+        {
+            var cacheKey = string.Concat("CitiesIn", countryCode);
+            IList<string> cities = HttpRuntime.Cache[cacheKey] as IList<string>;
+            if (cities == null)
+            {
+                var service = new LocalizationService();
+                cities = service.GetCitiesByCountry(countryCode);
+                HttpRuntime.Cache.Insert(cacheKey, cities, null, DateTime.Now.AddDays(1), TimeSpan.Zero);
+            }
+            return cities;
         }
 
         #region // localization of routes

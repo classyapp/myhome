@@ -61,26 +61,22 @@ namespace Classy.DotNet.Mvc.ModelBinders
                     break;
                 }
             }
-            if (country != null) filters.Remove(country.ToLower());
-
-            // parse city
-            var cities = Localizer.GetList("supported-cities");
-            var lCountry = country;
-            if (!string.IsNullOrEmpty(lCountry)) cities = cities.Where(x => x.ParentValue == lCountry.ToUpper());
-            foreach (var val in filters)
+            if (country != null)
             {
-                if (cities.Any(x => x.Value.ToLower() == val))
+                filters.Remove(country.ToLower());
+
+                // parse city
+                var cities = Localizer.GetCitiesByCountryCode(country);
+                foreach (var val in filters)
                 {
-                    var cityItem = cities.SingleOrDefault(x => x.Value.ToLower() == val);
-                    if (cityItem != null)
+                    if (cities.Any(x => x.ToLower() == val))
                     {
-                        city = cityItem.Value;
-                        country = cityItem.ParentValue.ToUpper();
+                        city = cities.Single(x => x.ToLower() == val);
+                        break;
                     }
-                    break;
                 }
+                if (city != null) filters.Remove(city.ToLower());
             }
-            if (city != null) filters.Remove(city.ToLower());
         }
 
         private string ParseQuery(IList<string> filters)

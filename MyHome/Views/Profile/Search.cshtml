@@ -3,7 +3,7 @@
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
-    var cities = Localizer.GetList("supported-cities");
+    var cities = Localizer.GetCitiesByCountryCode(Model.Country);
     var loc = (!string.IsNullOrEmpty(Model.Country) && Model.Country != "current-location" && countries.Any(x => x.Value == Model.Country)) ? countries.Single(x => x.Value == Model.Country).Text : "";
     ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
@@ -105,19 +105,6 @@
             <div class="col-md-offset-3 col-md-9">
                 <div class="more-info">
                     <p>@Localizer.Get(string.Concat("ProCategoryDescription_", Model.Category ?? "All_Professionals"))</p>
-                </div>
-                <div class="more-cities">
-                    <strong>
-                        @string.Format(Localizer.Get("SearchProfile_More_In_Country"),
-                            string.IsNullOrEmpty(Model.Category) ? Localizer.Get("ProfileSearch_AllProfessionals") : categories.Single(x => x.Value == Model.Category).Text,
-                            countries.Single(x => x.Value == Model.Country).Text)
-                    </strong>
-                    <ul class="list-inline list-unstyled">
-                        @foreach (var city in cities.Where(x => x.ParentValue == Model.Country))
-                        {
-                            <li>@Html.RouteLinkForCurrentLocale(cities.Single(x => x.Value == city.Value).Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category, Country = Model.Country, City = city.Value }.ToSlug() })</li>
-                        }
-                    </ul>
                 </div>
             </div>
         </div>
