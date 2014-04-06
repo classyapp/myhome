@@ -20,7 +20,6 @@ namespace MyHome.Models
         public string Style { get; set; }
         [Display(Name = "PhotoMetadata_Copyright")]
         public string CopyrightMessage { get; set; }
-        [Display(Name = "PhotoMetadata_Terms")]
         [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
         public bool AgreeToTerms { get; set; }
         public bool IsWebPhoto { get; set; }
