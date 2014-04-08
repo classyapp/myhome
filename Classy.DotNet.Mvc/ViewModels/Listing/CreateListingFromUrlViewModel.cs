@@ -13,6 +13,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
     {
         // basic
         public string CollectionId { get; set; }
+        public string CollectionType { get; set; }
         [Required(ErrorMessage = "CreateListingFromUrl_CollectionNameRequired")]
         public string Title { get; set; }
         [Display(Name = "CreateListingFromUrl_Content")]
