@@ -97,6 +97,7 @@ function doUpload(idx, extra) {
         $("#filesPreview > div:nth-child(" + (idx + 1) + ") .progress-bar").css("width", '20%');
         $.post(uploadPhotoFromUrlUrl, extra, function (response) {
             $("#filesPreview > div:nth-child(" + (idx + 1) + ") .progress-bar").css("width", '100%');
+            if (extra.CollectionId == "") { extra.CollectionId = response.collectionId }
             setTimeout(function () { doUpload(idx + 1, extra); }, 100);
         });
     }

@@ -192,7 +192,14 @@ namespace Classy.DotNet.Mvc.Controllers
             model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
 
             TempData["CreateListing_Success"] = true;
-            return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { listing = listing, collectionId = model.CollectionId });
+            }
+            else
+            {
+                return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+            }
         }
 
         private SelectList GetCollectionList(string selectedCollectionId, string type)
