@@ -46,12 +46,17 @@ namespace Classy.DotNet.Mvc.Controllers
         [AuthorizeWithRedirect("Home", new string[] { "cms" } )]
         public ActionResult ManageResources(string resourceKey)
         {
+            var culture = GetEnvFromContext().CultureCode;
+            var resourceKeys = GetTranslatedAndUntranslatedResourceKeys(culture);
+
             var model = new ManageResourcesViewModel {
                 SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList(),
-                ResourceKeys = Localizer.GetAllKeys(),
-                SelectedCulture = GetEnvFromContext().CultureCode,
+                TranslatedResourceKeys = resourceKeys.Item1,
+                UntranslatedResourceKeys = resourceKeys.Item2,
+                SelectedCulture = culture,
                 ResourceKey = resourceKey
             };
+
             if (!string.IsNullOrEmpty(model.ResourceKey) && !string.IsNullOrEmpty(model.SelectedCulture))
             {
                 if (resourceKey.StartsWith("List__"))
@@ -83,9 +88,15 @@ namespace Classy.DotNet.Mvc.Controllers
         [ValidateInput(false)]
         public ActionResult ManageResources(ManageResourcesViewModel model, object dummy)
         {
+            var culture = GetEnvFromContext().CultureCode;
+
+            var resourceKeys = GetTranslatedAndUntranslatedResourceKeys(culture);
+
             model.ResourceValue = model.ResourceValue;
-            model.ResourceKeys = Localizer.GetAllKeys();
-            model.SelectedCulture = GetEnvFromContext().CultureCode;
+            model.TranslatedResourceKeys = resourceKeys.Item1;
+            model.UntranslatedResourceKeys = resourceKeys.Item2;
+
+            model.SelectedCulture = culture;
             var service = new LocalizationService();
             if (model.ResourceKey.StartsWith("List__"))
             {
@@ -139,6 +150,16 @@ namespace Classy.DotNet.Mvc.Controllers
             };
         }
 
+        private Tuple<string[], string[]> GetTranslatedAndUntranslatedResourceKeys(string culture)
+        {
+            var allResourceKeys = Localizer.GetAllKeys();
+            var untranslatedKeys = Localizer.GetUntranslatedKeys(culture);
+
+            var translatedResourceKeys = allResourceKeys.Where(x => !untranslatedKeys.Contains(x)).ToArray();
+            var untranslatedResourceKeys = allResourceKeys.Where(x => untranslatedKeys.Contains(x)).ToArray();
+
+            return new Tuple<string[], string[]>(translatedResourceKeys, untranslatedKeys);
+        }
         private void SetContextEnvFromModel(EnvironmentSettingsViewModel model)
         {
             Response.Cookies.Add(new System.Web.HttpCookie(Classy.DotNet.Responses.AppView.CultureCookieName)

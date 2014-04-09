@@ -156,6 +156,12 @@ namespace Classy.DotNet.Mvc.Localization
             return cities;
         }
 
+        public static string[] GetUntranslatedKeys(string culture)
+        {
+            var service = new LocalizationService();
+            return service.GetUntranslatedResourceKeys(culture);
+        }
+
         #region // localization of routes
 
         // RouteCollection extension to map a route and pass its name as a datatoken
