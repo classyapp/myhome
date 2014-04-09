@@ -3,7 +3,7 @@
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
-    var cities = Localizer.GetCitiesByCountryCode(Model.Country);
+    var cities = Localizer.GetCitiesWithCountries();
     var loc = (!string.IsNullOrEmpty(Model.Country) && Model.Country != "current-location" && countries.Any(x => x.Value == Model.Country)) ? countries.Single(x => x.Value == Model.Country).Text : "";
     ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
@@ -66,7 +66,8 @@
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").RouteValues(new { filters = "" }).Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
-                @f.FormGroup().DropDownListFor(x => x.Country, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")
+                @*@f.FormGroup().DropDownListFor(x => x.Country, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")*@
+                @f.FormGroup().TextBoxFor(x => x.City).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
                 @Html.TextBoxFor(x => x.Latitude, new { @class = "hidden" })
                 @Html.TextBoxFor(x => x.Longitude, new { @class = "hidden" })
@@ -113,7 +114,10 @@
 }
 
 @section scripts {
-    <script src="~/Scripts/iscroll.js"></script>
+    @Scripts.Render("~/Scripts/iscroll.js")
+    @Scripts.Render("~/scripts/hogan-2.0.0.js")
+    @Scripts.Render("~/scripts/typeahead.min.js")
+
     <script>
         resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         $(document).on("classy.gps.available", function (e, data) {
@@ -126,6 +130,9 @@
                 $("#Latitude").val("");
                 $("#Longitude").val("");
             }
+        });
+        $('.typeahead').typeahead({
+            local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
         });
     </script>
 }

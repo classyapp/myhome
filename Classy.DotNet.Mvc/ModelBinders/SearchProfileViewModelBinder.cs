@@ -28,6 +28,15 @@ namespace Classy.DotNet.Mvc.ModelBinders
                 model.City = city;
                 model.Name = ParseQuery(filters);
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.City))
+                {
+                    string[] cityParts = model.City.Split(',');
+                    model.Country = cityParts.Length > 1 ? cityParts[cityParts.Length - 1] : null;
+                    model.City = cityParts.Length > 1 ? string.Join(",", cityParts.Take(cityParts.Length - 1)) : model.City;
+                }
+            }
             return model;
         }
 

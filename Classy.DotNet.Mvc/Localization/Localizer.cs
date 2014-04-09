@@ -156,6 +156,23 @@ namespace Classy.DotNet.Mvc.Localization
             return cities;
         }
 
+        public static IList<string> GetCitiesWithCountries()
+        {
+            var cacheKey = string.Concat("CitiesWithCountries");
+            IList<string> citiesWithCountries = HttpRuntime.Cache[cacheKey] as IList<string>;
+            if (citiesWithCountries == null)
+            {
+                var supportedCountries = GetList("supported-countries");
+                citiesWithCountries = new List<string>();
+                foreach (var country in supportedCountries)
+                {
+                    (citiesWithCountries as List<string>).AddRange(GetCitiesByCountryCode(country.Value).Select(c => string.Format("{0}, {1}", c, country.Text)));
+                }
+                HttpRuntime.Cache.Insert(cacheKey, citiesWithCountries, null, DateTime.Now.AddDays(1), TimeSpan.Zero);
+            }
+            return citiesWithCountries;
+        }
+
         #region // localization of routes
 
         // RouteCollection extension to map a route and pass its name as a datatoken
