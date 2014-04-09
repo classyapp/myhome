@@ -297,6 +297,7 @@
             $('#close-cookie-policy').click(function() {
                 Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
                 $('#cookie-policy').addClass('hidden');
+                $('body').css('padding-top', '90px');
             });
         });
 
