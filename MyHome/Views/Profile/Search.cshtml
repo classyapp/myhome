@@ -55,7 +55,7 @@
             @if (hasCountry)
             {
                 <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category, Country = Model.Country }.ToSlug() })"><span itemprop="title">@countries.Single(x => x.Value == Model.Country).Text</span></a>
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category, Country = Model.Country }.ToSlug() })"><span itemprop="title">@countries.Single(x => x.Value == Model.CountryCode).Text</span></a>
                 </span>
             }
         </div>
@@ -131,6 +131,10 @@
                 $("#Longitude").val("");
             }
         });
+        @if (!string.IsNullOrEmpty(Model.Country))
+        {
+            @:$("#City").val("@string.Format("{0}, {1}", Model.City, Model.Country)")
+        }
         $('.typeahead').typeahead({
             local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
         });

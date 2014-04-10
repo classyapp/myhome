@@ -22,9 +22,10 @@ namespace Classy.DotNet.Mvc.ModelBinders
                 var filters = ((string)filtersValue.RawValue).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 filters.ForEach((x) => { x = x.ToLower(); });
                 model.Category = ParseCategory(filters);
-                string city, country = null;
-                ParseCityAndCountry(filters, out city, out country);
+                string city, country, countryCode = null;
+                ParseCityAndCountry(filters, out city, out country, out countryCode);
                 model.Country = country;
+                model.CountryCode = countryCode;
                 model.City = city;
                 model.Name = ParseQuery(filters);
             }
@@ -33,8 +34,19 @@ namespace Classy.DotNet.Mvc.ModelBinders
                 if (!string.IsNullOrEmpty(model.City))
                 {
                     string[] cityParts = model.City.Split(',');
-                    model.Country = cityParts.Length > 1 ? cityParts[cityParts.Length - 1] : null;
-                    model.City = cityParts.Length > 1 ? string.Join(",", cityParts.Take(cityParts.Length - 1)) : model.City;
+                    var countries = Localizer.GetList("supported-countries");
+                    if (cityParts.Length > 1)
+                    {
+                        if (countries.Any(x => x.Text.ToLower() == cityParts[cityParts.Length - 1].Trim().ToLower()))
+                        {
+                            model.Country = countries.Single(x => x.Text.ToLower() == cityParts[cityParts.Length - 1].Trim().ToLower()).Value;
+                        }
+                    }
+                    else
+                    {
+                        model.Country = null;
+                    }
+                    model.City = cityParts.Length > 1 ? string.Join(",", cityParts.Take(cityParts.Length - 1)).Trim() : model.City.Trim();
                 }
             }
             return model;
@@ -44,7 +56,7 @@ namespace Classy.DotNet.Mvc.ModelBinders
         {
             var categories = Localizer.GetList("professional-categories");
             string category = null;
-            foreach(var val in filters)
+            foreach (var val in filters)
             {
                 if (categories.Any(x => x.Value.ToLower() == val))
                 {
@@ -55,10 +67,11 @@ namespace Classy.DotNet.Mvc.ModelBinders
             return category;
         }
 
-        private void ParseCityAndCountry(IList<string> filters, out string city, out string country)
+        private void ParseCityAndCountry(IList<string> filters, out string city, out string country, out string countryCode)
         {
             country = null;
             city = null;
+            countryCode = null;
 
             // parse country
             var countries = Localizer.GetList("supported-countries");
@@ -66,16 +79,18 @@ namespace Classy.DotNet.Mvc.ModelBinders
             {
                 if (countries.Any(x => x.Value.ToLower() == val))
                 {
-                    country = countries.Single(x => x.Value.ToLower() == val).Value;
+                    var entry = countries.Single(x => x.Value.ToLower() == val);
+                    country = entry.Text;
+                    countryCode = entry.Value;
                     break;
                 }
             }
             if (country != null)
             {
-                filters.Remove(country.ToLower());
+                filters.Remove(countryCode.ToLower());
 
                 // parse city
-                var cities = Localizer.GetCitiesByCountryCode(country);
+                var cities = Localizer.GetCitiesByCountryCode(countryCode);
                 foreach (var val in filters)
                 {
                     if (cities.Any(x => x.ToLower() == val))

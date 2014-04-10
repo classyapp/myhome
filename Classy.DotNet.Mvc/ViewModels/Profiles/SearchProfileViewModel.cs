@@ -14,6 +14,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public string Name { get; set; }
         public string Category { get; set; }
         public string Country { get; set; }
+        public string CountryCode { get; set; }
         public string City { get; set; }
         public TProMetadata Metadata { get; set; }
         public IList<ProfileView> Results { get; set; }

@@ -551,18 +551,19 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                         location.Coords = new CoordsView { Latitude = coords.Latitude, Longitude = coords.Longitude };
-                        model.Country = "current-location";
+                        model.Country = string.Empty;
+                        model.CountryCode = "current-location";
                     }
                     System.Web.HttpCookie countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
                     if (countryCookie != null)
                     {
                         location.Address = new PhysicalAddressView { Country = countryCookie.Value };
-                        model.Country = countryCookie.Value;
+                        model.CountryCode = countryCookie.Value;
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(model.Country)) model.Country = Request.Cookies[AppView.CountryCookieName].Value;
+                    if (string.IsNullOrEmpty(model.CountryCode)) model.CountryCode = Request.Cookies[AppView.CountryCookieName].Value;
 
                     if (model.Country == "current-location")
                     {
@@ -578,7 +579,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     }
                     else
                     {
-                        location.Address = new PhysicalAddressView { Country = model.Country, City = model.City };
+                        location.Address = new PhysicalAddressView { Country = model.CountryCode, City = model.City };
                     }
                 }
                 var service = new ProfileService();
