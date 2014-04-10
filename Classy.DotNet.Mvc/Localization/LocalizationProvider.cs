@@ -83,6 +83,32 @@ namespace Classy.DotNet.Mvc.Localization
                             ((ValidationAttribute)attr).ErrorMessage = sLocalizedText;
                         }
                     }
+                    else if (attr is System.ComponentModel.DataAnnotations.CompareAttribute)
+                    {
+                        sKey = ((System.ComponentModel.DataAnnotations.CompareAttribute)attr).ErrorMessage;
+
+                        if (!string.IsNullOrEmpty(sKey))
+                        {
+                            attrAppKey = string.Format("{0}-{1}-{2}",
+                            containerType.Name, propertyName, typeName);
+                            if (HttpContext.Current.Application[attrAppKey] == null)
+                            {
+                                HttpContext.Current.Application[attrAppKey] = sKey;
+                            }
+                            else
+                            {
+                                sKey = HttpContext.Current.Application[attrAppKey].ToString();
+                            }
+
+                            sLocalizedText = Localizer.Get(sKey);
+                            if (string.IsNullOrEmpty(sLocalizedText))
+                            {
+                                sLocalizedText = sKey;
+                            }
+
+                            ((System.ComponentModel.DataAnnotations.CompareAttribute)attr).ErrorMessage = sLocalizedText;
+                        }
+                    }
                 }
             }
             HttpContext.Current.Application.UnLock();

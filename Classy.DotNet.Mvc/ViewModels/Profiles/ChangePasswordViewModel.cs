@@ -13,7 +13,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Required(ErrorMessage = "ChangePassword_NewPassword_Required")]
         [Display(Name = "ChangePassword_NewPassword")]
         public string NewPassword { get; set; }
-        [Compare("NewPassword")]
+        [Compare("NewPassword", ErrorMessage = "ChangePassword_NoMatch")]
         [Display(Name = "ChangePassword_ConfirmPassword")]
         public string ConfirmPassword { get; set; }
     }
