@@ -295,7 +295,7 @@
 
             if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) {
                 $('#cookie-policy').removeClass('hidden');                
-                $('body').css('padding-top', '120px');
+                if ($('#cookie-policy').length > 0) $('body').css('padding-top', '120px');
             }
             $('#close-cookie-policy').click(function() {
                 Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
