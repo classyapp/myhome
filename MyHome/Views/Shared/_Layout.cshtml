@@ -293,11 +293,13 @@
                     $(this).find('.modal-body').html("");
                 });
 
-            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) $('#cookie-policy').removeClass('hidden');
+            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) {
+                $('#cookie-policy').removeClass('hidden');                
+                $('body').css('padding-top', '120px');
+            }
             $('#close-cookie-policy').click(function() {
                 Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
                 $('#cookie-policy').addClass('hidden');
-                $('body').css('padding-top', '90px');
             });
         });
 
