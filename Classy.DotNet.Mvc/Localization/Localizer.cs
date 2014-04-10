@@ -166,6 +166,7 @@ namespace Classy.DotNet.Mvc.Localization
                 citiesWithCountries = new List<string>();
                 foreach (var country in supportedCountries)
                 {
+                    citiesWithCountries.Add(country.Text);
                     (citiesWithCountries as List<string>).AddRange(GetCitiesByCountryCode(country.Value).Select(c => string.Format("{0}, {1}", c, country.Text)));
                 }
                 HttpRuntime.Cache.Insert(cacheKey, citiesWithCountries, null, DateTime.Now.AddDays(1), TimeSpan.Zero);

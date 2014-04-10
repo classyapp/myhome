@@ -41,12 +41,13 @@ namespace Classy.DotNet.Mvc.ModelBinders
                         {
                             model.Country = countries.Single(x => x.Text.ToLower() == cityParts[cityParts.Length - 1].Trim().ToLower()).Value;
                         }
+                        model.City = cityParts.Length > 1 ? string.Join(",", cityParts.Take(cityParts.Length - 1)).Trim() : model.City.Trim();
                     }
                     else
                     {
-                        model.Country = null;
+                        model.Country = countries.Single(x => x.Text.ToLower() == cityParts[cityParts.Length - 1].Trim().ToLower()).Value;
+                        model.City = null;
                     }
-                    model.City = cityParts.Length > 1 ? string.Join(",", cityParts.Take(cityParts.Length - 1)).Trim() : model.City.Trim();
                 }
             }
             return model;

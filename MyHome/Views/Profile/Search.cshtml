@@ -133,7 +133,14 @@
         });
         @if (!string.IsNullOrEmpty(Model.Country))
         {
-            @:$("#City").val("@string.Format("{0}, {1}", Model.City, Model.Country)")
+            if (!string.IsNullOrEmpty(Model.City))
+            {
+                @:$("#City").val("@string.Format("{0}, {1}", Model.City, Model.Country)")
+            }
+            else
+            {
+                @:$("#City").val("@Model.Country")
+            }
         }
         $('.typeahead').typeahead({
             local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
