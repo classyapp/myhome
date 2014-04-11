@@ -336,6 +336,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         }
                     },
                     metadata != null ? metadata.ToDictionary() : null,
+                    model.DefaultCulture,
                     fields);
                 TempData["EditProfile_Success"] = true;
                 return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
@@ -468,6 +469,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     City = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
                     Country = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
                     PostalCode = proxy.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,
+                    DefaultCulture = proxy.DefaultCulture,
                     Metadata = metadata
                 };
                 return View(model);
@@ -516,7 +518,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 var claim = service.ClaimProfileProxy(
                     model.ProfileId,
                     professionalInfo,
-                    model.Metadata.ToDictionary());
+                    model.Metadata.ToDictionary(),
+                    model.DefaultCulture);
                 service.ApproveProxyClaim(claim.Id);
 
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
@@ -540,7 +543,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 LocationView location = new LocationView();
-                if (model.Location == null) // First request
+                if (model.Country == null) // First request
                 {
                     // Get data from cookies
                     System.Web.HttpCookie gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
@@ -548,20 +551,21 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                         location.Coords = new CoordsView { Latitude = coords.Latitude, Longitude = coords.Longitude };
-                        model.Location = "current-location";
+                        model.Country = string.Empty;
+                        model.CountryCode = "current-location";
                     }
                     System.Web.HttpCookie countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
                     if (countryCookie != null)
                     {
                         location.Address = new PhysicalAddressView { Country = countryCookie.Value };
-                        model.Location = countryCookie.Value;
+                        model.CountryCode = countryCookie.Value;
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(model.Location)) model.Location = Request.Cookies[AppView.CountryCookieName].Value;
+                    if (string.IsNullOrEmpty(model.CountryCode)) model.CountryCode = Request.Cookies[AppView.CountryCookieName].Value;
 
-                    if (model.Location == "current-location")
+                    if (model.Country == "current-location")
                     {
                         // first search, when defaulted to current-location doesn't send coordinates via querystring
                         if (model.Longitude.HasValue)
@@ -575,15 +579,13 @@ namespace Classy.DotNet.Mvc.Controllers
                     }
                     else
                     {
-                        location.Address = new PhysicalAddressView { Country = model.Location };
+                        location.Address = new PhysicalAddressView { Country = model.CountryCode, City = model.City };
                     }
                 }
                 var service = new ProfileService();
                 var resutls = service.SearchProfiles(
                     model.Name,
                     model.Category,
-                    /* ------------------------------------------ this is midle of Australia for now -- */
-                    //new LocationView { Coords = new CoordsView { Longitude = 137.656247, Latitude = -25.539181 }, Address = new PhysicalAddressView { Country = model.Country } },
                     location,
                     model.Metadata != null ? model.Metadata.ToDictionary() : null,
                     true,
@@ -616,10 +618,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Search(SearchProfileViewModel<TProMetadata> model, object dummyforpost)
         {
-            if (model.Metadata == null) model.Metadata = new TProMetadata();
-            return RedirectToRoute("SearchProfiles", new { name = model.Name, category = model.Category, 
-                location = model.Location, Longitude = model.Longitude, Latitude = model.Latitude 
-            });
+            return RedirectToRoute("SearchProfiles", new { filters = model.ToSlug() });
         }
 
         // 
@@ -647,6 +646,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     City = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City : null,
                     Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
                     PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
+                    DefaultCulture = profile.DefaultCulture,
                     Metadata = metadata
                 };
                 return View(model);
@@ -696,6 +696,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     null,
                     professionalInfo, 
                     model.Metadata.ToDictionary(), 
+                    model.DefaultCulture,
                     UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
@@ -888,7 +889,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, UpdateProfileFields.CoverPhotos);
+                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, null, UpdateProfileFields.CoverPhotos);
 
                 return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = profileId}) });
             }

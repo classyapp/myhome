@@ -96,6 +96,7 @@
     <Compile Include="Localization\LocalizedResourceItem.cs" />
     <Compile Include="Localization\Localizer.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
+    <Compile Include="ModelBinders\SearchProfileViewModelBinder.cs" />
     <Compile Include="ModelBinders\CommaSeparatedToList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Security\SecurityController.cs" />
@@ -128,8 +129,10 @@
     <Compile Include="ViewModels\Profiles\TranslateProfileViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
+    <Compile Include="ViewModels\Security\ForgotPasswordViewModel.cs" />
     <Compile Include="ViewModels\Security\LoginViewModel.cs" />
     <Compile Include="ViewModels\Security\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\Security\ResetPasswordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Classy.DotNet\Classy.DotNet.csproj">

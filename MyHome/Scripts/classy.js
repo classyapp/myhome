@@ -60,5 +60,5 @@ Classy.ParseQueryString = function () {
 }
 
 var font = 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 15px;font-weight: bold;';
-console.log("%cjoinHomelab()", "color: #2b2;" + font)
+if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font)
 function joinHomelab() { window.location.href = "/careers"; }

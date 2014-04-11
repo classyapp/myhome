@@ -138,9 +138,10 @@ namespace Classy.DotNet.Mvc
             return content != null ? content.ToLower()
                 .Replace("?", string.Empty)
                 .Replace("-", string.Empty)
+                .Replace("/", string.Empty)
                 .Replace("&", "-and-")
                 .Replace("+", "-and-")
-                .Replace(".", "")
+                .Replace(".", string.Empty)
                 .Replace("  ", " ")
                 .Replace(" ", "-") : null;
         }

@@ -5,15 +5,28 @@
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
+    var countries = Localizer.GetList("supported-countries");
 }
 
 @section PreContent {
-    <div class="home-banner">
+    @if (!User.Identity.IsAuthenticated)
+    {
         <div class="slogan">
             <h1>@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
             <div class="signin">
                 <a id="sign-in-facebook" class="btn btn-sm btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
             </div>
+        </div>
+    }
+    <div id="homeslide" class="carousel">
+        <a class="left carousel-control prev" href="#homeslide">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control next" href="#homeslide">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+        <div class="credit">
+            <span>@Localizer.Get("Home_PhotoCredit"):</span> <a href="/profile/1069/ceramico-bvba">Ceramico BVBA</a>
         </div>
     </div>
 }
@@ -52,7 +65,7 @@
                 {
                     <li class="media">
                         <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "list" })">
-                            @Html.Partial("Thumbnails", new string[] {})
+                            @Html.Partial("Thumbnails", new string[] { })
                         </a>
 
                         <div class="media-body">
@@ -104,23 +117,67 @@
                     <dt>@Localizer.Get("Home_Professionals")</dt>
                     @foreach (var p in proCategories)
                     {
-                        <dd>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { category = p.Value })</dd>
+                        <dd>@Html.RouteLinkForCurrentLocale(p.Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = p.Value }.ToSlug() })</dd>
+                    }
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>@Localizer.Get("Home_Professionals_ByCountry")</dt>
+                    @foreach (var c in countries)
+                    {
+                        <dd>@Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = c.Value }.ToSlug() })</dd>
                     }
                 </dl>
             </li>
         </ul>
     </div>
-</div>
 }
 
 @section scripts {
     @Scripts.Render("~/scripts/jquery.backstretch.js")
 
     <script>
-        OnFacebookLogin = function (profile) { window.document.location.href = "/profile/reviews/new"; }
+        var slideshowData = [
+            { name: 'Ceramico BVBA', url: '/profile/1069/ceramico-bvba' },
+            { name: 'Degré 12 - Custom Wine Cellars', url: '/profile/70/degré-12-custom-wine-cellars' },
+            { name: 'Marie\'S Home', url: '/profile/101/marie\'s-home' },
+            { name: 'Ceramico BVBA', url: '/profile/1069/ceramico-bvba' },
+            { name: 'House Of Classics', url: '/profile/1071/house-of-classics' },
+            { name: 'Echo Design', url: '/profile/1033/echo-design' },
+            { name: 'Echo Design', url: '/profile/1033/echo-design' },
+            { name: 'Echo Design', url: '/profile/1033/echo-design' },
+            { name: 'Net A Design', url: '/profile/21/net-a-design' },
+            { name: 'Art Bor Concept', url: '/profile/85/art-bor-concept' },
+            { name: 'Echo Design', url: '/profile/1033/echo-design' },
+            { name: 'De Jaegher Zwembaden', url: '/profile/96/de-jaegher-zwembaden' }
+        ];
 
         $(function () {
-            $('.home-banner').backstretch('/img/home-banner.jpg');
+            $('#homeslide').backstretch([
+                    '//d107oye3n9eb07.cloudfront.net/slider3.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider5.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider7.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider9.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider10.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider12.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider13.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider14.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider15.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider16.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider17.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider1.jpg'
+            ], { fade: 700, duration: 4000 });
+
+            $('#homeslide .next').click(function () {
+                $('#homeslide').data('backstretch').next();
+            });
+
+            $('#homeslide .prev').click(function () {
+                $('#homeslide').data('backstretch').prev();
+            });
+
+            $(window).on('backstretch.before', function (e, instance, index) {
+                $('#homeslide .credit a').attr('href', slideshowData[index].url).html(slideshowData[index].name);
+            });
         });
 
     </script>

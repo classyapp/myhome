@@ -15,6 +15,7 @@ namespace Classy.DotNet.Services
         private readonly string GET_RESOURCE_KEYS_URL = ENDPOINT_BASE_URL + "/resource/keys";
         private readonly string RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/{0}";
         private readonly string LIST_RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/list/{0}";
+        private readonly string CITIES_RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/list/cities/{0}";
 
         public string[] GetResourceKeys()
         {
@@ -88,6 +89,22 @@ namespace Classy.DotNet.Services
                 var resourceJson = client.UploadString(url, string.Concat("{\"ListItems\":", new List<ListItemView> { new ListItemView { Value = value, Text = new Dictionary<string, string> { { culture, text }} } }.ToJson()));
                 var listResource = resourceJson.FromJson<LocalizationListResourceView>();
                 return listResource;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public IList<string> GetCitiesByCountry(string countryCode)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var url = string.Format(CITIES_RESOURCE_URL, countryCode);
+                var resourceJson = client.DownloadString(url);
+                var cities = resourceJson.FromJson<IList<string>>();
+                return cities;
             }
             catch (WebException wex)
             {

@@ -16,5 +16,6 @@ namespace Classy.DotNet.Responses
         public int RollingReservePercent { get; set; }
         public int RollingReserveTimeInDays { get; set; }
         public IList<string> CoverPhotos { get; set;}
+        public string DefaultCulture { get; set; }
     }
 }

@@ -11,14 +11,12 @@ using Classy.DotNet.Services;
 using System.Globalization;
 using System.Web.Routing;
 using Classy.DotNet.Responses;
+using System.Web.Caching;
 
 namespace Classy.DotNet.Mvc.Localization
 {
     public static class Localizer
     {
-        public const string SUPPORTED_CULTURES_CACHE_KEY = "classy.cache.supported-languages";
-        public const string SUPPORTED_COUNTRIES_CACHE_KEY = "classy.cache.supported-countries";
-        public const string SUPPORTED_CURRENCIES_CACHE_KEY = "classy.cache.supported-currencies";
         public const string ROUTE_LOCALE_DATA_TOKEN_KEY = "classy.routetoken.locale";
 
         private static bool _showResourceKeys = false;
@@ -143,6 +141,37 @@ namespace Classy.DotNet.Mvc.Localization
         {
             var service = new LocalizationService();
             return service.GetResourceKeys();
+        }
+
+        public static IList<string> GetCitiesByCountryCode(string countryCode)
+        {
+            var cacheKey = string.Concat("CitiesIn", countryCode);
+            IList<string> cities = HttpRuntime.Cache[cacheKey] as IList<string>;
+            if (cities == null)
+            {
+                var service = new LocalizationService();
+                cities = service.GetCitiesByCountry(countryCode);
+                HttpRuntime.Cache.Insert(cacheKey, cities, null, DateTime.Now.AddDays(1), TimeSpan.Zero);
+            }
+            return cities;
+        }
+
+        public static IList<string> GetCitiesWithCountries()
+        {
+            var cacheKey = string.Concat("CitiesWithCountries");
+            IList<string> citiesWithCountries = HttpRuntime.Cache[cacheKey] as IList<string>;
+            if (citiesWithCountries == null)
+            {
+                var supportedCountries = GetList("supported-countries");
+                citiesWithCountries = new List<string>();
+                foreach (var country in supportedCountries)
+                {
+                    citiesWithCountries.Add(country.Text);
+                    (citiesWithCountries as List<string>).AddRange(GetCitiesByCountryCode(country.Value).Select(c => string.Format("{0}, {1}", c, country.Text)));
+                }
+                HttpRuntime.Cache.Insert(cacheKey, citiesWithCountries, null, DateTime.Now.AddDays(1), TimeSpan.Zero);
+            }
+            return citiesWithCountries;
         }
 
         #region // localization of routes

@@ -86,8 +86,7 @@ namespace MyHome.Controllers
                 }
                 };
                 message.AddHeader("Reply-To", e.Profile.ContactInfo.Email);
-                message.AddGlobalVariable("CONTENT", string.Format(Localizer.Get("Mail_ReviewRequest_Body"), e.ReviewLink, e.Profile.ProfessionalInfo.CompanyName));
-                message.AddGlobalVariable("OWN_MESSAGE", e.Message);
+                message.AddGlobalVariable("CONTENT", string.Format(Localizer.Get("Mail_ReviewRequest_Body"), e.Message, e.ReviewLink, e.Profile.ProfessionalInfo.CompanyName));
                 var api = new MandrillApi(MANDRILL_API_KEY);
                 var sendResponse = api.SendMessage(message, "notification_request_review", null);   
             }

@@ -22,11 +22,14 @@
             @Html.Bootstrap().ValidationSummary()
             @using (var f = Html.Bootstrap().Begin(new Form("Register").FormMethod(FormMethod.Post).Id("mainForm")))
             {
+                @Html.HiddenFor(x => x.ReferrerUrl)
                 @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Username).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
                 @f.FormGroup().PasswordFor(x => x.Password).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
 
-                @Html.Bootstrap().CheckBoxFor(x => x.IsProfessional).IsChecked(false).Label().ShowRequiredStar(false)
+                if (string.IsNullOrEmpty(Model.ReferrerUrl) || !Model.ReferrerUrl.Contains("claim")) {
+                    @Html.Bootstrap().CheckBoxFor(x => x.IsProfessional).IsChecked(false).Label().ShowRequiredStar(false)
+                }
 
                 <p>
                     <hr />

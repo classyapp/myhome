@@ -1,12 +1,16 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.TranslateProfileViewModel
 
+@{
+    IEnumerable<LocalizedListItem> cultures = Localizer.GetList("supported-cultures");
+}
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">@Localizer.Get("TranslateProfile_TranslateTitle")</h4>
 </div>
 <div class="modal-body">
     <p>
-        @Localizer.Get("TranslateProfile_DefaultLanguageInstructions")
+        @string.Format(Localizer.Get("TranslateProfile_DefaultLanguageInstructions"), cultures.First(c => c.Value == Model.CultureCode).Text)
     </p>
     @using (var f = Ajax.Bootstrap().Begin(new Form("Translate", "Profile").RouteValues(new { ProfileId = Model.ProfileId }).Id("frmTranslate"), new AjaxOptions
     {

@@ -61,6 +61,14 @@ h1, h2, h3, h4, h5
     right: 10px;
 }
 
+.glyphicon-chevron-left:before {
+    content: "\e080";
+}
+
+.glyphicon-chevron-right:before {
+    content: "\e079";
+}
+
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group
 {

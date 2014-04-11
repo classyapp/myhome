@@ -3,7 +3,8 @@
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
-    var loc = (!string.IsNullOrEmpty(Model.Location) && Model.Location != "current-location" && countries.Any(x => x.Value == Model.Location)) ? countries.Single(x => x.Value == Model.Location).Text : "";
+    var cities = Localizer.GetCitiesWithCountries();
+    var loc = (!string.IsNullOrEmpty(Model.Country) && Model.Country != "current-location" && countries.Any(x => x.Value == Model.Country)) ? countries.Single(x => x.Value == Model.Country).Text : "";
     ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
 }
@@ -17,7 +18,7 @@
             <div class="panel-body panel-links">
                 @foreach (var c in categories)
                 {
-                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { category = c.Value })
+                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = c.Value })
                 }
             </div>
         </div>
@@ -35,28 +36,26 @@
 
         <div class="label-container">
             @{ 
-                var hasLocation = !string.IsNullOrEmpty(Model.Location);
+                var hasCountry = !string.IsNullOrEmpty(Model.Country);
                 var hasCategory = !string.IsNullOrEmpty(Model.Category);
             }
-            @if (!hasLocation || !hasCategory)
+            @if (!hasCountry || !hasCategory)
             {
-                <span class="label label-danger hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                     <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")"><span itemprop="title">@Localizer.Get("ProfileSearch_AllProfessionals")</span></a>
-                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Category))
             {
                 <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })"><span itemprop="title">@categories.Single(x => x.Value == Model.Category).Text</span></a>
-                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { })">x</a>
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category }.ToSlug() })"><span itemprop="title">@categories.Single(x => x.Value == Model.Category).Text</span></a>
+                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = "" })">x</a>
                 </span>
             }
-            @if (hasLocation)
+            @if (hasCountry)
             {
-                <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category, location = Model.Location })"><span itemprop="title">@countries.Single(x => x.Value == Model.Location).Text</span></a>
-                    <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Category })">x</a>
+                <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category, Country = Model.Country }.ToSlug() })"><span itemprop="title">@countries.Single(x => x.Value == Model.CountryCode).Text</span></a>
                 </span>
             }
         </div>
@@ -64,10 +63,11 @@
         <hr />
 
         <div class="search-form">
-            @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Type(FormType.Inline).FormMethod(FormMethod.Post)))
+            @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").RouteValues(new { filters = "" }).Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
-                @f.FormGroup().DropDownListFor(x => x.Location, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")
+                @*@f.FormGroup().DropDownListFor(x => x.Country, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")*@
+                @f.FormGroup().TextBoxFor(x => x.City).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
                 @Html.TextBoxFor(x => x.Latitude, new { @class = "hidden" })
                 @Html.TextBoxFor(x => x.Longitude, new { @class = "hidden" })
@@ -78,7 +78,7 @@
 
         <div class="row results iscroll" data-item-class=".profile" data-hasMore="@(Model.Results.Count == Classy.DotNet.Responses.AppView.PageSize ? "true" : "false")"
             data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
-            data-page-size="@Classy.DotNet.Responses.AppView.PageSize" 
+            data-page-size="@Classy.DotNet.Responses.AppView.PageSize"
             data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
@@ -100,8 +100,24 @@
     </div>
 </div>
 
+@section PreFooter {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-9">
+                <div class="more-info">
+                    <p>@Localizer.Get(string.Concat("ProCategoryDescription_", Model.Category ?? "All_Professionals"))</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+
 @section scripts {
-    <script src="~/Scripts/iscroll.js"></script>
+    @Scripts.Render("~/Scripts/iscroll.js")
+    @Scripts.Render("~/scripts/hogan-2.0.0.js")
+    @Scripts.Render("~/scripts/typeahead.min.js")
+
     <script>
         resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
         $(document).on("classy.gps.available", function (e, data) {
@@ -114,6 +130,20 @@
                 $("#Latitude").val("");
                 $("#Longitude").val("");
             }
+        });
+        @if (!string.IsNullOrEmpty(Model.Country))
+        {
+            if (!string.IsNullOrEmpty(Model.City))
+            {
+                @:$("#City").val("@string.Format("{0}, {1}", Model.City, Model.Country)")
+            }
+            else
+            {
+                @:$("#City").val("@Model.Country")
+            }
+        }
+        $('.typeahead').typeahead({
+            local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
         });
     </script>
 }

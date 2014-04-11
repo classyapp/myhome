@@ -253,43 +253,54 @@ a, a:visited
 }
 
 /* home page */
-.home-banner
+.pre-content .slogan
 {
-    height: 400px;
-    position: relative;
+    text-align: right;
+    position: absolute;
+    right: 15%;
+    background-color: rgba(245, 245, 245, 0.4);
+    padding: 20px;
+    z-index: 1;
+}
+
+    .pre-content .slogan h1,
+    .pre-content .slogan h1 p
+    {
+        text-align: left;
+        font-size: 36px;
+        color: #fff;
+        text-shadow: 1.5px 3.33px 13px rgba(0,0,0,0.7);
+        margin: 0;
+    }
+
+    .pre-content .slogan .signin
+    {
+        position: relative;
+        right: 0;
+    }
+
+        .pre-content .slogan .signin a
+        {
+            margin-top: 20px;
+        }
+.pre-content .carousel {
+    height: 650px;
     top: -90px;
 }
 
-    .home-banner .slogan
-    {
-        text-align: right;
-        position: absolute;
-        right: 15%;
-        top: 20%;
-        background-color: rgba(245, 245, 245, 0.4);
-        padding: 20px;
-    }
+#homeslide .credit {
+    position: absolute;
+    right: 100px;
+    bottom: 50px;
+    padding: 5px;
+    background-color: #000;
+    color: #fff;
+}
 
-        .home-banner .slogan h1,
-        .home-banner .slogan h1 p
-        {
-            text-align: left;
-            font-size: 36px;
-            color: #fff;
-            text-shadow: 1.5px 3.33px 13px rgba(0,0,0,0.7);
-            margin: 0;
-        }
-
-        .home-banner .slogan .signin
-        {
-            position: relative;
-            right: 0;
-        }
-
-            .home-banner .slogan .signin a
-            {
-                margin-top: 20px;
-            }
+#homeslide .credit a,
+#homeslide .credit a:hover {
+    color: #fff;
+}
 
 
 .home-content
@@ -482,6 +493,10 @@ a, a:visited
 .photo-details .profile img
 {
     margin-right: 10px;
+}
+
+.photo.thumbnail {
+    min-height: 300px;
 }
 
 .photo.thumbnail .actions
@@ -907,7 +922,7 @@ a.action
     }
 
 
-@media (min-width: 768px)
+@media (min-width: 200px) /* change to 768px to make responsive again*/
 {
     .container
     {

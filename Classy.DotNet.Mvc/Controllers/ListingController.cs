@@ -134,6 +134,7 @@ namespace Classy.DotNet.Mvc.Controllers
             model.OriginUrl = originUrl;
             model.ExternalMediaUrl = externalMediaUrl;
             model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : new SelectList(new List<CollectionView>());
+            model.CollectionType = CollectionType.PhotoBook;
 
             return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
         }
@@ -162,7 +163,8 @@ namespace Classy.DotNet.Mvc.Controllers
             var includedListings = new List<IncludedListingView> { new IncludedListingView { Id = listing.Id, ListingType = ListingTypeName, ProfileId = AuthenticatedUserProfile.Id } };
             if (string.IsNullOrEmpty(model.CollectionId))
             {
-                var collection = listingService.CreateCollection(CollectionType.PhotoBook, model.Title, model.Content, includedListings);
+                string collectionType = string.IsNullOrEmpty(model.CollectionType) ? CollectionType.PhotoBook : model.CollectionType;
+                var collection = listingService.CreateCollection(collectionType, model.Title, model.Content, includedListings);
                 model.CollectionId = collection.Id;
             }
             else listingService.AddListingToCollection(model.CollectionId, includedListings);
@@ -192,7 +194,14 @@ namespace Classy.DotNet.Mvc.Controllers
             model.CollectionList = Request.IsAuthenticated ? GetCollectionList(model.CollectionId, CollectionType.PhotoBook) : null;
 
             TempData["CreateListing_Success"] = true;
-            return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { listing = listing, collectionId = model.CollectionId });
+            }
+            else
+            {
+                return View(string.Concat("Create", ListingTypeName, "FromUrl"), model);
+            }
         }
 
         private SelectList GetCollectionList(string selectedCollectionId, string type)

@@ -36,6 +36,11 @@
     {
         @Styles.Render("~/Content/css/ltr")
     }
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="~/Scripts/html5shiv.min.js"></script>
+      <script src="~/Scripts/respond.min.js"></script>
+    <![endif]--> 
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -201,8 +206,8 @@
         // Additional JS functions here
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '13237044783', // App ID
-                channelUrl: '//www.homelab.com/channel.html', // Channel File
+                appId: '@System.Configuration.ConfigurationManager.AppSettings["Facebook:AppId"]',
+                channelUrl: document.location.origin + '/channel.html',
                 status: true, // check login status
                 cookie: true, // enable cookies to allow the server to access the session
                 xfbml: true  // parse XFBML
@@ -263,15 +268,6 @@
         </div>
     </div>
 
-    <!-- change password -->
-    <div class="modal fade" id="change-password-modal" data-remote="@Url.RouteUrl("ChangePassword")" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content" id="change-password-replace">
-                <!-- will be replaced -->
-            </div>
-        </div>
-    </div>
-
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
@@ -297,10 +293,14 @@
                     $(this).find('.modal-body').html("");
                 });
 
-            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) $('#cookie-policy').removeClass('hidden');
+            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) {
+                $('#cookie-policy').removeClass('hidden');                
+                if ($('#cookie-policy').length > 0) $('body').css('padding-top', '120px');
+            }
             $('#close-cookie-policy').click(function() {
                 Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
                 $('#cookie-policy').addClass('hidden');
+                $('body').css('padding-top', '90px');
             });
         });
 
@@ -335,7 +335,19 @@
                 { "CollectionRemovephoto_ConfirmText", Localizer.Get("CollectionRemovephoto_ConfirmText")},
                 { "Deletephoto_ConfirmTitle", Localizer.Get("Deletephoto_ConfirmTitle")},
                 { "Deletephoto_ConfirmText", Localizer.Get("Deletephoto_ConfirmText")},
+                { "CreatePhoto_ChangeSelectionTitle", Localizer.Get("CreatePhoto_ChangeSelectionTitle")},
+                { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")}
         })));
+    </script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-49619980-1', 'homelab.com');
+        ga('send', 'pageview');
     </script>
 
     @RenderSection("scripts", required: false)

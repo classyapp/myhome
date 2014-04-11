@@ -253,12 +253,13 @@
                                             <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
                                                 @Html.Partial("Thumbnails", p.CoverPhotos)
                                                 <div class="details">
-                                                    <strong>@p.Title</strong>
                                                     <ul class="stats list-inline list-unstyled">
                                                         <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
                                                         <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
                                                         <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
                                                     </ul>
+
+                                                    <strong>@p.Title</strong>
                                                 </div>
                                             </a>
                                         </div>
@@ -303,12 +304,13 @@
                                         <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "grid" })">
                                             @Html.Partial("Thumbnails", c.CoverPhotos)
                                             <div class="details">
-                                                <strong>@c.Title</strong>
                                                 <ul class="stats list-inline list-unstyled">
                                                     <li><span><i class="glyphicon glyphicon-eye-open"></i> @c.ViewCount</span></li>
                                                     <li><span><i class="glyphicon glyphicon-heart-empty"></i> @c.FavoriteCount</span></li>
                                                     <li><span><i class="glyphicon glyphicon-comment"></i> @c.CommentCount</span></li>
                                                 </ul>
+
+                                                <strong>@c.Title</strong>
                                             </div>
                                         </a>
                                     </div>
@@ -356,7 +358,7 @@
                     @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
                     {
                         <div class="contact-info">
-                            <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;<span><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { category = Model.Profile.ProfessionalInfo.Category, location = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City })">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</a></span>
+                            <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;<span><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Profile.ProfessionalInfo.Category }.ToSlug() })">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</a></span>
                         </div>
                     }
 
@@ -366,7 +368,11 @@
                     {
                         <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                             <i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;<span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br />
-                            <span class="address2">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,</span> <span itemprop="addressLocality">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span> <span>@countries.Single(x => x.Value == Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text</span>
+                            <span class="address2">
+                                <span>@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,</span>&nbsp;
+                                <span itemprop="addressLocality">@Html.RouteLinkForCurrentLocale(Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country, City = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City }.ToSlug() })</span>&nbsp;
+                                <span>@Html.RouteLinkForCurrentLocale(countries.Single(x => x.Value == Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country }.ToSlug() })</span>
+                            </span>
                         </div>
                     }
                 </div>
