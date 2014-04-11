@@ -288,6 +288,21 @@ a, a:visited
     top: -90px;
 }
 
+#homeslide .credit {
+    position: absolute;
+    right: 100px;
+    bottom: 50px;
+    padding: 5px;
+    background-color: #000;
+    color: #fff;
+}
+
+#homeslide .credit a,
+#homeslide .credit a:hover {
+    color: #fff;
+}
+
+
 .home-content
 {
     position: relative;

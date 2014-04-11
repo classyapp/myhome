@@ -25,6 +25,9 @@
         <a class="right carousel-control next" href="#homeslide">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
+        <div class="credit">
+            <span>@Localizer.Get("Home_PhotoCredit"):</span> <a href="//www.homelab.com/profile/1">pro 1</a>
+        </div>
     </div>
 }
 
@@ -133,11 +136,23 @@
     @Scripts.Render("~/scripts/jquery.backstretch.js")
 
     <script>
-        OnFacebookLogin = function (profile) { window.document.location.href = "/profile/reviews/new"; }
+        var slideshowData = [
+            { name: 'pro 1', url: '//www.homelab.com/profile/1' },
+            { name: 'pro 2', url: '//www.homelab.com/profile/2' },
+            { name: 'pro 3', url: '//www.homelab.com/profile/3' },
+            { name: 'pro 4', url: '//www.homelab.com/profile/4' },
+            { name: 'pro 5', url: '//www.homelab.com/profile/5' },
+            { name: 'pro 6', url: '//www.homelab.com/profile/6' },
+            { name: 'pro 7', url: '//www.homelab.com/profile/7' },
+            { name: 'pro 8', url: '//www.homelab.com/profile/8' },
+            { name: 'pro 9', url: '//www.homelab.com/profile/9' },
+            { name: 'pro 10', url: '//www.homelab.com/profile/10' },
+            { name: 'pro 11', url: '//www.homelab.com/profile/11' },
+            { name: 'pro 12', url: '//www.homelab.com/profile/12' }
+        ];
 
         $(function () {
             $('#homeslide').backstretch([
-                    '//d107oye3n9eb07.cloudfront.net/slider1.jpg',
                     '//d107oye3n9eb07.cloudfront.net/slider3.jpg',
                     '//d107oye3n9eb07.cloudfront.net/slider5.jpg',
                     '//d107oye3n9eb07.cloudfront.net/slider7.jpg',
@@ -148,7 +163,8 @@
                     '//d107oye3n9eb07.cloudfront.net/slider14.jpg',
                     '//d107oye3n9eb07.cloudfront.net/slider15.jpg',
                     '//d107oye3n9eb07.cloudfront.net/slider16.jpg',
-                    '//d107oye3n9eb07.cloudfront.net/slider17.jpg'
+                    '//d107oye3n9eb07.cloudfront.net/slider17.jpg',
+                    '//d107oye3n9eb07.cloudfront.net/slider1.jpg'
             ], { fade: 700, duration: 4000 });
 
             $('#homeslide .next').click(function () {
@@ -157,6 +173,10 @@
 
             $('#homeslide .prev').click(function () {
                 $('#homeslide').data('backstretch').prev();
+            });
+
+            $(window).on('backstretch.before', function (e, instance, index) {
+                $('#homeslide .credit a').attr('href', slideshowData[index].url).html(slideshowData[index].name);
             });
         });
 
