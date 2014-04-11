@@ -158,7 +158,8 @@ namespace Classy.DotNet.Mvc.Localization
 
         public static IList<string> GetCitiesWithCountries()
         {
-            var cacheKey = string.Concat("CitiesWithCountries");
+            var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+            var cacheKey = string.Concat("CitiesWithCountries", culture);
             IList<string> citiesWithCountries = HttpRuntime.Cache[cacheKey] as IList<string>;
             if (citiesWithCountries == null)
             {
