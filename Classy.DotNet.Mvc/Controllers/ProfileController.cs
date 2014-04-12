@@ -115,6 +115,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRoute(
+                name: "UnfollowProfile",
+                url: "profile/{username}/unfollow",
+                defaults: new { controller = "Profile", action = "UnfollowProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
                 name: "ContactProfessional",
                 url: "profile/{ProfessionalProfileId}/contact",
                 defaults: new { controller = "Profile", action = "ContactProfessional" },
@@ -543,7 +550,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 LocationView location = new LocationView();
-                if (model.Country == null) // First request
+                if (model.CountryCode == null) // First request
                 {
                     // Get data from cookies
                     System.Web.HttpCookie gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
@@ -797,6 +804,26 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 service.FollowProfile(username);
+            }
+            catch (ClassyException cvx)
+            {
+                return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        //
+        // POST: /profile/{username}/unfollow
+        //
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UnfollowProfile(string username)
+        {
+            try
+            {
+                var service = new ProfileService();
+                service.UnfollowProfile(username);
             }
             catch (ClassyException cvx)
             {
