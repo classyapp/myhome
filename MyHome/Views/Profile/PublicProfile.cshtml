@@ -181,16 +181,13 @@
                     <div>@Localizer.Get("PublicProfile_Following")</div>
                 </li>
                 <li class="text-left">
-                    @if (Request.IsAuthenticated &&
+                    @{ 
+                        var following = Request.IsAuthenticated &&
                             (Model.Profile.FollowedBy.Any(x => x.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id) ||
-                            Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id))
-                    {
-                        @Html.TriggerProfileActionLink(Localizer.Get("Profile_Sidebar_Unfollow"), "unfollow", Model.Profile, "btn btn-default")
+                            Model.Profile.Id == (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id);
                     }
-                    else
-                    {
-                        @Html.TriggerProfileActionLink(string.Concat("<i class=\"glyphicon glyphicon-plus-sign\"></i> ", Localizer.Get("Profile_Sidebar_Follow")), "follow", Model.Profile, "btn btn-primary")
-                    }
+                    @Html.TriggerProfileActionLink(string.Concat("<i class=\"glyphicon glyphicon-minus-sign\"></i> ", Localizer.Get("Profile_Sidebar_Unfollow")), "unfollow", Model.Profile, string.Concat("btn btn-default ", following ? "" : "hidden"))
+                    @Html.TriggerProfileActionLink(string.Concat("<i class=\"glyphicon glyphicon-plus-sign\"></i> ", Localizer.Get("Profile_Sidebar_Follow")), "follow", Model.Profile, string.Concat("btn btn-primary ", following ? "hidden" : ""))
                 </li>
             </ul>
         </div>

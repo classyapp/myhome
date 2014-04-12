@@ -111,7 +111,22 @@ function bindTriggerActions(context) {
         e.preventDefault();
         var profileId = $(this).attr('profile-id');
         var url = "/profile/" + profileId + "/follow";
-        $.post(url, null, function (data) { console.log(data); })
+        var el = $(this);
+        $.post(url, null, function (data) {
+            el.addClass('hidden');
+            $('[trigger-profile-action="unfollow"]', context).removeClass('hidden');
+        })
+    });
+
+    $('[trigger-profile-action="unfollow"]', context).click(function (e) {
+        e.preventDefault();
+        var profileId = $(this).attr('profile-id');
+        var url = "/profile/" + profileId + "/unfollow";
+        var el = $(this);
+        $.post(url, null, function (data) {
+            el.addClass('hidden');
+            $('[trigger-profile-action="follow"]', context).removeClass('hidden');
+        })
     });
 
     $('[trigger-listing-action="remove"]', context).click(function (e) {

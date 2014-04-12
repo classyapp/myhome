@@ -204,6 +204,20 @@ namespace Classy.DotNet.Services
             }
         }
 
+        public void UnfollowProfile(string username)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var url = string.Format(FOLLOW_PROFILE_URL, username);
+                client.UploadString(url, "DELETE", "{}");
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
         public IList<SocialPhotoAlbumView> GetFacebookAlbums()
         {
             try
