@@ -20,5 +20,6 @@ namespace Classy.DotNet.Responses
         public string CultureCookieName { get; set; }
         public string DefaultCountry { get; set; }
         public string DefaultCulture { get; set; }
+        public string Hostname { get; set; }
     }
 }
