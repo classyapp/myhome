@@ -401,7 +401,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 args.Emails = model.Contacts;
                 args.Message = model.Message;
                 args.Profile = AuthenticatedUserProfile;
-                args.ReviewLink = Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }, Request.Url.Scheme);
+                args.ReviewLink = Url.RouteUrl("PostProfileReview", new RouteValueDictionary { { "profileId", AuthenticatedUserProfile.Id } }, Request.Url.Scheme, Request.Url.Host);
 
                 if (OnAskForReview != null)
                 {
