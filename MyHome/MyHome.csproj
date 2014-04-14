@@ -503,6 +503,7 @@
     <Content Include="Views\Collection\Translate.cshtml" />
     <Content Include="Views\Security\ForgotPassword.cshtml" />
     <Content Include="Views\Security\ResetPassword.cshtml" />
+    <Content Include="Views\Profile\SendEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

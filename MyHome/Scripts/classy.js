@@ -59,6 +59,19 @@ Classy.ParseQueryString = function () {
     return data;
 }
 
+Classy.SendEmail = function (subject, body) {
+    $("#send-email-modal")
+        .on("loaded.bs.modal", function () {
+            $(this).find("#Subject").val(subject);
+            $(this).find("#Body").val(body);
+            jQuery.validator.unobtrusive.parse($("#frmSendEmail"));
+        })
+        .on("hidden.bs.modal", function () {
+            $(this).find("input[type=text], textarea").val("");
+        })
+        .modal("show");
+}
+
 var font = 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 15px;font-weight: bold;';
 if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font)
 function joinHomelab() { window.location.href = "/careers"; }
