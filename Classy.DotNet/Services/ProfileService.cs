@@ -409,7 +409,17 @@ namespace Classy.DotNet.Services
 
         public void SendEmail(System.Net.Mail.MailAddress[] recipients, string subject, string body)
         {
- 
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var profile = GetAuthenticatedProfile();
+                var data = new { ReplyTo = profile.ProfessionalInfo.CompanyContactInfo.Email, To = recipients.Select(r => r.Address).ToArray(), Subject = subject, Body = body }.ToJson();
+                var json = client.UploadString(SEND_EMAIL_URL, data);
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
         }
     }
 }

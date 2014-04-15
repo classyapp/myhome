@@ -1041,7 +1041,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { IsValid = false, ErrorMessage = Localizer.Get("SendEmail_Failure") });
+                return PartialView(model);
             }
         }
         #endregion
