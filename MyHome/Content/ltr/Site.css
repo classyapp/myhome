@@ -1370,4 +1370,12 @@ div.thumbs4 > div.thumb
     text-align: right;
 }
 
+.profile-actions div.dropdown
+{
+    display: inline-block;
+}
 
+    .profile-actions div.dropdown i
+    {
+        width: 14px;
+    }

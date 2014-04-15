@@ -137,8 +137,10 @@
     <Content Include="404.html" />
     <Content Include="500.html" />
     <Content Include="channel.html" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\ltr\bootstrap-tagsinput.css" />
     <Content Include="Content\ltr\bootstrap.min.css" />
+    <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
     <Content Include="Content\ltr\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
@@ -405,6 +407,10 @@
     <Content Include="App_Data\GeoLite2-City.mmdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\home-banner.jpg" />
     <Content Include="img\homelab-logo.png" />
