@@ -62,8 +62,8 @@ Classy.ParseQueryString = function () {
 Classy.SendEmail = function (subject, body) {
     $("#send-email-modal")
         .on("loaded.bs.modal", function () {
-            $(this).find("#Subject").val(subject);
-            $(this).find("#Body").val(body);
+            $(this).find("#Subject").val(subject.decodeHTML());
+            $(this).find("#Body").val(body.decodeHTML());
             jQuery.validator.unobtrusive.parse($("#frmSendEmail"));
         })
         .on("hidden.bs.modal", function () {
@@ -75,3 +75,14 @@ Classy.SendEmail = function (subject, body) {
 var font = 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 15px;font-weight: bold;';
 if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font)
 function joinHomelab() { window.location.href = "/careers"; }
+
+String.prototype.decodeHTML = function () {
+    var map = { "gt": ">" /* , … */ };
+    return this.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, function ($0, $1) {
+        if ($1[0] === "#") {
+            return String.fromCharCode($1[1].toLowerCase() === "x" ? parseInt($1.substr(2), 16) : parseInt($1.substr(1), 10));
+        } else {
+            return map.hasOwnProperty($1) ? map[$1] : $0;
+        }
+    });
+};
