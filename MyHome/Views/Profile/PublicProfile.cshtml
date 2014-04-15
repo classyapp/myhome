@@ -367,7 +367,10 @@
                             <i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;<span itemprop="streetAddress">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1</span><br />
                             <span class="address2">
                                 <span>@Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode,</span>&nbsp;
-                                <span itemprop="addressLocality">@Html.RouteLinkForCurrentLocale(Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country, City = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City }.ToSlug() })</span>&nbsp;
+                                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City))
+                                {
+                                    <span itemprop="addressLocality">@Html.RouteLinkForCurrentLocale(Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country, City = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City }.ToSlug() })</span>&nbsp;
+                                }
                                 <span>@Html.RouteLinkForCurrentLocale(countries.Single(x => x.Value == Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country }.ToSlug() })</span>
                             </span>
                         </div>
