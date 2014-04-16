@@ -19,26 +19,26 @@
                 <hr />
 
                 <h3>@Localizer.Get("ClaimProxy_BusinessInfo")</h3>
-                @f.FormGroup().TextBoxFor(x => x.CompanyName).Label().WidthLg(12)
-                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("ClaimProxy_ChooseCategory")).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.FirstName).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.LastName).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).Rows(5).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).Label().WidthLg(12)
-                @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed).Label().WidthLg(12)
+                @f.FormGroup().TextBoxFor(x => x.CompanyName)
+                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("ClaimProxy_ChooseCategory"))
+                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://")
+                @f.FormGroup().TextBoxFor(x => x.FirstName)
+                @f.FormGroup().TextBoxFor(x => x.LastName)
+                @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo)
+                @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).Rows(5)
+                @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided)
+                @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed)
 @*<div>job cost from: --- to: ---</div>
-                @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails).Label().WidthLg(12)*@
-                @f.FormGroup().TextAreaFor(x => x.Metadata.Awards).Label().WidthLg(12)
+                @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails)*@
+                @f.FormGroup().TextAreaFor(x => x.Metadata.Awards)
 
                 <h3>@Localizer.Get("ClaimProxy_ContactInfo")</h3>
-                @f.FormGroup().TextBoxFor(x => x.Street1).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.City).Label().WidthLg(12)
-                @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList()).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.PostalCode).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.Phone).Label().WidthLg(12)
-                @f.FormGroup().TextBoxFor(x => x.Email).Label().WidthLg(12)
+                @f.FormGroup().TextBoxFor(x => x.Street1)
+                @f.FormGroup().TextBoxFor(x => x.City)
+                @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList())
+                @f.FormGroup().TextBoxFor(x => x.PostalCode)
+                @f.FormGroup().TextBoxFor(x => x.Phone)
+                @f.FormGroup().TextBoxFor(x => x.Email)
                 
                 <br />
                 <br />
