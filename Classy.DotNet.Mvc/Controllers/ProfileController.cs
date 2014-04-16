@@ -344,6 +344,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     },
                     metadata != null ? metadata.ToDictionary() : null,
                     model.DefaultCulture,
+                    null,
                     fields);
                 TempData["EditProfile_Success"] = true;
                 return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
@@ -704,6 +705,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     professionalInfo, 
                     model.Metadata.ToDictionary(), 
                     model.DefaultCulture,
+                    null,
                     UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
@@ -916,7 +918,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, null, UpdateProfileFields.CoverPhotos);
+                profileService.UpdateProfile(profileId, null, null, null, null, keys, UpdateProfileFields.CoverPhotos);
 
                 return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = profileId}) });
             }
