@@ -8,7 +8,7 @@
     ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
-    var currentPage = Classy.DotNet.Responses.AppView.PagesCount;
+    var pagesCount = Classy.DotNet.Responses.AppView.PagesCount;
 }
 
 <div class="row">
@@ -89,7 +89,7 @@
         </div>
         <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
         <div id="pager" class="text-center hide">
-            <ul class="pagination" data-total="@totalPages" data-pages="@currentPage">
+            <ul class="pagination" data-total="@totalPages" data-pages="@pagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
                 @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
                 {
@@ -97,10 +97,7 @@
                 }
                 <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
             </ul>
-            @if (currentPage < totalPages)
-            {
-                <a href="@(Url.RouteUrlForCurrentLocale("SearchProfiles") + string.Format("?Page={0}", currentPage + 1))" class="sr-only">Next Page</a>
-            }
+            <a href="@(Url.RouteUrlForCurrentLocale("SearchProfiles") + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
         </div>
     </div>
 </div>
