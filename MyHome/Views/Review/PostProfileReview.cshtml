@@ -18,13 +18,13 @@
         <hr />
 
         @Html.Bootstrap().ValidationSummary()
-        @using (var f = Html.Bootstrap().Begin(new Form("PostProfileReview").FormMethod(FormMethod.Post)))
+        @using (var f = Html.Bootstrap().Begin(new Form("PostProfileReview").Type(FormType._NotSet).FormMethod(FormMethod.Post)))
         {
             if (Model.IsNewProfessional)
             {
                 <h3>@Localizer.Get("PostReview_ProContactInfo")</h3>
-                @f.FormGroup().TextBoxFor(x => x.NewProfessionalContactInfo.Phone).Label()
-                @f.FormGroup().TextBoxFor(x => x.NewProfessionalContactInfo.Email).Label()
+                @f.FormGroup().TextBoxFor(x => x.NewProfessionalContactInfo.Phone)
+                @f.FormGroup().TextBoxFor(x => x.NewProfessionalContactInfo.Email)
             }
             
             <h3>@Localizer.Get("PostReview_YourRelationship")</h3>

@@ -11,7 +11,7 @@
     <p>
         @string.Format(Localizer.Get("TranslateListing_DefaultLanguageInstructions"), cultures.First(c => c.Value == Model.CultureCode).Text)
     </p>
-    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslateListing", "Photo").RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
+    @using (var f = Ajax.Bootstrap().Begin(new Form("TranslateListing", "Photo").Type(FormType._NotSet).RouteValues(new { ListingId = Model.ListingId }).Id("frmTranslate"), new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
         HttpMethod = "POST",
@@ -20,9 +20,9 @@
     }))
     {
         @Html.Bootstrap().ValidationSummary()
-        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @Html.HiddenFor(x => x.Action)
 
         <div class="form-buttons">

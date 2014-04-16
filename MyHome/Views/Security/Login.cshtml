@@ -21,7 +21,7 @@
 
             @Html.Bootstrap().ValidationSummary()
 
-            @using (var f = Html.Bootstrap().Begin(new Form("Login").FormMethod(FormMethod.Post)))
+            @using (var f = Html.Bootstrap().Begin(new Form("Login").Type(FormType._NotSet).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Email).Placeholder(Localizer.Get("Login_Email")).Label().Class("sr-only")
                 @f.FormGroup().PasswordFor(x => x.Password).Placeholder(Localizer.Get("Login_Password")).Label().Class("sr-only")

@@ -34,14 +34,14 @@
             }
         }
 
-        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
+        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").Type(FormType._NotSet).RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
         {
             
                 @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReview_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
-            @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
+                @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
+                @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
         }
     </div>
 

@@ -65,16 +65,16 @@
             <div class="col-xs-9">
                 @Html.Bootstrap().ValidationSummary()
 
-                @using (var f = Html.Bootstrap().Begin(new Form("CreateListingFromUrl", "Photo")))
+                @using (var f = Html.Bootstrap().Begin(new Form("CreateListingFromUrl", "Photo").Type(FormType._NotSet)))
                 {
                     <input type="hidden" name="Metadata.CopyrightMessage" value="@Model.OriginUrl" />
                     <input type="hidden" name="Metadata.IsWebPhoto" value="True" />
                     
-                    @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
+                    @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
                     @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_CollectionTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hidden")           
-                    @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().WidthLg(12).LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
-                    @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false).Label().WidthLg(12)
-                    @f.FormGroup().TextAreaFor(x => x.Content).Rows(3).ShowValidationMessage(false).Label()
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
+                    @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false)
+                    @f.FormGroup().TextAreaFor(x => x.Content).Rows(3).ShowValidationMessage(false)
                     
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CreatePhotoFromUrl_Submit")).Style(ButtonStyle.Primary))
                 }
