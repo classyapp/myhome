@@ -30,14 +30,13 @@
             {
                 <div class="dropdown">
                   <a class="btn btn-primary btn-sm" data-toggle="dropdown">
-                    @Localizer.Get("Profile_MailLink")
-                    <span class="caret"></span>
+                      <i class="fa fa-share"></i>&nbsp;@Localizer.Get("Profile_Share")&nbsp;<span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a tabindex="-1" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))')"><i class="glyphicon glyphicon-envelope"></i>&nbsp;@Localizer.Get("Profile_MailLink")</a></li>
-                    <li><a tabindex="-1" href="https://www.facebook.com/sharer/sharer.php?u=@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")" target="_blank"><i class="fa fa-facebook"></i>&nbsp;Facebook</a></li>
-                    <li><a tabindex="-1" href="https://twitter.com/home?status=@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")" target="_blank"><i class="fa fa-twitter"></i>&nbsp;Twitter</a></li>
-                    <li><a tabindex="-1" href="https://plus.google.com/share?url=@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")" target="_blank"><i class="fa fa-google-plus"></i>&nbsp;Google+</a></li>
+                    <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))')">@Localizer.Get("Profile_MailLink")</a></li>
+                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', '@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")', 520, 350)">Facebook</a></li>
+                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', '@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")', 520, 350)">Twitter</a></li>
+                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', '@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")', 520, 350)">Google+</a></li>
                   </ul>
                 </div>
                 <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>

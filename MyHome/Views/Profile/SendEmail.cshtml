@@ -17,7 +17,7 @@
         @Html.HiddenFor(m => m.ProfileId)
         @f.FormGroup().TextBoxFor(x => x.Recipients).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
         @f.FormGroup().TextBoxFor(x => x.Subject).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.Body).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.Body).HtmlAttributes(new { rows = 7 }).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
 
         <div class="form-buttons">
             <button class="btn btn-default" data-dismiss="modal">@Localizer.Get("Cancel")</button>

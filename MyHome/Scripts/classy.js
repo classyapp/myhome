@@ -72,6 +72,12 @@ Classy.SendEmail = function (subject, body) {
         .modal("show");
 }
 
+Classy.ShareUI = function (socialUrl, url, winWidth, winHeight) {
+    var winTop = (screen.height / 2) - (winHeight / 2);
+    var winLeft = (screen.width / 2) - (winWidth / 2);
+    window.open(socialUrl + url, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
+}
+
 var font = 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 15px;font-weight: bold;';
 if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font)
 function joinHomelab() { window.location.href = "/careers"; }

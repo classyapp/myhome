@@ -151,6 +151,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
     <Content Include="img\ajax-loader.gif" />
+    <Content Include="img\email.png" />
+    <Content Include="img\facebook.png" />
     <Content Include="img\fb.png" />
     <Content Include="img\flags\ad.png" />
     <Content Include="img\flags\ae.png" />
@@ -412,9 +414,11 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
+    <Content Include="img\twitter.png" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
