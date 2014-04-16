@@ -124,6 +124,7 @@
                 }
                 <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
             </ul>
+            <a href="@(Url.RouteUrlForCurrentLocale("SearchPhoto") + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
         </div>
     </div>
 </div>
