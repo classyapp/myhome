@@ -5,7 +5,7 @@
     <h4 class="modal-title">@Localizer.Get("EnvSettings_ModalTitle")</h4>
 </div>
 <div class="modal-body">
-    @using (var f = Ajax.Bootstrap().Begin(new Form("EnvironmentSettings", "Localization"), new AjaxOptions {
+    @using (var f = Ajax.Bootstrap().Begin(new Form("EnvironmentSettings", "Localization").Type(FormType._NotSet), new AjaxOptions {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
             UpdateTargetId = "modal-main",

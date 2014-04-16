@@ -62,11 +62,22 @@
             Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
             photos.Count() == 0)
         {
-            <div class="alert alert-info alert-dismissable">
+            <div class="alert alert-warning alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h4>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Title")</h4>
                 <p>@Localizer.Get("PublicProfile_CallToAction_UploadPhotos")</p>
-                <p><a href="@Url.RouteUrl("CreatePhoto")" class="btn btn-info">@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Button")</a></p>
+                <p><a href="@Url.RouteUrl("CreatePhoto", new { @ref = "public_profile_alert_cta" })" class="btn btn-warning">@Localizer.Get("PublicProfile_CallToAction_UploadPhotos_Button")</a></p>
+            </div>
+        }
+        else if (Model.Profile.IsProfessional &&
+          Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
+          reviews.Count() == 0)
+        {
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4>@Localizer.Get("PublicProfile_CallToAction_GetReviews_Title")</h4>
+                <p>@Localizer.Get("PublicProfile_CallToAction_GetReviews")</p>
+                <p><a href="@Url.RouteUrl("AskForReview", new { @ref = "public_profile_alert_cta" })" class="btn btn-warning">@Localizer.Get("PublicProfile_CallToAction_GetReviews_Button")</a></p>
             </div>
         }
 
