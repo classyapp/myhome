@@ -5,7 +5,7 @@
     <h4 class="modal-title">@Localizer.Get("SendEmail_Title")</h4>
 </div>
 <div class="modal-body">
-    @using (var f = Ajax.Bootstrap().Begin(new Form("SendEmail", "Profile").RouteValues(new { ProfileId = Model.ProfileId }).Id("frmSendEmail"), new AjaxOptions
+    @using (var f = Ajax.Bootstrap().Begin(new Form("SendEmail", "Profile").Type(FormType._NotSet).RouteValues(new { ProfileId = Model.ProfileId }).Id("frmSendEmail"), new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
         HttpMethod = "POST",
@@ -15,9 +15,10 @@
     {
         @Html.Bootstrap().ValidationSummary()
         @Html.HiddenFor(m => m.ProfileId)
-        @f.FormGroup().TextBoxFor(x => x.Recipients).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextBoxFor(x => x.Subject).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.Body).HtmlAttributes(new { rows = 7 }).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
+
+        @f.FormGroup().TextBoxFor(x => x.Recipients).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextBoxFor(x => x.Subject).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.Body).HtmlAttributes(new { rows = 7 }).ShowValidationMessage(false).Label().ShowRequiredStar(false)
 
         <div class="form-buttons">
             <button class="btn btn-default" data-dismiss="modal">@Localizer.Get("Cancel")</button>
