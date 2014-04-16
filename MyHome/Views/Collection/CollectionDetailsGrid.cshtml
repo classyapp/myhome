@@ -86,10 +86,10 @@
                 </p>
             }
 
-            @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Collection")))
+            @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Collection").Type(FormType._NotSet)))
             {
                 @Html.Hidden("CollectionId", Model.Id);
-                @f.FormGroup().TextArea("Content").Value(string.Empty).Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("CollectionComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                @f.FormGroup().TextArea("Content").Value(string.Empty).Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("CollectionComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("CollectionDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
         </div>
