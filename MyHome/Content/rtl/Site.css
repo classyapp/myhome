@@ -340,3 +340,8 @@ a.action
 {
     background-position: 90% center;
 }
+
+div.upload
+{
+    float: right;
+}
