@@ -36,11 +36,11 @@
             @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false)
             <div class="alert alert-warning">
                 <div class=" form-group">
-                    <button class="btn btn-warning btn-select-files" type="button">
-                        @Localizer.Get("CreatePhoto_SelectFiles")
+                    <div class="upload">
                         <input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />
+                        <button class="btn btn-warning btn-select-files" type="button">@Localizer.Get("CreatePhoto_SelectFiles")</button>
                         @Html.HiddenFor(x => x.DummyFile)
-                    </button>
+                    </div>
 
                     @if ((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsFacebookConnected) {                        
                         <a id="load-fb" href="#" onclick="showFBPhotoChooser()" class="btn btn-primary btn-select-files">@Localizer.Get("CreatePhoto_LoadFromFacebook")</a>

@@ -318,3 +318,9 @@ a.action
 {
     text-align: left;
 }
+
+
+.btn-select-files {
+    right: 0;
+    left: auto;
+}
