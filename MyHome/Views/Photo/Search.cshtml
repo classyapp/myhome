@@ -116,7 +116,7 @@
         </div>
         <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
         <div id="pager" class="text-center" style="font-size: 12px">
-            <ul class="pagination" data-total="@(totlaPages)" 
+            <ul class="pagination" data-total="@(totalPages)" 
                 data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
                 @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
