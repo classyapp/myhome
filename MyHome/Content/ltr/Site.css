@@ -836,6 +836,14 @@ a.action
         color: #fff;
         background-color: #D9534F;
     }
+    a.action.share
+    {
+        color: #398439;
+    }
+    a.action.share:hover
+    {
+        color: #fff;
+    }
 
 /* manage resources*/
 .resourceListContainer
@@ -1370,4 +1378,29 @@ div.thumbs4 > div.thumb
     text-align: right;
 }
 
+.profile-actions div.dropdown
+{
+    display: inline-block;
+}
 
+    .profile-actions div.dropdown ul li, .actions div.dropdown ul li
+    {
+        text-indent: 20px;
+    }
+
+    .profile-actions div.dropdown ul li a.email, .actions div.dropdown ul li a.email
+    {
+        background: transparent url(/img/email.png) no-repeat 16px center;
+    }
+    .profile-actions div.dropdown ul li a.facebook, .actions div.dropdown ul li a.facebook
+    {
+        background: transparent url(/img/facebook.png) no-repeat 16px center;
+    }
+    .profile-actions div.dropdown ul li a.twitter, .actions div.dropdown ul li a.twitter
+    {
+        background: transparent url(/img/twitter.png) no-repeat 16px center;
+    }
+    .profile-actions div.dropdown ul li a.googleplus, .actions div.dropdown ul li a.googleplus
+    {
+        background: transparent url(/img/googleplus.png) no-repeat 16px center;
+    }

@@ -1,6 +1,6 @@
 ﻿@model MyHome.Models.PhotoActionsViewModel
 
-<div class="actions" @(Model.IsStatic ? "style=\"dispaly: block;\"" : "")>
+<div class="actions" @(Model.IsStatic ? "style=\"display: block\"" : "")>
     @if (Model.ShowCollect)
     {
         @Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-plus\"></i>", "collect", Model.Listing, "btn btn-default action add")
@@ -20,7 +20,15 @@
 
     @if (Model.ShowShare)
     {
-        @*Html.TriggerListingActionLink("<i class=\"glyphicon glyphicon-share\"></i>", "share", Model.Listing, "btn btn-success action share")*@
+        <div class="dropdown">
+            <a href="#" class="btn btn-success action share" data-toggle="dropdown"><i class="glyphicon glyphicon-share"></i></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Listing_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PhotoDetails", new { ListingId = Model.Listing.Id })), Model.Listing.Profile.GetProfileName()))')">@Localizer.Get("Listing_MailLink")</a></li>
+                <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', '@Url.RouteUrl("PhotoDetails", new { profileId = Model.Listing.Id}, "http")', 520, 350)">Facebook</a></li>
+                <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', '@Url.RouteUrl("PhotoDetails", new { profileId = Model.Listing.Id}, "http")', 520, 350)">Twitter</a></li>
+                <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', '@Url.RouteUrl("PhotoDetails", new { profileId = Model.Listing.Id}, "http")', 520, 350)">Google+</a></li>
+            </ul>
+        </div>
     }
 
     @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.CanEdit())

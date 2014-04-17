@@ -16,6 +16,7 @@ using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using System.IO;
 using Microsoft.VisualBasic.FileIO;
+using System.Net.Mail;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -23,7 +24,7 @@ namespace Classy.DotNet.Mvc.Controllers
     public class ProfileController<TProMetadata, TReviewSubCriteria, TUserMetadata> : BaseController
         where TProMetadata : IMetadata<TProMetadata>, new()
         where TReviewSubCriteria : IReviewSubCriteria<TReviewSubCriteria>, new()
-        where TUserMetadata : IMetadata<TUserMetadata>, new ()
+        where TUserMetadata : IMetadata<TUserMetadata>, new()
     {
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
@@ -93,6 +94,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "SendEmail",
+                url: "profile/{profileId}/sendemail",
+                defaults: new { controller = "Profile", action = "SendEmail" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: "SearchProfiles",
                 url: "profile/search/{*filters}",
@@ -139,7 +147,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "SelectCoverPhotos",
                 url: "profile/{profileId}/photos",
                 defaults: new { controller = "Profile", action = "SelectCoverPhotos" },
-                namespaces: new string[] { Namespace}
+                namespaces: new string[] { Namespace }
                 );
 
             routes.MapRouteForSupportedLocales(
@@ -194,7 +202,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 parser.SetDelimiters(",");
                 args.LineValues = parser.ReadFields();
                 args.LineCount = index;
-                
+
                 // let the implementation handle parsing
                 OnParseProfilesCsvLine(this, args);
 
@@ -217,7 +225,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (args.ProfessionalInfo != null) service.CreateProxyProfile(batchId, args.ProfessionalInfo, args.Metadata.ToDictionary());
                 args.IsHeaderLine = false;
                 index++;
-            }   
+            }
 
             TempData["UploadSuccess"] = Localizer.Get("CreateProxyMass_UploadSuccess");
             return RedirectToRoute("CreateProxyProfile");
@@ -417,7 +425,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("PublicProfile", new { profileId = AuthenticatedUserProfile.Id});
+            return RedirectToAction("PublicProfile", new { profileId = AuthenticatedUserProfile.Id });
         }
 
         //
@@ -442,7 +450,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 return View(model);
             }
-            catch(ClassyException cex)
+            catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
@@ -460,7 +468,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 var service = new ProfileService();
                 var proxy = service.GetProfileById(profileId);
                 if (!proxy.IsProxy) return RedirectToRoute("Home");
-                
+
                 var metadata = new TProMetadata().FromDictionary(profile != null ? profile.Metadata : proxy.Metadata);
                 var model = new ClaimProfileViewModel<TProMetadata>
                 {
@@ -481,7 +489,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 };
                 return View(model);
             }
-            catch(ClassyException cex)
+            catch (ClassyException cex)
             {
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
@@ -502,7 +510,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     CompanyName = model.CompanyName,
                     Category = model.Category,
                     CompanyContactInfo = new ExtendedContactInfoView
-                    {   
+                    {
                         Email = model.Email,
                         Phone = model.Phone,
                         WebsiteUrl = model.WebsiteUrl,
@@ -598,7 +606,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     true,
                     false,
                     model.Page);
-                
+
                 model.Results = resutls.Results;
                 model.Count = resutls.Count;
 
@@ -699,10 +707,10 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ProfileService();
                 var profile = service.UpdateProfile(
-                    AuthenticatedUserProfile.Id, 
+                    AuthenticatedUserProfile.Id,
                     null,
-                    professionalInfo, 
-                    model.Metadata.ToDictionary(), 
+                    professionalInfo,
+                    model.Metadata.ToDictionary(),
                     model.DefaultCulture,
                     UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
@@ -724,7 +732,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs((HttpVerbs.Get))]
         public ActionResult ContactProfessional(string professionalProfileId)
         {
-            try 
+            try
             {
                 var service = new ProfileService();
                 var profile = service.GetProfileById(professionalProfileId);
@@ -854,7 +862,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     return Json(new { Album = albums.SingleOrDefault(x => x.Id == albumId) }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -885,7 +893,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     throw ex;
                 }
-            } else return PartialView(model);
+            }
+            else return PartialView(model);
         }
 
         [Authorize]
@@ -916,9 +925,9 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys  }, null, null, UpdateProfileFields.CoverPhotos);
+                profileService.UpdateProfile(profileId, null, new ProfessionalInfoView { CoverPhotos = keys }, null, null, UpdateProfileFields.CoverPhotos);
 
-                return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = profileId}) });
+                return Json(new { url = Url.RouteUrl("PublicProfile", new { profileId = profileId }) });
             }
             catch (ClassyException cex)
             {
@@ -937,7 +946,10 @@ namespace Classy.DotNet.Mvc.Controllers
             if (cultureCode == null)
             {
                 var profile = profileService.GetProfileById(profileId);
-                model = new TranslateProfileViewModel { ProfileId = profileId, CultureCode = profile.DefaultCulture, 
+                model = new TranslateProfileViewModel
+                {
+                    ProfileId = profileId,
+                    CultureCode = profile.DefaultCulture,
                     CompanyName = profile.ProfessionalInfo.CompanyName,
                     BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
                     ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["BusinessDescription"] : string.Empty
@@ -990,6 +1002,48 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SendEmail(string profileId)
+        {
+            return PartialView(new SendEmailViewModel { ProfileId = profileId });
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SendEmail(SendEmailViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Check email addresses
+                    List<MailAddress> emails = new List<MailAddress>();
+                    foreach (var address in model.Recipients.Split(',', ';'))
+                    {
+                        try
+                        {
+                            emails.Add(new MailAddress(address));
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError("Recipients", Localizer.Get("SendEmail_InvalidEmail"));
+                            return PartialView(model);
+                        }
+                    }
+
+                    var profileService = new ProfileService();
+                    profileService.SendEmail(emails.ToArray(), model.Subject, model.Body);
+
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("SendEmail_Success") });
+                }
+                return Json(new { IsValid = false, ErrorMessage = Localizer.Get("SendEmail_Failure") });
+            }
+            catch (Exception ex)
+            {
+                return PartialView(model);
+            }
+        }
         #endregion
     }
 }
