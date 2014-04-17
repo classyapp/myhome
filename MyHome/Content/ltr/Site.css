@@ -1083,6 +1083,11 @@ div.upload {
     overflow: hidden;
 }
 
+div.radio.checkbox-inline {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
 div.upload #file
 {
     position: absolute;

@@ -117,9 +117,13 @@
                     @if (Model.Profile.IsProfessional) { <small class="pull-left"><span class="label label-default">PRO</span></small> }
                 </div>
 
-                @if (Model.Profile.IsProfessional && Model.Profile.ReviewCount > 0)
+                @if (Model.Profile.IsProfessional)
                 {
-                    <div class="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                    var hasReviews = Model.Profile.ReviewCount > 0;
+                    
+                    <div class="rating" @(hasReviews ? "itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"" : string.Empty)>
+                    @if (hasReviews) 
+                    {
                         <span class="stars">
                             @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
                             {
@@ -132,58 +136,59 @@
                         </span>
                         <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
                         <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
-                        <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
+                    }
+                    <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
 
-                        @if (Model.ReviewSubCriteria != null)
-                        {
-                            <div class="details hide">
-                                <dl class="dl-horizontal">
-                                    <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
-                                    <dd>
-                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        }
-                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star-empty"></span>
-                                        }
-                                    </dd>
-                                    <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
-                                    <dd>
-                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        }
-                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star-empty"></span>
-                                        }
-                                    </dd>
-                                    <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
-                                    <dd>
-                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        }
-                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star-empty"></span>
-                                        }
-                                    </dd>
-                                    <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
-                                    <dd>
-                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        }
-                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                        {
-                                            <span class="glyphicon glyphicon-star-empty"></span>
-                                        }
-                                    </dd>
-                                </dl>
-                            </div>
+                    @if (hasReviews && Model.ReviewSubCriteria != null)
+                    {
+                        <div class="details hide">
+                            <dl class="dl-horizontal">
+                                <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
+                                <dd>
+                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                                        }
+                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                                        }
+                                </dd>
+                                <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
+                                <dd>
+                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                                        }
+                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                                        }
+                                </dd>
+                                <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
+                                <dd>
+                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                                        }
+                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                                        }
+                                </dd>
+                                <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
+                                <dd>
+                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                                        }
+                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
+                                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                                        }
+                                </dd>
+                            </dl>
+                        </div>
                         }
                     </div>
                 }
