@@ -59,6 +59,37 @@ Classy.ParseQueryString = function () {
     return data;
 }
 
+Classy.SendEmail = function (subject, body, title) {
+    $("#send-email-modal")
+        .on("loaded.bs.modal", function () {
+            $(this).find("#Subject").val(subject.decodeHTML());
+            $(this).find("#Body").val(body.decodeHTML());
+            if (typeof title !== 'undefined') { $(this).find(".modal-title").html(title); }
+            jQuery.validator.unobtrusive.parse($("#frmSendEmail"));
+        })
+        .on("hidden.bs.modal", function () {
+            $(this).find("input[type=text], textarea").val("");
+        })
+        .modal("show");
+}
+
+Classy.ShareUI = function (socialUrl, url, winWidth, winHeight) {
+    var winTop = (screen.height / 2) - (winHeight / 2);
+    var winLeft = (screen.width / 2) - (winWidth / 2);
+    window.open(socialUrl + url, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
+}
+
 var font = 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 15px;font-weight: bold;';
 if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font)
 function joinHomelab() { window.location.href = "/careers"; }
+
+String.prototype.decodeHTML = function () {
+    var map = { "gt": ">" /* , … */ };
+    return this.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, function ($0, $1) {
+        if ($1[0] === "#") {
+            return String.fromCharCode($1[1].toLowerCase() === "x" ? parseInt($1.substr(2), 16) : parseInt($1.substr(1), 10));
+        } else {
+            return map.hasOwnProperty($1) ? map[$1] : $0;
+        }
+    });
+};

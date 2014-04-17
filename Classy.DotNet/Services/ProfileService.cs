@@ -25,6 +25,7 @@ namespace Classy.DotNet.Services
         private readonly string CHANGE_PASSWORD_URL = ENDPOINT_BASE_URL + "/profile/{0}";
         private readonly string CHANGE_IMAGE_URL = ENDPOINT_BASE_URL + "/profile/{0}";
         private readonly string PROFILE_TRANSLATION_URL = ENDPOINT_BASE_URL + "/profile/{0}/translation/{1}";
+        private readonly string SEND_EMAIL_URL = ENDPOINT_BASE_URL + "/email";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}, ""DefaultCulture"":""{2}""}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -401,6 +402,21 @@ namespace Classy.DotNet.Services
                     CultureCode = cultureCode
                 };
                 string json = client.UploadString(url, "DELETE", data.ToJson());
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
+
+        public void SendEmail(System.Net.Mail.MailAddress[] recipients, string subject, string body)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var profile = GetAuthenticatedProfile();
+                var data = new { ReplyTo = profile.ProfessionalInfo.CompanyContactInfo.Email, To = recipients.Select(r => r.Address).ToArray(), Subject = subject, Body = body }.ToJson();
+                var json = client.UploadString(SEND_EMAIL_URL, data);
             }
             catch (WebException wex)
             {

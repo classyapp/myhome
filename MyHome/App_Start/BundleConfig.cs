@@ -26,6 +26,7 @@ namespace MyHome
 
             bundles.Add(new StyleBundle("~/Content/css/rtl").Include(
                       "~/Content/rtl/fonts.css",
+                      "~/Content/ltr/font-awesome.min.css",
                       "~/Content/rtl/bootstrap.css",
                       "~/Content/ltr/site.css", /* yes, ltr first */
                       "~/Content/rtl/site.css",
@@ -33,6 +34,7 @@ namespace MyHome
 
             bundles.Add(new StyleBundle("~/Content/css/ltr").Include(
                       "~/Content/ltr/fonts.css",
+                      "~/Content/ltr/font-awesome.min.css",
                       "~/Content/ltr/bootstrap.min.css",
                       "~/Content/ltr/site.css",
                       "~/Content/ltr/bootstrap-tagsinput.css"));
