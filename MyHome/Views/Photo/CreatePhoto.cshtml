@@ -37,8 +37,7 @@
             <div class="alert alert-warning">
                 <div class="form-group">
                     <div class="upload">
-                        <input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />
-                        <button class="btn btn-warning btn-select-files" type="button">@Localizer.Get("CreatePhoto_SelectFiles")</button>
+                        <span class="btn btn-warning btn-select-files" type="button"><input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />@Localizer.Get("CreatePhoto_SelectFiles")</span>
                         @Html.HiddenFor(x => x.DummyFile)
                     </div>
 
