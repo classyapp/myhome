@@ -98,7 +98,7 @@ namespace Classy.DotNet.Mvc.ModelBinders
                 {
                     if (cities.Any(x => x.ToLower() == val))
                     {
-                        city = cities.Single(x => x.ToLower() == val);
+                        city = cities.First(x => x.ToLower() == val);
                         break;
                     }
                 }
