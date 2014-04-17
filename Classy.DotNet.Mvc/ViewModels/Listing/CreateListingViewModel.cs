@@ -22,6 +22,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public PricingViewModel PricingInfo { get; set; }
         public LocationView Location { get; set; }
         public bool AutoPublish { get; set; }
+        public bool IsGoogleConnected { get; set; }
+        public bool IsFacebookConnected { get; set; }
         // meta
         public TListingMetadata Metadata { get; set; }
         [Required(ErrorMessage = "CreateListing_FilesRequired")]

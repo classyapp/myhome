@@ -76,6 +76,14 @@
                 @Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))
             </div> 
         }
+        <div>
+            @if (!Model.IsFacebookConnected)
+            {
+                <hr />
+                <p><strong>@Localizer.Get("CreatePhoto_Help_ImportTitle")</strong></p>
+                <a href="#" class="btn btn-block btn-fb-login">@Localizer.Get("CreatePhoto_Import_Facebook")</a>
+            }
+        </div>
     </div>
 </div>
 
