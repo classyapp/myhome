@@ -324,3 +324,8 @@ a.action
     right: 0;
     left: auto;
 }
+
+div.upload
+{
+    float: right;
+}

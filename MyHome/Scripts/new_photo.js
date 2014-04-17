@@ -76,6 +76,7 @@ function uploadPhotos() {
 }
 
 function doUpload(idx, extra) {
+    var file = $("#file")[0];
     if ($("#DummyFile").val() == "fs" && file.files.length > idx) {
         $("#uploadBtn").data("file-id", idx);
         var upload = new XHRFileUpload(uploadPhotoUrl, file.files[idx], extra);
