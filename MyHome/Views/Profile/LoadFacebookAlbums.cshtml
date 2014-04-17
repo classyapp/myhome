@@ -6,15 +6,15 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-md-12">@Localizer.Get("LoadFacebookAlbums_PhotosSelected")&nbsp;<span id="photos-count"></span></div>
+        <div id="photos-count" class="col-md-12 hidden">@Localizer.Get("LoadFacebookAlbums_PhotosSelected")&nbsp;<span>0</span></div>
     </div>
     <div class="row" style="margin: 20px auto;">
         @foreach (var album in Model.Albums)
         {
             <div class="col-md-4 album" data-album-id="@album.Id" data-loaded="false">
                 <div class="media">
-                    <a class="pull-left" href="#">
-                        <img src="@album.Photos[0].Url" width="64" />
+                    <a href="#">
+                        <img src="@album.Photos[0].Url" class="img-responsive" title="@album.Name" />
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading">@album.Name</h4>
@@ -34,9 +34,10 @@
         $('div.album').click(function() {
             var albumId = $(this).attr('data-album-id');
             if ($(this).data("loaded") != true) {
+                $(".fb-photos[data-album-id=" + albumId + "]").html('<div class="text-center"><img src="/img/ajax-loader.gif" /></div>');
                 $.get('@Url.RouteUrl("LoadFacebookAlbums")' + albumId, function (data) {
                     $("div[data-album-id=" + albumId + "]").data("loaded", true);
-                    var html = '<div><p><a href="#" class="back">&larr; back</a></p></div>';
+                    var html = '<div><p><a href="#" class="back"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;@Localizer.Get("LoadFacebookAlbums_Back")</a></p></div>';
 
                 $.each(data.Album.Photos, function (index, element) {
                         html += '<div class="col-md-4">' +
@@ -59,7 +60,9 @@
 
                     $('.fb-photos .thumbnail').click(function () {
                         $(this).find('.select').toggleClass('selected');
-                        $("#photos-count").html($("span.select.selected").length);
+                        var selectedCount = $("span.select.selected").length;
+                        $("#photos-count span").html(selectedCount);
+                        $("#photos-count").toggleClass("hidden", (selectedCount == 0))
                     });
                 });
             }

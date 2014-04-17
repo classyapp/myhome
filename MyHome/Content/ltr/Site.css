@@ -1376,4 +1376,43 @@ div.thumbs4 > div.thumb
     text-align: right;
 }
 
+.album .media
+{
+    margin-bottom: 15px;
+}
 
+.album .media a
+{
+    height: 120px;
+    display: table-cell;
+    background-color: #FFF;
+    vertical-align: middle;
+}
+
+.album .media-body
+{
+    padding: 0px;
+}
+
+    .album .media-body .media-heading
+    {
+        margin: 5px 0 5px;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+.fb-photos .thumbnail
+{
+    height: 110px;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.fb-photos .thumbnail > img, .thumbnail a > img
+{
+    max-height: 100%;
+    margin: 0px auto;
+}
