@@ -59,11 +59,12 @@ Classy.ParseQueryString = function () {
     return data;
 }
 
-Classy.SendEmail = function (subject, body) {
+Classy.SendEmail = function (subject, body, title) {
     $("#send-email-modal")
         .on("loaded.bs.modal", function () {
             $(this).find("#Subject").val(subject.decodeHTML());
             $(this).find("#Body").val(body.decodeHTML());
+            if (typeof title !== 'undefined') { $(this).find(".modal-title").html(title); }
             jQuery.validator.unobtrusive.parse($("#frmSendEmail"));
         })
         .on("hidden.bs.modal", function () {

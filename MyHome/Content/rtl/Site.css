@@ -318,3 +318,20 @@ a.action
 {
     text-align: left;
 }
+
+.profile-actions div.dropdown ul li a.email, .actions div.dropdown ul li a.email
+{
+    background-position: 90% center;
+}
+.profile-actions div.dropdown ul li a.facebook, .actions div.dropdown ul li a.facebook
+{
+    background-position: 90% center;
+}
+.profile-actions div.dropdown ul li a.twitter, .actions div.dropdown ul li a.twitter
+{
+    background-position: 90% center;
+}
+.profile-actions div.dropdown ul li a.googleplus, .actions div.dropdown ul li a.googleplus
+{
+    background-position: 90% center;
+}

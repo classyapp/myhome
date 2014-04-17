@@ -1404,3 +1404,9 @@ div.thumbs4 > div.thumb
     {
         background: transparent url(/img/googleplus.png) no-repeat 16px center;
     }
+
+    .profile-actions div.dropdown ul li a:hover, .actions div.dropdown ul li a:hover
+    {
+        background-color:  #428BCA;
+        color: #fff;
+    }
