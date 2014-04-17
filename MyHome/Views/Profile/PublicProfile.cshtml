@@ -26,19 +26,19 @@
     {
         <div class="profile-actions">
             <a href="@Url.RouteUrlForCurrentLocale("EditProfile", new { ProfileId = Model.Profile.Id })" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
-            @if (Model.Profile.IsProfessional)
-            {
-                <div class="dropdown">
+            <div class="dropdown">
                   <a class="btn btn-primary btn-sm" data-toggle="dropdown">
                       <i class="fa fa-share"></i>&nbsp;@Localizer.Get("Profile_Share")&nbsp;<span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))')">@Localizer.Get("Profile_MailLink")</a></li>
-                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', '@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")', 520, 350)">Facebook</a></li>
-                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', '@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")', 520, 350)">Twitter</a></li>
-                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', '@Url.RouteUrl("PublicProfile", new { profileId = Model.Profile.Id}, "http")', 520, 350)">Google+</a></li>
+                    <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id }), "?utm_source=share_profile&utm-medium=email"), Model.Profile.GetProfileName()))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
+                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', document.location.href + '?utm_source=share_profile&utm-medium=facebook', 520, 350)">Facebook</a></li>
+                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', document.location.href + '?utm_source=share_profile&utm-medium=twitter', 520, 350)">Twitter</a></li>
+                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', document.location.href + '?utm_source=share_profile&utm-medium=gplus', 520, 350)">Google+</a></li>
                   </ul>
                 </div> 
+            @if (Model.Profile.IsProfessional)
+            {
                 <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>
                 <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_SelectCoverPhotos")</a>
             }
@@ -53,6 +53,7 @@
 
 <div class="row">
     <div class="col-md-12">
+        <div class="ajax-alert"></div>
         <div id="contactSuccess" class="alert alert-success alert-dismissable hidden">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             @Localizer.Get("ContactPro_Success")
@@ -114,7 +115,8 @@
             <div class="media-body">
                 <div class="profile-title clearfix">
                     <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
-                    @if (Model.Profile.IsProfessional) { <small class="pull-left"><span class="label label-default">PRO</span></small> }
+                    @if (Model.Profile.IsProfessional)
+                    { <small class="pull-left"><span class="label label-default">PRO</span></small> }
                 </div>
 
                 @if (Model.Profile.IsProfessional)
@@ -122,7 +124,7 @@
                     var hasReviews = Model.Profile.ReviewCount > 0;
                     
                     <div class="rating" @(hasReviews ? "itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"" : string.Empty)>
-                    @if (hasReviews) 
+                    @if (hasReviews)
                     {
                         <span class="stars">
                             @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
@@ -146,50 +148,50 @@
                                 <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
                                 <dd>
                                     @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star"></span>
-                                                        }
+                                    }
                                     @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star-empty"></span>
-                                                        }
+                                    }
                                 </dd>
                                 <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
                                 <dd>
                                     @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star"></span>
-                                                        }
+                                    }
                                     @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star-empty"></span>
-                                                        }
+                                    }
                                 </dd>
                                 <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
                                 <dd>
                                     @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star"></span>
-                                                        }
+                                    }
                                     @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star-empty"></span>
-                                                        }
+                                    }
                                 </dd>
                                 <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
                                 <dd>
                                     @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star"></span>
-                                                        }
+                                    }
                                     @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                                        {
+                                    {
                                         <span class="glyphicon glyphicon-star-empty"></span>
-                                                        }
+                                    }
                                 </dd>
                             </dl>
                         </div>
-                        }
+                    }
                     </div>
                 }
             </div>

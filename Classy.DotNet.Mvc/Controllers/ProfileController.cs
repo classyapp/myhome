@@ -1035,7 +1035,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     }
 
                     var profileService = new ProfileService();
-                    profileService.SendEmail(emails.ToArray(), model.Subject, model.Body);
+                    profileService.SendEmail(emails.ToArray(), model.Subject, model.Body.Replace("\r\n", "<br/>"));
 
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("SendEmail_Success") });
                 }
