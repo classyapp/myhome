@@ -12,7 +12,7 @@
 
         <p class="text-center">@Localizer.Get("Login_OrSignInWithEmail")</p>
 
-        @using (var f = Html.Bootstrap().Begin(new Form("Login", "Security").Id("login-modal-form").FormMethod(FormMethod.Post)))
+        @using (var f = Html.Bootstrap().Begin(new Form("Login", "Security").Type(FormType._NotSet).Id("login-modal-form").FormMethod(FormMethod.Post)))
         {
             @f.FormGroup().TextBoxFor(x => x.Email).Placeholder(Localizer.Get("Login_Email")).Label().Class("sr-only")
             @f.FormGroup().PasswordFor(x => x.Password).Placeholder(Localizer.Get("Login_Password")).Label().Class("sr-only")

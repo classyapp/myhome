@@ -31,10 +31,10 @@
         <hr />
         @Html.Bootstrap().ValidationSummary()
 
-        @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection")))
+        @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection").Type(FormType._NotSet)))
         {
             @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
+            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
 
             <div class="collection-items" collection-id="@Model.CollectionId">
                 <h4>@Model.GetLocalizedString("EditCollection_ExplainPhotoComments")</h4>

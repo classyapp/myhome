@@ -121,6 +121,8 @@ namespace Classy.DotNet.Mvc.Controllers
             string collectionType = AuthenticatedUserProfile.IsProfessional ? CollectionType.Project : CollectionType.PhotoBook;
             model.CollectionList = GetCollectionList(model.CollectionId, collectionType);
             model.CollectionType = collectionType;
+            model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
+            model.IsFacebookConnected = AuthenticatedUserProfile.IsFacebookConnected;
             return View(string.Concat("Create", ListingTypeName), model);
         }
 

@@ -45,7 +45,9 @@ namespace Classy.DotNet.Mvc.ModelBinders
                     }
                     else
                     {
-                        model.Country = countries.Single(x => x.Text.ToLower() == cityParts[cityParts.Length - 1].Trim().ToLower()).Value;
+                        var country = countries.SingleOrDefault(x => x.Text.ToLower() == cityParts[cityParts.Length - 1].Trim().ToLower());
+                        model.Country = country == null ? null : country.Value;
+                        model.Name = model.City;
                         model.City = null;
                     }
                 }

@@ -18,6 +18,7 @@ namespace Classy.DotNet.Responses
         public static string CultureCookieName { get; set; }
         public static string DefaultCountry { get; set; }
         public static string DefaultCulture { get; set; }
+        public static string Hostname { get; set; }
 
         static AppView()
         {
@@ -31,6 +32,7 @@ namespace Classy.DotNet.Responses
             CultureCookieName = settings.CultureCookieName;
             DefaultCountry = settings.DefaultCountry;
             DefaultCulture = settings.DefaultCulture;
+            Hostname = settings.Hostname;
         }
     }
 }

@@ -79,7 +79,7 @@
                             }
                         </ul>
                     </li>
-                    <li><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles")">@Localizer.Get("Header_Nav_FindPros")</a></li>
+                    <li><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = "" })">@Localizer.Get("Header_Nav_FindPros")</a></li>
                 </ul>
                 @*<div class="col-sm-3 col-md-3 pull-left">
                     <form class="navbar-form" role="search">
@@ -106,7 +106,7 @@
                         var p = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile;
                         <li class="dropdown">
                             <a href="@Url.RouteUrl("PublicProfile", env.Culture)" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-user"></span> @p.GetProfileName()
+                                <span class="glyphicon glyphicon-user"></span> @p.UserName
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
@@ -268,6 +268,17 @@
         </div>
     </div>
 
+    @if (User.Identity.IsAuthenticated)
+    {
+    <!-- send email modal -->
+    <div class="modal fade" id="send-email-modal" data-remote="@Url.RouteUrl("SendEmail", new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id })" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" id="send-email-modal-replace">
+                <!-- will be replaced -->
+            </div>
+        </div>
+    </div>
+    }
     <script>
         Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
         Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";

@@ -8,7 +8,7 @@
     <h4 class="modal-title">@Localizer.Get("AddToCollection_Header_Title")</h4>
 </div>
 <div class="modal-body">
-    @using (var f = Ajax.Bootstrap().Begin(new Form("AddListingToCollection", "Collection"), new AjaxOptions {
+    @using (var f = Ajax.Bootstrap().Begin(new Form("AddListingToCollection", "Collection").Type(FormType._NotSet), new AjaxOptions {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
             UpdateTargetId = "collect-modal-replace",
@@ -18,9 +18,9 @@
         @Html.Bootstrap().ValidationSummary()
         @Html.HiddenFor(x => x.CollectionType)
         @Html.HiddenFor(x => x.IncludedListings[0].Id, new { @id = "listingId" })
-        @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel(Localizer.Get("AddToCollection_OptionLabel")).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().WidthLg(12).ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.IncludedListings[0].Comments).Label().WidthLg(12).LabelText(Localizer.Get("AddListingToCollection_Comment"))
+        @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).Id("collectionId").ShowValidationMessage(false).OptionLabel(Localizer.Get("AddToCollection_OptionLabel")).Label().ShowRequiredStar(false)
+        @f.FormGroup().Id("title").HtmlAttributes(new { style = isNewCollection ? "" : "display: none" }).TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.IncludedListings[0].Comments).Label().LabelText(Localizer.Get("AddListingToCollection_Comment"))
 
         @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("AddToCollection_Submit")))
     }

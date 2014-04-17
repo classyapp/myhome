@@ -27,7 +27,7 @@
     <div class="col-md-7">
         <div class="photo clearfix">
             <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
-            @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto)            {
+            @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
             <div class="stats">

@@ -836,6 +836,14 @@ a.action
         color: #fff;
         background-color: #D9534F;
     }
+    a.action.share
+    {
+        color: #398439;
+    }
+    a.action.share:hover
+    {
+        color: #fff;
+    }
 
 /* manage resources*/
 .resourceListContainer
@@ -1062,23 +1070,35 @@ a.action
         display: none;
     }
 
+div.upload {
+    float: left;
+    margin-bottom: 20px;
+}
+
 .btn-select-files
 {
     position: relative;
+    z-index: 1;
+    margin-right: 20px;
     overflow: hidden;
+}
+
+div.radio.checkbox-inline {
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
-    .btn-select-files > input[type="file"]
-    {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
+div.upload #file
+{
+    position: absolute;
+    opacity: 0;
+    z-index: 2;
+    filter: alpha(opacity=0);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
 
 #filesPreview .filename
 {
@@ -1372,4 +1392,80 @@ div.thumbs4 > div.thumb
     text-align: right;
 }
 
+.album .media
+{
+    margin-bottom: 15px;
+}
+.profile-actions div.dropdown
+{
+    display: inline-block;
+}
 
+    .profile-actions div.dropdown ul li, .actions div.dropdown ul li
+    {
+        text-indent: 20px;
+    }
+
+.album .media a
+{
+    height: 120px;
+    display: block;
+    background-color: #FFF;
+    vertical-align: middle;
+}
+
+    .album .media a img
+    {
+        max-height: 100%;
+        margin: 0px auto;
+    }
+
+.album .media-body
+{
+    padding: 0px;
+}
+
+    .album .media-body .media-heading
+    {
+        margin: 5px 0 5px;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+
+.fb-photos .thumbnail
+{
+    height: 110px;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.fb-photos .thumbnail > img, .thumbnail a > img
+{
+    max-height: 100%;
+    margin: 0px auto;
+}
+    .profile-actions div.dropdown ul li a.email, .actions div.dropdown ul li a.email
+    {
+        background: transparent url(/img/email.png) no-repeat 16px center;
+    }
+    .profile-actions div.dropdown ul li a.facebook, .actions div.dropdown ul li a.facebook
+    {
+        background: transparent url(/img/facebook.png) no-repeat 16px center;
+    }
+    .profile-actions div.dropdown ul li a.twitter, .actions div.dropdown ul li a.twitter
+    {
+        background: transparent url(/img/twitter.png) no-repeat 16px center;
+    }
+    .profile-actions div.dropdown ul li a.googleplus, .actions div.dropdown ul li a.googleplus
+    {
+        background: transparent url(/img/googleplus.png) no-repeat 16px center;
+    }
+
+    .profile-actions div.dropdown ul li a:hover, .actions div.dropdown ul li a:hover
+    {
+        background-color:  #428BCA;
+        color: #fff;
+    }

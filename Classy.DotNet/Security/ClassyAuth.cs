@@ -81,7 +81,7 @@ namespace Classy.DotNet.Security
             }
         }
 
-        public static bool AuthenticateFacebookUser(string token)
+        public static bool AuthenticateOrConnectFacebookUser(string token)
         {
             try
             {
@@ -91,6 +91,13 @@ namespace Classy.DotNet.Security
                 client.ContentType = "application/json";
                 client.Accept = "application/json";
                 client.Headers.Add("X-Classy-Env", GetEnvHeader());
+                var cookies = new CookieContainer();
+                foreach (var n in AuthCookieNames)
+                {
+                    if (context.Request.Cookies.Get(n) != null)
+                        cookies.Add(ToCookie(context.Request.Cookies[n], new Uri(EndpointBaseUrl).Host));
+                }
+                client.Headers.Add(HttpRequestHeader.Cookie, cookies.GetCookieHeader(new Uri(EndpointBaseUrl)));
                 var response = client.GetResponse() as HttpWebResponse;
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -107,7 +114,7 @@ namespace Classy.DotNet.Security
             }
         }
 
-        public static bool AuthenticateGoogleUser(string token)
+        public static bool AuthenticateOrConnectGoogleUser(string token)
         {
             try
             {
@@ -117,6 +124,13 @@ namespace Classy.DotNet.Security
                 client.ContentType = "application/json";
                 client.Accept = "application/json";
                 client.Headers.Add("X-Classy-Env", GetEnvHeader());
+                var cookies = new CookieContainer();
+                foreach (var n in AuthCookieNames)
+                {
+                    if (context.Request.Cookies.Get(n) != null)
+                        cookies.Add(ToCookie(context.Request.Cookies[n], new Uri(EndpointBaseUrl).Host));
+                }
+                client.Headers.Add(HttpRequestHeader.Cookie, cookies.GetCookieHeader(new Uri(EndpointBaseUrl)));
                 var response = client.GetResponse() as HttpWebResponse;
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

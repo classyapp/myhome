@@ -3,13 +3,13 @@
     var pageSize = parseInt($(".iscroll").data("page-size"));
     var itemClass = iscroll.data("item-class");
     if (iscroll.data("hasmore")) {
-        if ($(document).height() - ($("body").scrollTop()) - $(window).height() < 250) {
+        if ($(document).height() - ($(document).scrollTop()) - $(window).height() < 250) {
             if (iscroll.data("loading") != true) {
                 iscroll.data("loading", true);
                 var page = iscroll.data("page") + 1;
                 var url = iscroll.data("url");
                 var data = parseQueryString();
-                data.page = page;
+                data.Page = page;
                 $("#iscrollLoading").toggleClass("hidden");
                 $.get(url, data, function (response) {
                     $("#iscrollLoading").toggleClass("hidden");

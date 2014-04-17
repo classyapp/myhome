@@ -7,7 +7,7 @@
 
 @foreach (var p in Model)
 {
-    var colSize = p.ProfessionalInfo.CoverPhotos != null ? 12 : 6;
+    var colSize = p.CoverPhotos != null ? 12 : 6;
     <div class="col-md-@colSize">
         <div class="clearfix"></div>  
 
@@ -52,10 +52,10 @@
                 </div>
 
             </div>  
-            @if (p.ProfessionalInfo.CoverPhotos != null && p.ProfessionalInfo.CoverPhotos.Count > 0)
+            @if (p.CoverPhotos != null && p.CoverPhotos.Count > 0)
             {
                 <div class="cover-photos pull-right">
-                    @foreach (var photo in p.ProfessionalInfo.CoverPhotos)
+                    @foreach (var photo in p.CoverPhotos)
                     {
                         <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
                     }

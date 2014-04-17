@@ -6,6 +6,7 @@
 
     ViewBag.Title = string.Format(Localizer.Get("PhotoSearch_PageTitle"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
     ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
 }
 
 <div class="row">
@@ -115,7 +116,7 @@
         </div>
         <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
         <div id="pager" class="text-center" style="font-size: 12px">
-            <ul class="pagination" data-total="@((int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize))" 
+            <ul class="pagination" data-total="@(totalPages)" 
                 data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
                 @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
@@ -124,6 +125,10 @@
                 }
                 <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
             </ul>
+            @if (Request["Page"] == null || int.Parse(Request["Page"]) < totalPages)
+            {
+                <a href="@(Url.RouteUrlForCurrentLocale("SearchPhoto") + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
+            }
         </div>
     </div>
 </div>

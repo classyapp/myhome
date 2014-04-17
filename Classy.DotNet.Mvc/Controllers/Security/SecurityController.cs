@@ -195,7 +195,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         {
             try
             {
-                var isValid = ClassyAuth.AuthenticateFacebookUser(token);
+                var isValid = ClassyAuth.AuthenticateOrConnectFacebookUser(token);
                 if (isValid) return Json(new { IsValid = true, Profile = (User.Identity as ClassyIdentity).Profile });
                 else return Json(new { IsValid = false });
             }
@@ -214,7 +214,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         {
             try
             {
-                var isValid = ClassyAuth.AuthenticateGoogleUser(token);
+                var isValid = ClassyAuth.AuthenticateOrConnectGoogleUser(token);
                 if (isValid) return Json(new { IsValid = true, Profile = (User.Identity as ClassyIdentity).Profile });
                 else return Json(new { IsValid = false });
             }
@@ -272,6 +272,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                     null, 
                     null,
                     model.Metadata.ToDictionary(), 
+                    null,
                     null,
                     UpdateProfileFields.Metadata);
             }
