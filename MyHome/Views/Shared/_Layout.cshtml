@@ -20,6 +20,7 @@
     }
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
+    @RenderSection("MetaTags", false)
 
     <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.GetList("supported-cultures"))

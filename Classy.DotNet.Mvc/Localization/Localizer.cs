@@ -86,14 +86,19 @@ namespace Classy.DotNet.Mvc.Localization
             return Get(key, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
         }
 
-        public static string Get(string key, string culture)
+        public static string Get(string key, bool processMarkdown)
+        {
+            return Get(key, System.Threading.Thread.CurrentThread.CurrentUICulture.Name, processMarkdown);
+        }
+
+        public static string Get(string key, string culture, bool processMarkdown = true)
         {
             string value = null;
             LocalizationResourceView resource = HttpRuntime.Cache[key] as LocalizationResourceView;
             if (resource == null)
             {
                 var service = new LocalizationService();
-                resource = service.GetResourceByKey(key);
+                resource = service.GetResourceByKey(key, processMarkdown);
                 if (resource != null) HttpRuntime.Cache[key] = resource;
             }
             if (resource != null)
@@ -126,6 +131,12 @@ namespace Classy.DotNet.Mvc.Localization
                 return items;
             }
             return null;
+        }
+
+        public static string GetText(this IEnumerable<LocalizedListItem> list, string key)
+        {
+            if (!list.Any(x => x.Value == key)) return null;
+            return list.First(x => x.Value == key).Text;
         }
 
         private static string GetListResourceText(string key, ListItemView item, bool showResourceKeys) {
