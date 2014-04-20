@@ -5,7 +5,7 @@ Classy.AjaxReconnect = function () {
 }
 
 Classy.AcquireGPSCoordinates = function () {
-    if (Classy.GetCookie(Classy.Env.GPSCookieName) == null) {
+    if (Classy.GetCookie(Classy.Env.GPSCookieName) == null || Classy.GetCookie(Classy.Env.GPSOriginCookieName) == "auto") {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function successFunction(position) {
                 var lat = position.coords.latitude;
@@ -15,6 +15,7 @@ Classy.AcquireGPSCoordinates = function () {
                 Classy.Env.GPSEnabled = true;
             }, function () {
                 Classy.SetCookie(Classy.Env.GPSCookieName, "", 7);
+                Classy.SetCookie(Classy.Env.GPSOriginCookieName, "browser", 7);
                 $(document).trigger("classy.gps.available", { Available: false });
                 Classy.Env.GPSEnabled = false;
             });

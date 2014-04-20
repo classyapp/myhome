@@ -67,18 +67,27 @@ namespace Classy.DotNet.Mvc.Localization
                 var supportedCountries = GetList("supported-countries");
                 string countryCode = supportedCountries.Any(c => c.Value == location.CountryCode) ? location.CountryCode : AppView.DefaultCountry;
                 cookie = new HttpCookie(AppView.CountryCookieName, countryCode);
-                cookie.Expires = DateTime.Now.AddYears(1);
+                cookie.Expires = DateTime.Now.AddMonths(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
 
             // init gps coordinates cookie 
+            cookie = HttpContext.Current.Request.Cookies[AppView.GPSOriginCookieName];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(AppView.GPSOriginCookieName, "auto");
+                cookie.Expires = DateTime.Now.AddMonths(1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+
             cookie = HttpContext.Current.Request.Cookies[AppView.GPSLocationCookieName];
             if (cookie == null)
             {
                 cookie = new HttpCookie(AppView.GPSLocationCookieName, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
-                cookie.Expires = DateTime.Now.AddYears(1);
+                cookie.Expires = DateTime.Now.AddMonths(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
+
         }
 
         public static string Get(string key)
