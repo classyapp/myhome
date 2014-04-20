@@ -14,6 +14,7 @@ namespace Classy.DotNet.Responses
         public static int PagesCount { get; set; }
         public static string DefaultProfileImage { get; set; }
         public static string GPSLocationCookieName { get; set; }
+        public static string GPSOriginCookieName { get; set; }
         public static string CountryCookieName { get; set; }
         public static string CultureCookieName { get; set; }
         public static string DefaultCountry { get; set; }
@@ -28,6 +29,7 @@ namespace Classy.DotNet.Responses
             PagesCount = settings.PagesCount;
             DefaultProfileImage = settings.DefaultProfileImage;
             GPSLocationCookieName = settings.GPSLocationCookieName;
+            GPSOriginCookieName = settings.GPSOriginCookieName;
             CountryCookieName = settings.CountryCookieName;
             CultureCookieName = settings.CultureCookieName;
             DefaultCountry = settings.DefaultCountry;

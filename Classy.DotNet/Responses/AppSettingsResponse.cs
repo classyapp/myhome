@@ -16,6 +16,7 @@ namespace Classy.DotNet.Responses
         public bool ProxyClaimNeedsVerification { get; set; }
         public string DefaultProfileImage { get; set; }
         public string GPSLocationCookieName { get; set; }
+        public string GPSOriginCookieName { get; set; }
         public string CountryCookieName { get; set; }
         public string CultureCookieName { get; set; }
         public string DefaultCountry { get; set; }

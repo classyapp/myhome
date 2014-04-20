@@ -67,18 +67,27 @@ namespace Classy.DotNet.Mvc.Localization
                 var supportedCountries = GetList("supported-countries");
                 string countryCode = supportedCountries.Any(c => c.Value == location.CountryCode) ? location.CountryCode : AppView.DefaultCountry;
                 cookie = new HttpCookie(AppView.CountryCookieName, countryCode);
-                cookie.Expires = DateTime.Now.AddYears(1);
+                cookie.Expires = DateTime.Now.AddMonths(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
 
             // init gps coordinates cookie 
+            cookie = HttpContext.Current.Request.Cookies[AppView.GPSOriginCookieName];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(AppView.GPSOriginCookieName, "auto");
+                cookie.Expires = DateTime.Now.AddMonths(1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+
             cookie = HttpContext.Current.Request.Cookies[AppView.GPSLocationCookieName];
             if (cookie == null)
             {
                 cookie = new HttpCookie(AppView.GPSLocationCookieName, Newtonsoft.Json.JsonConvert.SerializeObject(new { latitude = location.Latitude, longitude = location.Longitude }));
-                cookie.Expires = DateTime.Now.AddYears(1);
+                cookie.Expires = DateTime.Now.AddMonths(1);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
+
         }
 
         public static string Get(string key)
@@ -86,14 +95,19 @@ namespace Classy.DotNet.Mvc.Localization
             return Get(key, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
         }
 
-        public static string Get(string key, string culture)
+        public static string Get(string key, bool processMarkdown)
+        {
+            return Get(key, System.Threading.Thread.CurrentThread.CurrentUICulture.Name, processMarkdown);
+        }
+
+        public static string Get(string key, string culture, bool processMarkdown = true)
         {
             string value = null;
             LocalizationResourceView resource = HttpRuntime.Cache[key] as LocalizationResourceView;
             if (resource == null)
             {
                 var service = new LocalizationService();
-                resource = service.GetResourceByKey(key);
+                resource = service.GetResourceByKey(key, processMarkdown);
                 if (resource != null) HttpRuntime.Cache[key] = resource;
             }
             if (resource != null)
@@ -126,6 +140,12 @@ namespace Classy.DotNet.Mvc.Localization
                 return items;
             }
             return null;
+        }
+
+        public static string GetText(this IEnumerable<LocalizedListItem> list, string key)
+        {
+            if (!list.Any(x => x.Value == key)) return null;
+            return list.First(x => x.Value == key).Text;
         }
 
         private static string GetListResourceText(string key, ListItemView item, bool showResourceKeys) {

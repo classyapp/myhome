@@ -21,6 +21,18 @@
     var countries = Localizer.GetList("supported-countries");
 }
 
+@section MetaTags {
+    <meta name="og:title" content="@string.Format(Localizer.Get("PublicProfile_ShareTitle"), Model.Profile.GetProfileName())" />
+    @if (Model.Profile.IsProfessional) {
+    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription) ? string.Format(Localizer.Get("PhotoDetails_ShareDescription_Pro", false), proCategories.GetText(Model.Profile.ProfessionalInfo.Category)) : Model.TypedMetadata.BusinessDescription)" />
+    }
+    else {
+    <meta name="og:description" content="@Localizer.Get("PhotoDetails_ShareDescription", false)" />
+    }
+    <meta name="og:image" content="@Model.Profile.Avatar.Url" />
+}
+
+
 @section ActionBar {
     @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
     {

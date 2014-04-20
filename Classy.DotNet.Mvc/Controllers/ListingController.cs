@@ -494,7 +494,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 // search
                 var results = service.SearchListings(
-                    new string[] { model.Tag },
+                    string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
                     new string[] { ListingTypeName }, 
                     searchMetadata,
                     model.PriceMin,

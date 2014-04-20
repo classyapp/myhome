@@ -3,7 +3,7 @@
     {
         Culture = UICulture,
         Currency = Request["env.currency"] ?? "ILS",
-        Country = Request["enc.locaction"] ?? "IL"
+        Country = Request[Classy.DotNet.Responses.AppView.CountryCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCountry
     };
 
     var rooms = Localizer.GetList("rooms");
@@ -20,6 +20,7 @@
     }
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
+    @RenderSection("MetaTags", false)
 
     <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.GetList("supported-cultures"))
@@ -286,6 +287,7 @@
 
         Classy.Env = { 
             GPSCookieName : "@Classy.DotNet.Responses.AppView.GPSLocationCookieName",
+            GPSOriginCookieName : "@Classy.DotNet.Responses.AppView.GPSOriginCookieName",
             CountryCookieName : "@Classy.DotNet.Responses.AppView.CountryCookieName",
             CultureCookieName : "@Classy.DotNet.Responses.AppView.CultureCookieName",
             AgreeToCookiePolicyCookieName : "classy.env.cpagree"
