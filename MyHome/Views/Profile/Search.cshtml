@@ -20,7 +20,7 @@
             <div class="panel-body panel-links">
                 @foreach (var c in categories)
                 {
-                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = c.Value })
+                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Country, City = Model.City, Category = c.Value }.ToSlug() })
                 }
             </div>
         </div>
@@ -68,8 +68,9 @@
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").RouteValues(new { filters = "" }).Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
-                @*@f.FormGroup().DropDownListFor(x => x.Country, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")*@
-                @f.FormGroup().TextBoxFor(x => x.City).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
+                @Html.HiddenFor(x => x.Country)
+                @Html.HiddenFor(x => x.City)
+                @f.FormGroup().TextBox("Locality").Id("Locality").Value(string.Concat(Model.City, !string.IsNullOrEmpty(Model.City) ?  ", " : "", countries.GetText(Model.CountryCode))).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
                 @Html.TextBoxFor(x => x.Latitude, new { @class = "hidden" })
                 @Html.TextBoxFor(x => x.Longitude, new { @class = "hidden" })
@@ -136,19 +137,23 @@
                 $("#Longitude").val("");
             }
         });
-        @if (!string.IsNullOrEmpty(Model.Country))
-        {
-            if (!string.IsNullOrEmpty(Model.City))
-            {
-                @:$("#City").val("@string.Format("{0}, {1}", Model.City, Model.Country)")
-            }
-            else
-            {
-                @:$("#City").val("@Model.Country")
-            }
-        }
-        $('.typeahead').typeahead({
-            local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
-        });
+
+        $('.typeahead')
+            .typeahead({
+                local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
+            })
+            .on('typeahead:selected', function (e, item) {
+                
+                console.log(item);
+
+                if (item.value.indexOf(',') > -1) {
+                    var parts = item.value.split(',');
+                    $('#City').val(parts[0]);
+                    $('#Country').val(parts[1].trim());
+                } else {
+                    $('#City').val('');
+                    $('#Country').val(item.value);
+                }
+            });;
     </script>
 }

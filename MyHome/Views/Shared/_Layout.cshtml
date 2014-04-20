@@ -3,7 +3,7 @@
     {
         Culture = UICulture,
         Currency = Request["env.currency"] ?? "ILS",
-        Country = Request["enc.locaction"] ?? "IL"
+        Country = Request[Classy.DotNet.Responses.AppView.CountryCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCountry
     };
 
     var rooms = Localizer.GetList("rooms");
