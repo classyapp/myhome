@@ -28,13 +28,7 @@
             </div>
 
             <div class="col-md-5">
-                @using (var f = Ajax.Bootstrap().Begin(new Form("EditListing", "Photo").Type(FormType._NotSet), new AjaxOptions
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "POST",
-                    UpdateTargetId = "edit-modal-replace",
-                    OnSuccess = "CloseModal(data)"
-                }))
+                @using (var f = Html.Bootstrap().Begin(new Form("EditListing", "Photo").Type(FormType._NotSet).FormMethod(FormMethod.Post)))
                 {
                     @Html.Bootstrap().ValidationSummary()
                     @Html.HiddenFor(x => x.Id)
