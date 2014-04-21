@@ -563,7 +563,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     // Get data from cookies
                     System.Web.HttpCookie gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
-                    if (gpsCookie != null)
+                    if (gpsCookie != null && !string.IsNullOrEmpty(gpsCookie.Value))
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                         location.Coords = new CoordsView { Latitude = coords.Latitude, Longitude = coords.Longitude };
