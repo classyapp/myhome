@@ -138,14 +138,15 @@
             }
         });
 
+        var validLocation = true;
         $('.typeahead')
             .typeahead({
                 local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
+                })
+            .on('typeahead:opened', function() {
+                validLocation = false;
             })
             .on('typeahead:selected', function (e, item) {
-                
-                console.log(item);
-
                 if (item.value.indexOf(',') > -1) {
                     var parts = item.value.split(',');
                     $('#City').val(parts[0]);
@@ -154,6 +155,31 @@
                     $('#City').val('');
                     $('#Country').val(item.value);
                 }
-            });;
+                validLocation = true;
+            })
+            .on('typeahead:autocompleted', function (e, item) {
+                if (item.value.indexOf(',') > -1) {
+                    var parts = item.value.split(',');
+                    $('#City').val(parts[0]);
+                    $('#Country').val(parts[1].trim());
+                } else {
+                    $('#City').val('');
+                    $('#Country').val(item.value);
+                }
+                validLocation = true;
+            })
+            .on('typeahead:closed', function() {
+                if (!validLocation)
+                {
+                    $('#City').val('');
+                    $('#Country').val('');
+                }
+            })
+            .on('change', function() {
+                if ($(this).val() == '') {
+                    $('#City').val('');
+                    $('#Country').val('');
+                }
+            });
     </script>
 }
