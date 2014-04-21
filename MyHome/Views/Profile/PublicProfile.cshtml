@@ -48,11 +48,11 @@
                       }
                       @if (Model.Profile.IsProfessional)
                       {
-                        <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat(shareUrl, "?utm_source=share_profile&utm-medium=email"), Model.Profile.GetProfileName()))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
+                        <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@Localizer.Get("Profile_Pro_MailLinkSubject")', '@string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n")', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
                       }
                       else
                       {
-                          <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat(shareUrl, "?utm_source=share_profile&utm-medium=email"), Model.Profile.GetProfileName()))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
+                          <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@Localizer.Get("Profile_MailLinkSubject")', '@string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n")', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
                       }
                     <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350)">Facebook</a></li>
                     <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350)">Twitter</a></li>
