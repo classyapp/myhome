@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Classy.DotNet.Mvc.ModelBinders;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Services;
+using System.Web.Mvc;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
+    [ModelBinder(typeof(CommaSeparatedToList))]
     public class AskForReviewModel
     {
         public string ProfileId { get; set; }

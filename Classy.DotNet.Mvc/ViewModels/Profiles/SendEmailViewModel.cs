@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Classy.DotNet.Mvc.Attributes;
+using Classy.DotNet.Mvc.ModelBinders;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
+    [ModelBinder(typeof(CommaSeparatedToList))]
     public class SendEmailViewModel
     {
         public string ProfileId { get; set; }
