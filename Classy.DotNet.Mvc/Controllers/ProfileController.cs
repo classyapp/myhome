@@ -369,11 +369,11 @@ namespace Classy.DotNet.Mvc.Controllers
             if (Request.Files.Count == 1)
             {
                 var service = new ProfileService();
-                string url = service.UpdateProfile(
+                string key = service.UpdateProfile(
                     profileId,
                     Request.Files[0]);
 
-                return Json(new { url = url });
+                return Json(new { url = string.Format("//{0}/thumbnail/{1}?Width=150&format=json", System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], key) });
             }
             else
                 throw new InvalidOperationException("Invalid number of images");

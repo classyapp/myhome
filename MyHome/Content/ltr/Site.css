@@ -1467,3 +1467,7 @@ div.thumbs4 > div.thumb
         background-color:  #428BCA;
         color: #fff;
     }
+.upload-status, .upload-status > div
+{
+    margin-top: 20px;
+}

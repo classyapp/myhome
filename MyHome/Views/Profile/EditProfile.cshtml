@@ -31,8 +31,12 @@
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3 text-center">
         <img id="profileImage" class="img-circle" src="@Model.AvatarUrl" width="150" />
+        <div class="clearfix"></div>
+        <div class="upload-status hidden">
+            <img src="/img/ajax-loader.gif" /><div>@Localizer.Get("EditProfile_Uploading")</div>
+        </div>
     </div>
 
     <div class="col-md-9 main">
@@ -134,8 +138,10 @@
     function ChangeProfilePhoto(file) {
         if (file.value != "") {
             var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: $(file).data("profile-id") });
+            $(".upload-status").removeClass("hidden");
             upload.upload(function (e) { }, function (e) {
-                $('#profileImage').attr("src", e.url);
+                $('#profileImage, li.profile img').attr("src", e.url);
+                $(".upload-status").addClass("hidden");
                 $('#uploadProfilePicSuccess').removeClass('hidden');
             }, function (e) {
                 // failed

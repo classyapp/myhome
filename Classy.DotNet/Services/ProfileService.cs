@@ -283,7 +283,7 @@ namespace Classy.DotNet.Services
                 string json = Encoding.UTF8.GetString(bytes);
                 ProfileView profile = json.FromJson<ProfileView>();
 
-                return profile.Avatar.Url;
+                return profile.Avatar.Key;
             }
             catch (WebException wex)
             {
