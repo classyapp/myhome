@@ -19,6 +19,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         [Display(Name = "UpdateListing_Content")]
         public string Content { get; set; }
         public IList<MediaFileView> ExternalMedia { get; set; }
+        public bool IsEditor { get; set; }
 
         // meta
         public TListingMetadata Metadata { get; set; }

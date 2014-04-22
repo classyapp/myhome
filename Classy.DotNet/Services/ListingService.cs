@@ -163,20 +163,18 @@ namespace Classy.DotNet.Services
             string listingId,
             string title,
             string content,
-            string listingType,
-            //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
-            HttpFileCollectionBase files)
+            ListingUpdateFields fields)
         {
             var client = ClassyAuth.GetAuthenticatedWebClient();
             var data = new
             {
                 Title = title,
                 Content = content,
-                ListingType = listingType,
                 Pricing = pricingInfo,
-                Metadata = metadata
+                Metadata = metadata,
+                Fields = fields
 
             }.ToJson();
 
