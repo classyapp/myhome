@@ -1021,7 +1021,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     // Check email addresses
                     List<MailAddress> emails = new List<MailAddress>();
-                    foreach (var address in model.Recipients.Split(',', ';'))
+                    foreach (var address in model.Contacts)
                     {
                         try
                         {
@@ -1029,7 +1029,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         }
                         catch
                         {
-                            ModelState.AddModelError("Recipients", Localizer.Get("SendEmail_InvalidEmail"));
+                            ModelState.AddModelError("Contacts", Localizer.Get("SendEmail_InvalidEmail"));
                             return PartialView(model);
                         }
                     }

@@ -16,7 +16,7 @@
         @Html.Bootstrap().ValidationSummary()
         @Html.HiddenFor(m => m.ProfileId)
 
-        @f.FormGroup().TextBoxFor(x => x.Recipients).HelpText(Localizer.Get("SendEmail_RecipientsHelp")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextBoxFor(x => x.Contacts).HelpText(Localizer.Get("SendEmail_RecipientsHelp")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextBoxFor(x => x.Subject).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.Body).HtmlAttributes(new { rows = 7 }).ShowValidationMessage(false).Label().ShowRequiredStar(false)
 
