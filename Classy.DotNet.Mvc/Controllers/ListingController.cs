@@ -432,7 +432,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         null);
 
-                    return Json(new { IsValid = true });
+                    return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
                 }
                 else return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
             }
