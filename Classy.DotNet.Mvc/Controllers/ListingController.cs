@@ -404,7 +404,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     Content = listing.Content,
                     ExternalMedia = listing.ExternalMedia,
                     Metadata = listingMetadata,
-                    DefaultCulture = listing.DefaultCulture
+                    DefaultCulture = listing.DefaultCulture,
+                    IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -427,10 +428,9 @@ namespace Classy.DotNet.Mvc.Controllers
                         model.Id,
                         model.Title,
                         model.Content,
-                        ListingTypeName,
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
-                        null);
+                        ListingUpdateFields.Title | ListingUpdateFields.Content | ListingUpdateFields.Metadata);
 
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
                 }
