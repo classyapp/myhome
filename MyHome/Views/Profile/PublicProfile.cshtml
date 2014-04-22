@@ -29,7 +29,7 @@
     else {
     <meta name="og:description" content="@Localizer.Get("PublicProfile_ShareDescription", false)" />
     }
-    <meta name="og:image" content="@Model.Profile.Avatar.Url" />
+    <meta name="og:image" content="@(Model.Profile.Avatar != null ? Model.Profile.Avatar.Url : "http://www.homelab.com/img/missing-thumb.png")" />
 }
 
 
