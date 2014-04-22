@@ -194,7 +194,7 @@
     <div class="footer text-center">
         <p>&copy; <a href="https://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
         <p>
-            @Html.RouteLink(Localizer.Get("Footer_Careers")) | @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
+            @Html.RouteLink(Localizer.Get("Footer_Careers"), "Careers") | @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
         </p>
         <p>
             <a href="/en">English</a> | <a href="/fr">Français</a> | <a href="/nl">Nederlands</a> | <a href="/he">עברית</a>
