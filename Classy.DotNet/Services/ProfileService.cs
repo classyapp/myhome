@@ -45,6 +45,10 @@ namespace Classy.DotNet.Services
                 var url = string.Format(GET_PROFILE_BY_ID_URL, profileId, logImpression, includeSocialConnections, includeReviews, includeListings, includeCollections, includeFavorites);
                 var profileJson = client.DownloadString(url);
                 var profile = profileJson.FromJson<ProfileView>();
+                if (profile.IsProfessional && profile.Metadata.ContainsKey("BusinessDescription"))
+                {
+                    profile.Metadata["BusinessDescription"] = (new MarkdownSharp.Markdown()).Transform(profile.Metadata["BusinessDescription"]);
+                }
                 return profile;
             }
             catch (WebException wex)
@@ -61,6 +65,10 @@ namespace Classy.DotNet.Services
                 var url = GET_AUTHENTICATED_PROFILE;
                 var profileJson = client.DownloadString(url);
                 var profile = profileJson.FromJson<ProfileView>();
+                if (profile.IsProfessional && profile.Metadata.ContainsKey("BusinessDescription"))
+                {
+                    profile.Metadata["BusinessDescription"] = (new MarkdownSharp.Markdown()).Transform(profile.Metadata["BusinessDescription"]);
+                }
                 return profile;
             }
             catch (WebException wex)

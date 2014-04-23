@@ -24,6 +24,7 @@ namespace MyHome.Models
         [Display(Name = "ProMetadata_Awards")]
         public string Awards { get; set; }
         [Display(Name = "ProMetadata_BusinessDescription")]
+        [System.Web.Mvc.AllowHtml]
         public string BusinessDescription { get; set; }
 
         public IDictionary<string, string> ToDictionary()

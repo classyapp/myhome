@@ -4,6 +4,10 @@
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
 }
 
+@section AdditionalStyles{
+    <link href="~/Content/ltr/bootstrap3-wysiwyg5.css" rel="stylesheet" />
+}
+
 @section ActionBar {
     <a href="#" onclick="ChangePassword()" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-lock"></i>&nbsp;@Localizer.Get("Profile_ChangePassword")</a>
 
@@ -127,7 +131,8 @@
 
 @section scripts {
     @Scripts.Render("~/scripts/xhr-upload.js")
-
+    <script src="~/Scripts/wysihtml5-0.3.0.min.js"></script>
+    <script src="~/Scripts/bootstrap3-wysihtml5.js"></script>
 <script>
     function ChangePassword(e) {
         $('#change-password-modal')
@@ -148,5 +153,9 @@
             });
         }
     }
+
+    $(function () {
+        $("#ProfessionalMetadata_BusinessDescription").wysihtml5({lists: false, image: false});
+    });
 </script>
 }

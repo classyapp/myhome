@@ -269,7 +269,7 @@
                     <p>
                         <strong>@Localizer.Get("Profile_BusinessDescription")</strong>
                         <br />
-                        <span class="description" itemprop="description">@Model.TypedMetadata.BusinessDescription</span>
+                        <span class="description" itemprop="description">@Html.Raw(Model.TypedMetadata.BusinessDescription)</span>
                     </p>
                 }
             </div>
