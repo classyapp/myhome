@@ -17,7 +17,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Required(ErrorMessage = "SendEmail_RecipientsRequired")]
         [Display(Name = "SendEmail_Recipients")]
         [EveryItemIs(Validators = new Type[] { typeof(EmailAddressAttribute) })]
-        public IList<string> Contacts { get; set; }
+        [CommaSeparated]
+        public IList<string> Reciepients { get; set; }
         [Required(ErrorMessage = "SendEmail_SubjectRequired")]
         [Display(Name = "SendEmail_Subject")]
         public string Subject { get; set; }

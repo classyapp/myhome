@@ -1021,7 +1021,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     // Check email addresses
                     List<MailAddress> emails = new List<MailAddress>();
-                    foreach (var address in model.Contacts)
+                    foreach (var address in model.Reciepients)
                     {
                         try
                         {

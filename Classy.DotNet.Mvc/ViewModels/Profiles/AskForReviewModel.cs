@@ -18,6 +18,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Required(ErrorMessage="AskForReview_ContactsRequired")]
         [Display(Name = "AskForReview_SelectContacts_Label")]
         [EveryItemIs(Validators = new Type[] { typeof(EmailAddressAttribute) })]
+        [CommaSeparated]
         public IList<string> Contacts { get; set; }
         [Display(Name = "AskForReview_Message_Label")]
         public string Message { get; set; }
