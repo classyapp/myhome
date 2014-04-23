@@ -15,6 +15,7 @@ namespace Classy.DotNet.Responses
         Pricing = 4,
         ContactInfo = 8,
         SchedulingTemplate = 16,
-        Metadata = 32
+        Metadata = 32,
+        Hashtags = 64
     }
 }
