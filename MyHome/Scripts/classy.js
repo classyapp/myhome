@@ -107,6 +107,6 @@ $(function () {
         } else { //regular size
             $('#viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
         }
-        $('#viewport').attr('content');
+        alert($('#viewport').attr('content'));
     }
 });
