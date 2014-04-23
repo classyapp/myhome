@@ -71,14 +71,9 @@
                 <dd>
                     @foreach (var t in Model.Listing.Hashtags)
                     {
-                        @Html.RouteLinkForCurrentLocale(t, "SearchPhoto", new { filters = t.TrimStart('#') })<span>&nbsp;</span>
+                        @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchPhoto", new { filters = t.TrimStart('#').ToLower().Replace("  "," ").Replace(" ","-") })<span>&nbsp;</span>
                     }
                 </dd>
-                @if (!string.IsNullOrEmpty(Model.Metadata.SiteEditorComments))
-                {
-                    <dt>@Localizer.Get("PhotoDetails_SiteEditorComments")</dt>
-                    <dd>@Html.Raw(Model.Metadata.SiteEditorComments)</dd>
-                }
             </dl>
         </div>
     </div>

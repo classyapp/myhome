@@ -165,6 +165,7 @@ namespace Classy.DotNet.Services
             string content,
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
+            IList<string> hashtags,
             ListingUpdateFields fields)
         {
             var client = ClassyAuth.GetAuthenticatedWebClient();
@@ -174,6 +175,7 @@ namespace Classy.DotNet.Services
                 Content = content,
                 Pricing = pricingInfo,
                 Metadata = metadata,
+                Hashtags = hashtags,
                 Fields = fields
 
             }.ToJson();
