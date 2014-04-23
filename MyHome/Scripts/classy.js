@@ -100,10 +100,12 @@ $(function () {
         var ww = ($(window).width() < window.screen.width) ? $(window).width() : window.screen.width; //get proper width
         var mw = 1220; // min width of site
         var ratio = ww / mw; //calculate ratio
+        alert(ww + " " + mw + " " + ratio);
         if (ww < mw) { //smaller than minimum size
             $('#viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
         } else { //regular size
             $('#viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
         }
+        $('#viewport').attr('content');
     }
 });
