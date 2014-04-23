@@ -299,13 +299,12 @@
                                             <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
                                                 @Html.Partial("Thumbnails", p.CoverPhotos)
                                                 <div class="details">
+                                                    <strong title="@p.Title">@p.Title</strong>
                                                     <ul class="stats list-inline list-unstyled">
                                                         <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
                                                         <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
                                                         <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
                                                     </ul>
-
-                                                    <strong>@p.Title</strong>
                                                 </div>
                                             </a>
                                         </div>
@@ -350,13 +349,12 @@
                                         <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "grid" })">
                                             @Html.Partial("Thumbnails", c.CoverPhotos)
                                             <div class="details">
+                                                <strong title="@c.Title">@c.Title</strong>
                                                 <ul class="stats list-inline list-unstyled">
                                                     <li><span><i class="glyphicon glyphicon-eye-open"></i> @c.ViewCount</span></li>
                                                     <li><span><i class="glyphicon glyphicon-heart-empty"></i> @c.FavoriteCount</span></li>
                                                     <li><span><i class="glyphicon glyphicon-comment"></i> @c.CommentCount</span></li>
                                                 </ul>
-
-                                                <strong>@c.Title</strong>
                                             </div>
                                         </a>
                                     </div>
