@@ -14,6 +14,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" id="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <script>
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            var ww = window.screen.width;
+            var mw = 1200; // min width of site
+            var ratio = ww / mw; //calculate ratio
+            if (ww < mw) { //smaller than minimum size
+                var mvp = document.getElementById('viewport');
+                mvp.setAttribute('content','initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+            } else { //regular size
+                var mvp = document.getElementById('viewport');
+                mvp.setAttribute('content','initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+            }
+        }
+    </script>
     @if (ViewBag.NoIndex != null)
     {
         <meta name="robots" content="noindex, follow" />
