@@ -96,7 +96,7 @@ String.prototype.decodeHTML = function () {
 };
 
 $(function () {
-    alert(navigator.userAgent + " " + /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent));
+    alert(navigator.userAgent + " " + /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)); 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
         var ww = ($(window).width() < window.screen.width) ? $(window).width() : window.screen.width; //get proper width
         var mw = 1220; // min width of site
