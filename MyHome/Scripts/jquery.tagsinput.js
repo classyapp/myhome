@@ -74,57 +74,68 @@
 
     $.fn.addTag = function (value, options) {
         options = jQuery.extend({ focus: false, callback: true }, options);
+
         this.each(function () {
             var id = $(this).attr('id');
 
-            var tagslist = $(this).val().split(delimiter[id]);
-            if (tagslist[0] == '') {
-                tagslist = new Array();
+            var values = value.split(delimiter[id]);
+            if (values.length > 1) {
+                var el = $(this);
+                $(values).each(function (i, v) {
+                    el.addTag(v, options)
+                });
             }
-
-            value = jQuery.trim(value);
-
-            if (options.unique) {
-                var skipTag = $(this).tagExist(value);
-                if (skipTag == true) {
-                    //Marks fake input as not_valid to let styling it
-                    $('#' + id + '_tag').addClass('not_valid');
+            else
+            {
+                var tagslist = $(this).val().split(delimiter[id]);
+                if (tagslist[0] == '') {
+                    tagslist = new Array();
                 }
-            } else {
-                var skipTag = false;
-            }
 
-            if (value != '' && skipTag != true) {
-                $('<span>').addClass('tag').append(
-                    $('<span>').text(value).append('&nbsp;&nbsp;'),
-                    $('<a>', {
-                        href: '#',
-                        title: 'Removing tag',
-                        text: 'x'
-                    }).click(function () {
-                        return $('#' + id).removeTag(escape(value));
-                    })
-                ).insertBefore('#' + id + '_addTag');
+                value = jQuery.trim(value);
 
-                tagslist.push(value);
-
-                $('#' + id + '_tag').val('');
-                if (options.focus) {
-                    $('#' + id + '_tag').focus();
+                if (options.unique) {
+                    var skipTag = $(this).tagExist(value);
+                    if (skipTag == true) {
+                        //Marks fake input as not_valid to let styling it
+                        $('#' + id + '_tag').addClass('not_valid');
+                    }
                 } else {
-                    $('#' + id + '_tag').blur();
+                    var skipTag = false;
                 }
 
-                $.fn.tagsInput.updateTagsField(this, tagslist);
+                if (value != '' && skipTag != true) {
+                    $('<span>').addClass('tag').append(
+                        $('<span>').text(value).append('&nbsp;&nbsp;'),
+                        $('<a>', {
+                            href: '#',
+                            title: 'Removing tag',
+                            text: 'x'
+                        }).click(function () {
+                            return $('#' + id).removeTag(escape(value));
+                        })
+                    ).insertBefore('#' + id + '_addTag');
 
-                if (options.callback && tags_callbacks[id] && tags_callbacks[id]['onAddTag']) {
-                    var f = tags_callbacks[id]['onAddTag'];
-                    f.call(this, value);
-                }
-                if (tags_callbacks[id] && tags_callbacks[id]['onChange']) {
-                    var i = tagslist.length;
-                    var f = tags_callbacks[id]['onChange'];
-                    f.call(this, $(this), tagslist[i - 1]);
+                    tagslist.push(value);
+
+                    $('#' + id + '_tag').val('');
+                    if (options.focus) {
+                        $('#' + id + '_tag').focus();
+                    } else {
+                        $('#' + id + '_tag').blur();
+                    }
+
+                    $.fn.tagsInput.updateTagsField(this, tagslist);
+
+                    if (options.callback && tags_callbacks[id] && tags_callbacks[id]['onAddTag']) {
+                        var f = tags_callbacks[id]['onAddTag'];
+                        f.call(this, value);
+                    }
+                    if (tags_callbacks[id] && tags_callbacks[id]['onChange']) {
+                        var i = tagslist.length;
+                        var f = tags_callbacks[id]['onChange'];
+                        f.call(this, $(this), tagslist[i - 1]);
+                    }
                 }
             }
 

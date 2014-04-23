@@ -23,7 +23,6 @@ namespace MyHome.Models
         [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
         public bool AgreeToTerms { get; set; }
         public bool IsWebPhoto { get; set; }
-        public string SiteEditorComments { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -31,7 +30,6 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Room)) list.Add("Room", Room);
             if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
             if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
-            if (!string.IsNullOrEmpty(SiteEditorComments)) list.Add("SiteEditorComments", SiteEditorComments);
             list.Add("IsWebPhoto", IsWebPhoto.ToString());
             return list;
         }
@@ -43,7 +41,6 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
             if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
             if (metadata.ContainsKey("IsWebPhoto")) output.IsWebPhoto = bool.Parse(metadata["IsWebPhoto"]);
-            if (metadata.ContainsKey("SiteEditorComments")) output.SiteEditorComments = metadata["SiteEditorComments"];
             return output;
         }
     

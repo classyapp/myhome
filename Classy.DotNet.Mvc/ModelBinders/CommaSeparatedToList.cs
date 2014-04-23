@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Classy.DotNet.Mvc.ModelBinders
 {
+    public class CommaSeparatedAttribute : Attribute
+    {
+    }
+
     public class CommaSeparatedToList : DefaultModelBinder
     {
         protected override void BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, System.ComponentModel.PropertyDescriptor propertyDescriptor)
         {
-            if (propertyDescriptor.Name == "Contacts" && propertyDescriptor.PropertyType == typeof(IList<string>))
+
+            if (propertyDescriptor.Attributes[typeof(CommaSeparatedAttribute)] != null && 
+                propertyDescriptor.PropertyType == typeof(IList<string>))
             {
                 var valueResult = bindingContext.ValueProvider.GetValue(propertyDescriptor.Name);
                 if (valueResult != null)
