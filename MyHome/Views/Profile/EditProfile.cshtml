@@ -83,14 +83,14 @@
                 <hr/>
                 
                 @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
                 @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
                 @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @*<div>job cost from: --- to: ---</div>
                 @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.CostDetails).ShowValidationMessage(false).Label().WidthLg(12)*@
@@ -155,7 +155,7 @@
     }
 
     $(function () {
-        $("#ProfessionalMetadata_BusinessDescription").wysihtml5({lists: false, image: false});
+        $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
     });
 </script>
 }

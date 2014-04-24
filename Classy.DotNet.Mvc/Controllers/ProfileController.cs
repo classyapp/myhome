@@ -301,6 +301,10 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         metadata["BusinessDescription"] = new Html2Markdown().Convert(metadata["BusinessDescription"] ?? string.Empty);
                     }
+                    if (metadata.ContainsKey("ServicesProvided"))
+                    {
+                        metadata["ServicesProvided"] = new Html2Markdown().Convert(metadata["ServicesProvided"] ?? string.Empty);
+                    }
                 }
             }
             else

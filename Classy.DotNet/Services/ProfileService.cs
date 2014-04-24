@@ -45,15 +45,27 @@ namespace Classy.DotNet.Services
                 var url = string.Format(GET_PROFILE_BY_ID_URL, profileId, logImpression, includeSocialConnections, includeReviews, includeListings, includeCollections, includeFavorites);
                 var profileJson = client.DownloadString(url);
                 var profile = profileJson.FromJson<ProfileView>();
-                if (profile.IsProfessional && profile.Metadata.ContainsKey("BusinessDescription"))
-                {
-                    profile.Metadata["BusinessDescription"] = (new MarkdownSharp.Markdown()).Transform(profile.Metadata["BusinessDescription"]);
-                }
+                ProcessProfileMarkdown(profile);
                 return profile;
             }
             catch (WebException wex)
             {
                 throw wex.ToClassyException();
+            }
+        }
+
+        private static void ProcessProfileMarkdown(ProfileView profile)
+        {
+            if (profile.IsProfessional)
+            {
+                if (profile.Metadata.ContainsKey("BusinessDescription"))
+                {
+                    profile.Metadata["BusinessDescription"] = (new MarkdownSharp.Markdown()).Transform(profile.Metadata["BusinessDescription"]);
+                }
+                if (profile.Metadata.ContainsKey("ServicesProvided"))
+                {
+                    profile.Metadata["ServicesProvided"] = (new MarkdownSharp.Markdown()).Transform(profile.Metadata["ServicesProvided"]);
+                }
             }
         }
 
@@ -65,10 +77,7 @@ namespace Classy.DotNet.Services
                 var url = GET_AUTHENTICATED_PROFILE;
                 var profileJson = client.DownloadString(url);
                 var profile = profileJson.FromJson<ProfileView>();
-                if (profile.IsProfessional && profile.Metadata.ContainsKey("BusinessDescription"))
-                {
-                    profile.Metadata["BusinessDescription"] = (new MarkdownSharp.Markdown()).Transform(profile.Metadata["BusinessDescription"]);
-                }
+                ProcessProfileMarkdown(profile);
                 return profile;
             }
             catch (WebException wex)
@@ -91,6 +100,7 @@ namespace Classy.DotNet.Services
                 };
                 var profileJson = client.UploadString(url, data.ToJson());
                 var profile = profileJson.FromJson<ProfileView>();
+                ProcessProfileMarkdown(profile);
                 return profile;
             }
             catch (WebException wex)
@@ -123,6 +133,7 @@ namespace Classy.DotNet.Services
                 }.ToJson();
                 var profileJson = client.UploadString(url, "PUT", data);
                 var profile = profileJson.FromJson<ProfileView>();
+                ProcessProfileMarkdown(profile);
                 return profile;
             }
             catch (WebException wex)
@@ -156,6 +167,10 @@ namespace Classy.DotNet.Services
                 }.ToJson();
                 var profilesJson = client.UploadString(url, data);
                 var profiles = profilesJson.FromJson<SearchResultsView<ProfileView>>();
+                foreach (var profile in profiles.Results)
+                {
+                    ProcessProfileMarkdown(profile);
+                }
                 return profiles;
             }
             catch (WebException wex)

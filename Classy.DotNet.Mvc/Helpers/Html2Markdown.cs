@@ -66,7 +66,15 @@ namespace Classy.DotNet.Mvc.Helpers
                 new Element{
                     Pattern = @"</?blockquote>",
                     Replacement = System.Environment.NewLine + System.Environment.NewLine
-                }
+                },
+                new Element{
+					Pattern = @"<div>",
+					Replacement = @"  " + System.Environment.NewLine
+				},
+                new Element{
+					Pattern = @"</div>",
+					Replacement = @"  " + System.Environment.NewLine
+				}
 			};
 
         public string Convert(string html)
