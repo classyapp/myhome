@@ -46,6 +46,10 @@
     <Reference Include="Mandrill">
       <HintPath>..\packages\Mandrill.0.1.1.5\lib\net40\Mandrill.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>

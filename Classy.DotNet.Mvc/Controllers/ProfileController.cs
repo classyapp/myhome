@@ -294,18 +294,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 fields |= UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata;
                 if (string.IsNullOrEmpty(model.CompanyName)) ModelState.AddModelError("CompanyName", Localizer.Get("EditProfile_CompanyName_Required"));
                 if (string.IsNullOrEmpty(model.Country)) ModelState.AddModelError("Country", Localizer.Get("EditProfile_Country_Required"));
-                if (model.ProfessionalMetadata != null)
-                {
-                    metadata = model.ProfessionalMetadata.ToDictionary();
-                    if (metadata.ContainsKey("BusinessDescription"))
-                    {
-                        metadata["BusinessDescription"] = new Html2Markdown().Convert(metadata["BusinessDescription"] ?? string.Empty);
-                    }
-                    if (metadata.ContainsKey("ServicesProvided"))
-                    {
-                        metadata["ServicesProvided"] = new Html2Markdown().Convert(metadata["ServicesProvided"] ?? string.Empty);
-                    }
-                }
+
+                metadata = model.ProfessionalMetadata.ToDictionary();
             }
             else
             {
