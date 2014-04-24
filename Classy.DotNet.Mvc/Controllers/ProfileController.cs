@@ -410,7 +410,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 args.Emails = model.Contacts;
                 args.Message = model.Message;
                 args.Profile = AuthenticatedUserProfile;
-                args.ReviewLink = string.Concat(Request.Url.Scheme, "://", AppView.Hostname, Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }));
+                args.ReviewLink = string.Concat(Request.Url.Scheme, "://", AppView.Hostname, Url.RouteUrl("PostProfileReview", new { profileId = AuthenticatedUserProfile.Id }), "?utm_source=ask_for_review&utm_medium=email");
 
                 if (OnAskForReview != null)
                 {
