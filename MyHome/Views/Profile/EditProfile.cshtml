@@ -84,7 +84,7 @@
                 
                 @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
                 @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
                 @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().ShowRequiredStar(false)
