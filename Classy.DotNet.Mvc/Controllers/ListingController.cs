@@ -422,6 +422,9 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
+                var fields = ListingUpdateFields.Title | ListingUpdateFields.Content;
+                if (model.Metadata != null) fields |= ListingUpdateFields.Metadata;
+                if (model.Hashtags != null) fields |= ListingUpdateFields.Hashtags;
                 if (ModelState.IsValid)
                 {
                     var service = new ListingService();
@@ -432,7 +435,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         model.Hashtags,
-                        ListingUpdateFields.Title | ListingUpdateFields.Content | ListingUpdateFields.Metadata | ListingUpdateFields.Hashtags);
+                        fields);
 
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
                 }

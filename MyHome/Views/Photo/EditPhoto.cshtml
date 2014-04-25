@@ -38,11 +38,7 @@
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false)
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false)
                     @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false)
-                    if (Model.IsEditor)
-                    {
-                        <h4>Editorial</h4>
-                        @f.FormGroup().TextAreaFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
-                    }
+                    @f.FormGroup().TextAreaFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
                 }
             </div>

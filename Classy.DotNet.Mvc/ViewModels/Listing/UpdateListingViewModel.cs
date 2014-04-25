@@ -24,6 +24,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public IList<MediaFileView> ExternalMedia { get; set; }
         public bool IsEditor { get; set; }
         [CommaSeparatedAttribute]
+        [Display(Name = "UpdateListing_Keywords")]
         public IList<string> Hashtags { get; set; }
 
         // meta
