@@ -24,7 +24,5 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Display(Name = "TranslateProfile_ServicesProvided")]
         [System.Web.Mvc.AllowHtml]
         public string ServicesProvided { get; set; }
-
-        public string Action { get; set; }
     }
 }

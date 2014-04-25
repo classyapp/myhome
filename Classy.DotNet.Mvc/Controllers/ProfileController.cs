@@ -986,7 +986,15 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                if (string.IsNullOrEmpty(model.Action) || model.Action.ToLower() == "translate")
+
+                if (string.IsNullOrEmpty(model.CompanyName.Trim()) &&
+                    string.IsNullOrEmpty(model.BusinessDescription.Trim()) &&
+                    string.IsNullOrEmpty(model.ServicesProvided.Trim()))
+                {
+                    profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
+                }
+                else
                 {
                     profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
                     {
@@ -998,11 +1006,6 @@ namespace Classy.DotNet.Mvc.Controllers
                         }
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
-                }
-                else
-                {
-                    profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
-                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
                 }
             }
             catch (Exception ex)

@@ -18,11 +18,6 @@
         <i class="glyphicon glyphicon-picture"></i>&nbsp;@Localizer.Get("Profile_Change_Photo")
         <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage", new { ProfileId = Model.ProfileId })" data-profile-id="@Model.ProfileId" value="" onchange="ChangeProfilePhoto(this)" />
     </button>
-
-    @if (Model.IsProfessional)
-    {
-        <a class="btn btn-primary btn-sm" trigger-profile-action="translate" object-id="@Model.ProfileId" object-type="profile"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditProfile_Translate")</a>
-    }
 }
 
 <div class="row">
@@ -237,7 +232,7 @@
             setTimeout(function () {
                 $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
                 $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
-            }, 500);
+            }, 1000);
             $('#translationTabs').on('shown.bs.tab', function (e) {
                 var lang = $(e.target).data('lang');
                 // check for changes
@@ -255,7 +250,7 @@
                         setTimeout(function () {
                             $("#" + lang + "BusinessDescription").data("value", $("#" + lang + "BusinessDescription").data("wysihtml5").editor.getValue());
                             $("#" + lang + "ServicesProvided").data("value", $("#" + lang + "ServicesProvided").data("wysihtml5").editor.getValue());
-                        }, 500);
+                        }, 1000);
                     });
                 }
             });
