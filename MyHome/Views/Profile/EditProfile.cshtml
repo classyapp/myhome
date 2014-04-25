@@ -2,7 +2,9 @@
 
 @{
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
-    var translationCultures = Localizer.GetList("supported-cultures").Where(c => c.Value != Model.DefaultCulture);
+    var cultures = Localizer.GetList("supported-cultures");
+    var translationCultures = cultures.Where(c => c.Value != Model.DefaultCulture && c.Value != System.Threading.Thread.CurrentThread.CurrentCulture.Name);
+    var secondaryCulture = cultures.FirstOrDefault(c => c.Value == System.Threading.Thread.CurrentThread.CurrentCulture.Name);
 }
 
 @section AdditionalStyles{
@@ -86,6 +88,10 @@
                 
             <ul class="nav nav-tabs" id="translationTabs">
                 <li class="active"><a href="#@Model.DefaultCulture" data-lang="@Model.DefaultCulture" data-toggle="tab">@Model.DefaultCulture</a></li>
+                @if (secondaryCulture != null)
+                { 
+                    <li><a href="#@secondaryCulture.Value" data-lang="@secondaryCulture.Value" data-toggle="tab">@secondaryCulture.Value</a></li>
+                }
                 @foreach (var culture in translationCultures)
                 {
                     <li><a href="#@culture.Value" data-lang="@culture.Value" data-toggle="tab">@culture.Value</a></li>
@@ -93,7 +99,7 @@
             </ul>
             <p></p>
             <div class="tab-content">
-                <div class="tab-pane active" id="@Model.DefaultCulture">
+                <div class="tab-pane active" data-loaded="true" id="@Model.DefaultCulture">
                     @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                     @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
                     @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
@@ -106,6 +112,14 @@
                     @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                     @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 </div>
+                @if (secondaryCulture != null)
+                {
+                    <div class="tab-pane" id="@secondaryCulture.Value" data-language="@secondaryCulture.Value">
+                        @f.FormGroup().TextBox(secondaryCulture.Value + "CompanyName").Label().LabelText(Localizer.Get("EditProfile_CompanyName"))
+                        @f.FormGroup().TextArea(secondaryCulture.Value + "BusinessDescription").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_BusinessDescription"))
+                        @f.FormGroup().TextArea(secondaryCulture.Value + "ServicesProvided").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_ServicesProvided"))
+                    </div>
+                }
                 @foreach (var culture in translationCultures)
                 {
                     <div class="tab-pane" id="@culture.Value" data-language="@culture.Value">
@@ -220,8 +234,10 @@
         $(function () {
             $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
             $("#CompanyName").data("value", $("#CompanyName").val());
-            $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
-            $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
+            setTimeout(function () {
+                $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
+                $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
+            }, 500);
             $('#translationTabs').on('shown.bs.tab', function (e) {
                 var lang = $(e.target).data('lang');
                 // check for changes
@@ -231,10 +247,15 @@
                 if (!($(e.target).data('loaded') || false)) {
                     $(e.target).data('loaded', true);
                     $.get("/profile/@Model.ProfileId/translate/" + lang, function (response) {
-                        $("#" + lang + "CompanyName").val(response.CompanyName || "").data("value", response.CompanyName || "");
-                        $("#" + lang + "BusinessDescription").val(response.Metadata.BusinessDescription || "").data("value", response.Metadata.BusinessDescription || "");
-                        $("#" + lang + "ServicesProvided").val(response.Metadata.ServicesProvided || "").data("value", response.Metadata.ServicesProvided || "");
+                        $("#" + lang + "CompanyName").val(response.CompanyName || "");
+                        $("#" + lang + "BusinessDescription").val(response.Metadata.BusinessDescription || "");
+                        $("#" + lang + "ServicesProvided").val(response.Metadata.ServicesProvided || "");
                         ctx.find("textarea.markdown").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
+                        $("#" + lang + "CompanyName").data("value", $("#" + lang + "CompanyName").val());
+                        setTimeout(function () {
+                            $("#" + lang + "BusinessDescription").data("value", $("#" + lang + "BusinessDescription").data("wysihtml5").editor.getValue());
+                            $("#" + lang + "ServicesProvided").data("value", $("#" + lang + "ServicesProvided").data("wysihtml5").editor.getValue());
+                        }, 500);
                     });
                 }
             });

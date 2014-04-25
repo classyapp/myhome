@@ -42,6 +42,9 @@
     <Reference Include="IP2Location">
       <HintPath>..\packages\IP2Location.IPGeolocation.1.0.1\lib\net40\IP2Location.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\lib\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="MaxMind.Db">
       <HintPath>..\packages\MaxMind.Db.0.2.2.0\lib\net40\MaxMind.Db.dll</HintPath>
     </Reference>
