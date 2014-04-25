@@ -47,11 +47,6 @@ namespace MyHome.Models
             return output;
         }
 
-        public PhotoMetadata FromDictionary(IDictionary<string, string> metadata, bool processMarkdown)
-        {
-            return FromDictionary(metadata, true);
-        }
-    
         public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
         {
             var dict = new Dictionary<string, string[]>();

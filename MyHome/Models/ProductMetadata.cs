@@ -19,11 +19,6 @@ namespace MyHome.Models
             return null;
         }
 
-        public ProductMetadata FromDictionary(IDictionary<string, string> metadata, bool processMarkdown)
-        {
-            return null;
-        }
-
         public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref Classy.DotNet.Responses.LocationView location)
         {
             throw new NotImplementedException();

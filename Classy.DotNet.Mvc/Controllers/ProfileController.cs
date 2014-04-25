@@ -250,7 +250,7 @@ namespace Classy.DotNet.Mvc.Controllers
             proContactInfo.CompanyContactInfo = proContactInfo.CompanyContactInfo ?? new ExtendedContactInfoView();
             proContactInfo.CompanyContactInfo.Location = proContactInfo.CompanyContactInfo.Location ?? new LocationView();
             proContactInfo.CompanyContactInfo.Location.Address = proContactInfo.CompanyContactInfo.Location.Address ?? new PhysicalAddressView();
-            var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata, true) : new TProMetadata()) : default(TProMetadata);
+            var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata) : new TProMetadata()) : default(TProMetadata);
             var userMetadata = !profile.IsProfessional ? (profile.Metadata != null ? new TUserMetadata().FromDictionary(profile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {

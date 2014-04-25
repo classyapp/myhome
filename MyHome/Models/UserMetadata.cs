@@ -14,11 +14,6 @@ namespace MyHome.Models
             return null;
         }
 
-        public UserMetadata FromDictionary(IDictionary<string, string> metadata, bool processMarkdown)
-        {
-            return null;
-        }
-
         public UserMetadata FromDictionary(IDictionary<string, string> metadata)
         {
             return null;

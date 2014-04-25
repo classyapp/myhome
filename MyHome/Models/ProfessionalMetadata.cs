@@ -47,20 +47,15 @@ namespace MyHome.Models
 
         public ProfessionalMetadata FromDictionary(IDictionary<string, string> metadata)
         {
-            return FromDictionary(metadata, true);
-        }
-
-        public ProfessionalMetadata FromDictionary(IDictionary<string, string> metadata, bool processMarkdown)
-        {
             var output = new ProfessionalMetadata();
             if (metadata.ContainsKey("LicenseNo")) output.LicenseNo = metadata["LicenseNo"];
-            if (metadata.ContainsKey("ServicesProvided")) output.ServicesProvided = processMarkdown ? (new MarkdownSharp.Markdown()).Transform(metadata["ServicesProvided"]) : metadata["ServicesProvided"];
+            if (metadata.ContainsKey("ServicesProvided")) output.ServicesProvided = (new MarkdownSharp.Markdown()).Transform(metadata["ServicesProvided"]);
             if (metadata.ContainsKey("AreasServed")) output.AreasServed = metadata["AreasServed"];
             if (metadata.ContainsKey("JobCostFrom") && !string.IsNullOrEmpty(metadata["JobCostFrom"])) output.JobCostFrom = Convert.ToInt32(metadata["JobCostFrom"]);
             if (metadata.ContainsKey("JobCostTo") && !string.IsNullOrEmpty(metadata["JobCostTo"])) output.JobCostTo = Convert.ToInt32(metadata["JobCostTo"]);
             if (metadata.ContainsKey("CostDetails")) output.CostDetails = metadata["CostDetails"];
             if (metadata.ContainsKey("Awards")) output.Awards = metadata["Awards"];
-            if (metadata.ContainsKey("BusinessDescription")) output.BusinessDescription = processMarkdown ? (new MarkdownSharp.Markdown()).Transform(metadata["BusinessDescription"]) : metadata["BusinessDescription"];
+            if (metadata.ContainsKey("BusinessDescription")) output.BusinessDescription = (new MarkdownSharp.Markdown()).Transform(metadata["BusinessDescription"]);
             return output;
         }
 
