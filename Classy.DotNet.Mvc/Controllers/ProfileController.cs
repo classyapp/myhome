@@ -17,6 +17,7 @@ using Classy.DotNet.Responses;
 using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using System.Net.Mail;
+using Classy.DotNet.Mvc.Helpers;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -251,7 +252,6 @@ namespace Classy.DotNet.Mvc.Controllers
             proContactInfo.CompanyContactInfo.Location.Address = proContactInfo.CompanyContactInfo.Location.Address ?? new PhysicalAddressView();
             var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata) : new TProMetadata()) : default(TProMetadata);
             var userMetadata = !profile.IsProfessional ? (profile.Metadata != null ? new TUserMetadata().FromDictionary(profile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
-
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
                 ProfileId = profile.Id,
@@ -282,10 +282,11 @@ namespace Classy.DotNet.Mvc.Controllers
         // 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateInput(false)]
         public ActionResult EditProfile(EditProfileViewModel<TProMetadata, TUserMetadata> model)
         {
             var fields = UpdateProfileFields.None;
-            dynamic metadata;
+            IDictionary<string, string> metadata = null;
 
             // validation
             if (model.IsProfessional)
@@ -293,12 +294,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 fields |= UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata;
                 if (string.IsNullOrEmpty(model.CompanyName)) ModelState.AddModelError("CompanyName", Localizer.Get("EditProfile_CompanyName_Required"));
                 if (string.IsNullOrEmpty(model.Country)) ModelState.AddModelError("Country", Localizer.Get("EditProfile_Country_Required"));
-                metadata = model.ProfessionalMetadata;
+
+                metadata = model.ProfessionalMetadata.ToDictionary();
             }
             else
             {
                 fields |= UpdateProfileFields.ContactInfo;
-                metadata = model.UserMetadata;
+                metadata = model.UserMetadata.ToDictionary();
             }
 
             // update
@@ -350,7 +352,7 @@ namespace Classy.DotNet.Mvc.Controllers
                             WebsiteUrl = model.WebsiteUrl
                         }
                     },
-                    metadata != null ? metadata.ToDictionary() : null,
+                    metadata != null ? metadata : null,
                     model.DefaultCulture,
                     null,
                     fields);

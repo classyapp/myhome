@@ -46,6 +46,10 @@
     <Reference Include="Mandrill">
       <HintPath>..\packages\Mandrill.0.1.1.5\lib\net40\Mandrill.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
@@ -140,6 +144,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\ltr\bootstrap-tagsinput.css" />
     <Content Include="Content\ltr\bootstrap.min.css" />
+    <Content Include="Content\ltr\bootstrap3-wysiwyg5.css" />
     <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
     <Content Include="Content\ltr\Site.css" />
@@ -424,6 +429,7 @@
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
+    <Content Include="Scripts\bootstrap3-wysihtml5.js" />
     <Content Include="Scripts\classy.js" />
     <Content Include="Scripts\google-login.js" />
     <Content Include="Scripts\fb-login.js" />
@@ -447,6 +453,7 @@
     <Content Include="Scripts\TwitterBootstrapMvcJs.js" />
     <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\trigger-action.js" />
+    <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />

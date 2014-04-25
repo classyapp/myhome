@@ -86,6 +86,7 @@
     <Compile Include="Controllers\ReviewPostedArgs.cs" />
     <Compile Include="ActionFilters\ModelStateTransfer.cs" />
     <Compile Include="Extensions\CsvStringExtensions.cs" />
+    <Compile Include="Helpers\Html2Markdown.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="GeoIP\Location.cs" />
