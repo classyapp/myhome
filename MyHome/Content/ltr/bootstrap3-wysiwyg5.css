@@ -2,6 +2,8 @@ ul.wysihtml5-toolbar {
     margin: 0;
     padding: 0;
     display: block;
+    clear: both;
+    background-color: #BBB;
 }
 
 ul.wysihtml5-toolbar::after {
@@ -14,7 +16,7 @@ ul.wysihtml5-toolbar > li {
     float: left;
     display: list-item;
     list-style: none;
-    margin: 0 5px 10px 0;
+    margin: 5px;
 }
 
 ul.wysihtml5-toolbar a[data-wysihtml5-command=bold] {
