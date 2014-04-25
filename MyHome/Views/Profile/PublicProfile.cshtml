@@ -253,7 +253,7 @@
                     <p>
                         <strong>@Localizer.Get("Profile_ServicesProvided")</strong>
                         <br />
-                        @Model.TypedMetadata.ServicesProvided
+                        @Html.Raw(Model.TypedMetadata.ServicesProvided)
                     </p>
                 }
                 @if (!string.IsNullOrEmpty(Model.TypedMetadata.AreasServed))

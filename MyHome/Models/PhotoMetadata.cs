@@ -46,6 +46,11 @@ namespace MyHome.Models
             if (metadata.ContainsKey("SiteEditorComments")) output.SiteEditorComments = metadata["SiteEditorComments"];
             return output;
         }
+
+        public PhotoMetadata FromDictionary(IDictionary<string, string> metadata, bool processMarkdown)
+        {
+            return FromDictionary(metadata, true);
+        }
     
         public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
         {

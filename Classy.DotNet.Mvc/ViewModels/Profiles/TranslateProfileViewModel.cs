@@ -18,9 +18,11 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public string CompanyName { get; set; }
 
         [Display(Name = "TranslateProfile_BusinessDescription")]
+        [System.Web.Mvc.AllowHtml]
         public string BusinessDescription { get; set; }
 
         [Display(Name = "TranslateProfile_ServicesProvided")]
+        [System.Web.Mvc.AllowHtml]
         public string ServicesProvided { get; set; }
 
         public string Action { get; set; }

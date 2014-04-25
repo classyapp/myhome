@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
+    var translationCultures = Localizer.GetList("supported-cultures").Where(c => c.Value != Model.DefaultCulture);
 }
 
 @section AdditionalStyles{
@@ -16,11 +17,12 @@
         <input type="file" name="profileImage" data-url="@Url.RouteUrl("ChangeProfileImage", new { ProfileId = Model.ProfileId })" data-profile-id="@Model.ProfileId" value="" onchange="ChangeProfilePhoto(this)" />
     </button>
 
-    @if (Model.IsProfessional) {
+    @if (Model.IsProfessional)
+    {
         <a class="btn btn-primary btn-sm" trigger-profile-action="translate" object-id="@Model.ProfileId" object-type="profile"><i class="glyphicon glyphicon-globe"></i>&nbsp;@Localizer.Get("EditProfile_Translate")</a>
     }
-} 
-        
+}
+
 <div class="row">
     <div class="col-md-12">
         <div class="ajax-alert"></div>
@@ -45,14 +47,14 @@
 
     <div class="col-md-9 main">
         @Html.Bootstrap().ValidationSummary()
-        @using (var f = Html.Bootstrap().Begin(new Form("EditProfile").RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post)))
+        @using (var f = Html.Bootstrap().Begin(new Form("EditProfile").RouteValues(new { ProfileId = Model.ProfileId }).Id("EditProfileForm").FormMethod(FormMethod.Post)))
         {
             @Html.HiddenFor(x => x.IsProfessional)
             @Html.HiddenFor(x => x.Username)
             @Html.HiddenFor(x => x.DefaultCulture)
             
             <h4>@Localizer.Get("EditProfile_AccountDetails")</h4>
-            <hr/>
+            <hr />
 
             <div class="form-group">
                 @Html.Bootstrap().LabelFor(x => x.Username).ShowRequiredStar(false)
@@ -65,45 +67,58 @@
            
             <p>&nbsp;</p>
             <h4>@Localizer.Get("EditProfile_ContactDetails")</h4>
-            <hr/>
+            <hr />
             
             @f.FormGroup().TextBoxFor(x => x.FirstName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             @f.FormGroup().TextBoxFor(x => x.LastName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
             if (Model.IsProfessional)
             {
-                @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList()).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList()).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
-                <p>&nbsp;</p>
-                <h4>@Localizer.Get("EditProfile_BusinessDetails")</h4>
-                <hr/>
+            <p>&nbsp;</p>
+            <h4>@Localizer.Get("EditProfile_BusinessDetails")</h4>
+            <hr />
                 
-                @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
-                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            
-                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().ShowRequiredStar(false)
-                @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            
-                @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @*<div>job cost from: --- to: ---</div>
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.CostDetails).ShowValidationMessage(false).Label().WidthLg(12)*@
-                @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            }
-            else 
-            {
-                
-            }
+            <ul class="nav nav-tabs" id="translationTabs">
+                <li class="active"><a href="#@Model.DefaultCulture" data-lang="@Model.DefaultCulture" data-toggle="tab">@Model.DefaultCulture</a></li>
+                @foreach (var culture in translationCultures)
+                {
+                    <li><a href="#@culture.Value" data-lang="@culture.Value" data-toggle="tab">@culture.Value</a></li>
+                }
+            </ul>
+            <p></p>
+            <div class="tab-content">
+                <div class="tab-pane active" id="@Model.DefaultCulture">
+                    @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
+                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
+                    @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
 
+                    @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().ShowRequiredStar(false)
+                    @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+
+                    @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().ShowRequiredStar(false)
+                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                </div>
+                @foreach (var culture in translationCultures)
+                {
+                    <div class="tab-pane" id="@culture.Value" data-language="@culture.Value">
+                        @f.FormGroup().TextBox(culture.Value + "CompanyName").Label().LabelText(Localizer.Get("EditProfile_CompanyName"))
+                        @f.FormGroup().TextArea(culture.Value + "BusinessDescription").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_BusinessDescription"))
+                        @f.FormGroup().TextArea(culture.Value + "ServicesProvided").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_ServicesProvided"))
+                    </div>
+                }
+            </div>
+            }
             <div>
                 <p>&nbsp;</p>
-                <hr/>
+                <hr />
 
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditProfile_Submit")).Style(ButtonStyle.Primary))
             </div>
@@ -133,29 +148,113 @@
     @Scripts.Render("~/scripts/xhr-upload.js")
     <script src="~/Scripts/wysihtml5-0.3.0.min.js"></script>
     <script src="~/Scripts/bootstrap3-wysihtml5.js"></script>
-<script>
-    function ChangePassword(e) {
-        $('#change-password-modal')
-            .modal('show')
-            .on("loaded.bs.modal", function () { attachValidation(frmChangePassword); });
-    }
-
-    function ChangeProfilePhoto(file) {
-        if (file.value != "") {
-            var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: $(file).data("profile-id") });
-            $(".upload-status").removeClass("hidden");
-            upload.upload(function (e) { }, function (e) {
-                $('#profileImage, li.profile img').attr("src", e.url);
-                $(".upload-status").addClass("hidden");
-                $('#uploadProfilePicSuccess').removeClass('hidden');
-            }, function (e) {
-                // failed
-            });
+    <script>
+        var _defaultCulture = "@Model.DefaultCulture";
+        function ChangePassword(e) {
+            $('#change-password-modal')
+                .modal('show')
+                .on("loaded.bs.modal", function () { attachValidation(frmChangePassword); });
         }
-    }
 
-    $(function () {
-        $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
-    });
-</script>
+        function ChangeProfilePhoto(file) {
+            if (file.value != "") {
+                var upload = new XHRFileUpload($(file).data("url"), file.files[0], { Fields: 16, ProfileId: $(file).data("profile-id") });
+                $(".upload-status").removeClass("hidden");
+                upload.upload(function (e) { }, function (e) {
+                    $('#profileImage, li.profile img').attr("src", e.url);
+                    $(".upload-status").addClass("hidden");
+                    $('#uploadProfilePicSuccess').removeClass('hidden');
+                }, function (e) {
+                    // failed
+                });
+            }
+        }
+
+        function checkForChanges(lang) {
+            var companyName = (lang == _defaultCulture) ? "#CompanyName" : "#" + lang + "CompanyName";
+            var businessDescription = (lang == _defaultCulture) ? "#ProfessionalMetadata_BusinessDescription" : "#" + lang + "BusinessDescription";
+            var servicesProvided = (lang == _defaultCulture) ? "#ProfessionalMetadata_ServicesProvided" : "#" + lang + "ServicesProvided";
+
+            if ($(companyName).val().trim() != $(companyName).data("value").trim() ||
+                $(businessDescription).val().trim() != $(businessDescription).data("value").trim() ||
+                $(servicesProvided).val().trim() != $(servicesProvided).data("value").trim()) {
+                bootbox.dialog({
+                    title: Classy.Messages.EditProfile_HasChanges,
+                    message: Classy.Messages.EditProfile_SaveOrDiscard,
+                    onEscape: function () { },
+                    show: true,
+                    buttons: {
+                        cancel: {
+                            label: Classy.Messages.Confirm_Discard, className: "btn-default", callback: function () {
+                                $(companyName).val($(companyName).data("value"));
+                                $(businessDescription).data("wysihtml5").editor.setValue($(businessDescription).data("value"), true);
+                                $(servicesProvided).data("wysihtml5").editor.setValue($(servicesProvided).data("value"), true);
+                            }
+                        },
+                        success: {
+                            label: Classy.Messages.Confirm_Save, className: "btn-danger", callback: function () {
+                                if (lang == _defaultCulture) {
+                                    // submit the form for default lang
+                                    $("#EditProfileForm")[0].submit();
+                                } else {
+                                    // save translation
+                                    $.post("/profile/@Model.ProfileId/translate/" + lang,
+                                        {
+                                            ProfileId: "@Model.ProfileId",
+                                            CultureCode: lang,
+                                            CompanyName: $(companyName).val(),
+                                            BusinessDescription: $(businessDescription).val(),
+                                            ServicesProvided: $(servicesProvided).val()
+                                        },
+                                        function (response) {
+                                            console.log(response);
+                                        });
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        $(function () {
+            $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
+            $("#CompanyName").data("value", $("#CompanyName").val());
+            $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
+            $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
+            $('#translationTabs').on('shown.bs.tab', function (e) {
+                var lang = $(e.target).data('lang');
+                // check for changes
+                checkForChanges($(e.relatedTarget).data('lang'));
+                // switch tab
+                var ctx = $("div.tab-pane#" + lang);
+                if (!($(e.target).data('loaded') || false)) {
+                    $(e.target).data('loaded', true);
+                    $.get("/profile/@Model.ProfileId/translate/" + lang, function (response) {
+                        $("#" + lang + "CompanyName").val(response.CompanyName || "").data("value", response.CompanyName || "");
+                        $("#" + lang + "BusinessDescription").val(response.Metadata.BusinessDescription || "").data("value", response.Metadata.BusinessDescription || "");
+                        $("#" + lang + "ServicesProvided").val(response.Metadata.ServicesProvided || "").data("value", response.Metadata.ServicesProvided || "");
+                        ctx.find("textarea.markdown").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
+                    });
+                }
+            });
+            $("#EditProfileForm").on("submit", function () {
+                // get current language
+                var lang = $("div[data-language].tab-pane.active").data("language");
+                if (lang != _defaultCulture) {
+                    var companyName = "#" + lang + "CompanyName";
+                    var businessDescription = "#" + lang + "BusinessDescription";
+                    var servicesProvided = "#" + lang + "ServicesProvided";
+                    $.post("/profile/@Model.ProfileId/translate/" + lang,
+                                {
+                                    ProfileId: "@Model.ProfileId",
+                                    CultureCode: lang,
+                                    CompanyName: $(companyName).val(),
+                                    BusinessDescription: $(businessDescription).val(),
+                                    ServicesProvided: $(servicesProvided).val()
+                                });
+                }
+            });
+        });
+    </script>
 }

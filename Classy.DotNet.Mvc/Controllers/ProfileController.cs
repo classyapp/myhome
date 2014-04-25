@@ -250,7 +250,7 @@ namespace Classy.DotNet.Mvc.Controllers
             proContactInfo.CompanyContactInfo = proContactInfo.CompanyContactInfo ?? new ExtendedContactInfoView();
             proContactInfo.CompanyContactInfo.Location = proContactInfo.CompanyContactInfo.Location ?? new LocationView();
             proContactInfo.CompanyContactInfo.Location.Address = proContactInfo.CompanyContactInfo.Location.Address ?? new PhysicalAddressView();
-            var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata) : new TProMetadata()) : default(TProMetadata);
+            var proMetadata = profile.IsProfessional ? (profile.Metadata != null ? new TProMetadata().FromDictionary(profile.Metadata, false) : new TProMetadata()) : default(TProMetadata);
             var userMetadata = !profile.IsProfessional ? (profile.Metadata != null ? new TUserMetadata().FromDictionary(profile.Metadata) : new TUserMetadata()) : default(TUserMetadata);
             var model = new EditProfileViewModel<TProMetadata, TUserMetadata>
             {
@@ -981,15 +981,15 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                if (string.IsNullOrEmpty(model.Action))
+                if (string.IsNullOrEmpty(model.Action) || model.Action.ToLower() == "translate")
                 {
                     profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
                     {
                         CultureCode = model.CultureCode,
                         CompanyName = model.CompanyName,
                         Metadata = new Dictionary<string, string> { 
-                            { "BusinessDescription", model.BusinessDescription },
-                            { "ServicesProvided", model.ServicesProvided }
+                            { "BusinessDescription", (new Html2Markdown()).Convert(model.BusinessDescription) },
+                            { "ServicesProvided", (new Html2Markdown()).Convert(model.ServicesProvided) }
                         }
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });

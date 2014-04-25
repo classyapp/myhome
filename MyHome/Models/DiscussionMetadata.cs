@@ -26,6 +26,10 @@ namespace MyHome.Models
             return output;
         }
 
+        public DiscussionMetadata FromDictionary(IDictionary<string, string> metadata, bool processMarkdown)
+        {
+            return FromDictionary(metadata, true);
+        }
 
         public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref Classy.DotNet.Responses.LocationView location)
         {
