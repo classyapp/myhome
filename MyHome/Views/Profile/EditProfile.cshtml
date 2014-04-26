@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
     var cultures = Localizer.GetList("supported-cultures");
-    var translationCultures = cultures.Where(c => c.Value != Model.DefaultCulture && c.Value != System.Threading.Thread.CurrentThread.CurrentCulture.Name);
-    var secondaryCulture = cultures.FirstOrDefault(c => c.Value == System.Threading.Thread.CurrentThread.CurrentCulture.Name);
+    var translationCultures = cultures.Where(c => c.Value != Model.DefaultCulture && c.Value != System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+    var secondaryCulture = cultures.FirstOrDefault(c => c.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
 }
 
 @section AdditionalStyles{
@@ -63,6 +63,57 @@
             @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
            
             <p>&nbsp;</p>
+            
+            if (Model.IsProfessional)
+            {
+                <h4>@Localizer.Get("EditProfile_BusinessDetails")</h4>
+                <hr />
+
+                @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                
+                <ul class="nav nav-tabs" id="translationTabs">
+                    <li class="active"><a href="#@Model.DefaultCulture" data-lang="@Model.DefaultCulture" data-toggle="tab">@cultures.GetText(Model.DefaultCulture)</a></li>
+                    @if (secondaryCulture != null)
+                    { 
+                        <li><a href="#@secondaryCulture.Value" data-lang="@secondaryCulture.Value" data-toggle="tab">@secondaryCulture.Text</a></li>
+                    }
+                    @foreach (var culture in translationCultures)
+                    {
+                        <li><a href="#@culture.Value" data-lang="@culture.Value" data-toggle="tab">@culture.Text</a></li>
+                    }
+                </ul>
+                <p></p>
+                <div class="tab-content">
+                    <div class="tab-pane active" data-loaded="true" id="@Model.DefaultCulture">
+                        @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                        @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
+                        @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
+
+                        @* @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().ShowRequiredStar(false)
+                        @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                        @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().ShowRequiredStar(false) *@
+                    </div>
+                    @if (secondaryCulture != null)
+                    {
+                        <div class="tab-pane" id="@secondaryCulture.Value" data-language="@secondaryCulture.Value">
+                            @f.FormGroup().TextBox(secondaryCulture.Value + "CompanyName").Label().LabelText(Localizer.Get("EditProfile_CompanyName"))
+                            @f.FormGroup().TextArea(secondaryCulture.Value + "BusinessDescription").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_BusinessDescription"))
+                            @f.FormGroup().TextArea(secondaryCulture.Value + "ServicesProvided").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_ServicesProvided"))
+                        </div>
+                    }
+                    @foreach (var culture in translationCultures)
+                    {
+                        <div class="tab-pane" id="@culture.Value" data-language="@culture.Value">
+                            @f.FormGroup().TextBox(culture.Value + "CompanyName").Label().LabelText(Localizer.Get("EditProfile_CompanyName"))
+                            @f.FormGroup().TextArea(culture.Value + "BusinessDescription").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_BusinessDescription"))
+                            @f.FormGroup().TextArea(culture.Value + "ServicesProvided").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_ServicesProvided"))
+                        </div>
+                    }
+                </div>
+            }
+            
             <h4>@Localizer.Get("EditProfile_ContactDetails")</h4>
             <hr />
             
@@ -71,59 +122,13 @@
             
             if (Model.IsProfessional)
             {
-            @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList()).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList()).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
-            <p>&nbsp;</p>
-            <h4>@Localizer.Get("EditProfile_BusinessDetails")</h4>
-            <hr />
-                
-            <ul class="nav nav-tabs" id="translationTabs">
-                <li class="active"><a href="#@Model.DefaultCulture" data-lang="@Model.DefaultCulture" data-toggle="tab">@Model.DefaultCulture</a></li>
-                @if (secondaryCulture != null)
-                { 
-                    <li><a href="#@secondaryCulture.Value" data-lang="@secondaryCulture.Value" data-toggle="tab">@secondaryCulture.Value</a></li>
-                }
-                @foreach (var culture in translationCultures)
-                {
-                    <li><a href="#@culture.Value" data-lang="@culture.Value" data-toggle="tab">@culture.Value</a></li>
-                }
-            </ul>
-            <p></p>
-            <div class="tab-content">
-                <div class="tab-pane active" data-loaded="true" id="@Model.DefaultCulture">
-                    @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
-                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
-                    @f.FormGroup().DropDownListFor(x => x.Category, Localizer.GetList("professional-categories").AsSelectList()).OptionLabel(Localizer.Get("EditProfile_SelectCategory")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-
-                    @f.FormGroup().TextBoxFor(x => x.WebsiteUrl).Placeholder("http://").Label().ShowRequiredStar(false)
-                    @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-
-                    @f.FormGroup().TextBoxFor(x => x.ProfessionalMetadata.LicenseNo).Label().ShowRequiredStar(false)
-                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.AreasServed).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                    @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.Awards).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                </div>
-                @if (secondaryCulture != null)
-                {
-                    <div class="tab-pane" id="@secondaryCulture.Value" data-language="@secondaryCulture.Value">
-                        @f.FormGroup().TextBox(secondaryCulture.Value + "CompanyName").Label().LabelText(Localizer.Get("EditProfile_CompanyName"))
-                        @f.FormGroup().TextArea(secondaryCulture.Value + "BusinessDescription").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_BusinessDescription"))
-                        @f.FormGroup().TextArea(secondaryCulture.Value + "ServicesProvided").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_ServicesProvided"))
-                    </div>
-                }
-                @foreach (var culture in translationCultures)
-                {
-                    <div class="tab-pane" id="@culture.Value" data-language="@culture.Value">
-                        @f.FormGroup().TextBox(culture.Value + "CompanyName").Label().LabelText(Localizer.Get("EditProfile_CompanyName"))
-                        @f.FormGroup().TextArea(culture.Value + "BusinessDescription").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_BusinessDescription"))
-                        @f.FormGroup().TextArea(culture.Value + "ServicesProvided").Class("markdown").Rows(5).Label().LabelText(Localizer.Get("ProMetadata_ServicesProvided"))
-                    </div>
-                }
-            </div>
+                <p>&nbsp;</p>
             }
             <div>
                 <p>&nbsp;</p>

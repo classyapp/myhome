@@ -27,10 +27,10 @@
                 @f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo)
                 @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).Rows(5)
                 @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided)
+                @*@f.FormGroup().TextBoxFor(x => x.Metadata.LicenseNo)
                 @f.FormGroup().TextAreaFor(x => x.Metadata.AreasServed)
-@*<div>job cost from: --- to: ---</div>
-                @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails)*@
-                @f.FormGroup().TextAreaFor(x => x.Metadata.Awards)
+                @f.FormGroup().TextAreaFor(x => x.Metadata.CostDetails)
+                @f.FormGroup().TextAreaFor(x => x.Metadata.Awards)*@
 
                 <h3>@Localizer.Get("ClaimProxy_ContactInfo")</h3>
                 @f.FormGroup().TextBoxFor(x => x.Street1)
