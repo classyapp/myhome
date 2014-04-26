@@ -2,6 +2,12 @@
 	"Resources": [
 		{ 
 			"Key": "Resource1"
+		},
+		{ 
+			"Key": "Resource2"
+		},
+		{ 
+			"Key": "Resource3"
 		}
 	]
 }

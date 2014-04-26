@@ -36,6 +36,10 @@ namespace Deployment
                     Trace.WriteLine(string.Format("Found {0}... deploying", rm));
                 
                     var manifest = GetManifestFromFile(rm); 
+                    foreach (var resource in manifest.Resources)
+                    {
+                        Trace.WriteLine(string.Format("-> {0}", resource.Key));
+                    }
                 }
                 Assert.IsTrue(1 == 1);
             }
