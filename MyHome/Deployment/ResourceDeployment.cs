@@ -31,10 +31,11 @@ namespace Deployment
 
             try 
             {
-                var resourceManifests = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Deployment", "Resources"), "*.resm");
+                var dir = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Deployment", "Resources"));
+                var resourceManifests = dir.GetFiles("*.resm");
                 foreach(var rm in resourceManifests)
                 {
-                    Trace.WriteLine(string.Format("Found {0}... deploying", rm));
+                    Trace.WriteLine(string.Format("Found {0}... deploying", rm.FullName));
                 
                     var manifest = GetManifestFromFile(rm); 
                     foreach (var resource in manifest.Resources)
@@ -50,9 +51,9 @@ namespace Deployment
             }
         }
 
-        private ResourceManifest GetManifestFromFile(string fileName)
+        private ResourceManifest GetManifestFromFile(FileInfo f)
         {
-            var resmFile = File.OpenText(fileName);
+            var resmFile = File.OpenText(f.FullName);
             var resmContent = resmFile.ReadToEnd();
             resmFile.Close();
             resmFile.Dispose();
