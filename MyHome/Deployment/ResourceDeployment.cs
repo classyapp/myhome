@@ -30,7 +30,7 @@ namespace Deployment
 
             try 
             {
-                var resourceManifests = Directory.GetFiles("Resources", "*.resm");
+                var resourceManifests = Directory.GetFiles("./Resources", "*.resm");
                 foreach(var rm in resourceManifests)
                 {
                     Trace.WriteLine(string.Format("Found {0}... deploying", rm));
@@ -43,9 +43,9 @@ namespace Deployment
                 }
                 Assert.IsTrue(1 == 1);
             }
-            catch
+            catch(Exception ex)
             {
-                Assert.IsTrue(1 == 2);
+                Assert.IsTrue(1 == 2, ex.Message);
             }
         }
 
