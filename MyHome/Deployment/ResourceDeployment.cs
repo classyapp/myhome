@@ -16,6 +16,7 @@ namespace Deployment
     }
     public class ResourceManifest 
     {
+        public string AppId { get; set; }
         public IList<Resource> Resources { get; set;}
     }
 

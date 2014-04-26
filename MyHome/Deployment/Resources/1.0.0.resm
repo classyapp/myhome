@@ -1,4 +1,5 @@
 ﻿{
+	"AppId" : "v1.0",
 	"Resources": [
 		{ 
 			"Key": "Resource1"
