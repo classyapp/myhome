@@ -956,7 +956,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     CultureCode = profile.DefaultCulture,
                     CompanyName = profile.ProfessionalInfo.CompanyName,
                     BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
-                    ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["BusinessDescription"] : string.Empty
+                    ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["ServicesProvided"] : string.Empty
                 };
             }
             else
@@ -965,7 +965,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (translation.Metadata != null)
                 {
                     translation.Metadata["BusinessDescription"] = translation.Metadata.ContainsKey("BusinessDescription") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["BusinessDescription"]) : string.Empty;
-                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["BusinessDescription"]) : string.Empty;
+                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["ServicesProvided"]) : string.Empty;
                 }
             }
 
@@ -987,9 +987,9 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var profileService = new ProfileService();
 
-                if (string.IsNullOrEmpty(model.CompanyName.Trim()) &&
-                    string.IsNullOrEmpty(model.BusinessDescription.Trim()) &&
-                    string.IsNullOrEmpty(model.ServicesProvided.Trim()))
+                if ((model.CompanyName == null || string.IsNullOrEmpty(model.CompanyName.Trim())) &&
+                    (model.BusinessDescription == null || string.IsNullOrEmpty(model.BusinessDescription.Trim())) &&
+                    (model.ServicesProvided == null || string.IsNullOrEmpty(model.ServicesProvided.Trim())))
                 {
                     profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });

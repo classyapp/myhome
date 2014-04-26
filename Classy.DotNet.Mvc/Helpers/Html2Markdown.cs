@@ -23,8 +23,12 @@ namespace Classy.DotNet.Mvc.Helpers
 					Pattern = @"</?(em|i)>",
 					Replacement = @"*"
 				},
+                new Element{
+					Pattern = @"</?(u)>",
+					Replacement = @"***"
+				},
 				new Element{
-					Pattern = @"<br\s/>",
+					Pattern = @"<br\s?/?>",
 					Replacement = @"  " + System.Environment.NewLine
 				},
 				new Element{
@@ -68,12 +72,12 @@ namespace Classy.DotNet.Mvc.Helpers
                     Replacement = System.Environment.NewLine + System.Environment.NewLine
                 },
                 new Element{
-					Pattern = @"<div>",
+					Pattern = @"</?(div|p)>",
 					Replacement = @"  " + System.Environment.NewLine
 				},
                 new Element{
-					Pattern = @"</div>",
-					Replacement = @"  " + System.Environment.NewLine
+					Pattern = @"</?span>",
+					Replacement = @"  "
 				}
 			};
 
@@ -86,7 +90,7 @@ namespace Classy.DotNet.Mvc.Helpers
         {
             var regex = new Regex(pattern);
 
-            return regex.Replace(html, replacement);
+            return html == null ? string.Empty : regex.Replace(html, replacement);
         }
     }
     internal class Element

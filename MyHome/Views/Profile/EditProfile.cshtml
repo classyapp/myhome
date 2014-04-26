@@ -235,8 +235,13 @@
             $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
             $("#CompanyName").data("value", $("#CompanyName").val());
             setTimeout(function () {
-                $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
-                $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
+                $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_BusinessDescription").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
+                $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_ServicesProvided").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
+                $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.getValue());
+                $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.getValue());
+
+                //$("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
+                //$("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
             }, 1000);
             $('#translationTabs').on('shown.bs.tab', function (e) {
                 var lang = $(e.target).data('lang');
@@ -248,11 +253,11 @@
                     $(e.target).data('loaded', true);
                     $.get("/profile/@Model.ProfileId/translate/" + lang, function (response) {
                         $("#" + lang + "CompanyName").val(response.CompanyName || "");
-                        $("#" + lang + "BusinessDescription").val(response.Metadata.BusinessDescription || "");
-                        $("#" + lang + "ServicesProvided").val(response.Metadata.ServicesProvided || "");
                         ctx.find("textarea.markdown").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
                         $("#" + lang + "CompanyName").data("value", $("#" + lang + "CompanyName").val());
                         setTimeout(function () {
+                            $("#" + lang + "BusinessDescription").data("wysihtml5").editor.setValue(response.Metadata.BusinessDescription || "", false);
+                            $("#" + lang + "ServicesProvided").data("wysihtml5").editor.setValue(response.Metadata.ServicesProvided || "", false);
                             $("#" + lang + "BusinessDescription").data("value", $("#" + lang + "BusinessDescription").data("wysihtml5").editor.getValue());
                             $("#" + lang + "ServicesProvided").data("value", $("#" + lang + "ServicesProvided").data("wysihtml5").editor.getValue());
                         }, 1000);
