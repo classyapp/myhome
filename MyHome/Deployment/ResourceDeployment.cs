@@ -30,7 +30,7 @@ namespace Deployment
 
             try 
             {
-                var resourceManifests = Directory.GetFiles("./Resources", "*.resm");
+                var resourceManifests = Directory.GetFiles("../Deployment/Resources", "*.resm");
                 foreach(var rm in resourceManifests)
                 {
                     Trace.WriteLine(string.Format("Found {0}... deploying", rm));
