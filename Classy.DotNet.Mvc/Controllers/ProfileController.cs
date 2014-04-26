@@ -962,6 +962,11 @@ namespace Classy.DotNet.Mvc.Controllers
             else
             {
                 translation = profileService.GetTranslation(profileId, cultureCode);
+                if (translation.Metadata != null)
+                {
+                    translation.Metadata["BusinessDescription"] = translation.Metadata.ContainsKey("BusinessDescription") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["BusinessDescription"]) : string.Empty;
+                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["BusinessDescription"]) : string.Empty;
+                }
             }
 
             if (Request.Headers["Accept"].ToLower().Contains("text/html"))
@@ -981,23 +986,26 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                if (string.IsNullOrEmpty(model.Action))
+
+                if (string.IsNullOrEmpty(model.CompanyName.Trim()) &&
+                    string.IsNullOrEmpty(model.BusinessDescription.Trim()) &&
+                    string.IsNullOrEmpty(model.ServicesProvided.Trim()))
+                {
+                    profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
+                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
+                }
+                else
                 {
                     profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
                     {
                         CultureCode = model.CultureCode,
                         CompanyName = model.CompanyName,
                         Metadata = new Dictionary<string, string> { 
-                            { "BusinessDescription", model.BusinessDescription },
-                            { "ServicesProvided", model.ServicesProvided }
+                            { "BusinessDescription", (new Html2Markdown()).Convert(model.BusinessDescription) },
+                            { "ServicesProvided", (new Html2Markdown()).Convert(model.ServicesProvided) }
                         }
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
-                }
-                else
-                {
-                    profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
-                    return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
                 }
             }
             catch (Exception ex)

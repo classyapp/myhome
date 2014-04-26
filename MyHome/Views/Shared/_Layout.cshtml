@@ -350,6 +350,7 @@
     <script type="text/javascript">
         Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> { 
                 { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") }, 
+                { "Confirm_Discard", Localizer.Get("Discard") }, { "Confirm_Save" , Localizer.Get("Save") },
                 { "DeleteCollection_ConfirmTitle", Localizer.Get("DeleteCollection_ConfirmTitle")},
                 { "DeleteCollection_ConfirmText", Localizer.Get("DeleteCollection_ConfirmText")},
                 { "DeleteProject_ConfirmTitle", Localizer.Get("DeleteProject_ConfirmTitle")},
@@ -359,7 +360,9 @@
                 { "Deletephoto_ConfirmTitle", Localizer.Get("Deletephoto_ConfirmTitle")},
                 { "Deletephoto_ConfirmText", Localizer.Get("Deletephoto_ConfirmText")},
                 { "CreatePhoto_ChangeSelectionTitle", Localizer.Get("CreatePhoto_ChangeSelectionTitle")},
-                { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")}
+                { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")},
+                { "EditProfile_HasChanges", Localizer.Get("EditProfile_HasChanges") },
+                { "EditProfile_SaveOrDiscard", Localizer.Get("EditProfile_SaveOrDiscard")}
         })));
     </script>
 

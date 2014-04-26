@@ -43,7 +43,7 @@ namespace MyHome.Models
             if (metadata.ContainsKey("IsWebPhoto")) output.IsWebPhoto = bool.Parse(metadata["IsWebPhoto"]);
             return output;
         }
-    
+
         public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
         {
             var dict = new Dictionary<string, string[]>();
