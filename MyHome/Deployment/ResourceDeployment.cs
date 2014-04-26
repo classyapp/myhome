@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ namespace Deployment
 
             try 
             {
-                var resourceManifests = Directory.GetFiles("../Deployment/Resources", "*.resm");
+                var resourceManifests = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Deployment", "Resources"), "*.resm");
                 foreach(var rm in resourceManifests)
                 {
                     Trace.WriteLine(string.Format("Found {0}... deploying", rm));
