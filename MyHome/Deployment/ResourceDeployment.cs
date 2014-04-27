@@ -28,7 +28,7 @@ namespace MyHome.Deployment
             // read settings
             Trace.WriteLine("Reading deployment settings");
             Settings = GetDeploymentSettings();
-            Trace.WriteLine(ConfigurationManager.AppSettings["Classy:AppId"]);
+            Trace.WriteLine(ConfigurationManager.AppSettings["Environment"]);
         }
 
         [TestMethod]
@@ -172,7 +172,6 @@ namespace MyHome.Deployment
             var manifest = Newtonsoft.Json.JsonConvert.DeserializeObject<ResourceManifest>(resmContent);
             return manifest;
         }
-
 
         private WebClient GetWebClient()
         {
