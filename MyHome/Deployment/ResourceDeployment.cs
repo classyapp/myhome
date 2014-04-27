@@ -20,7 +20,7 @@ namespace MyHome.Deployment
     // this class does actual deployment of new resources to the environment where it is running
     public class ResourceDeployment
     {
-        public DeploymentSettings Settings { get; private set; }
+        public static DeploymentSettings Settings { get; private set; }
 
         [TestInitialize]
         public void Initialize()
@@ -180,7 +180,7 @@ namespace MyHome.Deployment
             client.Encoding = Encoding.UTF8;
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
-            client.Headers.Add("X-Classy-Env", "{\"AppId\":\"v1.0\"}");
+            client.Headers.Add("X-Classy-Env", string.Format("{\"AppId\":\"{0}\"}", ConfigurationManager.AppSettings["Classy:AppId"]));
             client.Headers.Add("Authorization", "Basic RGVwbG95bWVudFVzZXI6ZDNQbDB5TDFrZUFCMHNT"); // username: DeploymentUser, password: d3Pl0yL1keAB0sS
             return client;
         }
