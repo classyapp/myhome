@@ -531,7 +531,7 @@
     <Content Include="Views\Security\ForgotPassword.cshtml" />
     <Content Include="Views\Security\ResetPassword.cshtml" />
     <Content Include="Views\Profile\SendEmail.cshtml" />
-    <None Include="Web.AppHarbor.config" />
+    <Content Include="Web.AppHarbor.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
