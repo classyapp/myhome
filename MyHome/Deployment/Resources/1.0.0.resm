@@ -2,13 +2,26 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
-			"Key": "Resource1"
+			"Key": "Resource1",
+			"Description": "dummy desc",
+			"Values": {
+				"en": "The first resource!"
+			}
 		},
 		{ 
-			"Key": "Resource2"
+			"Key": "Resource2",
+			"Description": "dummy desc",
+			"Values": {
+				"en": "The second resource?"
+			}
 		},
 		{ 
-			"Key": "Resource3"
+			"Key": "Resource3",
+			"Description": "dummy desc",
+			"Values": {
+				"en": "The third resource.",
+				"he": "הריסורס השלישי."
+			}
 		}
 	]
 }

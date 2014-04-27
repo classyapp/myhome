@@ -114,7 +114,11 @@ namespace Classy.DotNet.Mvc.Localization
             {
                 value = HttpUtility.HtmlDecode(resource.Values.SingleOrDefault(x => x.Key == culture).Value);
             }
-            var output = value ?? key;
+
+            // fail if resource is missing
+            if (value == null) throw new ArgumentOutOfRangeException(string.Format("Resource {0} not found", key));
+
+            var output = value;
             if (_showResourceKeys && !string.IsNullOrEmpty(value)) output = string.Concat(output, " [", key, "]");
             return output;
         }
