@@ -79,10 +79,20 @@ namespace MyHome.Deployment
                         // create the resource in the target database
                         var resourceAtTarget = GetResourceAtTargetEndpoint(resource.Key);
                         if (resourceAtTarget != null && Settings.OverwriteExistingResourceValues)
+                        {
                             SetResourceValuesAtTargetEndpoint(resource.Key, resource.Values);
+                        }
+                        else
+                        {
+                            Trace.WriteLine("\t\tAlready exists, will only update missing translations, if any");
+                        }
 
-                        // if some translations are still missing, add t missing translations dictionary
-                        if (supportedCultures.Any(x => !resourceAtTarget.Values.Keys.Contains(x)))
+                        // check for missing translations
+                        if (resourceAtTarget == null || resourceAtTarget.Values == null)
+                        {
+                            missingTranslations.Add(resource.Key, supportedCultures.ToList());
+                        }
+                        else if (supportedCultures.Any(x => !resourceAtTarget.Values.Keys.Contains(x)))
                         {
                             missingTranslations.Add(resource.Key, supportedCultures.Where(x => !resourceAtTarget.Values.Keys.Contains(x)).ToList());
                         }
@@ -93,15 +103,17 @@ namespace MyHome.Deployment
                             Trace.WriteLine(string.Format("\t\tTrying to copy missing translations from source", resource.Key));
                             var resourceAtSource = GetResourceAtSourceEndpoint(resource.Key);
                             var values = new Dictionary<string, string>();
-                            foreach(var missingCulture in missingTranslations[resource.Key])
+                            var missingCultures = missingTranslations[resource.Key];
+                            foreach(var missingCulture in missingCultures)
                             {
-                                if (resourceAtSource.Values.Any(x => x.Key == missingCulture))
+                                if (resourceAtSource != null && resourceAtSource.Values.Any(x => x.Key == missingCulture))
                                 {
                                     values.Add(missingCulture, resourceAtSource.Values.Single(x => x.Key == missingCulture).Value);
                                     missingTranslations[resource.Key].Remove(missingCulture);
                                     if (missingTranslations[resource.Key].Count == 0) missingTranslations.Remove(resource.Key);
                                 }
                             }
+                            SetResourceValuesAtTargetEndpoint(resource.Key, values);
                         }
                     }
                 }
@@ -123,7 +135,7 @@ namespace MyHome.Deployment
         /// <returns>a readable message</returns>
         private string FormatMissingTranslationsMessage(Dictionary<string, IList<string>> missingTranslations)
         {
-            var formattedMessage = new StringBuilder("Missing translations found.");
+            var formattedMessage = new StringBuilder("Missing translations found.\r\n");
             foreach(var mt in missingTranslations)
             {
                 formattedMessage.AppendLine(string.Format("Key: '{0}' is missing translations in {1}", mt.Key, string.Join(",", mt.Value.ToArray())));

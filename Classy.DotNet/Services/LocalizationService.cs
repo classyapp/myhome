@@ -12,19 +12,19 @@ namespace Classy.DotNet.Services
 {
     public class LocalizationService : ServiceBase
     {
-        private readonly string GET_RESOURCE_KEYS_URL = ENDPOINT_BASE_URL + "/resource/keys";
+        private readonly string GET_ALL_RESOURCES_URL = ENDPOINT_BASE_URL + "/resource/all";
         private readonly string RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/{0}";
         private readonly string LIST_RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/list/{0}";
         private readonly string CITIES_RESOURCE_URL = ENDPOINT_BASE_URL + "/resource/list/cities/{0}";
 
-        public string[] GetResourceKeys()
+        public string[] GetMissingResources(string culture)
         {
             try
             {
-                var client = ClassyAuth.GetWebClient();
-                var resourceJson = client.DownloadString(GET_RESOURCE_KEYS_URL);
-                var resourceKeys = resourceJson.FromJson<string[]>();
-                return resourceKeys;
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var resourceJson = client.DownloadString(GET_ALL_RESOURCES_URL);
+                var resourceKeys = resourceJson.FromJson<IList<LocalizationResourceView>>();
+                return resourceKeys.Where(x => !x.Values.Any(y => y.Key == culture)).Select(x => x.Key).ToArray();
             }
             catch (WebException wex)
             {
