@@ -27,10 +27,6 @@ namespace MyHome.Deployment
         {
             // read settings
             Trace.WriteLine("Reading deployment settings");
-            foreach(string key in ConfigurationManager.AppSettings)
-            {
-                Trace.WriteLine(ConfigurationManager.AppSettings[key]);
-            }
             Settings = GetDeploymentSettings();
             Trace.WriteLine(Settings.ToString());
         }
@@ -153,13 +149,12 @@ namespace MyHome.Deployment
         /// <returns>a DeploymentSettings object</returns>
         private DeploymentSettings GetDeploymentSettings()
         {
-            var appSettings = ConfigurationManager.AppSettings;
             var settings = new DeploymentSettings();
-            settings.BuildFailsIfMissingTranslations = Convert.ToBoolean(appSettings["Classy:Deployment:BuildFailsIfMissingTranslations"]);
-            settings.CopyMissingResourcesFromRemoteDatabase = Convert.ToBoolean(appSettings["Classy:Deployment:CopyMissingResourcesFromRemoteDatabase"]);
-            settings.SourceApiEndpoint = appSettings["Classy:Deployment:SourceApiEndpoint"];
-            settings.TargetApiEndpoint = appSettings["Classy:Deployment:TargetApiEndpoint"];
-            settings.OverwriteExistingResourceValues = Convert.ToBoolean(appSettings["Classy:Deployment:OverwriteExistingResourceValues"]);
+            settings.BuildFailsIfMissingTranslations = false;
+            settings.CopyMissingResourcesFromRemoteDatabase = false;
+            settings.SourceApiEndpoint = "";
+            settings.TargetApiEndpoint = "http://marketplaceapi.apphb.com";
+            settings.OverwriteExistingResourceValues = true;
             return settings;
         }
 
