@@ -151,11 +151,11 @@ namespace MyHome.Deployment
         {
             var appSettings = ConfigurationManager.AppSettings;
             var settings = new DeploymentSettings();
-            settings.BuildFailsIfMissingTranslations = Convert.ToBoolean(appSettings["Classy.Deployment:BuildFailsIfMissingTranslations"]);
-            settings.CopyMissingResourcesFromRemoteDatabase = Convert.ToBoolean(appSettings["Classy.Deployment:CopyMissingResourcesFromRemoteDatabase"]);
-            settings.SourceApiEndpoint = appSettings["Classy.Deployment:SourceApiEndpoint"];
-            settings.TargetApiEndpoint = appSettings["Classy.Deployment:TargetApiEndpoint"];
-            settings.OverwriteExistingResourceValues = Convert.ToBoolean(appSettings["Classy.Deployment:OverwriteExistingResourceValues"]);
+            settings.BuildFailsIfMissingTranslations = Convert.ToBoolean(appSettings["Classy:Deployment:BuildFailsIfMissingTranslations"]);
+            settings.CopyMissingResourcesFromRemoteDatabase = Convert.ToBoolean(appSettings["Classy:Deployment:CopyMissingResourcesFromRemoteDatabase"]);
+            settings.SourceApiEndpoint = appSettings["Classy:Deployment:SourceApiEndpoint"];
+            settings.TargetApiEndpoint = appSettings["Classy:Deployment:TargetApiEndpoint"];
+            settings.OverwriteExistingResourceValues = Convert.ToBoolean(appSettings["Classy:Deployment:OverwriteExistingResourceValues"]);
             return settings;
         }
 
