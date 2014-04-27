@@ -123,12 +123,6 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
-    <Compile Include="Deployment\DeploymentSettings.cs" />
-    <Compile Include="Deployment\ResourceDeployment.cs" />
-    <Compile Include="Deployment\ResourceManifest.cs" />
-    <Compile Include="Deployment\ResourceMissingFieldException.cs" />
-    <Compile Include="Deployment\ResourceMissingTranslationsException.cs" />
-    <Compile Include="Deployment\ResourceValuesContainsInvalidCultureException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -591,4 +585,36 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  
+  <Target Name="AfterBuild">
+    <CallTarget Targets="RunDeployResourcesConsoleApp" />
+  </Target>
+  
+  <Target Name="RunDeployResourcesConsoleApp">
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+              Query="/configuration/appSettings/add[@key='Classy:AppId']/@value">
+      <Output TaskParameter="Result" ItemName="AppId" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+          Query="/configuration/appSettings/add[@key='Classy:Deployment:TargetApiEndpoint']/@value">
+      <Output TaskParameter="Result" ItemName="TargetApiEndpoint" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+      Query="/configuration/appSettings/add[@key='Classy:Deployment:SourceApiEndpoint']/@value">
+      <Output TaskParameter="Result" ItemName="SourceApiEndpoint" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+      Query="/configuration/appSettings/add[@key='Classy:Deployment:CopyMissingResourcesFromRemoteDatabase']/@value">
+      <Output TaskParameter="Result" ItemName="CopyMissingResourcesFromRemoteDatabase" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+      Query="/configuration/appSettings/add[@key='Classy:Deployment:BuildFailsIfMissingTranslations']/@value">
+      <Output TaskParameter="Result" ItemName="BuildFailsIfMissingTranslations" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+      Query="/configuration/appSettings/add[@key='Classy:Deployment:OverwriteExistingResourceValues']/@value">
+      <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
+    </XmlPeek>
+    <Exec Command="$(MSBuildThisFileDirectory)Deployment\Deployment.exe @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations) @(OverwriteExistingResourceValues)" />
+  </Target>
 </Project>
