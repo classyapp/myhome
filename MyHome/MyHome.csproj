@@ -591,27 +591,27 @@
   </Target>
   
   <Target Name="RunDeployResourcesConsoleApp">
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.$(Configuration).config"
               Query="/configuration/appSettings/add[@key='Classy:AppId']/@value">
       <Output TaskParameter="Result" ItemName="AppId" />
     </XmlPeek>
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.$(Configuration).config"
           Query="/configuration/appSettings/add[@key='Classy:Deployment:TargetApiEndpoint']/@value">
       <Output TaskParameter="Result" ItemName="TargetApiEndpoint" />
     </XmlPeek>
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.$(Configuration).config"
       Query="/configuration/appSettings/add[@key='Classy:Deployment:SourceApiEndpoint']/@value">
       <Output TaskParameter="Result" ItemName="SourceApiEndpoint" />
     </XmlPeek>
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.$(Configuration).config"
       Query="/configuration/appSettings/add[@key='Classy:Deployment:CopyMissingResourcesFromRemoteDatabase']/@value">
       <Output TaskParameter="Result" ItemName="CopyMissingResourcesFromRemoteDatabase" />
     </XmlPeek>
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.$(Configuration).config"
       Query="/configuration/appSettings/add[@key='Classy:Deployment:BuildFailsIfMissingTranslations']/@value">
       <Output TaskParameter="Result" ItemName="BuildFailsIfMissingTranslations" />
     </XmlPeek>
-    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config"
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.$(Configuration).config"
       Query="/configuration/appSettings/add[@key='Classy:Deployment:OverwriteExistingResourceValues']/@value">
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
