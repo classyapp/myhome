@@ -28,7 +28,7 @@ namespace MyHome.Deployment
             // read settings
             Trace.WriteLine("Reading deployment settings");
             Settings = GetDeploymentSettings();
-            Trace.WriteLine(Settings.ToString());
+            Trace.WriteLine(ConfigurationManager.AppSettings["Classy:AppId"]);
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace MyHome.Deployment
             client.Encoding = Encoding.UTF8;
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
-            client.Headers.Add("X-Classy-Env", string.Format("{\"AppId\":\"{0}\"}", ConfigurationManager.AppSettings["Classy:AppId"]));
+            client.Headers.Add("X-Classy-Env", string.Format("{{\"AppId\":\"{0}\"}}", ConfigurationManager.AppSettings["Classy:AppId"]));
             client.Headers.Add("Authorization", "Basic RGVwbG95bWVudFVzZXI6ZDNQbDB5TDFrZUFCMHNT"); // username: DeploymentUser, password: d3Pl0yL1keAB0sS
             return client;
         }
