@@ -616,5 +616,6 @@
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
     <Exec Command="$(MSBuildThisFileDirectory)Deployment\Deployment.exe @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations) @(OverwriteExistingResourceValues)" />
+    <Warning Text="$(Configuration)" />
   </Target>
 </Project>
