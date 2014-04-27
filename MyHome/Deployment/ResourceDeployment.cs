@@ -118,8 +118,9 @@ namespace MyHome.Deployment
                     }
                 }
 
-                // deployment successful
-                Assert.IsTrue(missingTranslations.Count == 0 && Settings.BuildFailsIfMissingTranslations, FormatMissingTranslationsMessage(missingTranslations));
+                // deployment response
+                if (missingTranslations.Count == 0 && Settings.BuildFailsIfMissingTranslations) Assert.Fail(FormatMissingTranslationsMessage(missingTranslations));
+                Assert.IsTrue(1 == 1);
             }
             catch(Exception ex)
             {
