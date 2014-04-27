@@ -48,7 +48,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var model = new ManageResourcesViewModel {
                 SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList(),
-                ResourceKeys = Localizer.GetAllKeys(),
+                MissingResourceKeys = Localizer.GetMissingKeys(),
                 SelectedCulture = GetEnvFromContext().CultureCode,
                 ResourceKey = resourceKey
             };
@@ -84,7 +84,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult ManageResources(ManageResourcesViewModel model, object dummy)
         {
             model.ResourceValue = model.ResourceValue;
-            model.ResourceKeys = Localizer.GetAllKeys();
+            model.MissingResourceKeys = Localizer.GetMissingKeys();
             model.SelectedCulture = GetEnvFromContext().CultureCode;
             var service = new LocalizationService();
             if (model.ResourceKey.StartsWith("List__"))

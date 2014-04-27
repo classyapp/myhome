@@ -123,7 +123,12 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Deployment\DeploymentSettings.cs" />
     <Compile Include="Deployment\ResourceDeployment.cs" />
+    <Compile Include="Deployment\ResourceManifest.cs" />
+    <Compile Include="Deployment\ResourceMissingFieldException.cs" />
+    <Compile Include="Deployment\ResourceMissingTranslationsException.cs" />
+    <Compile Include="Deployment\ResourceValuesContainsInvalidCultureException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
