@@ -119,8 +119,7 @@ namespace MyHome.Deployment
                 }
 
                 // deployment response
-                if (missingTranslations.Count == 0 && Settings.BuildFailsIfMissingTranslations) Assert.Fail(FormatMissingTranslationsMessage(missingTranslations));
-                Assert.IsTrue(1 == 1);
+                Assert.IsFalse(missingTranslations.Count > 0 && Settings.BuildFailsIfMissingTranslations, FormatMissingTranslationsMessage(missingTranslations));
             }
             catch(Exception ex)
             {
@@ -151,11 +150,11 @@ namespace MyHome.Deployment
         private DeploymentSettings GetDeploymentSettings()
         {
             var settings = new DeploymentSettings();
-            settings.BuildFailsIfMissingTranslations = false;
-            settings.CopyMissingResourcesFromRemoteDatabase = false;
-            settings.SourceApiEndpoint = "";
-            settings.TargetApiEndpoint = "http://marketplaceapi.apphb.com";
-            settings.OverwriteExistingResourceValues = false;
+            settings.BuildFailsIfMissingTranslations = Convert.ToBoolean(ConfigurationManager.AppSettings["Classy:Deployment:BuildFailsIfMissingTranslations"]);
+            settings.CopyMissingResourcesFromRemoteDatabase = Convert.ToBoolean(ConfigurationManager.AppSettings["Classy:Deployment:CopyMissingResourcesFromRemoteDatabase"]);
+            settings.SourceApiEndpoint = ConfigurationManager.AppSettings["Classy:Deployment:SourceApiEndpoint"];
+            settings.TargetApiEndpoint = ConfigurationManager.AppSettings["Classy:Deployment:TargetApiEndpoint"];
+            settings.OverwriteExistingResourceValues = Convert.ToBoolean(ConfigurationManager.AppSettings["Classy:Deployment:OverwriteExistingResourceValues"]);
             return settings;
         }
 
