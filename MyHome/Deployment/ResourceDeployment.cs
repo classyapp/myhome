@@ -27,6 +27,7 @@ namespace MyHome.Deployment
         {
             // read settings
             Trace.WriteLine("Reading deployment settings");
+            Trace.WriteLine(ConfigurationManager.AppSettings);
             Settings = GetDeploymentSettings();
             Trace.WriteLine(Settings.ToString());
         }
