@@ -154,7 +154,7 @@ namespace MyHome.Deployment
             settings.CopyMissingResourcesFromRemoteDatabase = false;
             settings.SourceApiEndpoint = "";
             settings.TargetApiEndpoint = "http://marketplaceapi.apphb.com";
-            settings.OverwriteExistingResourceValues = true;
+            settings.OverwriteExistingResourceValues = false;
             return settings;
         }
 
