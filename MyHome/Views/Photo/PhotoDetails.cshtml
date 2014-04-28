@@ -123,7 +123,7 @@
             @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
             {
                 @Html.Hidden("ListingId", Model.Listing.Id);
-                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
         </div>
