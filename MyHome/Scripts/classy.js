@@ -11,6 +11,7 @@ Classy.AcquireGPSCoordinates = function () {
                 var lat = position.coords.latitude;
                 var long = position.coords.longitude;
                 Classy.SetCookie(Classy.Env.GPSCookieName, JSON.stringify({ latitude: lat, longitude: long }), 365);
+                Classy.SetCookie(Classy.Env.GPSOriginCookieName, "browser", 365);
                 $(document).trigger("classy.gps.available", { Available: true, Latitude: lat, Longitude: long });
                 Classy.Env.GPSEnabled = true;
             }, function () {
@@ -21,6 +22,7 @@ Classy.AcquireGPSCoordinates = function () {
             });
         } else {
             Classy.SetCookie(Classy.Env.GPSCookieName, "", 7);
+            Classy.SetCookie(Classy.Env.GPSOriginCookieName, "browser", 7);
             $(document).trigger("classy.gps.available", { Available: false });
             Classy.Env.GPSEnabled = false;
         }
