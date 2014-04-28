@@ -1,7 +1,6 @@
 ﻿using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,23 +14,19 @@ using System.Threading.Tasks;
 
 namespace MyHome.Deployment
 {
-    [TestClass]
     // THIS IS NOT A TEST:
     // this class does actual deployment of new resources to the environment where it is running
     public class ResourceDeployment
     {
-        public static DeploymentSettings Settings { get; private set; }
+        private DeploymentSettings Settings { get; set; }
 
-        [TestInitialize]
-        public void Initialize()
+        public ResourceDeployment(DeploymentSettings settings)
         {
             // read settings
-            Trace.WriteLine("Reading deployment settings");
-            Settings = GetDeploymentSettings();
-            Trace.WriteLine(ConfigurationManager.AppSettings["Environment"]);
+            Settings = settings;
+            Console.WriteLine(Settings.ToString());
         }
 
-        [TestMethod]
         public void DeployNewResources()
         {
             var missingTranslations = new Dictionary<string, IList<string>>();
@@ -40,23 +35,25 @@ namespace MyHome.Deployment
             var supportedCultures = GetSupportedCulturesAtTargetEndpoint();
 
             // deployment logic
-            Trace.WriteLine("Deploying new reources");
+            Console.WriteLine("Deploying new reources");
             try 
             {
                 // get all resource manifest files from the 
-                var dir = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Deployment", "Resources"));
+                var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Resources");
+                Console.WriteLine(path);
+                var dir = new DirectoryInfo(path);
                 var resourceManifests = dir.GetFiles("*.resm");
                 foreach(var rm in resourceManifests)
                 {
                     // ignore files that were already deployed to target database
                     if (1 == 2) /* file was alreday deployed to target database */
                     {
-                        Trace.WriteLine(string.Format("Found {0}... ignoring - already deployed", rm.FullName));
+                        Console.WriteLine(string.Format("Found {0}... ignoring - already deployed", rm.FullName));
                         continue;
                     }
 
                     // deploy all resources in manifest file
-                    Trace.WriteLine(string.Format("Found {0}... deploying", rm.FullName));
+                    Console.WriteLine(string.Format("Found {0}... deploying", rm.FullName));
                     var manifest = GetManifestFromFile(rm);
                     
                     // throw if any resource is missing a description or value
@@ -74,7 +71,7 @@ namespace MyHome.Deployment
 
                     foreach (var resource in manifest.Resources)
                     {
-                        Trace.WriteLine(string.Format("\tResource: {0}", resource.Key));
+                        Console.WriteLine(string.Format("\tResource: {0}", resource.Key));
 
                         // create the resource in the target database
                         var resourceAtTarget = GetResourceAtTargetEndpoint(resource.Key);
@@ -84,7 +81,7 @@ namespace MyHome.Deployment
                         }
                         else
                         {
-                            Trace.WriteLine("\t\tAlready exists, will only update missing translations, if any");
+                            Console.WriteLine("\t\tAlready exists, will only update missing translations, if any");
                         }
 
                         // check for missing translations
@@ -100,7 +97,7 @@ namespace MyHome.Deployment
                         // if some supported cultures are missing values, copy from remote source
                         if (missingTranslations.ContainsKey(resource.Key) && Settings.CopyMissingResourcesFromRemoteDatabase)
                         {
-                            Trace.WriteLine(string.Format("\t\tTrying to copy missing translations from source", resource.Key));
+                            Console.WriteLine(string.Format("\t\tTrying to copy missing translations from source", resource.Key));
                             var resourceAtSource = GetResourceAtSourceEndpoint(resource.Key);
                             var values = new Dictionary<string, string>();
                             var missingCultures = missingTranslations[resource.Key];
@@ -119,12 +116,13 @@ namespace MyHome.Deployment
                 }
 
                 // deployment response
-                Assert.IsFalse(missingTranslations.Count > 0 && Settings.BuildFailsIfMissingTranslations, FormatMissingTranslationsMessage(missingTranslations));
+                if (missingTranslations.Count > 0 && Settings.BuildFailsIfMissingTranslations)
+                    throw new ResourceMissingTranslationsException(FormatMissingTranslationsMessage(missingTranslations));
             }
             catch(Exception ex)
             {
                 // deployment failed
-                Assert.Fail(ex.Message);
+                throw ex;
             }
         }
 
@@ -141,21 +139,6 @@ namespace MyHome.Deployment
                 formattedMessage.AppendLine(string.Format("Key: '{0}' is missing translations in {1}", mt.Key, string.Join(",", mt.Value.ToArray())));
             }
             return formattedMessage.ToString();
-        }
-
-        /// <summary>
-        /// get the settings for the deployment
-        /// </summary>
-        /// <returns>a DeploymentSettings object</returns>
-        private DeploymentSettings GetDeploymentSettings()
-        {
-            var settings = new DeploymentSettings();
-            settings.BuildFailsIfMissingTranslations = Convert.ToBoolean(ConfigurationManager.AppSettings["Classy:Deployment:BuildFailsIfMissingTranslations"]);
-            settings.CopyMissingResourcesFromRemoteDatabase = Convert.ToBoolean(ConfigurationManager.AppSettings["Classy:Deployment:CopyMissingResourcesFromRemoteDatabase"]);
-            settings.SourceApiEndpoint = ConfigurationManager.AppSettings["Classy:Deployment:SourceApiEndpoint"];
-            settings.TargetApiEndpoint = ConfigurationManager.AppSettings["Classy:Deployment:TargetApiEndpoint"];
-            settings.OverwriteExistingResourceValues = Convert.ToBoolean(ConfigurationManager.AppSettings["Classy:Deployment:OverwriteExistingResourceValues"]);
-            return settings;
         }
 
         /// <summary>
@@ -179,7 +162,7 @@ namespace MyHome.Deployment
             client.Encoding = Encoding.UTF8;
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
-            client.Headers.Add("X-Classy-Env", string.Format("{{\"AppId\":\"{0}\"}}", ConfigurationManager.AppSettings["Classy:AppId"]));
+            client.Headers.Add("X-Classy-Env", string.Format("{{\"AppId\":\"{0}\"}}", Settings.AppId));
             client.Headers.Add("Authorization", "Basic RGVwbG95bWVudFVzZXI6ZDNQbDB5TDFrZUFCMHNT"); // username: DeploymentUser, password: d3Pl0yL1keAB0sS
             return client;
         }

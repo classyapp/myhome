@@ -7,6 +7,7 @@ namespace MyHome.Deployment
 {
     public class DeploymentSettings
     {
+        public string AppId { get; set; }
         public bool OverwriteExistingResourceValues { get; set; }
         public bool CopyMissingResourcesFromRemoteDatabase { get; set; }
         public string SourceApiEndpoint { get; set; }
@@ -15,7 +16,8 @@ namespace MyHome.Deployment
 
         public override string ToString()
         {
-            return string.Format("\tSource API Endpoint: {0}\r\n\tTarget API Endpoint: {1}\r\n\tCopy Missing Resources From Remote Database: {2}\r\n\tBuild Fails If Missing Translations: {3}\r\n\tOverwrite existing resource values: {4}",
+            return string.Format("\tAppId: {0}\r\n\tSource API Endpoint: {1}\r\n\tTarget API Endpoint: {2}\r\n\tCopy Missing Resources From Remote Database: {3}\r\n\tBuild Fails If Missing Translations: {4}\r\n\tOverwrite existing resource values: {5}",
+                AppId,
                 SourceApiEndpoint,
                 TargetApiEndpoint,
                 CopyMissingResourcesFromRemoteDatabase,
