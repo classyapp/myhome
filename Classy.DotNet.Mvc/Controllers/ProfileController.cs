@@ -18,6 +18,7 @@ using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using System.Net.Mail;
 using Classy.DotNet.Mvc.Helpers;
+using Html;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -964,8 +965,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 translation = profileService.GetTranslation(profileId, cultureCode);
                 if (translation.Metadata != null)
                 {
-                    translation.Metadata["BusinessDescription"] = translation.Metadata.ContainsKey("BusinessDescription") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["BusinessDescription"]) : string.Empty;
-                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["ServicesProvided"]) : string.Empty;
+                    translation.Metadata["BusinessDescription"] = translation.Metadata.ContainsKey("BusinessDescription") ? translation.Metadata["BusinessDescription"] : string.Empty;
+                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? translation.Metadata["ServicesProvided"] : string.Empty;
                 }
             }
 
@@ -996,13 +997,16 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else
                 {
+                    var sanitizer = new HtmlSanitizer();
+                    sanitizer.AllowedAttributes = new string[] { "style" };
+                    sanitizer.AllowedCssProperties = new string[] { "direction" };
                     profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
                     {
                         CultureCode = model.CultureCode,
                         CompanyName = model.CompanyName,
                         Metadata = new Dictionary<string, string> { 
-                            { "BusinessDescription", (new Html2Markdown()).Convert(model.BusinessDescription) },
-                            { "ServicesProvided", (new Html2Markdown()).Convert(model.ServicesProvided) }
+                            { "BusinessDescription", sanitizer.Sanitize(model.BusinessDescription) },
+                            { "ServicesProvided", sanitizer.Sanitize(model.ServicesProvided) }
                         }
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
