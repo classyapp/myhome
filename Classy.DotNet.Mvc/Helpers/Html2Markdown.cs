@@ -21,11 +21,7 @@ namespace Classy.DotNet.Mvc.Helpers
 				},
 				new Element{
 					Pattern = @"</?(em|i)>",
-					Replacement = @"*"
-				},
-                new Element{
-					Pattern = @"</?(u)>",
-					Replacement = @"***"
+					Replacement = @"_"
 				},
 				new Element{
 					Pattern = @"<br\s?/?>",

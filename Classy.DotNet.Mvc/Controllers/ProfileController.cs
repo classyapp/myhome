@@ -357,7 +357,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     null,
                     fields);
                 TempData["EditProfile_Success"] = true;
-                return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
+                return Redirect(Url.RouteUrl("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() }) + "?EditProfile_Success=true");
             }
             else return View(model);
         }
@@ -1010,7 +1010,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return Json(new { IsValid = false, ErrorMessage = Localizer.Get("EditProfile_SaveTranslation_Failed") });
             }
         }
 

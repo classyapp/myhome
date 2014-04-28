@@ -615,7 +615,7 @@
       Query="/configuration/appSettings/add[@key='Classy:Deployment:OverwriteExistingResourceValues']/@value">
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
-    <Exec Command="$(MSBuildThisFileDirectory)Deployment\Deployment.exe @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)Deployment\Deployment.exe&quot; @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
     <Warning Text="$(Configuration)" />
   </Target>
 </Project>
