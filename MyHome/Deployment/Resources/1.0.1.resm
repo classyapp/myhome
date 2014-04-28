@@ -1,0 +1,25 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "CollectionDetails_Publish",
+			"Description": "when viewing a collection, admins get a button for publishing as an article, this is the label of the button.",
+			"Values": {
+				"en": "Publish Article"
+			}
+		},
+		{
+			"Key": "CollectionDetails_SubmitForApproval",
+			"Description": "a button that lets a user can submit a collection for editorial approval (to become an article)",
+			"Values": {
+				"en": "Submit Article"
+			}
+		}
+	]
+}
+
+
+
+
+
+

@@ -7,6 +7,7 @@
     var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
     var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
     var proCategories = Localizer.GetList("professional-categories");
+    var isEditor = User.Identity.IsAuthenticated ? (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEditor : false;
 }
 
 @if (TempData["PostComment_Success"] != null)
@@ -21,18 +22,28 @@
         if (Model.Type == "Project")
         {
             <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-project-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteProject")</a>
-        }
-        else
-        {
-            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
-        }
-        if (Model.Type == "Project")
-        {
             <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Project_SelectCoverPhotos")</a>
         }
         else
         {
-            <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Collection_SelectCoverPhotos")</a>
+            <a data-href="@Url.RouteUrl("DeleteCollection")" trigger-collection-action="delete" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-trash"></i> @Localizer.Get("Profile_DeleteCollection")</a>
+            <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Collection_SelectCoverPhotos")</a>        
+
+            if (Model.CoverPhotos.Count > 0 && 
+                Model.Listings.Count > 1 && 
+                !string.IsNullOrEmpty(Model.Title) && 
+                !string.IsNullOrEmpty(Model.Content))
+            {
+                if (isEditor) 
+                {
+                    <a href="#" class="btn btn-primary btn-sm" trigger-collection-action="publish-approve"><i class="glyphicon glyphicon-check"></i> @Localizer.Get("CollectionDetails_Publish")</a>
+                    <a href="#" class="btn btn-primary btn-sm" trigger-collection-action="publish-reject"><i class="glyphicon glyphicon-remove"></i> @Localizer.Get("CollectionDetails_Reject")</a>
+                }
+                else 
+                {
+                    <a href="#" class="btn btn-primary btn-sm" trigger-collection-action="publish-submit"><i class="glyphicon glyphicon-check"></i> @Localizer.Get("CollectionDetails_SubmitForApproval")</a>
+                }
+            }
         }
     }
 }
