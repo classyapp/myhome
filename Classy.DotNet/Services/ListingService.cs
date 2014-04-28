@@ -51,7 +51,7 @@ namespace Classy.DotNet.Services
         private readonly string REMOVE_LISTING_FROM_COLLECTION_URL = ENDPOINT_BASE_URL + "/collection/{0}/remove";
         private readonly string GET_COLLECTIONS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/collection/list/{1}";
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}&IncludeComments={4}&IncludeCommenterProfiles={5}";
-        private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}";
+        private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}&culture={2}";
 
         #region // listings
 
@@ -481,12 +481,12 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public IList<CollectionView> GetApprovedCollections(string[] categories, int maxCollections)
+        public IList<CollectionView> GetApprovedCollections(string[] categories, int maxCollections, string culture)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var collectionsJson = client.DownloadString(string.Format(GET_APPROVED_COLLECTIONS, maxCollections, categories.ToJsv()));
+                var collectionsJson = client.DownloadString(string.Format(GET_APPROVED_COLLECTIONS, maxCollections, categories.ToJsv(), culture));
                 var collections = collectionsJson.FromJson<IList<CollectionView>>();
                 return collections;
             }

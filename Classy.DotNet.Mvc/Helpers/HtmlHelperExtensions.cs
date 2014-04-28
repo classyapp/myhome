@@ -88,6 +88,14 @@ namespace Classy.DotNet.Mvc
         #endregion
 
         // photo thumb
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, string key, int size)
+        {
+            var url = string.Format("//{0}/thumbnail/{1}?Width={2}&format=json",
+                ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], key, size);
+            return new MvcHtmlString(string.Format("<img src=\"{0}\" class=\"img-responsive\" />",
+                                    url));
+        }
+
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int size)
         {
             if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0)
