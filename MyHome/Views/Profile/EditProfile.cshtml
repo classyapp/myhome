@@ -213,8 +213,8 @@
                                         ProfileId: "@Model.ProfileId",
                                         CultureCode: lang,
                                         CompanyName: $(companyName).val(),
-                                        BusinessDescription: $(businessDescription).val(),
-                                        ServicesProvided: $(servicesProvided).val()
+                                        "Metadata.BusinessDescription": $(businessDescription).val(),
+                                        "Metadata.ServicesProvided": $(servicesProvided).val()
                                     },
                                     function (response) {
                                         displayMessage(response);
@@ -273,8 +273,8 @@
                                     ProfileId: "@Model.ProfileId",
                                     CultureCode: lang,
                                     CompanyName: $(companyName).val(),
-                                    BusinessDescription: $(businessDescription).val(),
-                                    ServicesProvided: $(servicesProvided).val()
+                                    "Metadata.BusinessDescription": $(businessDescription).val(),
+                                    "Metadata.ServicesProvided": $(servicesProvided).val()
                                 });
                 }
             });

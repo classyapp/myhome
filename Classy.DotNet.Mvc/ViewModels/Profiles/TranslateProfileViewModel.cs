@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
-    public class TranslateProfileViewModel
+    public class TranslateProfileViewModel<TProMetadata>
     {
         public string ProfileId { get; set; }
 
@@ -17,12 +17,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Display(Name = "TranslateProfile_CompanyName")]
         public string CompanyName { get; set; }
 
-        [Display(Name = "TranslateProfile_BusinessDescription")]
-        [System.Web.Mvc.AllowHtml]
-        public string BusinessDescription { get; set; }
-
-        [Display(Name = "TranslateProfile_ServicesProvided")]
-        [System.Web.Mvc.AllowHtml]
-        public string ServicesProvided { get; set; }
+        public TProMetadata Metadata { get; set; }
     }
 }

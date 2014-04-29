@@ -11,6 +11,7 @@ namespace Classy.DotNet.Mvc.Controllers
     public interface IMetadata<TMetadata> where TMetadata : new()
     {
         IDictionary<string, string> ToDictionary();
+        IDictionary<string, string> ToTranslationsDictionary();
         TMetadata FromDictionary(IDictionary<string, string> metadata);
         /// <summary>
         /// parses strings passed in from the controller into the metadata properties

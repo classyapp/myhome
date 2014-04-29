@@ -39,12 +39,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CsQuery">
-      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlSanitizer">
-      <HintPath>..\packages\HtmlSanitizer.1.0.4927.30873\lib\net45\HtmlSanitizer.dll</HintPath>
-    </Reference>
     <Reference Include="IP2Location">
       <HintPath>..\packages\IP2Location.IPGeolocation.1.0.1\lib\net40\IP2Location.dll</HintPath>
     </Reference>
@@ -76,6 +70,7 @@
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
     <Compile Include="Attributes\RequireHttpsAttribute.cs" />
+    <Compile Include="Attributes\TranslatableAttribute.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />

@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.ModelBinders;
 using Classy.DotNet.Mvc.Helpers;
+using Classy.DotNet.Mvc.Attributes;
+using Html;
 
 namespace MyHome.Models
 {
@@ -18,6 +20,7 @@ namespace MyHome.Models
         public string LicenseNo { get; set; }
         [Display(Name = "ProMetadata_ServicesProvided")]
         [System.Web.Mvc.AllowHtml]
+        [Translatable]
         public string ServicesProvided { get; set; }
         [Display(Name = "ProMetadata_AreasServed")]
         public string AreasServed { get; set; }
@@ -29,6 +32,7 @@ namespace MyHome.Models
         public string Awards { get; set; }
         [Display(Name = "ProMetadata_BusinessDescription")]
         [System.Web.Mvc.AllowHtml]
+        [Translatable]
         public string BusinessDescription { get; set; }
 
         public IDictionary<string, string> ToDictionary()
@@ -68,6 +72,30 @@ namespace MyHome.Models
         public string GetSearchFilterSlug(string keyword, Classy.DotNet.Responses.LocationView location)
         {
             return null;
+        }
+
+
+        public IDictionary<string, string> ToTranslationsDictionary()
+        {
+            IDictionary<string, string> metadata = new Dictionary<string, string>();
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedAttributes = new string[] { "style" };
+            sanitizer.AllowedCssProperties = new string[] { "direction" };
+
+            foreach (var property in this.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(TranslatableAttribute), true).Any()))
+            {
+                string value = (string)property.GetValue(this);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (property.GetCustomAttributes(typeof(System.Web.Mvc.AllowHtmlAttribute), true).Any())
+                    {
+                        value = sanitizer.Sanitize(value);
+                    }
+                    metadata.Add(property.Name, value);
+                }
+            }
+
+            return metadata;
         }
     }
 }

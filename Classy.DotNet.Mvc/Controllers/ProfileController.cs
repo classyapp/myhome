@@ -18,7 +18,6 @@ using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using System.Net.Mail;
 using Classy.DotNet.Mvc.Helpers;
-using Html;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -945,19 +944,20 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult Translate(string profileId, string cultureCode)
         {
             var profileService = new ProfileService();
-            TranslateProfileViewModel model = null;
+            TranslateProfileViewModel<TProMetadata> model = null;
             ProfileTranslationView translation = null;
 
             if (cultureCode == null)
             {
                 var profile = profileService.GetProfileById(profileId);
-                model = new TranslateProfileViewModel
+                model = new TranslateProfileViewModel<TProMetadata>
                 {
                     ProfileId = profileId,
                     CultureCode = profile.DefaultCulture,
                     CompanyName = profile.ProfessionalInfo.CompanyName,
-                    BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
-                    ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["ServicesProvided"] : string.Empty
+                    Metadata = (new TProMetadata()).FromDictionary(profile.Metadata)
+                    //BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
+                    //ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["ServicesProvided"] : string.Empty
                 };
             }
             else
@@ -982,32 +982,26 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Translate(TranslateProfileViewModel model)
+        public ActionResult Translate(TranslateProfileViewModel<TProMetadata> model)
         {
             try
             {
                 var profileService = new ProfileService();
+                Dictionary<string, string> metadata = (Dictionary<string, string>)model.Metadata.ToTranslationsDictionary();
 
                 if ((model.CompanyName == null || string.IsNullOrEmpty(model.CompanyName.Trim())) &&
-                    (model.BusinessDescription == null || string.IsNullOrEmpty(model.BusinessDescription.Trim())) &&
-                    (model.ServicesProvided == null || string.IsNullOrEmpty(model.ServicesProvided.Trim())))
+                    metadata.Count == 0)
                 {
                     profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
                 }
                 else
                 {
-                    var sanitizer = new HtmlSanitizer();
-                    sanitizer.AllowedAttributes = new string[] { "style" };
-                    sanitizer.AllowedCssProperties = new string[] { "direction" };
                     profileService.SaveTranslation(model.ProfileId, new ProfileTranslationView
                     {
                         CultureCode = model.CultureCode,
                         CompanyName = model.CompanyName,
-                        Metadata = new Dictionary<string, string> { 
-                            { "BusinessDescription", sanitizer.Sanitize(model.BusinessDescription) },
-                            { "ServicesProvided", sanitizer.Sanitize(model.ServicesProvided) }
-                        }
+                        Metadata = metadata
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
                 }
