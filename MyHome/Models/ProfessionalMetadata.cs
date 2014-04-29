@@ -82,18 +82,11 @@ namespace MyHome.Models
             sanitizer.AllowedAttributes = new string[] { "style" };
             sanitizer.AllowedCssProperties = new string[] { "direction" };
 
-            foreach (var property in this.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(TranslatableAttribute), true).Any()))
-            {
-                string value = (string)property.GetValue(this);
-                if (!string.IsNullOrEmpty(value))
-                {
-                    if (property.GetCustomAttributes(typeof(System.Web.Mvc.AllowHtmlAttribute), true).Any())
-                    {
-                        value = sanitizer.Sanitize(value);
-                    }
-                    metadata.Add(property.Name, value);
-                }
-            }
+            if (!string.IsNullOrEmpty(this.BusinessDescription))
+                metadata.Add("BusinessDescription", sanitizer.Sanitize(this.BusinessDescription));
+
+            if (!string.IsNullOrEmpty(this.ServicesProvided))
+                metadata.Add("ServicesProvided", sanitizer.Sanitize(this.ServicesProvided));
 
             return metadata;
         }

@@ -956,21 +956,14 @@ namespace Classy.DotNet.Mvc.Controllers
                     CultureCode = profile.DefaultCulture,
                     CompanyName = profile.ProfessionalInfo.CompanyName,
                     Metadata = (new TProMetadata()).FromDictionary(profile.Metadata)
-                    //BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
-                    //ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["ServicesProvided"] : string.Empty
                 };
             }
             else
             {
                 translation = profileService.GetTranslation(profileId, cultureCode);
-                if (translation.Metadata != null)
-                {
-                    translation.Metadata["BusinessDescription"] = translation.Metadata.ContainsKey("BusinessDescription") ? translation.Metadata["BusinessDescription"] : string.Empty;
-                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? translation.Metadata["ServicesProvided"] : string.Empty;
-                }
             }
 
-            if (Request.Headers["Accept"].ToLower().Contains("text/html"))
+            if (!Request.IsAjaxRequest())
             {
                 return PartialView(model);
             }
