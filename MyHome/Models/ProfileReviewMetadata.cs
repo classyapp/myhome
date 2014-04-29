@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Attributes;
 
 namespace MyHome.Models
 {
@@ -37,6 +38,14 @@ namespace MyHome.Models
         public string GetSearchFilterSlug(string keyword, Classy.DotNet.Responses.LocationView location)
         {
             throw new NotImplementedException();
+        }
+
+
+        public IDictionary<string, string> ToTranslationsDictionary()
+        {
+            IDictionary<string, string> metadata = new Dictionary<string, string>();
+
+            return metadata;
         }
     }
 }

@@ -260,7 +260,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else
                 {
-                    string url = Url.RouteUrl("PublicProfilePhotos", new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id }) + "?photosUploaded=1";
+                    string url = Url.RouteUrl(string.Format("PublicProfile{0}s", ListingTypeName), new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id }) + string.Format("?{0}sUploaded=1", ListingTypeName.ToLower());
                     return Redirect(url);
                 }
             }

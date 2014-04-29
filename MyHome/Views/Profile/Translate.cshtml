@@ -1,4 +1,4 @@
-﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.TranslateProfileViewModel
+﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.TranslateProfileViewModel<MyHome.Models.ProfessionalMetadata>
 
 @{
     IEnumerable<LocalizedListItem> cultures = Localizer.GetList("supported-cultures");
@@ -23,8 +23,8 @@
         @Html.Bootstrap().ValidationSummary()
         @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.BusinessDescription).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-        @f.FormGroup().TextAreaFor(x => x.ServicesProvided).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).ShowValidationMessage(false).Label().ShowRequiredStar(false)
 
         <div class="form-buttons">
             <button class="btn btn-default" data-dismiss="modal">@Localizer.Get("Cancel")</button>

@@ -153,5 +153,13 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(keyword)) slug = string.Concat(slug, string.IsNullOrEmpty(slug) ? "" : "/", keyword);
             return slug;
         }
+
+
+        public IDictionary<string, string> ToTranslationsDictionary()
+        {
+            IDictionary<string, string> metadata = new Dictionary<string, string>();
+
+            return metadata;
+        }
     }
 }

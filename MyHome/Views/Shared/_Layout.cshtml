@@ -330,10 +330,18 @@
         function CloseModal(data) { 
             if (data.IsValid) {
                 $('.modal').modal('hide');
-                if (data.SuccessMessage) {
-                    $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
-                }
+                displayMessage(data);
                 return true;
+            }
+        };
+
+        function displayMessage(data){
+            if (data && $(".ajax-alert").length == 1){
+                if (data.IsValid && data.SuccessMessage){
+                    $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
+                } else if (data.ErrorMessage) {
+                    $(".ajax-alert").html("<div class=\"alert alert-danger alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.ErrorMessage + "</p></div>");
+                }
             }
         };
 

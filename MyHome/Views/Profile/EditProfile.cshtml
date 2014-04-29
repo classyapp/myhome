@@ -4,7 +4,7 @@
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
     var cultures = Localizer.GetList("supported-cultures");
     var translationCultures = cultures.Where(c => c.Value != Model.DefaultCulture && c.Value != System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
-    var secondaryCulture = cultures.FirstOrDefault(c => c.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
+    var secondaryCulture = cultures.FirstOrDefault(c => c.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name && c.Value != Model.DefaultCulture);
 }
 
 @section AdditionalStyles{
@@ -74,7 +74,7 @@
                 @f.FormGroup().TextBoxFor(x => x.Phone).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 
                 <ul class="nav nav-tabs" id="translationTabs">
-                    <li class="active"><a href="#@Model.DefaultCulture" data-lang="@Model.DefaultCulture" data-toggle="tab">@cultures.GetText(Model.DefaultCulture)</a></li>
+                    <li class="active"><a href="#@Model.DefaultCulture" data-loaded="true" data-lang="@Model.DefaultCulture" data-toggle="tab">@cultures.GetText(Model.DefaultCulture)</a></li>
                     @if (secondaryCulture != null)
                     { 
                         <li><a href="#@secondaryCulture.Value" data-lang="@secondaryCulture.Value" data-toggle="tab">@secondaryCulture.Text</a></li>
@@ -86,7 +86,7 @@
                 </ul>
                 <p></p>
                 <div class="tab-content">
-                    <div class="tab-pane active" data-loaded="true" id="@Model.DefaultCulture">
+                    <div class="tab-pane active" id="@Model.DefaultCulture">
                         @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                         @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.BusinessDescription).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
                         @f.FormGroup().TextAreaFor(x => x.ProfessionalMetadata.ServicesProvided).ShowValidationMessage(false).Rows(5).Label().ShowRequiredStar(false)
@@ -207,23 +207,23 @@
                         },
                         success: {
                             label: Classy.Messages.Confirm_Save, className: "btn-danger", callback: function () {
-                                if (lang == _defaultCulture) {
-                                    // submit the form for default lang
-                                    $("#EditProfileForm")[0].submit();
-                                } else {
-                                    // save translation
-                                    $.post("/profile/@Model.ProfileId/translate/" + lang,
-                                        {
-                                            ProfileId: "@Model.ProfileId",
-                                            CultureCode: lang,
-                                            CompanyName: $(companyName).val(),
-                                            BusinessDescription: $(businessDescription).val(),
-                                            ServicesProvided: $(servicesProvided).val()
-                                        },
-                                        function (response) {
-                                            console.log(response);
-                                        });
-                                }
+                                // save translation
+                                $.post("/profile/@Model.ProfileId/translate/" + lang,
+                                    {
+                                        ProfileId: "@Model.ProfileId",
+                                        CultureCode: lang,
+                                        CompanyName: $(companyName).val(),
+                                        "Metadata.BusinessDescription": $(businessDescription).val(),
+                                        "Metadata.ServicesProvided": $(servicesProvided).val()
+                                    },
+                                    function (response) {
+                                        displayMessage(response);
+                                        setTimeout(function () {
+                                            $(companyName).data("value", $(companyName).val());
+                                            $(businessDescription).data("value", $(businessDescription).data("wysihtml5").editor.getValue());
+                                            $(servicesProvided).data("value", $(servicesProvided).data("wysihtml5").editor.getValue());
+                                        }, 1000);
+                                    });
                             }
                         }
                     }
@@ -239,9 +239,6 @@
                 $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_ServicesProvided").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
                 $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.getValue());
                 $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.getValue());
-
-                //$("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").val());
-                //$("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").val());
             }, 1000);
             $('#translationTabs').on('shown.bs.tab', function (e) {
                 var lang = $(e.target).data('lang');
@@ -276,8 +273,8 @@
                                     ProfileId: "@Model.ProfileId",
                                     CultureCode: lang,
                                     CompanyName: $(companyName).val(),
-                                    BusinessDescription: $(businessDescription).val(),
-                                    ServicesProvided: $(servicesProvided).val()
+                                    "Metadata.BusinessDescription": $(businessDescription).val(),
+                                    "Metadata.ServicesProvided": $(servicesProvided).val()
                                 });
                 }
             });

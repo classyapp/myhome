@@ -1,0 +1,26 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "EditProfile_SaveTranslation_Failed",
+			"Description": "message after failed saving a translation",
+			"Values": {
+				"en": "An error occurred while saving the translation."
+			},
+			{
+			"Key": "EditProfile_SaveTranslation_Success",
+			"Description": "message after translation update success",
+			"Values": {
+				"en": "Translation was successfully saved."
+				}
+			},
+			{
+			"Key": "EditProfile_Success",
+			"Description": "message after successful profile update",
+			"Values": {
+				"en": "Profile was successfuly saved."
+				}
+			}
+		}
+	]
+}

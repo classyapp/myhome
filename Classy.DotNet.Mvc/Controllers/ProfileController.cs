@@ -357,7 +357,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     null,
                     fields);
                 TempData["EditProfile_Success"] = true;
-                return RedirectToRoute("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() });
+                return Redirect(Url.RouteUrl("PublicProfile", new { ProfileId = model.ProfileId, Slug = AuthenticatedUserProfile.GetProfileName().ToSlug() }) + "?EditProfile_Success=true");
             }
             else return View(model);
         }
@@ -944,32 +944,26 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult Translate(string profileId, string cultureCode)
         {
             var profileService = new ProfileService();
-            TranslateProfileViewModel model = null;
+            TranslateProfileViewModel<TProMetadata> model = null;
             ProfileTranslationView translation = null;
 
             if (cultureCode == null)
             {
                 var profile = profileService.GetProfileById(profileId);
-                model = new TranslateProfileViewModel
+                model = new TranslateProfileViewModel<TProMetadata>
                 {
                     ProfileId = profileId,
                     CultureCode = profile.DefaultCulture,
                     CompanyName = profile.ProfessionalInfo.CompanyName,
-                    BusinessDescription = profile.Metadata.ContainsKey("BusinessDescription") ? profile.Metadata["BusinessDescription"] : string.Empty,
-                    ServicesProvided = profile.Metadata.ContainsKey("ServicesProvided") ? profile.Metadata["ServicesProvided"] : string.Empty
+                    Metadata = (new TProMetadata()).FromDictionary(profile.Metadata)
                 };
             }
             else
             {
                 translation = profileService.GetTranslation(profileId, cultureCode);
-                if (translation.Metadata != null)
-                {
-                    translation.Metadata["BusinessDescription"] = translation.Metadata.ContainsKey("BusinessDescription") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["BusinessDescription"]) : string.Empty;
-                    translation.Metadata["ServicesProvided"] = translation.Metadata.ContainsKey("ServicesProvided") ? (new MarkdownSharp.Markdown()).Transform(translation.Metadata["ServicesProvided"]) : string.Empty;
-                }
             }
 
-            if (Request.Headers["Accept"].ToLower().Contains("text/html"))
+            if (!Request.IsAjaxRequest())
             {
                 return PartialView(model);
             }
@@ -981,15 +975,15 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Translate(TranslateProfileViewModel model)
+        public ActionResult Translate(TranslateProfileViewModel<TProMetadata> model)
         {
             try
             {
                 var profileService = new ProfileService();
+                Dictionary<string, string> metadata = (Dictionary<string, string>)model.Metadata.ToTranslationsDictionary();
 
                 if ((model.CompanyName == null || string.IsNullOrEmpty(model.CompanyName.Trim())) &&
-                    (model.BusinessDescription == null || string.IsNullOrEmpty(model.BusinessDescription.Trim())) &&
-                    (model.ServicesProvided == null || string.IsNullOrEmpty(model.ServicesProvided.Trim())))
+                    metadata.Count == 0)
                 {
                     profileService.DeleteTranslation(model.ProfileId, model.CultureCode);
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_DeleteTranslation_Success") });
@@ -1000,17 +994,14 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         CultureCode = model.CultureCode,
                         CompanyName = model.CompanyName,
-                        Metadata = new Dictionary<string, string> { 
-                            { "BusinessDescription", (new Html2Markdown()).Convert(model.BusinessDescription) },
-                            { "ServicesProvided", (new Html2Markdown()).Convert(model.ServicesProvided) }
-                        }
+                        Metadata = metadata
                     });
                     return Json(new { IsValid = true, SuccessMessage = Localizer.Get("EditProfile_SaveTranslation_Success") });
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                return Json(new { IsValid = false, ErrorMessage = Localizer.Get("EditProfile_SaveTranslation_Failed") });
             }
         }
 
