@@ -1,0 +1,12 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "DeleteCollection_EmptyConfirmText",
+			"Description": "message after deleting last photo in a collection",
+			"Values": {
+				"en": "The collection is empty. Do you want to delete it?"
+			}
+		}
+	]
+}
