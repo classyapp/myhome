@@ -334,8 +334,19 @@ a, a:visited
 
 #articles .media
 {
-    max-height: 100px;
+    max-height: 228px;
 }
+
+#articles .media-body 
+{
+    padding: 10px;
+}
+
+#articles .media-body p
+{
+    font-size: 13px;
+}
+
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group
 {

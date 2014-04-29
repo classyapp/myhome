@@ -64,8 +64,8 @@
                 @foreach (var c in Model.Collections)
                 {
                     <li class="media">
-                        <a class="pull-left" href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "list" })">
-                            @Html.Thumbnail(c.CoverPhotos[0], 100)
+                        <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "list" })">
+                            @Html.Thumbnail(c.CoverPhotos[0], 380, 100)
                         </a>
 
                         <div class="media-body">
