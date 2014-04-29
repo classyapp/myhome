@@ -101,9 +101,10 @@ function bindTriggerActions(context) {
                                 thumb.prepend("<div class='deleted'></div>");
                                 // check last image
                                 if ($(".photo.thumbnail").length == $(".photo.thumbnail > div.deleted").length) {
+                                    var type = $(".collection.row").data("type");
                                     bootbox.dialog({
-                                        title: Classy.Messages["DeleteCollection_ConfirmTitle"],
-                                        message: Classy.Messages["DeleteCollection_EmptyConfirmText"],
+                                        title: Classy.Messages["Delete" + type + "_ConfirmTitle"],
+                                        message: Classy.Messages["Delete" + type + "_EmptyConfirmText"],
                                         onEscape: function () { },
                                         show: true,
                                         buttons: {
