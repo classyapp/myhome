@@ -44,7 +44,7 @@
             @if (!hasCountry || !hasCategory)
             {
                 <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")"><span itemprop="title">@Localizer.Get("ProfileSearch_AllProfessionals")</span></a>
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = "" })"><span itemprop="title">@Localizer.Get("ProfileSearch_AllProfessionals")</span></a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Category))
