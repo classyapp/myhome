@@ -1,7 +1,7 @@
 ﻿{
 	"AppId" : "v1.0",
 	"Resources": [
-		{ 
+			{ 
 			"Key": "EditProfile_SaveTranslation_Failed",
 			"Description": "message after failed saving a translation",
 			"Values": {
@@ -21,6 +21,5 @@
 				"en": "Profile was successfuly saved."
 				}
 			}
-		}
 	]
 }
