@@ -75,13 +75,14 @@ namespace MyHome.Deployment
 
                         // create the resource in the target database
                         var resourceAtTarget = GetResourceAtTargetEndpoint(resource.Key);
-                        if (resourceAtTarget == null || Settings.OverwriteExistingResourceValues)
+                        if (resourceAtTarget == null)
                         {
-                            SetResourceValuesAtTargetEndpoint(resource.Key, resource.Values);
+                            CreateResourceAtTargetEndpoint(resource);
                         }
                         else
                         {
-                            Console.WriteLine("\t\tAlready exists, will only update missing translations, if any");
+                            if (Settings.OverwriteExistingResourceValues) SetResourceValuesAtTargetEndpoint(resource.Key, resource.Values);
+                            else Console.WriteLine("\t\tAlready exists, will only update missing translations, if any");
                         }
 
                         // check for missing translations
@@ -165,6 +166,20 @@ namespace MyHome.Deployment
             client.Headers.Add("X-Classy-Env", string.Format("{{\"AppId\":\"{0}\"}}", Settings.AppId));
             client.Headers.Add("Authorization", "Basic RGVwbG95bWVudFVzZXI6ZDNQbDB5TDFrZUFCMHNT"); // username: DeploymentUser, password: d3Pl0yL1keAB0sS
             return client;
+        }
+
+        private void CreateResourceAtTargetEndpoint(Resource resource)
+        {
+            try
+            {
+                var client = GetWebClient();
+                var url = string.Concat(Settings.TargetApiEndpoint.Trim('/'), "/resource");
+                var resourceJson = client.UploadString(url, Newtonsoft.Json.JsonConvert.SerializeObject(new { Key = resource.Key, Values = resource.Values, Description = resource.Description }));
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private LocalizationResourceView SetResourceValuesAtTargetEndpoint(string key, IDictionary<string, string> values)

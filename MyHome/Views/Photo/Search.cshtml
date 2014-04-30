@@ -75,7 +75,7 @@
                         <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, null) })">x</a>
                     </span>
                 }
-                else if (hasTag)
+                if (hasTag)
                 {
                     <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                         <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(Model.Tag, null) })"><span itemprop="title">@Model.Tag</span></a>
