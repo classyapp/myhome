@@ -6,6 +6,7 @@
 			"Description": "message after failed saving a translation",
 			"Values": {
 				"en": "An error occurred while saving the translation."
+				}
 			},
 			{
 			"Key": "EditProfile_SaveTranslation_Success",
