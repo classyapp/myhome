@@ -69,6 +69,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     if (resource != null && resource.Values.ContainsKey(model.SelectedCulture))
                     {
                         model.ResourceValue = resource.Values[model.SelectedCulture];
+                        model.ResourceDescription = resource.Description;
                     }
                     else model.ResourceValue = null;
                 }

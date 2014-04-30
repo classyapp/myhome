@@ -161,6 +161,10 @@
     <Content Include="Content\rtl\bootstrap.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\rtl\fonts.css" />
+    <Content Include="Deployment\Classy.DotNet.dll" />
+    <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
+    <Content Include="Deployment\Deployment.exe" />
+    <Content Include="Deployment\Newtonsoft.Json.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
@@ -431,6 +435,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Deployment\Resources\markdown.resm" />
+    <Content Include="Deployment\Resources\DeletePhotos.resm" />
+    <Content Include="Deployment\Resources\manage-resources-page-fix-1.json" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />

@@ -8,6 +8,7 @@
 
 <div class="row">
     <div class="col-md-4 resourceListContainer">
+        <h4>@Localizer.Get("ManageResources_LoadTitle")</h4>
         <p>
             @using (var f = Html.Bootstrap().Begin(new Form("ManageResources").FormMethod(FormMethod.Get).Type(FormType.Inline)))
             {
@@ -15,6 +16,8 @@
                 @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("ManageResources_Get"))
             }
         </p>
+
+        <h4>@Localizer.Get("ManageResources_MissingTitle")</h4>
         <ul class="resourceList list-unstyled">
             @foreach (var key in Model.MissingResourceKeys)
             {
@@ -24,6 +27,7 @@
     </div>
     <div class="col-md-8">
         <h1>@Model.ResourceKey</h1>
+        <h4>@Model.ResourceDescription</h4>
         @using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
         {
             @Html.HiddenFor(x => x.ResourceKey)

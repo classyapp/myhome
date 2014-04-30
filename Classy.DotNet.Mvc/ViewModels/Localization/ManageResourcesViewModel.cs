@@ -19,6 +19,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Localization
         public string SelectedCulture { get; set; }
         [Required]
         public string ResourceValue { get; set; }
-        
+        public string ResourceDescription { get; set; }
     }
 }
