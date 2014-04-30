@@ -68,7 +68,7 @@
                     <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room }.GetSearchFilterSlug(null, null) })"><span itemprop="title">@rooms.Single(x => x.Value == Model.Metadata.Room).Text</span></a>
                     <a class="dismiss" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { }.GetSearchFilterSlug(null, null) })">x</a>
                 </span>
-                @if (hasStyle)
+                if (hasStyle)
                 {
                     <span class="label label-danger" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
                         <a class="content" itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = Model.Metadata.Room, Style = Model.Metadata.Style }.GetSearchFilterSlug(null, null) })"><span itemprop="title">@styles.Single(x => x.Value == Model.Metadata.Style).Text</span></a>
