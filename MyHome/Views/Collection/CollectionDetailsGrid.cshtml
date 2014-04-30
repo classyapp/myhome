@@ -31,7 +31,7 @@
     }
 }
 
-<div class="collection row">
+<div class="collection row" data-id="@Model.Id" data-type="@(Model.Type == "Project" ? "Project" : "Collection")">
     <div class="col-md-12">
         <h1>@Model.Title</h1>
         <div class="alert alert-dismissable hide" id="pageAlert">

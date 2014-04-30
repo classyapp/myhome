@@ -99,6 +99,32 @@ function bindTriggerActions(context) {
                                 $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
                             } else {
                                 thumb.prepend("<div class='deleted'></div>");
+                                // check last image
+                                if ($(".photo.thumbnail").length == $(".photo.thumbnail > div.deleted").length) {
+                                    var type = $(".collection.row").data("type");
+                                    bootbox.dialog({
+                                        title: Classy.Messages["Delete" + type + "_ConfirmTitle"],
+                                        message: Classy.Messages["Delete" + type + "_EmptyConfirmText"],
+                                        onEscape: function () { },
+                                        show: true,
+                                        buttons: {
+                                            cancel: {
+                                                label: Classy.Messages.Confirm_Cancel, className: "btn-default", callback: function () { }
+                                            },
+                                            success: {
+                                                label: Classy.Messages.Confirm_Yes, className: "btn-danger", callback: function () {
+                                                    $.post("/collection/" + $(".collection.row").data("id") + "/delete", function (response) {
+                                                        if ("error" in response) {
+                                                            $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
+                                                        } else {
+                                                            document.location.href = response.url;
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
