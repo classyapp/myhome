@@ -4,7 +4,7 @@
     ViewBag.Title = string.Concat(Model.Title, " - ", Model.Profile.GetProfileName());
     var meta = Model.Content ?? string.Empty;
     ViewBag.MetaDescription = (!string.IsNullOrEmpty(Model.Content) && Model.Content.Length > 256) ? Model.Content.Substring(0, 256) : Model.Content;
-    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo") : new List<Classy.DotNet.Responses.ListingView>();
+    var photos = Model.Listings != null ? Model.Listings.Where(x => x.ListingType == "Photo").ToDictionary(x => x.Id, x => x) : new Dictionary<string, Classy.DotNet.Responses.ListingView>();
     var comments = Model.IncludedListings != null ? Model.IncludedListings.ToDictionary(l => l.Id, l => l.Comments) : new Dictionary<string, string>();
     var proCategories = Localizer.GetList("professional-categories");
 }
@@ -57,8 +57,9 @@
         <div class="row" id="photos">
             @if (photos != null)
             {
-                foreach (var p in photos)
+                foreach (var id in comments.Keys)
                 {
+                    var p = photos[id];
                     if (p.ExternalMedia.Count() > 0 && !string.IsNullOrEmpty(p.ExternalMedia[0].Url))
                     {
                 <div class="article-paragraph">
