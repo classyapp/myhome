@@ -75,7 +75,7 @@ namespace MyHome.Deployment
 
                         // create the resource in the target database
                         var resourceAtTarget = GetResourceAtTargetEndpoint(resource.Key);
-                        if (resourceAtTarget != null && Settings.OverwriteExistingResourceValues)
+                        if (resourceAtTarget == null || Settings.OverwriteExistingResourceValues)
                         {
                             SetResourceValuesAtTargetEndpoint(resource.Key, resource.Values);
                         }
