@@ -1,23 +1,22 @@
 @model Classy.DotNet.Mvc.ViewModels.Localization.ManageResourcesViewModel
 @{
     ViewBag.Title = "ManageResources";
+    var isInvalidKey = TempData["InvalidKey"] != null;
+    var supportedCultures = Localizer.GetList("supported-cultures");
 }
 
 <h2>@Localizer.Get("ManageResources_Title")</h2>
 
-
 <div class="row">
     <div class="col-md-4 resourceListContainer">
         <h4>@Localizer.Get("ManageResources_LoadTitle")</h4>
-        <p>
-            @using (var f = Html.Bootstrap().Begin(new Form("ManageResources").FormMethod(FormMethod.Get).Type(FormType.Inline)))
-            {
-                @f.FormGroup().TextBoxFor(x => x.ResourceKey).Placeholder(Localizer.Get("ManageResources_KeyPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
-                @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("ManageResources_Get"))
-            }
-        </p>
-
-        <h4>@Localizer.Get("ManageResources_MissingTitle")</h4>
+        @using (var f = Html.Bootstrap().Begin(new Form("ManageResources").FormMethod(FormMethod.Get).Type(FormType.Inline)))
+        {
+            @f.FormGroup().TextBoxFor(x => x.ResourceKey).Placeholder(Localizer.Get("ManageResources_KeyPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
+            @Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("ManageResources_Get"))
+        }
+        <hr />
+        <h4>@string.Format(Localizer.Get("ManageResources_MissingTitle"), supportedCultures.GetText(Model.SelectedCulture))</h4>
         <ul class="resourceList list-unstyled">
             @foreach (var key in Model.MissingResourceKeys)
             {
@@ -25,14 +24,26 @@
             }
         </ul>
     </div>
+
     <div class="col-md-8">
-        <h1>@Model.ResourceKey</h1>
-        <h4>@Model.ResourceDescription</h4>
-        @using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
+        @if (isInvalidKey)
         {
-            @Html.HiddenFor(x => x.ResourceKey)
-            @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(20).ShowValidationMessage(false).Label().Class("sr-only")
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("ManageResources_Submit")))
+            @Html.Bootstrap().Alert(string.Format(Localizer.Get("ManageResources_InvalidKey"), Model.ResourceKey)).Closeable().Style(AlertColor.Danger)
+        }
+        else if (!string.IsNullOrEmpty(Model.ResourceKey))
+        {
+            if (TempData["Success"] != null)
+            {
+                @Html.Bootstrap().Alert(Localizer.Get("ManageResources_Success")).Closeable().Style(AlertColor.Success)
+            }
+            <h1>@Model.ResourceKey</h1>
+            <h4 style="direction: ltr">@Model.ResourceDescription</h4>
+            using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
+            {
+                @Html.HiddenFor(x => x.ResourceKey)
+                @f.FormGroup().TextAreaFor(x => x.ResourceValue).Rows(20).ShowValidationMessage(false).Label().Class("sr-only")
+                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("ManageResources_Submit")))
+            }
         }
     </div>
 </div>

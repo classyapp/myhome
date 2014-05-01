@@ -25,7 +25,6 @@ namespace Classy.DotNet.Services
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var resourceJson = client.DownloadString(GET_ALL_RESOURCES_URL);
                 var resourceKeys = resourceJson.FromJson<IList<LocalizationResourceView>>();
-                var noValues = resourceKeys.Where(x => x.Values == null);
                 return resourceKeys.Where(x => !x.Values.Any(y => y.Key == culture)).OrderBy(x => x.Key).Select(x => x.Key).ToArray();
             }
             catch (WebException wex)
