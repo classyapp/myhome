@@ -1518,3 +1518,29 @@ div.thumbs4 > div.thumb
     text-overflow: ellipsis;
     display: block;
 }
+
+#sameProject .panel-body, #sameWebOrigin .panel-body
+{
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+#projectsSameProfile .panel-body
+{
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#sameProject img, #sameWebOrigin img
+{
+    float: left;
+    padding: 2px;
+    border: 1px solid #c1c1c1;
+    margin: 2px;
+}
+
+#sameProject .panel-heading, #sameWebOrigin .panel-heading, #projectsSameProfile .panel-heading
+{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
