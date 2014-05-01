@@ -715,6 +715,33 @@ span.address2
     font-size: 12px;
 }
 
+.new-object {
+    text-align: center;
+    height: 218px;
+}
+
+.new-object i {
+    font-size: 72px;
+    color: #999;
+}
+
+.new-object a, 
+.new-object a:hover {
+    border: dashed 3px #999;
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+    padding-top: 50px;
+    color: #999;
+}
+
+.new-object p {
+    color: #999;
+}
+
 /* Login page */
 .login
 {
