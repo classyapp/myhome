@@ -38,7 +38,7 @@
 
     <div class="col-md-7">
         <div class="photo clearfix">
-            <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
+            @Html.Thumbnail(Model.Listing, 640, 0)
             @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
@@ -76,6 +76,8 @@
                 </dd>
             </dl>
         </div>
+
+        <div id="moreCollections"></div>
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
@@ -95,6 +97,9 @@
         @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
 
         <hr />
+
+        <div id="moreinfo"></div>
+
         <div>
             <p>
                 <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
@@ -137,3 +142,17 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script type="text/ecmascript">
+        $(function () {
+            // load more info
+            $.get("/photo/@Model.Listing.Id/more", null, function (response) {
+                var html = $(response);
+                $("#moreinfo").html(html.find("#sameProject"));
+                $("#moreCollections").html(html.find("#projectsSameProfile"));
+            });
+        });
+    </script>
+}

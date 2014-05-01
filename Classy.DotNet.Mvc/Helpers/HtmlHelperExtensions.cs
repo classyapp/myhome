@@ -104,10 +104,15 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width)
         {
+            return Thumbnail(html, listing, width, width);
+        }
+
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height)
+        {
             if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0)
             {
-                string url = string.Format("//{0}/thumbnail/{1}?Width={2}&format=json",
-                    ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, width);
+                string url = string.Format("//{0}/thumbnail/{1}?Width={2}&Height={3}&format=json",
+                    ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, width, height.GetValueOrDefault(0));
                 return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
                                     url, listing.Title, listing.Title));
             }

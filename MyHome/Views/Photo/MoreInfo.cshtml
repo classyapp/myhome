@@ -1,0 +1,45 @@
+﻿@model Classy.DotNet.Responses.ListingMoreInfoView
+
+<div>
+    @*Same Project / Collection Lsitings*@
+    @if (Model.CollectionLisitngs != null && Model.CollectionLisitngs.Count > 0)
+    {
+        <div class="panel panel-default" id="sameProject">
+            <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_PhotosTitle")</div>
+            <div class="panel-body">
+                @foreach (var listing in Model.CollectionLisitngs)
+                {
+                    @Html.Thumbnail(listing, 80)
+                }
+            </div>
+        </div>
+    }
+
+    @*Projects / Collections from same User*@
+    @if (Model.Collections != null && Model.Collections.Count > 0)
+    {
+        <div class="panel panel-default" id="projectsSameProfile">
+            <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle")</div>
+            <div class="panel-body">
+                @foreach (var collection in Model.Collections)
+                {
+                    <div class="col-md-4">
+                        <div class="photo thumbnail">
+                            <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = collection.Id, view = "grid" })">
+                                @Html.Partial("Thumbnails", collection.CoverPhotos)
+                                <div class="details">
+                                    <strong title="@collection.Title">@collection.Title</strong>
+                                    <ul class="stats list-inline list-unstyled">
+                                        <li><span><i class="glyphicon glyphicon-eye-open"></i>@collection.ViewCount</span></li>
+                                        <li><span><i class="glyphicon glyphicon-heart-empty"></i>@collection.FavoriteCount</span></li>
+                                        <li><span><i class="glyphicon glyphicon-comment"></i>@collection.CommentCount</span></li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
