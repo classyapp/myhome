@@ -683,13 +683,14 @@ namespace Classy.DotNet.Services
         }
         #endregion
 
-        public ListingMoreInfoView GetLisingMoreInfo(string listingId)
+        public ListingMoreInfoView GetLisingMoreInfo(string listingId, Dictionary<string, string> metadata)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
                 var url = string.Format(GET_LISTING_MORE_INFO_URL, listingId);
-                var listingJson = client.DownloadString(url);
+                var data = new { LsitingId = listingId, Metadata = metadata };
+                var listingJson = client.UploadString(url, data.ToJson());
                 var listing = listingJson.FromJson<ListingMoreInfoView>();
                 return listing;
             }

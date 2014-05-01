@@ -23,6 +23,7 @@ namespace MyHome.Models
         [BooleanRequired(ErrorMessage = "PhotoMetadata_Terms_Required")]
         public bool AgreeToTerms { get; set; }
         public bool IsWebPhoto { get; set; }
+        public string Host { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -31,6 +32,18 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Style)) list.Add("Style", Style);
             if (!string.IsNullOrEmpty(CopyrightMessage)) list.Add("CopyrightMessage", CopyrightMessage);
             list.Add("IsWebPhoto", IsWebPhoto.ToString());
+            if (string.IsNullOrWhiteSpace(Host) && IsWebPhoto && !string.IsNullOrWhiteSpace(CopyrightMessage))
+            {
+                Uri uri = null;
+                if (Uri.TryCreate(CopyrightMessage, UriKind.RelativeOrAbsolute, out uri))
+                {
+                    list.Add("Host", uri.DnsSafeHost);
+                }
+                
+            } else if (!string.IsNullOrWhiteSpace(Host))
+            {
+                list.Add("Host", Host);
+            }
             return list;
         }
 
@@ -41,6 +54,7 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Style")) output.Style = metadata["Style"];
             if (metadata.ContainsKey("CopyrightMessage")) output.CopyrightMessage = metadata["CopyrightMessage"];
             if (metadata.ContainsKey("IsWebPhoto")) output.IsWebPhoto = bool.Parse(metadata["IsWebPhoto"]);
+            if (metadata.ContainsKey("Host")) output.Host = metadata["Host"];
             return output;
         }
 

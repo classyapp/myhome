@@ -148,15 +148,20 @@
 
 @section scripts
 {
-    <script type="text/ecmascript">
+    <script type="text/javascript">
         $(function () {
+            var metadata = {};
+            @if (Model.Metadata.IsWebPhoto && !string.IsNullOrWhiteSpace(Model.Metadata.Host))
+            {
+                @:metadata = { "IsWebPhoto": "True", "Host": "@Model.Metadata.Host" };
+            }
             // load more info
-            $.get("/photo/@Model.Listing.Id/more", null, function (response) {
+            $.get("/photo/@Model.Listing.Id/more", { Metadata: metadata }, function (response) {
                 var html = $(response);
                 $("#moreinfo").append(html.find("#sameProject"));
                 $("#moreinfo").append(html.find("#sameWebOrigin"));
                 $("#moreCollections").html(html.find("#projectsSameProfile"));
-            });
+            }, "html");
         });
     </script>
 }

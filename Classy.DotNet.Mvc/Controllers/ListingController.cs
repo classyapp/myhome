@@ -631,10 +631,10 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult GetListingMoreInfo(string listingId)
+        public ActionResult GetListingMoreInfo(ListingMoreInfoViewModel model)
         {
             var listingService = new ListingService();
-            var info = listingService.GetLisingMoreInfo(listingId);
+            var info = listingService.GetLisingMoreInfo(model.ListingId, model.Metadata);
 
             return PartialView("MoreInfo", info);
         }
