@@ -12,7 +12,10 @@
 @section MetaTags {
     <meta name="og:title" content="@Model.Listing.Title" />
     <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? string.Format(Localizer.Get("PhotoDetails_Description", false), rooms.GetText(Model.Metadata.Room), styles.GetText(Model.Metadata.Style), Model.Listing.Profile.GetProfileName()) : Model.Listing.Content)" />
-    <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+    @if (Model.Listing.ExternalMedia.Count > 0)
+    {
+        <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+    }
 }
 
 @section ActionBar {
@@ -150,7 +153,8 @@
             // load more info
             $.get("/photo/@Model.Listing.Id/more", null, function (response) {
                 var html = $(response);
-                $("#moreinfo").html(html.find("#sameProject"));
+                $("#moreinfo").append(html.find("#sameProject"));
+                $("#moreinfo").append(html.find("#sameWebOrigin"));
                 $("#moreCollections").html(html.find("#projectsSameProfile"));
             });
         });
