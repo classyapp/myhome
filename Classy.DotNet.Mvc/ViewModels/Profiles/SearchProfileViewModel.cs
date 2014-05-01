@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
@@ -32,11 +33,13 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
 
         public string ToSlug()
         {
+            string invalidString = string.Format("[{0}]", Regex.Escape(new string(Path.GetInvalidPathChars()) + new string(Path.GetInvalidFileNameChars())));
+
             return Path.Combine(
-                this.Category ?? string.Empty,
-                this.City ?? string.Empty,
-                this.Country ?? string.Empty, 
-                this.Name ?? string.Empty).ToLower().Replace('\\', '/');
+                Regex.Replace(this.Category ?? string.Empty, invalidString, string.Empty),
+                Regex.Replace(this.City ?? string.Empty, invalidString, string.Empty),
+                Regex.Replace(this.Country ?? string.Empty,  invalidString, string.Empty),
+                Regex.Replace(this.Name ?? string.Empty, invalidString, string.Empty)).ToLower().Replace('\\', '/');
         }
     }
 }
