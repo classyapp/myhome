@@ -437,6 +437,7 @@
     <Content Include="Deployment\Resources\markdown.resm" />
     <Content Include="Deployment\Resources\DeletePhotos.resm" />
     <Content Include="Deployment\Resources\manage-resources-page-fix-1.json" />
+    <Content Include="Deployment\Resources\photo-more-info.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />

@@ -5,7 +5,7 @@
     @if (Model.CollectionLisitngs != null && Model.CollectionLisitngs.Count > 0)
     {
         <div class="panel panel-default" id="sameProject">
-            <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_PhotosTitle")</div>
+            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_PhotosTitle"), Model.CollectionType)</div>
             <div class="panel-body">
                 @foreach (var listing in Model.CollectionLisitngs)
                 {
@@ -37,7 +37,7 @@
     @if (Model.Collections != null && Model.Collections.Count > 0)
     {
         <div class="panel panel-default" id="projectsSameProfile">
-            <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle")</div>
+            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle"), Model.CollectionType, Model.Profile.GetProfileName())</div>
             <div class="panel-body">
                 @foreach (var collection in Model.Collections)
                 {
