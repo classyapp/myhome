@@ -313,6 +313,16 @@
                                     </div>
                                 }
                             }
+                            @if (Model.Profile.CanEdit()) {
+                                <div class="col-md-4 new-object">
+                                    <a href="@Url.RouteUrl("CreatePhoto", "PhotoController")">
+                                        <div>
+                                            <i class="fa fa-plus-circle"></i>
+                                            <p>@Localizer.Get("PublicProfile_CreateNewProject")</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
                         </div>
                         <div class="row tab-pane @(projects.Count() == 0 ? "active" : "")" id="webphotos">
                             <div class="col-md-12">
@@ -362,6 +372,16 @@
                                     </div>
                                 </div>
                             }
+                        }
+                        @if (!Model.Profile.IsProfessional && Model.Profile.CanEdit()) {
+                            <div class="col-md-4 new-object">
+                                <a href="@Url.RouteUrl("CreatePhoto", "PhotoController")">
+                                    <div>
+                                        <i class="fa fa-plus-circle"></i>
+                                        <p>@Localizer.Get("PublicProfile_CreateNewPhotobook")</p>
+                                    </div>
+                                </a>
+                            </div>
                         }
                     </div>
 
