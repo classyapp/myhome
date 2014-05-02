@@ -18,12 +18,12 @@
     }
     
     @*Photos from the same origin site*@
-    @if (Model.WebListings != null && Model.WebListings.Count > 0)
+    @if (Model.SearchResults != null && Model.SearchResults.Count > 0)
     {
          <div class="panel panel-default" id="sameWebOrigin">
             <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_WebOriginTitle")</div>
             <div class="panel-body">
-                @foreach (var listing in Model.WebListings)
+                @foreach (var listing in Model.SearchResults)
                 {
                     <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = listing.Id, Slug = listing.Title.ToSlug() })" title="@listing.Title">
                         @Html.Thumbnail(listing, 80)

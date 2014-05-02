@@ -88,37 +88,64 @@ namespace Classy.DotNet.Mvc
         #endregion
 
         // photo thumb
+
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, string key, int width, int height)
+        {
+            return Thumbnail(html, key, width, height, true);
+        }
+
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, string key, int width, int height, bool setSize)
         {
             var url = string.Format("//{0}/thumbnail/{1}?Width={2}&Height={3}&format=json",
                 ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], key, width, height);
-            return new MvcHtmlString(string.Format("<img src=\"{0}\" class=\"img-responsive\" />",
-                                    url));
+            if (setSize)
+            {
+                return new MvcHtmlString(
+                    string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-src=\"{0}\" class=\"img-responsive\" width=\"{1}\" height=\"{2}\" />", url, width, height) +
+                    string.Format("<noscript><img src=\"{0}\" class=\"img-responsive\" width=\"{1}\" height=\"{2}\" /></noscript>", url, width, height)
+                );
+            }
+            else
+            {
+                return new MvcHtmlString(
+                    string.Format("<img src=\"/img/missing-thumb.png\"  data-rel=\"thumbnail\" data-src=\"{0}\" class=\"img-responsive\" data-rel=\"thumbnail\" />", url) +
+                    string.Format("<noscript><img src=\"{0}\" class=\"img-responsive\" /></noscript>", url)
+                );
+            }
         }
 
         // photo thumb
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, string key, int width)
         {
-            return Thumbnail(html, key, width, width);
+            return Thumbnail(html, key, width, width, true);
         }
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width)
         {
-            return Thumbnail(html, listing, width, width);
+            return Thumbnail(html, listing, width, width, true);
         }
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height)
         {
+            return Thumbnail(html, listing, width, height, true);
+        }
+
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize)
+        {
+            setSize &= height.HasValue;
+            string sizeString = setSize ? string.Format(" width=\"{0}\" height=\"{1}\" ", width, height.Value) : string.Empty;
             if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0)
             {
                 string url = string.Format("//{0}/thumbnail/{1}?Width={2}&Height={3}&format=json",
                     ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, width, height.GetValueOrDefault(0));
-                return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
-                                    url, listing.Title, listing.Title));
+
+                return new MvcHtmlString(
+                    string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString) +
+                    string.Format("<noscript><img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" /></noscript>", url, listing.Title, listing.Title, sizeString)
+                    );
             }
 
-            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" class=\"img-responsive\" />",
-                                    "/img/missing-thumb.png", listing.Title, listing.Title));
+            return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", "/img/missing-thumb.png", listing.Title, listing.Title, sizeString));
         }
 
         public static MvcHtmlString ListingLink(this System.Web.Mvc.HtmlHelper html, string listingType, ListingView listing)
