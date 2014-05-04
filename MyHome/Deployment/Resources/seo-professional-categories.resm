@@ -1,0 +1,172 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+				"Key": "SEO_SearchProfessionals_All_Professionals",
+				"Description": "pro category description for SEO",
+				"Values": {
+					"en": "All Professionals"
+					}
+			},
+			{ 
+				"Key": "SEO_SearchProfessionals_architects-designers",
+				"Description": "description of professional category for SEO",
+				"Values":
+				{
+						"en": "category description"
+				} 
+			},
+			{       
+					"Key": "SEO_SearchProfessionals_interior-designers",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_contractors-and-home-builders",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_kitchen-design",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_bathroom-design",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{       
+					"Key": "SEO_SearchProfessionals_bedroom-design",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_kids-and-nursery",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_garden-pool-and-outdoor",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_wallpaper-and-paint",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_furniture-and-accessories",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_cabinets-closets-and-storage",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{       
+					"Key": "SEO_SearchProfessionals_stone-tiles-and-flooring",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_glasswork-and-mirrors",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_ironwork",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_lighting",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_ecological-building-and-solutions",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_heating-and-air-conditioning",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_doors-and-windows",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_tools-and-diy",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			},
+			{ 
+					"Key": "SEO_SearchProfessionals_photographers",
+					"Description": "description of professional category for SEO",
+					"Values":
+					{
+							"en": "category description"
+					} 
+			}
+	]
+}
