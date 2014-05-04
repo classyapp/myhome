@@ -1,0 +1,19 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "PublicProfile_CreateNewProject",
+			"Description": "text on button on the projects section of the public profile page. this button lets a user create a new project.",
+			"Values": {
+				"en": "Create New Project"
+				}
+			},
+			{
+			"Key": "PublicProfile_CreateNewPhotobook",
+			"Description": "text on button on the projects section of the public profile page. this button lets a user create a new photo book.",
+			"Values": {
+				"en": "Create New Collection"
+				}
+			}
+	]
+}

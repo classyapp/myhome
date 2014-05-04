@@ -9,6 +9,7 @@
                 var page = iscroll.data("page") + 1;
                 var url = iscroll.data("url");
                 var data = parseQueryString();
+                delete data.page;
                 data.Page = page;
                 $("#iscrollLoading").toggleClass("hidden");
                 $.get(url, data, function (response) {

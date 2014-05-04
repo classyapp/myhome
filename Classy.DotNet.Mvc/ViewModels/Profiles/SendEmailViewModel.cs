@@ -4,15 +4,21 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using Classy.DotNet.Mvc.Attributes;
+using Classy.DotNet.Mvc.ModelBinders;
 
 namespace Classy.DotNet.Mvc.ViewModels.Profiles
 {
+    [ModelBinder(typeof(CommaSeparatedToList))]
     public class SendEmailViewModel
     {
         public string ProfileId { get; set; }
         [Required(ErrorMessage = "SendEmail_RecipientsRequired")]
         [Display(Name = "SendEmail_Recipients")]
-        public string Recipients { get; set; }
+        [EveryItemIs(Validators = new Type[] { typeof(EmailAddressAttribute) })]
+        [CommaSeparated]
+        public IList<string> Reciepients { get; set; }
         [Required(ErrorMessage = "SendEmail_SubjectRequired")]
         [Display(Name = "SendEmail_Subject")]
         public string Subject { get; set; }

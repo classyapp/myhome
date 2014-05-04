@@ -48,7 +48,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var model = new ManageResourcesViewModel {
                 SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList(),
-                ResourceKeys = Localizer.GetAllKeys(),
+                MissingResourceKeys = Localizer.GetMissingKeys(),
                 SelectedCulture = GetEnvFromContext().CultureCode,
                 ResourceKey = resourceKey
             };
@@ -66,11 +66,19 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     var service = new LocalizationService();
                     var resource = service.GetResourceByKey(resourceKey, false);
-                    if (resource != null && resource.Values.ContainsKey(model.SelectedCulture))
+                    if (resource != null)
                     {
-                        model.ResourceValue = resource.Values[model.SelectedCulture];
+                        model.ResourceDescription = resource.Description;
+                        if (resource.Values.ContainsKey(model.SelectedCulture))
+                        {
+                            model.ResourceValue = resource.Values[model.SelectedCulture];
+                        }
                     }
-                    else model.ResourceValue = null;
+                    else
+                    {
+                        model.ResourceValue = null;
+                        TempData["InvalidKey"] = true;
+                    }
                 }
             }
             return View(model);
@@ -84,7 +92,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult ManageResources(ManageResourcesViewModel model, object dummy)
         {
             model.ResourceValue = model.ResourceValue;
-            model.ResourceKeys = Localizer.GetAllKeys();
+            model.MissingResourceKeys = Localizer.GetMissingKeys();
             model.SelectedCulture = GetEnvFromContext().CultureCode;
             var service = new LocalizationService();
             if (model.ResourceKey.StartsWith("List__"))
@@ -102,6 +110,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 HttpRuntime.Cache.Remove(model.ResourceKey);
             }
             model.SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList();
+            TempData["Success"] = true;
             return View(model);
         }
 

@@ -283,7 +283,7 @@ namespace Classy.DotNet.Services
                 string json = Encoding.UTF8.GetString(bytes);
                 ProfileView profile = json.FromJson<ProfileView>();
 
-                return profile.Avatar.Url;
+                return profile.Avatar.Key;
             }
             catch (WebException wex)
             {
@@ -415,7 +415,8 @@ namespace Classy.DotNet.Services
             {
                 var client = ClassyAuth.GetAuthenticatedWebClient();
                 var profile = GetAuthenticatedProfile();
-                var data = new { ReplyTo = profile.ProfessionalInfo.CompanyContactInfo.Email, To = recipients.Select(r => r.Address).ToArray(), Subject = subject, Body = body }.ToJson();
+                var replyTo = profile.IsProfessional ? profile.ProfessionalInfo.CompanyContactInfo.Email : profile.ContactInfo.Email;
+                var data = new { ReplyTo = replyTo, To = recipients.Select(r => r.Address).ToArray(), Subject = subject, Body = body }.ToJson();
                 var json = client.UploadString(SEND_EMAIL_URL, data);
             }
             catch (WebException wex)

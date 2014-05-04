@@ -20,7 +20,7 @@
             <div class="panel-body panel-links">
                 @foreach (var c in categories)
                 {
-                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = c.Value })
+                    @Html.RouteLinkForCurrentLocale(c.Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Country, City = Model.City, Category = c.Value }.ToSlug() })
                 }
             </div>
         </div>
@@ -44,7 +44,7 @@
             @if (!hasCountry || !hasCategory)
             {
                 <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles")"><span itemprop="title">@Localizer.Get("ProfileSearch_AllProfessionals")</span></a>
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = "" })"><span itemprop="title">@Localizer.Get("ProfileSearch_AllProfessionals")</span></a>
                 </span>
             }
             @if (!string.IsNullOrEmpty(Model.Category))
@@ -68,8 +68,9 @@
             @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").RouteValues(new { filters = "" }).Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
-                @*@f.FormGroup().DropDownListFor(x => x.Country, countries.AsSelectList()).ShowValidationMessage(false).Label().Class("sr-only")*@
-                @f.FormGroup().TextBoxFor(x => x.City).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
+                @Html.HiddenFor(x => x.Country)
+                @Html.HiddenFor(x => x.City)
+                @f.FormGroup().TextBox("Locality").Id("Locality").Value(string.Concat(Model.City, !string.IsNullOrEmpty(Model.City) ?  ", " : "", countries.GetText(Model.CountryCode))).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
                 @Html.TextBoxFor(x => x.Latitude, new { @class = "hidden" })
                 @Html.TextBoxFor(x => x.Longitude, new { @class = "hidden" })
@@ -110,7 +111,7 @@
         <div class="row">
             <div class="col-md-offset-3 col-md-9">
                 <div class="more-info">
-                    <p>@Localizer.Get(string.Concat("ProCategoryDescription_", Model.Category ?? "All_Professionals"))</p>
+                    <p>@Html.Raw(Localizer.Get(string.Concat("ProCategoryDescription_", Model.Category ?? "All_Professionals")))</p>
                 </div>
             </div>
         </div>
@@ -136,19 +137,49 @@
                 $("#Longitude").val("");
             }
         });
-        @if (!string.IsNullOrEmpty(Model.Country))
-        {
-            if (!string.IsNullOrEmpty(Model.City))
-            {
-                @:$("#City").val("@string.Format("{0}, {1}", Model.City, Model.Country)")
-            }
-            else
-            {
-                @:$("#City").val("@Model.Country")
-            }
-        }
-        $('.typeahead').typeahead({
-            local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
-        });
+
+        var validLocation = true;
+        $('.typeahead')
+            .typeahead({
+                local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
+                })
+            .on('typeahead:opened', function() {
+                validLocation = false;
+            })
+            .on('typeahead:selected', function (e, item) {
+                if (item.value.indexOf(',') > -1) {
+                    var parts = item.value.split(',');
+                    $('#City').val(parts[0]);
+                    $('#Country').val(parts[1].trim());
+                } else {
+                    $('#City').val('');
+                    $('#Country').val(item.value);
+                }
+                validLocation = true;
+            })
+            .on('typeahead:autocompleted', function (e, item) {
+                if (item.value.indexOf(',') > -1) {
+                    var parts = item.value.split(',');
+                    $('#City').val(parts[0]);
+                    $('#Country').val(parts[1].trim());
+                } else {
+                    $('#City').val('');
+                    $('#Country').val(item.value);
+                }
+                validLocation = true;
+            })
+            .on('typeahead:closed', function() {
+                if (!validLocation)
+                {
+                    $('#City').val('');
+                    $('#Country').val('');
+                }
+            })
+            .on('change', function() {
+                if ($(this).val() == '') {
+                    $('#City').val('');
+                    $('#Country').val('');
+                }
+            });
     </script>
 }

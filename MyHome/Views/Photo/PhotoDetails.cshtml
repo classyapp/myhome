@@ -1,11 +1,18 @@
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.PhotoMetadata>
 
 @{
-    ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Metadata.Style, " - ", Model.Metadata.Room, " - ", Model.Listing.Profile.GetProfileName());
-    ViewBag.MetaDescription = Model.Listing.Content;
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
+    
+    ViewBag.Title = string.Concat(Model.Listing.Title, " - ", styles.GetText(Model.Metadata.Style), " - ", rooms.GetText(Model.Metadata.Room), " - ", Model.Listing.Profile.GetProfileName());
+    ViewBag.MetaDescription = Model.Listing.Content;
+}
+
+@section MetaTags {
+    <meta name="og:title" content="@Model.Listing.Title" />
+    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? string.Format(Localizer.Get("PhotoDetails_Description", false), rooms.GetText(Model.Metadata.Room), styles.GetText(Model.Metadata.Style), Model.Listing.Profile.GetProfileName()) : Model.Listing.Content)" />
+    <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
 }
 
 @section ActionBar {
@@ -21,7 +28,12 @@
             @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
         }
 
-        <div class="ajax-alert"></div>
+        <div class="ajax-alert">
+            @if (Request.QueryString["msg"] != null)
+            {
+                <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><p>@Localizer.Get(Request.QueryString["msg"])</p></div> 
+            }
+        </div>
     </div>
 
     <div class="col-md-7">
@@ -59,7 +71,7 @@
                 <dd>
                     @foreach (var t in Model.Listing.Hashtags)
                     {
-                        @Html.RouteLinkForCurrentLocale(t, "SearchPhoto", new { filters = t.TrimStart('#') })<span>&nbsp;</span>
+                        @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchPhoto", new { filters = t.TrimStart('#').ToLower().Replace("  "," ").Replace(" ","-") })<span>&nbsp;</span>
                     }
                 </dd>
             </dl>
@@ -111,7 +123,7 @@
             @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
             {
                 @Html.Hidden("ListingId", Model.Listing.Id);
-                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().WidthLg(12).LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
             }
         </div>

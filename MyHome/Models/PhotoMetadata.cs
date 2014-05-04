@@ -43,7 +43,7 @@ namespace MyHome.Models
             if (metadata.ContainsKey("IsWebPhoto")) output.IsWebPhoto = bool.Parse(metadata["IsWebPhoto"]);
             return output;
         }
-    
+
         public Dictionary<string, string[]> ParseSearchFilters(string[] filters, out string keyword, ref LocationView location)
         {
             var dict = new Dictionary<string, string[]>();
@@ -152,6 +152,14 @@ namespace MyHome.Models
             // add keyword
             if (!string.IsNullOrEmpty(keyword)) slug = string.Concat(slug, string.IsNullOrEmpty(slug) ? "" : "/", keyword);
             return slug;
+        }
+
+
+        public IDictionary<string, string> ToTranslationsDictionary()
+        {
+            IDictionary<string, string> metadata = new Dictionary<string, string>();
+
+            return metadata;
         }
     }
 }

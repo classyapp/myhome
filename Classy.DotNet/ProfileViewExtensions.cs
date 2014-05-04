@@ -17,7 +17,7 @@ namespace Classy.DotNet
             var context = HttpContext.Current;
             if (context != null && HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                isAdmin = (HttpContext.Current.User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Permissions.Contains("admin");
+                isAdmin = (HttpContext.Current.User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsAdmin;
                 isProfileOwner = (HttpContext.Current.User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id == profile.Id;
             }
             return isAdmin || isProfileOwner;

@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using Classy.DotNet.Mvc.ModelBinders;
+using Classy.DotNet.Mvc.Helpers;
+using Classy.DotNet.Mvc.Attributes;
+using Html;
 
 namespace MyHome.Models
 {
@@ -14,6 +19,8 @@ namespace MyHome.Models
         //[Required(ErrorMessage="ProMetadata_LicenseNo_Required")]
         public string LicenseNo { get; set; }
         [Display(Name = "ProMetadata_ServicesProvided")]
+        [System.Web.Mvc.AllowHtml]
+        [Translatable]
         public string ServicesProvided { get; set; }
         [Display(Name = "ProMetadata_AreasServed")]
         public string AreasServed { get; set; }
@@ -24,6 +31,8 @@ namespace MyHome.Models
         [Display(Name = "ProMetadata_Awards")]
         public string Awards { get; set; }
         [Display(Name = "ProMetadata_BusinessDescription")]
+        [System.Web.Mvc.AllowHtml]
+        [Translatable]
         public string BusinessDescription { get; set; }
 
         public IDictionary<string, string> ToDictionary()
@@ -63,6 +72,23 @@ namespace MyHome.Models
         public string GetSearchFilterSlug(string keyword, Classy.DotNet.Responses.LocationView location)
         {
             return null;
+        }
+
+
+        public IDictionary<string, string> ToTranslationsDictionary()
+        {
+            IDictionary<string, string> metadata = new Dictionary<string, string>();
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedAttributes = new string[] { "style" };
+            sanitizer.AllowedCssProperties = new string[] { "direction" };
+
+            if (!string.IsNullOrEmpty(this.BusinessDescription))
+                metadata.Add("BusinessDescription", sanitizer.Sanitize(this.BusinessDescription));
+
+            if (!string.IsNullOrEmpty(this.ServicesProvided))
+                metadata.Add("ServicesProvided", sanitizer.Sanitize(this.ServicesProvided));
+
+            return metadata;
         }
     }
 }

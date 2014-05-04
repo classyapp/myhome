@@ -1,0 +1,12 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "EditPhotoBook_FormTitle",
+			"Description": "when editing a collection, this is the main title of page.",
+			"Values": {
+				"en": "Edit Collection"
+				}
+			}
+	]
+}

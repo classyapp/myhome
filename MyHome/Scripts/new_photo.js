@@ -8,16 +8,8 @@ $("#file").on("change", function () {
     if ('files' in this) {
         $.each(this.files || this.file, function (idx, item) {
             $("#DummyFile").val("fs");
-            if (!!window.FileReader && totalSize < 4096000) {
-                totalSize += item.size;
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var img = $("<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-6\"><div class=\"img-preview\" style=\"background-image: url(" + e.target.result + ")\"></div><div class=\"filename\">" + item.name + "</div><div class=\"progress\"><div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div></div></div>");
-                    $("#filesPreview").prepend(img); // use prepend to add to the beginning as it will take time to actually load the content
-                };
-
-                reader.readAsDataURL(item);
-            }
+            var img = $("<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-6\"><div class=\"filename\"><i class=\"fa fa-picture-o\"></i>&nbsp;" + item.name + "</div><div class=\"progress\"><div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div></div></div>");
+            $("#filesPreview").prepend(img);
         });
     }
     else {

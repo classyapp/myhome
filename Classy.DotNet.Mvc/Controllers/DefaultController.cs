@@ -61,8 +61,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 null,
                 null,
                 1);
-            // get latest collections
-            var collections = service.GetApprovedCollections(null, 5);
+
+            // get featured collections
+            var collections = service.GetApprovedCollections(null, 5, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
 
             var model = new ViewModels.Default.HomeViewModel
             {

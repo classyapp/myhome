@@ -4,6 +4,7 @@ body
     font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding-top: 90px;
     background: #f0f0f0;
+    min-width: 1200px;
 }
 
 h1, h2, h3, h4, h5
@@ -333,8 +334,19 @@ a, a:visited
 
 #articles .media
 {
-    max-height: 100px;
+    max-height: 228px;
 }
+
+#articles .media-body 
+{
+    padding: 10px;
+}
+
+#articles .media-body p
+{
+    font-size: 13px;
+}
+
 /* fix for inline forms within horizontal forms */
 .form-inline .form-group
 {
@@ -701,6 +713,33 @@ span.address2
 #reviews .review .content
 {
     font-size: 12px;
+}
+
+.new-object {
+    text-align: center;
+    height: 218px;
+}
+
+.new-object i {
+    font-size: 72px;
+    color: #999;
+}
+
+.new-object a, 
+.new-object a:hover {
+    border: dashed 3px #999;
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+    padding-top: 50px;
+    color: #999;
+}
+
+.new-object p {
+    color: #999;
 }
 
 /* Login page */
@@ -1469,3 +1508,15 @@ div.thumbs4 > div.thumb
         background-color:  #428BCA;
         color: #fff;
     }
+.upload-status, .upload-status > div
+{
+    margin-top: 20px;
+}
+
+.photo.thumbnail .details strong
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}

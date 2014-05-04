@@ -1,0 +1,81 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "EditPhoto_Success",
+			"Description": "message after saving a photo",
+			"Values": {
+				"en": "Successfully saved your photo details"
+			}
+		},
+		{ 
+			"Key": "EditProfile_Uploading",
+			"Description": "message when uploading new profile picture",
+			"Values": {
+				"en": "Uploading Photo"
+			}
+		},
+		{ 
+			"Key": "Careers_AvailableJobs",
+			"Description": "the content of the careers page",
+			"Values": {
+				"en": "We are currently hiring top class .NET web developers and business development interns. For more information and applications contact us: inbal@homelab.com"
+			}
+		},
+		{
+			"Key": "Footer_Careers",
+			"Description": "text of footer link to careers page",
+			"Values": {
+				"en": "Join Homelab!"
+			}
+		},
+		{
+			"Key": "Careers_Title",
+			"Description": "browser title of the careers page",
+			"Values": {
+				"en": "Join Homelab!"
+			}
+		},
+		{
+			"Key": "UpdateListing_Keywords",
+			"Description": "label of the keywords field when editing a photo",
+			"Values": {
+				"en": "Keywords"
+			}
+		},
+		{
+			"Key": "Confirm_Discard",
+			"Description": "label of discard button in popup window that alerts for unsaved changes",
+			"Values": {
+				"en": "Discard"
+			}
+		},
+		{
+			"Key": "Confirm_Save",
+			"Description": "label of save button in popup window that alerts for unsaved changes",
+			"Values": {
+				"en": "Save"
+			}
+		},
+		{
+			"Key": "EditProfile_HasChanges",
+			"Description": "title of popup window alerting for unsaved changes",
+			"Values": {
+				"en": "You have unsaved changes"
+			}
+		},
+		{
+			"Key": "EditProfile_SaveOrDiscard",
+			"Description": "text inside popup window alerting for unsaved changes",
+			"Values": {
+				"en": "Before moving on, what would you like to do with your unsaved changes?"
+			}
+		},
+	]
+}
+
+
+
+
+
+

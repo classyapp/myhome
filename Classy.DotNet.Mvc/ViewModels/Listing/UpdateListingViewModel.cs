@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Classy.DotNet.Responses;
+using System.Web.Mvc;
+using Classy.DotNet.Mvc.ModelBinders;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
 {
+    [ModelBinder(typeof(CommaSeparatedToList))]
     public class UpdateListingViewModel<TListingMetadata>
     {
         // basic
@@ -19,6 +22,10 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         [Display(Name = "UpdateListing_Content")]
         public string Content { get; set; }
         public IList<MediaFileView> ExternalMedia { get; set; }
+        public bool IsEditor { get; set; }
+        [CommaSeparatedAttribute]
+        [Display(Name = "UpdateListing_Keywords")]
+        public IList<string> Hashtags { get; set; }
 
         // meta
         public TListingMetadata Metadata { get; set; }

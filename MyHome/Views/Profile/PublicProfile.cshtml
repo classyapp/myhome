@@ -21,6 +21,20 @@
     var countries = Localizer.GetList("supported-countries");
 }
 
+@section MetaTags {
+    <meta name="og:title" content="@string.Format(Localizer.Get("PublicProfile_ShareTitle"), Model.Profile.GetProfileName())" />
+    @if (Model.Profile.IsProfessional)
+    {
+    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription) ? string.Format(Localizer.Get("PublicProfile_ShareDescription_Pro", false), proCategories.GetText(Model.Profile.ProfessionalInfo.Category)) : Model.TypedMetadata.BusinessDescription)" />
+    }
+    else
+    {
+    <meta name="og:description" content="@Localizer.Get("PublicProfile_ShareDescription", false)" />
+    }
+    <meta name="og:image" content="@(Model.Profile.Avatar != null ? Model.Profile.Avatar.Url : "http://www.homelab.com/img/missing-thumb.png")" />
+}
+
+
 @section ActionBar {
     @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
     {
@@ -31,10 +45,20 @@
                       <i class="fa fa-share"></i>&nbsp;@Localizer.Get("Profile_Share")&nbsp;<span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id }), "?utm_source=share_profile&utm-medium=email"), Model.Profile.GetProfileName()))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
-                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', document.location.href + '?utm_source=share_profile&utm-medium=facebook', 520, 350)">Facebook</a></li>
-                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', document.location.href + '?utm_source=share_profile&utm-medium=twitter', 520, 350)">Twitter</a></li>
-                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', document.location.href + '?utm_source=share_profile&utm-medium=gplus', 520, 350)">Google+</a></li>
+                      @{
+        var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = Model.Profile.Id }));
+                      }
+                      @if (Model.Profile.IsProfessional)
+                      {
+                        <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
+                      }
+                      else
+                      {
+                          <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
+                      }
+                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350)">Facebook</a></li>
+                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350)">Twitter</a></li>
+                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350)">Google+</a></li>
                   </ul>
                 </div> 
             @if (Model.Profile.IsProfessional)
@@ -44,7 +68,6 @@
             }
             else
             {
-                <a onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody"), string.Concat("https://www.homelab.com", Url.RouteUrl("PublicProfile", new { ProfileId = Model.Profile.Id })), Model.Profile.GetProfileName()))')" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-envelope"></i> @Localizer.Get("Profile_MailLink")</a>
                 <a href="@Url.RouteUrl("CreateProfessionalProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoPro")</a>
             }
         </div>
@@ -64,7 +87,7 @@
             @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_ReviewSuccess")).Closeable().Style(AlertColor.Success)
         }
 
-        @if (TempData["EditProfile_Successs"] != null)
+        @if (TempData["EditProfile_Successs"] != null || HttpContext.Current.Request.QueryString["EditProfile_Success"] != null)
         {
             @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
         }
@@ -232,7 +255,7 @@
                     <p>
                         <strong>@Localizer.Get("Profile_ServicesProvided")</strong>
                         <br />
-                        @Model.TypedMetadata.ServicesProvided
+                        @Html.Raw(Model.TypedMetadata.ServicesProvided)
                     </p>
                 }
                 @if (!string.IsNullOrEmpty(Model.TypedMetadata.AreasServed))
@@ -248,7 +271,7 @@
                     <p>
                         <strong>@Localizer.Get("Profile_BusinessDescription")</strong>
                         <br />
-                        <span class="description" itemprop="description">@Model.TypedMetadata.BusinessDescription</span>
+                        <span class="description" itemprop="description">@Html.Raw(Model.TypedMetadata.BusinessDescription)</span>
                     </p>
                 }
             </div>
@@ -278,18 +301,27 @@
                                             <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = p.Id, view = "grid" })">
                                                 @Html.Partial("Thumbnails", p.CoverPhotos)
                                                 <div class="details">
+                                                    <strong title="@p.Title">@p.Title</strong>
                                                     <ul class="stats list-inline list-unstyled">
                                                         <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
                                                         <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
                                                         <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
                                                     </ul>
-
-                                                    <strong>@p.Title</strong>
                                                 </div>
                                             </a>
                                         </div>
                                     </div>
                                 }
+                            }
+                            @if (Model.Profile.CanEdit()) {
+                                <div class="col-md-4 new-object">
+                                    <a href="@Url.RouteUrl("CreatePhoto", "PhotoController")">
+                                        <div>
+                                            <i class="fa fa-plus-circle"></i>
+                                            <p>@Localizer.Get("PublicProfile_CreateNewProject")</p>
+                                        </div>
+                                    </a>
+                                </div>
                             }
                         </div>
                         <div class="row tab-pane @(projects.Count() == 0 ? "active" : "")" id="webphotos">
@@ -329,18 +361,27 @@
                                         <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = c.Id, view = "grid" })">
                                             @Html.Partial("Thumbnails", c.CoverPhotos)
                                             <div class="details">
+                                                <strong title="@c.Title">@c.Title</strong>
                                                 <ul class="stats list-inline list-unstyled">
                                                     <li><span><i class="glyphicon glyphicon-eye-open"></i> @c.ViewCount</span></li>
                                                     <li><span><i class="glyphicon glyphicon-heart-empty"></i> @c.FavoriteCount</span></li>
                                                     <li><span><i class="glyphicon glyphicon-comment"></i> @c.CommentCount</span></li>
                                                 </ul>
-
-                                                <strong>@c.Title</strong>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                             }
+                        }
+                        @if (!Model.Profile.IsProfessional && Model.Profile.CanEdit()) {
+                            <div class="col-md-4 new-object">
+                                <a href="@Url.RouteUrl("CreatePhoto", "PhotoController")">
+                                    <div>
+                                        <i class="fa fa-plus-circle"></i>
+                                        <p>@Localizer.Get("PublicProfile_CreateNewPhotobook")</p>
+                                    </div>
+                                </a>
+                            </div>
                         }
                     </div>
 

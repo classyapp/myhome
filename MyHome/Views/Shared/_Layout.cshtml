@@ -3,7 +3,7 @@
     {
         Culture = UICulture,
         Currency = Request["env.currency"] ?? "ILS",
-        Country = Request["enc.locaction"] ?? "IL"
+        Country = Request[Classy.DotNet.Responses.AppView.CountryCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCountry
     };
 
     var rooms = Localizer.GetList("rooms");
@@ -13,13 +13,28 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" id="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <script>
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            var ww = window.screen.width;
+            var mw = 1200; // min width of site
+            var ratio = ww / mw; //calculate ratio
+            if (ww < mw) { //smaller than minimum size
+                var mvp = document.getElementById('viewport');
+                mvp.setAttribute('content','initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+            } else { //regular size
+                var mvp = document.getElementById('viewport');
+                mvp.setAttribute('content','initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+            }
+        }
+    </script>
     @if (ViewBag.NoIndex != null)
     {
         <meta name="robots" content="noindex, follow" />
     }
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta http-equiv="X-Come-Code-With-Us" content="@Localizer.Get("Layout_RecruitingMetaTag")" />
+    @RenderSection("MetaTags", false)
 
     <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
     @foreach (var culture in Localizer.GetList("supported-cultures"))
@@ -42,6 +57,7 @@
       <script src="~/Scripts/respond.min.js"></script>
     <![endif]--> 
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("AdditionalStyles", false)
 </head>
 <body>
     <!-- nav -->
@@ -60,15 +76,10 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="@Url.RouteUrlForCurrentLocale("Home")"><span class="name">HomeLab</span></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-collapse">
+            <div class="navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="@Url.RouteUrlForCurrentLocale("SearchPhoto")" class="dropdown-toggle" data-toggle="dropdown">@Localizer.Get("Header_Nav_Photos") <b class="caret"></b></a>
@@ -193,7 +204,7 @@
     <div class="footer text-center">
         <p>&copy; <a href="https://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
         <p>
-            @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
+            @Html.RouteLink(Localizer.Get("Footer_Careers"), "Carrers") | @Html.RouteLink(Localizer.Get("Footer_PrivacyPolicy"), "Privacy") | @Html.RouteLink(Localizer.Get("Footer_TermsOfUse"), "Terms") | <a href="@Url.RouteUrl("Terms")#abuse">@Localizer.Get("Footer_Abuse")</a>
         </p>
         <p>
             <a href="/en">English</a> | <a href="/fr">Français</a> | <a href="/nl">Nederlands</a> | <a href="/he">עברית</a>
@@ -286,6 +297,7 @@
 
         Classy.Env = { 
             GPSCookieName : "@Classy.DotNet.Responses.AppView.GPSLocationCookieName",
+            GPSOriginCookieName : "@Classy.DotNet.Responses.AppView.GPSOriginCookieName",
             CountryCookieName : "@Classy.DotNet.Responses.AppView.CountryCookieName",
             CultureCookieName : "@Classy.DotNet.Responses.AppView.CultureCookieName",
             AgreeToCookiePolicyCookieName : "classy.env.cpagree"
@@ -318,10 +330,18 @@
         function CloseModal(data) { 
             if (data.IsValid) {
                 $('.modal').modal('hide');
-                if (data.SuccessMessage) {
-                    $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
-                }
+                displayMessage(data);
                 return true;
+            }
+        };
+
+        function displayMessage(data){
+            if (data && $(".ajax-alert").length == 1){
+                if (data.IsValid && data.SuccessMessage){
+                    $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
+                } else if (data.ErrorMessage) {
+                    $(".ajax-alert").html("<div class=\"alert alert-danger alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.ErrorMessage + "</p></div>");
+                }
             }
         };
 
@@ -338,16 +358,21 @@
     <script type="text/javascript">
         Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> { 
                 { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") }, 
+                { "Confirm_Discard", Localizer.Get("Discard") }, { "Confirm_Save" , Localizer.Get("Save") },
                 { "DeleteCollection_ConfirmTitle", Localizer.Get("DeleteCollection_ConfirmTitle")},
                 { "DeleteCollection_ConfirmText", Localizer.Get("DeleteCollection_ConfirmText")},
+                { "DeleteCollection_EmptyConfirmText", Localizer.Get("DeleteCollection_EmptyConfirmText")},
                 { "DeleteProject_ConfirmTitle", Localizer.Get("DeleteProject_ConfirmTitle")},
                 { "DeleteProject_ConfirmText", Localizer.Get("DeleteProject_ConfirmText")},
+                { "DeleteProject_EmptyConfirmText", Localizer.Get("DeleteProject_EmptyConfirmText")},
                 { "CollectionRemovephoto_ConfirmTitle", Localizer.Get("CollectionRemovephoto_ConfirmTitle")},
                 { "CollectionRemovephoto_ConfirmText", Localizer.Get("CollectionRemovephoto_ConfirmText")},
                 { "Deletephoto_ConfirmTitle", Localizer.Get("Deletephoto_ConfirmTitle")},
                 { "Deletephoto_ConfirmText", Localizer.Get("Deletephoto_ConfirmText")},
                 { "CreatePhoto_ChangeSelectionTitle", Localizer.Get("CreatePhoto_ChangeSelectionTitle")},
-                { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")}
+                { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")},
+                { "EditProfile_HasChanges", Localizer.Get("EditProfile_HasChanges") },
+                { "EditProfile_SaveOrDiscard", Localizer.Get("EditProfile_SaveOrDiscard")}
         })));
     </script>
 

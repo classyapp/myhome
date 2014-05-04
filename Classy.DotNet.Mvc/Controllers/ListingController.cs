@@ -260,7 +260,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else
                 {
-                    string url = Url.RouteUrl("PublicProfilePhotos", new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id }) + "?photosUploaded=1";
+                    string url = Url.RouteUrl(string.Format("PublicProfile{0}s", ListingTypeName), new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id }) + string.Format("?{0}sUploaded=1", ListingTypeName.ToLower());
                     return Redirect(url);
                 }
             }
@@ -380,7 +380,7 @@ namespace Classy.DotNet.Mvc.Controllers
             return Json(new { IsValid = true });
         }
 
-        [AuthorizeWithRedirect("Index")]
+        [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult EditListing(string listingId)
         {
@@ -404,7 +404,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     Content = listing.Content,
                     ExternalMedia = listing.ExternalMedia,
                     Metadata = listingMetadata,
-                    DefaultCulture = listing.DefaultCulture
+                    DefaultCulture = listing.DefaultCulture,
+                    IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
+                    Hashtags = listing.Hashtags
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -420,6 +422,9 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
+                var fields = ListingUpdateFields.Title | ListingUpdateFields.Content;
+                if (model.Metadata != null) fields |= ListingUpdateFields.Metadata;
+                if (model.Hashtags != null) fields |= ListingUpdateFields.Hashtags;
                 if (ModelState.IsValid)
                 {
                     var service = new ListingService();
@@ -427,12 +432,12 @@ namespace Classy.DotNet.Mvc.Controllers
                         model.Id,
                         model.Title,
                         model.Content,
-                        ListingTypeName,
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
-                        null);
+                        model.Hashtags,
+                        fields);
 
-                    return Json(new { IsValid = true });
+                    return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
                 }
                 else return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
             }
@@ -494,7 +499,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 // search
                 var results = service.SearchListings(
-                    new string[] { model.Tag },
+                    string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
                     new string[] { ListingTypeName }, 
                     searchMetadata,
                     model.PriceMin,

@@ -5,21 +5,24 @@ Classy.AjaxReconnect = function () {
 }
 
 Classy.AcquireGPSCoordinates = function () {
-    if (Classy.GetCookie(Classy.Env.GPSCookieName) == null) {
+    if (Classy.GetCookie(Classy.Env.GPSCookieName) == null || Classy.GetCookie(Classy.Env.GPSOriginCookieName) == "auto") {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function successFunction(position) {
                 var lat = position.coords.latitude;
                 var long = position.coords.longitude;
                 Classy.SetCookie(Classy.Env.GPSCookieName, JSON.stringify({ latitude: lat, longitude: long }), 365);
+                Classy.SetCookie(Classy.Env.GPSOriginCookieName, "browser", 365);
                 $(document).trigger("classy.gps.available", { Available: true, Latitude: lat, Longitude: long });
                 Classy.Env.GPSEnabled = true;
             }, function () {
                 Classy.SetCookie(Classy.Env.GPSCookieName, "", 7);
+                Classy.SetCookie(Classy.Env.GPSOriginCookieName, "browser", 7);
                 $(document).trigger("classy.gps.available", { Available: false });
                 Classy.Env.GPSEnabled = false;
             });
         } else {
             Classy.SetCookie(Classy.Env.GPSCookieName, "", 7);
+            Classy.SetCookie(Classy.Env.GPSOriginCookieName, "browser", 7);
             $(document).trigger("classy.gps.available", { Available: false });
             Classy.Env.GPSEnabled = false;
         }

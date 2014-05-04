@@ -43,10 +43,23 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizer, Version=1.0.4927.30873, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HtmlSanitizer.1.0.4927.30873\lib\net45\HtmlSanitizer.dll</HintPath>
+    </Reference>
     <Reference Include="Mandrill">
       <HintPath>..\packages\Mandrill.0.1.1.5\lib\net40\Mandrill.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -140,6 +153,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\ltr\bootstrap-tagsinput.css" />
     <Content Include="Content\ltr\bootstrap.min.css" />
+    <Content Include="Content\ltr\bootstrap3-wysiwyg5.css" />
     <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
     <Content Include="Content\ltr\Site.css" />
@@ -147,6 +161,10 @@
     <Content Include="Content\rtl\bootstrap.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\rtl\fonts.css" />
+    <Content Include="Deployment\Classy.DotNet.dll" />
+    <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
+    <Content Include="Deployment\Deployment.exe" />
+    <Content Include="Deployment\Newtonsoft.Json.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
@@ -413,6 +431,14 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <None Include="Deployment\Resources\1.0.0.resm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Deployment\Resources\markdown.resm" />
+    <Content Include="Deployment\Resources\DeletePhotos.resm" />
+    <None Include="Deployment\Resources\manage-resources-page-fix-1.resm" />
+    <Content Include="Deployment\Resources\publicprofile-fix-1.resm" />
+    <Content Include="Deployment\Resources\add-missing-keys-1.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />
@@ -424,6 +450,7 @@
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
+    <Content Include="Scripts\bootstrap3-wysihtml5.js" />
     <Content Include="Scripts\classy.js" />
     <Content Include="Scripts\google-login.js" />
     <Content Include="Scripts\fb-login.js" />
@@ -447,6 +474,7 @@
     <Content Include="Scripts\TwitterBootstrapMvcJs.js" />
     <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\trigger-action.js" />
+    <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -514,6 +542,7 @@
     <Content Include="Views\Security\ForgotPassword.cshtml" />
     <Content Include="Views\Security\ResetPassword.cshtml" />
     <Content Include="Views\Profile\SendEmail.cshtml" />
+    <Content Include="Web.AppHarbor.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -533,6 +562,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -570,4 +602,29 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="AfterBuild">
+    <CallTarget Targets="RunDeployResourcesConsoleApp" />
+  </Target>
+  <Target Name="RunDeployResourcesConsoleApp">
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config" Query="/configuration/appSettings/add[@key='Classy:AppId']/@value">
+      <Output TaskParameter="Result" ItemName="AppId" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config" Query="/configuration/appSettings/add[@key='Classy:Deployment:TargetApiEndpoint']/@value">
+      <Output TaskParameter="Result" ItemName="TargetApiEndpoint" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config" Query="/configuration/appSettings/add[@key='Classy:Deployment:SourceApiEndpoint']/@value">
+      <Output TaskParameter="Result" ItemName="SourceApiEndpoint" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config" Query="/configuration/appSettings/add[@key='Classy:Deployment:CopyMissingResourcesFromRemoteDatabase']/@value">
+      <Output TaskParameter="Result" ItemName="CopyMissingResourcesFromRemoteDatabase" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config" Query="/configuration/appSettings/add[@key='Classy:Deployment:BuildFailsIfMissingTranslations']/@value">
+      <Output TaskParameter="Result" ItemName="BuildFailsIfMissingTranslations" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)Web.config" Query="/configuration/appSettings/add[@key='Classy:Deployment:OverwriteExistingResourceValues']/@value">
+      <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
+    </XmlPeek>
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)Deployment\Deployment.exe&quot; @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
+    <Warning Text="$(Configuration)" />
+  </Target>
 </Project>

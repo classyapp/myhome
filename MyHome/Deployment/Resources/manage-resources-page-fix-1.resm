@@ -1,0 +1,47 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "ManageResources_LoadTitle",
+			"Description": "title of section on manage translations page for loading a specific key",
+			"Values": {
+				"en": "Load a specific key"
+			}
+		},
+		{ 
+			"Key": "ManageResources_MissingTitle",
+			"Description": "title of section on manage translations page for loading keys with missing translations. {0} will be replaced with the name of the current language",
+			"Values": {
+				"en": "These keys are missing for {0}"
+			}
+		},
+		{ 
+			"Key": "ManageResources_InvalidKey",
+			"Description": "error message for when someone is trying to load a translation key that is invalid. {0} is replaced by the key that was requested.",
+			"Values": {
+				"en": "{0} is not a valid key"
+			}
+		},
+		{ 
+			"Key": "ManageResources_Success",
+			"Description": "message that tells user that a new value was sucessfully saved for a translation key.",
+			"Values": {
+				"en": "New value saved"
+			}
+		},
+		{ 
+			"Key": "ManageResources_KeyPlaceholder",
+			"Description": "the placeholder in the input field for loading a specific key on the manage translations page.",
+			"Values": {
+				"en": "Key"
+			}
+		},
+		{ 
+			"Key": "ManageResources_Get",
+			"Description": "label of the button that loads a specific key on the manage translations page.",
+			"Values": {
+				"en": "Load"
+			}
+		}
+	]
+}

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classy.DotNet", "Classy.Dot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classy.DotNet.Mvc", "Classy.DotNet.Mvc\Classy.DotNet.Mvc.csproj", "{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployment", "ResourceDeployment\Deployment.csproj", "{B6F22603-CE85-42D9-966F-15F111EC97ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AppHarbor|Any CPU = AppHarbor|Any CPU
@@ -34,6 +36,12 @@ Global
 		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDE05754-F1A4-4E4E-B852-B6CA3FDAD6F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F22603-CE85-42D9-966F-15F111EC97ED}.AppHarbor|Any CPU.ActiveCfg = Release|Any CPU
+		{B6F22603-CE85-42D9-966F-15F111EC97ED}.AppHarbor|Any CPU.Build.0 = Release|Any CPU
+		{B6F22603-CE85-42D9-966F-15F111EC97ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6F22603-CE85-42D9-966F-15F111EC97ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6F22603-CE85-42D9-966F-15F111EC97ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6F22603-CE85-42D9-966F-15F111EC97ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

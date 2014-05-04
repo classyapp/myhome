@@ -28,13 +28,7 @@
             </div>
 
             <div class="col-md-5">
-                @using (var f = Ajax.Bootstrap().Begin(new Form("EditListing", "Photo").Type(FormType._NotSet), new AjaxOptions
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    HttpMethod = "POST",
-                    UpdateTargetId = "edit-modal-replace",
-                    OnSuccess = "CloseModal(data)"
-                }))
+                @using (var f = Html.Bootstrap().Begin(new Form("EditListing", "Photo").Type(FormType._NotSet).FormMethod(FormMethod.Post)))
                 {
                     @Html.Bootstrap().ValidationSummary()
                     @Html.HiddenFor(x => x.Id)
@@ -44,6 +38,7 @@
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false)
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false)
                     @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false)
+                    @f.FormGroup().TextAreaFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
                 }
             </div>
@@ -58,3 +53,84 @@
         </div>
     </div>
 </div>
+
+<style>
+    div.tagsinput {
+        border: 1px solid #CCC;
+        background: #FFF;
+        padding: 5px;
+        width: 300px;
+        height: 100px;
+        overflow-y: auto;
+    }
+
+        div.tagsinput span.tag {
+            border: 1px solid #3276b1;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            display: block;
+            float: left;
+            padding: 5px;
+            text-decoration: none;
+            background: #d9edf7;
+            color: #3276b1;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-family: helvetica;
+            font-size: 13px;
+        }
+
+            div.tagsinput span.tag a {
+                font-weight: bold;
+                color: #3276b1;
+                text-decoration: none;
+                font-size: 11px;
+            }
+
+        div.tagsinput input {
+            width: 0px;
+            margin: 0px;
+            font-family: helvetica;
+            font-size: 13px;
+            border: 1px solid transparent;
+            padding: 5px;
+            background: transparent;
+            color: #000;
+            outline: 0px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        div.tagsinput div {
+            display: block;
+            float: left;
+        }
+
+    .tags_clear {
+        clear: both;
+        width: 100%;
+        height: 0px;
+    }
+
+    .not_valid {
+        background: #FBD8DB !important;
+        color: #90111A !important;
+    }
+
+    .contactList .control-label {
+        text-align: left;
+    }
+</style>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/jquery.tagsinput.js")
+
+    <script type="text/javascript">
+        $('#hashtags').tagsInput({
+            width: 'auto',
+            minInputWidth: 'auto',
+            defaultText: 'Add Tag'
+        });
+    </script>
+}

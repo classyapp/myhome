@@ -4,6 +4,10 @@ body
     font-family: "Alef Hebrew", “Helvetica Neue”, Helvetica, Arial, sans-serif;
 }
 
+.no-rtl {
+    direction: ltr;
+}
+
 h1, h2, h3, h4, h5
 {
     font-family: "Alef Hebrew", "Helvetica Neue", Helvetica, Arial, sans-serif;
