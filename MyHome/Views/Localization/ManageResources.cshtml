@@ -38,6 +38,7 @@
             }
             <h1>@Model.ResourceKey</h1>
             <h4 style="direction: ltr">@Model.ResourceDescription</h4>
+            <p><small>@Localizer.Get(Model.ResourceKey, "en")</small></p>
             using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
             {
                 @Html.HiddenFor(x => x.ResourceKey)

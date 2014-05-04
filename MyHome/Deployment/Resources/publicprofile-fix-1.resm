@@ -14,6 +14,13 @@
 			"Values": {
 				"en": "Create New Collection"
 				}
+			},
+			{
+				"Key": "PublicProfile_EditProfileSuccess",
+				"Description": "message that the profile was saved successfully",
+				"Values": {
+					"en": "Profile saved successfully"
+				}
 			}
 	]
 }
