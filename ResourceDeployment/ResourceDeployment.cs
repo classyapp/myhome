@@ -24,7 +24,7 @@ namespace MyHome.Deployment
         {
             // read settings
             Settings = settings;
-            Trace.WriteLine(Settings.ToString());
+            Console.WriteLine(Settings.ToString());
         }
 
         public void DeployNewResources()
@@ -35,12 +35,12 @@ namespace MyHome.Deployment
             var supportedCultures = GetSupportedCulturesAtTargetEndpoint();
 
             // deployment logic
-            Trace.WriteLine("Deploying new reources");
+            Console.WriteLine("Deploying new reources");
             try 
             {
                 // get all resource manifest files from the 
                 var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Resources");
-                Trace.WriteLine(path);
+                Console.WriteLine(path);
                 var dir = new DirectoryInfo(path);
                 var resourceManifests = dir.GetFiles("*.resm");
                 foreach(var rm in resourceManifests)
@@ -48,12 +48,12 @@ namespace MyHome.Deployment
                     // ignore files that were already deployed to target database
                     if (1 == 2) /* file was alreday deployed to target database */
                     {
-                        Trace.WriteLine(string.Format("Found {0}... ignoring - already deployed", rm.FullName));
+                        Console.WriteLine(string.Format("Found {0}... ignoring - already deployed", rm.FullName));
                         continue;
                     }
 
                     // deploy all resources in manifest file
-                    Trace.WriteLine(string.Format("Found {0}... deploying", rm.FullName));
+                    Console.WriteLine(string.Format("Found {0}... deploying", rm.FullName));
                     var manifest = GetManifestFromFile(rm);
                     
                     // throw if any resource is missing a description or value
@@ -71,7 +71,7 @@ namespace MyHome.Deployment
 
                     foreach (var resource in manifest.Resources)
                     {
-                        Trace.WriteLine(string.Format("\tResource: {0}", resource.Key));
+                        Console.WriteLine(string.Format("\tResource: {0}", resource.Key));
 
                         // create the resource in the target database
                         var resourceAtTarget = GetResourceAtTargetEndpoint(resource.Key);
@@ -83,10 +83,10 @@ namespace MyHome.Deployment
                         {
                             if (Settings.OverwriteExistingResourceValues)
                             {
-                                Trace.WriteLine("\t\tAlready exists, overwriting");
+                                Console.WriteLine("\t\tAlready exists, overwriting");
                                 SetResourceValuesAtTargetEndpoint(resource.Key, resource.Values);
                             }
-                            else Trace.WriteLine("\t\tAlready exists, will only update missing translations, if any");
+                            else Console.WriteLine("\t\tAlready exists, will only update missing translations, if any");
                         }
 
                         // check for missing translations
@@ -102,7 +102,7 @@ namespace MyHome.Deployment
                         // if some supported cultures are missing values, copy from remote source
                         if (missingTranslations.ContainsKey(resource.Key) && Settings.CopyMissingResourcesFromRemoteDatabase)
                         {
-                            Trace.WriteLine(string.Format("\t\tTrying to copy missing translations from source", resource.Key));
+                            Console.WriteLine(string.Format("\t\tTrying to copy missing translations from source", resource.Key));
                             var resourceAtSource = GetResourceAtSourceEndpoint(resource.Key);
                             var values = new Dictionary<string, string>();
                             var missingCultures = missingTranslations[resource.Key];
