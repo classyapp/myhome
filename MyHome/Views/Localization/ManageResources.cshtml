@@ -37,8 +37,10 @@
                 @Html.Bootstrap().Alert(Localizer.Get("ManageResources_Success")).Closeable().Style(AlertColor.Success)
             }
             <h1>@Model.ResourceKey</h1>
-            <h4 style="direction: ltr">@Model.ResourceDescription</h4>
-            <p><small>@Localizer.Get(Model.ResourceKey, "en")</small></p>
+            <div style="direction: ltr">
+                <h4>Model.ResourceDescription</h4>
+                <p><small>EN: @Localizer.Get(Model.ResourceKey, "en")</small></p>
+            </div>
             using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
             {
                 @Html.HiddenFor(x => x.ResourceKey)
