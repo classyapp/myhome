@@ -438,6 +438,7 @@
     <Content Include="Deployment\Resources\DeletePhotos.resm" />
     <None Include="Deployment\Resources\manage-resources-page-fix-1.resm" />
     <Content Include="Deployment\Resources\publicprofile-fix-1.resm" />
+    <Content Include="Deployment\Resources\add-missing-keys-1.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />
