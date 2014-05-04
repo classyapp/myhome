@@ -38,7 +38,7 @@
             }
             <h1>@Model.ResourceKey</h1>
             <div style="direction: ltr">
-                <h4>Model.ResourceDescription</h4>
+                <h4>@Model.ResourceDescription</h4>
                 <p><small>EN: @Localizer.Get(Model.ResourceKey, "en")</small></p>
             </div>
             using (var f = Html.Bootstrap().Begin(new Form("ManageResources", "Localization").FormMethod(FormMethod.Post)))
