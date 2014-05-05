@@ -89,7 +89,7 @@
             }
         </div>
         <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
-        <div id="pager" class="text-center hide">
+        <div id="pager" class="text-center">
             <ul class="pagination" data-total="@totalPages" data-pages="@pagesCount">
                 <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
                 @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
@@ -111,7 +111,7 @@
         <div class="row">
             <div class="col-md-offset-3 col-md-9">
                 <div class="more-info">
-                    <p>@Html.Raw(Localizer.Get(string.Concat("ProCategoryDescription_", Model.Category ?? "All_Professionals")))</p>
+                    <p>@Html.Raw(Localizer.Get(string.Concat("SEO_SearchProfessionals_", Model.Category ?? "All_Professionals")))</p>
                 </div>
             </div>
         </div>
