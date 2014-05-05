@@ -9,6 +9,7 @@
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
     var pagesCount = Classy.DotNet.Responses.AppView.PagesCount;
+    var page = string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]);
 }
 
 <div class="row">
@@ -82,7 +83,7 @@
         <div class="row results iscroll" data-item-class=".profile" data-hasMore="@(Model.Results.Count == Classy.DotNet.Responses.AppView.PageSize ? "true" : "false")"
             data-url="@Url.RouteUrlForCurrentLocale("SearchProfiles")"
             data-page-size="@Classy.DotNet.Responses.AppView.PageSize"
-            data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            data-page="@page">
             @if (Model.Results != null)
             {
                 @Html.Partial("ProfileGrid", Model.Results)
@@ -98,9 +99,9 @@
                 }
                 <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
             </ul>
-            @if (Request["Page"] == null || int.Parse(Request["Page"]) < totalPages)
+            @if (page < totalPages)
             {
-                <a href="@(Url.RouteUrlForCurrentLocale("SearchProfiles") + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
+                <a href="@(Url.RouteUrlForCurrentLocale("SearchProfiles") + string.Format("?Page={0}", page + 1)" class="sr-only">@Localizer.Get("Paging_Next")</a>
             }
         </div>
     </div>
@@ -110,9 +111,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-3 col-md-9">
+                @if (page <= 1) {
                 <div class="more-info">
                     <p>@Html.Raw(Localizer.Get(string.Concat("SEO_SearchProfessionals_", Model.Category ?? "All_Professionals")))</p>
                 </div>
+                }
             </div>
         </div>
     </div>
