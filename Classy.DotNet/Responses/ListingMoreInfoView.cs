@@ -13,5 +13,6 @@ namespace Classy.DotNet.Responses
         public IList<CollectionView> Collections { get; set; }
         public IList<ListingView> SearchResults { get; set; }
         public ProfileView Profile { get; set; }
+        public IDictionary<string, string> Metadata { get; set; }
     }
 }

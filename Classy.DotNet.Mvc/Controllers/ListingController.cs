@@ -635,6 +635,7 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var listingService = new ListingService();
             var info = listingService.GetLisingMoreInfo(model.ListingId, model.Metadata);
+            info.Metadata = model.Metadata;
 
             return PartialView("MoreInfo", info);
         }

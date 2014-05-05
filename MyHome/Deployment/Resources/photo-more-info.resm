@@ -12,7 +12,7 @@
 			"Key": "PhotoDetails_MoreInfo_WebOriginTitle",
 			"Description": "title of section on photo details for images from the same web origin (for images uploaded via extension)",
 			"Values": {
-				"en": "More photos from the same site"
+				"en": "More photos from {0}"
 			}
 		},
 		{
