@@ -101,7 +101,7 @@
             </ul>
             @if (page < totalPages)
             {
-                <a href="@(Url.RouteUrlForCurrentLocale("SearchProfiles") + string.Format("?Page={0}", page + 1)" class="sr-only">@Localizer.Get("Paging_Next")</a>
+                <a href="@(Url.RouteUrlForCurrentLocale("SearchProfiles") + string.Format("?Page={0}", page + 1))" class="sr-only">@Localizer.Get("Paging_Next")</a>
             }
         </div>
     </div>
@@ -128,7 +128,7 @@
     @Scripts.Render("~/scripts/typeahead.min.js")
 
     <script>
-        resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        resetPagination(@page);
         $(document).on("classy.gps.available", function (e, data) {
             if (data.Available) {
                 $("#Location").prepend("<option value=\"current-location\">" + Classy.Strings.NearMe + "</option>");
