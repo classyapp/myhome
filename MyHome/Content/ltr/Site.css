@@ -1518,3 +1518,8 @@ div.thumbs4 > div.thumb
     text-overflow: ellipsis;
     display: block;
 }
+
+.collection-items .thumbnail
+{
+    margin-bottom: 0px;
+}
