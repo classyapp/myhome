@@ -80,6 +80,7 @@
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
     <Compile Include="Controllers\ListingController.cs" />
+    <Compile Include="Controllers\ListingUpdateArgs.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ParseProfilesCsvLineArgs.cs" />

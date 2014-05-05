@@ -26,6 +26,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ListingController() : base() { }
         public ListingController(string ns) : base(ns) { }
 
+        public EventHandler<ListingUpdateArgs> OnUpdateListing;
+
         /// <summary>
         /// register routes within host app's route collection
         /// </summary>
@@ -406,7 +408,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     Metadata = listingMetadata,
                     DefaultCulture = listing.DefaultCulture,
                     IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
-                    Hashtags = listing.Hashtags
+                    Hashtags = listing.Hashtags,
+                    EditorKeywords = listing.EditorKeywords
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -422,9 +425,20 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
+                var updatedListingArgs = new ListingUpdateArgs
+                {
+                    Hashtags = model.Hashtags,
+                    IsEditor = AuthenticatedUserProfile.IsEditor
+                };
+                OnUpdateListing(this, updatedListingArgs);
+
                 var fields = ListingUpdateFields.Title | ListingUpdateFields.Content;
                 if (model.Metadata != null) fields |= ListingUpdateFields.Metadata;
-                if (model.Hashtags != null) fields |= ListingUpdateFields.Hashtags;
+                if (model.Hashtags != null)
+                {
+                    fields |= ListingUpdateFields.Hashtags;
+                    /*if (model.IsEditor)*/ fields |= ListingUpdateFields.EditorKeywords;
+                }
                 if (ModelState.IsValid)
                 {
                     var service = new ListingService();
@@ -435,6 +449,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         model.Hashtags,
+                        updatedListingArgs.EditorKeywords,
                         fields);
 
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
