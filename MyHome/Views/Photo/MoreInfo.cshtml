@@ -33,11 +33,11 @@
         </div>
     }
 
-    @*Projects / Collections from same User*@
+    @*Projects / Collections containing this listing*@
     @if (Model.Collections != null && Model.Collections.Count > 0)
     {
-        <div class="panel panel-default" id="projectsSameProfile">
-            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle"), Model.CollectionType, Model.Profile.GetProfileName())</div>
+        <div class="panel panel-default" id="projectsSameListing">
+            <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle")</div>
             <div class="panel-body">
                 @foreach (var collection in Model.Collections)
                 {

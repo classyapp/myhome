@@ -17,9 +17,9 @@
 		},
 		{
 			"Key": "PhotoDetails_MoreInfo_ProjectsTitle",
-			"Description": "title of section on photo details for collection from the same profile",
+			"Description": "title of section on photo details for collection containing this photo",
 			"Values": {
-				"en": "More {0}s from {1}"
+				"en": "More collections containing this photo"
 			}
 		}
 	]
