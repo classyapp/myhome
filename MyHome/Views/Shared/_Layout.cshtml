@@ -181,6 +181,15 @@
         </div>
     </nav>
 
+    @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.EmailVerified)
+    {
+        <div class="verify-email">
+            <div class="alert alert-warning">
+                @Localizer.Get("Profile_VerifyEmailAddress")
+            </div>
+        </div> 
+    }
+
     <div class="action-bar bg-primary">
         <div class="container">
             <div class="row">

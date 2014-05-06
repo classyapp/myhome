@@ -22,6 +22,7 @@ namespace MyHome.Controllers
         void SecurityController_OnProfileRegistered(object sender, ProfileView profile)
         {
             // send welcome email
+            // with a verify email link in the follwing format /profile/verify/{profile.Metadata["EmailHash"]}
         }
     }
 }
