@@ -1523,3 +1523,20 @@ div.thumbs4 > div.thumb
 {
     margin-bottom: 0px;
 }
+
+.verify-email
+{
+    position: absolute;
+    top: 64px;
+    right: 0;
+    left: 0;
+    text-align: center;
+    z-index: 2;
+}
+
+    .verify-email .alert
+    {
+        padding: 5px 15px;
+        margin: 0px;
+        display: inline-block;
+    }

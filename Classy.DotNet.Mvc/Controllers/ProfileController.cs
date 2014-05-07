@@ -54,6 +54,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteWithName(
+                name: "VerifyProfileEmail",
+                url: "profile/verify/{hash}",
+                defaults: new { controller = "Profile", action = "VerifyProfileEmail" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
                 name: "EditProfile",
                 url: "profile/{ProfileId}/edit",
                 defaults: new { controller = "Profile", action = "EditProfile" },
@@ -1046,6 +1053,13 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return PartialView(model);
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult VerifyProfileEmail(string hash)
+        {
+            var profileService = new ProfileService();
+            return View(profileService.VerifyEmail(hash));
         }
         #endregion
     }

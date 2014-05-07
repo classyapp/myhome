@@ -93,6 +93,7 @@
     <Compile Include="Responses\TranslationView.cs" />
     <Compile Include="Responses\TripleView.cs" />
     <Compile Include="Responses\UpdateProfileFields.cs" />
+    <Compile Include="Responses\VerifyEmailResponse.cs" />
     <Compile Include="Security\ClassyAuth.cs" />
     <Compile Include="Security\ClassyAuthResponse.cs" />
     <Compile Include="Security\ClassyIdentity.cs" />
