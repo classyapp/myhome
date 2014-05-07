@@ -39,7 +39,7 @@
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false)
                     @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false)
                     @f.FormGroup().TextAreaFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
-                    if (Model.EditorKeywords != null) {
+                    if (Model.IsEditor && Model.EditorKeywords != null) {
                         @f.FormGroup().TextAreaFor(x => x.EditorKeywords).Id("editorKeywords").Value(string.Join(",", Model.EditorKeywords)).ShowValidationMessage(false)
                     }
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))

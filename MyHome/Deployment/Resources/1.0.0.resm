@@ -44,6 +44,13 @@
 			}
 		},
 		{
+			"Key": "UpdateListing_EditorKeywords",
+			"Description": "label of the translated keywords field an Editor edits a photo",
+			"Values": {
+				"en": "Translated Keywords"
+			}
+		},
+		{
 			"Key": "Confirm_Discard",
 			"Description": "label of discard button in popup window that alerts for unsaved changes",
 			"Values": {

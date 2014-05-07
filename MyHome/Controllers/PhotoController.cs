@@ -21,7 +21,7 @@ namespace MyHome.Controllers
 
         private void PhotoController_OnUpdateListing(object sender, ListingUpdateArgs e)
         {
-            //if (e.IsEditor)
+            if (e.IsEditor && e.Hashtags != null)
             {
                 var translator = new GoogleTranslationService();
                 var translatedHashtags = new Dictionary<string, IList<string>>();

@@ -35,8 +35,9 @@ namespace Classy.DotNet.Services
             var apiUrl = "https://www.googleapis.com/language/translate/v2?key={0}&q={1}&source={2}&target={3}";
             using (var client = new WebClient())
             {
-                var apiJsonResult = client.DownloadString(string.Format(apiUrl, _apiKey, q, sourceLanguage, targetLanguage));
-                responseObject = JsonConvert.DeserializeObject<GoogleTranslationApiResponse>(apiJsonResult);
+                var apiJsonResult = client.DownloadData(string.Format(apiUrl, _apiKey, q, sourceLanguage, targetLanguage));
+                var encodedResponse = Encoding.UTF8.GetString(apiJsonResult);
+                responseObject = JsonConvert.DeserializeObject<GoogleTranslationApiResponse>(encodedResponse);
             }
 
             if (responseObject.Data == null || responseObject.Data.Translations == null || responseObject.Data.Translations.Count == 0)
