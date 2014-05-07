@@ -49,6 +49,6 @@ namespace Classy.DotNet.Responses
         public IList<string> Permissions { get; set; }
         public string DefaultCulture { get; set; }
         public IList<string> CoverPhotos { get; set; }
-        public bool EmailVerified { get; set; }
+        public bool IsEmailVerified { get; set; }
     }
 }

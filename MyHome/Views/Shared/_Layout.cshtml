@@ -181,7 +181,7 @@
         </div>
     </nav>
 
-    @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.EmailVerified)
+    @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified)
     {
         <div class="verify-email">
             <div class="alert alert-warning">
