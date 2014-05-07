@@ -9,6 +9,7 @@ using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet;
 using System.Text.RegularExpressions;
 using Classy.DotNet.Services;
+using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
 {
@@ -21,13 +22,15 @@ namespace MyHome.Controllers
 
         private void PhotoController_OnUpdateListing(object sender, ListingUpdateArgs e)
         {
+            var supportedCultures = Localizer.GetList("supported-cultures").Select(x => x.Value).Where(x => x != "en").ToList();
+
             if (e.IsEditor && e.Hashtags != null)
             {
                 var translator = new GoogleTranslationService();
                 var translatedHashtags = new Dictionary<string, IList<string>>();
                 foreach (var englisKeyword in e.Hashtags)
                 {
-                    foreach (var language in GoogleTranslationService.SupportedLanguages.Except(new[] { "en" }))
+                    foreach (var language in supportedCultures)
                     {
                         if (!translatedHashtags.ContainsKey(language))
                             translatedHashtags.Add(language, new List<string>());

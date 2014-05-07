@@ -27,8 +27,6 @@ namespace Classy.DotNet.Services
     {
         private readonly string _apiKey = "AIzaSyAlsrWb_5EcXL7AkSt5aNjk8vsPxps8yLE";
 
-        public static List<string> SupportedLanguages = new List<string> { "en", "iw", "fr" };
-
         public string Translate(string q, string sourceLanguage, string targetLanguage)
         {
             GoogleTranslationApiResponse responseObject;
