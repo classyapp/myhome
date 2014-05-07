@@ -71,6 +71,7 @@
     <Compile Include="Responses\CommentView.cs" />
     <Compile Include="Responses\ContactInfoView.cs" />
     <Compile Include="Responses\CoordsView.cs" />
+    <Compile Include="Responses\ListingMoreInfoView.cs" />
     <Compile Include="Responses\ListingUpdateFields.cs" />
     <Compile Include="Responses\SocialPhotoAlbumView.cs" />
     <Compile Include="Responses\IncludedListingView.cs" />

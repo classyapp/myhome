@@ -96,6 +96,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Concat(ListingTypeName, "MoreInfo"),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/more"),
+                defaults: new { controller = ListingTypeName, action = "GetListingMoreInfo" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRouteForSupportedLocales(
                 name: string.Concat("Search", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
@@ -636,6 +643,16 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 throw ex;
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetListingMoreInfo(ListingMoreInfoViewModel model)
+        {
+            var listingService = new ListingService();
+            var info = listingService.GetLisingMoreInfo(model.ListingId, model.Metadata);
+            info.Metadata = model.Metadata;
+
+            return PartialView("MoreInfo", info);
         }
     }
 }

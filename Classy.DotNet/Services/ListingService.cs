@@ -34,6 +34,7 @@ namespace Classy.DotNet.Services
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
         // get listings
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
+        private readonly string GET_LISTING_MORE_INFO_URL = ENDPOINT_BASE_URL + "/listing/{0}/more";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
         // translations
         private readonly string LISTING_TRANSLATION_URL = ENDPOINT_BASE_URL + "/listing/{0}/translation/{1}";
@@ -683,5 +684,22 @@ namespace Classy.DotNet.Services
             }
         }
         #endregion
+
+        public ListingMoreInfoView GetLisingMoreInfo(string listingId, Dictionary<string, string[]> metadata)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var url = string.Format(GET_LISTING_MORE_INFO_URL, listingId);
+                var data = new { LsitingId = listingId, Metadata = metadata };
+                var listingJson = client.UploadString(url, data.ToJson());
+                var listing = listingJson.FromJson<ListingMoreInfoView>();
+                return listing;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }            
+        }
     }
 }
