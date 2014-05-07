@@ -29,6 +29,7 @@ namespace Classy.DotNet.Services
 
         public string Translate(string q, string sourceLanguage, string targetLanguage)
         {
+            System.Diagnostics.Trace.TraceInformation(string.Format("GoogleTranslationService.Translate called from IP: {0}", System.Web.HttpContext.Current.Request.UserHostAddress));
             GoogleTranslationApiResponse responseObject;
             var apiUrl = "https://www.googleapis.com/language/translate/v2?key={0}&q={1}&source={2}&target={3}";
             using (var client = new WebClient())
