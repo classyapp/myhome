@@ -27,6 +27,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ListingController(string ns) : base(ns) { }
 
         public EventHandler<ListingUpdateArgs> OnUpdateListing;
+        public EventHandler<ListingCommentEventArgs> OnPostedComment;
+
 
         /// <summary>
         /// register routes within host app's route collection
@@ -319,7 +321,11 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                service.PostComment(listingId, content, ListingService.ObjectType.Listing);
+                var comment = service.PostComment(listingId, content, ListingService.ObjectType.Listing);
+                if (OnPostedComment != null)
+                {
+                    OnPostedComment(this, new ListingCommentEventArgs { Comment = comment, ListingType = ListingService.ObjectType.Listing });
+                }
                 TempData["PostComment_Success"] = true;
             }
             catch(ClassyException cvx)
