@@ -21,7 +21,7 @@
     @if (Model.SearchResults != null && Model.SearchResults.Count > 0)
     {
          <div class="panel panel-default" id="sameWebOrigin">
-            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_WebOriginTitle", Model.Metadata["Host"]))</div>
+            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_WebOriginTitle", Model.Metadata["Host"][0]))</div>
             <div class="panel-body">
                 @foreach (var listing in Model.SearchResults)
                 {

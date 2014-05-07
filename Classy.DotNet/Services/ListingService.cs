@@ -683,7 +683,7 @@ namespace Classy.DotNet.Services
         }
         #endregion
 
-        public ListingMoreInfoView GetLisingMoreInfo(string listingId, Dictionary<string, string> metadata)
+        public ListingMoreInfoView GetLisingMoreInfo(string listingId, Dictionary<string, string[]> metadata)
         {
             try
             {

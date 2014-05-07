@@ -12,6 +12,6 @@ namespace Classy.DotNet.Responses
         public IList<ListingView> CollectionLisitngs { get; set; }
         public IList<CollectionView> Collections { get; set; }
         public IList<ListingView> SearchResults { get; set; }
-        public IDictionary<string, string> Metadata { get; set; }
+        public IDictionary<string, string[]> Metadata { get; set; }
     }
 }
