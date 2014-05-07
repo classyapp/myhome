@@ -444,7 +444,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (model.Hashtags != null)
                 {
                     fields |= ListingUpdateFields.Hashtags;
-                    if (model.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
+                    if (AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 }
                 if (ModelState.IsValid)
                 {
