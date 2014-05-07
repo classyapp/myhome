@@ -440,7 +440,6 @@
     <Content Include="Deployment\Resources\publicprofile-fix-1.resm" />
     <Content Include="Deployment\Resources\add-missing-keys-1.resm" />
     <Content Include="Deployment\Resources\seo-professional-categories.resm" />
-    <Content Include="Deployment\Resources\manage-resources-page-fix-1.json" />
     <Content Include="Deployment\Resources\photo-more-info.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
