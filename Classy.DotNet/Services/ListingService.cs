@@ -145,17 +145,34 @@ namespace Classy.DotNet.Services
             }
 
             // add media files
-            var url = string.Format(ADD_EXTERNAL_MEDIA_URL, listing.Id);
-            foreach (var f in files)
+            string url = null;
+            try
             {
-                var req = ClassyAuth.GetAuthenticatedWebRequest(url);
-                HttpUploadFile(req, f.Data, f.ContentType);
+                url = string.Format(ADD_EXTERNAL_MEDIA_URL, listing.Id);
+                foreach (var f in files)
+                {
+                    var req = ClassyAuth.GetAuthenticatedWebRequest(url);
+                    HttpUploadFile(req, f.Data, f.ContentType);
+                }
+            }
+            catch (WebException fex)
+            {
+                // delete the listing on error
+                this.DeleteListing(listing.Id);
+                throw fex.ToClassyException();
             }
 
             // publish
-            url = string.Format(PUBLISH_LISTING_URL, listing.Id);
-            var updatedJson = client.UploadString(url, "".ToJson());
-            listing = updatedJson.FromJson<ListingView>();
+            try
+            {
+                url = string.Format(PUBLISH_LISTING_URL, listing.Id);
+                var updatedJson = client.UploadString(url, "".ToJson());
+                listing = updatedJson.FromJson<ListingView>();
+            }
+            catch (Exception pex)
+            {
+                // Do nothing for now...
+            }
 
             return listing;
         }

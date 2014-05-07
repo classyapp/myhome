@@ -58,6 +58,7 @@ function uploadPhotos() {
     var frm = $("#uploadBtn").closest("form");
     if (frm.valid()) {
         // upload files
+        $("#file").data("error", false);
         if (!!window.FileReader) {
             var idx = 0;
             $("#uploadBtn").data("file-id", idx);
@@ -86,7 +87,9 @@ function doUpload(idx, extra) {
             if (extra.CollectionId == "") { extra.CollectionId = e.collectionId }
             setTimeout(function () { doUpload(idx + 1, extra); }, 100);
         }, function (e) {
-            alert("Something went wrong!!!");
+            $("#file").data("error", true);
+            $("#filesPreview > div:nth-child(" + (idx + 1) + ") .filename").addClass("error");
+            $("#filesPreview > div:nth-child(" + (idx + 1) + ") .progress-bar").addClass("progress-bar-danger");
             setTimeout(function () { doUpload(idx + 1, extra); }, 100);
         });
     } else if ($("#DummyFile").val() == "url" && $("#filesPreview .img-preview").length > idx) {
@@ -100,7 +103,9 @@ function doUpload(idx, extra) {
         });
     }
     else {
-        document.location.href = redirectUrl;
+        if (!$("#file").data("error")) {
+            document.location.href = "/collection/" + extra.CollectionId + "/grid--" + encodeURIComponent(extra.Title);
+        }
     }
 }
 
