@@ -27,7 +27,9 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         [Display(Name = "UpdateListing_Keywords")]
         public IList<string> Hashtags { get; set; }
         [Display(Name = "UpdateListing_EditorKeywords")]
-        public IDictionary<string, IList<string>> EditorKeywords { get; set; }
+        public IDictionary<string, IList<string>> TranslatedKeywords { get; set; }
+        [Display(Name = "UpdateListing_EditorKeywords"), CommaSeparated]
+        public IList<string> EditorKeywords { get; set; } 
 
         // meta
         public TListingMetadata Metadata { get; set; }

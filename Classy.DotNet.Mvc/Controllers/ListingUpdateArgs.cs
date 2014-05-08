@@ -10,6 +10,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public bool IsEditor { get; set; }
         public IList<string> Hashtags { get; set; }
         // here we only receive the keywords in English
-        public IDictionary<string, IList<string>> EditorKeywords { get; set; }
+        public IList<string> EditorKeywords { get; set; }
+        public IDictionary<string, IList<string>> TranslatedKeywords { get; set; } 
     }
 }

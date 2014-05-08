@@ -422,7 +422,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     DefaultCulture = listing.DefaultCulture,
                     IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
                     Hashtags = listing.Hashtags,
-                    EditorKeywords = listing.EditorKeywords
+                    EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new []{""},
+                    TranslatedKeywords = listing.TranslatedKeywords
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -440,18 +441,15 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var updatedListingArgs = new ListingUpdateArgs
                 {
-                    Hashtags = model.Hashtags,
-                    IsEditor = AuthenticatedUserProfile.IsEditor
+                    IsEditor = AuthenticatedUserProfile.IsEditor,
+                    EditorKeywords = model.EditorKeywords
                 };
                 OnUpdateListing(this, updatedListingArgs);
 
                 var fields = ListingUpdateFields.Title | ListingUpdateFields.Content;
                 if (model.Metadata != null) fields |= ListingUpdateFields.Metadata;
-                if (model.Hashtags != null)
-                {
-                    fields |= ListingUpdateFields.Hashtags;
-                    if (AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
-                }
+                if (model.Hashtags != null) fields |= ListingUpdateFields.Hashtags;
+                if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 if (ModelState.IsValid)
                 {
                     var service = new ListingService();
@@ -462,7 +460,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         model.Hashtags,
-                        updatedListingArgs.EditorKeywords,
+                        updatedListingArgs.TranslatedKeywords,
                         fields);
 
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));

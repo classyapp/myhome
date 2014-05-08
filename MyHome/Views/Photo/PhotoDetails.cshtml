@@ -74,8 +74,8 @@
                 <dd>    
                     @{
                         var hashtags = Model.Listing.Hashtags;
-                        if (Model.Listing.EditorKeywords != null && Model.Listing.EditorKeywords.ContainsKey(UICulture)) {
-                            hashtags = hashtags.Union(Model.Listing.EditorKeywords[UICulture]).ToList();
+                        if (Model.Listing.TranslatedKeywords != null && Model.Listing.TranslatedKeywords.ContainsKey(UICulture)) {
+                            hashtags = hashtags.Union(Model.Listing.TranslatedKeywords[UICulture]).ToList();
                         }
                     }
                     @foreach (var t in hashtags)

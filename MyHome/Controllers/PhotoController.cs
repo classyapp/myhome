@@ -28,11 +28,12 @@ namespace MyHome.Controllers
         {
             var supportedCultures = Localizer.GetList("supported-cultures").Select(x => x.Value).Where(x => x != "en").ToList();
 
-            if (e.IsEditor && e.Hashtags != null)
+            if (e.IsEditor && e.EditorKeywords != null)
             {
                 var translator = new GoogleTranslationService();
                 var translatedHashtags = new Dictionary<string, IList<string>>();
-                foreach (var englisKeyword in e.Hashtags)
+                translatedHashtags.Add("en", e.EditorKeywords);
+                foreach (var englisKeyword in e.EditorKeywords)
                 {
                     foreach (var language in supportedCultures)
                     {
@@ -42,7 +43,7 @@ namespace MyHome.Controllers
                         translatedHashtags[language].Add(translator.Translate(englisKeyword, "en", language));
                     }
                 }
-                e.EditorKeywords = translatedHashtags;
+                e.TranslatedKeywords = translatedHashtags;
             }
         }
 
