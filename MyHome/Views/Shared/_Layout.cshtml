@@ -183,7 +183,7 @@
 
     @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified)
     {
-        <div class="verify-email">
+        <div class="verify-email hidden">
             <div class="alert alert-warning">
                 @Localizer.Get("Profile_VerifyEmailAddress")
             </div>
