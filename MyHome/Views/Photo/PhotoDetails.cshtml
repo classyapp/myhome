@@ -71,8 +71,14 @@
                 <dt>@Localizer.Get("PhotoDetails_Style")</dt>
                 <dd>@Html.RouteLinkForCurrentLocale(styles.Single(x => x.Value == Model.Metadata.Style).Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = Model.Metadata.Style }.GetSearchFilterSlug(null, null) })</dd>
                 <dt>@Localizer.Get("PhotoDetails_Keywords")</dt>
-                <dd>
-                    @foreach (var t in Model.Listing.Hashtags)
+                <dd>    
+                    @{
+                        var hashtags = Model.Listing.Hashtags;
+                        if (Model.Listing.EditorKeywords != null && Model.Listing.EditorKeywords.ContainsKey(UICulture)) {
+                            hashtags = hashtags.Union(Model.Listing.EditorKeywords[UICulture]).ToList();
+                        }
+                    }
+                    @foreach (var t in hashtags)
                     {
                         @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchPhoto", new { filters = t.TrimStart('#').ToLower().Replace("  "," ").Replace(" ","-") })<span>&nbsp;</span>
                     }

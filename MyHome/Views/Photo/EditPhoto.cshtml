@@ -41,8 +41,8 @@
                     @f.FormGroup().TextBoxFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
                     if (Model.IsEditor && Model.EditorKeywords != null) {
                         <div class="form-group">
-                            <label class="control-label" for="Hashtags">@Localizer.Get("UpdateListing_EditorKeywords")</label>
-                            <span>@string.Join(",", Model.EditorKeywords)</span>
+                            <label class="control-label" for="Hashtags" style="display:block;">@Localizer.Get("UpdateListing_EditorKeywords")</label>
+                            <span>@string.Join(",", Model.EditorKeywords.SelectMany(x => x.Value))</span>
                         </div>
                     }
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
