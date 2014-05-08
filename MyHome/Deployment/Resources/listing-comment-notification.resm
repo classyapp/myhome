@@ -1,0 +1,19 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "ListingComment_Notification_Subject",
+			"Description": "email message subject for a notification on a comment on a listing",
+			"Values": {
+				"en": "Someone commented on your {0}"
+			}
+		},
+		{ 
+			"Key": "ListingComment_Notification_Body",
+			"Description": "email message body for a notification on a comment on a listing",
+			"Values": {
+				"en": "Hi, {0}.\r\n\r\nSomeone has just commented on your {1}.\r\n{2}\r\n\r\nTeam Homelab"
+			}
+		}
+	]
+}

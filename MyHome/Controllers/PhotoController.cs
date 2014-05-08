@@ -10,14 +10,18 @@ using Classy.DotNet;
 using System.Text.RegularExpressions;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
+using Classy.DotNet.Responses;
 
 namespace MyHome.Controllers
 {
     public class PhotoController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.PhotoMetadata, MyHome.Models.PhotoGridViewModel>
     {
+        private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
+
         public PhotoController()
             : base("MyHome.Controllers") {
                 base.OnUpdateListing += PhotoController_OnUpdateListing;
+                base.OnPostedComment += PhotoController_OnPostedComment;
         }
 
         private void PhotoController_OnUpdateListing(object sender, ListingUpdateArgs e)
@@ -40,6 +44,25 @@ namespace MyHome.Controllers
                 }
                 e.EditorKeywords = translatedHashtags;
             }
+        }
+
+        private void PhotoController_OnPostedComment(object sender, ListingCommentEventArgs e)
+        {
+            // email professional
+            var message = new EmailMessage
+            {
+                subject = string.Format(Localizer.Get("ListingComment_Notification_Subject"), ListingTypeName.ToLowerInvariant()),
+                html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.ContactInfo.Name, ListingTypeName.ToLowerInvariant(),
+                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details", new { listingId = e.ListingId, slug = ListingTypeName.ToLowerInvariant() }))),
+                to = new List<EmailAddress> {
+                    new EmailAddress {
+                        email = e.Comment.Profile.ContactInfo.Email
+                    }
+                }
+            };
+            message.AddHeader("Reply-To", "team@homelab.com");
+            var api = new MandrillApi(MANDRILL_API_KEY);
+            var sendResponse = api.SendMessage(message);   
         }
 
         public override string ListingTypeName

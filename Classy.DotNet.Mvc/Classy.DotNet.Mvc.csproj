@@ -79,6 +79,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
+    <Compile Include="Controllers\ListingCommentEventArgs.cs" />
     <Compile Include="Controllers\ListingController.cs" />
     <Compile Include="Controllers\ListingUpdateArgs.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
