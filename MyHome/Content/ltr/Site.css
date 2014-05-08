@@ -842,7 +842,7 @@ span.address2
 {
     position: absolute;
     right: 5px;
-    bottom: 35px;
+    top: 35px;
 }
 
 a.action
