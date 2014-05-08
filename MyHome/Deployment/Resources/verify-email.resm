@@ -1,0 +1,33 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "Profile_VerifyEmailAddress",
+			"Description": "floating alert for non verified profiels",
+			"Values": {
+				"en": "Please verify your email address by clicking on the verification link in the registration email."
+				}
+			},
+			{ 
+			"Key": "Profile_VerifyEmail_Title",
+			"Description": "Page title for email verification",
+			"Values": {
+				"en": "Email address verification"
+				}
+			},
+			{ 
+			"Key": "Profile_VerifyEmail_Success",
+			"Description": "email verification succeeded",
+			"Values": {
+				"en": "You have successfully verified your email address.\r\n\r\nTeam Homelab"
+				}
+			},
+			{ 
+			"Key": "Profile_VerifyEmail_Failure",
+			"Description": "email verification failed",
+			"Values": {
+				"en": "An unexpected error occurred while we were trying to verify your email address. Please try again later.\r\n\r\nTeam Homelab"
+				}
+			}
+	]
+}
