@@ -349,3 +349,8 @@ div.upload
 {
     float: right;
 }
+
+#sameProject img, #sameWebOrigin img
+{
+    float: right;
+}

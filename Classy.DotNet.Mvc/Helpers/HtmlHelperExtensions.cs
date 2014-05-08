@@ -122,15 +122,15 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width)
         {
-            return Thumbnail(html, listing, width, width, true);
+            return Thumbnail(html, listing, width, width, true, 200);
         }
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height)
         {
-            return Thumbnail(html, listing, width, height, true);
+            return Thumbnail(html, listing, width, height, true, 200);
         }
 
-        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize)
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize, int threshold)
         {
             setSize &= height.HasValue;
             string sizeString = setSize ? string.Format(" width=\"{0}\" height=\"{1}\" ", width, height.Value) : string.Empty;
@@ -139,10 +139,20 @@ namespace Classy.DotNet.Mvc
                 string url = string.Format("//{0}/thumbnail/{1}?Width={2}&Height={3}&format=json",
                     ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, width, height.GetValueOrDefault(0));
 
-                return new MvcHtmlString(
-                    string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString) +
-                    string.Format("<noscript><img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" /></noscript>", url, listing.Title, listing.Title, sizeString)
-                    );
+                if (threshold > 0)
+                {
+                    return new MvcHtmlString(
+                        string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-threshold=\"{4}\" data-src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString, threshold) +
+                        string.Format("<noscript><img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" /></noscript>", url, listing.Title, listing.Title, sizeString)
+                        );
+                }
+                else 
+                {
+                    return new MvcHtmlString(
+                        string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString) +
+                        string.Format("<noscript><img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" /></noscript>", url, listing.Title, listing.Title, sizeString)
+                        );
+                }
             }
 
             return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", "/img/missing-thumb.png", listing.Title, listing.Title, sizeString));
