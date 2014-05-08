@@ -1556,8 +1556,8 @@ div.thumbs4 > div.thumb
 
 .verify-email
 {
-    position: absolute;
-    top: 64px;
+    position: fixed;
+    top: 124px;
     right: 0;
     left: 0;
     text-align: center;
@@ -1566,7 +1566,7 @@ div.thumbs4 > div.thumb
 
     .verify-email .alert
     {
-        padding: 5px 15px;
+        padding: 15px 15px;
         margin: 0px;
         display: inline-block;
     }
