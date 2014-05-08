@@ -8,11 +8,14 @@ using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet;
 using Classy.DotNet.Responses;
+using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
 {
     public class SecurityController : Classy.DotNet.Mvc.Controllers.Security.SecurityController<MyHome.Models.UserMetadata>
     {
+        private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
+
         public SecurityController()
             : base("MyHome.Controllers") 
         {
@@ -23,6 +26,31 @@ namespace MyHome.Controllers
         {
             // send welcome email
             // with a verify email link in the follwing format /profile/verify/{profile.Metadata["EmailHash"]}
+            string body = null;
+            if (!string.IsNullOrEmpty(profile.ContactInfo.FirstName))
+            {
+                body = string.Format(Localizer.Get("WelcomeEmail_BodyWithName", true),
+                    string.Format("{0} {1}", profile.ContactInfo.FirstName, profile.ContactInfo.LastName,
+                    string.Concat("https://" + AppView.Hostname + Url.RouteUrl("VerifyProfileEmail", new { hash = profile.Metadata["EmailHash"] }))));
+            }
+            else
+            {
+                body = string.Format(Localizer.Get("WelcomeEmail_BodyNoName", true),
+                    string.Concat("https://" + AppView.Hostname + Url.RouteUrl("VerifyProfileEmail", new { hash = profile.Metadata["EmailHash"] })));
+            }
+            var message = new EmailMessage
+            {
+                subject = string.Format(Localizer.Get("WelcomeEmail_Subject")),
+                to = new List<EmailAddress> {
+                    new EmailAddress {
+                        email = profile.ContactInfo.Email
+                    }
+                },
+                html = body
+            };
+            message.AddHeader("Reply-To", "team@homelab.com");
+            var api = new MandrillApi(MANDRILL_API_KEY);
+            var sendResponse = api.SendMessage(message);
         }
     }
 }

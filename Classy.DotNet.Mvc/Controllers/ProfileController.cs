@@ -1055,11 +1055,14 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
+        [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult VerifyProfileEmail(string hash)
         {
             var profileService = new ProfileService();
-            return View(profileService.VerifyEmail(hash));
+            var response = profileService.VerifyEmail(hash);
+           
+            return Redirect(Url.RouteUrl("PublicProfile", new { profileId = AuthenticatedUserProfile.Id }) + "?EmailVerified=" + response.Verified.ToString());
         }
         #endregion
     }

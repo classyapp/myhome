@@ -546,7 +546,6 @@
     <Content Include="Views\Security\ResetPassword.cshtml" />
     <Content Include="Views\Profile\SendEmail.cshtml" />
     <Content Include="Web.AppHarbor.config" />
-    <Content Include="Views\Profile\VerifyProfileEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

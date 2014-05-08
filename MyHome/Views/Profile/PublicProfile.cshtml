@@ -82,6 +82,16 @@
             @Localizer.Get("ContactPro_Success")
         </div>
 
+        @if (HttpContext.Current.Request["EmailVerified"] == true.ToString())
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("Profile_VerifyEmail_Success")).Closeable().Style(AlertColor.Success)
+        }
+
+        @if (HttpContext.Current.Request["EmailVerified"] == false.ToString())
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("Profile_VerifyEmail_Failure")).Closeable().Style(AlertColor.Warning)
+        }
+
         @if (TempData["ReviewSuccess"] != null)
         {
             @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_ReviewSuccess")).Closeable().Style(AlertColor.Success)
