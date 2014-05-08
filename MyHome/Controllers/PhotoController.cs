@@ -54,7 +54,7 @@ namespace MyHome.Controllers
             {
                 subject = Localizer.Get("ListingComment_Notification_Subject"),
                 html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.ContactInfo.Name, AuthenticatedUserProfile.GetProfileName(),
-                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details",  new { controller = ListingTypeName, listingId = e.ListingId, slug = "show" }))),
+                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details"))),
                 to = new List<EmailAddress> {
                     new EmailAddress {
                         email = e.Comment.Profile.ContactInfo.Email
