@@ -52,8 +52,8 @@ namespace MyHome.Controllers
             // email professional
             var message = new EmailMessage
             {
-                subject = Localizer.Get("ListingComment_Notification_Subject"),
-                html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.GetProfileName(), AuthenticatedUserProfile.GetProfileName(),
+                subject = Localizer.Get("PhotoComment_Notification_Subject", e.Comment.Profile.DefaultCulture ?? "en"),
+                html = string.Format(Localizer.Get("PhotoComment_Notification_Body", e.Comment.Profile.DefaultCulture ?? "en"), e.Comment.Profile.GetProfileName(), AuthenticatedUserProfile.GetProfileName(),
                         string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details"))),
                 to = new List<EmailAddress> {
                     new EmailAddress {

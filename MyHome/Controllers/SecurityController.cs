@@ -29,18 +29,18 @@ namespace MyHome.Controllers
             //string body = null;
             //if (!string.IsNullOrEmpty(profile.ContactInfo.FirstName))
             //{
-            //    body = string.Format(Localizer.Get("WelcomeEmail_BodyWithName", true),
+            //    body = string.Format(Localizer.Get("WelcomeEmail_BodyWithName", profile.DefaultCulture ?? "en", true),
             //        string.Format("{0} {1}", profile.ContactInfo.FirstName, profile.ContactInfo.LastName,
             //        string.Concat("https://" + AppView.Hostname + Url.RouteUrl("VerifyProfileEmail", new { hash = profile.Metadata["EmailHash"] }))));
             //}
             //else
             //{
-            //    body = string.Format(Localizer.Get("WelcomeEmail_BodyNoName", true),
+            //    body = string.Format(Localizer.Get("WelcomeEmail_BodyNoName", profile.DefaultCulture ?? "en", true),
             //        string.Concat("https://" + AppView.Hostname + Url.RouteUrl("VerifyProfileEmail", new { hash = profile.Metadata["EmailHash"] })));
             //}
             //var message = new EmailMessage
             //{
-            //    subject = string.Format(Localizer.Get("WelcomeEmail_Subject")),
+            //    subject = string.Format(Localizer.Get("WelcomeEmail_Subject", profile.DefaultCulture ?? "en")),
             //    to = new List<EmailAddress> {
             //        new EmailAddress {
             //            email = profile.ContactInfo.Email

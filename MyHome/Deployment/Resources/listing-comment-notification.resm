@@ -2,17 +2,23 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
-			"Key": "ListingComment_Notification_Subject",
+			"Key": "PhotoComment_Notification_Subject",
 			"Description": "email message subject for a notification on a comment on a listing",
 			"Values": {
-				"en": "Someone commented on your {0}"
+				"en" : "New Comment on HomeLab",
+				"he" : "תגובה חדשה ב-HomeLab",
+				"fr" : "Nouveau commentaire sur HomeLab",
+				"nl" : "Nieuw bericht op Homelab"
 			}
 		},
 		{ 
-			"Key": "ListingComment_Notification_Body",
+			"Key": "PhotoComment_Notification_Body",
 			"Description": "email message body for a notification on a comment on a listing",
 			"Values": {
-				"en": "Hi, {0}.\r\n\r\nSomeone has just commented on your {1}.\r\n{2}\r\n\r\nTeam Homelab"
+				"en" : "Hi, {0}.\r\n\r\n{1} has just commented on one of your posts on HomeLab!\r\nSee the new comment here: {2}\r\n\r\nTeam HomeLab",
+				"he" : "הי {0},\r\n\r\nתגובה חדשה לפוסט שלך פורסמה ע״י {1}.\r\nלצפיה: {2}\r\n\r\nבברכה,\r\n\r\nצוות HomeLab",
+				"fr" : "Bonjour, {0}. Un membre vient de commenter votre {1}. {2} L'équipe Homelab",
+				"nl" : "Hoi, {0}. Iemand heeft gereageerd op jouw {1}. {2} Team Homelab"
 			}
 		}
 	]
