@@ -32,7 +32,11 @@ XHRFileUpload.prototype = (function () {
             this._xhr.upload.onerror = onError;
             this._xhr.upload.onprogress = onProgress;
             this._xhr.onreadystatechange = $.proxy(function () {
-                if (this._xhr.readyState == 4 && this._xhr.status == 200) { onSuccess($.parseJSON(this._xhr.response)) }
+                if (this._xhr.readyState == 4)
+                {
+                    if (this._xhr.status == 200) { onSuccess($.parseJSON(this._xhr.response)) }
+                    else if (this._xhr.status == 500) { onError(this._xhr) }
+                }
             }, this);
 
             var data = new FormData();
