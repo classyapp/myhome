@@ -52,9 +52,9 @@ namespace MyHome.Controllers
             // email professional
             var message = new EmailMessage
             {
-                subject = string.Format(Localizer.Get("ListingComment_Notification_Subject"), ListingTypeName.ToLowerInvariant()),
-                html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.ContactInfo.Name, ListingTypeName.ToLowerInvariant(),
-                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details", new { listingId = e.ListingId, slug = ListingTypeName.ToLowerInvariant() }))),
+                subject = Localizer.Get("ListingComment_Notification_Subject"),
+                html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.ContactInfo.Name, AuthenticatedUserProfile.GetProfileName(),
+                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details", new { listingId = e.ListingId, slug = "show" }))),
                 to = new List<EmailAddress> {
                     new EmailAddress {
                         email = e.Comment.Profile.ContactInfo.Email
