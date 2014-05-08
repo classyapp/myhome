@@ -53,7 +53,7 @@ namespace MyHome.Controllers
             var message = new EmailMessage
             {
                 subject = Localizer.Get("ListingComment_Notification_Subject"),
-                html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.ContactInfo.Name, AuthenticatedUserProfile.GetProfileName(),
+                html = string.Format(Localizer.Get("ListingComment_Notification_Body"), e.Comment.Profile.GetProfileName(), AuthenticatedUserProfile.GetProfileName(),
                         string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details"))),
                 to = new List<EmailAddress> {
                     new EmailAddress {
