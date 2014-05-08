@@ -36,7 +36,7 @@ namespace MyHome.Controllers
                     new EmailAddress {
                         email = e.ReviewResponse.RevieweeProfile.ProfessionalInfo.CompanyContactInfo.Email
                     }
-                },
+                }
             };
             message.AddGlobalVariable("CONTENT", string.Format(Localizer.Get("Mail_NewReview_Body"),
                 e.ReviewResponse.RevieweeProfile.ProfessionalInfo.CompanyContactInfo.Name, 

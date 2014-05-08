@@ -46,6 +46,7 @@ namespace MyHome.Controllers
                         email = profile.ContactInfo.Email
                     }
                 },
+                from_email = "team@homelab.com", 
                 html = body
             };
             message.AddHeader("Reply-To", "team@homelab.com");

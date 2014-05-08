@@ -59,7 +59,8 @@ namespace MyHome.Controllers
                     new EmailAddress {
                         email = e.Comment.Profile.ContactInfo.Email
                     }
-                }
+                },
+                from_email = "team@homelab.com"
             };
             message.AddHeader("Reply-To", "team@homelab.com");
             var api = new MandrillApi(MANDRILL_API_KEY);
