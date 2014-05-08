@@ -2,7 +2,7 @@
 
 @{
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
-    var photos = Model.Where(x => !x.Metadata.ContainsKey("IsWebPhoto") || x.Metadata["IsWebPhoto"] != "True");
+    var photos = Model.Where(x => (!x.Metadata.ContainsKey("IsWebPhoto") || x.Metadata["IsWebPhoto"] != "True") && x.ExternalMedia.Count > 0);
 }
 
 <div class="modal-header">
