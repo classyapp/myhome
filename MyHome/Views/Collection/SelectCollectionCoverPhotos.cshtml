@@ -12,7 +12,7 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12 my-photos">
-            @if (photos.Count > 0)
+            @if (photos.Count() > 0)
             {
                 <p>@Localizer.Get("SelectCollectionCoverPhotos_HowTo")</p>
                 foreach (var photo in photos)
@@ -36,7 +36,7 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" data-dismiss="modal">@Localizer.Get("Cancel")</button>
-    @if (photos.Count > 0)
+    @if (photos.Count() > 0)
     {
         <button class="btn btn-primary disabled" id="saveCoverPhotos" onclick="setCoverPhotos()">@Localizer.Get("Save")</button>
     }
