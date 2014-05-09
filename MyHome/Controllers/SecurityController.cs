@@ -49,6 +49,11 @@ namespace MyHome.Controllers
             //    from_email = "team@homelab.com", 
             //    html = body
             //};
+            //System.Text.RegularExpressions.Regex dirRegex = new System.Text.RegularExpressions.Regex("[\\p{IsHebrew}]");
+            //if (dirRegex.IsMatch(message.html.Substring(0, Math.Min(message.html.Length, 10))))
+            //{
+            //    message.html = "<div style=\"direction: rtl\">" + message.html + "</div>";
+            //}
             //message.AddHeader("Reply-To", "team@homelab.com");
             //var api = new MandrillApi(MANDRILL_API_KEY);
             //var sendResponse = api.SendMessage(message);
