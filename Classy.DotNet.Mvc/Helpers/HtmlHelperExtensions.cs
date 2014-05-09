@@ -122,12 +122,12 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width)
         {
-            return Thumbnail(html, listing, width, width, true, 200);
+            return Thumbnail(html, listing, width, width, true, false);
         }
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height)
         {
-            return Thumbnail(html, listing, width, height, true, 200);
+            return Thumbnail(html, listing, width, height, true, false);
         }
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize, bool immediateLoad)
