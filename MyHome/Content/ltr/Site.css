@@ -503,6 +503,15 @@ a, a:visited
     top: 0;
 }
 
+.photo-details .actions .share-email
+{
+    border: none;
+    font-size: 16px;
+    padding-top: 5px;
+    padding-right: 3px;
+    background-color: #aad450;
+    color: #fff;
+}
 .photo-details .actions .share-facebook
 {
     background-color: #3b5998;
@@ -1062,6 +1071,29 @@ a.action
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
+.collection .view-icons {
+    position: relative;
+    height: 35px;
+    text-align: center;
+}
+.collection .view-icons .icons {
+    position:relative;
+    font-size: 18px;
+    z-index: 99;
+    padding-top: 9px;
+}
+
+.collection .view-icons hr {
+    z-index: 98;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+    .collection .view-icons a {
+        padding: 0 20px;
+        background-color: #f0f0f0;
+    }
 
 .collection-items
 {

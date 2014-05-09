@@ -130,6 +130,11 @@ namespace Classy.DotNet.Mvc
             return Thumbnail(html, listing, width, height, true, true);
         }
 
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, bool setSize, bool lazyLoad)
+        {
+            return Thumbnail(html, listing, width, null, setSize, lazyLoad);
+        }
+
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize, bool lazyLoad)
         {
             setSize &= height.HasValue;
