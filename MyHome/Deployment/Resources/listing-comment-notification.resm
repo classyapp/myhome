@@ -5,20 +5,14 @@
 			"Key": "PhotoComment_Notification_Subject",
 			"Description": "email message subject for a notification on a comment on a listing",
 			"Values": {
-				"en" : "New Comment on HomeLab",
-				"he" : "תגובה חדשה ב-HomeLab",
-				"fr" : "Nouveau commentaire sur HomeLab",
-				"nl" : "Nieuw bericht op Homelab"
+				"en" : "New Comment on HomeLab"
 			}
 		},
 		{ 
 			"Key": "PhotoComment_Notification_Body",
 			"Description": "email message body for a notification on a comment on a listing",
 			"Values": {
-				"en" : "Hi, {0}.\r\n\r\n{1} has just commented on one of your posts on HomeLab!\r\nSee the new comment here: {2}\r\n\r\nTeam HomeLab",
-				"he" : "הי {0},\r\n\r\nתגובה חדשה לפוסט שלך פורסמה ע\"י {1}.\r\nלצפיה: {2}\r\n\r\nבברכה,\r\n\r\nצוות HomeLab",
-				"fr" : "Bonjour, {0}. Un membre vient de commenter votre {1}. {2} L'équipe Homelab",
-				"nl" : "Hoi, {0}. Iemand heeft gereageerd op jouw {1}. {2} Team Homelab"
+				"en" : "Hi, {0}. {1} has just commented on one of your posts on HomeLab! See the new comment here: {2}. Team HomeLab"
 			}
 		}
 	]
