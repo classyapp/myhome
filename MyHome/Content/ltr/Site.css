@@ -29,6 +29,11 @@ hr
     border-bottom: solid 1px #ddd;
 }
 
+img[data-rel="thumbnail"] {
+    opacity: 0;
+    transition: opacity .3s ease-in;
+}
+
 a, a:visited
 {
     color: #777;
