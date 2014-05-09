@@ -10,7 +10,7 @@
                 @foreach (var listing in Model.CollectionLisitngs)
                 {
                     <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = listing.Id, Slug = listing.Title.ToSlug() })" title="@listing.Title">
-                        @Html.Thumbnail(listing, 80, 80, true, 0)
+                        @Html.Thumbnail(listing, 80, 80, true, true)
                     </a>
                 }
             </div>
@@ -26,7 +26,7 @@
                 @foreach (var listing in Model.SearchResults)
                 {
                     <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = listing.Id, Slug = listing.Title.ToSlug() })" title="@listing.Title">
-                        @Html.Thumbnail(listing, 80, 80, true, 0)
+                        @Html.Thumbnail(listing, 80, 80, true, true)
                     </a>
                 }
             </div>

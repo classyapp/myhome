@@ -41,7 +41,7 @@
 
     <div class="col-md-7">
         <div class="photo clearfix">
-            @Html.Thumbnail(Model.Listing, 640, 0, true, 0)
+            @Html.Thumbnail(Model.Listing, 640, 0, true, true)
             @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
