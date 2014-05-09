@@ -2,6 +2,7 @@
 
 @{
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+    var photos = Model.Where(x => x.ExternalMedia.Count > 0);
 }
 
 <div class="modal-header">
@@ -11,10 +12,10 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12 my-photos">
-            @if (Model.Count > 0)
+            @if (photos.Count() > 0)
             {
                 <p>@Localizer.Get("SelectCollectionCoverPhotos_HowTo")</p>
-                foreach (var photo in Model)
+                foreach (var photo in photos)
                 {
                     <div class="col-md-4">
                         <div class="thumbnail">
@@ -35,7 +36,7 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" data-dismiss="modal">@Localizer.Get("Cancel")</button>
-    @if (Model.Count > 0)
+    @if (photos.Count() > 0)
     {
         <button class="btn btn-primary disabled" id="saveCoverPhotos" onclick="setCoverPhotos()">@Localizer.Get("Save")</button>
     }
