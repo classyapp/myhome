@@ -99,7 +99,6 @@ String.prototype.decodeHTML = function () {
 
 Classy.UnveilImages = function () {
     $('img[data-rel="thumbnail"]').unveil(200).error(function () { $(this).attr("src", "/img/missing-thumb.png") });
-    $('img[data-rel="thumbnail-immediate"]').unveil(0).error(function () { $(this).attr("src", "/img/missing-thumb.png") });
 };
 
 $(function () {

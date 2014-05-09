@@ -122,29 +122,37 @@ namespace Classy.DotNet.Mvc
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width)
         {
-            return Thumbnail(html, listing, width, width, true, false);
+            return Thumbnail(html, listing, width, width, true, true);
         }
 
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height)
         {
-            return Thumbnail(html, listing, width, height, true, false);
+            return Thumbnail(html, listing, width, height, true, true);
         }
 
-        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize, bool immediateLoad)
+        public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, ListingView listing, int width, int? height, bool setSize, bool lazyLoad)
         {
             setSize &= height.HasValue;
             string sizeString = setSize ? string.Format(" width=\"{0}\" height=\"{1}\" ", width, height.Value) : string.Empty;
-            string lazyLoadString = immediateLoad ? "data-rel=\"thumbnail-immediate\"" : "data-rel=\"thumbnail\"";
             if (listing.ExternalMedia != null && listing.ExternalMedia.Count() > 0)
             {
                 string url = string.Format("//{0}/thumbnail/{1}?Width={2}&Height={3}&format=json",
                     ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"], listing.ExternalMedia[0].Key, width, height.GetValueOrDefault(0));
-                
-                return new MvcHtmlString(
-                        string.Concat(
-                            string.Format("<img src=\"/img/missing-thumb.png\" data-src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} {4} class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString, lazyLoadString),
-                            string.Format("<noscript><img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" /></noscript>", url, listing.Title, listing.Title, sizeString))
-                        );
+
+                if (lazyLoad)
+                {
+                    return new MvcHtmlString(
+                            string.Concat(
+                                string.Format("<img src=\"/img/missing-thumb.png\" data-src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} data-rel=\"thumbnail\" class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString),
+                                string.Format("<noscript><img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" /></noscript>", url, listing.Title, listing.Title, sizeString))
+                            );
+                }
+                else
+                {
+                    return new MvcHtmlString(
+                                string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", url, listing.Title, listing.Title, sizeString)
+                            );
+                }
             }
 
             return new MvcHtmlString(string.Format("<img src=\"{0}\" title=\"{1}\" alt=\"{2}\" {3} class=\"img-responsive\" />", "/img/missing-thumb.png", listing.Title, listing.Title, sizeString));
