@@ -79,7 +79,9 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
+    <Compile Include="Controllers\ListingCommentEventArgs.cs" />
     <Compile Include="Controllers\ListingController.cs" />
+    <Compile Include="Controllers\ListingUpdateArgs.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ParseProfilesCsvLineArgs.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
+    <Compile Include="ViewModels\Listing\ListingMoreInfoViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
     <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />
     <Compile Include="ViewModels\Listing\PhotoActionsViewModel.cs" />

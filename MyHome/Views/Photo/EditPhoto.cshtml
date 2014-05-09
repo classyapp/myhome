@@ -38,7 +38,16 @@
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false)
                     @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false)
                     @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false)
-                    @f.FormGroup().TextAreaFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
+                    var editorKeywordsValue = Model.TranslatedKeywords != null && Model.TranslatedKeywords.ContainsKey("en") ? Model.TranslatedKeywords["en"] : new [] {""};
+                    
+                    if (Model.IsEditor && Model.TranslatedKeywords != null) {
+                        @f.FormGroup().TextBoxFor(x => x.EditorKeywords).Id("editorKeywords").Value(string.Join(",", editorKeywordsValue)).ShowValidationMessage(false)
+                        <div class="form-group">
+                            <label class="control-label" for="Hashtags" style="display:block;">@Localizer.Get("UpdateListing_EditorKeywords")</label>
+                            <span>@string.Join(",", Model.TranslatedKeywords.SelectMany(x => x.Value))</span>
+                        </div>
+                    }
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
                 }
             </div>
@@ -128,6 +137,11 @@
 
     <script type="text/javascript">
         $('#hashtags').tagsInput({
+            width: 'auto',
+            minInputWidth: 'auto',
+            defaultText: 'Add Tag'
+        });
+        $('#editorKeywords').tagsInput({
             width: 'auto',
             minInputWidth: 'auto',
             defaultText: 'Add Tag'

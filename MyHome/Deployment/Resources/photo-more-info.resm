@@ -1,0 +1,26 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "PhotoDetails_MoreInfo_PhotosTitle",
+			"Description": "title of section on photo details for images from the same collection/project",
+			"Values": {
+				"en": "More photos from the same {0}"
+			}
+		},
+		{ 
+			"Key": "PhotoDetails_MoreInfo_WebOriginTitle",
+			"Description": "title of section on photo details for images from the same web origin (for images uploaded via extension)",
+			"Values": {
+				"en": "More photos from {0}"
+			}
+		},
+		{
+			"Key": "PhotoDetails_MoreInfo_ProjectsTitle",
+			"Description": "title of section on photo details for collection containing this photo",
+			"Values": {
+				"en": "More collections containing this photo"
+			}
+		}
+	]
+}

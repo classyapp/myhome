@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5
 
 .media > .pull-left
 {
-    margin-left: 0;
+    margin-left: 10px;
 }
 
 /* profile page*/
@@ -346,6 +346,11 @@ a.action
 }
 
 div.upload
+{
+    float: right;
+}
+
+#sameProject img, #sameWebOrigin img
 {
     float: right;
 }

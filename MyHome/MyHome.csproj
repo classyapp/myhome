@@ -75,6 +75,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -436,10 +437,13 @@
     </None>
     <Content Include="Deployment\Resources\markdown.resm" />
     <Content Include="Deployment\Resources\DeletePhotos.resm" />
+    <Content Include="Deployment\Resources\listing-comment-notification.resm" />
     <None Include="Deployment\Resources\manage-resources-page-fix-1.resm" />
     <Content Include="Deployment\Resources\publicprofile-fix-1.resm" />
     <Content Include="Deployment\Resources\add-missing-keys-1.resm" />
     <Content Include="Deployment\Resources\seo-professional-categories.resm" />
+    <Content Include="Deployment\Resources\photo-more-info.resm" />
+    <Content Include="Deployment\Resources\verify-email.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />
@@ -465,6 +469,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unveil.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -544,6 +549,7 @@
     <Content Include="Views\Security\ResetPassword.cshtml" />
     <Content Include="Views\Profile\SendEmail.cshtml" />
     <Content Include="Web.AppHarbor.config" />
+    <Content Include="Views\Photo\MoreInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

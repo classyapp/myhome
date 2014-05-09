@@ -1,0 +1,19 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "PhotoComment_Notification_Subject",
+			"Description": "email message subject for a notification on a comment on a listing",
+			"Values": {
+				"en" : "New Comment on HomeLab"
+			}
+		},
+		{ 
+			"Key": "PhotoComment_Notification_Body",
+			"Description": "email message body for a notification on a comment on a listing",
+			"Values": {
+				"en" : "Hi, {0}. {1} has just commented on one of your posts on HomeLab! See the new comment here: {2}. Team HomeLab"
+			}
+		}
+	]
+}

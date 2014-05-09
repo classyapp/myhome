@@ -26,6 +26,10 @@ namespace Classy.DotNet.Mvc.Controllers
         public ListingController() : base() { }
         public ListingController(string ns) : base(ns) { }
 
+        public EventHandler<ListingUpdateArgs> OnUpdateListing;
+        public EventHandler<ListingCommentEventArgs> OnPostedComment;
+
+
         /// <summary>
         /// register routes within host app's route collection
         /// </summary>
@@ -91,6 +95,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: string.Concat(ListingTypeName, "Details"),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}--{slug}"),
                 defaults: new { controller = ListingTypeName, action = "GetListingById", slug = "show" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
+                name: string.Concat(ListingTypeName, "MoreInfo"),
+                url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/more"),
+                defaults: new { controller = ListingTypeName, action = "GetListingMoreInfo" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -317,7 +328,11 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var service = new ListingService();
-                service.PostComment(listingId, content, ListingService.ObjectType.Listing);
+                var comment = service.PostComment(listingId, content, ListingService.ObjectType.Listing);
+                if (OnPostedComment != null)
+                {
+                    OnPostedComment(this, new ListingCommentEventArgs { Comment = comment, ListingType = ListingService.ObjectType.Listing });
+                }
                 TempData["PostComment_Success"] = true;
             }
             catch(ClassyException cvx)
@@ -406,7 +421,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     Metadata = listingMetadata,
                     DefaultCulture = listing.DefaultCulture,
                     IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
-                    Hashtags = listing.Hashtags
+                    Hashtags = listing.Hashtags,
+                    EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new []{""},
+                    TranslatedKeywords = listing.TranslatedKeywords
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -422,9 +439,17 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
+                var updatedListingArgs = new ListingUpdateArgs
+                {
+                    IsEditor = AuthenticatedUserProfile.IsEditor,
+                    EditorKeywords = model.EditorKeywords
+                };
+                OnUpdateListing(this, updatedListingArgs);
+
                 var fields = ListingUpdateFields.Title | ListingUpdateFields.Content;
                 if (model.Metadata != null) fields |= ListingUpdateFields.Metadata;
                 if (model.Hashtags != null) fields |= ListingUpdateFields.Hashtags;
+                if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 if (ModelState.IsValid)
                 {
                     var service = new ListingService();
@@ -435,6 +460,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         null,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         model.Hashtags,
+                        updatedListingArgs.TranslatedKeywords,
                         fields);
 
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
@@ -621,6 +647,16 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 throw ex;
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetListingMoreInfo(ListingMoreInfoViewModel model)
+        {
+            var listingService = new ListingService();
+            var info = listingService.GetLisingMoreInfo(model.ListingId, model.Metadata);
+            info.Metadata = model.Metadata;
+
+            return PartialView("MoreInfo", info);
         }
     }
 }

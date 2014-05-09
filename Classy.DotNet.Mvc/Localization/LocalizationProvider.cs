@@ -105,7 +105,7 @@ namespace Classy.DotNet.Mvc.Localization
                             {
                                 sLocalizedText = sKey;
                             }
-
+                            
                             ((System.ComponentModel.DataAnnotations.CompareAttribute)attr).ErrorMessage = sLocalizedText;
                         }
                     }

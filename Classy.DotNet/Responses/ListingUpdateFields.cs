@@ -16,6 +16,7 @@ namespace Classy.DotNet.Responses
         ContactInfo = 8,
         SchedulingTemplate = 16,
         Metadata = 32,
-        Hashtags = 64
+        Hashtags = 64,
+        EditorKeywords = 128
     }
 }

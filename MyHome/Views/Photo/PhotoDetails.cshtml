@@ -12,7 +12,10 @@
 @section MetaTags {
     <meta name="og:title" content="@Model.Listing.Title" />
     <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? string.Format(Localizer.Get("PhotoDetails_Description", false), rooms.GetText(Model.Metadata.Room), styles.GetText(Model.Metadata.Style), Model.Listing.Profile.GetProfileName()) : Model.Listing.Content)" />
-    <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+    @if (Model.Listing.ExternalMedia.Count > 0)
+    {
+        <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+    }
 }
 
 @section ActionBar {
@@ -37,8 +40,10 @@
     </div>
 
     <div class="col-md-7">
+        <h2>@Model.Listing.Title</h2>
+
         <div class="photo clearfix">
-            <img src="@Model.Listing.ExternalMedia[0].Url" class="img-responsive" />
+            @Html.Thumbnail(Model.Listing, 640, 0, false, true)
             @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
@@ -50,10 +55,12 @@
             </div>
         </div>
         
-        <h2>@Model.Listing.Title</h2>
         <p>@Model.Listing.Content</p>
 
+        <div id="moreCollections"></div>
+
         <hr/>
+
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
         <div>
             <dl class="dl-horizontal">
@@ -68,14 +75,21 @@
                 <dt>@Localizer.Get("PhotoDetails_Style")</dt>
                 <dd>@Html.RouteLinkForCurrentLocale(styles.Single(x => x.Value == Model.Metadata.Style).Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = Model.Metadata.Style }.GetSearchFilterSlug(null, null) })</dd>
                 <dt>@Localizer.Get("PhotoDetails_Keywords")</dt>
-                <dd>
-                    @foreach (var t in Model.Listing.Hashtags)
+                <dd>    
+                    @{
+                        var hashtags = Model.Listing.Hashtags;
+                        if (Model.Listing.TranslatedKeywords != null && Model.Listing.TranslatedKeywords.ContainsKey(UICulture)) {
+                            hashtags = hashtags.Union(Model.Listing.TranslatedKeywords[UICulture]).ToList();
+                        }
+                    }
+                    @foreach (var t in hashtags)
                     {
                         @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchPhoto", new { filters = t.TrimStart('#').ToLower().Replace("  "," ").Replace(" ","-") })<span>&nbsp;</span>
                     }
                 </dd>
             </dl>
         </div>
+
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
@@ -89,43 +103,49 @@
                 }
             </div>
         </div>
-        
+
         <hr />
 
         @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
 
         <hr />
-        <div>
-            <p>
-                <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
-            </p>
-        
-            @if (Model.Listing.CommentCount == 0)
-            {
-                <p>@Localizer.Get("PhotoDetails_NoComments")</p>
-            }
-            
-            @foreach (var c in Model.Listing.Comments)
-            {
-                <p class="comment">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
-                        </div>
-                        <div class="media-body">
-                            <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
-                            <p>@c.Content</p>
-                        </div>
-                    </div>
-                </p>
-            }
 
-            @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
-            {
-                @Html.Hidden("ListingId", Model.Listing.Id);
-                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
-            }
+        <div id="moreinfo"></div>
+
+        <div class="panel panel-default" id="projectsSameListing">
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
+            </div>
+                <div class="panel-body">
+
+                    @if (Model.Listing.CommentCount == 0)
+                    {
+                        <p>@Localizer.Get("PhotoDetails_NoComments")</p>
+                    }
+
+                    @foreach (var c in Model.Listing.Comments)
+                    {
+                        <p class="comment">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
+                                </div>
+                                <div class="media-body">
+                                    <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                                    <p>@c.Content</p>
+                                </div>
+                            </div>
+                        </p>
+                    }
+
+                    @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
+                    {
+                        @Html.Hidden("ListingId", Model.Listing.Id);
+                        @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -137,3 +157,24 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            var metadata = {};
+            @if (Model.Metadata.IsWebPhoto && !string.IsNullOrWhiteSpace(Model.Metadata.Host))
+            {
+                @:metadata = { "IsWebPhoto": ["True"], "Host": ["@Model.Metadata.Host"] };
+            }
+            // load more info
+            $.get("/photo/@Model.Listing.Id/more", { Metadata: metadata }, function (response) {
+                var html = $(response);
+                $("#moreinfo").append(html.find("#sameProject"));
+                $("#moreinfo").append(html.find("#sameWebOrigin"));
+                $("#moreCollections").html(html.find("#projectsSameListing"));
+                Classy.UnveilImages();
+            }, "html");
+        });
+    </script>
+}

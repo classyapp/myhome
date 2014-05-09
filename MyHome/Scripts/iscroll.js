@@ -28,6 +28,7 @@
                     bindTriggerActions(html);
                     resetPagination(page);
 
+                    Classy.UnveilImages();
                     Classy.AjaxReconnect();
                 });
             }
