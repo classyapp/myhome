@@ -52,6 +52,8 @@
     </div>
 
     <div class="col-md-9">
+        @if (Model.IncludedListings != null && Model.IncludedListings.Count() > 0 && Model.IncludedListings.Any(x => !string.IsNullOrEmpty(x.Comments)))
+        {
         <div class="view-icons">
             <hr />
             <div class="icons">
@@ -59,6 +61,8 @@
                 <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { view = "list" })"><i class="fa fa-th-list"></i></a>
             </div>
         </div>
+        }
+        
         <p>@Model.Content</p>
         <div class="row" id="photos">
             @if (photos != null)
