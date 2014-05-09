@@ -97,7 +97,7 @@ a, a:visited
 
 .media > .pull-left
 {
-    margin-right: 0;
+    margin-right: 10px;
 }
 
 .media-body
