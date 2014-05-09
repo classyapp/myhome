@@ -5,7 +5,9 @@
     @if (Model.CollectionLisitngs != null && Model.CollectionLisitngs.Count > 0)
     {
         <div class="panel panel-default" id="sameProject">
-            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_PhotosTitle"), Model.CollectionType)</div>
+            <div class="panel-heading">
+                <h4 class="panel-title">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_PhotosTitle"), Model.CollectionType)</h4>
+            </div>
             <div class="panel-body">
                 @foreach (var listing in Model.CollectionLisitngs)
                 {
@@ -21,7 +23,9 @@
     @if (Model.SearchResults != null && Model.SearchResults.Count > 0)
     {
          <div class="panel panel-default" id="sameWebOrigin">
-            <div class="panel-heading">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_WebOriginTitle", Model.Metadata["Host"][0]))</div>
+            <div class="panel-heading">
+                <h4 class="panel-title">@string.Format(Localizer.Get("PhotoDetails_MoreInfo_WebOriginTitle", Model.Metadata["Host"][0]))</h4>
+            </div>
             <div class="panel-body">
                 @foreach (var listing in Model.SearchResults)
                 {
@@ -37,7 +41,9 @@
     @if (Model.Collections != null && Model.Collections.Count > 0)
     {
         <div class="panel panel-default" id="projectsSameListing">
-            <div class="panel-heading">@Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle")</div>
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("PhotoDetails_MoreInfo_ProjectsTitle")</h4>
+            </div>
             <div class="panel-body">
                 <div class="row">
                     @foreach (var collection in Model.Collections)

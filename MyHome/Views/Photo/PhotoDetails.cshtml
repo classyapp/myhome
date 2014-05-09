@@ -57,11 +57,10 @@
         
         <p>@Model.Listing.Content</p>
 
-        <hr />
-
         <div id="moreCollections"></div>
 
         <hr/>
+
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
         <div>
             <dl class="dl-horizontal">
@@ -114,7 +113,9 @@
         <div id="moreinfo"></div>
 
         <div class="panel panel-default" id="projectsSameListing">
-            <div class="panel-heading">@Localizer.Get("PhotoDetails_Comments")</div>
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
+            </div>
                 <div class="panel-body">
 
                     @if (Model.Listing.CommentCount == 0)
