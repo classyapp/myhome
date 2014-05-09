@@ -40,8 +40,10 @@
     </div>
 
     <div class="col-md-7">
+        <h2>@Model.Listing.Title</h2>
+
         <div class="photo clearfix">
-            @Html.Thumbnail(Model.Listing, 640, 0, true, true)
+            @Html.Thumbnail(Model.Listing, 640, 0, false, true)
             @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
@@ -53,8 +55,11 @@
             </div>
         </div>
         
-        <h2>@Model.Listing.Title</h2>
         <p>@Model.Listing.Content</p>
+
+        <hr />
+
+        <div id="moreCollections"></div>
 
         <hr/>
         <h4>@Localizer.Get("PhotoDetails_InThisPhoto")</h4>
@@ -86,7 +91,6 @@
             </dl>
         </div>
 
-        <div id="moreCollections"></div>
     </div>
     <div class="col-md-5">
         <div class="profile clearfix">
@@ -100,7 +104,7 @@
                 }
             </div>
         </div>
-        
+
         <hr />
 
         @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
@@ -109,37 +113,38 @@
 
         <div id="moreinfo"></div>
 
-        <div>
-            <p>
-                <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
-            </p>
-        
-            @if (Model.Listing.CommentCount == 0)
-            {
-                <p>@Localizer.Get("PhotoDetails_NoComments")</p>
-            }
-            
-            @foreach (var c in Model.Listing.Comments)
-            {
-                <p class="comment">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
-                        </div>
-                        <div class="media-body">
-                            <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
-                            <p>@c.Content</p>
-                        </div>
-                    </div>
-                </p>
-            }
+        <div class="panel panel-default" id="projectsSameListing">
+            <div class="panel-heading">@Localizer.Get("PhotoDetails_Comments")</div>
+                <div class="panel-body">
 
-            @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
-            {
-                @Html.Hidden("ListingId", Model.Listing.Id);
-                @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
-                @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
-            }
+                    @if (Model.Listing.CommentCount == 0)
+                    {
+                        <p>@Localizer.Get("PhotoDetails_NoComments")</p>
+                    }
+
+                    @foreach (var c in Model.Listing.Comments)
+                    {
+                        <p class="comment">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
+                                </div>
+                                <div class="media-body">
+                                    <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                                    <p>@c.Content</p>
+                                </div>
+                            </div>
+                        </p>
+                    }
+
+                    @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Photo")))
+                    {
+                        @Html.Hidden("ListingId", Model.Listing.Id);
+                        @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>
