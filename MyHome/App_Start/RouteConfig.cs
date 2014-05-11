@@ -63,8 +63,8 @@ namespace MyHome
 
             #endregion 
 
-            var defaultController = new Classy.DotNet.Mvc.Controllers.DefaultController();
-            defaultController.RegisterRoutes(routes);
+            var staticController = new MyHome.Controllers.StaticPagesController();
+            staticController.RegisterRoutes(routes);
         }
     }
 }

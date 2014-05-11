@@ -11,6 +11,11 @@ namespace Classy.DotNet.Mvc.Controllers
 {
     public class DefaultController : BaseController
     {
+        public DefaultController() : base() { }
+        public DefaultController(string ns) : base(ns) { }
+
+        public abstract void RegisterStaticRoutes(System.Web.Routing.RouteCollection routes);
+
         public override void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
             routes.MapRouteForSupportedLocales(
@@ -20,26 +25,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: null
             );
 
-            routes.MapRouteForSupportedLocales(
-                name: "Terms",
-                url: "terms",
-                defaults: new { controller = "Default", action = "Terms" },
-                namespaces: null
-            );
-
-            routes.MapRouteForSupportedLocales(
-                name: "Privacy",
-                url: "privacy",
-                defaults: new { controller = "Default", action = "Privacy" },
-                namespaces: null
-            );
-
-            routes.MapRouteForSupportedLocales(
-                name: "Carrers",
-                url: "careers",
-                defaults: new { controller = "Default", action = "Careers" },
-                namespaces: null
-            );
+            RegisterStaticRoutes(routes);
 
             routes.MapRouteForSupportedLocales(
                 name: "Default",
@@ -72,21 +58,6 @@ namespace Classy.DotNet.Mvc.Controllers
             };
 
             return View(model);
-        }
-
-        public ActionResult Terms()
-        {
-            return View();
-        }
-
-        public ActionResult Privacy()
-        {
-            return View();
-        }
-
-        public ActionResult Careers()
-        {
-            return View();
         }
     }
 }
