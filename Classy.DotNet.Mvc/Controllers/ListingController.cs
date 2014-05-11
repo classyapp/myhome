@@ -446,9 +446,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 };
                 OnUpdateListing(this, updatedListingArgs);
 
-                var fields = ListingUpdateFields.Title | ListingUpdateFields.Content;
-                if (model.Metadata != null) fields |= ListingUpdateFields.Metadata;
-                if (model.Hashtags != null) fields |= ListingUpdateFields.Hashtags;
+                var fields = ListingUpdateFields.Title | ListingUpdateFields.Content |
+                    ListingUpdateFields.Metadata | ListingUpdateFields.Hashtags;
+                
                 if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 if (ModelState.IsValid)
                 {
