@@ -41,8 +41,8 @@
                     @f.FormGroup().TextBoxFor(x => x.Hashtags).Id("hashtags").Value(string.Join(",", Model.Hashtags)).ShowValidationMessage(false)
                     var editorKeywordsValue = Model.TranslatedKeywords != null && Model.TranslatedKeywords.ContainsKey("en") ? Model.TranslatedKeywords["en"] : new [] {""};
                     
+                    @f.FormGroup().TextBoxFor(x => x.EditorKeywords).Id("editorKeywords").Value(string.Join(",", editorKeywordsValue)).ShowValidationMessage(false)
                     if (Model.IsEditor && Model.TranslatedKeywords != null) {
-                        @f.FormGroup().TextBoxFor(x => x.EditorKeywords).Id("editorKeywords").Value(string.Join(",", editorKeywordsValue)).ShowValidationMessage(false)
                         <div class="form-group">
                             <label class="control-label" for="Hashtags" style="display:block;">@Localizer.Get("UpdateListing_EditorKeywords")</label>
                             <span>@string.Join(",", Model.TranslatedKeywords.SelectMany(x => x.Value))</span>
