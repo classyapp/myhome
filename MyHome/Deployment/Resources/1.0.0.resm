@@ -47,6 +47,13 @@
 			"Key": "UpdateListing_EditorKeywords",
 			"Description": "label of the translated keywords field an Editor edits a photo",
 			"Values": {
+				"en": "Editor Keywords"
+			}
+		},
+		{
+			"Key": "UpdateListing_TranslatedKeywords",
+			"Description": "label of the list of translated keywords field an Editor added to the photo",
+			"Values": {
 				"en": "Translated Keywords"
 			}
 		},
