@@ -113,6 +113,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRoute(
+                name: string.Concat("FreeSearch", ListingTypeName),
+                url: "free_search",
+                defaults: new { controller = ListingTypeName, action = "FreeSearch" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
                 name: string.Format("PublicProfile{0}s", ListingTypeName),
                 url: string.Concat("profile/{profileId}/all/", string.Format("{0}s", ListingTypeName.ToLower())),
                 defaults: new { controller = ListingTypeName, action = "ShowListingsByType" },
@@ -500,6 +507,14 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return Json(new { error = ex.ToString() });
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult FreeSearch(FreeSearchListingsViewModel model)
+        {
+            var listingService = new ListingService();
+            var searchResults = listingService.FreeSearch(model.Q, 25, model.Page);
+            return View(searchResults);
         }
 
         //

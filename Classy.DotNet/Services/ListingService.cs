@@ -25,6 +25,8 @@ namespace Classy.DotNet.Services
             Collection
         }
 
+        // free search
+        private readonly string FREE_SEARCH_URL = ENDPOINT_BASE_URL + "/free_search";
         // create listing
         private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
@@ -263,7 +265,22 @@ namespace Classy.DotNet.Services
                 throw wex.ToClassyException(); 
             }
         }
-        
+
+        public FreeSearchResultsView<PhotoSearchResult> FreeSearch(string q, int amount, int page)
+        {
+            using (var client = ClassyAuth.GetWebClient())
+            {
+                var url = FREE_SEARCH_URL;
+                var data = new {
+                    Q = q, Page = page, Amount = amount
+                }.ToJson();
+                var listingsJson = client.UploadString(url, data);
+                var results = listingsJson.FromJson<FreeSearchResultsView<PhotoSearchResult>>();
+
+                return results;
+            }
+        }
+
         public SearchResultsView<ListingView> SearchListings(
             string[] tags,
             string[] listingTypes,
