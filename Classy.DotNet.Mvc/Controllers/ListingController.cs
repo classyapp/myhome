@@ -519,6 +519,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 Results = searchResults.Results.Select(x => x.ToListingView()).ToList()
             };
 
+            if (Request.IsAjaxRequest())
+                return PartialView(string.Concat(ListingTypeName, "Grid"), new TListingGridViewModel { Results = viewModel.Results });
+            
             return View(viewModel);
         }
 
