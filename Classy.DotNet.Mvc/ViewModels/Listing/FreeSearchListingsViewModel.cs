@@ -8,6 +8,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string Q { get; set; }
         public LocationView Location { get; set; }
         public int Page { get; set; }
+        public int Amount { get; set; }
         public IList<ListingView> Results { get; set; }
         public long TotalResults { get; set; }
 
