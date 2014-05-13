@@ -67,10 +67,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\FeatureSwitchFilter.cs" />
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
     <Compile Include="Attributes\RequireHttpsAttribute.cs" />
     <Compile Include="Attributes\TranslatableAttribute.cs" />
+    <Compile Include="Config\FeatureSwitchProvider.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
+    <Compile Include="ViewModels\Listing\FreeSearchListingsRequest.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingMoreInfoViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
