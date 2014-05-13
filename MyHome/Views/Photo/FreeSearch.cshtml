@@ -1,0 +1,85 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.FreeSearchListingsViewModel
+
+@{
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+}
+
+<div class="row">
+    <div class="sidebar col-md-3">
+        <div class="panel panel-default panel-first">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("PhotoSearch_Title_Rooms")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @foreach (var r in rooms)
+                {
+                    @Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, Model.Location) })
+                }
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("PhotoSearch_Title_Styles")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @foreach (var s in styles)
+                {
+                    //@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value, Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                }
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("SearchPhotos_Sidebar_Popular")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @Html.RouteLinkForCurrentLocale("#wallpaper", "SearchPhoto", new { filters = "wallpaper" })
+            </div>
+        </div>
+    </div>
+
+    <div class="main col-md-9">
+        <h1>
+            @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.TotalResults, Model.Q)
+        </h1>
+
+        <hr />
+
+        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="@(Model.Results.Count == Classy.DotNet.Responses.AppView.PageSize ? "true" : "false")" 
+            data-url="@Url.RouteUrlForCurrentLocale("SearchPhoto")"
+            data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            @if (Model.Results != null)
+            {
+                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ThumbnailSize = 270 })
+            }
+        </div>
+        <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
+        <div id="pager" class="text-center" style="font-size: 12px">
+            <ul class="pagination" data-total="@(Model.TotalResults)" 
+                data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
+                <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
+                @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
+                {
+                    <li><a href="#">@(i + 1)</a></li>
+                }
+                <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
+            </ul>
+            @if (Request["Page"] == null || int.Parse(Request["Page"]) < Model.TotalResults)
+            {
+                <a href="@(Url.RouteUrlForCurrentLocale("SearchPhoto") + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/iscroll.js"></script>
+    <script>
+        $(function () {
+            resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        });
+    </script>
+}

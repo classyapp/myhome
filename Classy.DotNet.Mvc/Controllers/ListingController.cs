@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
-using ServiceStack.Text;
 using Classy.DotNet.Mvc.ActionFilters;
 using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
-using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -29,10 +25,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public EventHandler<ListingUpdateArgs> OnUpdateListing;
         public EventHandler<ListingCommentEventArgs> OnPostedComment;
 
-
-        /// <summary>
-        /// register routes within host app's route collection
-        /// </summary>
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRouteWithName(
@@ -109,6 +101,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: string.Concat("Search", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
                 defaults: new { controller = ListingTypeName, action = "Search", filters = "", listingType = ListingTypeName },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
+                name: string.Concat("FreeSearch", ListingTypeName),
+                url: "free_search",
+                defaults: new { controller = ListingTypeName, action = "FreeSearch" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -500,6 +499,27 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return Json(new { error = ex.ToString() });
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult FreeSearch(FreeSearchListingsRequest request)
+        {
+            var amount = request.Amount ?? 25; // put this default value in settings somewhere
+            var page = request.Page ?? 1;
+
+            var listingService = new ListingService();
+            var searchResults = listingService.FreeSearch(request.Q, amount, page);
+
+            var viewModel = new FreeSearchListingsViewModel {
+                Amount = amount,
+                Location = null,
+                Page = page,
+                Q = request.Q,
+                TotalResults = searchResults.Total,
+                Results = searchResults.Results.Select(x => x.ToListingView()).ToList()
+            };
+
+            return View(viewModel);
         }
 
         //
