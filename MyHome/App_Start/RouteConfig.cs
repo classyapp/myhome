@@ -63,8 +63,27 @@ namespace MyHome
 
             #endregion 
 
+            #region // static pages
+
             var staticController = new MyHome.Controllers.StaticPagesController();
             staticController.RegisterRoutes(routes);
+
+            #endregion
+
+            #region // home page
+
+            var homePageController = new Classy.DotNet.Mvc.Controllers.HomePageController();
+            homePageController.RegisterRoutes(routes);
+
+            #endregion
+
+            // catchall route
+            routes.MapRouteForSupportedLocales(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "HomePage", action = "Home", id = UrlParameter.Optional },
+                namespaces: new string[] { "Classy.DotNet.Mvc.Controllers" }
+            );
         }
     }
 }

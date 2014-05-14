@@ -9,35 +9,25 @@ using Classy.DotNet.Services;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
-    public class DefaultController : BaseController
+    public class HomePageController : BaseController
     {
-        public DefaultController() : base() { }
-        public DefaultController(string ns) : base(ns) { }
-
-        public abstract void RegisterStaticRoutes(System.Web.Routing.RouteCollection routes);
+        public HomePageController() : base() { }
+        public HomePageController(string ns) : base(ns) { }
 
         public override void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
             routes.MapRouteForSupportedLocales(
                 name: "Home",
                 url: "",
-                defaults: new { controller = "Default", action = "Index" },
-                namespaces: null
-            );
-
-            RegisterStaticRoutes(routes);
-
-            routes.MapRouteForSupportedLocales(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional },
+                defaults: new { controller = "HomePage", action = "Home" },
                 namespaces: null
             );
         }
 
-        public ActionResult Index()
+        public ActionResult Home()
         {
             var service = new ListingService();
+
             // get latest photos
             var photos = service.SearchListings(
                 null,
@@ -53,7 +43,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
             var model = new ViewModels.Default.HomeViewModel
             {
-                Photos = photos.Results,
+                Listings = photos.Results,
                 Collections = collections
             };
 

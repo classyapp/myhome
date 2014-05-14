@@ -76,7 +76,7 @@
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContactProfessionalArgs.cs" />
     <Compile Include="Controllers\CreateListingFromUrlArgs.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
     <Compile Include="Controllers\ListingCommentEventArgs.cs" />

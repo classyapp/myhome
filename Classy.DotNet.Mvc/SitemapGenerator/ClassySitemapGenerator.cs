@@ -16,14 +16,14 @@ namespace Classy.DotNet.Mvc.SitemapGenerator
             Url = urlHelper;
         }
 
-        public abstract void GenerateStaticNodes() { }
-        public abstract void GenerateListingNodes() { }
-        public abstract void GenerateProfessionalNodes() { }
+        public abstract void GenerateStaticNodes();
+        public abstract void GenerateListingNodes();
+        public abstract void GenerateProfessionalNodes();
 
         protected override void GenerateUrlNodes()
         {
-            GenerateStaticNodes();
-            GenerateListingNodes();
+            //GenerateStaticNodes();
+            //GenerateListingNodes();
             GenerateProfessionalNodes();
         }
     }

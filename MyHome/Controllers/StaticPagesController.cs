@@ -7,34 +7,38 @@ using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
 {
-    public class StaticPagesController : Classy.DotNet.Mvc.Controllers.DefaultController
+    public class StaticPagesController : Classy.DotNet.Mvc.Controllers.BaseController
     {
         public StaticPagesController() : base("MyHome.Controllers") { }
 
-        public override void RegisterStaticRoutes(System.Web.Routing.RouteCollection routes)
+        public override void RegisterRoutes(System.Web.Routing.RouteCollection routes)
         {
             routes.MapRoute(
                 name: "Sitemap",
                 url: "sitemap.xml",
-                defaults: new { controller = "StaticPages", action = "Terms" }
+                defaults: new { controller = "StaticPages", action = "Sitemap" },
+                namespaces: new string[] { Namespace }
             );
 
             routes.MapRouteForSupportedLocales(
                 name: "Terms",
                 url: "terms",
-                defaults: new { controller = "StaticPages", action = "Terms" }
+                defaults: new { controller = "StaticPages", action = "Terms" },
+                namespaces: new string[] { Namespace }
             );
 
             routes.MapRouteForSupportedLocales(
                 name: "Privacy",
                 url: "privacy",
-                defaults: new { controller = "StaticPages", action = "Privacy" }
+                defaults: new { controller = "StaticPages", action = "Privacy" },
+                namespaces: new string[] { Namespace }
             );
 
             routes.MapRouteForSupportedLocales(
-                name: "Carrers",
+                name: "Careers",
                 url: "careers",
-                defaults: new { controller = "StaticPages", action = "Careers" }
+                defaults: new { controller = "StaticPages", action = "Careers" },
+                namespaces: new string[] { Namespace }
             ); 
         }
 
@@ -51,6 +55,13 @@ namespace MyHome.Controllers
         public ActionResult Careers()
         {
             return View();
+        }
+
+        public ActionResult Sitemap()
+        {
+            var generator = new MyHome.Sitemap.HomelabSitemapGenerator(Url);
+            generator.Generate("https://www.homelab.com", "c:\\temp");
+            return Content("<result>ok</result>", "text/xml");
         }
     }
 }

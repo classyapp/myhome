@@ -94,7 +94,7 @@ namespace Classy.DotNet.Mvc.SitemapGenerator
         CreateNewSitemapWriter();
 
       _sitemapWriter.WriteStartElement("url");
-      _sitemapWriter.WriteElementString("loc", String.Format("{0}/{1}", _rootUrl, url));
+      _sitemapWriter.WriteElementString("loc", String.Format("{0}/{1}", _rootUrl, url.TrimStart('/')));
       _sitemapWriter.WriteElementString("changefreq", updateFrequency);
       _sitemapWriter.WriteElementString("lastmod", lastUpdated.ToString(DateFormat));
       _sitemapWriter.WriteEndElement();

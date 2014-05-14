@@ -9,7 +9,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Default
 {
     public class HomeViewModel
     {
-        public IList<ListingView> Photos { get; set; }
+        public IList<ListingView> Listings { get; set; }
         public IList<CollectionView> Collections { get; set; }
     }
 }
