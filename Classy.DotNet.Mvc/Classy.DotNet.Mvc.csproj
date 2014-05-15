@@ -132,6 +132,7 @@
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
     <Compile Include="ViewModels\Profiles\AskForReviewModel.cs" />
     <Compile Include="ViewModels\Profiles\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\CreateVendorProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProxyProfileMassViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ContactProfessionalViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProfessionalProfileViewModel.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="ViewModels\Profiles\SearchProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\SendEmailViewModel.cs" />
     <Compile Include="ViewModels\Profiles\TranslateProfileViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\UploadProductCatalogViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
     <Compile Include="ViewModels\Security\ForgotPasswordViewModel.cs" />

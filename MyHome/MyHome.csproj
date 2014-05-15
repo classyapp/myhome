@@ -140,6 +140,7 @@
     <Compile Include="Models\ProfileReviewCriteria.cs" />
     <Compile Include="Models\ProfileReviewMetadata.cs" />
     <Compile Include="Models\UserMetadata.cs" />
+    <Compile Include="Models\VendorMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\PhotoActionsViewModel.cs" />
     <Compile Include="Models\PhotoGridViewModel.cs" />
@@ -165,6 +166,7 @@
     <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
     <Content Include="Deployment\Deployment.exe" />
     <Content Include="Deployment\Newtonsoft.Json.dll" />
+    <None Include="Deployment\Resources\vendor-initial.resm" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
@@ -482,6 +484,8 @@
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Default\VendorTerms.cshtml" />
+    <None Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -550,6 +554,8 @@
     <Content Include="Web.AppHarbor.config" />
     <Content Include="Views\Photo\MoreInfo.cshtml" />
     <Content Include="Views\Photo\FreeSearch.cshtml" />
+    <Content Include="Views\Profile\UploadCatalog.cshtml" />
+    <Content Include="Views\Profile\ProfileJobs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
