@@ -27,6 +27,7 @@ namespace Classy.DotNet.Services
         private readonly string PROFILE_TRANSLATION_URL = ENDPOINT_BASE_URL + "/profile/{0}/translation/{1}";
         private readonly string SEND_EMAIL_URL = ENDPOINT_BASE_URL + "/email";
         private readonly string VERIFY_EMAIL_ADDRESS_URL = ENDPOINT_BASE_URL + "/profile/verify/{0}";
+        private readonly string UPLOAD_CATALOG_URL = ENDPOINT_BASE_URL + "/profile/uploadcatalog";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}, ""DefaultCulture"":""{2}""}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
@@ -278,7 +279,7 @@ namespace Classy.DotNet.Services
                 var fileContent = new byte[image.ContentLength];
                 image.InputStream.Read(fileContent, 0, image.ContentLength);
                 var req = ClassyAuth.GetAuthenticatedWebRequest(url);
-                WebResponse response = HttpUploadFile(req, fileContent, image.ContentType, new Dictionary<string, object> { { "ProfileId", profileId }, { "Fields", 16 } });
+                WebResponse response = HttpUploadFile(req, "PUT", fileContent, image.ContentType, new Dictionary<string, object> { { "ProfileId", profileId }, { "Fields", 16 } });
 
                 byte[] bytes = response.GetResponseStream().ReadFully();
                 string json = Encoding.UTF8.GetString(bytes);
@@ -294,7 +295,7 @@ namespace Classy.DotNet.Services
 
         #region // upload file
 
-        private static WebResponse HttpUploadFile(HttpWebRequest request, byte[] fileContent, string contentType, Dictionary<string, object> fields)
+        private static WebResponse HttpUploadFile(HttpWebRequest request, string method, byte[] fileContent, string contentType, Dictionary<string, object> fields)
         {
             request.PreAuthenticate = true;
             request.AllowWriteStreamBuffering = true;
@@ -302,7 +303,7 @@ namespace Classy.DotNet.Services
             string boundary = System.Guid.NewGuid().ToString();
 
             request.ContentType = string.Format("multipart/form-data;boundary={0}", boundary);
-            request.Method = "PUT";
+            request.Method = method;
 
             // Build Contents for Post
             string header = string.Format("--{0}", boundary);
@@ -433,6 +434,14 @@ namespace Classy.DotNet.Services
             var response = json.FromJson<VerifyEmailResponse>();
                                     
             return response;
+        }
+
+        public void UploadCatalog(string profileId, int catalogTemplateType, bool overwriteListings, bool updateImages, System.Web.HttpPostedFileBase catalog)
+        {
+            var request = ClassyAuth.GetAuthenticatedWebRequest(UPLOAD_CATALOG_URL);
+            WebResponse response = HttpUploadFile(request, "POST", catalog.InputStream.ReadFully(), catalog.ContentType,
+                new Dictionary<string, object> { { "ProfileId", profileId }, { "CatalogTemplateType", catalogTemplateType }, { "OverwriteListings", overwriteListings }, { "UpdateImages", updateImages } });
+            byte[] bytes = response.GetResponseStream().ReadFully();
         }
     }
 }
