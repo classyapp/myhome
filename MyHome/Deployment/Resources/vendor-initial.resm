@@ -1,0 +1,314 @@
+﻿{
+    "AppId" : "v1.0",
+	"Resources": [
+			{ 
+			    "Key": "Profile_UploadCatalog",
+			    "Description": "Upload catalog button text on action bar",
+			    "Values": {
+			        "en": "Upload Catalog"
+			    }
+			},
+			{ 
+			    "Key": "CreateVendorProfile_PageTitle",
+			    "Description": "Page title for creating a vendor account",
+			    "Values": {
+			        "en": "Become a vendor"
+			    }
+			},
+			{ 
+			    "Key": "CreateVendorProfile_Agreement",
+			    "Description": "Vendor agreement text on top of the page",
+			    "Values": {
+			        "en": "License agreement"
+			    }
+			},
+			{ 
+			    "Key": "CreateVendorProfile_BusinessInfo",
+			    "Description": "Business Info section title",
+			    "Values": {
+			        "en": "Business Info"
+			    }
+			},
+			{
+			    "Key": "CreateVendorProfile_PerformanceStandards",
+			    "Description": "Performance standards section title",
+			    "Values": {
+			        "en": "Performance Standards"
+			    }
+			},
+			{ 
+			    "Key": "CreateVendorProfile_PerformanceStandards_Content",
+			    "Description": "Performance standards section top content",
+			    "Values": {
+			        "en": "Performance Standards Content"
+			    }
+			},
+            {
+                "Key": "CreateVendorProfile_Submit",
+                "Description": "Submit Button",
+                "Values": {
+                    "en": "Submit"
+                }
+            },
+            {
+                "Key": "CreateVendorProfile_Copy_Title",
+                "Description": "right hand section title",
+                "Values": {
+                    "en": "Why Create a Vendor Account"
+                }
+            },
+            {
+                "Key": "CreateVendorProfile_Copy_Content",
+                "Description": "right hand section content",
+                "Values": {
+                    "en": "..."
+                }
+            },
+            {
+                "Key": "CreateVendorProfile_DefaultCultureInfo",
+                "Description": "Default culture box text",
+                "Values": {
+                    "en": "Please select your profile language (you will be able to translate it to other languages)"
+                }
+            },
+            {
+                "Key": "CreateVendorProfile_AgreementHeader",
+                "Description": "Vendor Agreement",
+                "Values": {
+                    "en": ""
+                }
+            },
+            {
+                "Key": "VendorMetadata_Terms",
+                "Description": "Terms checkbox text",
+                "Values": {
+                    "en": "I agree to the terms and conditions"
+                }
+            },
+            {
+                "Key": "VendorMetadata_SigneeName",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Signee Name"
+                }
+            },
+            {
+                "Key": "VendorMetadata_SigneeTitle",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Signee Title"
+                }
+            },
+            {
+                "Key": "Vendor_CompanyName",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Company Name"
+                }
+            },
+            {
+                "Key": "Vendor_Category",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Category"
+                }
+            },
+            {
+                "Key": "Vendor_WebsiteUrl",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Website Url"
+                }
+            },
+            {
+                "Key": "Vendor_Street1",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Address"
+                }
+            },
+            {
+                "Key": "Vendor_City",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "City"
+                }
+            },
+            {
+                "Key": "Vendor_Country",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Country"
+                }
+            },
+            {
+                "Key": "Vendor_PostalCode",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Postal Code"
+                }
+            },
+            {
+                "Key": "Vendor_Email",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Email"
+                }
+            },
+            {
+                "Key": "Vendor_Phone",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Phone"
+                }
+            },
+            {
+                "Key": "Vendor_Fax",
+                "Description": "Vendor account creation field caption",
+                "Values": {
+                    "en": "Fax"
+                }
+            },
+            {
+                "Key": "VendorMetadata_Terms_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "You must accept the terms and conditions"
+                }
+            },
+            {
+                "Key": "Vendor_CompanyName_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter Company Name"
+                }
+            },
+            {
+                "Key": "Vendor_Category_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please select Category"
+                }
+            },
+            {
+                "Key": "Vendor_WebsiteUrl_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter your Website Url"
+                }
+            },
+            {
+                "Key": "Vendor_Street1_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter your Address"
+                }
+            },
+            {
+                "Key": "Vendor_City_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter your City"
+                }
+            }
+            ,
+            {
+                "Key": "Vendor_Country_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please select Country"
+                }
+            },
+            {
+                "Key": "Vendor_PostalCode_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter Postal Code"
+                }
+            },
+            {
+                "Key": "Vendor_Email_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter your Email address"
+                }
+            },
+            {
+                "Key": "Vendor_Phone_Required",
+                "Description": "Vendor account validation messages",
+                "Values": {
+                    "en": "Please enter your Phone Number"
+                }
+            },
+            {
+                "Key": "UploadCatalog_PageTitle",
+                "Description": "Upload product catalog page title",
+                "Values": {
+                    "en": "Upload Products Catalog"
+                }
+            },
+            {
+                "Key": "UploadCatalog_InstructionsHeader",
+                "Description": "Instructions Header for upload catalog",
+                "Values": {
+                    "en": "Follow the steps below to upload new or update existing products"
+                }
+            },
+            {
+                "Key": "UploadCatalog_Step",
+                "Description": "Catalog import step",
+                "Values": {
+                    "en": "Step"
+                }
+            },
+            {
+                "Key": "UploadCatalog_Step1Instructions",
+                "Description": "Catalog import step 1 instructions",
+                "Values": {
+                    "en": "Follow the steps below to upload new or update existing products"
+                }
+            },
+            {
+                "Key": "UploadCatalog_Step2Instructions",
+                "Description": "Catalog import step 2 instructions",
+                "Values": {
+                    "en": "Follow the steps below to upload new or update existing products"
+                }
+            },
+            {
+                "Key": "UploadCatalog_Step3Instructions",
+                "Description": "Catalog import step 3 instructions",
+                "Values": {
+                    "en": "Follow the steps below to upload new or update existing products"
+                }
+            },
+            {
+                "Key": "UploadCatalog_Submit",
+                "Description": "Submit button",
+                "Values": {
+                    "en": "Submit"
+                }
+            },
+            {
+                "Key": "UploadCatalog_JobStatusInstructions",
+                "Description": "Jobs status intro text",
+                "Values": {
+                    "en": "Use this page to view the status of the product catalog jobs"
+                }
+            },
+            {
+                "Key": "UploadCatalog_JobsStatusTitle",
+                "Description": "Jobs status page title",
+                "Values": {
+                    "en": "Catalog upload jobs status"
+                }
+            },
+            {
+                "Key": "UploadCatalog_NoJobs",
+                "Description": "No scheduled jobs message",
+                "Values": {
+                    "en": "No upload jobs found"
+                }
+            }
+	]
+}

@@ -28,6 +28,13 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRouteForSupportedLocales(
+                name: "VendorTerms",
+                url: "vendorterms",
+                defaults: new { controller = "Default", action = "VendorTerms" },
+                namespaces: null
+            );
+
+            routes.MapRouteForSupportedLocales(
                 name: "Privacy",
                 url: "privacy",
                 defaults: new { controller = "Default", action = "Privacy" },
@@ -75,6 +82,11 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         public ActionResult Terms()
+        {
+            return View();
+        }
+
+        public ActionResult VendorTerms()
         {
             return View();
         }
