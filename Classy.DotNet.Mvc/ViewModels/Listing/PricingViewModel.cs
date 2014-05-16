@@ -37,13 +37,13 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
 
              return new PricingInfoView()
             {
-                SKU = pricing.SKU,
-                Price = pricing.Price,
-                CompareAtPrice = pricing.CompareAtPrice,
-                Quantity = pricing.Quantity.Value,
-                DomesticRadius = pricing.DomesticRadius,
-                DomesticShippingPrice = pricing.DomesticShippingPrice,
-                InternationalShippingPrice = pricing.InternationalShippingPrice
+                //SKU = pricing.SKU,
+                //Price = pricing.Price,
+                //CompareAtPrice = pricing.CompareAtPrice,
+                //Quantity = pricing.Quantity.Value,
+                //DomesticRadius = pricing.DomesticRadius,
+                //DomesticShippingPrice = pricing.DomesticShippingPrice,
+                //InternationalShippingPrice = pricing.InternationalShippingPrice
             };
         }
     }

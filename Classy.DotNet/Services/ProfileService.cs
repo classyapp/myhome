@@ -27,7 +27,7 @@ namespace Classy.DotNet.Services
         private readonly string PROFILE_TRANSLATION_URL = ENDPOINT_BASE_URL + "/profile/{0}/translation/{1}";
         private readonly string SEND_EMAIL_URL = ENDPOINT_BASE_URL + "/email";
         private readonly string VERIFY_EMAIL_ADDRESS_URL = ENDPOINT_BASE_URL + "/profile/verify/{0}";
-        private readonly string UPLOAD_CATALOG_URL = ENDPOINT_BASE_URL + "/profile/uploadcatalog";
+        private readonly string UPLOAD_CATALOG_URL = ENDPOINT_BASE_URL + "/product/uploadcatalog";
 
         private readonly string CLAIM_PROXY_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1}, ""DefaultCulture"":""{2}""}}";
         private readonly string UPDATE_PROFILE_DATA = @"{{""ProfessionalInfo"":{0},""Metadata"":{1},""UpdateType"":{2}}}";
