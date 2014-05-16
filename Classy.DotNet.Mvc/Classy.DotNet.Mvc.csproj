@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
+    <Compile Include="ViewModels\Listing\CreateListingNoCollectionViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingMoreInfoViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
