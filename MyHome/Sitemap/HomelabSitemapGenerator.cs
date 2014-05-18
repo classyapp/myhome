@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -150,6 +151,8 @@ namespace MyHome.Sitemap
 
                         while (profiles != null && profiles.Results.Count > 0)
                         {
+                            Trace.TraceInformation(string.Format("city: {0}, country: {1}, results page: {2}", country, city, page));
+
                             foreach (var profile in profiles.Results)
                             {
                                 foreach (var culture in _supportedCultures)
