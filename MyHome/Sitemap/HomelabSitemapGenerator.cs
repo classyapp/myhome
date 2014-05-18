@@ -90,81 +90,86 @@ namespace MyHome.Sitemap
 
         public override void GenerateProfessionalNodes()
         {
+            // all photos
+            foreach (var culture in _supportedCultures)
+            {
+                WriteUrlLocation(Url.RouteUrlForLocale("SearchProfiles", culture.Value), UpdateFrequency.Daily, DateTime.UtcNow);
+            }
+
             var profileService = new Classy.DotNet.Services.ProfileService();
             var localizationService = new Classy.DotNet.Services.LocalizationService();
 
-            //// category, city cominations
-            //var categories = Localizer.GetList("professional-categories");
-            //var countries = Localizer.GetList("supported-countries");
+            // category, city cominations
+            var categories = Localizer.GetList("professional-categories");
+            var countries = Localizer.GetList("supported-countries");
 
-            //foreach(var category in categories)
-            //{
-            //    // output all the categories
-            //    foreach (var culture in _supportedCultures)
-            //    {
-            //        WriteUrlLocation(
-            //            Url.RouteUrlForLocale("SearchProfiles", culture.Value, new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = category.Value }.ToSlug() }),
-            //            UpdateFrequency.Daily,
-            //            DateTime.UtcNow);
-            //    }
+            foreach (var category in categories)
+            {
+                // output all the categories
+                foreach (var culture in _supportedCultures)
+                {
+                    WriteUrlLocation(
+                        Url.RouteUrlForLocale("SearchProfiles", culture.Value, new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = category.Value }.ToSlug() }),
+                        UpdateFrequency.Daily,
+                        DateTime.UtcNow);
+                }
 
-            //    foreach(var country in countries)
-            //    {
-            //        // output all category + country combinations
-            //        foreach (var culture in _supportedCultures)
-            //        {
-            //            WriteUrlLocation(
-            //                Url.RouteUrlForLocale("SearchProfiles", culture.Value, new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = category.Value, Country = country.Value }.ToSlug() }),
-            //                UpdateFrequency.Daily,
-            //                DateTime.UtcNow);
-            //        }
+                foreach (var country in countries)
+                {
+                    // output all category + country combinations
+                    foreach (var culture in _supportedCultures)
+                    {
+                        WriteUrlLocation(
+                            Url.RouteUrlForLocale("SearchProfiles", culture.Value, new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = category.Value, Country = country.Value }.ToSlug() }),
+                            UpdateFrequency.Daily,
+                            DateTime.UtcNow);
+                    }
 
-            //        var cities = localizationService.GetCitiesByCountry(country.Value);
-            //        foreach(var city in cities)
-            //        {
-            //            // output all country + category + city combinations
-            //            foreach (var culture in _supportedCultures)
-            //            {
-            //                WriteUrlLocation(
-            //                    Url.RouteUrlForLocale("SearchProfiles", culture.Value, new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = category.Value, Country = country.Value, City = city.ToSlug() }.ToSlug() }),
-            //                    UpdateFrequency.Daily,
-            //                    DateTime.UtcNow);
-            //            }
+                    var cities = localizationService.GetCitiesByCountry(country.Value);
+                    foreach (var city in cities)
+                    {
+                        // output all country + category + city combinations
+                        foreach (var culture in _supportedCultures)
+                        {
+                            WriteUrlLocation(
+                                Url.RouteUrlForLocale("SearchProfiles", culture.Value, new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = category.Value, Country = country.Value, City = city.ToSlug() }.ToSlug() }),
+                                UpdateFrequency.Daily,
+                                DateTime.UtcNow);
+                        }
 
-            //            // all profiles under this combination
-            //            var page = 1;
-            //            var profiles = profileService.SearchProfiles(null,
-            //                category.Value,
-            //                new Classy.DotNet.Responses.LocationView { Address = new Classy.DotNet.Responses.PhysicalAddressView { City = city, Country = country.Value } },
-            //                null,
-            //                true,
-            //                false,
-            //                page,
-            //                200);
+                        // all profiles under this combination
+                        var page = 1;
+                        var profiles = profileService.SearchProfiles(null,
+                            category.Value,
+                            new Classy.DotNet.Responses.LocationView { Address = new Classy.DotNet.Responses.PhysicalAddressView { City = city, Country = country.Value } },
+                            null,
+                            true,
+                            false,
+                            page,
+                            200);
 
-            //            while(profiles != null && profiles.Results.Count > 0)
-            //            {
-            //                foreach(var profile in profiles.Results)
-            //                {
-            //                    foreach (var culture in _supportedCultures)
-            //                    {
-            //                        WriteUrlLocation(Url.RouteUrlForLocale("PublicProfile", culture.Value, new { ProfileId = profile.Id, slug = profile.GetProfileName().ToSlug() }), UpdateFrequency.Daily, DateTime.UtcNow);
-            //                    }
-            //                }
+                        while (profiles != null && profiles.Results.Count > 0)
+                        {
+                            foreach (var profile in profiles.Results)
+                            {
+                                foreach (var culture in _supportedCultures)
+                                {
+                                    WriteUrlLocation(Url.RouteUrlForLocale("PublicProfile", culture.Value, new { ProfileId = profile.Id, slug = profile.GetProfileName().ToSlug() }), UpdateFrequency.Daily, DateTime.UtcNow);
+                                }
+                            }
 
-                            var profiles = profileService.SearchProfiles(null,
+                            profiles = profileService.SearchProfiles(null,
                             "architects-designers",
                             new Classy.DotNet.Responses.LocationView { Address = new Classy.DotNet.Responses.PhysicalAddressView { City = "Londrina", Country = "FR" } },
                             null,
                             true,
                             false,
-                            //++page,
-                            1,
+                            ++page,
                             200);
-            //            }
-            //        }
-            //    }
-            //}
+                        }
+                    }
+                }
+            }
         }
     }
 }
