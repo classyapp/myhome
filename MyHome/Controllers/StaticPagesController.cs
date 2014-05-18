@@ -15,7 +15,7 @@ namespace MyHome.Controllers
         {
             routes.MapRoute(
                 name: "Sitemap",
-                url: "sitemap.xml",
+                url: "sitemap-test.xml",
                 defaults: new { controller = "StaticPages", action = "Sitemap" },
                 namespaces: new string[] { Namespace }
             );
