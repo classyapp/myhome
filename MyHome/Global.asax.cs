@@ -31,7 +31,7 @@ namespace MyHome
             ModelMetadataProviders.Current = new Classy.DotNet.Mvc.Localization.MyLocalizationProvider();
 
             // uncomment to enable route debugger 
-            //RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
+            // RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
             
             // binder for profile search
             ModelBinders.Binders.Add(typeof(SearchProfileViewModel<MyHome.Models.ProfessionalMetadata>), new SearchProfileViewModelBinder<MyHome.Models.ProfessionalMetadata>());

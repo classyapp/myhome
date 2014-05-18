@@ -276,11 +276,16 @@ namespace Classy.DotNet.Mvc.Localization
         // Url extension to get a link to a route in a specific culture
         public static string RouteUrlForLocale(this System.Web.Mvc.UrlHelper url, string routeName, string cultureCode)
         {
+            return RouteUrlForLocale(url, routeName, cultureCode, null);
+        }
+
+        public static string RouteUrlForLocale(this System.Web.Mvc.UrlHelper url, string routeName, string cultureCode, object routeValues)
+        {
             string name = GetRouteNameForLocale(routeName, cultureCode);
             if (url.RouteCollection[name] != null)
-                return url.RouteUrl(name);
+                return url.RouteUrl(name, routeValues);
             else
-                return url.RouteUrl(routeName);
+                return url.RouteUrl(routeName, routeValues);
         }
 
         // Html extension to get a link to a route for the current culture

@@ -131,7 +131,8 @@ namespace Classy.DotNet.Services
             IDictionary<string, string> metadata,
             bool professionalsOnly,
             bool ignoreLocation,
-            int page)
+            int page,
+            int pageSize = 12)
         {
             try
             {
