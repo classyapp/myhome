@@ -1,0 +1,43 @@
+﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.UploadProductCatalogViewModel
+@{
+    ViewBag.Title = Localizer.Get("UploadCatalog_PageTitle");
+}
+
+<div class="row">
+    @using (var f = Html.Bootstrap().Begin(new Form("UploadCatalog").Type(FormType._NotSet).FormMethod(FormMethod.Post).HtmlAttributes(new { enctype = "multipart/form-data" })))
+    {
+        @Html.Bootstrap().ValidationSummary()
+        <h1>@Localizer.Get("UploadCatalog_PageTitle")</h1>
+        <hr />
+        
+        <div class="col-md-7">
+            <h3>@Localizer.Get("UploadCatalog_InstructionsHeader")</h3>
+            <div class="upload-catalog-step">
+                <div>
+                    <strong>@Localizer.Get("UploadCatalog_Step") 1: </strong>@Localizer.Get("UploadCatalog_Step1Instructions")
+                </div>
+                @f.FormGroup().DropDownListFor(x => x.CatalogTemplateType, new SelectListItem[] { new SelectListItem { Text = "HomeLab format (.csv)", Value = "HomeLab", Selected = true } }).ShowValidationMessage(false).Label().Class("hidden")
+                @Html.Bootstrap().CheckBoxFor(x => x.OverwriteListings).IsChecked(false).ShowValidationMessage(false).Label().LabelText(Localizer.Get("UploadCatalog_OverwriteListings")).ShowRequiredStar(false)
+                @Html.Bootstrap().CheckBoxFor(x => x.UpdateImages).IsChecked(false).ShowValidationMessage(false).Label().LabelText(Localizer.Get("UploadCatalog_UpdateImages")).ShowRequiredStar(false)
+            </div>
+            <div class="upload-catalog-step">
+                <div>
+                    <strong>@Localizer.Get("UploadCatalog_Step") 2: </strong>@Localizer.Get("UploadCatalog_Step2Instructions")
+                </div>
+            </div>
+            <div class="upload-catalog-step">
+                <div>
+                    <strong>@Localizer.Get("UploadCatalog_Step") 3: </strong>@Localizer.Get("UploadCatalog_Step3Instructions")
+                </div>
+                <input type="file" name="catalog" class="form-control" />
+            </div>
+            <div class="upload-catalog-step">
+                @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", type = "suimit" }).Text(Localizer.Get("UploadCatalog_Submit")).Style(ButtonStyle.Primary))
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h3>&nbsp;</h3>
+            <div class="well"></div>
+        </div>
+    }
+</div>

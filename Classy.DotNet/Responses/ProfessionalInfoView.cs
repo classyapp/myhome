@@ -16,5 +16,6 @@ namespace Classy.DotNet.Responses
         public int RollingReservePercent { get; set; }
         public int RollingReserveTimeInDays { get; set; }
         public string DefaultCulture { get; set; }
+        public BankAccountView PaymentDetails { get; set; }
     }
 }

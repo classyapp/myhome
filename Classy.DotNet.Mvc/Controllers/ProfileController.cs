@@ -18,14 +18,16 @@ using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using System.Net.Mail;
 using Classy.DotNet.Mvc.Helpers;
+using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
 
-    public class ProfileController<TProMetadata, TReviewSubCriteria, TUserMetadata> : BaseController
+    public class ProfileController<TProMetadata, TReviewSubCriteria, TUserMetadata, TVendorMetadata> : BaseController
         where TProMetadata : IMetadata<TProMetadata>, new()
         where TReviewSubCriteria : IReviewSubCriteria<TReviewSubCriteria>, new()
         where TUserMetadata : IMetadata<TUserMetadata>, new()
+        where TVendorMetadata: IMetadata<TVendorMetadata>, new()
     {
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
@@ -120,6 +122,27 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "CreateProfessionalProfile",
                 url: "profile/gopro",
                 defaults: new { controller = "Profile", action = "CreateProfessionalProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "CreateVendorProfile",
+                url: "profile/govendor",
+                defaults: new { controller = "Profile", action = "CreateVendorProfile" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "UploadCatalog",
+                url: "profile/newcatalog",
+                defaults: new { controller = "Profile", action = "UploadCatalog" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "ProfileJobs",
+                url: "profile/jobs",
+                defaults: new { controller = "Profile", action = "ProfileJobs" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -1063,6 +1086,127 @@ namespace Classy.DotNet.Mvc.Controllers
             var response = profileService.VerifyEmail(hash);
            
             return Redirect(Url.RouteUrl("PublicProfile", new { profileId = AuthenticatedUserProfile.Id }) + "?EmailVerified=" + response.Verified.ToString());
+        }
+
+        // 
+        // GET: /profile/me/gopro
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateVendorProfile()
+        {
+            try
+            {
+                var service = new ProfileService();
+                var profile = service.GetProfileById(AuthenticatedUserProfile.Id);
+                var metadata = new TVendorMetadata().FromDictionary(profile.Metadata);
+                var model = new CreateVendorProfileViewModel<TVendorMetadata>
+                {
+                    ProfileId = profile.Id,
+                    Email = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Email : profile.ContactInfo.Email,
+                    Phone = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Phone : null,
+                    WebsiteUrl = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl : null,
+                    Category = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.Category : null,
+                    CompanyName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyName : null,
+                    Street1 = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 : null,
+                    City = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City : null,
+                    Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
+                    PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
+                    DefaultCulture = profile.DefaultCulture,
+                    Metadata = metadata
+                };
+                return View(model);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        // 
+        // POST: /profile/me/gopro
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateVendorProfile(CreateVendorProfileViewModel<TVendorMetadata> model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var professionalInfo = new ProfessionalInfoView
+            {
+                CompanyName = model.CompanyName,
+                CompanyContactInfo = new ExtendedContactInfoView
+                {
+                    Email = model.Email,
+                    Phone = model.Phone,
+                    WebsiteUrl = model.WebsiteUrl,
+                    Location = new LocationView
+                    {
+                        Address = new PhysicalAddressView
+                        {
+                            Street1 = model.Street1,
+                            City = model.City,
+                            Country = model.Country,
+                            PostalCode = model.PostalCode
+                        }
+                    }
+                },
+                Category = model.Category,
+                PaymentDetails = new BankAccountView()
+            };
+            try
+            {
+                var service = new ProfileService();
+                var profile = service.UpdateProfile(
+                    AuthenticatedUserProfile.Id,
+                    null,
+                    professionalInfo,
+                    model.Metadata.ToDictionary(),
+                    model.DefaultCulture,
+                    null,
+                    UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
+
+                return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
+            }
+            catch (ClassyException cvx)
+            {
+                if (cvx.IsValidationError())
+                {
+                    AddModelErrors(cvx);
+                    return View(model);
+                }
+                else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
+            }
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult UploadCatalog()
+        {
+            return View();
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UploadCatalog(UploadProductCatalogViewModel model,  HttpPostedFileBase catalog)
+        {
+            if (catalog == null)
+            {
+                ModelState.AddModelError(string.Empty, Localizer.Get("Uploadcatalog_FileRequired"));
+                return View(model);
+            }
+            else
+            {
+                var profileService = new ProfileService();
+                profileService.UploadCatalog(AuthenticatedUserProfile.Id, (int)model.CatalogTemplateType, model.OverwriteListings, model.UpdateImages, catalog);
+
+                return Redirect(Url.RouteUrl("ProfileJobs"));
+            }
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ProfileJobs()
+        {
+            return View();
         }
         #endregion
     }
