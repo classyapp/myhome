@@ -140,6 +140,7 @@ namespace MyHome.Sitemap
 
                         // all profiles under this combination
                         var page = 1;
+                        var pageSize = 500;
                         var profiles = profileService.SearchProfiles(null,
                             category.Value,
                             new Classy.DotNet.Responses.LocationView { Address = new Classy.DotNet.Responses.PhysicalAddressView { City = city, Country = country.Value } },
@@ -147,7 +148,7 @@ namespace MyHome.Sitemap
                             true,
                             false,
                             page,
-                            200);
+                            pageSize);
 
                         while (profiles != null && profiles.Results.Count > 0)
                         {
@@ -163,12 +164,12 @@ namespace MyHome.Sitemap
 
                             profiles = profileService.SearchProfiles(null,
                             "architects-designers",
-                            new Classy.DotNet.Responses.LocationView { Address = new Classy.DotNet.Responses.PhysicalAddressView { City = "Londrina", Country = "FR" } },
+                            new Classy.DotNet.Responses.LocationView { Address = new Classy.DotNet.Responses.PhysicalAddressView { City = city, Country = country.Value } },
                             null,
                             true,
                             false,
                             ++page,
-                            200);
+                            pageSize);
                         }
                     }
                 }
