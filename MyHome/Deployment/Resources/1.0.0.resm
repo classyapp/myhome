@@ -30,6 +30,13 @@
 			}
 		},
 		{
+			"Key": "PhotoDetails_TranslatedKeywords",
+			"Description": "display translated keywords for this image",
+			"Values": {
+				"en": "Translated Keywords"
+			}
+		},
+		{
 			"Key": "Careers_Title",
 			"Description": "browser title of the careers page",
 			"Values": {

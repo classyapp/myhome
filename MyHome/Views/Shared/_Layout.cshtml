@@ -255,6 +255,8 @@
     @Scripts.Render("~/scripts/fb-login.js")
     @Scripts.Render("~/scripts/google-login.js")
     @Scripts.Render("~/scripts/trigger-action.js")
+    @Scripts.Render("~/Scripts/typeahead.min.js")
+    @Scripts.Render("~/Scripts/bloodhound.min.js")
 
     <!-- login modal -->
     <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
@@ -397,6 +399,27 @@
 
         ga('create', 'UA-49619980-1', 'homelab.com');
         ga('send', 'pageview');
+
+        $(function() {
+            var searchSuggestions = new Bloodhound({
+                name: 'search-suggestions',
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '',
+                remote: 'search/suggest?q=%QUERY'
+            });
+
+            searchSuggestions.initialize();
+
+            $('#q').typeahead({
+                minLength: 2,
+                hightlight: true
+            }, {
+                displayKey: 'value',
+                source: searchSuggestions.ttAdapter(),
+                local: []
+            });
+        });
     </script>
 
     @RenderSection("scripts", required: false)

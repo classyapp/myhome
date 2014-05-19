@@ -34,7 +34,7 @@ namespace Classy.DotNet.Services
         private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
-        // get listings
+        // get listings 
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string GET_LISTING_MORE_INFO_URL = ENDPOINT_BASE_URL + "/listing/{0}/more";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
