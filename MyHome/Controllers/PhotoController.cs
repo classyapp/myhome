@@ -52,7 +52,7 @@ namespace MyHome.Controllers
             {
                 subject = Localizer.Get("PhotoComment_Notification_Subject", e.Comment.Profile.DefaultCulture ?? "en"),
                 html = string.Format(Localizer.Get("PhotoComment_Notification_Body", e.Comment.Profile.DefaultCulture ?? "en"), e.Comment.Profile.GetProfileName(), AuthenticatedUserProfile.GetProfileName(),
-                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details"))),
+                        string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details"), "?utm_source=internal&utm_medium=email&utm_campaign=comments")),
                 to = new List<EmailAddress> {
                     new EmailAddress {
                         email = e.Comment.Profile.ContactInfo.Email
