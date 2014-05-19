@@ -10,7 +10,6 @@ namespace Classy.DotNet.Mvc.Controllers
     public class ListingCommentEventArgs
     {
         public CommentView Comment { get; set; }
-        public string ListingId { get; set; }
-        public Classy.DotNet.Services.ListingService.ObjectType ListingType { get; set; }
+        public ListingView Listing { get; set; }
     }
 }

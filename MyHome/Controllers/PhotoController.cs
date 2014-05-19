@@ -55,7 +55,7 @@ namespace MyHome.Controllers
                         string.Concat("https://", AppView.Hostname, Url.RouteUrl(ListingTypeName + "Details"), "?utm_source=internal&utm_medium=email&utm_campaign=comments")),
                 to = new List<EmailAddress> {
                     new EmailAddress {
-                        email = e.Comment.Profile.ContactInfo.Email
+                        email = e.Listing.Profile.IsProfessional ? e.Listing.Profile.ProfessionalInfo.CompanyContactInfo.Email : e.Listing.Profile.ContactInfo.Email
                     }
                 },
                 from_email = "team@homelab.com"
