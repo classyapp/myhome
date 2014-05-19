@@ -78,7 +78,7 @@
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContactProfessionalArgs.cs" />
     <Compile Include="Controllers\CreateListingFromUrlArgs.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
     <Compile Include="Controllers\ListingCommentEventArgs.cs" />
@@ -106,12 +106,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Security\SecurityController.cs" />
     <Compile Include="Attributes\EveryItemIsAttribute.cs" />
+    <Compile Include="SitemapGenerator\ArgumentHelper.cs" />
+    <Compile Include="SitemapGenerator\BaseSitemapGenerator.cs" />
+    <Compile Include="SitemapGenerator\BaseSitemapIndexGenerator.cs" />
+    <Compile Include="SitemapGenerator\ClassySitemapGenerator.cs" />
+    <Compile Include="SitemapGenerator\GZip.cs" />
+    <Compile Include="SitemapGenerator\UpdateFrequency.cs" />
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
     <Compile Include="ViewModels\Listing\FreeSearchListingsRequest.cs" />
+    <Compile Include="ViewModels\Listing\CreateListingNoCollectionViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingMoreInfoViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
@@ -126,6 +133,7 @@
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
     <Compile Include="ViewModels\Profiles\AskForReviewModel.cs" />
     <Compile Include="ViewModels\Profiles\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\CreateVendorProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProxyProfileMassViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ContactProfessionalViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProfessionalProfileViewModel.cs" />
@@ -136,6 +144,7 @@
     <Compile Include="ViewModels\Profiles\SearchProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\SendEmailViewModel.cs" />
     <Compile Include="ViewModels\Profiles\TranslateProfileViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\UploadProductCatalogViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
     <Compile Include="ViewModels\Security\ForgotPasswordViewModel.cs" />

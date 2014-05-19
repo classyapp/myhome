@@ -1631,3 +1631,13 @@ div.thumbs4 > div.thumb
         margin: 0px;
         display: inline-block;
     }
+.upload-catalog-step
+{
+    margin-bottom: 20px;
+}
+
+    .upload-catalog-step > div:first-child
+    {
+        display: block;
+        margin-bottom: 10px;
+    }

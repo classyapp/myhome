@@ -66,12 +66,14 @@
     <Compile Include="ProfileViewExtensions.cs" />
     <Compile Include="Responses\AppSettingsResponse.cs" />
     <Compile Include="Responses\AppView.cs" />
+    <Compile Include="Responses\BankAccountView.cs" />
     <Compile Include="Responses\BaseDeleteResponse.cs" />
     <Compile Include="Responses\CollectionView.cs" />
     <Compile Include="Responses\CommentView.cs" />
     <Compile Include="Responses\ContactInfoView.cs" />
     <Compile Include="Responses\CoordsView.cs" />
     <Compile Include="Responses\FreeSearchResultsView.cs" />
+    <Compile Include="Responses\JobView.cs" />
     <Compile Include="Responses\ListingMoreInfoView.cs" />
     <Compile Include="Responses\ListingUpdateFields.cs" />
     <Compile Include="Responses\SocialPhotoAlbumView.cs" />

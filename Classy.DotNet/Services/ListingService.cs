@@ -288,7 +288,8 @@ namespace Classy.DotNet.Services
             double? priceMin,
             double? priceMax,
             LocationView location,
-            int page)
+            int page,
+            int pageSize = 12)
         {
             try
             {
@@ -302,7 +303,8 @@ namespace Classy.DotNet.Services
                     PriceMin = priceMin,
                     PriceMax = priceMax,
                     Location = location,
-                    Page = page
+                    Page = page,
+                    PageSize = pageSize
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
                 var results = listingsJson.FromJson<SearchResultsView<ListingView>>();

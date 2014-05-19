@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Responses
 {
-    public class PricingInfoView
+    public class JobView
     {
-        public IList<PurchaseOptionView> PurchaseOptions { get; set; }
     }
 }

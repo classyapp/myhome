@@ -41,6 +41,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
                 );
 
+            routes.MapRouteWithName(
+                name: string.Concat("Create", ListingTypeName, "NoCollection"),
+                url: string.Concat(ListingTypeName.ToLower(), "/new/nocollection"),
+                defaults: new { controller = ListingTypeName, action = "CreateListingNoCollection" },
+                namespaces: new string[] { Namespace }
+                );
+
             routes.MapRoute(
                 name: string.Concat("PostCommentFor" ,ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{listingId}/comments/new"),
@@ -680,6 +687,14 @@ namespace Classy.DotNet.Mvc.Controllers
             info.Metadata = model.Metadata;
 
             return PartialView("MoreInfo", info);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateListingNoCollection()
+        {
+            CreateListingNoCollectionViewModel<TListingMetadata> model = new CreateListingNoCollectionViewModel<TListingMetadata>();
+            return View(string.Format("Create{0}", ListingTypeName), model);
         }
     }
 }
