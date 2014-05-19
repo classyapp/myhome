@@ -166,7 +166,9 @@
     <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
     <Content Include="Deployment\Deployment.exe" />
     <Content Include="Deployment\Newtonsoft.Json.dll" />
-    <None Include="Deployment\Resources\vendor-initial.resm" />
+    <None Include="Deployment\Resources\vendor-initial.resm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
@@ -484,7 +486,7 @@
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\_references.js" />
-    <None Include="Views\Profile\CreateVendorProfile.cshtml" />
+    <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
