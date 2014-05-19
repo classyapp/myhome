@@ -151,7 +151,7 @@ namespace MyHome.Sitemap
 
                         while (profiles != null && profiles.Results.Count > 0)
                         {
-                            Trace.TraceInformation(string.Format("city: {0}, country: {1}, results page: {2}", country, city, page));
+                            Trace.TraceInformation(string.Format("city: {0}, country: {1}, results page: {2}", country.Value, city, page));
 
                             foreach (var profile in profiles.Results)
                             {

@@ -63,14 +63,11 @@ namespace Classy.DotNet
 
         public static ClassyException ToClassyException(this WebException wex)
         {
+            var responseBody = wex.GetResponseBody();
             if (wex.IsBadRequest())
             {
-                var badRequest = wex.GetResponseBody().FromJson<BadRequest>();
-                if (badRequest.ResponseStatus.Errors.Count == 0)
-                {
-                    return new ClassyException(badRequest.ResponseStatus.Message);
-                }
-                return new ClassyException(badRequest.ResponseStatus.Errors);
+                var badRequest = responseBody.FromJson<BadRequest>();
+                return badRequest.ResponseStatus.Errors.Count == 0 ? new ClassyException(badRequest.ResponseStatus.Message) : new ClassyException(badRequest.ResponseStatus.Errors);
             }
             else return new ClassyException((wex.Response as HttpWebResponse).StatusCode, wex.Message);
         }
