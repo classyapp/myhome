@@ -1,8 +1,6 @@
 ﻿using System.Web.Routing;
 using System.Web.Mvc;
-using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Services;
-using Classy.DotNet.Mvc.Localization;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -14,20 +12,42 @@ namespace Classy.DotNet.Mvc.Controllers
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
-                name: "SearchSuggestions",
-                url: "search/suggest",
-                defaults: new { controller = "Search", action = "GetSearchSuggestions" },
+                name: "SearchListingsSuggestions",
+                url: "search/listings/suggest",
+                defaults: new { controller = "Search", action = "SearchListingsSuggestions" },
+                namespaces: new string[] { Namespace }
+            );
+            routes.MapRoute(
+                name: "SearchProfilesSuggestions",
+                url: "search/profiles/suggest",
+                defaults: new { controller = "Search", action = "SearchProfilesSuggestions" },
                 namespaces: new string[] { Namespace }
             );
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult GetSearchSuggestions(string q)
+        public ActionResult SearchListingsSuggestions(string q)
         {
             try
             {
                 var service = new SearchService();
-                var suggestions = service.GetSearchSuggestions(q);
+                var suggestions = service.SearchListingsSuggestions(q);
+
+                return Json(suggestions, JsonRequestBehavior.AllowGet);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SearchProfilesSuggestions(string q)
+        {
+            try
+            {
+                var service = new SearchService();
+                var suggestions = service.SearchProfilesSuggestions(q);
 
                 return Json(suggestions, JsonRequestBehavior.AllowGet);
             }

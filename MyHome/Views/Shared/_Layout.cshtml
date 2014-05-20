@@ -401,22 +401,33 @@
         ga('send', 'pageview');
 
         $(function() {
-            var searchSuggestions = new Bloodhound({
-                name: 'search-suggestions',
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            var listingsSuggestions = new Bloodhound({
+                name: 'listings-suggestions',
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 prefetch: '',
-                remote: 'search/suggest?q=%QUERY'
+                remote: 'search/listings/suggest?q=%QUERY'
+            });
+            var profilesSuggestions = new Bloodhound({
+                name: 'profiles-suggestions',
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '',
+                remote: 'search/profiles/suggest?q=%QUERY'
             });
 
-            searchSuggestions.initialize();
+            listingsSuggestions.initialize();
+            profilesSuggestions.initialize();
 
             $('#q.typeahead').typeahead({
                 minLength: 2,
                 hightlight: true
             }, {
                 displayKey: 'Value',
-                source: searchSuggestions.ttAdapter()
+                source: listingsSuggestions.ttAdapter()
+            }, {
+                displayKey: 'Value',
+                source: profilesSuggestions.ttAdapter()
             });
         });
     </script>
