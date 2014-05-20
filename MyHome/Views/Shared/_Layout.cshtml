@@ -426,13 +426,13 @@
                 displayKey: 'Value',
                 source: listingsSuggestions.ttAdapter(),
                 templates: {
-                    header: '<span class=\"tt-suggestion-header\">Popular Searches</span>'
+                    header: '<span class=\"tt-suggestion-header\">@Localizer.Get("HeaderSearch_ListingsSuggestionsHeader")</span>'
                 }
             }, {
                 displayKey: 'Value',
                 source: profilesSuggestions.ttAdapter(),
                 templates: {
-                    header: '<span class=\"tt-suggestion-header\">Professionals</span>'
+                    header: '<span class=\"tt-suggestion-header\">@Localizer.Get("HeaderSearch_ProfilesSuggestionsHeader")</span>'
                 }
             });
         });

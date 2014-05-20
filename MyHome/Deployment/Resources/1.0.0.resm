@@ -30,6 +30,20 @@
 			}
 		},
 		{
+			"Key": "HeaderSearch_ListingsSuggestionsHeader",
+			"Description": "search auto-suggest listings section header",
+			"Values": {
+				"en": "Popular Searches"
+			}
+		},
+		{
+			"Key": "HeaderSearch_ProfilesSuggestionsHeader",
+			"Description": "search auto-suggest profiles section header",
+			"Values": {
+				"en": "Professionals"
+			}
+		},
+		{
 			"Key": "PhotoDetails_TranslatedKeywords",
 			"Description": "display translated keywords for this image",
 			"Values": {
