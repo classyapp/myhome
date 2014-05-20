@@ -29,7 +29,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 var service = new SearchService();
                 var suggestions = service.GetSearchSuggestions(q);
 
-                return Json(suggestions);
+                return Json(suggestions, JsonRequestBehavior.AllowGet);
             }
             catch (ClassyException cex)
             {

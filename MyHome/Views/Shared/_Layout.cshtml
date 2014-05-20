@@ -98,7 +98,7 @@
                     <div class="col-sm-3 col-md-3 pull-left">
                         <form class="navbar-form" role="search" action="/free_search">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="@Localizer.Get("Header_Nav_Search")" name="q" id="q">
+                                <input type="text" class="form-control typeahead" placeholder="@Localizer.Get("Header_Nav_Search")" name="q" id="q">
                                 <div class="input-group-btn">
                                     <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                 </div>
@@ -411,13 +411,12 @@
 
             searchSuggestions.initialize();
 
-            $('#q').typeahead({
+            $('#q.typeahead').typeahead({
                 minLength: 2,
                 hightlight: true
             }, {
-                displayKey: 'value',
-                source: searchSuggestions.ttAdapter(),
-                local: []
+                displayKey: 'Value',
+                source: searchSuggestions.ttAdapter()
             });
         });
     </script>
