@@ -144,7 +144,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\PhotoActionsViewModel.cs" />
     <Compile Include="Models\PhotoGridViewModel.cs" />
-    <Compile Include="Sitemap\HomelabSitemapGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="401.html" />

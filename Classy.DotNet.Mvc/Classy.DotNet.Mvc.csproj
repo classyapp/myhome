@@ -106,12 +106,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Security\SecurityController.cs" />
     <Compile Include="Attributes\EveryItemIsAttribute.cs" />
-    <Compile Include="SitemapGenerator\ArgumentHelper.cs" />
-    <Compile Include="SitemapGenerator\BaseSitemapGenerator.cs" />
-    <Compile Include="SitemapGenerator\BaseSitemapIndexGenerator.cs" />
-    <Compile Include="SitemapGenerator\ClassySitemapGenerator.cs" />
-    <Compile Include="SitemapGenerator\GZip.cs" />
-    <Compile Include="SitemapGenerator\UpdateFrequency.cs" />
     <Compile Include="ViewModels\Collection\AddToCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
     <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
