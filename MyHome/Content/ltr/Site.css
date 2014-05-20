@@ -647,6 +647,10 @@ padding: 3px;
     margin: 20px 0;
     color: inherit;
 }
+#navbar-search .typeahead {
+    border: solid 1px #999;
+    border-radius: 4px 0 0 4px; 
+}
 #navbar-search .tt-dropdown-menu {
     font-size: 14px;
 }
