@@ -1,0 +1,25 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "PublicProfile_Report_Problem",
+			"Description": "link that lets a user report a problem with the information on a profile",
+			"Values": {
+				"en": "report a problem with the information on this page",
+				"he": "דווח על בעיה במידע בעמוד זה",
+				"fr": "signaler un problème avec les informations sur cette page",
+				"nl": "een probleem met de informatie op deze pagina melden"
+			}
+		},
+		{ 
+			"Key": "PublicProfile_Report_Problem_Subject",
+			"Description": "the default subject of the email that a user will send homelab when reporting a problem with a profile",
+			"Values": {
+				"en": "NOTE: there is a problem with this profile",
+				"he": "הערה: יש בעיה עם פרופיל זה",
+				"fr": "REMARQUE: il ya un problème avec ce profil",
+				"nl": "LET OP: er is een probleem met dit profiel"
+			}
+		}
+	]
+}

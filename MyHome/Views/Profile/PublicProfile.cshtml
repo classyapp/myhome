@@ -46,7 +46,7 @@
                   </a>
                   <ul class="dropdown-menu" role="menu">
                       @{
-        var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = Model.Profile.Id }));
+                        var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = Model.Profile.Id }));
                       }
                       @if (Model.Profile.IsProfessional)
                       {
@@ -454,6 +454,10 @@
                             </span>
                         </div>
                     }
+                </div>
+
+                <div class="report text-center">
+                    <p><small><a href="mailto:report@homelab.com?subject=@Localizer.Get("PublicProfile_Report_Problem_Subject")">@Localizer.Get("PublicProfile_Report_Problem")</a></small></p>
                 </div>
             </div>
                         
