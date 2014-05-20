@@ -33,6 +33,7 @@ namespace MyHome.Deployment
 
             // supported cultures
             var supportedCultures = GetSupportedCulturesAtTargetEndpoint();
+            Console.WriteLine("Supported cultures: " + String.Join(",", supportedCultures));
 
             // deployment logic
             Console.WriteLine("Deploying new reources");
@@ -63,9 +64,10 @@ namespace MyHome.Deployment
                     if (firstMissingValues != null) throw new ResourceMissingFieldException(firstMissingValues.Key, "Values");
 
                     // throw if resource any contains a value for an unsupported culture
-                    var firstUnsupported = manifest.Resources.FirstOrDefault(x => !supportedCultures.Any(y => !x.Values.Keys.Contains(y)));
+                    var firstUnsupported = manifest.Resources.FirstOrDefault(x => x.Values.Keys.Any(y => !supportedCultures.Contains(y)));
                     if (firstUnsupported != null)
                     {
+                        Console.WriteLine("first unsupported: key => " + firstUnsupported.Key + ", values => " + string.Join(";", firstUnsupported.Values.Keys));
                         throw new ResourceValuesContainsInvalidCultureException(firstUnsupported.Key);
                     }
 
