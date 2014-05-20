@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Localization;
+using System.Net;
 
 namespace MyHome.Controllers
 {
@@ -59,9 +60,8 @@ namespace MyHome.Controllers
 
         public ActionResult Sitemap()
         {
-            var generator = new MyHome.Sitemap.HomelabSitemapGenerator(Url);
-            generator.Generate("https://www.homelab.com", "c:\\temp");
-            return Content("<result>ok</result>", "text/xml");
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            //return Content("<result>ok</result>", "text/xml");
         }
     }
 }
