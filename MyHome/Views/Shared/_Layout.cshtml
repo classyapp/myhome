@@ -96,7 +96,7 @@
                 @if (FeatureSwitchProvider.IsFeatureOn("free-search"))
                 {
                     <div class="col-sm-3 col-md-3 pull-left">
-                        <form class="navbar-form" role="search" action="/free_search">
+                        <form class="navbar-form" id="navbar-search" role="search" action="/free_search">
                             <div class="input-group">
                                 <input type="text" class="form-control typeahead" placeholder="@Localizer.Get("Header_Nav_Search")" name="q" id="q">
                                 <div class="input-group-btn">
@@ -424,10 +424,16 @@
                 hightlight: true
             }, {
                 displayKey: 'Value',
-                source: listingsSuggestions.ttAdapter()
+                source: listingsSuggestions.ttAdapter(),
+                templates: {
+                    header: '<span class=\"tt-suggestion-header\">Popular Searches</span>'
+                }
             }, {
                 displayKey: 'Value',
-                source: profilesSuggestions.ttAdapter()
+                source: profilesSuggestions.ttAdapter(),
+                templates: {
+                    header: '<span class=\"tt-suggestion-header\">Professionals</span>'
+                }
             });
         });
     </script>

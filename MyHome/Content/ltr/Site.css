@@ -645,6 +645,25 @@ padding: 3px;
 .search-form
 {
     margin: 20px 0;
+    color: inherit;
+}
+#navbar-search .tt-dropdown-menu {
+    font-size: 14px;
+}
+#navbar-search .tt-suggestion {
+    color: #333;
+    line-height: 24px;
+}
+#navbar-search .tt-suggestions .tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+}
+#navbar-search .tt-suggestions .tt-suggestion.tt-cursor p {
+     color: #fff;
+}
+#navbar-search .tt-suggestion-header {
+    font-weight: bold;
+    margin: 6px 0 6px 6px;
 }
 
 /* profile page */
