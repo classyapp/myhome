@@ -1,0 +1,89 @@
+﻿{
+    "AppId" : "v1.0",
+	"Resources": [
+			{ 
+                "Key": "ProductDetails_InThisPhoto",
+                "Description": "  ",
+                "Values": {
+                    "en": "In this photo"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Comment_Submit",
+                "Description": "  ",
+                "Values": {
+                    "en": "Post Comment"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Comment_Content",
+                "Description": " ",
+                "Values": {
+                    "en": "Your Comment"
+                }
+            },
+            { 
+                "Key": "ProductComment_Tip",
+                "Description": "Product comments tip",
+                "Values": {
+                    "en": "Tip: use # to tag this product with your keywords"
+                }
+            },
+            { 
+                "Key": "ProductDetails_NoComments",
+                "Description": "No comments message",
+                "Values": {
+                    "en": "Nobody commented on this product yet. Be the first one."
+                }
+            },
+            { 
+                "Key": "ProductDetails_Comments",
+                "Description": "Comments title",
+                "Values": {
+                    "en": "Comments"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Edit",
+                "Description": "Product details edit link",
+                "Values": {
+                    "en": "Edit"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Description",
+                "Description": "Description title of the product",
+                "Values": {
+                    "en": "Description"
+                }
+            },
+            { 
+                "Key": "ProductDetails_ViewCount",
+                "Description": "",
+                "Values": {
+                    "en": "{0} views"
+                }
+            },
+            { 
+                "Key": "ProductDetails_CommentCount",
+                "Description": "",
+                "Values": {
+                    "en": "{0} comments"
+                }
+            },
+            { 
+                "Key": "ProductDetails_FavoriteCount",
+                "Description": "",
+                "Values": {
+                    "en": "{0} favorited"
+                }
+            },
+            { 
+                "Key": "ProductDetails_CollectionCount",
+                "Description": "",
+                "Values": {
+                    "en": "In {0} collections"
+                }
+            }
+    ]
+}

@@ -4,7 +4,6 @@ namespace Classy.DotNet.Responses
 {
     public class ListingView 
     {
-        public ListingView() { }
         //
         public string Id { get; set; }
         public string ProfileId { get; set; }
@@ -27,7 +26,7 @@ namespace Classy.DotNet.Responses
         public IList<CommentView> Comments { get; set; }
         //
         public bool HasPricingInfo { get; set; }
-        public PricingInfoView PricingInfo { get; set; }
+        public IList<PurchaseOptionView> PurchaseOptions { get; set; }
         //
         public bool HasContactInfo { get; set; }
         public ContactInfoView ContactInfo { get; set; }
@@ -54,6 +53,15 @@ namespace Classy.DotNet.Responses
         public IList<BookedTimeslotView> BookedTimeslots { get; set; }
 
         public string DefaultCulture { get; set; }
+
+        public string Currency { get; set; }
+        public string CurrencySign { get; set; }
+
+        public ListingView()
+        {
+            Currency = "USD";
+            CurrencySign = "$";
+        }
     }
 
     // A light-weight version of ListingView that holds the basic details
@@ -75,7 +83,7 @@ namespace Classy.DotNet.Responses
         public int AddToCollectionCount { get; set; }
         public int DisplayOrder { get; set; }
         public bool HasPricingInfo { get; set; }
-        public PricingInfoView PricingInfo { get; set; }
+        public IList<PurchaseOptionView> PurchaseOptions { get; set; }
         public IList<string> Hashtags { get; set; }
     }
 
@@ -99,7 +107,7 @@ namespace Classy.DotNet.Responses
                 AddToCollectionCount = summary.AddToCollectionCount,
                 DisplayOrder = summary.DisplayOrder,
                 HasPricingInfo = summary.HasPricingInfo,
-                PricingInfo = summary.PricingInfo,
+                PurchaseOptions = summary.PurchaseOptions,
                 Hashtags = summary.Hashtags
             };
         }

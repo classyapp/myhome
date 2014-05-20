@@ -166,6 +166,7 @@
     <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
     <Content Include="Deployment\Deployment.exe" />
     <Content Include="Deployment\Newtonsoft.Json.dll" />
+    <Content Include="Deployment\Resources\product-details.resm" />
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -557,6 +558,8 @@
     <Content Include="Views\Photo\FreeSearch.cshtml" />
     <Content Include="Views\Profile\UploadCatalog.cshtml" />
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
+    <Content Include="Views\Product\ProductDetails.cshtml" />
+    <Content Include="Views\Shared\ProductActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
