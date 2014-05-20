@@ -335,9 +335,10 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new ListingService();
                 var comment = service.PostComment(listingId, content, ListingService.ObjectType.Listing);
+                var listing = service.GetListingById(listingId, false, true, false, false, false);
                 if (OnPostedComment != null)
                 {
-                    OnPostedComment(this, new ListingCommentEventArgs { Comment = comment, ListingType = ListingService.ObjectType.Listing });
+                    OnPostedComment(this, new ListingCommentEventArgs { Comment = comment, ListingId = listing.Id });
                 }
                 TempData["PostComment_Success"] = true;
             }
@@ -522,8 +523,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 Location = null,
                 Page = page,
                 Q = request.Q,
-                TotalResults = searchResults.Total,
-                Results = searchResults.Results.Select(x => x.ToListingView()).ToList()
+                TotalResults = searchResults.ListingsResults.Total,
+                Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList()
             };
 
             if (Request.IsAjaxRequest())

@@ -662,8 +662,9 @@ padding: 3px;
      color: #fff;
 }
 #navbar-search .tt-suggestion-header {
+    display: inline-block;
     font-weight: bold;
-    margin: 6px 0 6px 6px;
+    margin: 2px 0 6px 6px;
 }
 
 /* profile page */

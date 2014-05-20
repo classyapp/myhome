@@ -266,7 +266,7 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public FreeSearchResultsView<ListingViewSummary> FreeSearch(string q, int amount, int page)
+        public FreeSearchResultsView FreeSearch(string q, int amount, int page)
         {
             using (var client = ClassyAuth.GetWebClient())
             {
@@ -275,7 +275,7 @@ namespace Classy.DotNet.Services
                     Q = q, Page = page, Amount = amount
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
-                var results = listingsJson.FromJson<FreeSearchResultsView<ListingViewSummary>>();
+                var results = listingsJson.FromJson<FreeSearchResultsView>();
 
                 return results;
             }

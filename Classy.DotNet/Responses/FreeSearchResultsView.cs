@@ -8,6 +8,16 @@ namespace Classy.DotNet.Responses
         public List<T> Results { get; set; }
     }
 
+    public class FreeSearchResultsView
+    {
+        public FreeSearchResultsView<ListingViewSummary> ListingsResults { get; set; }
+        public FreeSearchResultsView<ProfileViewSummary> ProfilesResults { get; set; }
+    }
+
+    public class ProfileViewSummary
+    {
+    }
+
     public class PhotoSearchResult // this is like ListingIndexDto in classy right now
     {
         public string Id { get; set; }
