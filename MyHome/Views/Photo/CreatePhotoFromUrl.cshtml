@@ -5,8 +5,8 @@
     var env = new
     {
         Culture = UICulture,
-        Currency = Request["env.currency"] ?? "ILS",
-        Country = Request["enc.locaction"] ?? "IL"
+        Currency = Request[Classy.DotNet.Responses.AppView.CurrencyCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCurrency,
+        Country = Request[Classy.DotNet.Responses.AppView.CountryCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCountry
     };
 
     var rooms = Localizer.GetList("rooms");

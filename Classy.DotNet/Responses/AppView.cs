@@ -17,9 +17,15 @@ namespace Classy.DotNet.Responses
         public static string GPSOriginCookieName { get; set; }
         public static string CountryCookieName { get; set; }
         public static string CultureCookieName { get; set; }
+        public static string CurrencyCookieName { get; set; }
         public static string DefaultCountry { get; set; }
         public static string DefaultCulture { get; set; }
+        public static string DefaultCurrency { get; set; }
         public static string Hostname { get; set; }
+
+        public static IList<CurrencyListItemView> SupportedCurrencies { get; set; }
+        public static IList<ListItemView> SupportedCultures { get; set; }
+        public static IList<ListItemView> SupportedCountries { get; set; }
 
         static AppView()
         {
@@ -32,9 +38,15 @@ namespace Classy.DotNet.Responses
             GPSOriginCookieName = settings.GPSOriginCookieName;
             CountryCookieName = settings.CountryCookieName;
             CultureCookieName = settings.CultureCookieName;
+            CurrencyCookieName = settings.CurrencyCookieName;
             DefaultCountry = settings.DefaultCountry;
             DefaultCulture = settings.DefaultCulture;
+            DefaultCurrency = settings.DefaultCurrency;
             Hostname = settings.Hostname;
+
+            SupportedCurrencies = settings.SupportedCurrencies;
+            SupportedCountries = settings.SupportedCountries;
+            SupportedCultures = settings.SupportedCultures;
         }
     }
 }

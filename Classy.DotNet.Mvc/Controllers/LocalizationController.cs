@@ -160,6 +160,11 @@ namespace Classy.DotNet.Mvc.Controllers
                 Value = model.CountryCode,
                 Expires = DateTime.UtcNow.AddYears(30)
             });
+            Response.Cookies.Add(new System.Web.HttpCookie(Classy.DotNet.Responses.AppView.CurrencyCookieName)
+            {
+                Value = model.CurrencyCode,
+                Expires = DateTime.UtcNow.AddYears(30)
+            });
         }
     }
 }
