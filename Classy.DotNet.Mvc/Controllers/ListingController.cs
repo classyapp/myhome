@@ -338,7 +338,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 var listing = service.GetListingById(listingId, false, true, false, false, false);
                 if (OnPostedComment != null)
                 {
-                    OnPostedComment(this, new ListingCommentEventArgs { Comment = comment, ListingId = listing.Id });
+                    OnPostedComment(this, new ListingCommentEventArgs { Comment = comment, Listing = listing });
                 }
                 TempData["PostComment_Success"] = true;
             }
