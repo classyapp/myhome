@@ -144,7 +144,8 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
                 CultureName = System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName,
-                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value
+                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value,
+                CurrencyCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value
             };
         }
 

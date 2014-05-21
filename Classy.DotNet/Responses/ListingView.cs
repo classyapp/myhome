@@ -26,7 +26,7 @@ namespace Classy.DotNet.Responses
         public IList<CommentView> Comments { get; set; }
         //
         public bool HasPricingInfo { get; set; }
-        public IList<PurchaseOptionView> PurchaseOptions { get; set; }
+        public PricingInfoView PricingInfo { get; set; }
         //
         public bool HasContactInfo { get; set; }
         public ContactInfoView ContactInfo { get; set; }
@@ -83,7 +83,7 @@ namespace Classy.DotNet.Responses
         public int AddToCollectionCount { get; set; }
         public int DisplayOrder { get; set; }
         public bool HasPricingInfo { get; set; }
-        public IList<PurchaseOptionView> PurchaseOptions { get; set; }
+        public PricingInfoView PricingInfo { get; set; }
         public IList<string> Hashtags { get; set; }
     }
 
@@ -107,7 +107,7 @@ namespace Classy.DotNet.Responses
                 AddToCollectionCount = summary.AddToCollectionCount,
                 DisplayOrder = summary.DisplayOrder,
                 HasPricingInfo = summary.HasPricingInfo,
-                PurchaseOptions = summary.PurchaseOptions,
+                PricingInfo = summary.PricingInfo,
                 Hashtags = summary.Hashtags
             };
         }

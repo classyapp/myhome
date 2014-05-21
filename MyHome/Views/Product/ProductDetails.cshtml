@@ -5,19 +5,22 @@
     
     ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Listing.Profile.GetProfileName());
     ViewBag.MetaDescription = Model.Listing.Content;
+
+    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Model.Listing.PricingInfo.CurrencyCode).Sign;
 }
 
 @section MetaTags {
     <meta name="og:title" content="@Model.Listing.Title" />
     <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? Localizer.Get("ProductDetails_Description", false) : Model.Listing.Content)" />
-    @if (Model.Listing.PurchaseOptions[0].MediaFiles.Length > 0 && false)
+    @if (Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length > 0 && false)
     {
-        <meta name="og:image" content="@Model.Listing.PurchaseOptions[0].MediaFiles.First(x => x.Key == Model.Listing.PurchaseOptions[0].DefaultImage).Url" />
+        <meta name="og:image" content="@Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.First(x => x.Key == Model.Listing.PricingInfo.PurchaseOptions[0].DefaultImage).Url" />
     }
 }
 
 @section ActionBar {
-    @if (Model.Listing.CanEdit()) {
+    @if (Model.Listing.CanEdit())
+    {
         <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditProduct")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("ProductDetails_Edit")</a>
     }
 }
@@ -41,11 +44,11 @@
         <h2>@Model.Listing.Title</h2>
 
         <div class="photo clearfix">
-            @Html.Thumbnail(Model.Listing.PurchaseOptions[0].MediaFiles[0].Key, 640, 0)
+            @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[0].Key, 640, 0)
             <div class="default-images" data-url="">
-                @for (int i = 1; i < Model.Listing.PurchaseOptions[0].MediaFiles.Length; i++)
+                @for (int i = 1; i < Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length; i++)
                 {
-                    @Html.Thumbnail(Model.Listing.PurchaseOptions[0].MediaFiles[0].Key, 120)
+                    @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[0].Key, 120)
                 }
             </div>
             <div class="stats">
@@ -65,21 +68,21 @@
         <h4>@Localizer.Get("ProductDetails_InThisPhoto")</h4>
         <div>
             <dl class="dl-horizontal">
-                @if (Model.Listing.PurchaseOptions.Count == 1)
+                @if (Model.Listing.PricingInfo.PurchaseOptions.Count == 1)
                 {
-                    if (Model.Listing.PurchaseOptions[0].VariantProperties != null)
+                    if (Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties != null)
                     {
-                        foreach (var option in Model.Listing.PurchaseOptions[0].VariantProperties.Keys)
+                        foreach (var option in Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties.Keys)
                         {
                             <dt>@option</dt>
-                            <dd>@Model.Listing.PurchaseOptions[0].VariantProperties[option]</dd>
+                            <dd>@Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties[option]</dd>
                         }
-                    } 
+                    }
                 }
                 else
                 {
                     var properties = new Dictionary<string, List<string>>();
-                    foreach (var option in Model.Listing.PurchaseOptions)
+                    foreach (var option in Model.Listing.PricingInfo.PurchaseOptions)
                     {
                         if (option.VariantProperties != null)
                         {
@@ -115,10 +118,10 @@
                         </dd>
                     }
                 }
-                <dt class="compare-at-price @(Model.Listing.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@Localizer.Get("ProductDetails_CompareAtPrice")</dt>
-                <dd class="compare-at-price @(Model.Listing.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@(Model.Listing.PurchaseOptions[0].CompareAtPrice.HasValue ? Model.Listing.PurchaseOptions[0].CompareAtPrice.Value.ToString("c") : string.Empty)</dd>
+                <dt class="compare-at-price @(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@Localizer.Get("ProductDetails_CompareAtPrice")</dt>
+                <dd class="compare-at-price @(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.Value) : string.Empty)</dd>
                 <dt class="price">@Localizer.Get("ProductDetails_Price")</dt>
-                <dd class="price">@Model.Listing.PurchaseOptions[0].Price.ToString("c")</dd>    
+                <dd class="price">@string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].Price)</dd>    
                 @{
                     var hashtags = Model.Listing.Hashtags;
                     if (Model.Listing.TranslatedKeywords != null && Model.Listing.TranslatedKeywords.ContainsKey(UICulture)) {
@@ -244,7 +247,7 @@
 {
     <script type="text/javascript">
         var currencySign = "@Model.Listing.CurrencySign";
-        var purchaseOptions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Listing.PurchaseOptions));
+        var purchaseOptions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Listing.PricingInfo.PurchaseOptions));
         $(function () {
             var metadata = {};
             // load more info
