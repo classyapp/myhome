@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.ActionFilters;
@@ -518,13 +519,18 @@ namespace Classy.DotNet.Mvc.Controllers
             var listingService = new ListingService();
             var searchResults = listingService.FreeSearch(request.Q, amount, page);
 
+            // order profiles so those with cover photos come first
+            var orderedpProfiles = searchResults.ProfilesResults.Results.Where(x => !x.CoverPhotos.IsNullOrEmpty())
+                .Concat(searchResults.ProfilesResults.Results.Where(x => x.CoverPhotos.IsNullOrEmpty())).ToList();
+
             var viewModel = new FreeSearchListingsViewModel {
                 Amount = amount,
                 Location = null,
                 Page = page,
                 Q = request.Q,
                 TotalResults = searchResults.ListingsResults.Total,
-                Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList()
+                Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList(),
+                RelatedProfessionals = orderedpProfiles
             };
 
             if (Request.IsAjaxRequest())

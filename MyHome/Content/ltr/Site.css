@@ -16,7 +16,6 @@ h1
 {
     color: #444;
     font-size: 22px;
-    font-weight: bold;
 }
 
 p
@@ -560,6 +559,25 @@ padding: 3px;
     display: block;
 }
 
+.profile.small-thumbnail {
+    width: 198px;
+    float: left;
+    margin-right: 32px;
+    background-color: #fff;
+    height: auto !important;
+}
+.profile.small-thumbnail .name {
+    height: 20px;overflow: hidden;
+}
+.row.results.professionals .profile.small-thumbnail:last-child {
+    margin-right: 0;
+}
+.row.results.professionals {
+    margin-bottom: 20px;
+    padding-left: 15px;
+}
+
+
 /* navbar */
 #cookie-policy
 {
@@ -653,10 +671,13 @@ padding: 3px;
 }
 #navbar-search .tt-dropdown-menu {
     font-size: 14px;
+    width: auto;
+    max-width: 550px;
+    overflow: hidden;
 }
 #navbar-search .tt-suggestion {
     color: #333;
-    line-height: 24px;
+    line-height: 20px;
 }
 #navbar-search .tt-suggestions .tt-suggestion.tt-cursor {
     color: #fff;
@@ -668,7 +689,8 @@ padding: 3px;
 #navbar-search .tt-suggestion-header {
     display: inline-block;
     font-weight: bold;
-    margin: 2px 0 6px 6px;
+    padding: 2px 0 2px 6px;
+    background-color: #eee;
 }
 
 /* profile page */

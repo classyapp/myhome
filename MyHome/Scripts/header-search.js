@@ -25,14 +25,14 @@
         displayKey: 'Value',
         source: listingsSuggestions.ttAdapter(),
         templates: {
-            header: '<span class=\"tt-suggestion-header\">@Localizer.Get("HeaderSearch_ListingsSuggestionsHeader")</span>'
+            header: '<span class=\"tt-suggestion-header\">'+ searchListingsSuggestionsHeader +'</span>'
         }
     }, {
         name: 'profile-suggestions',
         displayKey: 'Value',
         source: profilesSuggestions.ttAdapter(),
         templates: {
-            header: '<span class=\"tt-suggestion-header\">@Localizer.Get("HeaderSearch_ProfilesSuggestionsHeader")</span>'
+            header: '<span class=\"tt-suggestion-header\">' + searchProfilesSuggestionsHeader+'</span>'
         }
     });
 

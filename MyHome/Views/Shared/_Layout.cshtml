@@ -246,6 +246,9 @@
             js.src = "//connect.facebook.net/en_US/all.js";
             ref.parentNode.insertBefore(js, ref);
         }(document));
+
+        var searchListingsSuggestionsHeader = '@Localizer.Get("HeaderSearch_ListingsSuggestionsHeader")';
+        var searchProfilesSuggestionsHeader = '@Localizer.Get("HeaderSearch_ProfilesSuggestionsHeader")';
     </script>
 
     @Scripts.Render("~/bundles/jquery")

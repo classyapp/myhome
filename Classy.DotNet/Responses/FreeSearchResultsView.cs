@@ -11,11 +11,7 @@ namespace Classy.DotNet.Responses
     public class FreeSearchResultsView
     {
         public FreeSearchResultsView<ListingViewSummary> ListingsResults { get; set; }
-        public FreeSearchResultsView<ProfileViewSummary> ProfilesResults { get; set; }
-    }
-
-    public class ProfileViewSummary
-    {
+        public FreeSearchResultsView<ProfileView> ProfilesResults { get; set; }
     }
 
     public class PhotoSearchResult // this is like ListingIndexDto in classy right now

@@ -560,6 +560,8 @@
     <Content Include="Views\Photo\FreeSearch.cshtml" />
     <Content Include="Views\Profile\UploadCatalog.cshtml" />
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
+    <Content Include="Views\Profile\SmallProfileResult.cshtml" />
+    <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -615,12 +617,12 @@
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets. -->
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-  </Target> -->
-  <!--<Target Name="AfterBuild">
+  </Target>
+  <Target Name="AfterBuild">
     <CallTarget Targets="RunDeployResourcesConsoleApp" />
   </Target>
   <Target Name="RunDeployResourcesConsoleApp">
@@ -643,5 +645,5 @@
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
     <Exec Command="&quot;$(MSBuildThisFileDirectory)Deployment\Deployment.exe&quot; @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
-  </Target>-->
+  </Target>
 </Project>
