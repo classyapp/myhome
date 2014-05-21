@@ -8,7 +8,7 @@
             <div class="photo thumbnail">
                 @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
                 <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id, Slug = p.Title.ToSlug() })" title="@p.Title">
-                    @Html.Thumbnail(p, Model.ThumbnailSize, Model.ThumbnailSize, true, false)
+                    @Html.Thumbnail(p, Model.ThumbnailSize)
                     <div class="details">
                         <ul class="stats list-inline list-unstyled">
                             <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
