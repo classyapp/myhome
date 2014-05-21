@@ -394,49 +394,14 @@
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
         ga('create', 'UA-49619980-1', 'homelab.com');
         ga('send', 'pageview');
-
-        $(function() {
-            var listingsSuggestions = new Bloodhound({
-                name: 'listings-suggestions',
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                prefetch: '',
-                remote: 'search/listings/suggest?q=%QUERY'
-            });
-            var profilesSuggestions = new Bloodhound({
-                name: 'profiles-suggestions',
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                prefetch: '',
-                remote: 'search/profiles/suggest?q=%QUERY'
-            });
-
-            listingsSuggestions.initialize();
-            profilesSuggestions.initialize();
-
-            $('#q.typeahead').typeahead({
-                minLength: 2,
-                hightlight: true
-            }, {
-                displayKey: 'Value',
-                source: listingsSuggestions.ttAdapter(),
-                templates: {
-                    header: '<span class=\"tt-suggestion-header\">@Localizer.Get("HeaderSearch_ListingsSuggestionsHeader")</span>'
-                }
-            }, {
-                displayKey: 'Value',
-                source: profilesSuggestions.ttAdapter(),
-                templates: {
-                    header: '<span class=\"tt-suggestion-header\">@Localizer.Get("HeaderSearch_ProfilesSuggestionsHeader")</span>'
-                }
-            });
-        });
     </script>
+    @Scripts.Render("~/Scripts/url-builder.js")
+    @Scripts.Render("~/Scripts/header-search.js")
 
     @RenderSection("scripts", required: false)
 </body>

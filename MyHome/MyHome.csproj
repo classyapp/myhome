@@ -459,6 +459,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
+    <Content Include="Scripts\url-builder.js" />
+    <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
     <Content Include="Scripts\google-login.js" />
     <Content Include="Scripts\fb-login.js" />
