@@ -19,8 +19,14 @@ namespace Classy.DotNet.Responses
         public string GPSOriginCookieName { get; set; }
         public string CountryCookieName { get; set; }
         public string CultureCookieName { get; set; }
+        public string CurrencyCookieName { get; set; }
         public string DefaultCountry { get; set; }
         public string DefaultCulture { get; set; }
+        public string DefaultCurrency { get; set; }
         public string Hostname { get; set; }
+
+        public IList<CurrencyListItemView> SupportedCurrencies { get; set; }
+        public IList<ListItemView> SupportedCultures { get; set; }
+        public IList<ListItemView> SupportedCountries { get; set; }
     }
 }

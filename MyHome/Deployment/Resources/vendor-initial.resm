@@ -9,6 +9,13 @@
 			    }
 			},
 			{ 
+			    "Key": "CreateVendorProfile_ContactInfo",
+			    "Description": "Vendor profile contact info section header",
+			    "Values": {
+			        "en": "Contact Info"
+			    }
+			},
+			{ 
 			    "Key": "CreateVendorProfile_PageTitle",
 			    "Description": "Page title for creating a vendor account",
 			    "Values": {
@@ -82,7 +89,7 @@
                 "Key": "VendorMetadata_Terms",
                 "Description": "Terms checkbox text",
                 "Values": {
-                    "en": "I agree to the terms and conditions"
+                    "en": "I agree to the <a href={0} target='_blank'>terms and conditions</a>"
                 }
             },
             {

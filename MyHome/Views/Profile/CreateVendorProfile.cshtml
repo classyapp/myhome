@@ -35,7 +35,7 @@
             <div class="well">
                 @Localizer.Get("CreateVendorProfile_AgreementHeader")
                 <p>&nbsp;</p>
-                @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(false).ShowValidationMessage(false).Label().LabelText(string.Format(Localizer.Get("VendorMetadata_Terms"), Html.RouteLink(Localizer.Get("Vendor_TermsOfUse"), "VendorTerms"))).ShowRequiredStar(false)
+                @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(false).ShowValidationMessage(false).Label().LabelText(string.Format(Localizer.Get("VendorMetadata_Terms"), Html.RouteLink(Localizer.Get("Vendor_TermsOfUse"), "Terms"))).ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Metadata.SigneeName)
                 @f.FormGroup().TextBoxFor(x => x.Metadata.SigneeTitle)
             </div>
