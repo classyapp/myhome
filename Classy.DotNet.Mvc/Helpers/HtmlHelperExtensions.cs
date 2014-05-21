@@ -114,7 +114,7 @@ namespace Classy.DotNet.Mvc
             }
         }
 
-        // photo thumb
+        // photo thumb - OBSOLETE. MOVED TO LISTINGVIEWEXTENSIONS
         public static MvcHtmlString Thumbnail(this System.Web.Mvc.HtmlHelper html, string key, int width)
         {
             return Thumbnail(html, key, width, width, true);
