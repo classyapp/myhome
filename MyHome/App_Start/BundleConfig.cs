@@ -38,7 +38,8 @@ namespace MyHome
                       "~/Content/ltr/font-awesome.min.css",
                       "~/Content/ltr/bootstrap.min.css",
                       "~/Content/ltr/site.css",
-                      "~/Content/ltr/bootstrap-tagsinput.css"));
+                      "~/Content/ltr/bootstrap-tagsinput.css",
+                      "~/Content/ltr/EditorTools.css"));
         }
     }
 }

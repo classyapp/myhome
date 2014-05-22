@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "EditorTools_SelectTool",
+			"Description": "Editor's tools - select many listings",
+			"Values": {
+				"en": "Select Listings"
+			}
+		},
+		{ 
+			"Key": "EditorTools_Save",
+			"Description": "Editor's tools - Save",
+			"Values": {
+				"en": "Save Changes"
+			}
+		},
+		{ 
 			"Key": "EditPhoto_Success",
 			"Description": "message after saving a photo",
 			"Values": {
@@ -27,6 +41,55 @@
 			"Description": "text of footer link to careers page",
 			"Values": {
 				"en": "Join Homelab!"
+			}
+		},
+		{
+			"Key": "HeaderSearch_ListingsSuggestionsHeader",
+			"Description": "search auto-suggest listings section header",
+			"Values": {
+				"en": "Popular Searches"
+			}
+		},
+		{
+			"Key": "HeaderSearch_ProfilesSuggestionsHeader",
+			"Description": "search auto-suggest profiles section header",
+			"Values": {
+				"en": "Professionals"
+			}
+		},
+		{
+			"Key": "HeaderSearch_RoomsSuggestionsHeader",
+			"Description": "search auto-suggest rooms section header",
+			"Values": {
+				"en": "Rooms"
+			}
+		},
+		{
+			"Key": "HeaderSearch_StylesSuggestionsHeader",
+			"Description": "search auto-suggest styles section header",
+			"Values": {
+				"en": "Styles"
+			}
+		},
+		{
+			"Key": "HeaderSearch_OtherSuggestionsHeader",
+			"Description": "search auto-suggest other section header",
+			"Values": {
+				"en": "More..."
+			}
+		},
+		{
+			"Key": "PhotoDetails_TranslatedKeywords",
+			"Description": "display translated keywords for this image",
+			"Values": {
+				"en": "Translated Keywords"
+			}
+		},
+		{
+			"Key": "PhotoDetails_SearchableKeywords",
+			"Description": "display searchable keywords for this image",
+			"Values": {
+				"en": "Searchable Keywords"
 			}
 		},
 		{

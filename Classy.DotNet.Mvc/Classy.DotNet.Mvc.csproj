@@ -75,6 +75,7 @@
     <Compile Include="Config\FeatureSwitchProvider.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContactProfessionalArgs.cs" />
     <Compile Include="Controllers\CreateListingFromUrlArgs.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="Controllers\ReviewPostedArgs.cs" />
     <Compile Include="ActionFilters\ModelStateTransfer.cs" />
     <Compile Include="Extensions\CsvStringExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="GeoIP\Location.cs" />

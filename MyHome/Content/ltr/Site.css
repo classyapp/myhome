@@ -16,7 +16,6 @@ h1
 {
     color: #444;
     font-size: 22px;
-    font-weight: bold;
 }
 
 p
@@ -560,6 +559,28 @@ padding: 3px;
     display: block;
 }
 
+.profile.small-thumbnail {
+    width: 198px;
+    float: left;
+    margin-right: 32px;
+    background-color: #fff;
+    height: auto !important;
+}
+.profile.small-thumbnail .missing-thumbnail {
+    width: 180px;height: 180px;margin-bottom: 0;
+}
+.profile.small-thumbnail .name {
+    height: 20px;overflow: hidden;
+}
+.row.results.professionals .profile.small-thumbnail:last-child {
+    margin-right: 0;
+}
+.row.results.professionals {
+    margin-bottom: 20px;
+    padding-left: 15px;
+}
+
+
 /* navbar */
 #cookie-policy
 {
@@ -599,6 +620,7 @@ padding: 3px;
 
 .navbar-form
 {
+    display: inline-block;
     margin-top: 16px;
     padding: 0;
 }
@@ -645,6 +667,36 @@ padding: 3px;
 .search-form
 {
     margin: 20px 0;
+    color: inherit;
+}
+#navbar-search .typeahead {
+    border: solid 1px #999;
+    border-radius: 4px 0 0 4px; 
+}
+#navbar-search .tt-dropdown-menu {
+    font-size: 14px;
+    width: auto;
+    min-width: 198px;
+    max-width: 550px;
+    overflow: hidden;
+}
+#navbar-search .tt-suggestion {
+    color: #333;
+    line-height: 20px;
+    cursor: pointer;
+}
+#navbar-search .tt-suggestions .tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+}
+#navbar-search .tt-suggestions .tt-suggestion.tt-cursor p {
+     color: #fff;
+}
+#navbar-search .tt-suggestion-header {
+    display: block;
+    font-weight: bold;
+    padding: 2px 0 2px 6px;
+    background-color: #eee;
 }
 
 /* profile page */
