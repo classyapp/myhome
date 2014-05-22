@@ -6,7 +6,7 @@
     ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Listing.Profile.GetProfileName());
     ViewBag.MetaDescription = Model.Listing.Content;
 
-    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Model.Listing.PricingInfo.CurrencyCode).Sign;
+    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value).Sign;
 }
 
 @section MetaTags {
@@ -25,7 +25,7 @@
     }
 }
 
-<div class="row photo-details">    
+<div class="row product-details">    
     <div class="col-md-12">
         @if (TempData["PostComment_Success"] != null)
         {
@@ -44,18 +44,39 @@
         <h2>@Model.Listing.Title</h2>
 
         <div class="photo clearfix">
-            @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[0].Key, 640, 0)
-            <div class="default-images" data-url="">
-                @for (int i = 1; i < Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length; i++)
+            @if (Model.Listing.ExternalMedia != null && Model.Listing.ExternalMedia.Count > 0)
+            {
+                @Html.Thumbnail(Model.Listing.ExternalMedia[0].Key, 640, 0)
+                <div class="product-images default-images">
+                @for (int i = 0; i < Model.Listing.ExternalMedia.Count; i++)
                 {
-                    @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[0].Key, 120)
+                    @Html.Thumbnail(Model.Listing.ExternalMedia[i].Key, 120)
                 }
             </div>
+            }
+            else
+            {
+                @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[0].Key, 640, 0)
+                <div class="product-images default-images">
+                @for (int i = 0; i < Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length; i++)
+                {
+                    @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[i].Key, 120)
+                }
+            </div>
+            }
+            
+            <div class="product-images other hidden">
+            </div>
+            <div class="clearfix"></div>
             <div class="stats">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("ProductDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("ProductDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
                 <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("ProductDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
                 <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("ProductDetails_CommentCount"), Model.Listing.CommentCount)</span>
+            </div>
+            <div class="clearfix"></div>
+            <div>
+                <a class="btn btn-primary" id="buynow" href="@Model.Metadata.ProductUrl" target="_blank">@Localizer.Get("ProductDetails_BuyNow")</a>
             </div>
         </div>
         
@@ -109,7 +130,7 @@
                     {
                         <dt>@option</dt>
                         <dd>
-                            <select data-variant-property="true" data-name="@option">
+                            <select data-variant-property="true" class="form-control" data-name="@option">
                                 @foreach (var value in properties[option])
                                 {
                                     <option value="@value">@value</option>
@@ -124,17 +145,18 @@
                 <dd class="price">@string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].Price)</dd>    
                 @{
                     var hashtags = Model.Listing.Hashtags;
-                    if (Model.Listing.TranslatedKeywords != null && Model.Listing.TranslatedKeywords.ContainsKey(UICulture)) {
+                    if (Model.Listing.TranslatedKeywords != null && Model.Listing.TranslatedKeywords.ContainsKey(UICulture))
+                    {
                         hashtags = hashtags.Union(Model.Listing.TranslatedKeywords[UICulture]).ToList();
                     }
                 }
                 @if (hashtags.Count > 0)
                 {
-                    <dt>@Localizer.Get("PhotoDetails_Keywords")</dt>
+                    <dt>@Localizer.Get("ProductDetails_Keywords")</dt>
                     <dd>
                         @foreach (var t in hashtags)
                         {
-                            @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchProduct", new { filters = t.TrimStart('#').ToLower().Replace("  "," ").Replace(" ","-") })<span>&nbsp;</span>
+                            @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchProduct", new { filters = t.TrimStart('#').ToLower().Replace("  ", " ").Replace(" ", "-") })<span>&nbsp;</span>
                         }
                     </dd>
                 }
@@ -246,27 +268,27 @@
 @section scripts
 {
     <script type="text/javascript">
-        var currencySign = "@Model.Listing.CurrencySign";
+        var currencySign = "@currencySign";
         var purchaseOptions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Listing.PricingInfo.PurchaseOptions));
         $(function () {
-            var metadata = {};
+            var metadata = { };
+            var query = { "Categories": "@(String.Join(",", Model.Listing.Categories))" };
             // load more info
-            $.get("/product/@Model.Listing.Id/more", { Metadata: metadata }, function (response) {
+            $.post("/product/@Model.Listing.Id/more", { Metadata: metadata, Query: query }, function (response) {
                 var html = $(response);
                 $("#moreinfo").append(html.find("#sameProject"));
-                $("#moreinfo").append(html.find("#sameWebOrigin"));
-                $("#moreCollections").html(html.find("#projectsSameListing"));
+                $("#moreinfo").append(html.find("#projectsSameListing"));
                 Classy.UnveilImages();
             }, "html");
 
-            $("select[data-variant-property=true]").on("change", function(){
+            var updateSelectedOption = function(){
                 // build query object
                 var query = {};
                 $("select[data-variant-property=true]").each(function(idx, item) { query[$(item).data("name")] = $(item).val() });
 
                 // find relevant product variant
                 var variant = null;
-                for (var i = 0; i < length && variant == null; i++) {
+                for (var i = 0; i < purchaseOptions.length && variant == null; i++) {
                     var found = true;
                     for(var prop in query){
                         found &= purchaseOptions[i].VariantProperties[prop] === query[prop];
@@ -278,7 +300,34 @@
                 if (variant.CompareAtPrice != null) {
                     $("dd.compare-at-price").html(currencySign + " " + variant.CompareAtPrice.toFixed(2)).toggleClass("hidden", false);
                 } else { $("dd.compare-at-price").toggleClass("hidden", true);}
+
+                // images
+                if (variant.MediaFiles != null && variant.MediaFiles.length != 0){
+                    $(".product-images.other").html('');
+                    for (var i = 0; i < variant.MediaFiles.length; i++) {
+                        $(".product-images.other").append("<img src='//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + variant.MediaFiles[i].Key + "?Width=120&Height=120&format=json' data-key='" + variant.MediaFiles[i].Key + "' data-rel='thumbnail' width='120' height='120' style='opacity: 1' />");
+                    }
+                    $(".product-images.other").toggleClass("hidden", false);
+                    $(".product-images.default-images").toggleClass("hidden", true);
+                    $(".product-details .product-images img").on('click', function() {
+                        $(".product-details .photo > img").attr('src', "//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + $(this).data("key") + "?Width=640&Height=0&format=json");
+                    });
+                    $(".product-images.other img:first-child").click();
+                }
+                else { // default images
+                    $(".product-images.other").toggleClass("hidden", true);
+                    $(".product-images.default-images").toggleClass("hidden", false);
+                    $(".product-images.default-images img:first-child").click();
+                }
+            };
+
+            $("select[data-variant-property=true]").on("change", updateSelectedOption);
+
+            $(".product-details .product-images img").on('click', function() {
+                $(".product-details .photo > img").attr('src', "//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + $(this).data("key") + "?Width=640&Height=0&format=json");
             });
+
+            updateSelectedOption();
         });
     </script>
 }

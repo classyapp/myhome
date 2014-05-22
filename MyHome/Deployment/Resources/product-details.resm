@@ -3,21 +3,21 @@
 	"Resources": [
 			{ 
                 "Key": "ProductDetails_InThisPhoto",
-                "Description": "  ",
+                "Description": "Details section Title",
                 "Values": {
-                    "en": "In this photo"
+                    "en": "Product Details"
                 }
             },
             { 
                 "Key": "ProductDetails_Comment_Submit",
-                "Description": "  ",
+                "Description": "submit comment button",
                 "Values": {
                     "en": "Post Comment"
                 }
             },
             { 
                 "Key": "ProductDetails_Comment_Content",
-                "Description": " ",
+                "Description": "Comment placeholder",
                 "Values": {
                     "en": "Your Comment"
                 }
@@ -59,30 +59,121 @@
             },
             { 
                 "Key": "ProductDetails_ViewCount",
-                "Description": "",
+                "Description": "Views Count label",
                 "Values": {
                     "en": "{0} views"
                 }
             },
             { 
                 "Key": "ProductDetails_CommentCount",
-                "Description": "",
+                "Description": "Comments count label",
                 "Values": {
                     "en": "{0} comments"
                 }
             },
             { 
                 "Key": "ProductDetails_FavoriteCount",
-                "Description": "",
+                "Description": "Favorites count label",
                 "Values": {
                     "en": "{0} favorited"
                 }
             },
             { 
                 "Key": "ProductDetails_CollectionCount",
-                "Description": "",
+                "Description": "Collections count label",
                 "Values": {
                     "en": "In {0} collections"
+                }
+            },
+            { 
+                "Key": "ProductDetails_BuyNow",
+                "Description": "Buy now button title",
+                "Values": {
+                    "en": "Buy now"
+                }
+            },
+            { 
+                "Key": "ProductDetails_MoreInfo_ProjectsTitle",
+                "Description": "More info collections header",
+                "Values": {
+                    "en": "More collections with this product"
+                }
+            },
+            { 
+                "Key": "ProductDetails_MoreInfo_SameCategories",
+                "Description": "More info same categories header",
+                "Values": {
+                    "en": "More products in this category"
+                }
+            },
+            { 
+                "Key": "ProductDetails_CompareAtPrice",
+                "Description": "compare at price title",
+                "Values": {
+                    "en": "Compare At Price"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Price",
+                "Description": "price title",
+                "Values": {
+                    "en": "Price"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Style",
+                "Description": "Style title",
+                "Values": {
+                    "en": "Style"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Materials",
+                "Description": "Materials title",
+                "Values": {
+                    "en": "Materials"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Manufacturer",
+                "Description": "Manufacturer title",
+                "Values": {
+                    "en": "Manufacturer"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Designer",
+                "Description": "Designer title",
+                "Values": {
+                    "en": "Designer"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Height",
+                "Description": "Height title",
+                "Values": {
+                    "en": "Height"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Depth",
+                "Description": "Depth title",
+                "Values": {
+                    "en": "Depth"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Width",
+                "Description": "Width title",
+                "Values": {
+                    "en": "Width"
+                }
+            },
+            { 
+                "Key": "ProductDetails_Keywords",
+                "Description": "Keywords title",
+                "Values": {
+                    "en": "Keywords"
                 }
             }
     ]

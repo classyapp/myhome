@@ -17,6 +17,7 @@ namespace MyHome.Models
         public string Materials { get; set; }
         public string Manufacturer { get; set; }
         public string Designer { get; set; }
+        public string ProductUrl { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -28,6 +29,7 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Materials)) list.Add("Materials", Materials);
             if (!string.IsNullOrEmpty(Manufacturer)) list.Add("Manufacturer", Manufacturer);
             if (!string.IsNullOrEmpty(Designer)) list.Add("Designer", Designer);
+            if (!string.IsNullOrEmpty(ProductUrl)) list.Add("ProductUrl", ProductUrl);
             return list;
         }
 
@@ -41,6 +43,7 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Materials")) output.Materials = metadata["Materials"];
             if (metadata.ContainsKey("Manufacturer")) output.Manufacturer = metadata["Manufacturer"];
             if (metadata.ContainsKey("Designer")) output.Designer = metadata["Designer"];
+            if (metadata.ContainsKey("ProductUrl")) output.ProductUrl = metadata["ProductUrl"];
             return output;
         }
 

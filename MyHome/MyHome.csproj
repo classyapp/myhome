@@ -560,6 +560,7 @@
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
     <Content Include="Views\Product\ProductDetails.cshtml" />
     <Content Include="Views\Shared\ProductActions.cshtml" />
+    <Content Include="Views\Product\MoreInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
