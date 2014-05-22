@@ -325,12 +325,12 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (string.IsNullOrEmpty(model.CompanyName)) ModelState.AddModelError("CompanyName", Localizer.Get("EditProfile_CompanyName_Required"));
                 if (string.IsNullOrEmpty(model.Country)) ModelState.AddModelError("Country", Localizer.Get("EditProfile_Country_Required"));
 
-                metadata = model.ProfessionalMetadata.ToDictionary();
+                if (model.ProfessionalMetadata != null) metadata = model.ProfessionalMetadata.ToDictionary();
             }
             else
             {
                 fields |= UpdateProfileFields.ContactInfo;
-                metadata = model.UserMetadata.ToDictionary();
+                if (model.UserMetadata != null) metadata = model.UserMetadata.ToDictionary();
             }
 
             // update
