@@ -92,10 +92,17 @@
                 {
                     <dt>@Localizer.Get("PhotoDetails_TranslatedKeywords")</dt>
                     <dd>
-                    @if (Model.Listing.TranslatedKeywords != null)
-                    {
-                        @(string.Join(", ", Model.Listing.TranslatedKeywords.SelectMany(x => x.Value)))
-                    }
+                        @if (Model.Listing.TranslatedKeywords != null)
+                        {
+                            @(string.Join(", ", Model.Listing.TranslatedKeywords.SelectMany(x => x.Value)))
+                        }
+                    </dd>
+                    <dt>@Localizer.Get("PhotoDetails_SearchableKeywords")</dt>
+                    <dd>
+                        @if (Model.Listing.SearchableKeywords != null)
+                        {
+                            @(string.Join(", ", Model.Listing.SearchableKeywords))
+                        }
                     </dd>
                 }
             </dl>

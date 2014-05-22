@@ -86,6 +86,13 @@
 			}
 		},
 		{
+			"Key": "PhotoDetails_SearchableKeywords",
+			"Description": "display searchable keywords for this image",
+			"Values": {
+				"en": "Searchable Keywords"
+			}
+		},
+		{
 			"Key": "Careers_Title",
 			"Description": "browser title of the careers page",
 			"Values": {

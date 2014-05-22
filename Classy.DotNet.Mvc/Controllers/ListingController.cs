@@ -11,6 +11,7 @@ using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
+using ServiceStack.Text;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -431,7 +432,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
                     Hashtags = listing.Hashtags,
                     EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new []{""},
-                    TranslatedKeywords = listing.TranslatedKeywords
+                    TranslatedKeywords = listing.TranslatedKeywords,
+                    SearchableKeywords = listing.SearchableKeywords
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }

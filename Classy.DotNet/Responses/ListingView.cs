@@ -42,6 +42,7 @@ namespace Classy.DotNet.Responses
         //
         public IList<string> Hashtags { get; set; }
         public IDictionary<string, IList<string>> TranslatedKeywords { get; set; }
+        public IList<string> SearchableKeywords { get; set; } 
         public IList<string> EditorKeywords { get; set; } 
         //
         public ProfileView Profile { get; set; }
