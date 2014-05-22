@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "EditorTools_SelectTool",
+			"Description": "Editor's tools - select many listings",
+			"Values": {
+				"en": "Select Listings"
+			}
+		},
+		{ 
+			"Key": "EditorTools_Save",
+			"Description": "Editor's tools - Save",
+			"Values": {
+				"en": "Save Changes"
+			}
+		},
+		{ 
 			"Key": "EditPhoto_Success",
 			"Description": "message after saving a photo",
 			"Values": {
