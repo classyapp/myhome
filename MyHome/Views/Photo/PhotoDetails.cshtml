@@ -54,7 +54,7 @@
                 <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
                 <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("PhotoDetails_CommentCount"), Model.Listing.CommentCount)</span>
                 
-                                @if (AuthProvider.IsAdmin() || AuthProvider.IsEditor())
+                @if (AuthProvider.IsAdmin() || AuthProvider.IsEditor())
                 {
                     <span><i class="glyphicon glyphicon-sort"></i> @Localizer.Get("PhotoDetails_EditorsRank") @Model.Listing.EditorsRank</span>
                 }
