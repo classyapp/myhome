@@ -48,11 +48,16 @@
             @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
-            <div class="stats">
+            <div class="stats clearfix">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
                 <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
                 <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("PhotoDetails_CommentCount"), Model.Listing.CommentCount)</span>
+                
+                                @if (AuthProvider.IsAdmin() || AuthProvider.IsEditor())
+                {
+                    <span><i class="glyphicon glyphicon-sort"></i> @Localizer.Get("PhotoDetails_EditorsRank") @Model.Listing.EditorsRank</span>
+                }
             </div>
         </div>
         

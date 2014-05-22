@@ -433,7 +433,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     Hashtags = listing.Hashtags,
                     EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new []{""},
                     TranslatedKeywords = listing.TranslatedKeywords,
-                    SearchableKeywords = listing.SearchableKeywords
+                    SearchableKeywords = listing.SearchableKeywords,
+                    EditorsRank = listing.EditorsRank
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }

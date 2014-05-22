@@ -30,6 +30,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public IDictionary<string, IList<string>> TranslatedKeywords { get; set; }
         [Display(Name = "UpdateListing_EditorKeywords"), CommaSeparated]
         public IList<string> EditorKeywords { get; set; }
+        public int EditorsRank { get; set; }
         public IList<string> SearchableKeywords { get; set; } 
 
         // meta
