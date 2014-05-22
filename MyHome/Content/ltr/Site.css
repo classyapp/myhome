@@ -566,6 +566,9 @@ padding: 3px;
     background-color: #fff;
     height: auto !important;
 }
+.profile.small-thumbnail .missing-thumbnail {
+    width: 180px;height: 180px;margin-bottom: 0;
+}
 .profile.small-thumbnail .name {
     height: 20px;overflow: hidden;
 }
