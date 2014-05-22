@@ -114,7 +114,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRoute(
                 name: string.Concat("FreeSearch", ListingTypeName),
-                url: "free_search",
+                url: "search/{q}",
                 defaults: new { controller = ListingTypeName, action = "FreeSearch" },
                 namespaces: new string[] { Namespace }
             );

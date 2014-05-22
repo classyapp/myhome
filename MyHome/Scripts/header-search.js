@@ -67,16 +67,25 @@
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsOtherHeader + '</span>'
         },
         source: function (query, callback) {
-            callback([{ Value: 'Search for \'' + query + '\'' }]);
+            callback([{ Value: 'Search for \'<strong>' + query + '</strong>\'' }]);
         }
     });
 
     $(document).bind('typeahead:selected', function (event, suggestion, dataset) {
         if (dataset == 'profile-suggestions')
-            window.location.href = Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value);
+            window.location.href = '//' + window.location.host + Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value);
         else if (dataset == 'rooms-suggestions' || dataset == 'styles-suggestions')
-            window.location.href = '/photo/' + suggestion.Value;
+            window.location.href = '//' + window.location.host + '/photo/' + encodeURIComponent(suggestion.Value);
         else
-            $('#navbar-search').submit();
+            window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent($($('#q').val()).html());
+    });
+
+    $("#q").keyup(function (e) {
+        var queryValue = $('#q').val().trim();
+        if (e.keyCode == 13) {
+            if (queryValue == '') return false;
+            if ($('.navbar .tt-suggestion.tt-cursor').length == 0)
+                window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent(queryValue);
+        }
     });
 });

@@ -617,6 +617,7 @@ padding: 3px;
 
 .navbar-form
 {
+    display: inline-block;
     margin-top: 16px;
     padding: 0;
 }
