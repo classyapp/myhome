@@ -5,7 +5,7 @@
     foreach (var p in Model.Results)
     {
         <div class="col-md-4">
-            <div class="photo thumbnail">
+            <div class="photo thumbnail" data-listing-id="@p.Id">
                 @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
                 <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id, Slug = p.Title.ToSlug() })" title="@p.Title">
                     @Html.Thumbnail(p, Model.ThumbnailSize)

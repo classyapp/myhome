@@ -156,6 +156,7 @@
     <Content Include="Content\ltr\bootstrap3-wysiwyg5.css" />
     <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
+    <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
@@ -488,6 +489,7 @@
     <Content Include="Scripts\trigger-action.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
+    <Content Include="Scripts\editor-tools.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
@@ -623,7 +625,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  <Target Name="AfterBuild">
+  <!--<Target Name="AfterBuild">
     <CallTarget Targets="RunDeployResourcesConsoleApp" />
   </Target>
   <Target Name="RunDeployResourcesConsoleApp">
@@ -646,5 +648,5 @@
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
     <Exec Command="&quot;$(MSBuildThisFileDirectory)Deployment\Deployment.exe&quot; @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
-  </Target>
+  </Target>-->
 </Project>
