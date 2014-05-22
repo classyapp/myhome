@@ -127,6 +127,21 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Format("EditMultiple{0}s", ListingTypeName),
+                url: "listings/edit-multiple",
+                defaults: new { controller = ListingTypeName, action = "EditMultipleListings" },
+                namespaces: new string[] { Namespace }
+            );
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditMultipleListings(string[] listingIds, int editorsRank)
+        {
+            var listingService = new ListingService();
+            listingService.EditMultipleListings(listingIds, editorsRank);
+
+            return new JsonResult();
         }
 
         //

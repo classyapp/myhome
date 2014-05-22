@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceStack.Text;
 using System.Web;
 using System.Net;
@@ -56,7 +53,27 @@ namespace Classy.DotNet.Services
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}&IncludeComments={4}&IncludeCommenterProfiles={5}";
         private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}&culture={2}";
 
+        private readonly string EDIT_MULTIPLE_LISTINGS_URL = ENDPOINT_BASE_URL + "/listings/edit-multiple";
+
         #region // listings
+
+        public void EditMultipleListings(string[] listingIds, int editorsRank)
+        {
+            try
+            {
+                var data = new {
+                    ListingIds = listingIds,
+                    EditorsRank = editorsRank
+                }.ToJson();
+
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                client.UploadString(EDIT_MULTIPLE_LISTINGS_URL, "POST", data);
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
 
         public ListingView CreateListing(
             string title, 
