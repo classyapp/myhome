@@ -200,6 +200,7 @@ namespace Classy.DotNet.Mvc
                 .Replace("?", string.Empty)
                 .Replace("-", string.Empty)
                 .Replace("/", string.Empty)
+                .Replace(":", string.Empty)
                 .Replace("&", "-and-")
                 .Replace("+", "-and-")
                 .Replace(".", string.Empty)
