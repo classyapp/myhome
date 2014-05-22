@@ -562,6 +562,7 @@
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
     <Content Include="Views\Profile\SmallProfileResult.cshtml" />
     <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
+    <Content Include="Views\Shared\SiteMetadata.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

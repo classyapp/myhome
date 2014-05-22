@@ -44,6 +44,27 @@
 			}
 		},
 		{
+			"Key": "HeaderSearch_RoomsSuggestionsHeader",
+			"Description": "search auto-suggest rooms section header",
+			"Values": {
+				"en": "Rooms"
+			}
+		},
+		{
+			"Key": "HeaderSearch_StylesSuggestionsHeader",
+			"Description": "search auto-suggest styles section header",
+			"Values": {
+				"en": "Styles"
+			}
+		},
+		{
+			"Key": "HeaderSearch_OtherSuggestionsHeader",
+			"Description": "search auto-suggest other section header",
+			"Values": {
+				"en": "More..."
+			}
+		},
+		{
 			"Key": "PhotoDetails_TranslatedKeywords",
 			"Description": "display translated keywords for this image",
 			"Values": {

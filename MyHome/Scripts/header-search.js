@@ -1,44 +1,81 @@
 ﻿$(function () {
-    var listingsSuggestions = new Bloodhound({
-        name: 'listings-suggestions',
+
+    var rooms = [];
+    $.each(Classy.SiteMetadata.Rooms, function() {
+        rooms.push({ Value: this });
+    });
+    var styles = [];
+    $.each(Classy.SiteMetadata.Styles, function() {
+        styles.push({ Value: this });
+    });
+
+    var roomsSuggestions = new Bloodhound({
+        name: 'rooms-suggestions',
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
-        remote: 'search/listings/suggest?q=%QUERY'
+        local: rooms
+    });
+    var stylesSuggestions = new Bloodhound({
+        name: 'styles-suggestions',
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: '',
+        local: styles
     });
     var profilesSuggestions = new Bloodhound({
         name: 'profiles-suggestions',
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
-        remote: 'search/profiles/suggest?q=%QUERY'
+        remote: '//' + window.location.host + '/search/profiles/suggest?q=%QUERY'
     });
 
-    listingsSuggestions.initialize();
+    roomsSuggestions.initialize();
+    stylesSuggestions.initialize();
     profilesSuggestions.initialize();
 
     $('#q.typeahead').typeahead({
         minLength: 2,
         hightlight: true
     }, {
-        name: 'listing-suggestions',
+        name: 'rooms-suggestions',
         displayKey: 'Value',
-        source: listingsSuggestions.ttAdapter(),
+        source: roomsSuggestions.ttAdapter(),
         templates: {
-            header: '<span class=\"tt-suggestion-header\">'+ searchListingsSuggestionsHeader +'</span>'
+            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsRoomsHeader + '</span>'
+        }
+    }, {
+        name: 'styles-suggestions',
+        displayKey: 'Value',
+        source: stylesSuggestions.ttAdapter(),
+        templates: {
+            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsStylesHeader + '</span>'
         }
     }, {
         name: 'profile-suggestions',
         displayKey: 'Value',
         source: profilesSuggestions.ttAdapter(),
         templates: {
-            header: '<span class=\"tt-suggestion-header\">' + searchProfilesSuggestionsHeader+'</span>'
+            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsProfilesHeader + '</span>'
+        }
+    },
+    {
+        name: 'free-search-suggestion',
+        displayKey: 'Value',
+        templates: {
+            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsOtherHeader + '</span>'
+        },
+        source: function (query, callback) {
+            callback([{ Value: 'Search for \'' + query + '\'' }]);
         }
     });
 
     $(document).bind('typeahead:selected', function (event, suggestion, dataset) {
         if (dataset == 'profile-suggestions')
             window.location.href = Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value);
+        else if (dataset == 'rooms-suggestions' || dataset == 'styles-suggestions')
+            window.location.href = '/photo/' + suggestion.Value;
         else
             $('#navbar-search').submit();
     });

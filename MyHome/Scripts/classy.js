@@ -1,8 +1,8 @@
-﻿var Classy = {};
+﻿var Classy = Classy || {};
 
-Classy.AjaxReconnect = function () {
+Classy.AjaxReconnect = function() {
     $(document).trigger("classy.ajax.reconnect");
-}
+};
 
 Classy.AcquireGPSCoordinates = function () {
     if (Classy.GetCookie(Classy.Env.GPSCookieName) == null || Classy.GetCookie(Classy.Env.GPSOriginCookieName) == "auto") {
