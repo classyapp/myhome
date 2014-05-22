@@ -13,3 +13,10 @@
 .photo.thumbnail img.selected {
     opacity: 0.3 !important;
 }
+
+.photo.thumbnail .editors-rank {
+    position: absolute;top: 0;left: 0;
+    padding: 4px 22px;
+    background-color: #fff;opacity: 0.8;
+    color: #000;font-weight: bold;
+}

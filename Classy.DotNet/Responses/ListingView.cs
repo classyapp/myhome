@@ -79,6 +79,7 @@ namespace Classy.DotNet.Responses
         public bool HasPricingInfo { get; set; }
         public PricingInfoView PricingInfo { get; set; }
         public IList<string> Hashtags { get; set; }
+        public int EditorsRank { get; set; }
     }
 
     public static class ListingViewSummaryExtensions
@@ -102,7 +103,8 @@ namespace Classy.DotNet.Responses
                 DisplayOrder = summary.DisplayOrder,
                 HasPricingInfo = summary.HasPricingInfo,
                 PricingInfo = summary.PricingInfo,
-                Hashtags = summary.Hashtags
+                Hashtags = summary.Hashtags,
+                EditorsRank = summary.EditorsRank
             };
         }
     }
