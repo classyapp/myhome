@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.WebPages.Html;
-using System.Web.Mvc.Html;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using System.Configuration;
-using System.Text;
-using System.Globalization;
 
 namespace Classy.DotNet.Mvc
 {
