@@ -165,21 +165,12 @@
                 <dt>@Localizer.Get("ProductDetails_Style")</dt>
                 <dd>@Model.Metadata.Style</dd>
                 }
-                @if (!string.IsNullOrEmpty(Model.Metadata.Width))
-                {
-                <dt>@Localizer.Get("ProductDetails_Width")</dt>
-                <dd>@Model.Metadata.Width</dd>
-                }
-                @if (!string.IsNullOrEmpty(Model.Metadata.Depth))
-                {
-                <dt>@Localizer.Get("ProductDetails_Depth")</dt>
-                <dd>@Model.Metadata.Depth</dd>
-                }
-                @if (!string.IsNullOrEmpty(Model.Metadata.Height))
-                {
-                <dt>@Localizer.Get("ProductDetails_Height")</dt>
-                <dd>@Model.Metadata.Height</dd>
-                }
+                <dt class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Width")</dt>
+                <dd class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Width</dd>    
+                <dt class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Depth")</dt>
+                <dd class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Depth</dd>    
+                <dt class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Height")</dt>
+                <dd class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Height</dd>    
                 @if (!string.IsNullOrEmpty(Model.Metadata.Materials))
                 {
                 <dt>@Localizer.Get("ProductDetails_Materials")</dt>
@@ -300,6 +291,16 @@
                 if (variant.CompareAtPrice != null) {
                     $("dd.compare-at-price").html(currencySign + " " + variant.CompareAtPrice.toFixed(2)).toggleClass("hidden", false);
                 } else { $("dd.compare-at-price").toggleClass("hidden", true);}
+
+                if (variant.Width != null){
+                    $("dd.width").html(variant.Width).toggleClass("hidden", false);
+                } else { $("dd.width").toggleClass("hidden", true);}
+                if (variant.Depth != null){
+                    $("dd.depth").html(variant.Depth).toggleClass("hidden", false);
+                } else { $("dd.depth").toggleClass("hidden", true);}
+                if (variant.Height != null){
+                    $("dd.height").html(variant.Height).toggleClass("hidden", false);
+                } else { $("dd.height").toggleClass("hidden", true);}
 
                 // images
                 if (variant.MediaFiles != null && variant.MediaFiles.length != 0){
