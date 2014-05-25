@@ -6,7 +6,8 @@
     ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Listing.Profile.GetProfileName());
     ViewBag.MetaDescription = Model.Listing.Content;
 
-    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value).Sign;
+    var currency = Request.Cookies.AllKeys.Contains(Classy.DotNet.Responses.AppView.CurrencyCookieName) ? Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value : Classy.DotNet.Responses.AppView.DefaultCurrency;
+    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == currency).Sign;
 }
 
 @section MetaTags {
