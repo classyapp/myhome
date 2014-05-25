@@ -684,6 +684,10 @@ padding: 3px;
     color: #333;
     line-height: 20px;
     cursor: pointer;
+    width: 450px;
+}
+#navbar-search .tt-suggestions {
+    width: 450px;
 }
 #navbar-search .tt-suggestions .tt-suggestion.tt-cursor {
     color: #fff;

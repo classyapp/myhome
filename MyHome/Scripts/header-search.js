@@ -79,9 +79,6 @@
     {
         name: 'free-search-suggestion',
         displayKey: 'Value',
-        templates: {
-            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsOtherHeader + '</span>'
-        },
         source: function (query, callback) {
             callback([{ Value: 'Search for \'<strong>' + query + '</strong>\'' }]);
         }
