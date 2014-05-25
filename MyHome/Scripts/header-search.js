@@ -30,10 +30,18 @@
         prefetch: '',
         remote: '//' + window.location.host + '/search/profiles/suggest?q=%QUERY'
     });
+    var keywordsSuggestions = new Bloodhound({
+        name: 'keywords-suggestions',
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: '',
+        remote: '//' + window.location.host + '/search/keywords/suggest?q=%QUERY'
+    });
 
     roomsSuggestions.initialize();
     stylesSuggestions.initialize();
     profilesSuggestions.initialize();
+    keywordsSuggestions.initialize();
 
     $('#q.typeahead').typeahead({
         minLength: 2,
@@ -61,11 +69,16 @@
         }
     },
     {
-        name: 'free-search-suggestion',
+        name: 'keywords-suggestion',
         displayKey: 'Value',
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsOtherHeader + '</span>'
         },
+        source: keywordsSuggestions.ttAdapter()
+    },
+    {
+        name: 'free-search-suggestion',
+        displayKey: 'Value',
         source: function (query, callback) {
             callback([{ Value: 'Search for \'<strong>' + query + '</strong>\'' }]);
         }

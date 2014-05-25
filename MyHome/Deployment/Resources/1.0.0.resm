@@ -75,7 +75,7 @@
 			"Key": "HeaderSearch_OtherSuggestionsHeader",
 			"Description": "search auto-suggest other section header",
 			"Values": {
-				"en": "More..."
+				"en": "Popular Searches"
 			}
 		},
 		{
