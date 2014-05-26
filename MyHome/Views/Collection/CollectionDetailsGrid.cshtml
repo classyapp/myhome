@@ -31,7 +31,7 @@
 }
 
 @section ActionBar {
-    @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
+    @if (Model.Profile.CanEdit())
     {
         if (Model.Type == "Project")
         {
