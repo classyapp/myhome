@@ -84,7 +84,7 @@
         <div class="row" id="photos">
             @if (photos != null)
             {
-                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = photos.ToList(), ThumbnailSize = 270, ShowCopyrightMessages = true })
+                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = photos.ToList(), ThumbnailSize = 270, ShowCopyrightMessages = (Model.Type != "Project") })
             }
         </div>
         <div>
