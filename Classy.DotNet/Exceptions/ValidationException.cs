@@ -10,7 +10,7 @@ namespace Classy.DotNet
         public string FieldName { get; set; }
         public string ErrorCode { get; set; }
     }
-
+        
     public class ClassyException : Exception
     {
         public HttpStatusCode StatusCode { get; set; }
