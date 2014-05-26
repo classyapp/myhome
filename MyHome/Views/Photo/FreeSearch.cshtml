@@ -7,19 +7,7 @@
 }
 
 @section ActionBar {
-    @if (AuthProvider.IsEditor() || AuthProvider.IsAdmin())
-    {
-        <a class="btn btn-sm btn-primary select-tool">
-            <i class="glyphicon glyphicon-hand-up"></i>&nbsp;@Localizer.Get("EditorTools_SelectTool")
-        </a>
-    
-        <span class="editor-tools pull-right">
-            Editor Rank : <input type="text" class="form-control" id="editor-rank" />
-            <a class="btn btn-sm btn-primary save">
-                <i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;@Localizer.Get("EditorTools_Save")
-            </a>
-        </span>
-    }
+    @Html.Partial("~/Views/Photo/EditorTools.cshtml")
 }
 
 <div class="row">
