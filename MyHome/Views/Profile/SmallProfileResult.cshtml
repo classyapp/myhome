@@ -33,9 +33,16 @@
         </div>
         @if (hasAddress)
         {
+            var city = Model.ProfessionalInfo.CompanyContactInfo.Location.Address.City;
+            var country = countries.FirstOrDefault(x => x.Value == Model.ProfessionalInfo.CompanyContactInfo.Location.Address.Country);
+            var countryName = country != null ? country.Text : "";                        
             <div class="location">
                 <small>
-                    <span>@Model.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @countries.Single(x => x.Value == Model.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text
+                    <span>@city</span>
+                    @if (!string.IsNullOrEmpty(countryName))
+                    {
+                        <text>, </text>@countryName
+                    }                    
                 </small>
             </div>
         }
