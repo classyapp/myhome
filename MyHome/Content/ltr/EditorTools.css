@@ -1,4 +1,14 @@
 ﻿
+/* Custom fix bc of ActionBar section */
+.action-bar {
+    position: fixed;width: 100%;
+}
+div.content.container {
+    margin-top: 30px;
+}
+
+
+/* EditorTools image action effects */
 .action-bar .editor-tools {
     
 }

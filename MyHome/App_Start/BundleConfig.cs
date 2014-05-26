@@ -38,8 +38,9 @@ namespace MyHome
                       "~/Content/ltr/font-awesome.min.css",
                       "~/Content/ltr/bootstrap.min.css",
                       "~/Content/ltr/site.css",
-                      "~/Content/ltr/bootstrap-tagsinput.css",
-                      "~/Content/ltr/EditorTools.css"));
+                      "~/Content/ltr/bootstrap-tagsinput.css"));
+
+            bundles.Add(new StyleBundle("~/Content/ltr/EditorTools").Include("~/Content/ltr/EditorTools.css"));
         }
     }
 }
