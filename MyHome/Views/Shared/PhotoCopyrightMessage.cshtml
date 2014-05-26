@@ -14,5 +14,9 @@
         if (!string.IsNullOrEmpty(photoMetadata.CopyrightMessage)) {
             <span>@photoMetadata.CopyrightMessage</span>
         }
+        else
+        {
+            <span>@Model.Profile.GetProfileName()</span>
+        }
     }
 </div>
