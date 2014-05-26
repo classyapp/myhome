@@ -136,7 +136,7 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditMultipleListings(string[] listingIds, int editorsRank, string room, string style)
+        public ActionResult EditMultipleListings(string[] listingIds, int? editorsRank, string room, string style)
         {
             var listingService = new ListingService();
             listingService.EditMultipleListings(listingIds, editorsRank, room, style);

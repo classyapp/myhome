@@ -57,7 +57,7 @@ namespace Classy.DotNet.Services
 
         #region // listings
 
-        public void EditMultipleListings(string[] listingIds, int editorsRank, string room, string style)
+        public void EditMultipleListings(string[] listingIds, int? editorsRank, string room, string style)
         {
             try
             {
