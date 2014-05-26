@@ -197,7 +197,8 @@ namespace Classy.DotNet.Mvc
                 .Replace("+", "-and-")
                 .Replace(".", string.Empty)
                 .Replace("  ", " ")
-                .Replace(" ", "-") : null;
+                .Replace(" ", "-")
+                .Replace("--", "-") : null;
         }
 
         public static string ToValidUrl(this string content)

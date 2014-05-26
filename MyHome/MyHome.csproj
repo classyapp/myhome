@@ -441,6 +441,7 @@
     <Content Include="Deployment\Resources\markdown.resm" />
     <Content Include="Deployment\Resources\DeletePhotos.resm" />
     <Content Include="Deployment\Resources\listing-comment-notification.resm" />
+    <Content Include="Deployment\Resources\collection-sharing.resm" />
     <None Include="Deployment\Resources\manage-resources-page-fix-1.resm" />
     <Content Include="Deployment\Resources\publicprofile-fix-1.resm" />
     <Content Include="Deployment\Resources\add-missing-keys-1.resm" />
@@ -493,6 +494,9 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

@@ -1,0 +1,40 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "Collection_MailLinkSubject",
+			"Description": "subject of email that goes out when a user is sharing a collection",
+			"Values": {
+				"en": "Check this out on Homelab"
+			}
+		},
+		{ 
+			"Key": "Collection_MailLinkBody",
+			"Description": "body of email that goes out when a user is sharing a collection",
+			"Values": {
+				"en": "Hi, {1} invited you to view this collection of home design photos on homelab: {0}"
+			}
+		},
+		{ 
+			"Key": "Collection_ShareViaEmailTitle",
+			"Description": "title of share window when sharing via email",
+			"Values": {
+				"en": "Spread the love!"
+			}
+		},
+		{ 
+			"Key": "Collection_Share_Description",
+			"Description": "description of collection when sharing on social networks",
+			"Values": {
+				"en": "See {0}'s and thousands of other collections of home design ideas"
+			}
+		},
+		{ 
+			"Key": "TranslateCollection_Content",
+			"Description": "label of the content field in the translate collection popup window",
+			"Values": {
+				"en": "Opening Paragraph"
+			}
+		}
+	]
+}
