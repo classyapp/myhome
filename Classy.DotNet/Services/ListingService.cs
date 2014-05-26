@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ServiceStack.Text;
 using System.Web;
 using System.Net;
@@ -34,7 +31,7 @@ namespace Classy.DotNet.Services
         private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
-        // get listings
+        // get listings 
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string GET_LISTING_MORE_INFO_URL = ENDPOINT_BASE_URL + "/listing/{0}/more";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
@@ -56,7 +53,34 @@ namespace Classy.DotNet.Services
         private readonly string GET_COLLECTION_BY_ID_URL = ENDPOINT_BASE_URL + "/collection/{0}?IncludeProfile=true&IncludeListings={1}&IncreaseViewCounter={2}&IncludeViewCounterOnListings={3}&IncludeComments={4}&IncludeCommenterProfiles={5}";
         private readonly string GET_APPROVED_COLLECTIONS = ENDPOINT_BASE_URL + "/collection/list/approved?maxCollections={0}&categories={1}&culture={2}";
 
+        private readonly string EDIT_MULTIPLE_LISTINGS_URL = ENDPOINT_BASE_URL + "/listings/edit-multiple";
+
         #region // listings
+
+        public void EditMultipleListings(string[] listingIds, int? editorsRank, string room, string style)
+        {
+            try
+            {
+                var metadata = new Dictionary<string, string>();
+                if (!string.IsNullOrEmpty(room))
+                    metadata.Add("Room", room);
+                if (!string.IsNullOrEmpty(style))
+                    metadata.Add("Style", style);
+
+                var data = new {
+                    ListingIds = listingIds,
+                    EditorsRank = editorsRank,
+                    Metadata = metadata
+                }.ToJson();
+
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                client.UploadString(EDIT_MULTIPLE_LISTINGS_URL, "POST", data);
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
+        }
 
         public ListingView CreateListing(
             string title, 
@@ -266,7 +290,7 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public FreeSearchResultsView<ListingViewSummary> FreeSearch(string q, int amount, int page)
+        public FreeSearchResultsView FreeSearch(string q, int amount, int page)
         {
             using (var client = ClassyAuth.GetWebClient())
             {
@@ -275,7 +299,7 @@ namespace Classy.DotNet.Services
                     Q = q, Page = page, Amount = amount
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
-                var results = listingsJson.FromJson<FreeSearchResultsView<ListingViewSummary>>();
+                var results = listingsJson.FromJson<FreeSearchResultsView>();
 
                 return results;
             }

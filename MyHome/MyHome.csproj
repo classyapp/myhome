@@ -156,6 +156,7 @@
     <Content Include="Content\ltr\bootstrap3-wysiwyg5.css" />
     <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
+    <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
@@ -460,6 +461,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
+    <Content Include="Scripts\url-builder.js" />
+    <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
     <Content Include="Scripts\google-login.js" />
     <Content Include="Scripts\fb-login.js" />
@@ -482,10 +485,12 @@
     <Content Include="Scripts\new_photo.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\TwitterBootstrapMvcJs.js" />
+    <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\trigger-action.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
+    <Content Include="Scripts\editor-tools.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
@@ -561,6 +566,10 @@
     <Content Include="Views\Product\ProductDetails.cshtml" />
     <Content Include="Views\Shared\ProductActions.cshtml" />
     <Content Include="Views\Product\MoreInfo.cshtml" />
+    <Content Include="Views\Profile\SmallProfileResult.cshtml" />
+    <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
+    <Content Include="Views\Shared\SiteMetadata.cshtml" />
+    <Content Include="Views\Photo\EditorTools.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -616,11 +625,11 @@
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets. -->
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-  </Target> -->
+  </Target>
   <Target Name="AfterBuild">
     <CallTarget Targets="RunDeployResourcesConsoleApp" />
   </Target>

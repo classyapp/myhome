@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.ActionFilters;
@@ -10,6 +11,7 @@ using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
+using ServiceStack.Text;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -113,7 +115,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
             routes.MapRoute(
                 name: string.Concat("FreeSearch", ListingTypeName),
-                url: "free_search",
+                url: "search/{q}",
                 defaults: new { controller = ListingTypeName, action = "FreeSearch" },
                 namespaces: new string[] { Namespace }
             );
@@ -125,6 +127,21 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Format("EditMultiple{0}s", ListingTypeName),
+                url: "listings/edit-multiple",
+                defaults: new { controller = ListingTypeName, action = "EditMultipleListings" },
+                namespaces: new string[] { Namespace }
+            );
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditMultipleListings(string[] listingIds, int? editorsRank, string room, string style)
+        {
+            var listingService = new ListingService();
+            listingService.EditMultipleListings(listingIds, editorsRank, room, style);
+
+            return new JsonResult();
         }
 
         //
@@ -430,7 +447,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
                     Hashtags = listing.Hashtags,
                     EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new[] { "" },
-                    TranslatedKeywords = listing.TranslatedKeywords
+                    TranslatedKeywords = listing.TranslatedKeywords,
+                    SearchableKeywords = listing.SearchableKeywords,
+                    EditorsRank = listing.EditorsRank
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -518,14 +537,18 @@ namespace Classy.DotNet.Mvc.Controllers
             var listingService = new ListingService();
             var searchResults = listingService.FreeSearch(request.Q, amount, page);
 
-            var viewModel = new FreeSearchListingsViewModel
-            {
+            // order profiles so those with cover photos come first
+            var orderedpProfiles = searchResults.ProfilesResults.Results.Where(x => !x.CoverPhotos.IsNullOrEmpty())
+                .Concat(searchResults.ProfilesResults.Results.Where(x => x.CoverPhotos.IsNullOrEmpty())).ToList();
+
+            var viewModel = new FreeSearchListingsViewModel {
                 Amount = amount,
                 Location = null,
                 Page = page,
                 Q = request.Q,
-                TotalResults = searchResults.Total,
-                Results = searchResults.Results.Select(x => x.ToListingView()).ToList()
+                TotalResults = searchResults.ListingsResults.Total,
+                Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList(),
+                RelatedProfessionals = orderedpProfiles
             };
 
             if (Request.IsAjaxRequest())

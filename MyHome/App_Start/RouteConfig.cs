@@ -1,4 +1,6 @@
-﻿using MyHome.Models;
+﻿using Classy.DotNet.Mvc.Controllers;
+using Mandrill;
+using MyHome.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +76,9 @@ namespace MyHome
 
             var homePageController = new Classy.DotNet.Mvc.Controllers.HomePageController();
             homePageController.RegisterRoutes(routes);
+
+            var searchController = new SearchController();
+            searchController.RegisterRoutes(routes);
 
             #endregion
 

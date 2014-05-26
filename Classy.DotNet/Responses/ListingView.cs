@@ -41,7 +41,9 @@ namespace Classy.DotNet.Responses
         //
         public IList<string> Hashtags { get; set; }
         public IDictionary<string, IList<string>> TranslatedKeywords { get; set; }
-        public IList<string> EditorKeywords { get; set; } 
+        public IList<string> SearchableKeywords { get; set; } 
+        public IList<string> EditorKeywords { get; set; }
+        public int EditorsRank { get; set; }
         //
         public ProfileView Profile { get; set; }
         public IList<ProfileView> FavoritedBy { get; set; }
@@ -85,6 +87,7 @@ namespace Classy.DotNet.Responses
         public bool HasPricingInfo { get; set; }
         public PricingInfoView PricingInfo { get; set; }
         public IList<string> Hashtags { get; set; }
+        public int EditorsRank { get; set; }
     }
 
     public static class ListingViewSummaryExtensions
@@ -108,7 +111,8 @@ namespace Classy.DotNet.Responses
                 DisplayOrder = summary.DisplayOrder,
                 HasPricingInfo = summary.HasPricingInfo,
                 PricingInfo = summary.PricingInfo,
-                Hashtags = summary.Hashtags
+                Hashtags = summary.Hashtags,
+                EditorsRank = summary.EditorsRank
             };
         }
     }

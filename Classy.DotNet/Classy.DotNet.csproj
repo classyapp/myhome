@@ -76,6 +76,7 @@
     <Compile Include="Responses\JobView.cs" />
     <Compile Include="Responses\ListingMoreInfoView.cs" />
     <Compile Include="Responses\ListingUpdateFields.cs" />
+    <Compile Include="Responses\SearchSuggestionsResponse.cs" />
     <Compile Include="Responses\SocialPhotoAlbumView.cs" />
     <Compile Include="Responses\IncludedListingView.cs" />
     <Compile Include="Responses\ListingView.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Responses\TripleView.cs" />
     <Compile Include="Responses\UpdateProfileFields.cs" />
     <Compile Include="Responses\VerifyEmailResponse.cs" />
+    <Compile Include="Security\AuthProvider.cs" />
     <Compile Include="Security\ClassyAuth.cs" />
     <Compile Include="Security\ClassyAuthResponse.cs" />
     <Compile Include="Security\ClassyIdentity.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\ReviewService.cs" />
+    <Compile Include="Services\SearchService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\SettingsService.cs" />
   </ItemGroup>

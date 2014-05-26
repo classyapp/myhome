@@ -1,0 +1,18 @@
+﻿@model object
+
+@{
+    var language = UICulture;
+    var roomsList = Localizer.GetList("rooms");
+    var stylesList = Localizer.GetList("room-styles");
+
+    var rooms = "[" + string.Join(", ", roomsList.Select(x => "'" + x.Text + "'").ToArray()) + "]";
+    var styles = "[" + string.Join(", ", stylesList.Select(x => "'" + x.Text + "'").ToArray()) + "]";
+}
+
+<script language="javascript" type="text/javascript">
+    var Classy = Classy || {};
+    Classy.SiteMetadata = {
+        Rooms: @Html.Raw(rooms),
+        Styles: @Html.Raw(styles)
+    };
+</script>

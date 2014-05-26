@@ -9,6 +9,10 @@
     var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
 }
 
+@section ActionBar {
+    @Html.Partial("~/Views/Photo/EditorTools.cshtml")
+}
+
 <div class="row">
     <div class="sidebar col-md-3">
         <div class="panel panel-default panel-first">
