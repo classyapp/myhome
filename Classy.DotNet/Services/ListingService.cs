@@ -57,13 +57,20 @@ namespace Classy.DotNet.Services
 
         #region // listings
 
-        public void EditMultipleListings(string[] listingIds, int editorsRank)
+        public void EditMultipleListings(string[] listingIds, int editorsRank, string room, string style)
         {
             try
             {
+                var metadata = new Dictionary<string, string>();
+                if (!string.IsNullOrEmpty(room))
+                    metadata.Add("Room", room);
+                if (!string.IsNullOrEmpty(style))
+                    metadata.Add("Style", style);
+
                 var data = new {
                     ListingIds = listingIds,
-                    EditorsRank = editorsRank
+                    EditorsRank = editorsRank,
+                    Metadata = metadata
                 }.ToJson();
 
                 var client = ClassyAuth.GetAuthenticatedWebClient();

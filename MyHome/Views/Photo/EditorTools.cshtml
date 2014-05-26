@@ -3,11 +3,33 @@
 
 @if (AuthProvider.IsEditor() || AuthProvider.IsAdmin())
 {
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+    
     <a class="btn btn-sm btn-primary select-tool">
         <i class="glyphicon glyphicon-hand-up"></i>&nbsp;@Localizer.Get("EditorTools_SelectTool")
     </a>
 
     <span class="editor-tools pull-right">
+        
+        Room : 
+        <select id="room-dropdown">
+            <option value=""> --- </option>
+            @foreach (var room in rooms)
+            {
+                <option value="@room.Value">@room.Text</option>
+            }
+        </select>
+        
+        Style :
+        <select id="style-dropdown">
+            <option value=""> --- </option>
+            @foreach (var style in styles)
+            {
+                <option value="@style.Value">@style.Value</option>
+            }
+        </select>
+
         Editor Rank : <input type="text" class="form-control" id="editor-rank" />
         <a class="btn btn-sm btn-primary save">
             <i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;@Localizer.Get("EditorTools_Save")
