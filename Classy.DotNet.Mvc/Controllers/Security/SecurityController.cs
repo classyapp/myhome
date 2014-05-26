@@ -52,7 +52,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 namespaces: new string[] { Namespace }
                 );
 
-            routes.MapRouteWithName(
+            routes.MapRouteForSupportedLocales(
                 name: "ForgotPassword",
                 url: "forgot",
                 defaults: new { controller = "Security", action = "ForgotPassword" },
