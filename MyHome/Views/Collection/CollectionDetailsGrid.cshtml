@@ -12,7 +12,7 @@
         }
         else if (Model.Listings != null && Model.Listings.Count > 0 && Model.Listings[0].ExternalMedia != null && Model.Listings[0].ExternalMedia.Count > 0)
         {
-            <meta name="og:image" content="@string.Format("https://{0}/thumbnail/{1}?Width=250&Height=250&format=json", cdnurl, Model.Listings[0].ExternalMedia[0].Url)" />
+            <meta name="og:image" content="@string.Format("https://{0}/thumbnail/{1}?Width=250&Height=250&format=json", cdnurl, Model.Listings[0].ExternalMedia[0].Key)" />
         }
     }
 }
