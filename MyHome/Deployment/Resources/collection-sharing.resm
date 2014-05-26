@@ -35,6 +35,20 @@
 			"Values": {
 				"en": "Opening Paragraph"
 			}
+		},
+		{ 
+			"Key": "TranslateCollection_Language",
+			"Description": "label of the language field in the translate collection popup window",
+			"Values": {
+				"en": "Language"
+			}
+		},
+		{ 
+			"Key": "Delete",
+			"Description": "delete button label",
+			"Values": {
+				"en": "Delete"
+			}
 		}
 	]
 }
