@@ -1206,7 +1206,16 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ProfileJobs()
         {
-            return View();
+            JobService service = new JobService();
+            IList<JobView> jobs = service.GetJobsStatus(AuthenticatedUserProfile.Id);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_ProfileJobsRows", jobs);
+            }
+            else
+            {
+                return View(jobs);
+            }
         }
         #endregion
     }

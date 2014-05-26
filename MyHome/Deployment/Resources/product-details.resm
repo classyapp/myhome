@@ -175,6 +175,13 @@
                 "Values": {
                     "en": "Keywords"
                 }
+            },
+            { 
+                "Key": "UploadCatalog_JobsStatus",
+                "Description": "Jobs Status page title",
+                "Values": {
+                    "en": "Catalog Import Jobs Status"
+                }
             }
     ]
 }

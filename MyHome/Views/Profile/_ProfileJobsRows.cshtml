@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Classy.DotNet.Responses.JobView>
+
+@foreach (var job in Model)
+{
+    <tr>
+        <td>@job.JobId</td>
+        <td>@job.CreatedAt</td>
+        <td>@(job.UpdatedAt.HasValue ? job.UpdatedAt.Value.ToLongDateString() : string.Empty)</td>
+        <td>@(job.Succeeded + job.Failed) / @job.Failed</td>
+        <td>@job.Status</td>
+    </tr>
+}
