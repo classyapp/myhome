@@ -16,7 +16,7 @@
 
         @Html.Bootstrap().ValidationSummary()
 
-        @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
+        @*@using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
             <input type="hidden" id="Metadata_IsWebPhoto" name="Metadata.IsWebPhoto" value="False" />
             @Html.HiddenFor(x => x.CollectionType)
@@ -55,7 +55,7 @@
                 </small>
             </p>
             @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Style(ButtonStyle.Primary))
-        }
+        }*@
     </div>
 
     <div class="col-md-4 col-md-offset-1 helpbar">

@@ -1,10 +1,4 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
-using Mandrill;
-using MyHome.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Mvc.Localization;
@@ -48,6 +42,9 @@ namespace MyHome
 
             var discussionController = new MyHome.Controllers.DiscussionController();
             discussionController.RegisterRoutes(routes);
+
+            var pollController = new MyHome.Controllers.PollController();
+            pollController.RegisterRoutes(routes);
 
             #endregion
 

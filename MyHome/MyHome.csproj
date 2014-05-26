@@ -125,6 +125,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DiscussionController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Controllers\PollController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -135,6 +136,7 @@
     </Compile>
     <Compile Include="Models\DiscussionMetadata.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
+    <Compile Include="Models\Polls\PollMetadata.cs" />
     <Compile Include="Models\ProductMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
     <Compile Include="Models\ProfileReviewCriteria.cs" />
@@ -566,6 +568,7 @@
     <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
     <Content Include="Views\Shared\SiteMetadata.cshtml" />
     <Content Include="Views\Photo\EditorTools.cshtml" />
+    <Content Include="Views\Polls\CreatePoll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -584,6 +587,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\ViewModels\" />
   </ItemGroup>
