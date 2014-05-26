@@ -8,7 +8,7 @@
         var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
         if (Model.CoverPhotos != null && Model.CoverPhotos.Count > 0)
         {
-            <meta name="og:image" content="@string.Format("https://{0}/thumbnail/{1}?Width=250&Height=250&format=json", cdnurl, Model.CoverPhotos[0]))" />
+            <meta name="og:image" content="@string.Format("https://{0}/thumbnail/{1}?Width=270&Height=270&format=json", cdnurl, Model.CoverPhotos[0])" />
         }
         else if (Model.Listings != null && Model.Listings.Count > 0 && Model.Listings[0].ExternalMedia != null && Model.Listings[0].ExternalMedia.Count > 0)
         {
