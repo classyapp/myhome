@@ -10,7 +10,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Collection
     public class TranslateCollectionViewModel
     {
         public string CollectionId { get; set; }
-
+        [Display(Name = "TranslateCollection_Language")]
         public string CultureCode { get; set; }
 
         [Display(Name = "TranslateCollection_Title")]
