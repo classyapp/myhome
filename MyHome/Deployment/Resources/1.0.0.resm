@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "CreatePoll_PageTitle",
+			"Description": "Create Poll - Page header",
+			"Values": {
+				"en": "Create Poll"
+			}
+		},
+		{ 
 			"Key": "EditorTools_SelectTool",
 			"Description": "Editor's tools - select many listings",
 			"Values": {
