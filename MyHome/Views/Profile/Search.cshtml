@@ -1,11 +1,9 @@
-@using CsQuery.ExtensionMethods
 @model Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata>
 
 @{
     var categories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
     var cities = Localizer.GetCitiesWithCountries();
-    var serializedCities = cities.Select(x => new {Value = x}).ToArray();
     var loc = (!string.IsNullOrEmpty(Model.Country) && Model.Country != "current-location" && countries.Any(x => x.Value == Model.Country)) ? countries.Single(x => x.Value == Model.Country).Text : "";
     ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
@@ -68,12 +66,12 @@
         <hr />
 
         <div class="search-form">
-            @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").Id("professional-search-form").RouteValues(new { filters = "" }).Type(FormType.Inline).FormMethod(FormMethod.Post)))
+            @using (var f = Html.Bootstrap().Begin(new Form("Search", "Profile").RouteValues(new { filters = "" }).Type(FormType.Inline).FormMethod(FormMethod.Post)))
             {
                 @f.FormGroup().TextBoxFor(x => x.Name).Placeholder(Localizer.Get("SearchProfiles_Label_Name")).ShowValidationMessage(false).Label().Class("sr-only")
                 @Html.HiddenFor(x => x.Country)
                 @Html.HiddenFor(x => x.City)
-                @f.FormGroup().TextBox("Locality").Id("Locality").Value(string.Concat(Model.City, !string.IsNullOrEmpty(Model.City) ? ", " : "", countries.GetText(Model.CountryCode))).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
+                @f.FormGroup().TextBox("Locality").Id("Locality").Value(string.Concat(Model.City, !string.IsNullOrEmpty(Model.City) ?  ", " : "", countries.GetText(Model.CountryCode))).Class("typeahead").HtmlAttributes(new { data_provide = "typeahead" }).Placeholder(Localizer.Get("SearchProfiles_CityPlaceholder")).ShowValidationMessage(false).Label().Class("sr-only")
                 @f.FormGroup().DropDownListFor(x => x.Category, categories.AsSelectList()).OptionLabel(Localizer.Get("SearchProfiles_Label_CategoryDefaultOption")).ShowValidationMessage(false).Label().Class("sr-only")
                 @Html.TextBoxFor(x => x.Latitude, new { @class = "hidden" })
                 @Html.TextBoxFor(x => x.Longitude, new { @class = "hidden" })
@@ -127,10 +125,11 @@
 @section scripts {
     @Scripts.Render("~/Scripts/iscroll.js")
     @Scripts.Render("~/scripts/hogan-2.0.0.js")
+    @Scripts.Render("~/scripts/typeahead.min.js")
 
     <script>
         resetPagination(@page);
-        $(document).on("classy.gps.available", function(e, data) {
+        $(document).on("classy.gps.available", function (e, data) {
             if (data.Available) {
                 $("#Location").prepend("<option value=\"current-location\">" + Classy.Strings.NearMe + "</option>");
                 $("#Latitude").val(data.Latitude);
@@ -143,59 +142,47 @@
         });
 
         var validLocation = true;
-
-        var countriesSuggestions = new Bloodhound({
-            name: 'countries-suggestions',
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            prefetch: '',
-            local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(serializedCities))
-        });
-        countriesSuggestions.initialize();
-
-        $('#Locality').typeahead({
-            minLength: 1
-        }, {
-            name: 'countries-suggestions',
-            displayKey: 'Value',
-            source: countriesSuggestions.ttAdapter()
-        })
-        .on('typeahead:opened', function() {
-            validLocation = false;
-        })
-        .on('typeahead:selected', function (e, item) {
-            if (item.Value.indexOf(',') > -1) {
-                var parts = item.Value.split(',');
-                $('#City').val(parts[0]);
-                $('#Country').val(parts[1].trim());
-            } else {
-                $('#City').val('');
-                $('#Country').val(item.Value);
-            }
-            validLocation = true;
-        })
-        .on('typeahead:autocompleted', function (e, item) {
-            if (item.Value.indexOf(',') > -1) {
-                var parts = item.Value.split(',');
-                $('#City').val(parts[0]);
-                $('#Country').val(parts[1].trim());
-            } else {
-                $('#City').val('');
-                $('#Country').val(item.Value);
-            }
-            validLocation = true;
-        })
-        .on('typeahead:closed', function() {
-            if (!validLocation) {
-                $('#City').val('');
-                $('#Country').val('');
-            }
-        })
-        .on('change', function() {
-            if ($(this).val() == '') {
-                $('#City').val('');
-                $('#Country').val('');
-            }
-        });
+        $('.typeahead')
+            .typeahead({
+                local: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(cities))
+                })
+            .on('typeahead:opened', function() {
+                validLocation = false;
+            })
+            .on('typeahead:selected', function (e, item) {
+                if (item.value.indexOf(',') > -1) {
+                    var parts = item.value.split(',');
+                    $('#City').val(parts[0]);
+                    $('#Country').val(parts[1].trim());
+                } else {
+                    $('#City').val('');
+                    $('#Country').val(item.value);
+                }
+                validLocation = true;
+            })
+            .on('typeahead:autocompleted', function (e, item) {
+                if (item.value.indexOf(',') > -1) {
+                    var parts = item.value.split(',');
+                    $('#City').val(parts[0]);
+                    $('#Country').val(parts[1].trim());
+                } else {
+                    $('#City').val('');
+                    $('#Country').val(item.value);
+                }
+                validLocation = true;
+            })
+            .on('typeahead:closed', function() {
+                if (!validLocation)
+                {
+                    $('#City').val('');
+                    $('#Country').val('');
+                }
+            })
+            .on('change', function() {
+                if ($(this).val() == '') {
+                    $('#City').val('');
+                    $('#Country').val('');
+                }
+            });
     </script>
 }
