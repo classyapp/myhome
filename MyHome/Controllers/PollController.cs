@@ -34,7 +34,7 @@ namespace MyHome.Controllers
             string collectionType = AuthenticatedUserProfile.IsProfessional ? CollectionType.Project : CollectionType.PhotoBook;
             var collections = listingService.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, collectionType, false, false, false);
 
-            return View("SelectListingsModal", collections);
+            return PartialView("SelectListingsModal", collections);
         }
 	}
 }
