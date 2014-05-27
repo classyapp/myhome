@@ -15,7 +15,6 @@
 				"en": "Related Professionals"
 				}
 			},
-			,
 			{ 
 			"Key": "Register_UsernameAlreadyExists",
 			"Description": "error when trying to register with a username that exists in the system",
