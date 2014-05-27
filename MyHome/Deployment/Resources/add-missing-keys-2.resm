@@ -7,6 +7,13 @@
 			"Values": {
 				"en": "Back"
 				}
+			},
+			{ 
+			"Key": "Search_RelatedProfessionals",
+			"Description": "label for related professionals section of the search results",
+			"Values": {
+				"en": "Related Professionals"
+				}
 			}
 	]
 }
