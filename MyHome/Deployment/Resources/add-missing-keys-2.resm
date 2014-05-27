@@ -1,0 +1,12 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "LoadFacebookAlbums_Back",
+			"Description": "when uploading photos from facebook, back button to navigate between albums",
+			"Values": {
+				"en": "Back"
+				}
+			}
+	]
+}
