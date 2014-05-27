@@ -103,8 +103,4 @@
                 window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent(queryValue);
         }
     });
-    $('#search-submit').click(function () {
-        var queryValue = $('#q').val().trim();
-        window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent(queryValue);
-    });
 });
