@@ -4,10 +4,9 @@
 {
     <tr>
         <td>@job.JobId</td>
-        <td>@job.CreatedAt</td>
-        <td>@(job.UpdatedAt.HasValue ? job.UpdatedAt.Value.ToLongDateString() : string.Empty)</td>
-        <td>@(job.Succeeded + job.Failed) / <a href="/profile/job/@job.JobId/errors">@job.Failed</a></td>
-        @*<td>@(job.Succeeded + job.Failed) / @(job.Failed == 0 ? "0" : "<a href=\"/profile/jobs?dl=true\">" + job.Failed + "</a>")</td>*@
+        <td>@job.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+        <td>@(job.UpdatedAt.HasValue ? job.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : string.Empty)</td>
+        <td>@(job.Succeeded + job.Failed) / @job.Failed @(job.Failed == 0 ? string.Empty : "<a class=\"btn btn-danger btn-sm\" href=\"/profile/jobs/@job.JobId/errors\"><i class=\"glyphicon glyphicon-download-alt\"></i></a>")</td>
         <td>@job.Status</td>
     </tr>
 }

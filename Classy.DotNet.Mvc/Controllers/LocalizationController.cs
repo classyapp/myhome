@@ -47,7 +47,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult ManageResources(string resourceKey)
         {
             var model = new ManageResourcesViewModel {
-                SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList(),
+                SupportedCultures = Classy.DotNet.Responses.AppView.SupportedCultures.AsSelectList(),
                 MissingResourceKeys = Localizer.GetMissingKeys(),
                 SelectedCulture = GetEnvFromContext().CultureCode,
                 ResourceKey = resourceKey
@@ -109,7 +109,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 service.SetResourceValues(model.ResourceKey, new Dictionary<string, string> { { model.SelectedCulture, model.ResourceValue } });
                 HttpRuntime.Cache.Remove(model.ResourceKey);
             }
-            model.SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList();
+            model.SupportedCultures = Classy.DotNet.Responses.AppView.SupportedCultures.AsSelectList();
             TempData["Success"] = true;
             return View(model);
         }

@@ -52,7 +52,7 @@
             <div class="alert alert-info">
                 @Localizer.Get("CreateVendorProfile_DefaultCultureInfo")
                 <br/><br/>
-                @f.FormGroup().DropDownListFor(x => x.DefaultCulture, Localizer.GetList("supported-cultures").AsSelectList()).Label().Class("hidden")
+                @f.FormGroup().DropDownListFor(x => x.DefaultCulture, Classy.DotNet.Responses.AppView.SupportedCultures.AsSelectList()).Label().Class("hidden")
             </div>
         </div>
     }

@@ -35,7 +35,7 @@ namespace Classy.DotNet.Mvc.Localization
         {
             _showResourceKeys = showResourceKeys;
 
-            var supportedCultures = GetList("supported-cultures");
+            var supportedCultures = AppView.SupportedCultures;
 
             // first we check if the culture is forced (by using a direct url containing a culture)
             // second we check if there is a culture cookie 
@@ -231,7 +231,7 @@ namespace Classy.DotNet.Mvc.Localization
             }
 
             // then add another route for each supported culture
-            var cultures = Localizer.GetList("supported-cultures");
+            var cultures = AppView.SupportedCultures;
             foreach (var culture in cultures)
             {
                 var cultureName = culture.Value.Substring(0, 2);
