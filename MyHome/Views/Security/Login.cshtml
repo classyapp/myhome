@@ -31,7 +31,7 @@
                 @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Class("btn-block").Text(Localizer.Get("Login_Submit")))
             }
 
-            <p>
+            <p class="loginlink">
                 @Localizer.Get("Login_NoAccount")
                 <a href="/register">@Localizer.Get("Login_CreateAccount")</a>
             </p>

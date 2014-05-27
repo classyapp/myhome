@@ -173,8 +173,11 @@
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-primary btn-block">@Localizer.Get("Login_Submit")</button>
                                                     </div>
-                                                    <div class="text-center">
+                                                    <div class="text-center loginlink">
                                                         @Html.RouteLink(Localizer.Get("Login_Register"), "Register")
+                                                    </div>
+                                                    <div class="text-center">
+                                                        @Html.RouteLink(Localizer.Get("Login_ForgotPassword"), "ForgotPassword")
                                                     </div>
                                                 </form>
                                             </div>
