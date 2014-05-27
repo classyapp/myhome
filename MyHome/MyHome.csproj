@@ -134,6 +134,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\Modal.cs" />
     <Compile Include="Models\DiscussionMetadata.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
     <Compile Include="Models\Polls\PollMetadata.cs" />
@@ -571,6 +572,7 @@
     <Content Include="Views\Photo\EditorTools.cshtml" />
     <Content Include="Views\Poll\CreatePoll.cshtml" />
     <Content Include="Views\Poll\SelectListingsModal.cshtml" />
+    <Content Include="Views\Common\Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
