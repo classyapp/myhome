@@ -64,7 +64,7 @@ namespace Classy.DotNet.Mvc.Localization
             Classy.DotNet.Mvc.GeoIP.Location location = Helpers.IPLocator.GetLocationByRequestIP();
             if (cookie == null)
             {
-                var supportedCountries = GetList("supported-countries");
+                var supportedCountries = AppView.SupportedCountries;
                 string countryCode = supportedCountries.Any(c => c.Value == location.CountryCode) ? location.CountryCode : AppView.DefaultCountry;
                 cookie = new HttpCookie(AppView.CountryCookieName, countryCode);
                 cookie.Expires = DateTime.Now.AddMonths(1);
@@ -184,12 +184,12 @@ namespace Classy.DotNet.Mvc.Localization
             IList<string> citiesWithCountries = HttpRuntime.Cache[cacheKey] as IList<string>;
             if (citiesWithCountries == null)
             {
-                var supportedCountries = GetList("supported-countries");
+                var supportedCountries = AppView.SupportedCountries;
                 citiesWithCountries = new List<string>();
                 foreach (var country in supportedCountries)
                 {
-                    citiesWithCountries.Add(country.Text);
-                    (citiesWithCountries as List<string>).AddRange(GetCitiesByCountryCode(country.Value).Select(c => string.Format("{0}, {1}", c, country.Text)));
+                    citiesWithCountries.Add(country.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]);
+                    (citiesWithCountries as List<string>).AddRange(GetCitiesByCountryCode(country.Value).Select(c => string.Format("{0}, {1}", c, country.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName])));
                 }
                 HttpRuntime.Cache.Insert(cacheKey, citiesWithCountries, null, DateTime.Now.AddDays(1), TimeSpan.Zero);
             }

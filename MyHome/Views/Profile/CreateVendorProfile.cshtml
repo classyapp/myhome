@@ -23,7 +23,7 @@
             <h3>@Localizer.Get("CreateVendorProfile_ContactInfo")</h3>
             @f.FormGroup().TextBoxFor(x => x.Street1)
             @f.FormGroup().TextBoxFor(x => x.City)
-            @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList())
+            @f.FormGroup().DropDownListFor(x => x.Country, Classy.DotNet.Responses.AppView.SupportedCountries.AsSelectList())
             @f.FormGroup().TextBoxFor(x => x.PostalCode)
             @f.FormGroup().TextBoxFor(x => x.Email).Readonly()
             @f.FormGroup().TextBoxFor(x => x.Phone)
