@@ -1,7 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.Polls.PollMetadata>
 
 @{
-    ViewBag.Title = Localizer.Get("CreatePhoto_PageTitle");
+    ViewBag.Title = Localizer.Get("CreatePoll_PageTitle");
     ViewBag.NoIndex = true;
     Html.Bootstrap().Globals().ShowRequiredStar(false);
 
@@ -16,46 +16,23 @@
 
         @Html.Bootstrap().ValidationSummary()
 
-        @*@using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Photo").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreatePoll", "Poll").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
-            <input type="hidden" id="Metadata_IsWebPhoto" name="Metadata.IsWebPhoto" value="False" />
-            @Html.HiddenFor(x => x.CollectionType)
-            if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
-            {
-            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreatePhotoBookTitle")).Label().LabelText(Localizer.Get("CreatePhoto_PhotoBookTitle"))
-            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_CollectionTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide")
-            }
-            else
-            {
-            @f.FormGroup().DropDownListFor(x => x.CollectionId, Model.CollectionList).ShowValidationMessage(false).OptionLabel(Localizer.Get("CreatePhoto_CreateProjectTitle")).Label().LabelText(Localizer.Get("CreatePhoto_ProjectTitle"))
-            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePhoto_ProjectTitlePlaceholder")).ShowValidationMessage(false).Label().Class("hide")
-            }
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePoll_FormTitleLabel")).ShowValidationMessage(false).Label()
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
-            @f.FormGroup().DropDownListFor(x => x.Metadata.Room, rooms.WithParent(null).AsSelectList()).OptionLabel(Localizer.Get("List_Label_Rooms")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("CreatePhoto_RoomLabel"))
-            @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).OptionLabel(Localizer.Get("List_Label_Styles")).ShowValidationMessage(false)
-            @f.FormGroup().TextBoxFor(x => x.Metadata.CopyrightMessage).ShowValidationMessage(false)
+            
             <div class="alert alert-warning">
                 <div class="form-group">
-                    <div class="upload">
-                        <span class="btn btn-warning btn-select-files" type="button"><input accept="image/*" id="file" multiple="multiple" name="file" type="File" value="" />@Localizer.Get("CreatePhoto_SelectFiles")</span>
-                        @Html.HiddenFor(x => x.DummyFile)
+                    <div class="select-listings clearfix">
+                        <span class="btn btn-warning btn-select-listings" type="button">@Localizer.Get("CreatePoll_SelectListings")</span>
                     </div>
 
-                    @if ((User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsFacebookConnected) {                        
-                        <a id="load-fb" href="#" onclick="showFBPhotoChooser()" class="btn btn-primary">@Localizer.Get("CreatePhoto_LoadFromFacebook")</a>
-                    }
-                    <div class="clearfix"></div>
-                    <div id="filesPreview" class="row"></div>
+                    <div id="listings-preview" class="row"></div>
                 </div>
             </div>
             
-            <p>
-                <small>
-                    @Html.Bootstrap().CheckBoxFor(x => x.Metadata.AgreeToTerms).IsChecked(false).ShowValidationMessage(false).Label().LabelText(string.Format(Localizer.Get("PhotoMetadata_Terms"), Html.RouteLink(Localizer.Get("Regsiter_TermsOfUse"), "Terms"))).ShowRequiredStar(false)
-                </small>
-            </p>
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "uploadBtn", onclick = "uploadPhotos()" }).Text(Localizer.Get("CreatePhoto_Submit")).Style(ButtonStyle.Primary))
-        }*@
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "create-poll", onclick = "createPoll()" }).Text(Localizer.Get("CreatePoll_Submit")).Style(ButtonStyle.Primary))
+        }
     </div>
 
     <div class="col-md-4 col-md-offset-1 helpbar">
@@ -87,11 +64,24 @@
 
 
 
+<!-- Select Listings Modal -->
+<div class="modal fade" id="select-listings-modal" data-remote="@Url.RouteUrl("SelectListingsModal")" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="select-listings-modal-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
+
+
 @section scripts
 {
     @*<script type="text/javascript" src="~/Scripts/xhr-upload.js"></script>
     <script type="text/javascript" src="~/Scripts/new_photo.js"></script>*@
     <script type="text/javascript">
-        
+        $('.btn-select-listings').click(function() {
+            $('#select-listings-modal').modal('show');
+        });
     </script>
 }

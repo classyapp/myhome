@@ -1,0 +1,14 @@
+@model IList<Classy.DotNet.Responses.CollectionView>
+
+@{
+    
+}
+
+<div class="row">
+    @foreach (var collection in Model)
+    {
+        <div class="col-md-4">
+            @Html.Partial("Thumbnails", collection.CoverPhotos)
+        </div>
+    }
+</div>

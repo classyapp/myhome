@@ -7,12 +7,12 @@ namespace MyHome.Models.Polls
 {
     public class PollMetadata : IMetadata<PollMetadata>
     {
-        public List<string> ImageUrls { get; set; }
+        public List<string> Listings { get; set; }
         public List<string> Votes { get; set; }
 
         public PollMetadata()
         {
-            ImageUrls = new List<string>(4);
+            Listings = new List<string>(4);
             Votes = new List<string>(4);
         }
 
@@ -20,8 +20,8 @@ namespace MyHome.Models.Polls
         {
             var properties = new Dictionary<string, string>();
 
-            if (!ImageUrls.IsNullOrEmpty())
-                ImageUrls.Indexed().ForEach(x => properties.Add("Image_" + x.Key, x.Value));
+            if (!Listings.IsNullOrEmpty())
+                Listings.Indexed().ForEach(x => properties.Add("Listing_" + x.Key, x.Value));
 
             if (!Votes.IsNullOrEmpty())
                 Votes.Indexed().ForEach(x => properties.Add("Vote_" + x.Key, x.Value.ToString()));
@@ -38,8 +38,8 @@ namespace MyHome.Models.Polls
         {
             var pollMetadata = new PollMetadata();
 
-            for (var i=0; metadata.ContainsKey("Image_" + i); i++)
-                pollMetadata.ImageUrls.Add(metadata["Image_" + i]);
+            for (var i=0; metadata.ContainsKey("Listing_" + i); i++)
+                pollMetadata.Listings.Add(metadata["Listing_" + i]);
             for (var i=0; metadata.ContainsKey("Vote_" + i); i++)
                 pollMetadata.Votes.Add(metadata["Vote_" + i]);
 

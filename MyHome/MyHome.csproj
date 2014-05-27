@@ -492,6 +492,7 @@
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\editor-tools.js" />
+    <Content Include="Scripts\create-poll.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
@@ -568,7 +569,8 @@
     <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
     <Content Include="Views\Shared\SiteMetadata.cshtml" />
     <Content Include="Views\Photo\EditorTools.cshtml" />
-    <Content Include="Views\Polls\CreatePoll.cshtml" />
+    <Content Include="Views\Poll\CreatePoll.cshtml" />
+    <Content Include="Views\Poll\SelectListingsModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
