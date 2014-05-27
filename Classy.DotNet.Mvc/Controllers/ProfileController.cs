@@ -146,6 +146,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "ProfileJobErrors",
+                url: "profile/job/{jobid}/errors",
+                defaults: new { controller = "Profile", action = "ProfileJobErrors" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRoute(
                 name: "FollowProfile",
                 url: "profile/{username}/follow",
@@ -1216,6 +1223,15 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return View(jobs);
             }
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ProfileJobErrors(string jobid)
+        {
+            JobService service = new JobService();
+            string errors = service.GetJobErrors(jobid);
+            return File(Encoding.UTF8.GetBytes(errors), "text/csv", string.Format("errors_{0}.csv", jobid));
         }
         #endregion
     }
