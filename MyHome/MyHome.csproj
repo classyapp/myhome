@@ -166,6 +166,8 @@
     <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
     <Content Include="Deployment\Deployment.exe" />
     <Content Include="Deployment\Newtonsoft.Json.dll" />
+    <Content Include="Deployment\Resources\currency-support.resm" />
+    <Content Include="Deployment\Resources\add-missing-keys-2.resm" />
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
