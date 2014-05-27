@@ -9,7 +9,7 @@ $("#file").on("change", function () {
         $.each(this.files || this.file, function (idx, item) {
             $("#DummyFile").val("fs");
             var img = $("<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-6\"><div class=\"filename\"><i class=\"fa fa-picture-o\"></i>&nbsp;" + item.name + "</div><div class=\"progress\"><div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div></div></div>");
-            $("#filesPreview").prepend(img);
+            $("#filesPreview").append(img);
         });
     }
     else {
@@ -50,7 +50,7 @@ function previewSelectedFBPhotos(urls) {
     for (var i = 0; i < urls.length; i++) {
         $("#DummyFile").val("url");
         var img = $("<div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-6\"><div class=\"img-preview\" data-url=\"" + urls[i] + "\" style=\"background-image: url(" + urls[i] + ")\"></div><div class=\"progress\"><div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"></div></div></div>");
-        $("#filesPreview").prepend(img); // use prepend to add to the beginning as it will take time to actually load the content
+        $("#filesPreview").append(img); 
     }
 }
 

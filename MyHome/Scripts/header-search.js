@@ -101,6 +101,7 @@
             if (queryValue == '') return false;
             if ($('.navbar .tt-suggestion.tt-cursor').length == 0)
                 window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent(queryValue);
+            return false;
         }
     });
     $('#search-submit').click(function () {
