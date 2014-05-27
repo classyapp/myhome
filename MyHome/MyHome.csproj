@@ -60,9 +60,6 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Portable.Licensing">
       <HintPath>..\packages\Portable.Licensing.1.1.0\lib\portable-net40+sl4+wp7+win8\Portable.Licensing.dll</HintPath>
     </Reference>
@@ -132,6 +129,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Controllers\StaticPagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -142,6 +140,7 @@
     <Compile Include="Models\ProfileReviewCriteria.cs" />
     <Compile Include="Models\ProfileReviewMetadata.cs" />
     <Compile Include="Models\UserMetadata.cs" />
+    <Compile Include="Models\VendorMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\PhotoActionsViewModel.cs" />
     <Compile Include="Models\PhotoGridViewModel.cs" />
@@ -157,6 +156,7 @@
     <Content Include="Content\ltr\bootstrap3-wysiwyg5.css" />
     <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
+    <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
@@ -166,6 +166,9 @@
     <Content Include="Deployment\Classy.DotNet.Mvc.dll" />
     <Content Include="Deployment\Deployment.exe" />
     <Content Include="Deployment\Newtonsoft.Json.dll" />
+    <None Include="Deployment\Resources\vendor-initial.resm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
@@ -458,6 +461,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
+    <Content Include="Scripts\url-builder.js" />
+    <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
     <Content Include="Scripts\google-login.js" />
     <Content Include="Scripts\fb-login.js" />
@@ -480,11 +485,15 @@
     <Content Include="Scripts\new_photo.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\TwitterBootstrapMvcJs.js" />
+    <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\trigger-action.js" />
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
+    <Content Include="Scripts\editor-tools.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
+    <Content Include="Web.config" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -501,7 +510,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="500.aspx" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\HomePage\Home.cshtml" />
     <Content Include="Views\Review\PostProfileReview.cshtml" />
     <Content Include="Views\Profile\ClaimProxyProfile.cshtml" />
     <Content Include="Views\Profile\EditProfile.cshtml" />
@@ -537,15 +546,15 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="404.aspx" />
     <Content Include="401.aspx" />
-    <Content Include="Views\Default\Terms.cshtml" />
-    <Content Include="Views\Default\Privacy.cshtml" />
+    <Content Include="Views\StaticPages\Terms.cshtml" />
+    <Content Include="Views\StaticPages\Privacy.cshtml" />
     <Content Include="Views\Shared\Thumbnails.cshtml" />
     <Content Include="Views\Profile\SelectCoverPhotos.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Photo\CreatePhotoFromUrl.cshtml" />
     <Content Include="Views\Shared\PhotoCopyrightMessage.cshtml" />
-    <Content Include="Views\Default\Careers.cshtml" />
+    <Content Include="Views\StaticPages\Careers.cshtml" />
     <Content Include="Views\Profile\Translate.cshtml" />
     <Content Include="Views\Photo\TranslateListing.cshtml" />
     <Content Include="Views\Collection\Translate.cshtml" />
@@ -554,6 +563,13 @@
     <Content Include="Views\Profile\SendEmail.cshtml" />
     <Content Include="Web.AppHarbor.config" />
     <Content Include="Views\Photo\MoreInfo.cshtml" />
+    <Content Include="Views\Photo\FreeSearch.cshtml" />
+    <Content Include="Views\Profile\UploadCatalog.cshtml" />
+    <Content Include="Views\Profile\ProfileJobs.cshtml" />
+    <Content Include="Views\Profile\SmallProfileResult.cshtml" />
+    <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
+    <Content Include="Views\Shared\SiteMetadata.cshtml" />
+    <Content Include="Views\Photo\EditorTools.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -572,6 +588,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Default\" />
     <Folder Include="Views\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
@@ -608,11 +625,11 @@
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets. -->
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-  </Target> -->
+  </Target>
   <Target Name="AfterBuild">
     <CallTarget Targets="RunDeployResourcesConsoleApp" />
   </Target>

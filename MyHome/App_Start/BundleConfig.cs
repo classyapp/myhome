@@ -39,6 +39,8 @@ namespace MyHome
                       "~/Content/ltr/bootstrap.min.css",
                       "~/Content/ltr/site.css",
                       "~/Content/ltr/bootstrap-tagsinput.css"));
+
+            bundles.Add(new StyleBundle("~/Content/ltr/EditorTools").Include("~/Content/ltr/EditorTools.css"));
         }
     }
 }

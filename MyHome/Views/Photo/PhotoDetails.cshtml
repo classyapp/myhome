@@ -1,3 +1,4 @@
+@using Classy.DotNet.Security
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.PhotoMetadata>
 
 @{
@@ -47,11 +48,16 @@
             @if (Model.Metadata.CopyrightMessage != null && !Model.Metadata.IsWebPhoto) {
                 <span>@Model.Metadata.CopyrightMessage</span>
             }
-            <div class="stats">
+            <div class="stats clearfix">
                 <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("PhotoDetails_ViewCount"), Model.Listing.ViewCount)</span>
                 <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("PhotoDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
                 <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("PhotoDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
                 <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("PhotoDetails_CommentCount"), Model.Listing.CommentCount)</span>
+                
+                @if (AuthProvider.IsAdmin() || AuthProvider.IsEditor())
+                {
+                    <span><i class="glyphicon glyphicon-sort"></i> @Localizer.Get("PhotoDetails_EditorsRank") @Model.Listing.EditorsRank</span>
+                }
             </div>
         </div>
         
@@ -87,6 +93,23 @@
                         @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchPhoto", new { filters = t.TrimStart('#').ToLower().Replace("  "," ").Replace(" ","-") })<span>&nbsp;</span>
                     }
                 </dd>
+                @if (AuthProvider.IsAdmin() || AuthProvider.IsEditor())
+                {
+                    <dt>@Localizer.Get("PhotoDetails_TranslatedKeywords")</dt>
+                    <dd>
+                        @if (Model.Listing.TranslatedKeywords != null)
+                        {
+                            @(string.Join(", ", Model.Listing.TranslatedKeywords.SelectMany(x => x.Value)))
+                        }
+                    </dd>
+                    <dt>@Localizer.Get("PhotoDetails_SearchableKeywords")</dt>
+                    <dd>
+                        @if (Model.Listing.SearchableKeywords != null)
+                        {
+                            @(string.Join(", ", Model.Listing.SearchableKeywords))
+                        }
+                    </dd>
+                }
             </dl>
         </div>
 

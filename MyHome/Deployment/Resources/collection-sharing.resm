@@ -2,13 +2,6 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
-			"Key": "Collection_MailLinkSubject",
-			"Description": "subject of email that goes out when a user is sharing a collection",
-			"Values": {
-				"en": "Check this out on Homelab"
-			}
-		},
-		{ 
 			"Key": "Collection_MailLinkBody",
 			"Description": "body of email that goes out when a user is sharing a collection",
 			"Values": {

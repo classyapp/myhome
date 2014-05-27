@@ -1,5 +1,5 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Classy.DotNet.Mvc.ActionFilters;
 
 namespace MyHome
 {
@@ -10,6 +10,8 @@ namespace MyHome
             filters.Add(new AppHarbor.Web.RequireHttpsAttribute());
             // error handling is dealt with via web.config & iis
            //  filters.Add(new HandleErrorAttribute());
+
+            filters.Add(new FeatureSwitchFilter());
         }
     }
 }

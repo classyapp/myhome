@@ -1,31 +1,19 @@
-﻿@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.ProductMetadata>
+﻿@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingNoCollectionViewModel<MyHome.Models.ProductMetadata>
 @{
-    ViewBag.Title = "CreateListing_product";
+    ViewBag.Title = Localizer.Get("CreateProduct_PageTitle");
     Html.Bootstrap().Globals().ShowRequiredStar(false);
+    var categories = Localizer.GetList("product-categories");
 }
 
-<h2>Create Product</h2>
+<h2>@Localizer.Get("CreateProduct_PageTitle")</h2>
 
-@if (TempData["CreateListingSuccess"] != null)
-{
-    @Html.Bootstrap().Alert("äúîåðä äåòìúä áäöìçä").Style(AlertColor.Success)
-    var listing = TempData["CreateListingSuccess"] as Classy.DotNet.Responses.ListingView;
-    <img src="@listing.ExternalMedia[0].Url" width="350" />
-}
 
 @Html.Bootstrap().ValidationSummary()
 
-@using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Product").HtmlAttributes(new {enctype="multipart/form-data"})))
+@using (var f = Html.Bootstrap().Begin(new Form("CreateListingNoCollection", "Product").HtmlAttributes(new {enctype="multipart/form-data"})))
 {
-    @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().LabelText("Title")
-    @f.FormGroup().TextBoxFor(x => x.Content).ShowValidationMessage(false).Label().LabelText("Description")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.SKU).ShowValidationMessage(false).Label().LabelText("SKU")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.Price).ShowValidationMessage(false).Label().LabelText("Price")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.CompareAtPrice).ShowValidationMessage(false).Label().LabelText("Compare At")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.Quantity).ShowValidationMessage(false).Label().LabelText("Quantity")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.DomesticRadius).ShowValidationMessage(false).Label().LabelText("Domestic Radius")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.DomesticShippingPrice).ShowValidationMessage(false).Label().LabelText("Domestic Shipping Price")
-    @f.FormGroup().TextBoxFor(x => x.PricingInfo.InternationalShippingPrice).ShowValidationMessage(false).Label().LabelText("International Shipping Price")
+    @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false)
+    @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
     
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text("Create Product"))  
+    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(@Localizer.Get("CreateProduct_Submit")))  
 }

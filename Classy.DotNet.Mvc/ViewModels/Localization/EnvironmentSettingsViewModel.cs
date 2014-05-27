@@ -17,11 +17,9 @@ namespace Classy.DotNet.Mvc.ViewModels.Localization
         public string CountryName { get; set; }
         [Display(Name = "EnvSettings_Country")]
         public string CountryCode { get; set; }
-        public IEnumerable<SelectListItem> CountryList { get; set; }
         
         public string CurrencyName { get; set; }
         [Display(Name = "EnvSettings_Currency")]
         public string CurrencyCode { get; set; }
-        public IEnumerable<SelectListItem> SupportedCurrenciesList { get; set; }
     }
 }

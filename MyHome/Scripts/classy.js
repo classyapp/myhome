@@ -1,8 +1,8 @@
-﻿var Classy = {};
+﻿var Classy = Classy || {};
 
-Classy.AjaxReconnect = function () {
+Classy.AjaxReconnect = function() {
     $(document).trigger("classy.ajax.reconnect");
-}
+};
 
 Classy.AcquireGPSCoordinates = function () {
     if (Classy.GetCookie(Classy.Env.GPSCookieName) == null || Classy.GetCookie(Classy.Env.GPSOriginCookieName) == "auto") {
@@ -29,27 +29,29 @@ Classy.AcquireGPSCoordinates = function () {
     }
 };
 
-Classy.SetCookie = function (cname, cvalue, exdays) {
+Classy.SetCookie = function(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toGMTString();
     document.cookie = cname + "=" + cvalue + "; path=/; " + expires;
-}
+};
 
-Classy.GetCookie = function (cname)
-{
+Classy.GetCookie = function(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) 
-    {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i].trim();
-        if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
     }
 
     return null;
-}
+};
 
-Classy.ParseQueryString = function () {
+Classy.GetCulture = function() {
+    return Classy.GetCookie(Classy.Env.CultureCookieName);
+};
+
+Classy.ParseQueryString = function() {
     var data = {};
     var query = window.location.search.substring(1);
     if (query != "") {
@@ -60,30 +62,32 @@ Classy.ParseQueryString = function () {
         }
     }
     return data;
-}
+};
 
-Classy.SendEmail = function (subject, body, title) {
+Classy.SendEmail = function(subject, body, title) {
     $("#send-email-modal")
-        .on("loaded.bs.modal", function () {
+        .on("loaded.bs.modal", function() {
             $(this).find("#Subject").val(subject.decodeHTML());
             $(this).find("#Body").val(body.decodeHTML());
-            if (typeof title !== 'undefined') { $(this).find(".modal-title").html(title); }
+            if (typeof title !== 'undefined') {
+                $(this).find(".modal-title").html(title);
+            }
             jQuery.validator.unobtrusive.parse($("#frmSendEmail"));
         })
-        .on("hidden.bs.modal", function () {
+        .on("hidden.bs.modal", function() {
             $(this).find("input[type=text], textarea").val("");
         })
         .modal("show");
-}
+};
 
-Classy.ShareUI = function (socialUrl, url, winWidth, winHeight) {
+Classy.ShareUI = function(socialUrl, url, winWidth, winHeight) {
     var winTop = (screen.height / 2) - (winHeight / 2);
     var winLeft = (screen.width / 2) - (winWidth / 2);
     window.open(socialUrl + url, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
-}
+};
 
 var font = 'font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 15px;font-weight: bold;';
-if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font)
+if (console) console.log("%cjoinHomelab()", "color: #2b2;" + font);
 function joinHomelab() { window.location.href = "/careers"; }
 
 String.prototype.decodeHTML = function () {

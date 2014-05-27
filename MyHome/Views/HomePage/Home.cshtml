@@ -12,7 +12,7 @@
     @if (!User.Identity.IsAuthenticated)
     {
         <div class="slogan">
-            <h1>@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
+            <h1 style="font-weight:bold;">@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
             <div class="signin">
                 <a id="sign-in-facebook" class="btn btn-sm btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
             </div>
@@ -36,9 +36,9 @@
         <h3>@Localizer.Get("Home_LatestPhotos")</h3>
         <hr />
         <div class="row" id="photos">
-            @if (Model.Photos.Count() > 0)
+            @if (Model.Listings.Count() > 0)
             {
-                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Photos, ThumbnailSize = 270 })
+                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Listings, ThumbnailSize = 270 })
             }
         </div>
     </div>

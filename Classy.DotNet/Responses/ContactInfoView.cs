@@ -22,6 +22,7 @@ namespace Classy.DotNet.Responses
     public class ExtendedContactInfoView : ContactInfoView
     {
         public string Phone { get; set; }
+        public string Fax { get; set; }
         public string Email { get; set; }
     }
 }

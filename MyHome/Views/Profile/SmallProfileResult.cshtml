@@ -1,0 +1,50 @@
+@model Classy.DotNet.Responses.ProfileView
+
+@{
+    var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+    var countries = Localizer.GetList("supported-countries");
+    var hasAddress = (Model.ProfessionalInfo.CompanyContactInfo != null &&
+                      Model.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                      Model.ProfessionalInfo.CompanyContactInfo.Location.Address != null);
+}
+
+<div class="profile small-thumbnail">
+    @if (Model.CoverPhotos != null && Model.CoverPhotos.Count > 0)
+    {
+        <div class="cover-photos clearfix">
+            @foreach (var photo in Model.CoverPhotos)
+            {
+                <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="cover-photos clearfix">
+            <img src="/img/missing-thumb.png" class="missing-thumbnail" />
+        </div>
+    }
+    
+    <div class="details">
+        <div class="name">
+            <a href="@Url.RouteUrlForCurrentLocale("PublicProfile", new { profileId = Model.Id, slug = Model.ProfessionalInfo.CompanyName })">
+                @Model.ProfessionalInfo.CompanyName
+            </a>
+        </div>
+        @if (hasAddress)
+        {
+            var city = Model.ProfessionalInfo.CompanyContactInfo.Location.Address.City;
+            var country = countries.FirstOrDefault(x => x.Value == Model.ProfessionalInfo.CompanyContactInfo.Location.Address.Country);
+            var countryName = country != null ? country.Text : "";                        
+            <div class="location">
+                <small>
+                    <span>@city</span>
+                    @if (!string.IsNullOrEmpty(countryName))
+                    {
+                        <text>, </text>@countryName
+                    }                    
+                </small>
+            </div>
+        }
+    </div>
+</div>

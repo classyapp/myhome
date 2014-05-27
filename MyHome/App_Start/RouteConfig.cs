@@ -1,4 +1,6 @@
-﻿using MyHome.Models;
+﻿using Classy.DotNet.Mvc.Controllers;
+using Mandrill;
+using MyHome.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,8 +65,30 @@ namespace MyHome
 
             #endregion 
 
-            var defaultController = new Classy.DotNet.Mvc.Controllers.DefaultController();
-            defaultController.RegisterRoutes(routes);
+            #region // static pages
+
+            var staticController = new MyHome.Controllers.StaticPagesController();
+            staticController.RegisterRoutes(routes);
+
+            #endregion
+
+            #region // home page
+
+            var homePageController = new Classy.DotNet.Mvc.Controllers.HomePageController();
+            homePageController.RegisterRoutes(routes);
+
+            var searchController = new SearchController();
+            searchController.RegisterRoutes(routes);
+
+            #endregion
+
+            // catchall route
+            routes.MapRouteForSupportedLocales(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "HomePage", action = "Home", id = UrlParameter.Optional },
+                namespaces: new string[] { "Classy.DotNet.Mvc.Controllers" }
+            );
         }
     }
 }

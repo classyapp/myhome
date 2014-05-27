@@ -16,7 +16,7 @@ namespace MyHome.Controllers
 {
     public class PhotoController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.PhotoMetadata, MyHome.Models.PhotoGridViewModel>
     {
-        private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
+        private const string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
 
         public PhotoController()
             : base("MyHome.Controllers") {
@@ -28,23 +28,21 @@ namespace MyHome.Controllers
         {
             var supportedCultures = Localizer.GetList("supported-cultures").Select(x => x.Value).Where(x => x != "en").ToList();
 
-            if (e.IsEditor && e.EditorKeywords != null)
+            if (!e.IsEditor || e.EditorKeywords == null) return;
+            var translator = new GoogleTranslationService();
+            var translatedHashtags = new Dictionary<string, IList<string>>();
+            translatedHashtags.Add("en", e.EditorKeywords);
+            foreach (var englisKeyword in e.EditorKeywords)
             {
-                var translator = new GoogleTranslationService();
-                var translatedHashtags = new Dictionary<string, IList<string>>();
-                translatedHashtags.Add("en", e.EditorKeywords);
-                foreach (var englisKeyword in e.EditorKeywords)
+                foreach (var language in supportedCultures)
                 {
-                    foreach (var language in supportedCultures)
-                    {
-                        if (!translatedHashtags.ContainsKey(language))
-                            translatedHashtags.Add(language, new List<string>());
+                    if (!translatedHashtags.ContainsKey(language))
+                        translatedHashtags.Add(language, new List<string>());
 
-                        translatedHashtags[language].Add(translator.Translate(englisKeyword, "en", language));
-                    }
+                    translatedHashtags[language].Add(translator.Translate(englisKeyword, "en", language));
                 }
-                e.TranslatedKeywords = translatedHashtags;
             }
+            e.TranslatedKeywords = translatedHashtags;
         }
 
         private void PhotoController_OnPostedComment(object sender, ListingCommentEventArgs e)
@@ -63,7 +61,7 @@ namespace MyHome.Controllers
                 from_email = "team@homelab.com"
             };
 
-            System.Text.RegularExpressions.Regex dirRegex = new System.Text.RegularExpressions.Regex("[\\p{IsHebrew}]");
+            var dirRegex = new System.Text.RegularExpressions.Regex("[\\p{IsHebrew}]");
             if (dirRegex.IsMatch(message.html.Substring(0, Math.Min(message.html.Length, 10))))
             {
                 message.html = "<div style=\"direction: rtl\">" + message.html + "</div>";

@@ -67,16 +67,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\FeatureSwitchFilter.cs" />
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
     <Compile Include="Attributes\RequireHttpsAttribute.cs" />
     <Compile Include="Attributes\TranslatableAttribute.cs" />
+    <Compile Include="Config\FeatureSwitchProvider.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContactProfessionalArgs.cs" />
     <Compile Include="Controllers\CreateListingFromUrlArgs.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\IMetadata.cs" />
     <Compile Include="Controllers\IReviewSubCriteria.cs" />
     <Compile Include="Controllers\ListingCommentEventArgs.cs" />
@@ -89,6 +92,8 @@
     <Compile Include="Controllers\ReviewPostedArgs.cs" />
     <Compile Include="ActionFilters\ModelStateTransfer.cs" />
     <Compile Include="Extensions\CsvStringExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\ImageExtensions.cs" />
     <Compile Include="GeoIP\Location.cs" />
@@ -109,9 +114,12 @@
     <Compile Include="ViewModels\Collection\TranslateCollectionViewModel.cs" />
     <Compile Include="ViewModels\Default\HomeViewModel.cs" />
     <Compile Include="ViewModels\Listing\CreateListingFromUrlViewModel.cs" />
+    <Compile Include="ViewModels\Listing\FreeSearchListingsRequest.cs" />
+    <Compile Include="ViewModels\Listing\CreateListingNoCollectionViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingMoreInfoViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
+    <Compile Include="ViewModels\Listing\FreeSearchListingsViewModel.cs" />
     <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />
     <Compile Include="ViewModels\Listing\PhotoActionsViewModel.cs" />
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />
@@ -122,6 +130,7 @@
     <Compile Include="ViewModels\Localization\ManageResourcesViewModel.cs" />
     <Compile Include="ViewModels\Profiles\AskForReviewModel.cs" />
     <Compile Include="ViewModels\Profiles\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\CreateVendorProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProxyProfileMassViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ContactProfessionalViewModel.cs" />
     <Compile Include="ViewModels\Profiles\CreateProfessionalProfileViewModel.cs" />
@@ -132,6 +141,7 @@
     <Compile Include="ViewModels\Profiles\SearchProfileViewModel.cs" />
     <Compile Include="ViewModels\Profiles\SendEmailViewModel.cs" />
     <Compile Include="ViewModels\Profiles\TranslateProfileViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\UploadProductCatalogViewModel.cs" />
     <Compile Include="ViewModels\Reviews\ProfileReviewViewModel.cs" />
     <Compile Include="ViewModels\Profiles\ClaimProfileViewModel.cs" />
     <Compile Include="ViewModels\Security\ForgotPasswordViewModel.cs" />

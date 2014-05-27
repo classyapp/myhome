@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
-using ServiceStack.Text;
 using Classy.DotNet.Mvc.ActionFilters;
 using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
-using System.Web;
+using ServiceStack.Text;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -29,10 +27,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public EventHandler<ListingUpdateArgs> OnUpdateListing;
         public EventHandler<ListingCommentEventArgs> OnPostedComment;
 
-
-        /// <summary>
-        /// register routes within host app's route collection
-        /// </summary>
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRouteWithName(
@@ -46,6 +40,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: string.Concat("Create", ListingTypeName, "FromUrl"),
                 url: string.Concat(ListingTypeName.ToLower(), "/new/fromurl"),
                 defaults: new { controller = ListingTypeName, action = "CreateListingFromUrl" },
+                namespaces: new string[] { Namespace }
+                );
+
+            routes.MapRouteWithName(
+                name: string.Concat("Create", ListingTypeName, "NoCollection"),
+                url: string.Concat(ListingTypeName.ToLower(), "/new/nocollection"),
+                defaults: new { controller = ListingTypeName, action = "CreateListingNoCollection" },
                 namespaces: new string[] { Namespace }
                 );
 
@@ -113,12 +114,34 @@ namespace Classy.DotNet.Mvc.Controllers
             );
 
             routes.MapRoute(
+                name: string.Concat("FreeSearch", ListingTypeName),
+                url: "search/{q}",
+                defaults: new { controller = ListingTypeName, action = "FreeSearch" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
                 name: string.Format("PublicProfile{0}s", ListingTypeName),
                 url: string.Concat("profile/{profileId}/all/", string.Format("{0}s", ListingTypeName.ToLower())),
                 defaults: new { controller = ListingTypeName, action = "ShowListingsByType" },
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRoute(
+                name: string.Format("EditMultiple{0}s", ListingTypeName),
+                url: "listings/edit-multiple",
+                defaults: new { controller = ListingTypeName, action = "EditMultipleListings" },
+                namespaces: new string[] { Namespace }
+            );
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditMultipleListings(string[] listingIds, int? editorsRank, string room, string style)
+        {
+            var listingService = new ListingService();
+            listingService.EditMultipleListings(listingIds, editorsRank, room, style);
+
+            return new JsonResult();
         }
 
         //
@@ -424,7 +447,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     IsEditor = AuthenticatedUserProfile.IsEditor || AuthenticatedUserProfile.IsAdmin,
                     Hashtags = listing.Hashtags,
                     EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new []{""},
-                    TranslatedKeywords = listing.TranslatedKeywords
+                    TranslatedKeywords = listing.TranslatedKeywords,
+                    SearchableKeywords = listing.SearchableKeywords,
+                    EditorsRank = listing.EditorsRank
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -501,6 +526,35 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 return Json(new { error = ex.ToString() });
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult FreeSearch(FreeSearchListingsRequest request)
+        {
+            var amount = request.Amount ?? 25; // put this default value in settings somewhere
+            var page = request.Page ?? 1;
+
+            var listingService = new ListingService();
+            var searchResults = listingService.FreeSearch(request.Q, amount, page);
+
+            // order profiles so those with cover photos come first
+            var orderedpProfiles = searchResults.ProfilesResults.Results.Where(x => !x.CoverPhotos.IsNullOrEmpty())
+                .Concat(searchResults.ProfilesResults.Results.Where(x => x.CoverPhotos.IsNullOrEmpty())).ToList();
+
+            var viewModel = new FreeSearchListingsViewModel {
+                Amount = amount,
+                Location = null,
+                Page = page,
+                Q = request.Q,
+                TotalResults = searchResults.ListingsResults.Total,
+                Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList(),
+                RelatedProfessionals = orderedpProfiles
+            };
+
+            if (Request.IsAjaxRequest())
+                return PartialView(string.Concat(ListingTypeName, "Grid"), new TListingGridViewModel { Results = viewModel.Results });
+            
+            return View(viewModel);
         }
 
         //
@@ -658,6 +712,14 @@ namespace Classy.DotNet.Mvc.Controllers
             info.Metadata = model.Metadata;
 
             return PartialView("MoreInfo", info);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult CreateListingNoCollection()
+        {
+            CreateListingNoCollectionViewModel<TListingMetadata> model = new CreateListingNoCollectionViewModel<TListingMetadata>();
+            return View(string.Format("Create{0}", ListingTypeName), model);
         }
     }
 }

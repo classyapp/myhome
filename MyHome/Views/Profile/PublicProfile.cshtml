@@ -65,10 +65,15 @@
             {
                 <a href="@Url.RouteUrlForCurrentLocale("AskForReview")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-comment"></i> @Localizer.Get("Profile_AskForReview")</a>
                 <a href="#" data-toggle="modal" data-target="#select-cover-modal" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-picture"></i> @Localizer.Get("Profile_SelectCoverPhotos")</a>
+                if (Model.Profile.IsVendor)
+                {
+                    <a href="@Url.RouteUrl("UploadCatalog")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-cloud-upload"></i> @Localizer.Get("Profile_UploadCatalog")</a>
+                }
             }
             else
             {
                 <a href="@Url.RouteUrl("CreateProfessionalProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoPro")</a>
+                <a href="@Url.RouteUrl("CreateVendorProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoVendor")</a>
             }
         </div>
     }
@@ -101,7 +106,6 @@
         {
             @Html.Bootstrap().Alert(Localizer.Get("PublicProfile_EditProfileSuccess")).Closeable().Style(AlertColor.Success)
         }
-
         @if (Model.Profile.IsProfessional &&
             Request.IsAuthenticated && user.Profile.Id == Model.Profile.Id &&
             photos.Count() == 0)
@@ -149,7 +153,7 @@
                 <div class="profile-title clearfix">
                     <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
                     @if (Model.Profile.IsProfessional)
-                    { <small class="pull-left"><span class="label label-default">PRO</span></small> }
+                    { <small class="pull-left"><span class="label label-default">@(Model.Profile.IsVendor ? "VENDOR" : "PRO")</span></small> }
                 </div>
 
                 @if (Model.Profile.IsProfessional)

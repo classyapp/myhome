@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Classy.DotNet.Responses
 {
+    public class CurrencyListItemView : ListItemView
+    {
+        public string Sign { get; set; }
+    }
+
     public class ListItemView
     {
         public string Value { get; set; }

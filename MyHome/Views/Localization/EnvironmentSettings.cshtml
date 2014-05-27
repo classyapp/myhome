@@ -13,8 +13,9 @@
         }))
     {
         @Html.Bootstrap().ValidationSummary()
-        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList())
-        @f.FormGroup().DropDownListFor(x => x.CountryCode, Localizer.GetList("supported-countries").AsSelectList())
+        @f.FormGroup().DropDownListFor(x => x.CultureCode, Classy.DotNet.Responses.AppView.SupportedCultures.AsSelectList())
+        @f.FormGroup().DropDownListFor(x => x.CountryCode, Classy.DotNet.Responses.AppView.SupportedCountries.AsSelectList())
+        @f.FormGroup().DropDownListFor(x => x.CurrencyCode, Classy.DotNet.Responses.AppView.SupportedCurrencies.AsSelectList())
                 
         @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Style(ButtonStyle.Primary).Text(Localizer.Get("EnvSettings_Submit")))
     }
