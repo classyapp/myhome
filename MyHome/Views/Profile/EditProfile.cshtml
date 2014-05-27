@@ -35,7 +35,7 @@
     </div>
 
     <div class="col-md-3 text-center">
-        <img id="profileImage" class="img-circle" src="@Model.AvatarUrl" width="150" />
+        <img id="profileImage" class="img-circle" src="@Model.AvatarUrl" width="150" height="150" />
         <div class="clearfix"></div>
         <div class="upload-status hidden">
             <img src="/img/ajax-loader.gif" /><div>@Localizer.Get("EditProfile_Uploading")</div>
@@ -186,101 +186,103 @@
 
         @if (Model.IsProfessional)
         {
-        @:function checkForChanges(lang) {
-        @:    var companyName = (lang == _defaultCulture) ? "#CompanyName" : "#" + lang + "CompanyName";
-        @:    var businessDescription = (lang == _defaultCulture) ? "#ProfessionalMetadata_BusinessDescription" : "#" + lang + "BusinessDescription";
-        @:    var servicesProvided = (lang == _defaultCulture) ? "#ProfessionalMetadata_ServicesProvided" : "#" + lang + "ServicesProvided";
-        @:
-        @:    if ($(companyName).val().trim() != $(companyName).data("value").trim() ||
-        @:        $(businessDescription).val().trim() != $(businessDescription).data("value").trim() ||
-        @:        $(servicesProvided).val().trim() != $(servicesProvided).data("value").trim()) {
-        @:        bootbox.dialog({
-        @:            title: Classy.Messages.EditProfile_HasChanges,
-        @:            message: Classy.Messages.EditProfile_SaveOrDiscard,
-        @:            onEscape: function () { },
-        @:            show: true,
-        @:            buttons: {
-        @:                cancel: {
-        @:                    label: Classy.Messages.Confirm_Discard, className: "btn-default", callback: function () {
-        @:                        $(companyName).val($(companyName).data("value"));
-        @:                        $(businessDescription).data("wysihtml5").editor.setValue($(businessDescription).data("value"), true);
-        @:                        $(servicesProvided).data("wysihtml5").editor.setValue($(servicesProvided).data("value"), true);
-        @:                    }
-        @:                },
-        @:                success: {
-        @:                    label: Classy.Messages.Confirm_Save, className: "btn-danger", callback: function () {
-        @:                        // save translation
-        @:                        $.post("/profile/@Model.ProfileId/translate/" + lang,
-        @:                            {
-        @:                                ProfileId: "@Model.ProfileId",
-        @:                                CultureCode: lang,
-        @:                                CompanyName: $(companyName).val(),
-        @:                                "Metadata.BusinessDescription": $(businessDescription).val(),
-        @:                                "Metadata.ServicesProvided": $(servicesProvided).val()
-        @:                            },
-        @:                            function (response) {
-        @:                                displayMessage(response);
-        @:                                setTimeout(function () {
-        @:                                    $(companyName).data("value", $(companyName).val());
-        @:                                    $(businessDescription).data("value", $(businessDescription).data("wysihtml5").editor.getValue());
-        @:                                    $(servicesProvided).data("value", $(servicesProvided).data("wysihtml5").editor.getValue());
-        @:                                }, 1000);
-        @:                            });
-        @:                    }
-        @:                }
-        @:            }
-        @:        });
-        @:    }
-        @:}
+            <text>
+        function checkForChanges(lang) {
+            var companyName = (lang == _defaultCulture) ? "#CompanyName" : "#" + lang + "CompanyName";
+            var businessDescription = (lang == _defaultCulture) ? "#ProfessionalMetadata_BusinessDescription" : "#" + lang + "BusinessDescription";
+            var servicesProvided = (lang == _defaultCulture) ? "#ProfessionalMetadata_ServicesProvided" : "#" + lang + "ServicesProvided";
+        
+            if ($(companyName).val().trim() != $(companyName).data("value").trim() ||
+                $(businessDescription).val().trim() != $(businessDescription).data("value").trim() ||
+                $(servicesProvided).val().trim() != $(servicesProvided).data("value").trim()) {
+                bootbox.dialog({
+                    title: Classy.Messages.EditProfile_HasChanges,
+                    message: Classy.Messages.EditProfile_SaveOrDiscard,
+                    onEscape: function () { },
+                    show: true,
+                    buttons: {
+                        cancel: {
+                            label: Classy.Messages.Confirm_Discard, className: "btn-default", callback: function () {
+                                $(companyName).val($(companyName).data("value"));
+                                $(businessDescription).data("wysihtml5").editor.setValue($(businessDescription).data("value"), true);
+                                $(servicesProvided).data("wysihtml5").editor.setValue($(servicesProvided).data("value"), true);
+                            }
+                        },
+                        success: {
+                            label: Classy.Messages.Confirm_Save, className: "btn-danger", callback: function () {
+                                // save translation
+                                $.post("/profile/@Model.ProfileId/translate/" + lang,
+                                    {
+                                        ProfileId: "@Model.ProfileId",
+                                        CultureCode: lang,
+                                        CompanyName: $(companyName).val(),
+                                        "Metadata.BusinessDescription": $(businessDescription).val(),
+                                        "Metadata.ServicesProvided": $(servicesProvided).val()
+                                    },
+                                    function (response) {
+                                        displayMessage(response);
+                                        setTimeout(function () {
+                                            $(companyName).data("value", $(companyName).val());
+                                            $(businessDescription).data("value", $(businessDescription).data("wysihtml5").editor.getValue());
+                                            $(servicesProvided).data("value", $(servicesProvided).data("wysihtml5").editor.getValue());
+                                        }, 1000);
+                                    });
+                            }
+                        }
+                    }
+                });
+            }
+        }
             
-        @:$(function () {
-        @:    $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
-        @:    $("#CompanyName").data("value", $("#CompanyName").val());
-        @:    setTimeout(function () {
-        @:        $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_BusinessDescription").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
-        @:        $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_ServicesProvided").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
-        @:        $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.getValue());
-        @:        $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.getValue());
-        @:    }, 1000);
-        @:    $('#translationTabs').on('shown.bs.tab', function (e) {
-        @:        var lang = $(e.target).data('lang');
-        @:        // check for changes
-        @:        checkForChanges($(e.relatedTarget).data('lang'));
-        @:        // switch tab
-        @:        var ctx = $("div.tab-pane#" + lang);
-        @:        if (!($(e.target).data('loaded') || false)) {
-        @:            $(e.target).data('loaded', true);
-        @:            $.get("/profile/@Model.ProfileId/translate/" + lang, function (response) {
-        @:                $("#" + lang + "CompanyName").val(response.CompanyName || "");
-        @:                ctx.find("textarea.markdown").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
-        @:                $("#" + lang + "CompanyName").data("value", $("#" + lang + "CompanyName").val());
-        @:                setTimeout(function () {
-        @:                    $("#" + lang + "BusinessDescription").data("wysihtml5").editor.setValue(response.Metadata.BusinessDescription || "", false);
-        @:                    $("#" + lang + "ServicesProvided").data("wysihtml5").editor.setValue(response.Metadata.ServicesProvided || "", false);
-        @:                    $("#" + lang + "BusinessDescription").data("value", $("#" + lang + "BusinessDescription").data("wysihtml5").editor.getValue());
-        @:                    $("#" + lang + "ServicesProvided").data("value", $("#" + lang + "ServicesProvided").data("wysihtml5").editor.getValue());
-        @:                }, 1000);
-        @:            });
-        @:        }
-        @:    });
-        @:    $("#EditProfileForm").on("submit", function () {
-        @:        // get current language
-        @:        var lang = $("div[data-language].tab-pane.active").data("language");
-        @:        if (lang != _defaultCulture) {
-        @:            var companyName = "#" + lang + "CompanyName";
-        @:            var businessDescription = "#" + lang + "BusinessDescription";
-        @:            var servicesProvided = "#" + lang + "ServicesProvided";
-        @:            $.post("/profile/@Model.ProfileId/translate/" + lang,
-        @:                        {
-        @:                            ProfileId: "@Model.ProfileId",
-        @:                            CultureCode: lang,
-        @:                            CompanyName: $(companyName).val(),
-        @:                            "Metadata.BusinessDescription": $(businessDescription).val(),
-        @:                            "Metadata.ServicesProvided": $(servicesProvided).val()
-        @:                        });
-        @:        }
-        @:    });
-        @:});
+        $(function () {
+            $("#ProfessionalMetadata_BusinessDescription, #ProfessionalMetadata_ServicesProvided").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
+            $("#CompanyName").data("value", $("#CompanyName").val());
+            setTimeout(function () {
+                $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_BusinessDescription").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
+                $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.setValue($("#ProfessionalMetadata_ServicesProvided").html().replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&"), false);
+                $("#ProfessionalMetadata_BusinessDescription").data("value", $("#ProfessionalMetadata_BusinessDescription").data("wysihtml5").editor.getValue());
+                $("#ProfessionalMetadata_ServicesProvided").data("value", $("#ProfessionalMetadata_ServicesProvided").data("wysihtml5").editor.getValue());
+            }, 1000);
+            $('#translationTabs').on('shown.bs.tab', function (e) {
+                var lang = $(e.target).data('lang');
+                // check for changes
+                checkForChanges($(e.relatedTarget).data('lang'));
+                // switch tab
+                var ctx = $("div.tab-pane#" + lang);
+                if (!($(e.target).data('loaded') || false)) {
+                    $(e.target).data('loaded', true);
+                    $.get("/profile/@Model.ProfileId/translate/" + lang, function (response) {
+                        $("#" + lang + "CompanyName").val(response.CompanyName || "");
+                        ctx.find("textarea.markdown").wysihtml5({ "font-styles": false, lists: false, image: false, link: false });
+                        $("#" + lang + "CompanyName").data("value", $("#" + lang + "CompanyName").val());
+                        setTimeout(function () {
+                            $("#" + lang + "BusinessDescription").data("wysihtml5").editor.setValue(response.Metadata.BusinessDescription || "", false);
+                            $("#" + lang + "ServicesProvided").data("wysihtml5").editor.setValue(response.Metadata.ServicesProvided || "", false);
+                            $("#" + lang + "BusinessDescription").data("value", $("#" + lang + "BusinessDescription").data("wysihtml5").editor.getValue());
+                            $("#" + lang + "ServicesProvided").data("value", $("#" + lang + "ServicesProvided").data("wysihtml5").editor.getValue());
+                        }, 1000);
+                    });
+                }
+            });
+            $("#EditProfileForm").on("submit", function () {
+                // get current language
+                var lang = $("div[data-language].tab-pane.active").data("language");
+                if (lang != _defaultCulture) {
+                    var companyName = "#" + lang + "CompanyName";
+                    var businessDescription = "#" + lang + "BusinessDescription";
+                   var servicesProvided = "#" + lang + "ServicesProvided";
+                  $.post("/profile/@Model.ProfileId/translate/" + lang,
+                               {
+                                    ProfileId: "@Model.ProfileId",
+                                    CultureCode: lang,
+                                    CompanyName: $(companyName).val(),
+                                    "Metadata.BusinessDescription": $(businessDescription).val(),
+                                    "Metadata.ServicesProvided": $(servicesProvided).val()
+                                });
+                }
+            });
+        });
+            </text
         }
     </script>
 }

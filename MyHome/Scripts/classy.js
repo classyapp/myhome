@@ -112,3 +112,22 @@ Classy.UnveilImages = function () {
 $(function () {
     Classy.UnveilImages();
 });
+
+String.prototype.replaceAll = function(find, replace) {
+    return this.replace(new RegExp(find, 'g'), replace);
+};
+
+String.prototype.toSlug = function() {
+    return this
+        .toLowerCase()
+        .replaceAll('\\?', '')
+        .replaceAll('-', '')
+        .replaceAll('\\/', '')
+        .replaceAll('\\:', '')
+        .replaceAll('&', '-and-')
+        .replaceAll('\\+', '-and-')
+        .replaceAll('\\.', '')
+        .replaceAll('  ', ' ')
+        .replaceAll(' ', '-')
+        .replaceAll('--', '-');
+};

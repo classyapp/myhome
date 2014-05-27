@@ -2,6 +2,6 @@
 
 Classy.UrlBuilder = {
     ProfilePage: function(id, name) {
-        return '/profile/' + id + '/' + encodeURIComponent(name.replace(' ', '-').replace('&','-'));
+        return '/profile/' + id + '/' + name;
     }
 };
