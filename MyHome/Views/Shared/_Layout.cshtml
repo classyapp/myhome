@@ -23,7 +23,7 @@
             var ratio = ww / mw; //calculate ratio
             if (ww < mw) { //smaller than minimum size
                 var mvp = document.getElementById('viewport');
-                mvp.setAttribute('content','initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+                mvp.setAttribute('content','initial-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
             } else { //regular size
                 var mvp = document.getElementById('viewport');
                 mvp.setAttribute('content','initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
