@@ -12,15 +12,34 @@
     @*<div class="row">
         <div id="photos-count" class="col-md-12 hidden">@Localizer.Get("LoadFacebookAlbums_PhotosSelected")&nbsp;<span>0</span></div>
     </div>*@
-    <div class="row" style="margin: 20px auto;">
-        @foreach (var collection in Model)
-        {
-            <div class="col-md-4">
-                @Html.Partial("Thumbnails", collection.CoverPhotos)
-            </div>
-        }
+    <div class="collections-container row hide-when-loading">
+        <div class="row" style="margin: 20px auto;">
+            @foreach (var collection in Model)
+            {
+                <div class="col-md-4 collection" data-collection-id="@collection.Id">
+                    @Html.Partial("Thumbnails", collection.CoverPhotos)
+                </div>
+            }
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-12"><a class="btn btn-primary" onclick="selectListingsSubmit()">@Localizer.Get("SelectListingsModal_SubmitButton")</a></div>
+    
+    <div class="row photos-container hide-when-loading hidden">
+        <div><p><a href="#" class="back"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Back</a></p></div>
+        <div class="photos">
+            <!-- photos here -->
+        </div>
     </div>
+    
+    <div class="loader hidden">
+        <img src="~/img/ajax-loader.gif"/>
+    </div>
+
 </div>
+<div class="modal-footer">
+    <div class="col-md-12"><a class="btn btn-primary" onclick="selectListingsSubmit()">@Localizer.Get("SelectListingsModal_SubmitButton")</a></div>
+</div>
+
+@Scripts.Render("~/scripts/select-listings-modal.js")
+<script language="javascript" type="text/javascript">
+    Classy.Polls.SelectListingsModal().Init();
+</script>

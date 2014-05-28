@@ -494,6 +494,7 @@
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\editor-tools.js" />
     <Content Include="Scripts\create-poll.js" />
+    <Content Include="Scripts\select-listings-modal.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />

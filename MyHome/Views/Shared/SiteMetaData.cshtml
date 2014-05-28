@@ -1,4 +1,5 @@
-﻿@model object
+﻿@using System.Configuration
+@model object
 
 @{
     var language = UICulture;
@@ -13,6 +14,7 @@
     var Classy = Classy || {};
     Classy.SiteMetadata = {
         Rooms: @Html.Raw(rooms),
-        Styles: @Html.Raw(styles)
+        Styles: @Html.Raw(styles),
+        CdnUrl: '@ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]'
     };
 </script>

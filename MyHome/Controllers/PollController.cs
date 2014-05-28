@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using System.Web.Routing;
+using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
 using MyHome.Models;
@@ -21,6 +23,13 @@ namespace MyHome.Controllers
                 defaults: new { controller = "Poll", action = "SelectListingsModal" },
                 namespaces: new string[] { Namespace }
             );
+
+            routes.MapRoute(
+                name: "SelectListingPhotosModal",
+                url: "polls/create/select-photos-modal",
+                defaults: new { controller = "Poll", action = "SelectPhotosModal" },
+                namespaces: new string[] { Namespace }
+            );
         }
 
         public override string ListingTypeName
@@ -35,6 +44,21 @@ namespace MyHome.Controllers
             var collections = listingService.GetCollectionsByProfileId(AuthenticatedUserProfile.Id, collectionType, false, false, false);
 
             return PartialView("SelectListingsModal", collections);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SelectPhotosModal(string collectionId)
+        {
+            var listingService = new ListingService();
+            var collectionView = listingService.GetCollectionById(collectionId, true, false, false, false);
+
+            var listings = collectionView.Listings.Select(x => new {
+                Id = x.Id,
+                Title = x.Title,
+                Image = x.ExternalMedia.IsNullOrEmpty() ? string.Empty : x.ExternalMedia[0].Key
+            });
+
+            return Json(listings);
         }
 	}
 }

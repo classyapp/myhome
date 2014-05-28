@@ -135,7 +135,8 @@ a, a:visited
 .modal-footer
 {
     margin-top: 0px;
-    background-color: #F0F0F0;
+    /*background-color: #F0F0F0;*/
+    background-color: #fff;
 }
 
 .helpbar .content
@@ -1276,7 +1277,7 @@ div.upload #file
     position: relative;
 }
 
-    .fb-photos .thumbnail .select
+    .thumbnail .select
     {
         display: block;
         position: absolute;
@@ -1287,7 +1288,7 @@ div.upload #file
         color: #6086d5;
     }
 
-        .fb-photos .thumbnail .select.selected .glyphicon
+        .thumbnail .select.selected .glyphicon
         {
             color: #fff;
         }
