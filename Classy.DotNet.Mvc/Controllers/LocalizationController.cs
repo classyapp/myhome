@@ -144,8 +144,12 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
                 CultureName = System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName,
-                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value,
-                CurrencyCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value
+                CountryCode = System.Web.HttpContext.Current.Request.Cookies.AllKeys.Contains(Classy.DotNet.Responses.AppView.CountryCookieName) ?
+                    System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value :
+                    Classy.DotNet.Responses.AppView.DefaultCountry,
+                CurrencyCode = System.Web.HttpContext.Current.Request.Cookies.AllKeys.Contains(Classy.DotNet.Responses.AppView.CurrencyCookieName) ?
+                    System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value :
+                    Classy.DotNet.Responses.AppView.DefaultCurrency
             };
         }
 

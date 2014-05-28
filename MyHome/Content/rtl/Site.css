@@ -366,3 +366,10 @@ div.upload
 {
     float: left;
 }
+
+#navbar-search .typeahead {
+    border-radius: 0 4px 4px 0; 
+}
+#navbar-search .tt-suggestion-header {
+    padding: 2px 6px 2px 0;
+}

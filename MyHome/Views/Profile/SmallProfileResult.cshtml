@@ -27,7 +27,7 @@
     
     <div class="details">
         <div class="name">
-            <a href="@Url.RouteUrlForCurrentLocale("PublicProfile", new { profileId = Model.Id, slug = Model.ProfessionalInfo.CompanyName })">
+            <a href="@Url.RouteUrlForCurrentLocale("PublicProfile", new { profileId = Model.Id, slug = Model.ProfessionalInfo.CompanyName.ToSlug() })">
                 @Model.ProfessionalInfo.CompanyName
             </a>
         </div>

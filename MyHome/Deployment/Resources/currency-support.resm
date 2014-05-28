@@ -1,0 +1,12 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "EnvSettings_Currency",
+			"Description": "label of currency selection field in language, location and currency settings popup window",
+			"Values": {
+				"en": "Currency"
+			}
+		}
+	]
+}
