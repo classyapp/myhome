@@ -6,7 +6,7 @@
         <td>@job.JobId</td>
         <td>@job.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
         <td>@(job.UpdatedAt.HasValue ? job.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : string.Empty)</td>
-        <td>@(job.Succeeded + job.Failed) / @job.Failed @(job.Failed == 0 ? string.Empty : "<a class=\"btn btn-danger btn-sm\" href=\"/profile/jobs/@job.JobId/errors\"><i class=\"glyphicon glyphicon-download-alt\"></i></a>")</td>
+        <td>@(job.Succeeded + job.Failed) / @job.Failed @if (job.Failed > 0) { <a class="btn btn-danger btn-xs" href="/profile/job/@job.JobId/errors"><i class="glyphicon glyphicon-download-alt"></i></a> }</td>
         <td>@job.Status</td>
     </tr>
 }
