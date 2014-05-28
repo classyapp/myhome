@@ -9,9 +9,7 @@
     <h4 class="modal-title">@Localizer.Get("SelectListingsModal_Title")</h4>
 </div>
 <div class="modal-body">
-    @*<div class="row">
-        <div id="photos-count" class="col-md-12 hidden">@Localizer.Get("LoadFacebookAlbums_PhotosSelected")&nbsp;<span>0</span></div>
-    </div>*@
+    
     <div class="collections-container row hide-when-loading">
         <div class="row" style="margin: 20px auto;">
             @foreach (var collection in Model)
@@ -36,7 +34,7 @@
 
 </div>
 <div class="modal-footer">
-    <div class="col-md-12"><a class="btn btn-primary" onclick="selectListingsSubmit()">@Localizer.Get("SelectListingsModal_SubmitButton")</a></div>
+    <div class="col-md-12"><a class="btn btn-primary save-btn">@Localizer.Get("SelectListingsModal_SubmitButton")</a></div>
 </div>
 
 @Scripts.Render("~/scripts/select-listings-modal.js")

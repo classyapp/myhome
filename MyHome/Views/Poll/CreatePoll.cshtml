@@ -16,18 +16,17 @@
 
         @Html.Bootstrap().ValidationSummary()
 
-        @using (var f = Html.Bootstrap().Begin(new Form("CreatePoll", "Poll").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Poll").Type(FormType._NotSet).Id("create-poll-form")))
         {
             @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePoll_FormTitleLabel")).ShowValidationMessage(false).Label()
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
             
             <div class="alert alert-warning">
                 <div class="form-group">
+                    <div id="listings-preview" class="row"></div>
                     <div class="select-listings clearfix">
                         <span class="btn btn-warning btn-select-listings" type="button">@Localizer.Get("CreatePoll_SelectListings")</span>
                     </div>
-
-                    <div id="listings-preview" class="row"></div>
                 </div>
             </div>
             
@@ -69,5 +68,13 @@
         $('.btn-select-listings').click(function() {
             $('#select-listings-modal').modal('show');
         });
+
+        function createPoll() {
+            var listings = [];
+            $('#listings-preview img').each(function() {
+                listings.push($(this).data('listing-id'));
+            });
+            $('#create-poll-form').submit();
+        }
     </script>
 }

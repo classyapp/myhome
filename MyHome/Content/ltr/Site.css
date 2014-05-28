@@ -99,6 +99,8 @@ a, a:visited
         filter: alpha(opacity=100);
     }
 
+.loader { text-align: center; }
+
 .media > .pull-left
 {
     margin-right: 10px;

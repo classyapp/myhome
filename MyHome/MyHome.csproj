@@ -137,6 +137,7 @@
     <Compile Include="Models\Common\Modal.cs" />
     <Compile Include="Models\DiscussionMetadata.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
+    <Compile Include="Models\Polls\CreateNewPollRequest.cs" />
     <Compile Include="Models\Polls\PollMetadata.cs" />
     <Compile Include="Models\ProductMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
@@ -463,6 +464,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
+    <Content Include="Scripts\classy-images.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
