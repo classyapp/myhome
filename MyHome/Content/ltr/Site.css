@@ -1702,3 +1702,5 @@ div.thumbs4 > div.thumb
         display: block;
         margin-bottom: 10px;
     }
+
+#listings-preview { margin-bottom: 20px; }

@@ -18,6 +18,7 @@
 
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Poll").Type(FormType._NotSet).Id("create-poll-form")))
         {
+            <input type="hidden" name="CollectionType" value="Poll"/>
             @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePoll_FormTitleLabel")).ShowValidationMessage(false).Label()
             @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
             
@@ -27,6 +28,8 @@
                     <div class="select-listings clearfix">
                         <span class="btn btn-warning btn-select-listings" type="button">@Localizer.Get("CreatePoll_SelectListings")</span>
                     </div>
+                    @Html.HiddenFor(x => x.DummyFile)
+                    <input type="hidden" id="selected-listings" name="MetaData.Listings" value=""/>
                 </div>
             </div>
             
@@ -74,6 +77,10 @@
             $('#listings-preview img').each(function() {
                 listings.push($(this).data('listing-id'));
             });
+            if (listings.length > 0) {
+                $('#DummyFile').val("1");
+                $('#selected-listings').val(JSON.stringify(listings));
+            }
             $('#create-poll-form').submit();
         }
     </script>

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
+using Newtonsoft.Json;
 
 namespace MyHome.Models.Polls
 {
@@ -21,7 +23,10 @@ namespace MyHome.Models.Polls
             var properties = new Dictionary<string, string>();
 
             if (!Listings.IsNullOrEmpty())
+            {
+                Listings = JsonConvert.DeserializeObject<List<string>>(Listings.First());
                 Listings.Indexed().ForEach(x => properties.Add("Listing_" + x.Key, x.Value));
+            }
 
             if (!Votes.IsNullOrEmpty())
                 Votes.Indexed().ForEach(x => properties.Add("Vote_" + x.Key, x.Value.ToString()));
