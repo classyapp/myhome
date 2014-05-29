@@ -1704,3 +1704,43 @@ div.thumbs4 > div.thumb
     }
 
 #listings-preview { margin-bottom: 20px; }
+
+
+
+/* polls */
+.thumbnail .vote-button {
+    position: absolute;
+    bottom: 16px; right: 0;
+    padding: 6px 14px;
+    background-color: #428bca;
+    color: #fff;
+    border: solid 1px #285E8E;
+    border-right: 0;
+    border-radius: 4px 0 0 4px;
+    font-weight: bold;
+    transition: width 1s;
+    -webkit-transition: width 1s;
+    -moz-transition: width 0.3s;
+}
+.thumbnail .vote-button span {
+    float: right;
+}
+.thumbnail .vote-button .glyphicon {
+    margin: 0 6px 0 0;
+}
+.poll-stat {
+    float: left;
+}
+.poll-stat .progress {
+    position: relative;
+    width: 20px;
+    height: 230px;
+    margin-right: 6px;
+}
+.poll-stat .progress .progress-bar {
+    position: absolute;
+    bottom: 0;
+}
+.poll-results .thumbnail {
+    margin-right: 20px;
+}

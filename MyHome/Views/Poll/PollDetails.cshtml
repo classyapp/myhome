@@ -1,11 +1,13 @@
 @using Classy.DotNet.Responses
+@using Microsoft.Ajax.Utilities
+@using MyHome.Models.Polls
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.Polls.PollMetadata>
 
 @{
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
-    var pollListings = Model.ExtraData as List<ListingView>;
+    var pollListings = Model.ExtraData as PollViewExtraData;
     
     //ViewBag.Title = string.Concat(Model.Listing.Title, " - ", styles.GetText(Model.Metadata.Style), " - ", rooms.GetText(Model.Metadata.Room), " - ", Model.Listing.Profile.GetProfileName());
     ViewBag.MetaDescription = Model.Listing.Content;
@@ -45,17 +47,33 @@
         <h2>@Model.Listing.Title</h2>
         <p>@Model.Listing.Content</p>
 
-        <div class="photo clearfix">
-            @Html.Thumbnail(Model.Listing, 640, 0, false, true)
-            <div class="stats clearfix">
-                
+        <div class="poll clearfix">
+            <div class="poll-results clearfix">
+                @{
+                    var i = 0;
+                    var totalVotes = Model.Metadata.Votes.Sum(x => Convert.ToInt32(x));
+                }
+                @foreach (var pollOption in pollListings.Listings)
+                {
+                    var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
+                    var votesPercent = totalVotes == 0 ? 0 : (votes / totalVotes) * 100;
+                    i++;
+                    <div class="poll-stat">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width:100%; height:@votesPercent%;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 thumbnail vote">
+                        <div class="vote-button">
+                            <i class="glyphicon glyphicon-ok hidden"></i>
+                            <span>Vote</span>
+                        </div>
+                        @Html.Thumbnail(pollOption, 200)
+                    </div>
+                }
             </div>
         </div>
         
-        
-
-        <div id="moreCollections"></div>
-
         <hr/>
         
     </div>
@@ -117,17 +135,17 @@
     </div>
 </div>
 
-<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" id="translate-modal-replace">
-            <!-- will be replaced -->
-        </div>
-    </div>
-</div>
-
 @section scripts
 {
     <script type="text/javascript">
-        
+        $('.thumbnail.vote').click(function () {
+            var button = $(this).find('.vote-button');
+            button[0].style.width = button[0].offsetWidth + 'px';
+            var a = button[0].offsetWidth + button[0].clientWidth;
+            button[0].style.width = "86px";
+            $(this).one('transitionend', function() {
+                $(this).find('.vote-button i').removeClass('hidden');
+            });
+        });
     </script>
 }

@@ -43,10 +43,11 @@ namespace MyHome.Models.Polls
         {
             var pollMetadata = new PollMetadata();
 
-            for (var i=0; metadata.ContainsKey("Listing_" + i); i++)
+            for (var i = 0; metadata.ContainsKey("Listing_" + i); i++)
+            {
                 pollMetadata.Listings.Add(metadata["Listing_" + i]);
-            for (var i=0; metadata.ContainsKey("Vote_" + i); i++)
-                pollMetadata.Votes.Add(metadata["Vote_" + i]);
+                pollMetadata.Votes.Add(metadata.ContainsKey("Vote_" + i) ? metadata["Vote_" + i] : "0");
+            }
 
             return pollMetadata;
         }

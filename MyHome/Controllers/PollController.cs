@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Classy.DotNet.Models;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
@@ -22,7 +23,18 @@ namespace MyHome.Controllers
             var listingService = new ListingService();
             var listings = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.Listings;
             var listingViews = listingService.GetListings(listings.ToArray());
-            listingLoadedEventArgs.ListingDetailsViewModel.ExtraData = listingViews;
+
+            var logActivityService = new LogActivityService();
+            var pollId = listingLoadedEventArgs.ListingDetailsViewModel.Listing.Id;
+
+            bool userVoted = false;
+            if (AuthenticatedUserProfile != null)
+                userVoted = logActivityService.WasLogged(AuthenticatedUserProfile.Id, ActivityPredicate.VOTED_ON_POLL, pollId);
+            
+            listingLoadedEventArgs.ListingDetailsViewModel.ExtraData = new PollViewExtraData {
+                Listings = listingViews,
+                UserVoted = userVoted
+            };
         }
 
         public override void RegisterRoutes(RouteCollection routes)

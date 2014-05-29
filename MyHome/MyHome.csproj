@@ -140,6 +140,7 @@
     <Compile Include="Models\PhotoMetadata.cs" />
     <Compile Include="Models\Polls\CreateNewPollRequest.cs" />
     <Compile Include="Models\Polls\PollMetadata.cs" />
+    <Compile Include="Models\Polls\PollViewExtraData.cs" />
     <Compile Include="Models\ProductMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
     <Compile Include="Models\ProfileReviewCriteria.cs" />

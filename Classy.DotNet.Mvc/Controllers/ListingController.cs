@@ -333,9 +333,12 @@ namespace Classy.DotNet.Mvc.Controllers
                     Listing = listing,
                     Metadata = listingMetadata
                 };
-                OnListingLoaded(this, new ListingLoadedEventArgs<TListingMetadata> {
+                var listingLoadedEventArgs = new ListingLoadedEventArgs<TListingMetadata> {
                     ListingDetailsViewModel = model
-                });
+                };
+                OnListingLoaded(this, listingLoadedEventArgs);
+                model.ExtraData = listingLoadedEventArgs.ListingDetailsViewModel.ExtraData;
+
                 return View(string.Concat(ListingTypeName, "Details"), model);
             }
             catch(ClassyException cex)
