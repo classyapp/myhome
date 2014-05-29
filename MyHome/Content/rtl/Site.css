@@ -355,6 +355,18 @@ div.upload
     float: right;
 }
 
+.product-details .product-images img
+{
+    margin: 4px 2px;
+    float: right;
+    cursor: pointer;
+}
+
+.product-details #buynow
+{
+    float: left;
+}
+
 #navbar-search .typeahead {
     border-radius: 0 4px 4px 0; 
 }

@@ -188,10 +188,10 @@
             var metadata = {};
             @if (Model.Metadata.IsWebPhoto && !string.IsNullOrWhiteSpace(Model.Metadata.Host))
             {
-                @:metadata = { "IsWebPhoto": ["True"], "Host": ["@Model.Metadata.Host"] };
+                @:metadata = { "IsWebPhoto": "True", "Host": "@Model.Metadata.Host" };
             }
             // load more info
-            $.get("/photo/@Model.Listing.Id/more", { Metadata: metadata }, function (response) {
+            $.get("/photo/@Model.Listing.Id/more", { Metadata: metadata, Query: { } }, function (response) {
                 var html = $(response);
                 $("#moreinfo").append(html.find("#sameProject"));
                 $("#moreinfo").append(html.find("#sameWebOrigin"));

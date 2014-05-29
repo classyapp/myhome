@@ -26,7 +26,7 @@ namespace MyHome.Controllers
 
         public void ProfileController_OnParseProfilesCsvLine(object sender, ParseProfilesCsvLineArgs<ProfessionalMetadata> e)
         {
-            var countries = Localizer.GetList("supported-countries");
+            var countries = AppView.SupportedCountries;
             if (e.IsHeaderLine) return;
             else
             {

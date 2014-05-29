@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = Localizer.Get("EditProfile_BrowserTitle");
-    var cultures = Localizer.GetList("supported-cultures");
+    var cultures = Classy.DotNet.Responses.AppView.SupportedCultures;
     var translationCultures = cultures.Where(c => c.Value != Model.DefaultCulture && c.Value != System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
     var secondaryCulture = cultures.FirstOrDefault(c => c.Value == System.Threading.Thread.CurrentThread.CurrentUICulture.Name && c.Value != Model.DefaultCulture);
 }
@@ -77,11 +77,11 @@
                     <li class="active"><a href="#@Model.DefaultCulture" data-loaded="true" data-lang="@Model.DefaultCulture" data-toggle="tab">@cultures.GetText(Model.DefaultCulture)</a></li>
                     @if (secondaryCulture != null)
                     { 
-                        <li><a href="#@secondaryCulture.Value" data-lang="@secondaryCulture.Value" data-toggle="tab">@secondaryCulture.Text</a></li>
+                        <li><a href="#@secondaryCulture.Value" data-lang="@secondaryCulture.Value" data-toggle="tab">@secondaryCulture.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]</a></li>
                     }
                     @foreach (var culture in translationCultures)
                     {
-                        <li><a href="#@culture.Value" data-lang="@culture.Value" data-toggle="tab">@culture.Text</a></li>
+                        <li><a href="#@culture.Value" data-lang="@culture.Value" data-toggle="tab">@culture.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]</a></li>
                     }
                 </ul>
                 <p></p>
@@ -125,7 +125,7 @@
                 @f.FormGroup().TextBoxFor(x => x.Street1).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Street2).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.City).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().DropDownListFor(x => x.Country, Localizer.GetList("supported-countries").AsSelectList()).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                @f.FormGroup().DropDownListFor(x => x.Country, Classy.DotNet.Responses.AppView.SupportedCountries.AsSelectList()).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.PostalCode).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             
                 <p>&nbsp;</p>

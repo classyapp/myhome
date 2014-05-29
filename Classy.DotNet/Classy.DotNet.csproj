@@ -110,6 +110,7 @@
     <Compile Include="Services\AnalyticsService.cs" />
     <Compile Include="Services\GoogleContactView.cs" />
     <Compile Include="Services\GoogleTranslationService.cs" />
+    <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\ListingService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\ProfileService.cs" />

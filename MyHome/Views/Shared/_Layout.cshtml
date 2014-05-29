@@ -39,7 +39,7 @@
     @RenderSection("MetaTags", false)
 
     <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
-    @foreach (var culture in Localizer.GetList("supported-cultures"))
+    @foreach (var culture in Classy.DotNet.Responses.AppView.SupportedCultures)
     {
         <link rel="alternate" hreflang="@culture.Value" href="https://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
     }
