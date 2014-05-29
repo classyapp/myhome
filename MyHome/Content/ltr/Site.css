@@ -1743,3 +1743,15 @@ div.thumbs4 > div.thumb
 .loginlink a, .loginlink a:hover {
     color: #428BCA;
 }
+
+body.mobile
+{
+    padding-top: 0px;
+}
+
+    body.mobile .navbar-fixed-top
+    {
+        position: relative;
+        left: auto;
+        right: auto;
+    }
