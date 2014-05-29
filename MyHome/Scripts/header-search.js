@@ -45,7 +45,8 @@
 
     $('#q.typeahead').typeahead({
         minLength: 2,
-        hightlight: true
+        hightlight: true,
+        hint: false
     }, {
         name: 'rooms-suggestions',
         displayKey: 'Value',
@@ -79,8 +80,13 @@
     {
         name: 'free-search-suggestion',
         displayKey: 'Value',
-        source: function (query, callback) {
-            callback([{ Value: 'Search for \'<strong>' + query + '</strong>\'' }]);
+        source: function(query, callback) {
+            callback([{ Value: query }]);
+        },
+        templates: {
+            suggestion: function(query) {
+                return '<p>Search for \'<strong>' + query.Value + '</strong>\'</p>';
+            }
         }
     });
 
@@ -92,7 +98,7 @@
         else if (dataset == 'keywords-suggestion')
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
         else
-            window.location.href = '//' + window.location.host + '/search/' + $($('#q').val()).html().toSlug();
+            window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
     });
 
     $("#q").keyup(function (e) {
