@@ -26,6 +26,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public EventHandler<ListingUpdateArgs> OnUpdateListing;
         public EventHandler<ListingCommentEventArgs> OnPostedComment;
+        public EventHandler<ListingLoadedEventArgs<TListingMetadata>> OnListingLoaded;
 
         public override void RegisterRoutes(RouteCollection routes)
         {
@@ -327,11 +328,14 @@ namespace Classy.DotNet.Mvc.Controllers
                     true,
                     true);
                 var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
-                var model = new ListingDetailsViewModel<TListingMetadata>
+                var model = new ListingDetailsViewModel<TListingMetadata> 
                 {
                     Listing = listing,
                     Metadata = listingMetadata
                 };
+                OnListingLoaded(this, new ListingLoadedEventArgs<TListingMetadata> {
+                    ListingDetailsViewModel = model
+                });
                 return View(string.Concat(ListingTypeName, "Details"), model);
             }
             catch(ClassyException cex)

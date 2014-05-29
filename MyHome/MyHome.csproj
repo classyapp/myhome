@@ -577,6 +577,7 @@
     <Content Include="Views\Poll\CreatePoll.cshtml" />
     <Content Include="Views\Poll\SelectListingsModal.cshtml" />
     <Content Include="Views\Common\Modal.cshtml" />
+    <Content Include="Views\Poll\PollDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

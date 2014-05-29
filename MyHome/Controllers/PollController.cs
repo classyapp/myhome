@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
@@ -9,9 +10,20 @@ using MyHome.Models.Polls;
 
 namespace MyHome.Controllers
 {
-    public class PollController : Classy.DotNet.Mvc.Controllers.ListingController<PollMetadata, PhotoGridViewModel>
+    public class PollController : ListingController<PollMetadata, PhotoGridViewModel>
     {
-        public PollController() : base("MyHome.Controllers") { }
+        public PollController() : base("MyHome.Controllers")
+        {
+            base.OnListingLoaded += PollController_OnListingLoaded;
+        }
+
+        private void PollController_OnListingLoaded(object sender, ListingLoadedEventArgs<PollMetadata> listingLoadedEventArgs)
+        {
+            var listingService = new ListingService();
+            var listings = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.Listings;
+            var listingViews = listingService.GetListings(listings.ToArray());
+            listingLoadedEventArgs.ListingDetailsViewModel.ExtraData = listingViews;
+        }
 
         public override void RegisterRoutes(RouteCollection routes)
         {
