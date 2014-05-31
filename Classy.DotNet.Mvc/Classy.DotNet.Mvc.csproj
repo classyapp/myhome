@@ -75,6 +75,7 @@
     <Compile Include="Config\FeatureSwitchProvider.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\LoadPublicProfileEventArgs.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContactProfessionalArgs.cs" />

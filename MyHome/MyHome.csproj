@@ -168,6 +168,10 @@
     <Content Include="Deployment\Newtonsoft.Json.dll" />
     <Content Include="Deployment\Resources\currency-support.resm" />
     <Content Include="Deployment\Resources\add-missing-keys-2.resm" />
+    <Content Include="Deployment\Resources\add-missing-keys-3.resm" />
+    <Content Include="Deployment\Resources\new-proxy-page.resm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -569,10 +573,15 @@
     <Content Include="Views\Photo\FreeSearch.cshtml" />
     <Content Include="Views\Profile\UploadCatalog.cshtml" />
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
+    <Content Include="Views\Product\ProductDetails.cshtml" />
+    <Content Include="Views\Shared\ProductActions.cshtml" />
+    <Content Include="Views\Product\MoreInfo.cshtml" />
     <Content Include="Views\Profile\SmallProfileResult.cshtml" />
     <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
     <Content Include="Views\Shared\SiteMetadata.cshtml" />
     <Content Include="Views\Photo\EditorTools.cshtml" />
+    <Content Include="Views\Profile\_ProfileJobsRows.cshtml" />
+    <Content Include="Views\Profile\ProxyLandingPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
