@@ -1,10 +1,8 @@
-﻿using Classy.DotNet.Mvc.Controllers;
-using Mandrill;
-using MyHome.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
-using System.Web;
+using System.Reflection;
+using Classy.DotNet.Mvc.Controllers;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Mvc.Localization;
@@ -15,74 +13,25 @@ namespace MyHome
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            Debugger.Launch();
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            #region // security controller 
+            var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
 
-            var securityController = new MyHome.Controllers.SecurityController();
-            securityController.RegisterRoutes(routes);
+            var controllers = controllerAssemblies.SelectMany(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof (BaseController)) && !t.IsGenericType));
+            foreach (var controller in controllers)
+            {
+                var controllerInstance = Activator.CreateInstance(controller);
+                var baseControllerInstance = (controllerInstance) as BaseController;
 
-            #endregion
+                if (baseControllerInstance == null)
+                    throw new Exception("Could not register routes in " + controller.Name);
 
-            #region // reviews
-
-            var reviewController = new MyHome.Controllers.ReviewController();
-            reviewController.RegisterRoutes(routes);
-
-            #endregion
-
-            #region // profiles
-
-            var profileController = new MyHome.Controllers.ProfileController();
-            profileController.RegisterRoutes(routes);
-
-            #endregion
-
-            #region // listing types
-
-            var photoController = new MyHome.Controllers.PhotoController();
-            photoController.RegisterRoutes(routes);
-
-            var productController = new MyHome.Controllers.ProductController();
-            productController.RegisterRoutes(routes);
-
-            var discussionController = new MyHome.Controllers.DiscussionController();
-            discussionController.RegisterRoutes(routes);
-
-            #endregion
-
-            #region // collections
+                baseControllerInstance.RegisterRoutes(routes);
+            }
             
-            var collectionController = new Classy.DotNet.Mvc.Controllers.CollectionController();
-            collectionController.RegisterRoutes(routes);
-
-            #endregion
-
-            #region // localization
-
-            var localizationController = new Classy.DotNet.Mvc.Controllers.LocalizationController();
-            localizationController.RegisterRoutes(routes);
-
-            #endregion 
-
-            #region // static pages
-
-            var staticController = new MyHome.Controllers.StaticPagesController();
-            staticController.RegisterRoutes(routes);
-
-            #endregion
-
-            #region // home page
-
-            var homePageController = new Classy.DotNet.Mvc.Controllers.HomePageController();
-            homePageController.RegisterRoutes(routes);
-
-            var searchController = new SearchController();
-            searchController.RegisterRoutes(routes);
-
-            #endregion
-
-            // catchall route
+            // default asp.net mvc route pattern
             routes.MapRouteForSupportedLocales(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
