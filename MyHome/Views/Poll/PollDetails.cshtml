@@ -56,7 +56,7 @@
                 @foreach (var pollOption in pollListings.Listings)
                 {
                     var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
-                    var votesPercent = totalVotes == 0 ? 0 : (votes / totalVotes) * 100;
+                    var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);
                     i++;
                     <div class="poll-stat">
                         <div class="progress">
