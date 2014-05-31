@@ -485,21 +485,21 @@ a, a:visited
     text-align: left;
 }
 
-.photo-details .photo .stats
+.photo-details .photo .stats, .product-details .photo .stats
 {
     color: #aaa;
     margin-top: 10px;
 }
 
-.photo-details .photo .stats span
-{
-    display: inline-block;
-    margin-right: 20px;
-    padding: 5px 0;
-    float: left;
-}
+    .photo-details .photo .stats span, .product-details .photo .stats span
+    {
+        display: inline-block;
+        margin-right: 20px;
+        padding: 5px 0;
+        float: left;
+    }
 
-.photo-details .actions,
+.photo-details .actions, .product-details .actions,
 .collection .share-actions
 {
     position: relative;
@@ -508,7 +508,7 @@ a, a:visited
     top: 0;
 }
 
-.photo-details .actions .share-email,
+.photo-details .actions .share-email,.product-details .actions .share-email,
 .collection .share-actions .share-email
 {
     border: none;
@@ -518,34 +518,36 @@ a, a:visited
     background-color: #aad450;
     color: #fff;
 }
-.photo-details .actions .share-facebook,
+
+.photo-details .actions .share-facebook, .product-details .actions .share-facebook,
 .collection .share-actions .share-facebook
 {
     background-color: #3b5998;
     color: #fff;
     border: none;
-font-size: 18px;
-padding: 3px;
+    font-size: 18px;
+    padding: 3px;
 }
-.photo-details .actions .share-twitter,
+
+.photo-details .actions .share-twitter, .product-details .actions .share-twitter,
 .collection .share-actions .share-twitter
 {
     background-color: #00aced;
-        color: #fff;
+    color: #fff;
     border: none;
-font-size: 18px;
-padding: 3px;
+    font-size: 18px;
+    padding: 3px;
 }
-.photo-details .actions .share-google-plus,
+.photo-details .actions .share-google-plus, .product-details .actions .share-google-plus,
 .collection .share-actions .share-google-plus
 {
     background-color: #dd4b39;
-        color: #fff;
+    color: #fff;
     border: none;
-font-size: 18px;
-padding: 3px;
+    font-size: 18px;
+    padding: 3px;
 }
-.photo-details .profile img
+.photo-details .profile img, .product-details .profile img
 {
     margin-right: 10px;
 }
@@ -1664,7 +1666,7 @@ div.thumbs4 > div.thumb
 {
     margin-bottom: 0px;
 }
-#sameProject .panel-body, #sameWebOrigin .panel-body
+#sameProject .panel-body, #sameWebOrigin .panel-body, #sameCategories .panel-body
 {
     max-height: 240px;
     overflow-y: auto;
@@ -1676,14 +1678,14 @@ div.thumbs4 > div.thumb
     overflow-y: auto;
 }
 
-#sameProject img, #sameWebOrigin img
+#sameProject img, #sameWebOrigin img, #sameCategories img
 {
     float: left;
     padding: 2px;
     margin: 2px;
 }
 
-#sameProject .panel-heading, #sameWebOrigin .panel-heading, #projectsSameProfile .panel-heading
+#sameProject .panel-heading, #sameWebOrigin .panel-heading, #projectsSameProfile .panel-heading, #sameCategories .panel-heading
 {
     font-weight: bold;
     margin-bottom: 5px;
@@ -1716,7 +1718,40 @@ div.thumbs4 > div.thumb
         margin-bottom: 10px;
     }
 
+.product-details .product-images img
+{
+    margin: 4px 2px;
+    float: left;
+    cursor: pointer;
+}
 
-    .loginlink a, .loginlink a:hover {
-        color: #428BCA;
+.product-details #buynow
+{
+    float: right;
+}
+
+.product-details .dl-horizontal dd
+{
+    margin-bottom: 10px;
+}
+
+.product-details .dl-horizontal select
+{
+    width: 200px;
+}
+
+.loginlink a, .loginlink a:hover {
+    color: #428BCA;
+}
+
+body.mobile
+{
+    padding-top: 0px;
+}
+
+    body.mobile .navbar-fixed-top
+    {
+        position: relative;
+        left: auto;
+        right: auto;
     }

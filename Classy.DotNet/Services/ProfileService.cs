@@ -442,7 +442,6 @@ namespace Classy.DotNet.Services
             var request = ClassyAuth.GetAuthenticatedWebRequest(UPLOAD_CATALOG_URL);
             WebResponse response = HttpUploadFile(request, "POST", catalog.InputStream.ReadFully(), catalog.ContentType,
                 new Dictionary<string, object> { { "ProfileId", profileId }, { "CatalogTemplateType", catalogTemplateType }, { "OverwriteListings", overwriteListings }, { "UpdateImages", updateImages } });
-            byte[] bytes = response.GetResponseStream().ReadFully();
         }
     }
 }

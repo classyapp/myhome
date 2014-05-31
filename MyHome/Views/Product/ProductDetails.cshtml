@@ -1,0 +1,334 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.ProductMetadata>
+
+@{
+    var proCategories = Localizer.GetList("professional-categories");
+    
+    ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Listing.Profile.GetProfileName());
+    ViewBag.MetaDescription = Model.Listing.Content;
+
+    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value).Sign;
+}
+
+@section MetaTags {
+    <meta name="og:title" content="@Model.Listing.Title" />
+    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? Localizer.Get("ProductDetails_Description", false) : Model.Listing.Content)" />
+    @if (Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length > 0 && false)
+    {
+        <meta name="og:image" content="@Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.First(x => x.Key == Model.Listing.PricingInfo.PurchaseOptions[0].DefaultImage).Url" />
+    }
+}
+
+@section ActionBar {
+    @if (Model.Listing.CanEdit())
+    {
+        <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditProduct")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("ProductDetails_Edit")</a>
+    }
+}
+
+<div class="row product-details">    
+    <div class="col-md-12">
+        @if (TempData["PostComment_Success"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+        }
+
+        <div class="ajax-alert">
+            @if (Request.QueryString["msg"] != null)
+            {
+                <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><p>@Localizer.Get(Request.QueryString["msg"])</p></div> 
+            }
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h2>@Model.Listing.Title</h2>
+
+        <div class="photo clearfix">
+            @if (Model.Listing.ExternalMedia != null && Model.Listing.ExternalMedia.Count > 0)
+            {
+                @Html.Thumbnail(Model.Listing.ExternalMedia[0].Key, 640, 0)
+                <div class="product-images default-images">
+                @for (int i = 0; i < Model.Listing.ExternalMedia.Count; i++)
+                {
+                    @Html.Thumbnail(Model.Listing.ExternalMedia[i].Key, 120)
+                }
+            </div>
+            }
+            else
+            {
+                @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[0].Key, 640, 0)
+                <div class="product-images default-images">
+                @for (int i = 0; i < Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length; i++)
+                {
+                    @Html.Thumbnail(Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles[i].Key, 120)
+                }
+            </div>
+            }
+            
+            <div class="product-images other hidden">
+            </div>
+            <div class="clearfix"></div>
+            <div class="stats">
+                <span><i class="glyphicon glyphicon-eye-open"></i> @string.Format(Localizer.Get("ProductDetails_ViewCount"), Model.Listing.ViewCount)</span>
+                <span><i class="glyphicon glyphicon-th-large"></i> @string.Format(Localizer.Get("ProductDetails_CollectionCount"), Model.Listing.AddToCollectionCount)</span>
+                <span><i class="glyphicon glyphicon-heart-empty"></i> @string.Format(Localizer.Get("ProductDetails_FavoriteCount"), Model.Listing.FavoriteCount)</span>
+                <span><i class="glyphicon glyphicon-comment"></i> @string.Format(Localizer.Get("ProductDetails_CommentCount"), Model.Listing.CommentCount)</span>
+            </div>
+            <div class="clearfix"></div>
+            <div>
+                <a class="btn btn-primary" id="buynow" href="@Model.Metadata.ProductUrl" target="_blank">@Localizer.Get("ProductDetails_BuyNow")</a>
+            </div>
+        </div>
+        
+        <p>@Model.Listing.Content</p>
+
+        <div id="moreCollections"></div>
+
+        <hr/>
+
+        <h4>@Localizer.Get("ProductDetails_InThisPhoto")</h4>
+        <div>
+            <dl class="dl-horizontal">
+                @if (Model.Listing.PricingInfo.PurchaseOptions.Count == 1)
+                {
+                    if (Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties != null)
+                    {
+                        foreach (var option in Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties.Keys)
+                        {
+                            <dt>@option</dt>
+                            <dd>@Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties[option]</dd>
+                        }
+                    }
+                }
+                else
+                {
+                    var properties = new Dictionary<string, List<string>>();
+                    foreach (var option in Model.Listing.PricingInfo.PurchaseOptions)
+                    {
+                        if (option.VariantProperties != null)
+                        {
+                            foreach (var property in option.VariantProperties.Keys)
+                            {
+                                List<string> values = null;
+                                if (!properties.TryGetValue(property, out values))
+                                {
+                                    values = new List<string>();
+                                    values.Add(option.VariantProperties[property]);
+                                    properties.Add(property, values);
+                                }
+                                else
+                                {
+                                    if (!values.Contains(option.VariantProperties[property]))
+                                    {
+                                        values.Add(option.VariantProperties[property]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    foreach (var option in properties.Keys)
+                    {
+                        <dt>@option</dt>
+                        <dd>
+                            <select data-variant-property="true" class="form-control" data-name="@option">
+                                @foreach (var value in properties[option])
+                                {
+                                    <option value="@value">@value</option>
+                                }
+                            </select>
+                        </dd>
+                    }
+                }
+                <dt class="compare-at-price @(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@Localizer.Get("ProductDetails_CompareAtPrice")</dt>
+                <dd class="compare-at-price @(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.Value) : string.Empty)</dd>
+                <dt class="price">@Localizer.Get("ProductDetails_Price")</dt>
+                <dd class="price">@string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].Price)</dd>    
+                @{
+                    var hashtags = Model.Listing.Hashtags;
+                    if (Model.Listing.TranslatedKeywords != null && Model.Listing.TranslatedKeywords.ContainsKey(UICulture))
+                    {
+                        hashtags = hashtags.Union(Model.Listing.TranslatedKeywords[UICulture]).ToList();
+                    }
+                }
+                @if (hashtags.Count > 0)
+                {
+                    <dt>@Localizer.Get("ProductDetails_Keywords")</dt>
+                    <dd>
+                        @foreach (var t in hashtags)
+                        {
+                            @Html.RouteLinkForCurrentLocale(t.TrimStart('#'), "SearchProduct", new { filters = t.TrimStart('#').ToLower().Replace("  ", " ").Replace(" ", "-") })<span>&nbsp;</span>
+                        }
+                    </dd>
+                }
+                @if (!string.IsNullOrEmpty(Model.Metadata.Style))
+                {
+                <dt>@Localizer.Get("ProductDetails_Style")</dt>
+                <dd>@Model.Metadata.Style</dd>
+                }
+                <dt class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Width")</dt>
+                <dd class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Width</dd>    
+                <dt class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Depth")</dt>
+                <dd class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Depth</dd>    
+                <dt class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Height")</dt>
+                <dd class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Height</dd>    
+                @if (!string.IsNullOrEmpty(Model.Metadata.Materials))
+                {
+                <dt>@Localizer.Get("ProductDetails_Materials")</dt>
+                <dd>@Model.Metadata.Materials</dd>
+                }
+                @if (!string.IsNullOrEmpty(Model.Metadata.Manufacturer))
+                {
+                <dt>@Localizer.Get("ProductDetails_Manufacturer")</dt>
+                <dd>@Model.Metadata.Manufacturer</dd>
+                }
+                @if (!string.IsNullOrEmpty(Model.Metadata.Designer))
+                {
+                <dt>@Localizer.Get("ProductDetails_Designer")</dt>
+                <dd>@Model.Metadata.Designer</dd>
+                }
+            </dl>
+        </div>
+
+    </div>
+    <div class="col-md-5">
+        <div class="profile clearfix">
+            <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
+            <div class="details">
+                @Html.ProfileLink(Model.Listing.Profile)
+                @if (Model.Listing.Profile.IsVendor && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Listing.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
+        </div>
+
+        <hr />
+
+        @Html.Partial("ProductActions", new MyHome.Models.PhotoActionsViewModel { Listing = Model.Listing, ShowCollect = true, ShowFavorite = true, ShowShare = true, IsStatic = true })
+
+        <hr />
+
+        <div id="moreinfo"></div>
+
+        <div class="panel panel-default" id="projectsSameListing">
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("ProductDetails_Comments")</h4>
+            </div>
+                <div class="panel-body">
+                    @if (Model.Listing.CommentCount == 0)
+                    {
+                        <p>@Localizer.Get("ProductDetails_NoComments")</p>
+                    }
+
+                    @foreach (var c in Model.Listing.Comments)
+                    {
+                        <p class="comment">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
+                                </div>
+                                <div class="media-body">
+                                    <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                                    <p>@c.Content</p>
+                                </div>
+                            </div>
+                        </p>
+                    }
+
+                    @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Product")))
+                    {
+                        @Html.Hidden("ListingId", Model.Listing.Id);
+                        @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("ProductComment_Tip")).Label().LabelText(Localizer.Get("ProductDetails_Comment_Content"))
+                        @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("ProductDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="translate-modal" data-remote="" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="translate-modal-replace">
+            <!-- will be replaced -->
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var currencySign = "@currencySign";
+        var purchaseOptions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Listing.PricingInfo.PurchaseOptions));
+        $(function () {
+            var metadata = { };
+            var query = { "Categories": "@(String.Join(",", Model.Listing.Categories))" };
+            // load more info
+            $.post("/product/@Model.Listing.Id/more", { Metadata: metadata, Query: query }, function (response) {
+                var html = $(response);
+                $("#moreinfo").append(html.find("#sameProject"));
+                $("#moreinfo").append(html.find("#projectsSameListing"));
+                Classy.UnveilImages();
+            }, "html");
+
+            var updateSelectedOption = function(){
+                // build query object
+                var query = {};
+                $("select[data-variant-property=true]").each(function(idx, item) { query[$(item).data("name")] = $(item).val() });
+
+                // find relevant product variant
+                var variant = null;
+                for (var i = 0; i < purchaseOptions.length && variant == null; i++) {
+                    var found = true;
+                    for(var prop in query){
+                        found &= purchaseOptions[i].VariantProperties[prop] === query[prop];
+                    }
+                    if (found) { variant = purchaseOptions[i] }
+                }
+
+                $("dd.price").html(currencySign + " " + variant.Price.toFixed(2));
+                if (variant.CompareAtPrice != null) {
+                    $("dd.compare-at-price").html(currencySign + " " + variant.CompareAtPrice.toFixed(2)).toggleClass("hidden", false);
+                } else { $("dd.compare-at-price").toggleClass("hidden", true);}
+
+                if (variant.Width != null){
+                    $("dd.width").html(variant.Width).toggleClass("hidden", false);
+                } else { $("dd.width").toggleClass("hidden", true);}
+                if (variant.Depth != null){
+                    $("dd.depth").html(variant.Depth).toggleClass("hidden", false);
+                } else { $("dd.depth").toggleClass("hidden", true);}
+                if (variant.Height != null){
+                    $("dd.height").html(variant.Height).toggleClass("hidden", false);
+                } else { $("dd.height").toggleClass("hidden", true);}
+
+                // images
+                if (variant.MediaFiles != null && variant.MediaFiles.length != 0){
+                    $(".product-images.other").html('');
+                    for (var i = 0; i < variant.MediaFiles.length; i++) {
+                        $(".product-images.other").append("<img src='//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + variant.MediaFiles[i].Key + "?Width=120&Height=120&format=json' data-key='" + variant.MediaFiles[i].Key + "' data-rel='thumbnail' width='120' height='120' style='opacity: 1' />");
+                    }
+                    $(".product-images.other").toggleClass("hidden", false);
+                    $(".product-images.default-images").toggleClass("hidden", true);
+                    $(".product-details .product-images img").on('click', function() {
+                        $(".product-details .photo > img").attr('src', "//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + $(this).data("key") + "?Width=640&Height=0&format=json");
+                    });
+                    $(".product-images.other img:first-child").click();
+                }
+                else { // default images
+                    $(".product-images.other").toggleClass("hidden", true);
+                    $(".product-images.default-images").toggleClass("hidden", false);
+                    $(".product-images.default-images img:first-child").click();
+                }
+            };
+
+            $("select[data-variant-property=true]").on("change", updateSelectedOption);
+
+            $(".product-details .product-images img").on('click', function() {
+                $(".product-details .photo > img").attr('src', "//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + $(this).data("key") + "?Width=640&Height=0&format=json");
+            });
+
+            updateSelectedOption();
+        });
+    </script>
+}

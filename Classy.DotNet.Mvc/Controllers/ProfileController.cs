@@ -147,6 +147,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 namespaces: new string[] { Namespace }
             );
 
+            routes.MapRouteWithName(
+                name: "ProfileJobErrors",
+                url: "profile/job/{jobid}/errors",
+                defaults: new { controller = "Profile", action = "ProfileJobErrors" },
+                namespaces: new string[] { Namespace }
+            );
+
             routes.MapRoute(
                 name: "FollowProfile",
                 url: "profile/{username}/follow",
@@ -1220,7 +1227,25 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ProfileJobs()
         {
-            return View();
+            JobService service = new JobService();
+            IList<JobView> jobs = service.GetJobsStatus(AuthenticatedUserProfile.Id);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_ProfileJobsRows", jobs);
+            }
+            else
+            {
+                return View(jobs);
+            }
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ProfileJobErrors(string jobid)
+        {
+            JobService service = new JobService();
+            string errors = service.GetJobErrors(jobid);
+            return File(Encoding.UTF8.GetBytes(errors), "text/csv", string.Format("errors_{0}.csv", jobid));
         }
         #endregion
     }

@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "ManageResources";
     var isInvalidKey = TempData["InvalidKey"] != null;
-    var supportedCultures = Localizer.GetList("supported-cultures");
+    var supportedCultures = Classy.DotNet.Responses.AppView.SupportedCultures;
 }
 
 <h2>@Localizer.Get("ManageResources_Title")</h2>

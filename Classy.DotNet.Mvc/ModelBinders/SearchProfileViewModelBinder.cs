@@ -58,20 +58,20 @@ namespace Classy.DotNet.Mvc.ModelBinders
             countryCode = null;
 
             // parse country
-            var countries = Localizer.GetList("supported-countries");
+            var countries = Classy.DotNet.Responses.AppView.SupportedCountries;
             foreach (var val in filters)
             {
                 if (countries.Any(x => x.Value.ToLower() == val))
                 {
                     var entry = countries.Single(x => x.Value.ToLower() == val);
-                    country = entry.Text;
+                    country = entry.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName];
                     countryCode = entry.Value;
                     break;
                 }
-                else if (countries.Any(x => x.Text.ToLower() == val))
+                else if (countries.Any(x => x.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName].ToLower() == val))
                 {
-                    var entry = countries.Single(x => x.Text.ToLower() == val);
-                    country = entry.Text;
+                    var entry = countries.Single(x => x.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName].ToLower() == val);
+                    country = entry.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName];
                     countryCode = entry.Value;
                     break;
                 }

@@ -1,0 +1,52 @@
+﻿@model Classy.DotNet.Responses.ListingMoreInfoView
+
+<div>    
+    @*Photos from the same category*@
+    @if (Model.SearchResults != null && Model.SearchResults.Count > 0)
+    {
+         <div class="panel panel-default" id="sameCategories">
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("ProductDetails_MoreInfo_SameCategories")</h4>
+            </div>
+            <div class="panel-body">
+                @{
+                    int i = 0;
+                    foreach (var listing in Model.SearchResults)
+                    {
+                        <a href="@Url.RouteUrlForCurrentLocale("ProductDetails", new { ListingId = listing.Id, Slug = listing.Title.ToSlug() })" title="@listing.Title">
+                            @Html.Thumbnail(listing, 150, 150, true, true)
+                        </a>
+                        if (i == 9) { break; }                   
+                    }
+                }
+            </div>
+        </div>
+    }
+
+    @*Projects / Collections containing this listing*@
+    @if (Model.Collections != null && Model.Collections.Count > 0)
+    {
+        <div class="panel panel-default" id="projectsSameListing">
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("ProductDetails_MoreInfo_ProjectsTitle")</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    @foreach (var collection in Model.Collections)
+                    {
+                        <div class="col-md-4">
+                            <div class="photo thumbnail">
+                                <a href="@Url.RouteUrlForCurrentLocale("CollectionDetails", new { collectionId = collection.Id, view = "grid" })">
+                                    @Html.Partial("Thumbnails", collection.CoverPhotos)
+                                    <div class="details">
+                                        <strong title="@collection.Title">@collection.Title</strong>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Classy.DotNet.Responses.JobView>
+
+@foreach (var job in Model)
+{
+    <tr>
+        <td>@job.JobId</td>
+        <td>@job.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+        <td>@(job.UpdatedAt.HasValue ? job.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : string.Empty)</td>
+        <td>@(job.Succeeded + job.Failed) / @job.Failed @if (job.Failed > 0) { <a class="btn btn-danger btn-xs" href="/profile/job/@job.JobId/errors"><i class="glyphicon glyphicon-download-alt"></i></a> }</td>
+        <td>@job.Status</td>
+    </tr>
+}

@@ -26,7 +26,7 @@ namespace MyHome.Controllers
 
         private void PhotoController_OnUpdateListing(object sender, ListingUpdateArgs e)
         {
-            var supportedCultures = Localizer.GetList("supported-cultures").Select(x => x.Value).Where(x => x != "en").ToList();
+            var supportedCultures = AppView.SupportedCultures.Select(x => x.Value).Where(x => x != "en").ToList();
 
             if (!e.IsEditor || e.EditorKeywords == null) return;
             var translator = new GoogleTranslationService();
