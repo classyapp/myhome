@@ -1742,5 +1742,12 @@ div.thumbs4 > div.thumb
     bottom: 0;
 }
 .poll-results .thumbnail {
-    margin-right: 20px;
+    margin-right: 50px;
+    cursor: pointer;
 }
+.poll-stat .progress-bar {
+    transition: height 2s;
+    -webkit-transition: height 2s;
+    -moz-transition: height 2s;
+}
+.poll-results { margin-top: 20px; }

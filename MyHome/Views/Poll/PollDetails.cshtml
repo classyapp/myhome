@@ -60,10 +60,10 @@
                     i++;
                     <div class="poll-stat">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width:100%; height:@votesPercent%;"></div>
+                            <div class="progress-bar progress-bar-success" style="width:100%; height:0;" data-votes-percent="@votesPercent"></div>
                         </div>
                     </div>
-                    <div class="col-md-4 thumbnail vote">
+                    <div class="col-md-4 thumbnail vote" @((User.Identity.IsAuthenticated ? "" : "authorize"))>
                         <div class="vote-button">
                             <i class="glyphicon glyphicon-ok hidden"></i>
                             <span>Vote</span>
@@ -137,14 +137,25 @@
 
 @section scripts
 {
-    <script type="text/javascript">
-        $('.thumbnail.vote').click(function () {
-            var button = $(this).find('.vote-button');
-            button[0].style.width = button[0].offsetWidth + 'px';
-            var a = button[0].offsetWidth + button[0].clientWidth;
-            button[0].style.width = "86px";
-            $(this).one('transitionend', function() {
-                $(this).find('.vote-button i').removeClass('hidden');
+    @Scripts.Render("~/scripts/poll-details.js")
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script type="text/javascript">
+            $('.thumbnail.vote').click(function() {
+                var button = $(this).find('.vote-button');
+                button[0].style.width = button[0].offsetWidth + 'px';
+                var a = button[0].offsetWidth + button[0].clientWidth;
+                button[0].style.width = "86px";
+                $(this).one('transitionend', function() {
+                    $(this).find('.vote-button i').removeClass('hidden');
+                });
+            });
+        </script>
+    }
+    <script type="text/javascript" language="javascript">
+        $(window).load(function () {
+            $('.poll-stat .progress-bar').each(function () {
+                $(this).css('height', $(this).data('votes-percent') + '%');
             });
         });
     </script>
