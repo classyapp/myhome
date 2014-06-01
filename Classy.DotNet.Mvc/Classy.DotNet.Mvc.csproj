@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\Listing\CreateListingNoCollectionViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingGridViewModel.cs" />
     <Compile Include="ViewModels\Listing\ListingMoreInfoViewModel.cs" />
+    <Compile Include="ViewModels\Listing\ListingQueryViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
     <Compile Include="ViewModels\Listing\FreeSearchListingsViewModel.cs" />
     <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />

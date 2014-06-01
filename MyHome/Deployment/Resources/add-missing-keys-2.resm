@@ -1,0 +1,35 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "LoadFacebookAlbums_Back",
+			"Description": "when uploading photos from facebook, back button to navigate between albums",
+			"Values": {
+				"en": "Back"
+				}
+			},
+			{ 
+			"Key": "Search_RelatedProfessionals",
+			"Description": "label for related professionals section of the search results",
+			"Values": {
+				"en": "Related Professionals"
+				}
+			},
+			{ 
+			"Key": "Register_UsernameAlreadyExists",
+			"Description": "error when trying to register with a username that exists in the system",
+			"Values": {
+				"en": "Username already exists"
+				}
+			},
+			{ 
+			"Key": "Register_EmailAlreadyExists",
+			"Description": "error when trying to register with an email that exists in the system",
+			"Values": {
+				"en": "Email already exists"
+				}
+			}
+			
+			
+	]
+}

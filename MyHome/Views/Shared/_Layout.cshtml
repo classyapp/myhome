@@ -9,6 +9,8 @@
     };
 
     var rooms = Localizer.GetList("rooms");
+    System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("Android|webOS|iPhone|iPad|iPod|BlackBerry", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    bool isMobile = regex.IsMatch(Request.UserAgent);
 }
 
 <!DOCTYPE html>
@@ -23,7 +25,7 @@
             var ratio = ww / mw; //calculate ratio
             if (ww < mw) { //smaller than minimum size
                 var mvp = document.getElementById('viewport');
-                mvp.setAttribute('content','initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+                mvp.setAttribute('content','initial-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
             } else { //regular size
                 var mvp = document.getElementById('viewport');
                 mvp.setAttribute('content','initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
@@ -39,7 +41,7 @@
     @RenderSection("MetaTags", false)
 
     <link rel="alternate" href="https://www.homelab.com@(Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string))" hreflang="x-default" />
-    @foreach (var culture in Localizer.GetList("supported-cultures"))
+    @foreach (var culture in Classy.DotNet.Responses.AppView.SupportedCultures)
     {
         <link rel="alternate" hreflang="@culture.Value" href="https://www.homelab.com@(Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, culture.Value))" />    
     }
@@ -66,7 +68,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("AdditionalStyles", false)
 </head>
-    <body>
+    <body class="@(isMobile ? "mobile" : string.Empty)">
         @Html.Partial("SiteMetadata")
         <!-- nav -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -105,7 +107,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control typeahead" placeholder="@Localizer.Get("Header_Nav_Search")" name="q" id="q">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    <button class="btn btn-default" id="search-submit" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                 </div>
                             </div>
                         </span>
@@ -173,8 +175,11 @@
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-primary btn-block">@Localizer.Get("Login_Submit")</button>
                                                     </div>
-                                                    <div class="text-center">
+                                                    <div class="text-center loginlink">
                                                         @Html.RouteLink(Localizer.Get("Login_Register"), "Register")
+                                                    </div>
+                                                    <div class="text-center">
+                                                        @Html.RouteLink(Localizer.Get("Login_ForgotPassword"), "ForgotPassword")
                                                     </div>
                                                 </form>
                                             </div>
@@ -261,6 +266,7 @@
         @Scripts.Render("~/bundles/bootstrap")
 
         @Scripts.Render("~/scripts/classy.js")
+        @Scripts.Render("~/scripts/ajax-blocker.js")
         @Scripts.Render("~/scripts/classy-images.js")
         @Scripts.Render("~/scripts/fb-login.js")
         @Scripts.Render("~/scripts/google-login.js")

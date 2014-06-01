@@ -17,18 +17,38 @@
     }
     else
     {
-        <table class="table table-condensed">
+        <div class="text-center hidden" id="spinner"><img src="~/img/ajax-loader.gif" /></div>
+        <table class="table table-condensed" id="jobs">
             <thead>
                 <tr>
                     <th>Job Id</th>
                     <th>Created</th>
                     <th>Updated</th>
-                    <th>Processed/Total/Error</th>
+                    <th>Processed/Errors</th>
                     <th>Status</th>
-                    <th>Errors</th>
-                    <th>Action</th>
+                    @*<th>Errors</th>
+                    <th>Action</th>*@
                 </tr>
             </thead>
+            <tbody>
+                @Html.Partial("_ProfileJobsRows", Model)
+            </tbody>
         </table>
     }
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var getJobsStatus = function () {
+            $("#spinner").toggleClass("hidden", false);
+            $.get("/profile/jobs", null, function (response) {
+                $("#spinner").toggleClass("hidden", true);
+                $("#jobs > tbody").html(response);
+            });
+        };
+        $(function () {
+            setInterval(getJobsStatus, 15000);
+        });
+    </script>
+}

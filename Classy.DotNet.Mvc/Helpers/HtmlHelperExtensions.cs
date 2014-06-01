@@ -93,14 +93,14 @@ namespace Classy.DotNet.Mvc
             if (setSize)
             {
                 return new MvcHtmlString(
-                    string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-src=\"{0}\" class=\"img-responsive lazyload\" width=\"{1}\" height=\"{2}\" />", url, width, height) +
+                    string.Format("<img src=\"/img/missing-thumb.png\" data-key=\"{3}\" data-rel=\"thumbnail\" data-src=\"{0}\" class=\"img-responsive lazyload\" width=\"{1}\" height=\"{2}\" />", url, width, height, key) +
                     string.Format("<noscript><img src=\"{0}\" class=\"img-responsive\" width=\"{1}\" height=\"{2}\" /></noscript>", url, width, height)
                 );
             }
             else
             {
                 return new MvcHtmlString(
-                    string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-src=\"{0}\" class=\"img-responsive lazyload\" data-rel=\"thumbnail\" />", url) +
+                    string.Format("<img src=\"/img/missing-thumb.png\" data-rel=\"thumbnail\" data-src=\"{0}\" class=\"img-responsive lazyload\" data-rel=\"thumbnail\" data-key=\"{1}\" />", url, key) +
                     string.Format("<noscript><img src=\"{0}\" class=\"img-responsive\" /></noscript>", url)
                 );
             }
@@ -197,7 +197,8 @@ namespace Classy.DotNet.Mvc
                 .Replace("+", "-and-")
                 .Replace(".", string.Empty)
                 .Replace("  ", " ")
-                .Replace(" ", "-") : null;
+                .Replace(" ", "-")
+                .Replace("--", "-") : null;
         }
 
         public static string ToValidUrl(this string content)

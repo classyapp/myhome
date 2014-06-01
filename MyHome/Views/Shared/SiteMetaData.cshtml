@@ -7,8 +7,8 @@
     var roomsList = Localizer.GetList("rooms");
     var stylesList = Localizer.GetList("room-styles");
 
-    var rooms = "[" + string.Join(", ", roomsList.Select(x => "'" + x.Text + "'").ToArray()) + "]";
-    var styles = "[" + string.Join(", ", stylesList.Select(x => "'" + x.Text + "'").ToArray()) + "]";
+    var rooms = "[" + string.Join(", ", roomsList.Select(x => "'" + x.Text.Replace("\'", "\\'") + "'").ToArray()) + "]";
+    var styles = "[" + string.Join(", ", stylesList.Select(x => "'" + x.Text.Replace("\'", "\\'") + "'").ToArray()) + "]";
 }
 
 <script language="javascript" type="text/javascript">

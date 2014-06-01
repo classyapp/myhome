@@ -9,6 +9,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
     public class ListingMoreInfoViewModel
     {
         public string ListingId { get; set; }
-        public Dictionary<string,string[]> Metadata { get; set; }
+        public Dictionary<string,string> Metadata { get; set; }
+        public Dictionary<string,string> Query { get; set; }
     }
 }

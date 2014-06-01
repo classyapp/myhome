@@ -29,5 +29,16 @@ namespace Classy.DotNet.Mvc.Localization
         {
             return new SelectList(list.Select(i => new { Value = i.Value, Text = i.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] }), "Value", "Text");
         }
+
+        public static SelectList AsSelectList(this IEnumerable<ListItemView> list, string[] blacklist)
+        {
+            return new SelectList(list.Where(i => !blacklist.Contains(i.Value)).Select(i => new { Value = i.Value, Text = i.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] }), "Value", "Text");
+        }
+
+        public static string GetText(this IEnumerable<ListItemView> list, string key)
+        {
+            ListItemView item = list.FirstOrDefault(l => l.Value == key);
+            return (item == null ? null : item.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]);
+        }
     }
 }

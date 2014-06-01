@@ -1,5 +1,22 @@
 @model Classy.DotNet.Responses.CollectionView
 
+@section MetaTags {
+    <meta name="og:title" content="@Model.Title" />
+    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Content) ? string.Format(Localizer.Get("Collection_Share_Description", false), Model.Profile.GetProfileName()) : Model.Content)" />
+    @{
+
+        var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+        if (Model.CoverPhotos != null && Model.CoverPhotos.Count > 0)
+        {
+            <meta name="og:image" content="https://@(cdnurl)/thumbnail/@(Model.CoverPhotos[0])?Width=270&Height=270&format=json" />
+        }
+        else if (Model.Listings !=null && Model.Listings.Count> 0 && Model.Listings[0].ExternalMedia != null && Model.Listings[0].ExternalMedia.Count > 0)
+        {
+            <meta name="og:image" content="https://@(cdnurl)/thumbnail/@(Model.Listings[0].ExternalMedia[0].Key)?Width=270&Height=270&format=json" />
+        }
+    }
+}
+
 @{
     ViewBag.Title = string.Concat(Model.Title, " - ", Model.Profile.GetProfileName());
     var meta = Model.Content ?? string.Empty;
@@ -13,6 +30,8 @@
 {
     @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
 }
+
+
 
 @section ActionBar {
     @if (User.Identity.IsAuthenticated && Model.Profile.CanEdit())
@@ -70,12 +89,32 @@
                     var p = photos[id];
                     <div class="article-paragraph">
                         <div class="article-image">
-                            @Html.Thumbnail(p, 720, false, false)
+                            <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })">
+                                @Html.Thumbnail(p, 720, false, false)
+                            </a>
                         </div>
-                        <div class="article-comments">@(comments.ContainsKey(p.Id) ? comments[p.Id] : string.Empty)</div>
+                        @Html.Partial("PhotoCopyrightMessage", p)
+                        <div class="article-comments">
+                            @(comments.ContainsKey(p.Id) ? comments[p.Id] : string.Empty)
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                 }
+            }
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="share-actions">
+            @{
+                var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("CollectionDetails", new { CollectionId = Model.Id, view = "list" }));
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@Model.Title', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Collection_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_collection&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Collection_ShareViaEmailTitle")')"><i class="glyphicon glyphicon-send"></i></a>
+                }
+                <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_collection&utm_medium=facebook'), 520, 350)"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_collection&utm_medium=twitter'), 520, 350)"><i class="fa fa-twitter"></i></a>
+                <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_collection&utm_medium=gplus'), 520, 350)"><i class="fa fa-google-plus"></i></a>
             }
         </div>
     </div>

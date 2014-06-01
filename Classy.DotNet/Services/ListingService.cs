@@ -311,7 +311,7 @@ namespace Classy.DotNet.Services
 
         public FreeSearchResultsView FreeSearch(string q, int amount, int page)
         {
-            using (var client = ClassyAuth.GetWebClient())
+            using (var client = ClassyAuth.GetAuthenticatedWebClient())
             {
                 var url = FREE_SEARCH_URL;
                 var data = new {
@@ -764,13 +764,13 @@ namespace Classy.DotNet.Services
         }
         #endregion
 
-        public ListingMoreInfoView GetLisingMoreInfo(string listingId, Dictionary<string, string[]> metadata)
+        public ListingMoreInfoView GetLisingMoreInfo(string listingId, Dictionary<string, string[]> metadata, Dictionary<string, string[]> query)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
                 var url = string.Format(GET_LISTING_MORE_INFO_URL, listingId);
-                var data = new { LsitingId = listingId, Metadata = metadata };
+                var data = new { ListingId = listingId, Metadata = metadata, Query = query };
                 var listingJson = client.UploadString(url, data.ToJson());
                 var listing = listingJson.FromJson<ListingMoreInfoView>();
                 return listing;

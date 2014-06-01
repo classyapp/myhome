@@ -45,7 +45,8 @@
 
     $('#q.typeahead').typeahead({
         minLength: 2,
-        hightlight: true
+        hightlight: true,
+        hint: false
     }, {
         name: 'rooms-suggestions',
         displayKey: 'Value',
@@ -79,20 +80,25 @@
     {
         name: 'free-search-suggestion',
         displayKey: 'Value',
-        source: function (query, callback) {
-            callback([{ Value: 'Search for \'<strong>' + query + '</strong>\'' }]);
+        source: function(query, callback) {
+            callback([{ Value: query }]);
+        },
+        templates: {
+            suggestion: function(query) {
+                return '<p>Search for \'<strong>' + query.Value + '</strong>\'</p>';
+            }
         }
     });
 
-    $(document).bind('typeahead:selected', function (event, suggestion, dataset) {
+    $('#navbar-search').bind('typeahead:selected', function (event, suggestion, dataset) {
         if (dataset == 'profile-suggestions')
-            window.location.href = '//' + window.location.host + Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value);
+            window.location.href = '//' + window.location.host + Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value.toSlug());
         else if (dataset == 'rooms-suggestions' || dataset == 'styles-suggestions')
-            window.location.href = '//' + window.location.host + '/photo/' + encodeURIComponent(suggestion.Value);
+            window.location.href = '//' + window.location.host + '/photo/' + suggestion.Value.toSlug();
         else if (dataset == 'keywords-suggestion')
-            window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent(suggestion.Value);
+            window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
         else
-            window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent($($('#q').val()).html());
+            window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
     });
 
     $("#q").keyup(function (e) {
@@ -100,7 +106,12 @@
         if (e.keyCode == 13) {
             if (queryValue == '') return false;
             if ($('.navbar .tt-suggestion.tt-cursor').length == 0)
-                window.location.href = '//' + window.location.host + '/search/' + encodeURIComponent(queryValue);
+                window.location.href = '//' + window.location.host + '/search/' + queryValue.toSlug();
+            return false;
         }
+    });
+    $('#search-submit').click(function () {
+        var queryValue = $('#q').val().trim();
+        window.location.href = '//' + window.location.host + '/search/' + queryValue.toSlug();
     });
 });

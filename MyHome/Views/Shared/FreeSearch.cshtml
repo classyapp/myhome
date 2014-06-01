@@ -31,7 +31,7 @@
             <div class="panel-body panel-links">
                 @foreach (var s in styles)
                 {
-                    //@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value, Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                    @Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value }.GetSearchFilterSlug(null, Model.Location) })
                 }
             </div>
         </div>
@@ -50,7 +50,7 @@
 
         @if (Model.RelatedProfessionals.Any())
         {
-            <h3 class="link related-professionals">Related Professionals</h3>
+            <h3 class="link related-professionals">@Localizer.Get("Search_RelatedProfessionals")</h3>
             <div class="row results professionals">
                 @Html.Partial("../Profile/SmallProfileResultGrid", Model.RelatedProfessionals.Take(4).ToList())
             </div>

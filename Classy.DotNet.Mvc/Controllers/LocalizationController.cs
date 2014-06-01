@@ -47,7 +47,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult ManageResources(string resourceKey)
         {
             var model = new ManageResourcesViewModel {
-                SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList(),
+                SupportedCultures = Classy.DotNet.Responses.AppView.SupportedCultures.AsSelectList(),
                 MissingResourceKeys = Localizer.GetMissingKeys(),
                 SelectedCulture = GetEnvFromContext().CultureCode,
                 ResourceKey = resourceKey
@@ -109,7 +109,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 service.SetResourceValues(model.ResourceKey, new Dictionary<string, string> { { model.SelectedCulture, model.ResourceValue } });
                 HttpRuntime.Cache.Remove(model.ResourceKey);
             }
-            model.SupportedCultures = Localizer.GetList("supported-cultures").AsSelectList();
+            model.SupportedCultures = Classy.DotNet.Responses.AppView.SupportedCultures.AsSelectList();
             TempData["Success"] = true;
             return View(model);
         }
@@ -144,7 +144,12 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
                 CultureName = System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName,
-                CountryCode = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value
+                CountryCode = System.Web.HttpContext.Current.Request.Cookies.AllKeys.Contains(Classy.DotNet.Responses.AppView.CountryCookieName) ?
+                    System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName].Value :
+                    Classy.DotNet.Responses.AppView.DefaultCountry,
+                CurrencyCode = System.Web.HttpContext.Current.Request.Cookies.AllKeys.Contains(Classy.DotNet.Responses.AppView.CurrencyCookieName) ?
+                    System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value :
+                    Classy.DotNet.Responses.AppView.DefaultCurrency
             };
         }
 

@@ -129,6 +129,7 @@ namespace MyHome.Deployment
             catch(Exception ex)
             {
                 // deployment failed
+                Console.WriteLine(ex);
                 throw ex;
             }
         }

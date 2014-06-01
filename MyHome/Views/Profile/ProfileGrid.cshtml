@@ -2,7 +2,7 @@
 
 @{
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
-    var countries = Localizer.GetList("supported-countries");
+    var countries = Classy.DotNet.Responses.AppView.SupportedCountries;
 }
 
 @foreach (var p in Model)
@@ -39,7 +39,7 @@
                             p.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
                         {
                             <div class="contact-info">
-                                <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @countries.Single(x => x.Value == p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text
+                                <span>@p.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @countries.Single(x => x.Value == p.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]
                             </div>
                         }
                         @if (p.Metadata.ContainsKey("BusinessDescription"))
