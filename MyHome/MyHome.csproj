@@ -169,6 +169,10 @@
     <Content Include="Deployment\Resources\product-details.resm" />
     <Content Include="Deployment\Resources\currency-support.resm" />
     <Content Include="Deployment\Resources\add-missing-keys-2.resm" />
+    <Content Include="Deployment\Resources\add-missing-keys-3.resm" />
+    <Content Include="Deployment\Resources\new-proxy-page.resm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -579,6 +583,7 @@
     <Content Include="Views\Shared\SiteMetadata.cshtml" />
     <Content Include="Views\Photo\EditorTools.cshtml" />
     <Content Include="Views\Profile\_ProfileJobsRows.cshtml" />
+    <Content Include="Views\Profile\ProxyLandingPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
