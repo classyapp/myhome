@@ -1710,7 +1710,7 @@ div.thumbs4 > div.thumb
 /* polls */
 .thumbnail .vote-button {
     position: absolute;
-    bottom: 16px; right: 0;
+    bottom: 32px; right: 0;
     padding: 6px 14px;
     background-color: #428bca;
     color: #fff;

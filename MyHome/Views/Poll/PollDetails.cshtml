@@ -73,7 +73,11 @@
                             <span>Vote</span>
                         </div>
                         @Html.Thumbnail(pollOption, 200)
+                        <div class="vote-percent">
+                            @votesPercent%
+                        </div>
                     </div>
+                    
                     i++;
                 }
             </div>
