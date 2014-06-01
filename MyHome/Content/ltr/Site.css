@@ -1745,6 +1745,10 @@ div.thumbs4 > div.thumb
     margin-right: 50px;
     cursor: pointer;
 }
+.poll-results .thumbnail.vote h4 {
+    position: absolute;
+    right: -10px;top: -16px;
+}
 .poll-stat .progress-bar {
     transition: height 2s;
     -webkit-transition: height 2s;

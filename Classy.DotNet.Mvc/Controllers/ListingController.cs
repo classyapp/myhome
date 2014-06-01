@@ -465,7 +465,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
         }
-
+        
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditListing(UpdateListingViewModel<TListingMetadata> model)

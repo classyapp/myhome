@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Models;
@@ -8,6 +10,7 @@ using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
 using MyHome.Models;
 using MyHome.Models.Polls;
+using RestSharp;
 
 namespace MyHome.Controllers
 {
@@ -54,6 +57,13 @@ namespace MyHome.Controllers
                 defaults: new { controller = "Poll", action = "SelectPhotosModal" },
                 namespaces: new string[] { Namespace }
             );
+
+            routes.MapRoute(
+                name: "VoteOnPoll",
+                url: "polls/vote",
+                defaults: new { controller = "Poll", action = "VoteOnPoll" },
+                namespaces: new string[] { Namespace }
+            );
         }
 
         public override string ListingTypeName
@@ -83,6 +93,34 @@ namespace MyHome.Controllers
             });
 
             return Json(listings);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult VoteOnPoll(string pollId, string listingId)
+        {
+            // TODO: this isn't thread safe!!
+            // TODO: try to implement at least OptimisticLocking
+
+            var logActivityService = new LogActivityService();
+            var listingService = new ListingService();
+            var listing = listingService.GetListingById(pollId, false, false, false, false, false);
+
+            var votedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == listingId);
+            var listingNumber = votedOn.Key.Substring(votedOn.Key.IndexOf("_") + 1);
+            var voteKey = "Vote_" + listingNumber;
+            if (listing.Metadata.ContainsKey(voteKey))
+                listing.Metadata[voteKey] = (Convert.ToInt32(listing.Metadata[voteKey]) + 1).ToString();
+            else
+                listing.Metadata.Add(voteKey, "1");
+
+            var metadata = listing.Metadata;
+
+            listingService.UpdateListing(pollId,
+                null, null, null, metadata, null, null, ListingUpdateFields.Metadata);
+
+            logActivityService.LogActivity(AuthenticatedUserProfile.Id, ActivityPredicate.VOTED_ON_POLL, pollId);
+
+            return Json("OK");
         }
 	}
 }
