@@ -29,20 +29,6 @@
     {
         <div class="profile-actions">
             <a href="@Url.RouteUrlForCurrentLocale("EditProfile", new { ProfileId = Model.Profile.Id })" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i> @Localizer.Get("Profile_EditProfile")</a>
-            <div class="dropdown">
-                  <a class="btn btn-primary btn-sm" data-toggle="dropdown">
-                      <i class="fa fa-share"></i>&nbsp;@Localizer.Get("Profile_Share")&nbsp;<span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu" role="menu">
-                      @{
-                        var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = Model.Profile.Id }));
-                      }
-                        <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
-                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350)">Facebook</a></li>
-                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350)">Twitter</a></li>
-                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350)">Google+</a></li>
-                  </ul>
-                </div> 
         </div>
     }
 }
@@ -144,114 +130,29 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
 <div class="row">
-    <div class="col-md-9">
-            <div>
-                @if (!string.IsNullOrEmpty(Model.TypedMetadata.ServicesProvided))
-                {
-                    <p>
-                        <strong>@Localizer.Get("Profile_ServicesProvided")</strong>
-                        <br />
-                        @Html.Raw(Model.TypedMetadata.ServicesProvided)
-                    </p>
-                }
-                @if (!string.IsNullOrEmpty(Model.TypedMetadata.AreasServed))
-                {
-                    <p>
-                        <strong>@Localizer.Get("Profile_AreasServed")</strong>
-                        <br />
-                        @Model.TypedMetadata.AreasServed
-                    </p>
-                }
-                @if (!string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription))
-                {
-                    <p>
-                        <strong>@Localizer.Get("Profile_BusinessDescription")</strong>
-                        <br />
-                        <span class="description" itemprop="description">@Html.Raw(Model.TypedMetadata.BusinessDescription)</span>
-                    </p>
-                }
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("ProxyProfile_ClaimTitle")</h3>
             </div>
-
-            <div class="row" id="details">
-                @if (Model.RelatedProfiles.Count() > 0)
-                {
-                    foreach(var profile in Model.RelatedProfiles.Take(3).ToList())
-                    {
-                        
-                    }
-                }
-            </div>
-
-            <div>
+            <div class="panel-body">
+                @Html.Raw(Localizer.Get("ProxyProfile_ClaimContent"))
                 <div class="contact-button">
                     @if (!Request.IsAuthenticated || !user.Profile.IsProfessional)
                     {
-                        @Html.RouteLink(@Localizer.Get("Profile_Main_Claim"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-warning btn-block" })
+                        @Html.RouteLink(@Localizer.Get("ProxyProfile_ClaimButton"), new { controller = "Profile", action = "ClaimProxyProfile", profileId = Model.Profile.Id }, new { @class = "btn btn-danger" })
                     }
                 </div>
             </div>
-    </div>
-    <div class="col-md-3">
-        @if (Model.Profile.IsProfessional)
+        </div>
+
+        @if (reviews.Count() > 0)
         {
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@Localizer.Get("PublicProfile_ContactInfo")</h3>
-                </div>
-                <div class="panel-body">
-
-                    @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone))
-                    {
-                        <div class="contact-info"><i class="glyphicon glyphicon-earphone"></i>&nbsp;&nbsp;<span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
-                    }
-
-                    @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
-                    {
-                        <div class="contact-info"><i class="glyphicon glyphicon-globe"></i>&nbsp;&nbsp;<a itemprop="url" href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank" rel="nofollow">@Localizer.Get("PublicProfile_VisitWebsite")</a></div>
-                    }
-
-                    @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
-                    {
-                        <div class="contact-info">
-                            <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;<span><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Profile.ProfessionalInfo.Category }.ToSlug() })">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</a></span>
-                        </div>
-                    }
-
-                    @if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
-                                    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
-                                    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
-                    {
-                        var address = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address;
-                        <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                            <i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;<span itemprop="streetAddress">@address.Street1</span><br />
-                            <span class="address2">
-                                <span>@address.PostalCode,</span>&nbsp;
-                                @if (!string.IsNullOrEmpty(address.City))
-                                {
-                                    <span itemprop="addressLocality">@Html.RouteLinkForCurrentLocale(address.City, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = address.Country, City = address.City }.ToSlug() })</span>@:&nbsp;
-                                }
-                                <span>@Html.RouteLinkForCurrentLocale(countries.Single(x => x.Value == address.Country).Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = address.Country }.ToSlug() })</span>
-                            </span>
-                        </div>
-                        <div>
-                            @{
-                                var urlAddress = Url.Encode(string.Concat(address.Street1,",",address.City,",",address.PostalCode,",",address.Country));
-                            <img src="http://maps.googleapis.com/maps/api/staticmap?center=@(urlAddress)&zoom=11&size=275x100&sensor=false;markers=color:red%7Clabel:S%7C@(urlAddress)">
-                            }
-                        </div>
-                    }
-                </div>
-
-                <div class="report text-center">
-                    <p><small><a href="mailto:report@homelab.com?subject=@Localizer.Get("PublicProfile_Report_Problem_Subject")">@Localizer.Get("PublicProfile_Report_Problem")</a></small></p>
-                </div>
-            </div>
-                        
-                    if (reviews.Count() > 0)
-                    {
             <div id="reviews" class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">@Model.Profile.ReviewCount @Localizer.Get("Profile_Tabs_Reviews")</h3>
@@ -284,9 +185,110 @@
 
                 </div>
             </div>
-                    }
         }
+        
     </div>
+    <div class="col-md-5">
+            <div id="details">
+                @if (Model.RelatedProfiles.Count() > 0)
+                {
+                    <div class="results">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@string.Format(Localizer.Get("ProxyProfile_NearbyProfessionals"), proCategories.GetText(Model.Profile.ProfessionalInfo.Category))</h3>
+                            </div>
+                            <div class="panel-body">
+                                @foreach (var profile in Model.RelatedProfiles.Take(3).ToList())
+                        {
+                                    <div class="profile proxy thumbnail">
+                                        <div class="media">
+                                            <a href="@Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = profile.Id})" class="pull-left">
+                                                <img class="media-object img-circle" src="@profile.AvatarUrl(50, true)" width="50" />
+                                            </a>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">@profile.GetProfileName()</h4>
+                                                @{
+                                            var score = profile.ReviewCount > 0 ? profile.ReviewAverageScore : 0;
+                                            <span class="stars">
+                                                @for (var i = 1; i <= Convert.ToInt16(Math.Round(score, 0)); i++)
+                                                {
+                                                    <span class="glyphicon glyphicon-star"></span>
+                                                }
+                                                @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(score, 0)); i++)
+                                                {
+                                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                                }
+                                                &nbsp; <small>@profile.ReviewCount @Localizer.Get("ProfileSearch_ReviewCount")</small>
+                                            </span>
+                                                }
+                                                <div class="contact-info">
+                                                    <span>@profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City</span>, @countries.GetText(profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("PublicProfile_ContactInfo")</h3>
+            </div>
+            <div class="panel-body">
+
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone))
+                {
+                    <div class="contact-info"><i class="glyphicon glyphicon-earphone"></i>&nbsp;&nbsp;<span itemprop="telephone">@Model.Profile.ProfessionalInfo.CompanyContactInfo.Phone</span></div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl))
+                {
+                    <div class="contact-info"><i class="glyphicon glyphicon-globe"></i>&nbsp;&nbsp;<a itemprop="url" href="@Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl.ToValidUrl()" target="_blank" rel="nofollow">@Localizer.Get("PublicProfile_VisitWebsite")</a></div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Profile.ProfessionalInfo.Category))
+                {
+                    <div class="contact-info">
+                        <i class="glyphicon glyphicon-tag"></i>&nbsp;&nbsp;<span><a href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Profile.ProfessionalInfo.Category }.ToSlug() })">@proCategories.Single(x => x.Value == Model.Profile.ProfessionalInfo.Category).Text</a></span>
+                    </div>
+                }
+
+                @if (Model.Profile.ProfessionalInfo.CompanyContactInfo != null &&
+                                    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location != null &&
+                                    Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address != null)
+                {
+                    var address = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address;
+                    <div class="contact-info" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;<span itemprop="streetAddress">@address.Street1</span><br />
+                        <span class="address2">
+                            <span>@address.PostalCode,</span>&nbsp;
+                            @if (!string.IsNullOrEmpty(address.City))
+                            {
+                                <span itemprop="addressLocality">@Html.RouteLinkForCurrentLocale(address.City, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = address.Country, City = address.City }.ToSlug() })</span>@:&nbsp;
+                                }
+                            <span>@Html.RouteLinkForCurrentLocale(countries.Single(x => x.Value == address.Country).Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = address.Country }.ToSlug() })</span>
+                        </span>
+                    </div>
+                    <div>
+                        @{
+                    var urlAddress = Url.Encode(string.Concat(address.Street1, ",", address.City, ",", address.PostalCode, ",", address.Country));
+                    <img src="http://maps.googleapis.com/maps/api/staticmap?center=@(urlAddress)&zoom=11&size=275x100&sensor=false;markers=color:red%7Clabel:S%7C@(urlAddress)">
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="report text-center">
+                <p><small><a href="mailto:report@homelab.com?subject=@Localizer.Get("PublicProfile_Report_Problem_Subject")">@Localizer.Get("PublicProfile_Report_Problem")</a></small></p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="modal fade" id="contact-pro-modal" data-remote="@Url.RouteUrl("ContactProfessional", new { ProfessionalProfileId = Model.Profile.Id })">

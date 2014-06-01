@@ -1,6 +1,13 @@
 ﻿{
 	"AppId" : "v1.0",
 	"Resources": [
+		{
+			"Key": "ProxyProfile_NearbyProfessionals",
+			"Description" : "title of the nearby professionals section of the proxy profile page",
+			"Values": {
+				"en" : "{0} Nearby" 
+			}
+		}
 	]
 }
 
