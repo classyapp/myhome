@@ -1,4 +1,4 @@
-@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingNoCollectionViewModel<MyHome.Models.Polls.PollMetadata>
+@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.Polls.PollMetadata>
 
 @{
     ViewBag.Title = Localizer.Get("CreatePoll_PageTitle");
@@ -16,7 +16,7 @@
 
         @Html.Bootstrap().ValidationSummary()
 
-        @using (var f = Html.Bootstrap().Begin(new Form("CreateListingNoCollection", "Poll").Type(FormType._NotSet).Id("create-poll-form")))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateNewPoll", "Poll").FormMethod(FormMethod.Post).Type(FormType._NotSet).Id("create-poll-form")))
         {
             <input type="hidden" name="CollectionType" value="Poll"/>
             @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePoll_FormTitleLabel")).ShowValidationMessage(false).Label()
@@ -29,7 +29,7 @@
                         <span class="btn btn-warning btn-select-listings" type="button">@Localizer.Get("CreatePoll_SelectListings")</span>
                     </div>
                     @*@Html.HiddenFor(x => x.DummyFile)*@
-                    <input type="hidden" id="selected-listings" name="MetaData.Listings" value=""/>
+                    <input type="hidden" id="selected-listings" name="ListingIds" value=""/>
                 </div>
             </div>
             

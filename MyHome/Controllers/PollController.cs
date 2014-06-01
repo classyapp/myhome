@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.WebPages;
 using Classy.DotNet.Models;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
@@ -10,6 +12,7 @@ using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
 using MyHome.Models;
 using MyHome.Models.Polls;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace MyHome.Controllers
@@ -62,6 +65,13 @@ namespace MyHome.Controllers
                 name: "VoteOnPoll",
                 url: "polls/vote",
                 defaults: new { controller = "Poll", action = "VoteOnPoll" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRoute(
+                name: "CreateNewPoll",
+                url: "polls/create-new",
+                defaults: new { controller = "Poll", action = "CreateNewPoll" },
                 namespaces: new string[] { Namespace }
             );
         }
@@ -121,6 +131,29 @@ namespace MyHome.Controllers
             logActivityService.LogActivity(AuthenticatedUserProfile.Id, ActivityPredicate.VOTED_ON_POLL, pollId);
 
             return Json("OK");
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateNewPoll(CreateNewPollRequest newPollRequest)
+        {
+            var listingService = new ListingService();
+            var newCollection = listingService.CreateCollection("Poll", "My Polls", null, new IncludedListingView[0]);
+
+            var metadata = new PollMetadata {
+                Listings = newPollRequest.ListingIds.ToList()
+            }.ToDictionary();
+            var newPoll = listingService.CreateListing(newPollRequest.Title,
+                newPollRequest.Content, "Poll", null, metadata, Request.Files);
+            listingService.AddListingToCollection(newCollection.Id, new[] {
+                new IncludedListingView {
+                    Id = newPoll.Id,
+                    Comments = null,
+                    ProfileId = AuthenticatedUserProfile.Id,
+                    ListingType = "Poll"
+                }
+            });
+            
+            return Redirect(Url.RouteUrl("PollDetails", new { controller = "Poll", action = "GetListingById", listingId = newPoll.Id }));
         }
 	}
 }

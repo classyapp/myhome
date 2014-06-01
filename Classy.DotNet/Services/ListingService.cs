@@ -478,18 +478,19 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                var client = ClassyAuth.GetAuthenticatedWebClient();
-                var data = new
+                using (var client = ClassyAuth.GetAuthenticatedWebClient())
                 {
-                    ProfileId = profileId,
-                    Type = type,
-                    Title = title,
-                    Content = content,
-                    IncludedListings = includedListings
-                }.ToJson();
-                var collectionJson = client.UploadString(CREATE_COLLECTION_URL, data);
-                var collection = collectionJson.FromJson<CollectionView>();
-                return collection;
+                    var data = new {
+                        ProfileId = profileId,
+                        Type = type,
+                        Title = title,
+                        Content = content,
+                        IncludedListings = includedListings
+                    }.ToJson();
+                    var collectionJson = client.UploadString(CREATE_COLLECTION_URL, data);
+                    var collection = collectionJson.FromJson<CollectionView>();
+                    return collection;
+                }
             }
             catch (WebException wex)
             {
@@ -503,16 +504,17 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                var client = ClassyAuth.GetAuthenticatedWebClient();
-                var url = string.Format(ADD_LISTINGS_TO_CLECTION_URL, collectionId);
-                var data = new
+                using (var client = ClassyAuth.GetAuthenticatedWebClient())
                 {
-                    CollectionId = collectionId,
-                    IncludedListings = includedListings
-                }.ToJson();
-                var collectionJson = client.UploadString(url, data);
-                var collection = collectionJson.FromJson<CollectionView>();
-                return collection;
+                    var url = string.Format(ADD_LISTINGS_TO_CLECTION_URL, collectionId);
+                    var data = new {
+                        CollectionId = collectionId,
+                        IncludedListings = includedListings
+                    }.ToJson();
+                    var collectionJson = client.UploadString(url, data);
+                    var collection = collectionJson.FromJson<CollectionView>();
+                    return collection;
+                }
             }
             catch (WebException wex)
             {
