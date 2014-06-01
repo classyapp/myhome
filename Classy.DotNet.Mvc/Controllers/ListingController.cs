@@ -734,7 +734,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateListingNoCollection()
         {
-            CreateListingNoCollectionViewModel<TListingMetadata> model = new CreateListingNoCollectionViewModel<TListingMetadata>();
+            var model = new CreateListingNoCollectionViewModel<TListingMetadata>();
             return View(string.Format("Create{0}", ListingTypeName), model);
         }
     }

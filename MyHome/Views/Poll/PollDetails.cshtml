@@ -5,7 +5,7 @@
     var rooms = Localizer.GetList("rooms");
     var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
-    var pollListings = Model.ExtraData as PollViewExtraData;
+    var pollExtraData = Model.ExtraData as PollViewExtraData;
     
     //ViewBag.Title = string.Concat(Model.Listing.Title, " - ", styles.GetText(Model.Metadata.Style), " - ", rooms.GetText(Model.Metadata.Room), " - ", Model.Listing.Profile.GetProfileName());
     ViewBag.MetaDescription = Model.Listing.Content;
@@ -54,7 +54,7 @@
                     var maxVotes = Model.Metadata.Votes.Max();
                     var winner = Model.Metadata.Votes.Count(x => x == maxVotes) == 1 ? Model.Metadata.Votes.IndexOf(maxVotes) : -1;
                 }
-                @foreach (var pollOption in pollListings.Listings)
+                @foreach (var pollOption in pollExtraData.Listings)
                 {
                     var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
                     var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);

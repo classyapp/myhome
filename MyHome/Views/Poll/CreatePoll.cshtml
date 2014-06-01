@@ -1,4 +1,4 @@
-@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.Polls.PollMetadata>
+@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingNoCollectionViewModel<MyHome.Models.Polls.PollMetadata>
 
 @{
     ViewBag.Title = Localizer.Get("CreatePoll_PageTitle");
@@ -16,7 +16,7 @@
 
         @Html.Bootstrap().ValidationSummary()
 
-        @using (var f = Html.Bootstrap().Begin(new Form("CreateListing", "Poll").Type(FormType._NotSet).Id("create-poll-form")))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateListingNoCollection", "Poll").Type(FormType._NotSet).Id("create-poll-form")))
         {
             <input type="hidden" name="CollectionType" value="Poll"/>
             @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePoll_FormTitleLabel")).ShowValidationMessage(false).Label()
@@ -28,7 +28,7 @@
                     <div class="select-listings clearfix">
                         <span class="btn btn-warning btn-select-listings" type="button">@Localizer.Get("CreatePoll_SelectListings")</span>
                     </div>
-                    @Html.HiddenFor(x => x.DummyFile)
+                    @*@Html.HiddenFor(x => x.DummyFile)*@
                     <input type="hidden" id="selected-listings" name="MetaData.Listings" value=""/>
                 </div>
             </div>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-md-4 col-md-offset-1 helpbar">
-        @if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
+        @*@if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
         {
             <h1>@Localizer.Get("CreatePhoto_PhotoBook_Title_DoDont")</h1>
             <div class="content">
@@ -59,7 +59,7 @@
                 <p><strong>@Localizer.Get("CreatePhoto_Help_ImportTitle")</strong></p>
                 <a href="#" class="btn btn-block btn-fb-login">@Localizer.Get("CreatePhoto_Import_Facebook")</a>
             }
-        </div>
+        </div>*@
     </div>
 </div>
 
