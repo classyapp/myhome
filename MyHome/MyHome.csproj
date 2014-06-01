@@ -568,7 +568,7 @@
     <Content Include="Views\Profile\SendEmail.cshtml" />
     <Content Include="Web.AppHarbor.config" />
     <Content Include="Views\Photo\MoreInfo.cshtml" />
-    <Content Include="Views\Photo\FreeSearch.cshtml" />
+    <Content Include="Views\Shared\FreeSearch.cshtml" />
     <Content Include="Views\Profile\UploadCatalog.cshtml" />
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
     <Content Include="Views\Product\ProductDetails.cshtml" />

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Classy.DotNet.Mvc.Controllers;
@@ -13,8 +12,6 @@ namespace MyHome
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            Debugger.Launch();
-
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
