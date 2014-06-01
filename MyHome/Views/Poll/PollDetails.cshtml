@@ -1,5 +1,3 @@
-@using Classy.DotNet.Responses
-@using Microsoft.Ajax.Utilities
 @using MyHome.Models.Polls
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.Polls.PollMetadata>
 
@@ -28,7 +26,7 @@
     }
 }
 
-<div class="row photo-details">    
+<div class="row photo-details poll-details">    
     <div class="col-md-12">
         @if (TempData["PostComment_Success"] != null)
         {
@@ -47,29 +45,36 @@
         <h2>@Model.Listing.Title</h2>
         <p>@Model.Listing.Content</p>
 
-        <div class="poll clearfix">
+        <div class="poll clearfix" data-poll-id="@Model.Listing.Id">
             <div class="poll-results clearfix">
                 @{
                     var i = 0;
                     var totalVotes = Model.Metadata.Votes.Sum(x => Convert.ToInt32(x));
+
+                    var maxVotes = Model.Metadata.Votes.Max();
+                    var winner = Model.Metadata.Votes.Count(x => x == maxVotes) == 1 ? Model.Metadata.Votes.IndexOf(maxVotes) : -1;
                 }
                 @foreach (var pollOption in pollListings.Listings)
                 {
                     var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
                     var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);
-                    i++;
                     <div class="poll-stat">
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" style="width:100%; height:0;" data-votes-percent="@votesPercent"></div>
                         </div>
                     </div>
-                    <div class="col-md-4 thumbnail vote" @((User.Identity.IsAuthenticated ? "" : "authorize"))>
+                    <div class="col-md-4 thumbnail vote" @((User.Identity.IsAuthenticated ? "" : "authorize")) data-listing-id="@pollOption.Id">
+                        @if (i == winner)
+                        {
+                            <h4><div class="label label-success">WINNER</div></h4>
+                        }
                         <div class="vote-button">
                             <i class="glyphicon glyphicon-ok hidden"></i>
                             <span>Vote</span>
                         </div>
                         @Html.Thumbnail(pollOption, 200)
                     </div>
+                    i++;
                 }
             </div>
         </div>
