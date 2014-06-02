@@ -139,10 +139,13 @@ namespace MyHome.Controllers
                 listing.Metadata.Add(voteKey, "1");
             
             // find previous vote and decrement value
-            var previousVote = userPollActivity.Metadata.Vote;
-            var previousVotedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == previousVote);
-            var previousVoteNumber = previousVotedOn.Key.Substring(previousVotedOn.Key.IndexOf("_") + 1);
-            listing.Metadata["Vote_" + previousVoteNumber] = (Convert.ToInt32(listing.Metadata["Vote_" + previousVoteNumber]) - 1).ToString();
+            if (userPollActivity != null && !userPollActivity.Metadata.Vote.IsNullOrEmpty())
+            {
+                var previousVote = userPollActivity.Metadata.Vote;
+                var previousVotedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == previousVote);
+                var previousVoteNumber = previousVotedOn.Key.Substring(previousVotedOn.Key.IndexOf("_") + 1);
+                listing.Metadata["Vote_" + previousVoteNumber] = (Convert.ToInt32(listing.Metadata["Vote_" + previousVoteNumber]) - 1).ToString();
+            }
 
             var metadata = listing.Metadata;
 
