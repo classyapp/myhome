@@ -107,7 +107,7 @@
 			}
 		},
 		{
-			"Key": "UpdateListing_Keywords",
+			"Key": "UpdateKeywords",
 			"Description": "label of the keywords field when editing a photo",
 			"Values": {
 				"en": "Keywords"
