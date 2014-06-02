@@ -123,10 +123,11 @@ namespace MyHome.Controllers
                 Activity = ActivityPredicate.VOTED_ON_POLL,
                 ObjectId = pollId
             });
+            // check if user voted on the same listing already
             if (userPollActivity != null && userPollActivity.Metadata.Vote == listingId)
                 return Json("OK");
 
-            // user didn't vote on this listing yet
+            // user voted on this poll but a different listing
             var listing = listingService.GetListingById(pollId, false, false, false, false, false);
 
             var votedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == listingId);
@@ -136,6 +137,12 @@ namespace MyHome.Controllers
                 listing.Metadata[voteKey] = (Convert.ToInt32(listing.Metadata[voteKey]) + 1).ToString();
             else
                 listing.Metadata.Add(voteKey, "1");
+            
+            // find previous vote and decrement value
+            var previousVote = userPollActivity.Metadata.Vote;
+            var previousVotedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == previousVote);
+            var previousVoteNumber = previousVotedOn.Key.Substring(previousVotedOn.Key.IndexOf("_") + 1);
+            listing.Metadata["Vote_" + previousVoteNumber] = (Convert.ToInt32(listing.Metadata["Vote_" + previousVoteNumber]) - 1).ToString();
 
             var metadata = listing.Metadata;
 
