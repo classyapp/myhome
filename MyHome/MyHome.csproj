@@ -173,6 +173,7 @@
     <Content Include="Deployment\Resources\new-proxy-page.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Deployment\Resources\add-missing-keys-4.resm" />
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
