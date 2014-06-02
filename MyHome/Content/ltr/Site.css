@@ -1821,3 +1821,15 @@ body.mobile
     -moz-transition: height 2s;
 }
 .poll-results { margin-top: 20px; }
+
+
+#select-listings-modal .thumbs1, #select-listings-modal .thumbs2, #select-listings-modal .thumbs3, #select-listings-modal .thumbs4 {
+    height: 166px;cursor: pointer;
+}
+#select-listings-modal .thumbs1:hover, #select-listings-modal .thumbs2:hover, #select-listings-modal .thumbs3:hover, #select-listings-modal .thumbs4:hover {
+    opacity: 0.4;
+}
+#select-listings-modal .photos .thumbnail:hover {
+    cursor: pointer;
+    opacity: 0.4;
+}

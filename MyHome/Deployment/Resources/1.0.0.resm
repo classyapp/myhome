@@ -2,6 +2,48 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "CreatePoll_FormTitleLabel",
+			"Description": "Create poll form title watermark text",
+			"Values": {
+				"en": "Give your poll a title"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_CollectionContent",
+			"Description": "Poll form description input label",
+			"Values": {
+				"en": "Description of the poll"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_SelectListings",
+			"Description": "Select Photos button in create poll form",
+			"Values": {
+				"en": "Select Photos"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_Submit",
+			"Description": "Create poll form submit button",
+			"Values": {
+				"en": "Create Poll"
+			}
+		},
+		{ 
+			"Key": "SelectListingsModal_Title",
+			"Description": "Create poll form select listing popup title",
+			"Values": {
+				"en": "Select Photos"
+			}
+		},
+		{ 
+			"Key": "SelectListingsModal_SubmitButton",
+			"Description": "button on select listings popup in create poll form",
+			"Values": {
+				"en": "Save"
+			}
+		},
+		{ 
 			"Key": "PollDetails_NoComments",
 			"Description": "Poll details no comments text",
 			"Values": {
