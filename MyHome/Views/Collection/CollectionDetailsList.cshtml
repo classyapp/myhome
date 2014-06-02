@@ -8,11 +8,11 @@
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
     if (Model.CoverPhotos != null && Model.CoverPhotos.Count > 0)
     {
-        <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.CoverPhotos[0])?Width=270&Height=270&format=json" />
+        <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.CoverPhotos[0])?Width=720&Height=0&format=json" />
     }
     else if (Model.Listings != null && Model.Listings.Count > 0 && Model.Listings[0].ExternalMedia != null && Model.Listings[0].ExternalMedia.Count > 0)
     {
-            <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.Listings[0].ExternalMedia[0].Key)?Width=270&Height=270&format=json" />
+            <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.Listings[0].ExternalMedia[0].Key)?Width=720&Height=0&format=json" />
         }
 }
 }
