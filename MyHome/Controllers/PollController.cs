@@ -36,7 +36,7 @@ namespace MyHome.Controllers
                     Activity = ActivityPredicate.VOTED_ON_POLL,
                     ObjectId = pollId
                 });
-                if (!votedOnPollActivity.Metadata.Vote.IsNullOrEmpty())
+                if (votedOnPollActivity != null && !votedOnPollActivity.Metadata.Vote.IsNullOrEmpty())
                     userVote = votedOnPollActivity.Metadata.Vote;
             }
 
