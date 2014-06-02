@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Classy.DotNet.Models.LogActivity;
 using Classy.DotNet.Security;
+using CsQuery.ExtensionMethods.Internal;
 using ServiceStack.Text;
 
 namespace Classy.DotNet.Services
@@ -21,6 +22,9 @@ namespace Classy.DotNet.Services
                 var url = string.Format(LOG_ACTIVITY_LOG + "?SubjectId={0}&Predicate={1}&ObjectId={2}",
                     logActivity.UserId, logActivity.Activity, logActivity.ObjectId);
                 var response = client.DownloadString(url);
+
+                if (response.IsNullOrEmpty())
+                    return null;
 
                 var parsedResponse = response.FromJson<LogActivityResponse>();
                 return new LogActivity<T>

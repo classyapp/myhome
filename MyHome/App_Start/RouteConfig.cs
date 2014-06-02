@@ -6,6 +6,7 @@ using Classy.DotNet.Mvc.Controllers;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Mvc.Localization;
+using MyHome.Controllers;
 
 namespace MyHome
 {
@@ -90,6 +91,9 @@ namespace MyHome
 
             var searchController = new SearchController();
             searchController.RegisterRoutes(routes);
+
+            var pollController = new PollController();
+            pollController.RegisterRoutes(routes);
 
             #endregion
 
