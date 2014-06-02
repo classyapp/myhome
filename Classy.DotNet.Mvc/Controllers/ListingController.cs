@@ -336,7 +336,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 var listingLoadedEventArgs = new ListingLoadedEventArgs<TListingMetadata> {
                     ListingDetailsViewModel = model
                 };
-                OnListingLoaded(this, listingLoadedEventArgs);
+                if (OnListingLoaded != null)
+                    OnListingLoaded(this, listingLoadedEventArgs);
                 model.ExtraData = listingLoadedEventArgs.ListingDetailsViewModel.ExtraData;
 
                 return View(string.Concat(ListingTypeName, "Details"), model);
