@@ -31,7 +31,7 @@
             <div class="panel-body panel-links">
                 @foreach (var s in styles)
                 {
-                    //@Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value, Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
+                    @Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value }.GetSearchFilterSlug(null, Model.Location) })
                 }
             </div>
         </div>

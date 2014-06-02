@@ -153,6 +153,10 @@
         });
         countriesSuggestions.initialize();
 
+        $('#Name').blur(function() {
+            $(this).val($(this).val().trim());
+        });
+
         $('#Locality').typeahead({
             minLength: 1
         }, {
