@@ -365,12 +365,7 @@ namespace Classy.DotNet.Services
             {
                 var client = ClassyAuth.GetWebClient();
                 var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts);
-                var data = new
-                {
-                    ProfileId = profileId,
-                    IncludeDrafts = includeDrafts
-                }.ToJson();
-
+                
                 var listingsJson = client.DownloadString(url);
                 var listings = listingsJson.FromJson<IList<ListingView>>();
                 return listings;

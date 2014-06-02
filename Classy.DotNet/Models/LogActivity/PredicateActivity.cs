@@ -1,4 +1,4 @@
-﻿namespace Classy.DotNet.Models
+﻿namespace Classy.DotNet.Models.LogActivity
 {
     public class ActivityPredicate
     {

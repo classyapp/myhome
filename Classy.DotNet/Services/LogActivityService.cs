@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Classy.DotNet.Responses.LogActivity;
+using Classy.DotNet.Models.LogActivity;
 using Classy.DotNet.Security;
 using ServiceStack.Text;
 
@@ -9,18 +9,52 @@ namespace Classy.DotNet.Services
     {
         private readonly string LOG_ACTIVITY_LOG = ENDPOINT_BASE_URL + "/log-activity/log";
 
-        public void LogActivity(string userId, string activity, string objectId)
+        public LogActivity<T> GetLogActivity<T>(LogActivity<T> logActivity) where T : ILogActivityMetadata<T>, new()
+        {
+            using (var client = ClassyAuth.GetWebClient())
+            {
+                var data = new {
+                    SubjectId = logActivity.UserId,
+                    Predicate = logActivity.Activity,
+                    ObjectId = logActivity.ObjectId
+                }.ToJson();
+                var url = string.Format(LOG_ACTIVITY_LOG + "?SubjectId={0}&Predicate={1}&ObjectId={2}",
+                    logActivity.UserId, logActivity.Activity, logActivity.ObjectId);
+                var response = client.DownloadString(url);
+
+                var parsedResponse = response.FromJson<LogActivityResponse>();
+                return new LogActivity<T>
+                {
+                    UserId = parsedResponse.UserId,
+                    Activity = parsedResponse.Activity,
+                    ObjectId = parsedResponse.ObjectId,
+                    Metadata = logActivity.Metadata.DeserializeMetadata(parsedResponse.Metadata)
+                };
+            }
+        }
+
+        public LogActivity<T> LogActivity<T>(LogActivity<T> logActivity) where T : ILogActivityMetadata<T>, new()
         {
             try
             {
-                var client = ClassyAuth.GetAuthenticatedWebClient();
-                var data = new
+                using (var client = ClassyAuth.GetAuthenticatedWebClient())
                 {
-                    SubjectId = userId,
-                    Predicate = activity,
-                    ObjectId = objectId
-                }.ToJson();
-                client.UploadString(LOG_ACTIVITY_LOG, "POST", data);
+                    var data = new {
+                        SubjectId = logActivity.UserId,
+                        Predicate = logActivity.Activity,
+                        ObjectId = logActivity.ObjectId,
+                        Metadata = logActivity.Metadata != null ? logActivity.Metadata.SerializeMetadata() : null
+                    }.ToJson();
+                    var response = client.UploadString(LOG_ACTIVITY_LOG, "POST", data);
+
+                    var parsedResponse = response.FromJson<LogActivityResponse>();
+                    return new LogActivity<T> {
+                        UserId = parsedResponse.UserId,
+                        Activity = parsedResponse.Activity,
+                        ObjectId = parsedResponse.ObjectId,
+                        Metadata = logActivity.Metadata.DeserializeMetadata(parsedResponse.Metadata)
+                    };
+                }
             }
             catch (WebException ex)
             {
@@ -28,20 +62,19 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public bool WasLogged(string subjectId, string predicate, string objectId)
+        public void LogActivity(string userId, string activity, string objectId)
         {
             try
             {
-                var client = ClassyAuth.GetAuthenticatedWebClient();
-                var data = new {
-                    SubjectId = subjectId,
-                    Predicate = predicate,
-                    ObjectId = objectId
-                }.ToJson();
-                var listingJson = client.UploadString(LOG_ACTIVITY_LOG, "POST", data);
-                var triple = listingJson.FromJson<Triple>();
-
-                return triple.Count > 1;
+                using (var client = ClassyAuth.GetAuthenticatedWebClient())
+                {
+                    var data = new {
+                        SubjectId = userId,
+                        Predicate = activity,
+                        ObjectId = objectId
+                    }.ToJson();
+                    client.UploadString(LOG_ACTIVITY_LOG, "POST", data);
+                }
             }
             catch (WebException ex)
             {

@@ -63,7 +63,8 @@
     <Compile Include="CollectionViewExtensions.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="ListingViewExtentions.cs" />
-    <Compile Include="Models\PredicateActivity.cs" />
+    <Compile Include="Models\LogActivity\IActivityMetadata.cs" />
+    <Compile Include="Models\LogActivity\PredicateActivity.cs" />
     <Compile Include="ProfileViewExtensions.cs" />
     <Compile Include="Responses\AppSettingsResponse.cs" />
     <Compile Include="Responses\AppView.cs" />
