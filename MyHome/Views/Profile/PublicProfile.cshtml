@@ -22,16 +22,16 @@
 }
 
 @section MetaTags {
-    <meta name="og:title" content="@string.Format(Localizer.Get("PublicProfile_ShareTitle"), Model.Profile.GetProfileName())" />
+    <meta property="og:title" content="@string.Format(Localizer.Get("PublicProfile_ShareTitle"), Model.Profile.GetProfileName())" />
     @if (Model.Profile.IsProfessional)
-    {
-    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription) ? string.Format(Localizer.Get("PublicProfile_ShareDescription_Pro", false), proCategories.GetText(Model.Profile.ProfessionalInfo.Category)) : Model.TypedMetadata.BusinessDescription)" />
-    }
+{
+    <meta property="og:description" content="@(string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription) ? string.Format(Localizer.Get("PublicProfile_ShareDescription_Pro", false), proCategories.GetText(Model.Profile.ProfessionalInfo.Category)) : Model.TypedMetadata.BusinessDescription)" />
+}
     else
     {
-    <meta name="og:description" content="@Localizer.Get("PublicProfile_ShareDescription", false)" />
+        <meta property="og:description" content="@Localizer.Get("PublicProfile_ShareDescription", false)" />
     }
-    <meta name="og:image" content="@(Model.Profile.Avatar != null ? Model.Profile.Avatar.Url : "http://www.homelab.com/img/missing-thumb.png")" />
+    <meta property="og:image" content="@(Model.Profile.Avatar != null ? Model.Profile.Avatar.Url : "http://www.homelab.com/img/missing-thumb.png")" />
 }
 
 
