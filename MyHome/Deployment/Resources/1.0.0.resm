@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "PollDetails_NoComments",
+			"Description": "Poll details no comments text",
+			"Values": {
+				"en": "No comments yet. Be the first to comment on this poll!"
+			}
+		},
+		{ 
 			"Key": "CreatePoll_PageTitle",
 			"Description": "Create Poll - Page header",
 			"Values": {

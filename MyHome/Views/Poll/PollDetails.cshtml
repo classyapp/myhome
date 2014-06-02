@@ -117,7 +117,7 @@
 
                 @if (Model.Listing.CommentCount == 0)
                 {
-                    <p>@Localizer.Get("PhotoDetails_NoComments")</p>
+                    <p>@Localizer.Get("PollDetails_NoComments")</p>
                 }
 
                 @foreach (var c in Model.Listing.Comments)
@@ -138,7 +138,7 @@
                 @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Poll")))
                 {
                     @Html.Hidden("ListingId", Model.Listing.Id);
-                    @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).HelpText(Localizer.Get("PhotoComment_Tip")).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                    @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
                     @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
                 }
             </div>
