@@ -32,6 +32,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
 
+        public EventHandler<LoadPublicProfileEventArgs<TProMetadata>> OnLoadPublicProfile;
         public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional;
         public EventHandler<ParseProfilesCsvLineArgs<TProMetadata>> OnParseProfilesCsvLine;
         public EventHandler<AskForReviewArgs<TProMetadata>> OnAskForReview;
@@ -488,7 +489,20 @@ namespace Classy.DotNet.Mvc.Controllers
                     ReviewSubCriteria = subCriteria
                 };
 
-                return View(model);
+                if (OnLoadPublicProfile != null)
+                {
+                    var args = new LoadPublicProfileEventArgs<TProMetadata>
+                    {
+                        Profile = profile,
+                        TypedMetadata = metadata
+                    };
+                    OnLoadPublicProfile(this, args);
+
+                    model.RelatedListings = args.RelatedListings;
+                    model.RelatedProfiles = args.RelatedProfiles;
+                }
+
+                return View(profile.IsProxy ? "ProxyLandingPage" : "PublicProfile", model);
             }
             catch (ClassyException cex)
             {

@@ -890,6 +890,9 @@ span.address2
     height: 205px;
 }
 
+.results .proxy {
+    height: 95px;
+}
     .results .profile .glyphicon
     {
         color: #47a447;
@@ -901,6 +904,11 @@ span.address2
         max-height: 170px;
         overflow: hidden;
     }
+
+    .results .proxy .media {
+        max-height: 85px;
+    }
+
     .results .col-md-12 .profile .media {
         width: 600px;
     }
