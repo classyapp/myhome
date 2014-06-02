@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.WebPages;
-using Classy.DotNet.Models;
+using Classy.DotNet.Models.LogActivity;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
 using MyHome.Models;
 using MyHome.Models.Polls;
-using Newtonsoft.Json;
-using RestSharp;
 
 namespace MyHome.Controllers
 {
-    public class PollController : ListingController<PollMetadata, PhotoGridViewModel>
+    public class  PollController : ListingController<PollMetadata, PhotoGridViewModel>
     {
         public PollController() : base("MyHome.Controllers")
         {
@@ -33,13 +28,21 @@ namespace MyHome.Controllers
             var logActivityService = new LogActivityService();
             var pollId = listingLoadedEventArgs.ListingDetailsViewModel.Listing.Id;
 
-            bool userVoted = false;
+            string userVote = string.Empty;
             if (AuthenticatedUserProfile != null)
-                userVoted = logActivityService.WasLogged(AuthenticatedUserProfile.Id, ActivityPredicate.VOTED_ON_POLL, pollId);
-            
+            {
+                var votedOnPollActivity = logActivityService.GetLogActivity(new LogActivity<VotedOnPollActivityMetadata> {
+                    UserId = AuthenticatedUserProfile.Id,
+                    Activity = ActivityPredicate.VOTED_ON_POLL,
+                    ObjectId = pollId
+                });
+                if (!votedOnPollActivity.Metadata.Vote.IsNullOrEmpty())
+                    userVote = votedOnPollActivity.Metadata.Vote;
+            }
+
             listingLoadedEventArgs.ListingDetailsViewModel.ExtraData = new PollViewExtraData {
                 Listings = listingViews,
-                UserVoted = userVoted
+                UserVote = userVote
             };
         }
 
@@ -113,6 +116,17 @@ namespace MyHome.Controllers
 
             var logActivityService = new LogActivityService();
             var listingService = new ListingService();
+
+            // check if the user voted on this poll already
+            var userPollActivity = logActivityService.GetLogActivity(new LogActivity<VotedOnPollActivityMetadata> {
+                UserId = AuthenticatedUserProfile.Id,
+                Activity = ActivityPredicate.VOTED_ON_POLL,
+                ObjectId = pollId
+            });
+            if (userPollActivity != null && userPollActivity.Metadata.Vote == listingId)
+                return Json("OK");
+
+            // user didn't vote on this listing yet
             var listing = listingService.GetListingById(pollId, false, false, false, false, false);
 
             var votedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == listingId);
@@ -128,7 +142,12 @@ namespace MyHome.Controllers
             listingService.UpdateListing(pollId,
                 null, null, null, metadata, null, null, ListingUpdateFields.Metadata);
 
-            logActivityService.LogActivity(AuthenticatedUserProfile.Id, ActivityPredicate.VOTED_ON_POLL, pollId);
+            logActivityService.LogActivity(new LogActivity<VotedOnPollActivityMetadata> {
+                UserId = AuthenticatedUserProfile.Id,
+                Activity = ActivityPredicate.VOTED_ON_POLL,
+                ObjectId = pollId,
+                Metadata = new VotedOnPollActivityMetadata {Vote = listingId}
+            });
 
             return Json("OK");
         }
