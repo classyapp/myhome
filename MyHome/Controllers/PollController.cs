@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Models.LogActivity;
+using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
@@ -49,34 +51,7 @@ namespace MyHome.Controllers
         public override void RegisterRoutes(RouteCollection routes)
         {
             base.RegisterRoutes(routes);
-
-            routes.MapRoute(
-                name: "SelectListingsModal",
-                url: "polls/create/select-listings-modal",
-                defaults: new { controller = "Poll", action = "SelectListingsModal" },
-                namespaces: new string[] { Namespace }
-            );
-
-            routes.MapRoute(
-                name: "SelectListingPhotosModal",
-                url: "polls/create/select-photos-modal",
-                defaults: new { controller = "Poll", action = "SelectPhotosModal" },
-                namespaces: new string[] { Namespace }
-            );
-
-            routes.MapRoute(
-                name: "VoteOnPoll",
-                url: "polls/vote",
-                defaults: new { controller = "Poll", action = "VoteOnPoll" },
-                namespaces: new string[] { Namespace }
-            );
-
-            routes.MapRoute(
-                name: "CreateNewPoll",
-                url: "polls/create-new",
-                defaults: new { controller = "Poll", action = "CreateNewPoll" },
-                namespaces: new string[] { Namespace }
-            );
+            RegisterRoutesByAttributes(routes);
         }
 
         public override string ListingTypeName
@@ -84,6 +59,7 @@ namespace MyHome.Controllers
 	        get {  return "Poll"; }
         }
 
+        [MapRoute("SelectListingsModal", "polls/create/select-listings-modal")]
         public ActionResult SelectListingsModal()
         {
             var listingService = new ListingService();
@@ -94,6 +70,7 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("SelectListingPhotosModal", "polls/create/select-photos-modal")]
         public ActionResult SelectPhotosModal(string collectionId)
         {
             var listingService = new ListingService();
@@ -109,6 +86,7 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("VoteOnPoll", "polls/vote")]
         public ActionResult VoteOnPoll(string pollId, string listingId)
         {
             // TODO: this isn't thread safe!!
@@ -163,6 +141,7 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("CreateNewPoll", "polls/create-new")]
         public ActionResult CreateNewPoll(CreateNewPollRequest newPollRequest)
         {
             var listingService = new ListingService();
