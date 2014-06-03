@@ -71,6 +71,7 @@
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
     <Compile Include="Attributes\RequireHttpsAttribute.cs" />
+    <Compile Include="Attributes\RouteAttribute.cs" />
     <Compile Include="Attributes\TranslatableAttribute.cs" />
     <Compile Include="Config\FeatureSwitchProvider.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />

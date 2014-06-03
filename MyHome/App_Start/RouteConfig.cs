@@ -37,7 +37,7 @@ namespace MyHome
 
                 if (baseControllerInstance == null)
                     throw new Exception("Could not register routes in " + controller.Name);
-            
+
                 baseControllerInstance.RegisterRoutes(routes);
             }
 
