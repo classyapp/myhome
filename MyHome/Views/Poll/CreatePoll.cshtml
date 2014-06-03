@@ -1,0 +1,87 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.CreateListingViewModel<MyHome.Models.Polls.PollMetadata>
+
+@{
+    ViewBag.Title = Localizer.Get("CreatePoll_PageTitle");
+    ViewBag.NoIndex = true;
+    Html.Bootstrap().Globals().ShowRequiredStar(false);
+
+    var rooms = Localizer.GetList("rooms");
+    var styles = Localizer.GetList("room-styles");
+}
+
+<div class="row">
+    <div class="col-md-7 main">
+        <h1>@Localizer.Get("CreatePoll_PageTitle")</h1>
+        <hr />
+
+        @Html.Bootstrap().ValidationSummary()
+
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateNewPoll", "Poll").FormMethod(FormMethod.Post).Type(FormType._NotSet).Id("create-poll-form")))
+        {
+            <input type="hidden" name="CollectionType" value="Poll"/>
+            @f.FormGroup().Id("title").TextBoxFor(x => x.Title).Placeholder(Localizer.Get("CreatePoll_FormTitleLabel")).ShowValidationMessage(false).Label()
+            @f.FormGroup().Id("content").TextAreaFor(x => x.Content).ShowValidationMessage(false).Label()
+            
+            <div class="alert alert-warning">
+                <div class="form-group">
+                    <div id="listings-preview" class="row"></div>
+                    <div class="select-listings clearfix">
+                        <span class="btn btn-warning btn-select-listings" type="button">@Localizer.Get("CreatePoll_SelectListings")</span>
+                    </div>
+                    @*@Html.HiddenFor(x => x.DummyFile)*@
+                    <input type="hidden" id="selected-listings" name="ListingIds" value=""/>
+                </div>
+            </div>
+            
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().HtmlAttributes(new { id = "create-poll", onclick = "createPoll()" }).Text(Localizer.Get("CreatePoll_Submit")).Style(ButtonStyle.Primary))
+        }
+    </div>
+
+    <div class="col-md-4 col-md-offset-1 helpbar">
+        @*@if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
+        {
+            <h1>@Localizer.Get("CreatePhoto_PhotoBook_Title_DoDont")</h1>
+            <div class="content">
+                @Html.Raw(Localizer.Get("CreatePhoto_PhotoBook_Content_DoDont"))
+            </div>
+        }
+        else
+        {
+            <h1>@Localizer.Get("CreatePhoto_Project_Title_DoDont")</h1>
+            <div class="content">
+                @Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))
+            </div> 
+        }
+        <div>
+            @if (!Model.IsFacebookConnected)
+            {
+                <hr />
+                <p><strong>@Localizer.Get("CreatePhoto_Help_ImportTitle")</strong></p>
+                <a href="#" class="btn btn-block btn-fb-login">@Localizer.Get("CreatePhoto_Import_Facebook")</a>
+            }
+        </div>*@
+    </div>
+</div>
+
+@Html.Partial("~/Views/Common/Modal.cshtml", new MyHome.Models.Common.Modal("select-listings-modal", @Url.RouteUrl("SelectListingsModal")))
+
+@section scripts
+{
+    <script type="text/javascript">
+        $('.btn-select-listings').click(function() {
+            $('#select-listings-modal').modal('show');
+        });
+
+        function createPoll() {
+            var listings = [];
+            $('#listings-preview img').each(function() {
+                listings.push($(this).data('listing-id'));
+            });
+            if (listings.length > 0) {
+                $('#DummyFile').val("1");
+                $('#selected-listings').val(JSON.stringify(listings));
+            }
+            $('#create-poll-form').submit();
+        }
+    </script>
+}

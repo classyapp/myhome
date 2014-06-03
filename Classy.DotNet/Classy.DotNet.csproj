@@ -39,6 +39,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsQuery">
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -63,6 +66,8 @@
     <Compile Include="CollectionViewExtensions.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="ListingViewExtentions.cs" />
+    <Compile Include="Models\LogActivity\IActivityMetadata.cs" />
+    <Compile Include="Models\LogActivity\PredicateActivity.cs" />
     <Compile Include="ProfileViewExtensions.cs" />
     <Compile Include="Responses\AppSettingsResponse.cs" />
     <Compile Include="Responses\AppView.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="Responses\JobView.cs" />
     <Compile Include="Responses\ListingMoreInfoView.cs" />
     <Compile Include="Responses\ListingUpdateFields.cs" />
+    <Compile Include="Responses\LogActivity\Triple.cs" />
     <Compile Include="Responses\SearchSuggestionsResponse.cs" />
     <Compile Include="Responses\SocialPhotoAlbumView.cs" />
     <Compile Include="Responses\IncludedListingView.cs" />
@@ -113,6 +119,7 @@
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\ListingService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
+    <Compile Include="Services\LogActivityService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\ReviewService.cs" />
     <Compile Include="Services\SearchService.cs" />

@@ -26,6 +26,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public EventHandler<ListingUpdateArgs> OnUpdateListing;
         public EventHandler<ListingCommentEventArgs> OnPostedComment;
+        public EventHandler<ListingLoadedEventArgs<TListingMetadata>> OnListingLoaded;
 
         public override void RegisterRoutes(RouteCollection routes)
         {
@@ -327,11 +328,18 @@ namespace Classy.DotNet.Mvc.Controllers
                     true,
                     true);
                 var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
-                var model = new ListingDetailsViewModel<TListingMetadata>
+                var model = new ListingDetailsViewModel<TListingMetadata> 
                 {
                     Listing = listing,
                     Metadata = listingMetadata
                 };
+                var listingLoadedEventArgs = new ListingLoadedEventArgs<TListingMetadata> {
+                    ListingDetailsViewModel = model
+                };
+                if (OnListingLoaded != null)
+                    OnListingLoaded(this, listingLoadedEventArgs);
+                model.ExtraData = listingLoadedEventArgs.ListingDetailsViewModel.ExtraData;
+
                 return View(string.Concat(ListingTypeName, "Details"), model);
             }
             catch (ClassyException cex)
@@ -458,7 +466,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
         }
-
+        
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditListing(UpdateListingViewModel<TListingMetadata> model)
@@ -727,7 +735,7 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateListingNoCollection()
         {
-            CreateListingNoCollectionViewModel<TListingMetadata> model = new CreateListingNoCollectionViewModel<TListingMetadata>();
+            var model = new CreateListingNoCollectionViewModel<TListingMetadata>();
             return View(string.Format("Create{0}", ListingTypeName), model);
         }
     }

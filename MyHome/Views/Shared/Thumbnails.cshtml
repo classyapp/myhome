@@ -1,12 +1,14 @@
-﻿@model IList<string>
+﻿@using System.Configuration
+@using System.Drawing
+@model IList<string>
 
 @{
-    var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
-    Dictionary<int,System.Drawing.Point[]> sizes = new Dictionary<int, System.Drawing.Point[]>();
-    sizes.Add(1, new System.Drawing.Point[] { new System.Drawing.Point{ X = 270, Y = 220 }});
-    sizes.Add(2, new System.Drawing.Point[] { new System.Drawing.Point{ X = 135, Y = 220 }, new System.Drawing.Point{ X = 135, Y = 220 }});
-    sizes.Add(3, new System.Drawing.Point[] { new System.Drawing.Point { X = 200, Y = 220 }, new System.Drawing.Point { X = 70, Y = 110 }, new System.Drawing.Point { X = 70, Y = 110 } });
-    sizes.Add(4, new System.Drawing.Point[] { new System.Drawing.Point { X = 200, Y = 220 }, new System.Drawing.Point { X = 70, Y = 70 }, new System.Drawing.Point { X = 70, Y = 70 }, new System.Drawing.Point { X = 70, Y = 70 } });
+    var cdnurl = ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+    var sizes = new Dictionary<int, Point[]>();
+    sizes.Add(1, new[] { new Point{ X = 270, Y = 220 }});
+    sizes.Add(2, new[] { new Point{ X = 135, Y = 220 }, new Point{ X = 135, Y = 220 }});
+    sizes.Add(3, new[] { new Point { X = 200, Y = 220 }, new Point { X = 70, Y = 110 }, new Point { X = 70, Y = 110 } });
+    sizes.Add(4, new[] { new Point { X = 200, Y = 220 }, new Point { X = 70, Y = 70 }, new Point { X = 70, Y = 70 }, new Point { X = 70, Y = 70 } });
 }
 
 @if (Model.Count > 0)
