@@ -24,7 +24,8 @@ namespace MyHome
                 typeof (LocalizationController),
                 typeof (StaticPagesController),
                 typeof (HomePageController),
-                typeof (SearchController)
+                typeof (SearchController),
+                typeof (PollController)
             };
 
             //var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
