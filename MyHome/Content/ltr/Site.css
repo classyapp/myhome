@@ -713,6 +713,13 @@ a, a:visited
     background-color: #eee;
 }
 
+.tt-suggestion.tt-cursor {
+    background-color: #0097cf;color: #fff;
+}
+.tt-suggestion:hover {
+    cursor: pointer;
+}
+
 /* profile page */
 .sidebar .image
 {
