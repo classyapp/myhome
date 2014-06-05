@@ -3,21 +3,23 @@
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.Polls.PollMetadata>
 
 @{
-    var rooms = Localizer.GetList("rooms");
-    var styles = Localizer.GetList("room-styles");
     var proCategories = Localizer.GetList("professional-categories");
     var pollExtraData = Model.ExtraData as PollViewExtraData;
     
-    //ViewBag.Title = string.Concat(Model.Listing.Title, " - ", styles.GetText(Model.Metadata.Style), " - ", rooms.GetText(Model.Metadata.Room), " - ", Model.Listing.Profile.GetProfileName());
+    ViewBag.Title = string.Concat("HomeLab.com :: ", Model.Listing.Title);
     ViewBag.MetaDescription = Model.Listing.Content;
 }
 
 @section MetaTags {
     <meta name="og:title" content="@Model.Listing.Title" />
-    @*<meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? string.Format(Localizer.Get("PhotoDetails_Description", false), rooms.GetText(Model.Metadata.Room), styles.GetText(Model.Metadata.Style), Model.Listing.Profile.GetProfileName()) : Model.Listing.Content)" />*@
+    <meta name="og:description" content="@Model.Listing.Content" />
     @if (Model.Listing.ExternalMedia.Count > 0)
     {
         <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+    }
+    else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
+    {
+        <meta name="og:image" content="@pollExtraData.Listings.First().ExternalMedia[0].Url" />
     }
 }
 
