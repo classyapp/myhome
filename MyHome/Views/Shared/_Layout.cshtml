@@ -389,6 +389,7 @@
 
         <script type="text/javascript">
             Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> { 
+                                     { "Confirm_Ok", Localizer.Get("Ok") },  
                                      { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") }, 
                                      { "Confirm_Discard", Localizer.Get("Discard") }, { "Confirm_Save" , Localizer.Get("Save") },
                                      { "DeleteCollection_ConfirmTitle", Localizer.Get("DeleteCollection_ConfirmTitle")},

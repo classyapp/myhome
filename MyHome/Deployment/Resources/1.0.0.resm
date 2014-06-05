@@ -2,6 +2,41 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Confirm_Ok",
+			"Description": "Ok button text in popups and confimations",
+			"Values": {
+				"en": "OK"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_PhotosSelectionLimitPopupTitle",
+			"Description": "Photos selection limit popup title",
+			"Values": {
+				"en": "Create Poll Error"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_PhotosSelectionLimit",
+			"Description": "Photos selection limit popup explanation",
+			"Values": {
+				"en": "You must select between 2 to 4 photos to create a poll"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_TipsAreaContent",
+			"Description": "Create poll tips area content",
+			"Values": {
+				"en": "&lt;li&gt;Pick between 2-4 photos&lt;/li&gt;&lt;li&gt;Share with your friends to get quick feedback&lt;/li&gt;&lt;li&gt;Come back to view the feedback!&lt;/li&gt;&lt;small&gt;Photos that do not meet our guidelines will be removed&lt;/small&gt;"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_TipsAreaTitle",
+			"Description": "Create poll help area title",
+			"Values": {
+				"en": "Tips"
+			}
+		},
+		{ 
 			"Key": "CreatePoll_FormTitleLabel",
 			"Description": "Create poll form title watermark text",
 			"Values": {
