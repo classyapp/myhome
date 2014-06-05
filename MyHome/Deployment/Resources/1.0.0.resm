@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "PollDetails_Winner",
+			"Description": "Poll details - Winner icon text on winning image",
+			"Values": {
+				"en": "WINNER!"
+			}
+		},
+		{ 
+			"Key": "PollDetails_VoteButton",
+			"Description": "Poll details - vote button on image",
+			"Values": {
+				"en": "Click to Vote"
+			}
+		},
+		{ 
 			"Key": "Confirm_Ok",
 			"Description": "Ok button text in popups and confimations",
 			"Values": {

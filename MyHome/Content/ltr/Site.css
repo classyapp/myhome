@@ -1782,7 +1782,7 @@ body.mobile
     position: absolute;
     bottom: 32px; right: 0;
     padding: 6px 14px;
-    background-color: #428bca;
+    background-color: #5cb85c;
     color: #fff;
     border: solid 1px #285E8E;
     border-right: 0;
@@ -1801,13 +1801,15 @@ body.mobile
 .thumbnail .vote-button .glyphicon {
     margin: 0 6px 0 0;
 }
+.poll-details .actions {
+    margin-top: 26px;float: right;
+}
 .poll-stat {
     display: inline-block;
 }
 .poll-stat .progress {
     position: relative;
     width: 20px;
-    height: 234px;
     margin-right: 6px;
     margin-bottom: 15px;
 }
@@ -1816,7 +1818,6 @@ body.mobile
     bottom: 0;
 }
 .poll-results .thumbnail {
-    margin-right: 50px;
     cursor: pointer;
     display: inline-block;
 }
