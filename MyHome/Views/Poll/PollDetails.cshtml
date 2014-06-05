@@ -1,0 +1,162 @@
+@using Classy.DotNet.Mvc.Extensions
+@using MyHome.Models.Polls
+@model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.Polls.PollMetadata>
+
+@{
+    var proCategories = Localizer.GetList("professional-categories");
+    var pollExtraData = Model.ExtraData as PollViewExtraData;
+    
+    ViewBag.Title = string.Concat("HomeLab.com :: ", Model.Listing.Title);
+    ViewBag.MetaDescription = Model.Listing.Content;
+}
+
+@section MetaTags {
+    <meta name="og:title" content="@Model.Listing.Title" />
+    <meta name="og:description" content="@Model.Listing.Content" />
+    @if (Model.Listing.ExternalMedia.Count > 0)
+    {
+        <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+    }
+    else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
+    {
+        <meta name="og:image" content="@pollExtraData.Listings.First().ExternalMedia[0].Url" />
+    }
+}
+
+@section ActionBar {
+    @if (Model.Listing.CanEdit()) {
+        <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditPoll")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("PhotoDetails_Edit")</a>
+    }
+}
+
+<div class="row photo-details poll-details">    
+    <div class="col-md-12">
+        @if (TempData["PostComment_Success"] != null)
+        {
+            @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+        }
+
+        <div class="ajax-alert">
+            @if (Request.QueryString["msg"] != null)
+            {
+                <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><p>@Localizer.Get(Request.QueryString["msg"])</p></div> 
+            }
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h2>@Model.Listing.Title</h2>
+        <p>@Model.Listing.Content</p>
+
+        <div class="poll clearfix" data-poll-id="@Model.Listing.Id">
+            <div class="poll-results clearfix">
+                @{
+                    var i = 0;
+                    var totalVotes = Model.Metadata.Votes.Sum(x => Convert.ToInt32(x));
+
+                    var maxVotes = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Max();
+                    var winner = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Count(x => x == maxVotes) == 1 ? Model.Metadata.Votes.IndexOf(maxVotes.ToString()) : -1;
+                }
+                @foreach (var pollOption in pollExtraData.Listings)
+                {
+                    var usersChoice = !pollExtraData.UserVote.IsNullOrEmpty() && pollExtraData.UserVote == pollOption.Id;
+                    var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
+                    var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);
+
+                    <div class="poll-option-wrapper clearfix" style="float:left">
+                        <div class="poll-stat">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" style="width:100%; height:0;" data-votes-percent="@votesPercent"></div>
+                            </div>
+                        </div>
+                        <div class="thumbnail vote @(usersChoice ? "voted" : "")" @((User.Identity.IsAuthenticated ? "" : "authorize")) data-listing-id="@pollOption.Id">
+                            @if (i == winner)
+                            {
+                                <h4><div class="label label-success">WINNER!</div></h4>
+                            }
+                            <div class="vote-button" @(usersChoice ? "style=width:86px;" : "")>
+                                <i class="glyphicon glyphicon-ok @(!usersChoice ? "hidden" : "")"></i>
+                                <span>Vote</span>
+                            </div>
+                            @Html.Thumbnail(pollOption, 230)
+                            <div class="vote-percent">
+                                @votesPercent%
+                            </div>
+                        </div>
+                    </div>
+
+                    i++;
+                }
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-5">
+        <div class="profile clearfix">
+            <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
+            <div class="details">
+                @Html.ProfileLink(Model.Listing.Profile)
+                @if (Model.Listing.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Listing.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
+        </div>
+
+        <hr />
+
+        @Html.Partial("PollActions", new PollActionsViewModel { PollId = Model.Listing.Id })
+
+        <hr />
+
+        <div id="moreinfo"></div>
+
+        <div class="panel panel-default" id="projectsSameListing">
+            <div class="panel-heading">
+                <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>
+            </div>
+            <div class="panel-body">
+
+                @if (Model.Listing.CommentCount == 0)
+                {
+                    <p>@Localizer.Get("PollDetails_NoComments")</p>
+                }
+
+                @foreach (var c in Model.Listing.Comments)
+                {
+                    <p class="comment">
+                        <div class="media">
+                            <div class="pull-left">
+                                <img src="@c.Profile.AvatarUrl(40, true)" width="40" class="img-circle" />
+                            </div>
+                            <div class="media-body">
+                                <strong class="media-heading">@Html.ProfileLink(c.Profile):</strong>
+                                <p>@c.Content</p>
+                            </div>
+                        </div>
+                    </p>
+                }
+
+                @using (var f = Html.Bootstrap().Begin(new Form("PostComment", "Poll")))
+                {
+                    @Html.Hidden("ListingId", Model.Listing.Id);
+                    @f.FormGroup().TextArea("Content").Rows(3).ShowValidationMessage(false).Label().LabelText(Localizer.Get("PhotoDetails_Comment_Content"))
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("PhotoDetails_Comment_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { authorize = "true" }))
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/scripts/poll-details.js")
+    <script type="text/javascript" language="javascript">
+        $(window).load(function () {
+            $('.poll-stat .progress-bar').each(function () {
+                $(this).css('height', $(this).data('votes-percent') + '%');
+            });
+        });
+    </script>
+}

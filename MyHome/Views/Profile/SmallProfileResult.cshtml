@@ -2,7 +2,7 @@
 
 @{
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
-    var countries = Localizer.GetList("supported-countries");
+    var countries = Classy.DotNet.Responses.AppView.SupportedCountries;
     var hasAddress = (Model.ProfessionalInfo.CompanyContactInfo != null &&
                       Model.ProfessionalInfo.CompanyContactInfo.Location != null &&
                       Model.ProfessionalInfo.CompanyContactInfo.Location.Address != null);
@@ -35,7 +35,7 @@
         {
             var city = Model.ProfessionalInfo.CompanyContactInfo.Location.Address.City;
             var country = countries.FirstOrDefault(x => x.Value == Model.ProfessionalInfo.CompanyContactInfo.Location.Address.Country);
-            var countryName = country != null ? country.Text : "";                        
+            var countryName = country != null ? country.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] : "";                        
             <div class="location">
                 <small>
                     <span>@city</span>

@@ -3,10 +3,10 @@
 
 @{
     var categories = Localizer.GetList("professional-categories");
-    var countries = Localizer.GetList("supported-countries");
+    var countries = Classy.DotNet.Responses.AppView.SupportedCountries;
     var cities = Localizer.GetCitiesWithCountries();
+    var loc = (!string.IsNullOrEmpty(Model.Country) && Model.Country != "current-location" && countries.Any(x => x.Value == Model.Country)) ? countries.Single(x => x.Value == Model.Country).Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] : "";
     var serializedCities = cities.Select(x => new {Value = x}).ToArray();
-    var loc = (!string.IsNullOrEmpty(Model.Country) && Model.Country != "current-location" && countries.Any(x => x.Value == Model.Country)) ? countries.Single(x => x.Value == Model.Country).Text : "";
     ViewBag.Title = string.Format(Localizer.Get("ProfileSearch_PageTitle"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     ViewBag.MetaDescription = string.Format(Localizer.Get("ProfileSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Category) ? categories.Single(x => x.Value == Model.Category).Text : Localizer.Get("ProfileSearch_Professionals"), loc);
     var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
@@ -60,7 +60,7 @@
             @if (hasCountry)
             {
                 <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category, Country = Model.CountryCode }.ToSlug() })"><span itemprop="title">@countries.Single(x => x.Value == Model.CountryCode).Text</span></a>
+                    <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Category = Model.Category, Country = Model.CountryCode }.ToSlug() })"><span itemprop="title">@countries.Single(x => x.Value == Model.CountryCode).Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]</span></a>
                 </span>
             }
         </div>

@@ -15,14 +15,14 @@
                     <span class="visual"><i class="glyphicon glyphicon-search"></i></span>
                     <span class="verbal"><strong>1.</strong> @Localizer.Get("FindProForReview_Step1")</span>
                     <div class="search">
-                        @Html.Bootstrap().TextBox("ProName").Class("typeahead").HtmlAttributes(new Dictionary<string, string> { { "data-provide", "typeahead" }}).Placeholder(Localizer.Get("FindProForReview_Placeholder"))
+                        @Html.Bootstrap().TextBox("ProName").Class("typeahead").Placeholder(Localizer.Get("FindProForReview_Placeholder"))
                     </div>
                 </li>
                 <li>
                     <span class="visual"><i class="glyphicon glyphicon-comment"></i></span>
                     <span class="verbal"><strong>2.</strong> @Localizer.Get("FindProForReview_Step2")</span>
                     <div class="selection">
-                        <a id="reviewLink" href="#" class="hide btn btn-primary">@Localizer.Get("FindProToReview_ReviewLink") <span class="name"></span></a>
+                        <a id="reviewLink" href="@(Url.RouteUrlForCurrentLocale("PostProfileReview", new { ProfileId = "__profileId__" }))" class="hide btn btn-primary">@Localizer.Get("FindProToReview_ReviewLink") <span class="name"></span></a>
                     </div>
                 </li>
             </ul>
@@ -37,44 +37,37 @@
     @Scripts.Render("~/scripts/hogan-2.0.0.js")
     @Scripts.Render("~/scripts/typeahead.min.js")
 
-<script>
-    $('.typeahead').typeahead({
-        name: 'profile-names',
-        remote: {
-            url: '/profile/search?professionalsonly=true&format=json&name=%QUERY',
-            filter: function (results) {
-                var profiles = [];
-                $.each(results, function (index, profile) {
-                    if (profile.IsProfessional) {
-                        profiles.push({
-                            "value": profile.Id,
-                            "city": profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City,
-                            "country": profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country,
-                            "name": profile.ProfessionalInfo.CompanyName,
-                            "isProxy": profile.IsProxy,
-                            "tokens": [profile.ProfessionalInfo.CompanyName]
-                        });
-                    }
-                });
-                return profiles;
-            },
-            cache: false
+    <script>
+        var proSuggestions = new Bloodhound({
+            name: 'profile-suggestions',
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: '',
+            remote: '//' + window.location.host + '/profile/search?professionalsonly=true&format=json&name=%QUERY'
+        });
+        proSuggestions.initialize();
+
+        $('#ProName').typeahead({
+            minLength: 2,
+            highlight: true,
+            hint: true
         },
-        valueKey: 'name',
-        template: '<p>{{name}}</p><p><small>{{city}}, {{country}}</small></p>',
-        limit: 50,
-        engine: Hogan
-    }).keyup(function (e) {
-        $('#reviewLink').attr('href', '@(Url.RouteUrlForCurrentLocale("PostProfileReview", new { ProfileId = "__profileId__" }))').addClass('hide');
-
-    }).on('typeahead:selected', function (e, item) {
-        $('#reviewLink')
-            .attr('href', $('#reviewLink').attr('href').replace('__profileId__', item.value))
-            .removeClass('hide')
-            .children('.name')
-            .html(item.name);
-    });
-</script>
-
+        {
+            name: 'profile-names',
+            displayKey: function (profile) { return profile.ProfessionalInfo.CompanyName; },
+            source: proSuggestions.ttAdapter(),
+            templates: {
+                suggestion: function(profile) {
+                    return '<p>' + profile.ProfessionalInfo.CompanyName + '</p><p><small>' + profile.ProfessionalInfo.CompanyContactInfo.Location.City + ', ' + profile.ProfessionalInfo.CompanyContactInfo.Location.Country + '</small></p>';
+                }
+            }
+        }).on('typeahead:selected', function (e, item) {
+            $('#reviewLink')
+                .attr('href', $('#reviewLink').attr('href').replace('__profileId__', item.Id))
+                .removeClass('hide')
+                .children('.name')
+                .html(item.name);
+        });
+    </script>
 }
 

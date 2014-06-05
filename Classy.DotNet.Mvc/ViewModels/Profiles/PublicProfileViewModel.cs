@@ -12,5 +12,8 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         public ProfileView Profile { get; set; }
         public TReviewSubCriteria ReviewSubCriteria { get; set; }
         public TProMetadata TypedMetadata { get; set; }
+
+        public IList<ProfileView> RelatedProfiles { get; set; }
+        public IList<ListingView> RelatedListings { get; set; }
     }
 }

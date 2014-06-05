@@ -18,7 +18,7 @@
     var webphotos = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.WebPhotos);
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
     var proCategories = Localizer.GetList("professional-categories");
-    var countries = Localizer.GetList("supported-countries");
+    var countries = Classy.DotNet.Responses.AppView.SupportedCountries;
 }
 
 @section MetaTags {
@@ -73,8 +73,11 @@
             else
             {
                 <a href="@Url.RouteUrl("CreateProfessionalProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoPro")</a>
-                <a href="@Url.RouteUrl("CreateVendorProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoVendor")</a>
             }
+            @*@if (!Model.Profile.IsVendor)
+            {
+                <a href="@Url.RouteUrl("CreateVendorProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoVendor")</a>
+            }*@
         </div>
     }
 }
@@ -454,7 +457,7 @@
                                 {
                                     <span itemprop="addressLocality">@Html.RouteLinkForCurrentLocale(Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country, City = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City }.ToSlug() })</span>@:&nbsp;
                                 }
-                                <span>@Html.RouteLinkForCurrentLocale(countries.Single(x => x.Value == Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text, "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country }.ToSlug() })</span>
+                                <span>@Html.RouteLinkForCurrentLocale(countries.Single(x => x.Value == Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country).Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName], "SearchProfiles", new { filters = new Classy.DotNet.Mvc.ViewModels.Profiles.SearchProfileViewModel<MyHome.Models.ProfessionalMetadata> { Country = Model.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country }.ToSlug() })</span>
                             </span>
                         </div>
                     }

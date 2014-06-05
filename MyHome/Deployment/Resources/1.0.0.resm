@@ -2,6 +2,97 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Confirm_Ok",
+			"Description": "Ok button text in popups and confimations",
+			"Values": {
+				"en": "OK"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_PhotosSelectionLimitPopupTitle",
+			"Description": "Photos selection limit popup title",
+			"Values": {
+				"en": "Create Poll Error"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_PhotosSelectionLimit",
+			"Description": "Photos selection limit popup explanation",
+			"Values": {
+				"en": "You must select between 2 to 4 photos to create a poll"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_TipsAreaContent",
+			"Description": "Create poll tips area content",
+			"Values": {
+				"en": "&lt;li&gt;Pick between 2-4 photos&lt;/li&gt;&lt;li&gt;Share with your friends to get quick feedback&lt;/li&gt;&lt;li&gt;Come back to view the feedback!&lt;/li&gt;&lt;small&gt;Photos that do not meet our guidelines will be removed&lt;/small&gt;"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_TipsAreaTitle",
+			"Description": "Create poll help area title",
+			"Values": {
+				"en": "Tips"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_FormTitleLabel",
+			"Description": "Create poll form title watermark text",
+			"Values": {
+				"en": "Give your poll a title"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_CollectionContent",
+			"Description": "Poll form description input label",
+			"Values": {
+				"en": "Description of the poll"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_SelectListings",
+			"Description": "Select Photos button in create poll form",
+			"Values": {
+				"en": "Select Photos"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_Submit",
+			"Description": "Create poll form submit button",
+			"Values": {
+				"en": "Create Poll"
+			}
+		},
+		{ 
+			"Key": "SelectListingsModal_Title",
+			"Description": "Create poll form select listing popup title",
+			"Values": {
+				"en": "Select Photos"
+			}
+		},
+		{ 
+			"Key": "SelectListingsModal_SubmitButton",
+			"Description": "button on select listings popup in create poll form",
+			"Values": {
+				"en": "Save"
+			}
+		},
+		{ 
+			"Key": "PollDetails_NoComments",
+			"Description": "Poll details no comments text",
+			"Values": {
+				"en": "No comments yet. Be the first to comment on this poll!"
+			}
+		},
+		{ 
+			"Key": "CreatePoll_PageTitle",
+			"Description": "Create Poll - Page header",
+			"Values": {
+				"en": "Create Poll"
+			}
+		},
+		{ 
 			"Key": "EditorTools_SelectTool",
 			"Description": "Editor's tools - select many listings",
 			"Values": {
@@ -100,7 +191,7 @@
 			}
 		},
 		{
-			"Key": "UpdateListing_Keywords",
+			"Key": "UpdateKeywords",
 			"Description": "label of the keywords field when editing a photo",
 			"Values": {
 				"en": "Keywords"
@@ -147,12 +238,6 @@
 			"Values": {
 				"en": "Before moving on, what would you like to do with your unsaved changes?"
 			}
-		},
+		}
 	]
 }
-
-
-
-
-
-

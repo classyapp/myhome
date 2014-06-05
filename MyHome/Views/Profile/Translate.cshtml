@@ -1,7 +1,7 @@
 ﻿@model Classy.DotNet.Mvc.ViewModels.Profiles.TranslateProfileViewModel<MyHome.Models.ProfessionalMetadata>
 
 @{
-    IEnumerable<LocalizedListItem> cultures = Localizer.GetList("supported-cultures");
+    IEnumerable<Classy.DotNet.Responses.ListItemView> cultures = Classy.DotNet.Responses.AppView.SupportedCultures;
 }
 
 <div class="modal-header">
@@ -10,7 +10,7 @@
 </div>
 <div class="modal-body">
     <p>
-        @string.Format(Localizer.Get("TranslateProfile_DefaultLanguageInstructions"), cultures.First(c => c.Value == Model.CultureCode).Text)
+        @string.Format(Localizer.Get("TranslateProfile_DefaultLanguageInstructions"), cultures.First(c => c.Value == Model.CultureCode).Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName])
     </p>
     @using (var f = Ajax.Bootstrap().Begin(new Form("Translate", "Profile").Type(FormType._NotSet).RouteValues(new { ProfileId = Model.ProfileId }).Id("frmTranslate"), new AjaxOptions
     {
@@ -21,7 +21,7 @@
     }))
     {
         @Html.Bootstrap().ValidationSummary()
-        @f.FormGroup().DropDownListFor(x => x.CultureCode, Localizer.GetList("supported-cultures").AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+        @f.FormGroup().DropDownListFor(x => x.CultureCode, cultures.AsSelectList(new string[] { Model.CultureCode })).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextBoxFor(x => x.CompanyName).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.Metadata.BusinessDescription).ShowValidationMessage(false).Label().ShowRequiredStar(false)
         @f.FormGroup().TextAreaFor(x => x.Metadata.ServicesProvided).ShowValidationMessage(false).Label().ShowRequiredStar(false)

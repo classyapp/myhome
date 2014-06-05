@@ -22,11 +22,30 @@ namespace MyHome.Controllers
                 base.OnContactProfessional += ProfileController_OnContactProfessional;
                 base.OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
                 base.OnAskForReview += ProfileController_OnAskForReview;
+                base.OnLoadPublicProfile += ProfileController_OnLoadPublicProfile;
+        }
+
+        public void ProfileController_OnLoadPublicProfile(object sender, LoadPublicProfileEventArgs<ProfessionalMetadata> e)
+        {
+            if (e.Profile.IsProxy)
+            {
+                var service = new Classy.DotNet.Services.ProfileService();
+                var location = new LocationView
+                {
+                    Address = new PhysicalAddressView
+                    {
+                        Country = e.Profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country
+                    }
+                };
+                var profiles = service.SearchProfiles(null, e.Profile.ProfessionalInfo.Category, location, null, true, false, 1);
+                if (profiles.Count == 0) profiles = service.SearchProfiles(null, null, location, null, true, false, 1);
+                e.RelatedProfiles = profiles.Results;
+            }
         }
 
         public void ProfileController_OnParseProfilesCsvLine(object sender, ParseProfilesCsvLineArgs<ProfessionalMetadata> e)
         {
-            var countries = Localizer.GetList("supported-countries");
+            var countries = AppView.SupportedCountries;
             if (e.IsHeaderLine) return;
             else
             {

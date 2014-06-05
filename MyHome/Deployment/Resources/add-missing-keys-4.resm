@@ -1,0 +1,19 @@
+﻿{
+    "AppId": "v1.0",
+    "Resources": [
+        {
+            "Key": "CreateListingFromUrl_Content",
+            "Description": "title of description field in chrome extension for uploading photos from other websites",
+            "Values": {
+                "en": "Describe this photo"
+            }
+        },
+        {
+            "Key": "CreateListingFromUrl_Submit",
+            "Description": "submit button in chrome extension for uploading photos from other websites",
+            "Values": {
+                "en": "Save to HomeLab"
+            }
+        }
+    ]
+}

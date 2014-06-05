@@ -32,6 +32,7 @@ namespace Classy.DotNet.Mvc.Controllers
         public ProfileController() : base() { }
         public ProfileController(string ns) : base(ns) { }
 
+        public EventHandler<LoadPublicProfileEventArgs<TProMetadata>> OnLoadPublicProfile;
         public EventHandler<ContactProfessionalArgs<TProMetadata>> OnContactProfessional;
         public EventHandler<ParseProfilesCsvLineArgs<TProMetadata>> OnParseProfilesCsvLine;
         public EventHandler<AskForReviewArgs<TProMetadata>> OnAskForReview;
@@ -143,6 +144,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 name: "ProfileJobs",
                 url: "profile/jobs",
                 defaults: new { controller = "Profile", action = "ProfileJobs" },
+                namespaces: new string[] { Namespace }
+            );
+
+            routes.MapRouteWithName(
+                name: "ProfileJobErrors",
+                url: "profile/job/{jobid}/errors",
+                defaults: new { controller = "Profile", action = "ProfileJobErrors" },
                 namespaces: new string[] { Namespace }
             );
 
@@ -481,7 +489,20 @@ namespace Classy.DotNet.Mvc.Controllers
                     ReviewSubCriteria = subCriteria
                 };
 
-                return View(model);
+                if (OnLoadPublicProfile != null)
+                {
+                    var args = new LoadPublicProfileEventArgs<TProMetadata>
+                    {
+                        Profile = profile,
+                        TypedMetadata = metadata
+                    };
+                    OnLoadPublicProfile(this, args);
+
+                    model.RelatedListings = args.RelatedListings;
+                    model.RelatedProfiles = args.RelatedProfiles;
+                }
+
+                return View(profile.IsProxy ? "ProxyLandingPage" : "PublicProfile", model);
             }
             catch (ClassyException cex)
             {
@@ -1206,7 +1227,25 @@ namespace Classy.DotNet.Mvc.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult ProfileJobs()
         {
-            return View();
+            JobService service = new JobService();
+            IList<JobView> jobs = service.GetJobsStatus(AuthenticatedUserProfile.Id);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_ProfileJobsRows", jobs);
+            }
+            else
+            {
+                return View(jobs);
+            }
+        }
+
+        [AuthorizeWithRedirect("Home")]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ProfileJobErrors(string jobid)
+        {
+            JobService service = new JobService();
+            string errors = service.GetJobErrors(jobid);
+            return File(Encoding.UTF8.GetBytes(errors), "text/csv", string.Format("errors_{0}.csv", jobid));
         }
         #endregion
     }

@@ -1,0 +1,29 @@
+﻿{ 
+	"AppId" : "v1.0",
+	"Resources": [
+		{
+		"Key": "PublicProfile_ShareTitle",
+		"Description": "title of facebook post when sharing profile",
+		"Values": {
+			"en": "{0} is on HomeLab"
+			}
+		},
+		{ 
+		"Key": "Layout_RecruitingMetaTag",
+		"Description": "please ignore",
+		"Values": {
+			"en": "Come work with us at homelab! visit http://www.homelab.com/careers",
+			"he": "Come work with us at homelab! visit http://www.homelab.com/careers",
+			"fr": "Come work with us at homelab! visit http://www.homelab.com/careers",
+			"nl": "Come work with us at homelab! visit http://www.homelab.com/careers"
+			}
+		},
+		{ 
+		"Key": "Discard",
+		"Description": "button for discarding pending changes",
+		"Values": {
+			"en": "Discard"
+			}
+		}
+	]
+}
