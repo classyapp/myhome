@@ -1782,7 +1782,7 @@ body.mobile
     position: absolute;
     bottom: 32px; right: 0;
     padding: 6px 14px;
-    background-color: #5cb85c;
+    background-color: #428bca;
     color: #fff;
     border: solid 1px #285E8E;
     border-right: 0;
@@ -1792,11 +1792,11 @@ body.mobile
     -webkit-transition: width 1s;
     -moz-transition: width 0.3s;
 }
-.thumbnail .vote-button span {
-    float: right;
-}
 .thumbnail.vote.voted img {
     border: solid 2px #428bca;
+}
+.thumbnail.vote.voted .vote-button {
+    background-color: #5cb85c;
 }
 .thumbnail .vote-button .glyphicon {
     margin: 0 6px 0 0;

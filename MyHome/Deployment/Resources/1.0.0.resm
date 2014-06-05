@@ -2,6 +2,26 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "PollDetails_MyVote",
+			"Description": "Poll details - Caption on user's vote",
+			"Values": {
+				"en": "My Vote"
+			}
+		},
+		{ 
+			"Key": "PollDetails_ChangeVotePopupTitle",
+			"Description": "Poll details - Change your vote popup title",
+			"Values": {
+				"en": "You voted already"
+			}
+		},{ 
+			"Key": "PollDetails_ChangeVotePopupContent",
+			"Description": "Poll details - Change your vote popup message",
+			"Values": {
+				"en": "This will change your current vote.<br/>Are you sure you want to proceed ?"
+			}
+		},
+		{ 
 			"Key": "PollDetails_Winner",
 			"Description": "Poll details - Winner icon text on winning image",
 			"Values": {

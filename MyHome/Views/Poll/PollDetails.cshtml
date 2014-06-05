@@ -95,9 +95,9 @@
                             {
                                 <h4><div class="label label-success">@Localizer.Get("PollDetails_Winner")</div></h4>
                             }
-                            <div class="vote-button" @(usersChoice ? "style=width:86px;" : "")>
+                            <div class="vote-button">
                                 <i class="glyphicon glyphicon-ok @(!usersChoice ? "hidden" : "")"></i>
-                                <span>@Localizer.Get("PollDetails_VoteButton")</span>
+                                <span>@(usersChoice ? Localizer.Get("PollDetails_MyVote") : Localizer.Get("PollDetails_VoteButton"))</span>
                             </div>
                             @Html.Thumbnail(pollOption, thumbnailSize)
                             <div class="vote-percent">
