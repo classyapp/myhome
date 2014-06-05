@@ -99,6 +99,8 @@ a, a:visited
         filter: alpha(opacity=100);
     }
 
+.loader { text-align: center; }
+
 .media > .pull-left
 {
     margin-right: 10px;
@@ -135,7 +137,8 @@ a, a:visited
 .modal-footer
 {
     margin-top: 0px;
-    background-color: #F0F0F0;
+    /*background-color: #F0F0F0;*/
+    background-color: #fff;
 }
 
 .helpbar .content
@@ -708,6 +711,13 @@ a, a:visited
     font-weight: bold;
     padding: 2px 0 2px 6px;
     background-color: #eee;
+}
+
+.tt-suggestion.tt-cursor {
+    background-color: #0097cf;color: #fff;
+}
+.tt-suggestion:hover {
+    cursor: pointer;
 }
 
 /* profile page */
@@ -1302,7 +1312,7 @@ div.upload #file
     position: relative;
 }
 
-    .fb-photos .thumbnail .select
+    .thumbnail .select
     {
         display: block;
         position: absolute;
@@ -1313,7 +1323,7 @@ div.upload #file
         color: #6086d5;
     }
 
-        .fb-photos .thumbnail .select.selected .glyphicon
+        .thumbnail .select.selected .glyphicon
         {
             color: #fff;
         }
@@ -1763,3 +1773,72 @@ body.mobile
         left: auto;
         right: auto;
     }
+#listings-preview { margin-bottom: 20px; }
+
+
+
+/* polls */
+.thumbnail .vote-button {
+    position: absolute;
+    bottom: 32px; right: 0;
+    padding: 6px 14px;
+    background-color: #428bca;
+    color: #fff;
+    border: solid 1px #285E8E;
+    border-right: 0;
+    border-radius: 4px 0 0 4px;
+    font-weight: bold;
+    transition: width 1s;
+    -webkit-transition: width 1s;
+    -moz-transition: width 0.3s;
+}
+.thumbnail .vote-button span {
+    float: right;
+}
+.thumbnail.vote.voted img {
+    border: solid 2px #428bca;
+}
+.thumbnail .vote-button .glyphicon {
+    margin: 0 6px 0 0;
+}
+.poll-stat {
+    display: inline-block;
+}
+.poll-stat .progress {
+    position: relative;
+    width: 20px;
+    height: 234px;
+    margin-right: 6px;
+    margin-bottom: 15px;
+}
+.poll-stat .progress .progress-bar {
+    position: absolute;
+    bottom: 0;
+}
+.poll-results .thumbnail {
+    margin-right: 50px;
+    cursor: pointer;
+    display: inline-block;
+}
+.poll-results .thumbnail.vote h4 {
+    position: absolute;
+    right: -10px;top: -16px;
+}
+.poll-stat .progress-bar {
+    transition: height 2s;
+    -webkit-transition: height 2s;
+    -moz-transition: height 2s;
+}
+.poll-results { margin-top: 20px; }
+
+
+#select-listings-modal .thumbs1, #select-listings-modal .thumbs2, #select-listings-modal .thumbs3, #select-listings-modal .thumbs4 {
+    height: 166px;cursor: pointer;
+}
+#select-listings-modal .thumbs1:hover, #select-listings-modal .thumbs2:hover, #select-listings-modal .thumbs3:hover, #select-listings-modal .thumbs4:hover {
+    opacity: 0.4;
+}
+#select-listings-modal .photos .thumbnail:hover {
+    cursor: pointer;
+    opacity: 0.4;
+}

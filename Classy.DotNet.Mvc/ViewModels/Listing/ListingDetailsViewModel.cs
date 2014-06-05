@@ -1,10 +1,4 @@
 ﻿using Classy.DotNet.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
 {
@@ -12,5 +6,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
     {
         public ListingView Listing { get; set; }
         public TListingMetadata Metadata { get; set; }
+        public object ExtraData { get; set; }
     }
 }

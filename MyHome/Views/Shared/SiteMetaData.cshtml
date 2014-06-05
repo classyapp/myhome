@@ -1,4 +1,6 @@
-﻿@model object
+﻿@using System.Configuration
+@using Classy.DotNet.Security
+@model object
 
 @{
     var language = UICulture;
@@ -12,7 +14,9 @@
 <script language="javascript" type="text/javascript">
     var Classy = Classy || {};
     Classy.SiteMetadata = {
+        LoggedIn: @User.Identity.IsAuthenticated.ToString().ToLower(),
         Rooms: @Html.Raw(rooms),
-        Styles: @Html.Raw(styles)
+        Styles: @Html.Raw(styles),
+        CdnUrl: '@ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]'
     };
 </script>

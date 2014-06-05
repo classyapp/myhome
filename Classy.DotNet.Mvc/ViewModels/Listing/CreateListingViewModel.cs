@@ -1,10 +1,5 @@
 ﻿using Classy.DotNet.Responses;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Classy.DotNet.Mvc.ViewModels.Listing
@@ -17,7 +12,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string CollectionType { get; set; }
         [Required(ErrorMessage = "CreateListing_PhotoBookTitleRequired")]
         public string Title { get; set; }
-        [Display(Name = "CreateListing_CollectionContent")]
+        [Display(Name = "CreatePoll_CollectionContent")]
         public string Content { get; set; }
         public PricingViewModel PricingInfo { get; set; }
         public LocationView Location { get; set; }
