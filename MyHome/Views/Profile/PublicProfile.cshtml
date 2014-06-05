@@ -73,8 +73,11 @@
             else
             {
                 <a href="@Url.RouteUrl("CreateProfessionalProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoPro")</a>
-                <a href="@Url.RouteUrl("CreateVendorProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoVendor")</a>
             }
+            @*@if (!Model.Profile.IsVendor)
+            {
+                <a href="@Url.RouteUrl("CreateVendorProfile")" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-flash"></i> @Localizer.Get("PublicProfile_GoVendor")</a>
+            }*@
         </div>
     }
 }
