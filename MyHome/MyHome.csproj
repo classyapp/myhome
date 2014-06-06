@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="Portable.Licensing">
       <HintPath>..\packages\Portable.Licensing.1.1.0\lib\portable-net40+sl4+wp7+win8\Portable.Licensing.dll</HintPath>
     </Reference>
@@ -125,6 +126,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DiscussionController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="Controllers\PollController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -133,8 +135,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\Modal.cs" />
     <Compile Include="Models\DiscussionMetadata.cs" />
+    <Compile Include="Models\Polls\PollActionsViewModel - Copy.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
+    <Compile Include="Models\Polls\CreateNewPollRequest.cs" />
+    <Compile Include="Models\Polls\PollMetadata.cs" />
+    <Compile Include="Models\Polls\PollViewExtraData.cs" />
+    <Compile Include="Models\Polls\VotedOnPollActivityMetadata.cs" />
     <Compile Include="Models\ProductMetadata.cs" />
     <Compile Include="Models\ProfessionalMetadata.cs" />
     <Compile Include="Models\ProfileReviewCriteria.cs" />
@@ -170,6 +178,11 @@
     <Content Include="Deployment\Resources\product-details.resm" />
     <Content Include="Deployment\Resources\currency-support.resm" />
     <Content Include="Deployment\Resources\add-missing-keys-2.resm" />
+    <Content Include="Deployment\Resources\add-missing-keys-3.resm" />
+    <Content Include="Deployment\Resources\new-proxy-page.resm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Deployment\Resources\add-missing-keys-4.resm" />
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -467,6 +480,7 @@
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
     <Content Include="Scripts\magicsuggest.js" />
+    <Content Include="Scripts\classy-images.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
@@ -497,6 +511,10 @@
     <Content Include="Scripts\wysihtml5-0.3.0.min.js" />
     <Content Include="Scripts\xhr-upload.js" />
     <Content Include="Scripts\editor-tools.js" />
+    <Content Include="Scripts\create-poll.js" />
+    <Content Include="Scripts\select-listings-modal.js" />
+    <Content Include="Scripts\poll-details.js" />
+    <Content Include="Scripts\ajax-blocker.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
@@ -569,7 +587,7 @@
     <Content Include="Views\Profile\SendEmail.cshtml" />
     <Content Include="Web.AppHarbor.config" />
     <Content Include="Views\Photo\MoreInfo.cshtml" />
-    <Content Include="Views\Photo\FreeSearch.cshtml" />
+    <Content Include="Views\Shared\FreeSearch.cshtml" />
     <Content Include="Views\Profile\UploadCatalog.cshtml" />
     <Content Include="Views\Profile\ProfileJobs.cshtml" />
     <Content Include="Views\Product\ProductDetails.cshtml" />
@@ -579,8 +597,14 @@
     <Content Include="Views\Profile\SmallProfileResultGrid.cshtml" />
     <Content Include="Views\Shared\SiteMetadata.cshtml" />
     <Content Include="Views\Photo\EditorTools.cshtml" />
+    <Content Include="Views\Poll\CreatePoll.cshtml" />
+    <Content Include="Views\Poll\SelectListingsModal.cshtml" />
+    <Content Include="Views\Common\Modal.cshtml" />
+    <Content Include="Views\Poll\PollDetails.cshtml" />
     <Content Include="Views\Profile\_ProfileJobsRows.cshtml" />
     <Content Include="Views\Product\EditProduct.cshtml" />
+    <Content Include="Views\Profile\ProxyLandingPage.cshtml" />
+    <Content Include="Views\Shared\PollActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -599,6 +623,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\ViewModels\" />
   </ItemGroup>
