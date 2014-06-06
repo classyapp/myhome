@@ -182,6 +182,13 @@
                 "Values": {
                     "en": "Catalog Import Jobs Status"
                 }
-            }
+            },
+			{
+				"Key": "ProductDetails_Category",
+				"Description": "Product category label",
+				"Values": {
+					"en": "Category"
+				}
+			}
     ]
 }

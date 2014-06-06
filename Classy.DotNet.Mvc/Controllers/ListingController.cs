@@ -449,7 +449,9 @@ namespace Classy.DotNet.Mvc.Controllers
                     EditorKeywords = listing.TranslatedKeywords != null && listing.TranslatedKeywords.ContainsKey("en") ? listing.TranslatedKeywords["en"] : new[] { "" },
                     TranslatedKeywords = listing.TranslatedKeywords,
                     SearchableKeywords = listing.SearchableKeywords,
-                    EditorsRank = listing.EditorsRank
+                    EditorsRank = listing.EditorsRank,
+                    PricingInfo = listing.PricingInfo,
+                    Categories = listing.Categories
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -470,12 +472,23 @@ namespace Classy.DotNet.Mvc.Controllers
                     IsEditor = AuthenticatedUserProfile.IsEditor,
                     EditorKeywords = model.EditorKeywords
                 };
-                OnUpdateListing(this, updatedListingArgs);
+
+                if (OnUpdateListing != null)
+                {
+                    OnUpdateListing(this, updatedListingArgs);
+                }
 
                 var fields = ListingUpdateFields.Title | ListingUpdateFields.Content |
                     ListingUpdateFields.Metadata | ListingUpdateFields.Hashtags;
 
                 if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
+                if (model.PricingInfo != null)
+                {
+                    if (ValidatePricingInfo(model.PricingInfo, ModelState)) 
+                    {
+                        fields |= ListingUpdateFields.Pricing;
+                    }
+                }
                 if (ModelState.IsValid)
                 {
                     var service = new ListingService();
@@ -502,6 +515,83 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
+        }
+
+        private bool ValidatePricingInfo(PricingInfoView pricingInfoView, ModelStateDictionary ModelState)
+        {
+            if (!AppView.SupportedCurrencies.Any(c => c.Value == pricingInfoView.CurrencyCode))
+            {
+                ModelState.AddModelError("PricingInfo", "Default Currency is required");
+                return false;
+            }
+            if (pricingInfoView.PurchaseOptions == null || pricingInfoView.PurchaseOptions.Count == 0)
+            {
+                ModelState.AddModelError("PricingInfo", "At least one purchase options is required");
+                return false;
+            }
+            for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
+			{
+                string error = null;
+                if (!ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i == 0, out error))
+                {
+                    ModelState.AddModelError("PricingInfo", error);
+                    return false;
+                }
+			}
+
+            // ensure unique sku and no duplicate variants
+            if (pricingInfoView.PurchaseOptions.Count > 1)
+            {
+                Dictionary<string, int> skus = new Dictionary<string, int>();
+                foreach (var option in pricingInfoView.PurchaseOptions)
+                {
+                    if (string.IsNullOrEmpty(option.SKU))
+                    {
+                        ModelState.AddModelError("PricingInfo", "SKU is required");
+                        return false;
+                    }
+                    else if (skus.ContainsKey(option.SKU))
+                    {
+                        ModelState.AddModelError("PricingInfo", "SKU must be unique");
+                        return false;
+                    }
+                    else
+                    {
+                        skus.Add(option.SKU, 0);
+                    }
+                }
+
+                Dictionary<string, int> variants = new Dictionary<string, int>();
+                foreach (var option in pricingInfoView.PurchaseOptions)
+                {
+                    string[] arr = option.VariantProperties.Select(x => string.Join(";", x.Key.ToLowerInvariant(), x.Value.ToLowerInvariant())).ToArray();
+                    Array.Sort(arr);
+                    string variant = string.Join(";", arr);
+                    if (variants.ContainsKey(variant))
+                    {
+                        ModelState.AddModelError("PricingInfo", "Duplicate purchase option detected");
+                        return false;
+                    }
+                    else
+                    {
+                        variants.Add(variant, 0);
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool ValidatePurchaseOption(PurchaseOptionView option, bool imageRequired, out string error)
+        {
+            error = null;
+            if (imageRequired && (string.IsNullOrEmpty(option.DefaultImage) || option.MediaFiles == null || option.MediaFiles.Length == 0))
+            {
+                error = "At least one image is required";
+                return false;
+            }
+
+            return true;
         }
 
         [Authorize]
