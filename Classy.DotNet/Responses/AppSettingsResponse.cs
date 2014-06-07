@@ -28,5 +28,7 @@ namespace Classy.DotNet.Responses
         public IList<CurrencyListItemView> SupportedCurrencies { get; set; }
         public IList<ListItemView> SupportedCultures { get; set; }
         public IList<ListItemView> SupportedCountries { get; set; }
+        public IList<ListItemView> ProductCategories { get; set; }
+        public IList<ListItemView> Styles { get; set; }
     }
 }

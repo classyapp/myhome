@@ -1773,6 +1773,12 @@ body.mobile
         left: auto;
         right: auto;
     }
+
+.well .row + .row
+{
+    margin-top: 10px;
+}
+
 #listings-preview { margin-bottom: 20px; }
 
 
