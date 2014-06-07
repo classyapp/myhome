@@ -189,6 +189,13 @@
 				"Values": {
 					"en": "Category"
 				}
+			},
+			{
+				"Key": "ProductMetadata_Style",
+				"Description": "Style label",
+				"Values": {
+					"en": "Style"
+				}
 			}
     ]
 }
