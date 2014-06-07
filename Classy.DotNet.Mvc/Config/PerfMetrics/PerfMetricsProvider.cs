@@ -7,6 +7,7 @@ namespace Classy.DotNet.Mvc.Config.PerfMetrics
     public class PerfMetricsProvider
     {
         public const string PerfMetricsKey = "__PerfMetrics__";
+        public static string PerfMetricsEnabledKey = "__PerfMetricsEnabled__";
 
         [ThreadStatic] public static Guid CurrentMetric;
 
@@ -14,6 +15,9 @@ namespace Classy.DotNet.Mvc.Config.PerfMetrics
         {
             var httpContext = HttpContext.Current;
             if (httpContext == null)
+                return new List<PerfMetric>();
+
+            if (!httpContext.Items.Contains(PerfMetricsEnabledKey) || (string)httpContext.Items[PerfMetricsEnabledKey] == false.ToString())
                 return new List<PerfMetric>();
 
             if (!httpContext.Items.Contains(PerfMetricsKey))
@@ -30,6 +34,9 @@ namespace Classy.DotNet.Mvc.Config.PerfMetrics
         {
             var httpContext = HttpContext.Current;
             if (httpContext == null)
+                return;
+
+            if (!httpContext.Items.Contains(PerfMetricsEnabledKey) || (string) httpContext.Items[PerfMetricsEnabledKey] == false.ToString())
                 return;
 
             if (!httpContext.Items.Contains(PerfMetricsKey))
