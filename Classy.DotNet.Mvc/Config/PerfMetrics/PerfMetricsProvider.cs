@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 
-namespace Classy.DotNet.Mvc.Config
+namespace Classy.DotNet.Mvc.Config.PerfMetrics
 {
     public class PerfMetricsProvider
     {
@@ -40,50 +40,6 @@ namespace Classy.DotNet.Mvc.Config
                 return;
 
             perfMetrics.Add(perfMetric);
-        }
-    }
-
-    public class PerfMetric
-    {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-        public int Time { get; set; }
-        public int Count { get; set; }
-
-        public Guid Parent { get; set; }
-        public List<PerfMetric> Children { get; set; }
-
-        public PerfMetric()
-        {
-            Id = Guid.NewGuid();
-            Children = new List<PerfMetric>();
-        }
-    }
-
-    public class Perf : IDisposable
-    {
-        private readonly DateTime _startTime;
-        private readonly string _name;
-
-        public static Perf Measure(string perfMetricName)
-        {
-            return new Perf(perfMetricName);
-        }
-
-        public Perf(string name)
-        {
-            _startTime = DateTime.Now;
-            _name = name;
-        }
-
-        public void Dispose()
-        {
-            var elapsed = (DateTime.Now - _startTime).TotalMilliseconds;
-            PerfMetricsProvider.Set(new PerfMetric {
-                Name = _name,
-                Time = (int)elapsed
-            });
         }
     }
 }

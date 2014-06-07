@@ -74,7 +74,9 @@
     <Compile Include="Attributes\RouteAttribute.cs" />
     <Compile Include="Attributes\TranslatableAttribute.cs" />
     <Compile Include="Config\FeatureSwitchProvider.cs" />
-    <Compile Include="Config\PerfMetricsProvider.cs" />
+    <Compile Include="Config\PerfMetrics\Perf.cs" />
+    <Compile Include="Config\PerfMetrics\PerfMetric.cs" />
+    <Compile Include="Config\PerfMetrics\PerfMetricsProvider.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ListingLoadedEventArgs.cs" />
