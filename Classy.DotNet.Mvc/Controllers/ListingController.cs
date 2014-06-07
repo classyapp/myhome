@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
@@ -346,8 +347,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     true,
                     true);
                 var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
-                var model = new ListingDetailsViewModel<TListingMetadata> 
-                {
+                var model = new ListingDetailsViewModel<TListingMetadata> {
                     Listing = listing,
                     Metadata = listingMetadata
                 };
