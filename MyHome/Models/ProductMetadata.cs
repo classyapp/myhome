@@ -5,16 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Classy.DotNet.Mvc.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyHome.Models
 {
     public class ProductMetadata : IMetadata<ProductMetadata>
     {
+        [Display(Name = "ProductMetadata_Style")]
+        [Required(ErrorMessage = "ProductMetadata_Style_Required")]
         public string Style { get; set; }
+        [Display(Name = "ProductMetadata_Materials")]
         public string Materials { get; set; }
+        [Display(Name = "ProductMetadata_Manufacturer")]
         public string Manufacturer { get; set; }
+        [Display(Name = "ProductMetadata_Designer")]
         public string Designer { get; set; }
-        public string ProductUrl { get; set; }
 
         public IDictionary<string, string> ToDictionary()
         {
@@ -23,7 +28,6 @@ namespace MyHome.Models
             if (!string.IsNullOrEmpty(Materials)) list.Add("Materials", Materials);
             if (!string.IsNullOrEmpty(Manufacturer)) list.Add("Manufacturer", Manufacturer);
             if (!string.IsNullOrEmpty(Designer)) list.Add("Designer", Designer);
-            if (!string.IsNullOrEmpty(ProductUrl)) list.Add("ProductUrl", ProductUrl);
             return list;
         }
 
@@ -34,7 +38,6 @@ namespace MyHome.Models
             if (metadata.ContainsKey("Materials")) output.Materials = metadata["Materials"];
             if (metadata.ContainsKey("Manufacturer")) output.Manufacturer = metadata["Manufacturer"];
             if (metadata.ContainsKey("Designer")) output.Designer = metadata["Designer"];
-            if (metadata.ContainsKey("ProductUrl")) output.ProductUrl = metadata["ProductUrl"];
             return output;
         }
 

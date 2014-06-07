@@ -844,6 +844,8 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult CreateListingNoCollection()
         {
             var model = new CreateListingNoCollectionViewModel<TListingMetadata>();
+            model.Categories = new List<string>();
+            model.PricingInfo = new PricingViewModel() { CurrencyCode = Request[Classy.DotNet.Responses.AppView.CurrencyCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCurrency };
             return View(string.Format("Create{0}", ListingTypeName), model);
         }
     }

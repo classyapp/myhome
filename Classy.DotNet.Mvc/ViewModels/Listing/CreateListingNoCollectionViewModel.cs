@@ -15,7 +15,10 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string Content { get; set; }
         [Required(ErrorMessage = "CreateListing_CategoryRequired")]
         public IList<string> Categories { get; set; }
+        [Required(ErrorMessage = "CreateListing_StyleRequired")]
+        public string Style { get; set; }
         public PricingViewModel PricingInfo { get; set; }
 
+        public TListingMetadata Metadata { get; set; }
     }
 }

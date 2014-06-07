@@ -17,6 +17,7 @@ namespace Classy.DotNet.Responses
         public string SKU { get; set; }
         public double Price { get; set; }
         public double Quantity { get; set; }
+        public string ProductUrl { get; set; }
         public double? CompareAtPrice { get; set; }
         public MediaFileView[] MediaFiles { get; set; }
         public string DefaultImage { get; set; }

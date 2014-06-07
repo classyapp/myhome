@@ -2,18 +2,112 @@
 @{
     ViewBag.Title = Localizer.Get("CreateProduct_PageTitle");
     Html.Bootstrap().Globals().ShowRequiredStar(false);
-    var categories = Localizer.GetList("product-categories");
+    var categories = Classy.DotNet.Responses.AppView.ProductCategories.AsSelectList();
+}
+
+@section AdditionalStyles {
+    <link rel="stylesheet" href="~/Content/ltr/magicsuggest.css" />
+    <link rel="stylesheet" href="~/Content/ltr/dropzone.css" />
+    <link href="~/Content/ltr/bootstrap-tagsinput.css" rel="stylesheet" />
 }
 
 <h2>@Localizer.Get("CreateProduct_PageTitle")</h2>
 
 
-@Html.Bootstrap().ValidationSummary()
+<div class="row">
+    <div class="col-md-7">
+        @Html.Bootstrap().ValidationSummary()
 
-@using (var f = Html.Bootstrap().Begin(new Form("CreateListingNoCollection", "Product").HtmlAttributes(new {enctype="multipart/form-data"})))
+        @using (var f = Html.Bootstrap().Begin(new Form("CreateListingNoCollection", "Product").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
+        {
+            @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false)
+            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
+            @f.FormGroup().TextBoxFor(x => x.Categories).ShowValidationMessage(false)
+            <div class="row">
+                @f.FormGroup().DropDownListFor(x => x.Metadata.Style, Classy.DotNet.Responses.AppView.Styles.AsSelectList()).WidthMd(6).ShowValidationMessage(false)
+                @f.FormGroup().TextBoxFor(x => x.Metadata.Manufacturer).WidthMd(6).ShowValidationMessage(false)
+            </div>
+            @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.ProductUrl).ShowValidationMessage(false)
+            <hr />
+            <div id="externalMedia" class="dropzone">
+                <div class="dz-default dz-message">
+                    <span>@Localizer.Get("CreateListing_DropFiles")</span>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-3">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.SKU).ShowValidationMessage(false)
+                </div>
+                <div class="col-md-3">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.CompareAtPrice).ShowValidationMessage(false)
+                </div>
+                <div class="col-md-3">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Price).ShowValidationMessage(false)
+                </div>
+                <div class="col-md-3">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Quantity).ShowValidationMessage(false)
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Width).ShowValidationMessage(false)
+                </div>
+                <div class="col-md-4">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Depth).ShowValidationMessage(false)
+                </div>
+                <div class="col-md-4">
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Height).ShowValidationMessage(false)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    @f.FormGroup().TextBoxFor(x => x.Metadata.Materials).ShowValidationMessage(false)
+                </div>
+                <div class="col-md-6">
+                    @f.FormGroup().TextBoxFor(x => x.Metadata.Designer).ShowValidationMessage(false)
+                </div>
+            </div>
+            <hr />
+            @f.FormGroup().TextBox("Color").Class("tags").ShowValidationMessage(false)
+            @f.FormGroup().TextBox("Design").Class("tags").ShowValidationMessage(false)
+            @f.FormGroup().TextBox("Size").Class("tags").ShowValidationMessage(false)
+
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(@Localizer.Get("CreateProduct_Submit")))  
+        }
+    </div>
+    <div class="col-md-5"></div>
+</div>
+
+@section scripts
 {
-    @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false)
-    @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
-    
-    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(@Localizer.Get("CreateProduct_Submit")))  
+    <script type="text/javascript" src="~/Scripts/dropzone.js"></script>
+    <script type="text/javascript" src="~/Scripts/magicsuggest.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.tagsinput.js"></script>
+
+    <script type="text/javascript">
+        $("#Categories").attr("value", '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Classy.DotNet.Responses.AppView.ProductCategories.Where(p => Model.Categories.Contains(p.Value)).Select(p => new { id = p.Value, name = p.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] }).ToArray()))');
+        $("#Categories").magicSuggest({
+            placeholder: '@Localizer.Get("CreateListing_CategoriesPlaceHolder")',
+            allowFreeEntries: false,
+            valueField: 'id',
+            name: 'Categories',
+            displayField: 'name',
+            data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Classy.DotNet.Responses.AppView.ProductCategories.Select(c => new { id = c.Value, name = c.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] })))
+            });
+        //$("#externalMedia").dropzone({url:'/upload'});
+        $("input.tags").tagsInput({
+            width: '100%',
+            minInputWidth: '100%',
+            height: '34px',
+            defaultText: 'fille me later',
+            onRemoveTag: function (value) {
+            },
+            onAddTag: function (value) {
+            }
+        });
+        $(".tagsinput").addClass("bootstrap-tagsinput");
+        $(".tagsinput input").addClass("form-control");
+    </script>
 }

@@ -162,6 +162,7 @@
     <Content Include="Content\ltr\bootstrap-tagsinput.css" />
     <Content Include="Content\ltr\bootstrap.min.css" />
     <Content Include="Content\ltr\bootstrap3-wysiwyg5.css" />
+    <Content Include="Content\ltr\dropzone.css" />
     <Content Include="Content\ltr\font-awesome.min.css" />
     <Content Include="Content\ltr\fonts.css" />
     <Content Include="Content\ltr\EditorTools.css" />
@@ -479,6 +480,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
+    <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
     <Content Include="Scripts\url-builder.js" />
