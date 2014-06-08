@@ -90,7 +90,10 @@
         }
     });
 
+    var typeaheadSelectedFlag = false;
+
     $('#navbar-search').bind('typeahead:selected', function (event, suggestion, dataset) {
+        typeaheadSelectedFlag = true;
         if (dataset == 'profile-suggestions')
             window.location.href = '//' + window.location.host + Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value.toSlug());
         else if (dataset == 'rooms-suggestions' || dataset == 'styles-suggestions')
@@ -104,8 +107,12 @@
     $("#q").keyup(function (e) {
         var queryValue = $('#q').val().trim();
         if (e.keyCode == 13) {
+            if (typeaheadSelectedFlag) {
+                typeaheadSelectedFlag = false;
+                return false;
+            }
             if (queryValue == '') return false;
-            if ($('.navbar .tt-suggestion.tt-cursor').length == 0)
+            if ($('#navbar-search .tt-suggestion.tt-cursor').length == 0)
                 window.location.href = '//' + window.location.host + '/search/' + queryValue.toSlug();
             return false;
         }
