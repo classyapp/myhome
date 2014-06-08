@@ -472,6 +472,7 @@
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
     <Content Include="pinterest-76e7b.html" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
