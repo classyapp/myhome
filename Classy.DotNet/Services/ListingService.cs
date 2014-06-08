@@ -311,7 +311,7 @@ namespace Classy.DotNet.Services
 
         public FreeSearchResultsView FreeSearch(string q, int amount, int page)
         {
-            using (var client = ClassyAuth.GetAuthenticatedWebClient())
+            using (var client = ClassyAuth.GetWebClient())
             {
                 var url = FREE_SEARCH_URL;
                 var data = new {
