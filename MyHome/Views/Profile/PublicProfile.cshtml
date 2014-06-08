@@ -44,22 +44,6 @@
                   <a class="btn btn-primary btn-sm" data-toggle="dropdown">
                       <i class="fa fa-share"></i>&nbsp;@Localizer.Get("Profile_Share")&nbsp;<span class="caret"></span>
                   </a>
-                  <ul class="dropdown-menu" role="menu">
-                      @{
-                        var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = Model.Profile.Id }));
-                      }
-                      @if (Model.Profile.IsProfessional)
-                      {
-                        <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
-                      }
-                      else
-                      {
-                          <li><a tabindex="-1" class="email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')">@Localizer.Get("Profile_ShareViaEmail")</a></li>
-                      }
-                    <li><a tabindex="-1" class="facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350)">Facebook</a></li>
-                    <li><a tabindex="-1" class="twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350)">Twitter</a></li>
-                    <li><a tabindex="-1" class="googleplus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350)">Google+</a></li>
-                  </ul>
                 </div> 
             @if (Model.Profile.IsProfessional)
             {
@@ -240,14 +224,34 @@
     <div class="col-md-3 text-right">
         <div class="social-stats">
             <ul class="list-inline list-unstyled">
-                <li class="text-left">
+                <li class="share-actions">
+                    @{
+                        var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("PublicProfile", new { ProfileId = Model.Profile.Id }));
+
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            if (Model.Profile.IsProfessional)
+                            {
+                                <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')"><i class="glyphicon glyphicon-send"></i></a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')"><i class="glyphicon glyphicon-send"></i></a>
+                            }
+                        }
+                        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350)"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350)"><i class="fa fa-twitter"></i></a>
+                        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350)"><i class="fa fa-google-plus"></i></a>
+                    }
+                </li>
+                @*<li class="text-left">
                     <div><strong>@Model.Profile.FollowerCount</strong></div>
                     <div>@Localizer.Get("PublicProfile_Followers")</div>
                 </li>
                 <li class="text-left">
                     <div><strong>@Model.Profile.FollowingCount</strong></div>
                     <div>@Localizer.Get("PublicProfile_Following")</div>
-                </li>
+                </li>*@
                 <li class="text-left">
                     @{ 
                         var following = Request.IsAuthenticated &&
@@ -330,7 +334,8 @@
                                     </div>
                                 }
                             }
-                            @if (Model.Profile.CanEdit()) {
+                            @if (Model.Profile.CanEdit())
+                            {
                                 <div class="col-md-4 new-object">
                                     <a href="@Url.RouteUrl("CreatePhoto", "PhotoController")">
                                         <div>
@@ -390,7 +395,8 @@
                                 </div>
                             }
                         }
-                        @if (!Model.Profile.IsProfessional && Model.Profile.CanEdit()) {
+                        @if (!Model.Profile.IsProfessional && Model.Profile.CanEdit())
+                        {
                             <div class="col-md-4 new-object">
                                 <a href="@Url.RouteUrl("CreatePhoto", "PhotoController")">
                                     <div>
