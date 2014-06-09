@@ -83,7 +83,7 @@
             $(listings).each(function() {
                 imageKeys += 'ImageKeys=' + this + '&';
             });
-            var createCollageUrl = '//' + 'www.thisisclassy.com:8008' + '/collage?' + imageKeys + 'format=json';
+            var createCollageUrl = '//' + Classy.SiteMetadata.CdnUrl + '/collage?' + imageKeys + 'format=json';
             var collageImage = new Image().src = createCollageUrl;
 
             $('#create-poll-form').submit();
