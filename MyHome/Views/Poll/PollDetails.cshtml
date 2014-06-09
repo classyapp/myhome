@@ -12,17 +12,17 @@
 }
 
 @section MetaTags {
-    <meta name="og:title" content="@Model.Listing.Title" />
-    <meta name="og:description" content="@Model.Listing.Content" />
+    <meta property="og:title" content="@Model.Listing.Title" />
+    <meta property="og:description" content="@Model.Listing.Content" />
     @if (Model.Listing.ExternalMedia.Count > 0)
     {
-        <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+        <meta property="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
     }
     else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
     {
         var imageKeys = pollExtraData.Listings.Select(x => "ImageKeys=" + x.ExternalMedia[0].Key + "&").ToArray();
         var pollCollageUrl = "//" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?" + string.Join("", imageKeys) + "format=json";
-        @Html.Raw("<meta name=\"og:image\" content=\"" + pollCollageUrl + "\" />")
+        @Html.Raw("<meta property=\"og:image\" content=\"" + pollCollageUrl + "\" />")
     }
 }
 
