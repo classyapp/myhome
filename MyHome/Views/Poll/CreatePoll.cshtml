@@ -61,6 +61,23 @@
                 $('#selected-listings').val(JSON.stringify(listings));
             }
 
+            if (listings.length < 2 || listings.length > 4) {
+                bootbox.dialog({
+                    title: '@Localizer.Get("CreatePoll_PhotosSelectionLimitPopupTitle")',
+                    message: '@Localizer.Get("CreatePoll_PhotosSelectionLimit")',
+                    onEscape: $.noop(),
+                    show: true,
+                    buttons: {
+                        success: {
+                            label: Classy.Messages.Confirm_Ok,
+                            className: "btn-danger",
+                            callback: $.noop()
+                        }
+                    }
+                });
+                return false;
+            }
+
             // create thumbnail collage for the poll share image
             var imageKeys = '';
             $(listings).each(function() {
