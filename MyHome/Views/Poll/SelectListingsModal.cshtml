@@ -1,3 +1,4 @@
+@using Classy.DotNet.Mvc.Extensions
 @model IList<Classy.DotNet.Responses.CollectionView>
 
 @{
@@ -8,11 +9,11 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h4 class="modal-title">@Localizer.Get("SelectListingsModal_Title")</h4>
 </div>
-<div class="modal-body">
+<div class="modal-body clearfix">
     
     <div class="collections-container row hide-when-loading">
         <div class="row" style="margin: 20px auto;">
-            @foreach (var collection in Model)
+            @foreach (var collection in Model.Where(x => !x.CoverPhotos.IsNullOrEmpty()))
             {
                 <div class="col-md-4 collection" data-collection-id="@collection.Id">
                     @Html.Partial("Thumbnails", collection.CoverPhotos)
@@ -21,8 +22,13 @@
         </div>
     </div>
     
-    <div class="row photos-container hide-when-loading hidden">
-        <div><p><a href="#" class="back"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Back</a></p></div>
+    <div class="photos-container hide-when-loading hidden">
+        <div>
+            <p><a href="#" class="back"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;@Localizer.Get("LoadFacebookAlbums_Back")</a></p>
+        </div>
+        <div>
+            <p>Please select between 2-4 photos</p>
+        </div>
         <div class="photos">
             <!-- photos here -->
         </div>

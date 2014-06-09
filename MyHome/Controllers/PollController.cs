@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Models.LogActivity;
+using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Responses;
@@ -36,7 +37,7 @@ namespace MyHome.Controllers
                     Activity = ActivityPredicate.VOTED_ON_POLL,
                     ObjectId = pollId
                 });
-                if (!votedOnPollActivity.Metadata.Vote.IsNullOrEmpty())
+                if (votedOnPollActivity != null && !votedOnPollActivity.Metadata.Vote.IsNullOrEmpty())
                     userVote = votedOnPollActivity.Metadata.Vote;
             }
 
@@ -49,34 +50,7 @@ namespace MyHome.Controllers
         public override void RegisterRoutes(RouteCollection routes)
         {
             base.RegisterRoutes(routes);
-
-            routes.MapRoute(
-                name: "SelectListingsModal",
-                url: "polls/create/select-listings-modal",
-                defaults: new { controller = "Poll", action = "SelectListingsModal" },
-                namespaces: new string[] { Namespace }
-            );
-
-            routes.MapRoute(
-                name: "SelectListingPhotosModal",
-                url: "polls/create/select-photos-modal",
-                defaults: new { controller = "Poll", action = "SelectPhotosModal" },
-                namespaces: new string[] { Namespace }
-            );
-
-            routes.MapRoute(
-                name: "VoteOnPoll",
-                url: "polls/vote",
-                defaults: new { controller = "Poll", action = "VoteOnPoll" },
-                namespaces: new string[] { Namespace }
-            );
-
-            routes.MapRoute(
-                name: "CreateNewPoll",
-                url: "polls/create-new",
-                defaults: new { controller = "Poll", action = "CreateNewPoll" },
-                namespaces: new string[] { Namespace }
-            );
+            RegisterRoutesByAttributes(routes);
         }
 
         public override string ListingTypeName
@@ -84,6 +58,7 @@ namespace MyHome.Controllers
 	        get {  return "Poll"; }
         }
 
+        [MapRoute("SelectListingsModal", "polls/create/select-listings-modal")]
         public ActionResult SelectListingsModal()
         {
             var listingService = new ListingService();
@@ -94,6 +69,7 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("SelectListingPhotosModal", "polls/create/select-photos-modal")]
         public ActionResult SelectPhotosModal(string collectionId)
         {
             var listingService = new ListingService();
@@ -109,6 +85,7 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("VoteOnPoll", "polls/vote")]
         public ActionResult VoteOnPoll(string pollId, string listingId)
         {
             // TODO: this isn't thread safe!!
@@ -123,10 +100,11 @@ namespace MyHome.Controllers
                 Activity = ActivityPredicate.VOTED_ON_POLL,
                 ObjectId = pollId
             });
+            // check if user voted on the same listing already
             if (userPollActivity != null && userPollActivity.Metadata.Vote == listingId)
                 return Json("OK");
 
-            // user didn't vote on this listing yet
+            // user voted on this poll but a different listing
             var listing = listingService.GetListingById(pollId, false, false, false, false, false);
 
             var votedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == listingId);
@@ -136,11 +114,20 @@ namespace MyHome.Controllers
                 listing.Metadata[voteKey] = (Convert.ToInt32(listing.Metadata[voteKey]) + 1).ToString();
             else
                 listing.Metadata.Add(voteKey, "1");
+            
+            // find previous vote and decrement value
+            if (userPollActivity != null && !userPollActivity.Metadata.Vote.IsNullOrEmpty())
+            {
+                var previousVote = userPollActivity.Metadata.Vote;
+                var previousVotedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == previousVote);
+                var previousVoteNumber = previousVotedOn.Key.Substring(previousVotedOn.Key.IndexOf("_") + 1);
+                listing.Metadata["Vote_" + previousVoteNumber] = (Convert.ToInt32(listing.Metadata["Vote_" + previousVoteNumber]) - 1).ToString();
+            }
 
             var metadata = listing.Metadata;
 
             listingService.UpdateListing(pollId,
-                null, null, null, metadata, null, null, ListingUpdateFields.Metadata);
+                null, null, null, metadata, listing.Hashtags, null, ListingUpdateFields.Metadata);
 
             logActivityService.LogActivity(new LogActivity<VotedOnPollActivityMetadata> {
                 UserId = AuthenticatedUserProfile.Id,
@@ -153,6 +140,7 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("CreateNewPoll", "polls/create-new")]
         public ActionResult CreateNewPoll(CreateNewPollRequest newPollRequest)
         {
             var listingService = new ListingService();

@@ -14,7 +14,7 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" id="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
@@ -389,6 +389,7 @@
 
         <script type="text/javascript">
             Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> { 
+                                     { "Confirm_Ok", Localizer.Get("Ok") },  
                                      { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") }, 
                                      { "Confirm_Discard", Localizer.Get("Discard") }, { "Confirm_Save" , Localizer.Get("Save") },
                                      { "DeleteCollection_ConfirmTitle", Localizer.Get("DeleteCollection_ConfirmTitle")},
@@ -404,7 +405,10 @@
                                      { "CreatePhoto_ChangeSelectionTitle", Localizer.Get("CreatePhoto_ChangeSelectionTitle")},
                                      { "CreatePhoto_ChangeSelectionText", Localizer.Get("CreatePhoto_ChangeSelectionText")},
                                      { "EditProfile_HasChanges", Localizer.Get("EditProfile_HasChanges") },
-                                     { "EditProfile_SaveOrDiscard", Localizer.Get("EditProfile_SaveOrDiscard")}
+                                     { "EditProfile_SaveOrDiscard", Localizer.Get("EditProfile_SaveOrDiscard")},
+                                     { "PollDetails_ChangeVotePopupTitle", Localizer.Get("PollDetails_ChangeVotePopupTitle") },
+                                     { "PollDetails_ChangeVotePopupContent", Localizer.Get("PollDetails_ChangeVotePopupContent") },
+                                     { "PollDetails_MyVote", Localizer.Get("PollDetails_MyVote") }
                                  })));
         </script>
 

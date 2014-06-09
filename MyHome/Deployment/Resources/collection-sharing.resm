@@ -2,6 +2,27 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Poll_ShareViaEmailTitle",
+			"Description": "title of popup when sharing a poll via email",
+			"Values": {
+				"en": "Share this poll"
+			}
+		},
+		{ 
+			"Key": "Poll_MailLinkSubject",
+			"Description": "Subject of email when sharing a poll via email",
+			"Values": {
+				"en": "Please vote on my poll on HomeLab"
+			}
+		},
+		{ 
+			"Key": "Poll_MailLinkBody",
+			"Description": "body of email when sharing poll via email",
+			"Values": {
+				"en": "Hi, {1} invited you to vote on their poll on homelab: {0}"
+			}
+		},
+		{ 
 			"Key": "Collection_MailLinkBody",
 			"Description": "body of email that goes out when a user is sharing a collection",
 			"Values": {

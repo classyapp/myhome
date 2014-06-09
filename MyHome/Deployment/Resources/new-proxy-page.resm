@@ -1,0 +1,87 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{
+			"Key": "ProxyProfile_NearbyProfessionals",
+			"Description" : "title of the nearby professionals section of the proxy profile page",
+			"Values": {
+				"en" : "{0} Nearby" 
+			}
+		},
+		{
+			"Key": "ProxyProfile_ClaimTitle",
+			"Description" : "title of the claim your business section of the proxy profile page",
+			"Values": {
+				"en" : "Claim this page" 
+			}
+		},
+		{
+			"Key": "ProxyProfile_ClaimContent",
+			"Description" : "content of the claim your business section of the proxy profile page",
+			"Values": {
+				"en" : "#Is this your business?
+				
+				by creating a FREE profesisonal account on HomeLab, you can:
+				* expose your work to thousands of potential customers from your area
+				* get inspired by thousands of photos of the works of other professionals
+				* give or get advice in our vibrant community" 
+			}
+		},
+		{
+			"Key": "ProxyProfile_ClaimButton",
+			"Description" : "action button on the claim your business section of the proxy profile page",
+			"Values": {
+				"en" : "Claim this page"
+			}
+		},
+		{
+			"Key": "ProxyProfile_Testimonial1_ProName",
+			"Description" : "title of first testimonial on the proxy profile page",
+			"Values": {
+				"en" : "Professional 1"
+			}
+		},
+		{
+			"Key": "ProxyProfile_Testimonial1_Content",
+			"Description" : "content of first testimonial on the proxy profile page",
+			"Values": {
+				"en" : "I give HomeLab 5 stars hands down. I can literally see the effect of the exposure on my business."
+			}
+		},
+		{
+			"Key": "ProxyProfile_Testimonial2_ProName",
+			"Description" : "title of second testimonial on the proxy profile page",
+			"Values": {
+				"en" : "Professional 2"
+			}
+		},
+		{
+			"Key": "ProxyProfile_Testimonial2_Content",
+			"Description" : "content of second testimonial on the proxy profile page",
+			"Values": {
+				"en" : "I can literally see the effect of the exposure on my business. I send potential customers my HomeLab profile now more than i send links to my website, because the experience is so much nicer, and I don't depend on any developers, I edit everything myself in minutes."
+			}
+		},
+		{
+			"Key": "ProxyProfile_Testimonials_Title",
+			"Description" : "title of the testimonials section on the proxy profile page",
+			"Values": {
+				"en" : "What other professionals are saying"
+			}
+		},
+		{
+			"Key": "ProxyProfile_WebPhotosTitle",
+			"Description" : "title of the web photos section on the proxy profile page",
+			"Values": {
+				"en" : "Photos from {0}"
+			}
+		}
+
+	]
+}
+
+
+
+
+
+

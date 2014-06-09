@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using Classy.DotNet.Mvc.Controllers;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Mvc.Localization;
+using MyHome.Controllers;
 
 namespace MyHome
 {
@@ -14,9 +13,23 @@ namespace MyHome
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
+            var controllers = new[] {
+                typeof (SecurityController),
+                typeof (ReviewController),
+                typeof (ProfileController),
+                typeof (PhotoController),
+                typeof (ProductController),
+                typeof (DiscussionController),
+                typeof (CollectionController),
+                typeof (LocalizationController),
+                typeof (StaticPagesController),
+                typeof (HomePageController),
+                typeof (SearchController),
+                typeof (PollController)
+            };
 
-            var controllers = controllerAssemblies.SelectMany(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof (BaseController)) && !t.IsGenericType));
+            //var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
+            //            var controllers = controllerAssemblies.SelectMany(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof (BaseController)) && !t.IsGenericType));
             foreach (var controller in controllers)
             {
                 var controllerInstance = Activator.CreateInstance(controller);
@@ -27,6 +40,7 @@ namespace MyHome
 
                 baseControllerInstance.RegisterRoutes(routes);
             }
+
             
             // default asp.net mvc route pattern
             routes.MapRouteForSupportedLocales(

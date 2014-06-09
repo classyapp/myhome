@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Classy.DotNet.Models.LogActivity;
 using Classy.DotNet.Security;
+using CsQuery.ExtensionMethods.Internal;
 using ServiceStack.Text;
 
 namespace Classy.DotNet.Services
@@ -22,6 +23,9 @@ namespace Classy.DotNet.Services
                     logActivity.UserId, logActivity.Activity, logActivity.ObjectId);
                 var response = client.DownloadString(url);
 
+                if (response.IsNullOrEmpty())
+                    return null;
+
                 var parsedResponse = response.FromJson<LogActivityResponse>();
                 return new LogActivity<T>
                 {
@@ -37,7 +41,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                using (var client = ClassyAuth.GetAuthenticatedWebClient())
+                using (var client = ClassyAuth.GetWebClient())
                 {
                     var data = new {
                         SubjectId = logActivity.UserId,
@@ -66,7 +70,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                using (var client = ClassyAuth.GetAuthenticatedWebClient())
+                using (var client = ClassyAuth.GetWebClient())
                 {
                     var data = new {
                         SubjectId = userId,

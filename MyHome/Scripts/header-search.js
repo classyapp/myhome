@@ -2,23 +2,23 @@
 
     var rooms = [];
     $.each(Classy.SiteMetadata.Rooms, function() {
-        rooms.push({ Value: this });
+        rooms.push({ Value: this.Value, Key: this.Key });
     });
     var styles = [];
     $.each(Classy.SiteMetadata.Styles, function() {
-        styles.push({ Value: this });
+        styles.push({ Value: this.Value, Key: this.Key });
     });
 
     var roomsSuggestions = new Bloodhound({
         name: 'rooms-suggestions',
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Key'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
         local: rooms
     });
     var stylesSuggestions = new Bloodhound({
         name: 'styles-suggestions',
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Key'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
         local: styles
@@ -49,14 +49,14 @@
         hint: false
     }, {
         name: 'rooms-suggestions',
-        displayKey: 'Value',
+        displayKey: 'Key',
         source: roomsSuggestions.ttAdapter(),
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsRoomsHeader + '</span>'
         }
     }, {
         name: 'styles-suggestions',
-        displayKey: 'Value',
+        displayKey: 'Key',
         source: stylesSuggestions.ttAdapter(),
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsStylesHeader + '</span>'
@@ -90,7 +90,10 @@
         }
     });
 
+    var typeaheadSelectedFlag = false;
+
     $('#navbar-search').bind('typeahead:selected', function (event, suggestion, dataset) {
+        typeaheadSelectedFlag = true;
         if (dataset == 'profile-suggestions')
             window.location.href = '//' + window.location.host + Classy.UrlBuilder.ProfilePage(suggestion.Key, suggestion.Value.toSlug());
         else if (dataset == 'rooms-suggestions' || dataset == 'styles-suggestions')
@@ -104,8 +107,12 @@
     $("#q").keyup(function (e) {
         var queryValue = $('#q').val().trim();
         if (e.keyCode == 13) {
+            if (typeaheadSelectedFlag) {
+                typeaheadSelectedFlag = false;
+                return false;
+            }
             if (queryValue == '') return false;
-            if ($('.navbar .tt-suggestion.tt-cursor').length == 0)
+            if ($('#navbar-search .tt-suggestion.tt-cursor').length == 0)
                 window.location.href = '//' + window.location.host + '/search/' + queryValue.toSlug();
             return false;
         }

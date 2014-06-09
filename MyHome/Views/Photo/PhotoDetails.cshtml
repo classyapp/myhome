@@ -11,12 +11,12 @@
 }
 
 @section MetaTags {
-    <meta name="og:title" content="@Model.Listing.Title" />
-    <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? string.Format(Localizer.Get("PhotoDetails_Description", false), rooms.GetText(Model.Metadata.Room), styles.GetText(Model.Metadata.Style), Model.Listing.Profile.GetProfileName()) : Model.Listing.Content)" />
+    <meta property="og:title" content="@Model.Listing.Title" />
+    <meta property="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? string.Format(Localizer.Get("PhotoDetails_Description", false), rooms.GetText(Model.Metadata.Room), styles.GetText(Model.Metadata.Style), Model.Listing.Profile.GetProfileName()) : Model.Listing.Content)" />
     @if (Model.Listing.ExternalMedia.Count > 0)
-    {
-        <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
-    }
+{
+    <meta property="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+}
 }
 
 @section ActionBar {

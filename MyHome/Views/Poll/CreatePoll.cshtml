@@ -4,9 +4,6 @@
     ViewBag.Title = Localizer.Get("CreatePoll_PageTitle");
     ViewBag.NoIndex = true;
     Html.Bootstrap().Globals().ShowRequiredStar(false);
-
-    var rooms = Localizer.GetList("rooms");
-    var styles = Localizer.GetList("room-styles");
 }
 
 <div class="row">
@@ -38,28 +35,10 @@
     </div>
 
     <div class="col-md-4 col-md-offset-1 helpbar">
-        @*@if (Model.CollectionType == Classy.DotNet.Responses.CollectionType.PhotoBook)
-        {
-            <h1>@Localizer.Get("CreatePhoto_PhotoBook_Title_DoDont")</h1>
-            <div class="content">
-                @Html.Raw(Localizer.Get("CreatePhoto_PhotoBook_Content_DoDont"))
-            </div>
-        }
-        else
-        {
-            <h1>@Localizer.Get("CreatePhoto_Project_Title_DoDont")</h1>
-            <div class="content">
-                @Html.Raw(Localizer.Get("CreatePhoto_Project_Content_DoDont"))
-            </div> 
-        }
-        <div>
-            @if (!Model.IsFacebookConnected)
-            {
-                <hr />
-                <p><strong>@Localizer.Get("CreatePhoto_Help_ImportTitle")</strong></p>
-                <a href="#" class="btn btn-block btn-fb-login">@Localizer.Get("CreatePhoto_Import_Facebook")</a>
-            }
-        </div>*@
+        <h1>@Localizer.Get("CreatePoll_TipsAreaTitle")</h1>
+        <div class="content">
+            @Html.Raw(Localizer.Get("CreatePoll_TipsAreaContent"))
+        </div>
     </div>
 </div>
 

@@ -31,7 +31,10 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         [Display(Name = "UpdateListing_EditorKeywords"), CommaSeparated]
         public IList<string> EditorKeywords { get; set; }
         public int EditorsRank { get; set; }
-        public IList<string> SearchableKeywords { get; set; } 
+        public IList<string> SearchableKeywords { get; set; }
+        public IList<String> Categories { get; set; }
+
+        public PricingInfoView PricingInfo { get; set; }
 
         // meta
         public TListingMetadata Metadata { get; set; }
