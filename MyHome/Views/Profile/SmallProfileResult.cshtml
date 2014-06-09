@@ -14,7 +14,7 @@
         <div class="cover-photos clearfix">
             @foreach (var photo in Model.CoverPhotos)
             {
-                <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&format=json", cdnurl, photo)" />
+                <img src="@string.Format("//{0}/thumbnail/{1}?Width=85&Height=85&format=json", cdnurl, photo)" />
             }
         </div>
     }
