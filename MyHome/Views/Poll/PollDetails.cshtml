@@ -1,3 +1,4 @@
+@using System.Configuration
 @using Classy.DotNet.Mvc.Extensions
 @using MyHome.Models.Polls
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.Polls.PollMetadata>
@@ -19,7 +20,9 @@
     }
     else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
     {
-        <meta name="og:image" content="@pollExtraData.Listings.First().ExternalMedia[0].Url" />
+        var imageKeys = pollExtraData.Listings.Select(x => "ImageKeys=" + x.ExternalMedia[0].Key + "&").ToArray();
+        var pollCollageUrl = "//" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?" + string.Join("", imageKeys) + "format=json";
+        <meta name="og:image" content="@pollCollageUrl" />
     }
 }
 
