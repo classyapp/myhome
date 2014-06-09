@@ -78,6 +78,14 @@
                 return false;
             }
 
+            // create thumbnail collage for the poll share image
+            var imageKeys = '';
+            $(listings).each(function() {
+                imageKeys += 'ImageKeys=' + this + '&';
+            });
+            var createCollageUrl = '//' + 'www.thisisclassy.com:8008' + '/collage?' + imageKeys + 'format=json';
+            var collageImage = new Image().src = createCollageUrl;
+
             $('#create-poll-form').submit();
         }
     </script>
