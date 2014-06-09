@@ -22,7 +22,7 @@
     {
         var imageKeys = pollExtraData.Listings.Select(x => "ImageKeys=" + x.ExternalMedia[0].Key + "&").ToArray();
         var pollCollageUrl = "//" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?" + string.Join("", imageKeys) + "format=json";
-        <meta name="og:image" content="@pollCollageUrl" />
+        @Html.Raw("<meta name=\"og:image\" content=\"" + pollCollageUrl + "\" />")
     }
 }
 
