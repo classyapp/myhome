@@ -2,23 +2,23 @@
 
     var rooms = [];
     $.each(Classy.SiteMetadata.Rooms, function() {
-        rooms.push({ Value: this });
+        rooms.push({ Value: this.Value, Key: this.Key });
     });
     var styles = [];
     $.each(Classy.SiteMetadata.Styles, function() {
-        styles.push({ Value: this });
+        styles.push({ Value: this.Value, Key: this.Key });
     });
 
     var roomsSuggestions = new Bloodhound({
         name: 'rooms-suggestions',
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Key'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
         local: rooms
     });
     var stylesSuggestions = new Bloodhound({
         name: 'styles-suggestions',
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Key'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
         local: styles
@@ -49,14 +49,14 @@
         hint: false
     }, {
         name: 'rooms-suggestions',
-        displayKey: 'Value',
+        displayKey: 'Key',
         source: roomsSuggestions.ttAdapter(),
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsRoomsHeader + '</span>'
         }
     }, {
         name: 'styles-suggestions',
-        displayKey: 'Value',
+        displayKey: 'Key',
         source: stylesSuggestions.ttAdapter(),
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsStylesHeader + '</span>'
