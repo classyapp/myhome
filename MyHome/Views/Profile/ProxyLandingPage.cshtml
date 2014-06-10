@@ -343,7 +343,7 @@
                     <div>
                         @{
                     var urlAddress = Url.Encode(string.Concat(address.Street1, ",", address.City, ",", address.PostalCode, ",", address.Country));
-                    <img src="http://maps.googleapis.com/maps/api/staticmap?center=@(urlAddress)&zoom=11&size=275x100&sensor=false;markers=color:red%7Clabel:S%7C@(urlAddress)">
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center=@(urlAddress)&zoom=11&size=275x100&sensor=false;markers=color:red%7Clabel:S%7C@(urlAddress)">
                         }
                     </div>
                 }
