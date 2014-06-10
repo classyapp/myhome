@@ -41,6 +41,7 @@ namespace MyHome
                 baseControllerInstance.RegisterRoutes(routes);
             }
 
+            routes.IgnoreRoute("Mobile/{*path}");
             
             // default asp.net mvc route pattern
             routes.MapRouteForSupportedLocales(

@@ -473,6 +473,7 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\ProfilePage.html" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\bootbox.js" />
@@ -484,6 +485,13 @@
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
+    <Content Include="Scripts\mobile\profile-module.js" />
+    <Content Include="Scripts\mobile\angular-route.min.js" />
+    <Content Include="Scripts\mobile\angular-route.js" />
+    <Content Include="Scripts\mobile\angular-resource.min.js" />
+    <Content Include="Scripts\mobile\angular-resource.js" />
+    <Content Include="Scripts\mobile\angular.js" />
+    <Content Include="Scripts\mobile\angular.min.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
@@ -519,6 +527,7 @@
     <Content Include="Scripts\poll-details.js" />
     <Content Include="Scripts\ajax-blocker.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Mobile\ProfilePage.html" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.config">
@@ -608,6 +617,8 @@
     <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\Profile\ProxyLandingPage.cshtml" />
     <Content Include="Views\Shared\PollActions.cshtml" />
+    <Content Include="Scripts\mobile\angular-resource.min.js.map" />
+    <Content Include="Scripts\mobile\angular-route.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
@@ -669,7 +680,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  <Target Name="AfterBuild">
+  <!--<Target Name="AfterBuild">
     <CallTarget Targets="RunDeployResourcesConsoleApp" />
   </Target>
   <Target Name="RunDeployResourcesConsoleApp">
@@ -692,5 +703,5 @@
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
     <Exec Command="&quot;$(MSBuildThisFileDirectory)Deployment\Deployment.exe&quot; @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
-  </Target>
+  </Target>-->
 </Project>
