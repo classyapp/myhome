@@ -21,7 +21,7 @@
     else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
     {
         var imageKeys = pollExtraData.Listings.Select(x => "ImageKeys=" + x.ExternalMedia[0].Key + "&").ToArray();
-        var pollCollageUrl = "//" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?" + string.Join("", imageKeys) + "format=json";
+        var pollCollageUrl = "http://" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?" + string.Join("", imageKeys) + "format=json";
         @Html.Raw("<meta property=\"og:image\" content=\"" + pollCollageUrl + "\" />")
     }
 }
