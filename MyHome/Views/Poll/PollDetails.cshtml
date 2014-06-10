@@ -1,3 +1,4 @@
+@using System.Configuration
 @using Classy.DotNet.Mvc.Extensions
 @using MyHome.Models.Polls
 @model Classy.DotNet.Mvc.ViewModels.Listing.ListingDetailsViewModel<MyHome.Models.Polls.PollMetadata>
@@ -11,15 +12,17 @@
 }
 
 @section MetaTags {
-    <meta name="og:title" content="@Model.Listing.Title" />
-    <meta name="og:description" content="@Model.Listing.Content" />
+    <meta property="og:title" content="@Model.Listing.Title" />
+    <meta property="og:description" content="@Model.Listing.Content" />
     @if (Model.Listing.ExternalMedia.Count > 0)
     {
-        <meta name="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
+        <meta property="og:image" content="@Model.Listing.ExternalMedia[0].Url" />
     }
     else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
     {
-        <meta name="og:image" content="@pollExtraData.Listings.First().ExternalMedia[0].Url" />
+        var imageKeys = pollExtraData.Listings.Select(x => x.ExternalMedia[0].Key).ToArray();
+        var pollCollageUrl = "http://" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?ImageKeys=" + string.Join(",", imageKeys) + "&format=json";
+        @Html.Raw("<meta property=\"og:image\" content=\"" + pollCollageUrl + "\" />")
     }
 }
 
@@ -44,10 +47,29 @@
         </div>
     </div>
 
-    <div class="col-md-7">
-        <h2>@Model.Listing.Title</h2>
-        <p>@Model.Listing.Content</p>
-
+    <div>
+        <div class="profile clearfix">
+            <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
+            <div class="details">
+                @Html.ProfileLink(Model.Listing.Profile)
+                @if (Model.Listing.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
+                {
+                    <br />
+                    <span>@proCategories.Single(x => x.Value == Model.Listing.Profile.ProfessionalInfo.Category).Text</span>
+                }
+            </div>
+        </div>
+        
+        <div class="clearfix">
+            <div class="col-md-7">
+                <h1>@Model.Listing.Title</h1>
+                <p>@Model.Listing.Content</p>
+            </div>
+            <div class="col-md-5">
+                @Html.Partial("PollActions", new PollActionsViewModel { PollId = Model.Listing.Id })
+            </div>
+        </div>
+        
         <div class="poll clearfix" data-poll-id="@Model.Listing.Id">
             <div class="poll-results clearfix">
                 @{
@@ -56,6 +78,8 @@
 
                     var maxVotes = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Max();
                     var winner = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Count(x => x == maxVotes) == 1 ? Model.Metadata.Votes.IndexOf(maxVotes.ToString()) : -1;
+                    var classSize = pollExtraData.Listings.Count == 2 ? "col-md-6" : pollExtraData.Listings.Count == 3 ? "col-md-4" : "col-md-3";
+                    var thumbnailSize = pollExtraData.Listings.Count == 2 ? 500 : pollExtraData.Listings.Count == 3 ? 300 : 230;
                 }
                 @foreach (var pollOption in pollExtraData.Listings)
                 {
@@ -63,22 +87,22 @@
                     var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
                     var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);
 
-                    <div class="poll-option-wrapper clearfix" style="float:left">
+                    <div class="poll-option-wrapper clearfix @classSize">
                         <div class="poll-stat">
-                            <div class="progress">
+                            <div class="progress" style="height:@(thumbnailSize)px">
                                 <div class="progress-bar progress-bar-success" style="width:100%; height:0;" data-votes-percent="@votesPercent"></div>
                             </div>
                         </div>
                         <div class="thumbnail vote @(usersChoice ? "voted" : "")" @((User.Identity.IsAuthenticated ? "" : "authorize")) data-listing-id="@pollOption.Id">
                             @if (i == winner)
                             {
-                                <h4><div class="label label-success">WINNER!</div></h4>
+                                <h4><div class="label label-success">@Localizer.Get("PollDetails_Winner")</div></h4>
                             }
-                            <div class="vote-button" @(usersChoice ? "style=width:86px;" : "")>
+                            <div class="vote-button">
                                 <i class="glyphicon glyphicon-ok @(!usersChoice ? "hidden" : "")"></i>
-                                <span>Vote</span>
+                                <span>@(usersChoice ? Localizer.Get("PollDetails_MyVote") : Localizer.Get("PollDetails_VoteButton"))</span>
                             </div>
-                            @Html.Thumbnail(pollOption, 230)
+                            @Html.Thumbnail(pollOption, thumbnailSize)
                             <div class="vote-percent">
                                 @votesPercent%
                             </div>
@@ -91,27 +115,11 @@
         </div>
         
     </div>
-    <div class="col-md-5">
-        <div class="profile clearfix">
-            <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
-            <div class="details">
-                @Html.ProfileLink(Model.Listing.Profile)
-                @if (Model.Listing.Profile.IsProfessional && !string.IsNullOrEmpty(Model.Listing.Profile.ProfessionalInfo.Category))
-                {
-                    <br />
-                    <span>@proCategories.Single(x => x.Value == Model.Listing.Profile.ProfessionalInfo.Category).Text</span>
-                }
-            </div>
-        </div>
+    
+    
 
-        <hr />
-
-        @Html.Partial("PollActions", new PollActionsViewModel { PollId = Model.Listing.Id })
-
-        <hr />
-
-        <div id="moreinfo"></div>
-
+    <div class="col-md-7">
+        
         <div class="panel panel-default" id="projectsSameListing">
             <div class="panel-heading">
                 <h4 class="panel-title">@Localizer.Get("PhotoDetails_Comments")</h4>

@@ -14,6 +14,20 @@
 			"Values": {
 				"en": "The project doesn't have any more photos. Do you want to delete it?"
 			}
+		},
+		{ 
+			"Key": "EmailRegister_EmailAlreadyExists",
+			"Description": "error message for existing email address in registration page",
+			"Values": {
+				"en": "The Email address you entered is already in use"
+			}
+		},
+		{ 
+			"Key": "EmailRegister_UsernameExists",
+			"Description": "error message for existing username in registration page",
+			"Values": {
+				"en": "The username you entered already exists"
+			}
 		}
 	]
 }

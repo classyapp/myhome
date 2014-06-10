@@ -474,7 +474,7 @@ namespace Classy.DotNet.Mvc.Controllers
         //
         [AcceptVerbs(HttpVerbs.Get)]
         [ImportModelStateFromTempData]
-        public ActionResult PublicProfile(string profileId)
+        public ActionResult PublicProfile(string profileId, string ead)
         {
             try
             {
@@ -486,7 +486,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     Profile = profile,
                     TypedMetadata = metadata,
-                    ReviewSubCriteria = subCriteria
+                    ReviewSubCriteria = subCriteria,
+                    EnableAdditionalContent = !string.IsNullOrEmpty(ead)
                 };
 
                 if (OnLoadPublicProfile != null)

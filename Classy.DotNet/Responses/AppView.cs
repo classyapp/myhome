@@ -26,6 +26,8 @@ namespace Classy.DotNet.Responses
         public static IList<CurrencyListItemView> SupportedCurrencies { get; set; }
         public static IList<ListItemView> SupportedCultures { get; set; }
         public static IList<ListItemView> SupportedCountries { get; set; }
+        public static IList<ListItemView> ProductCategories { get; set; }
+        public static IList<ListItemView> Styles { get; set; }
 
         static AppView()
         {
@@ -47,6 +49,8 @@ namespace Classy.DotNet.Responses
             SupportedCurrencies = settings.SupportedCurrencies;
             SupportedCountries = settings.SupportedCountries;
             SupportedCultures = settings.SupportedCultures;
+            ProductCategories = settings.ProductCategories;
+            Styles = settings.Styles;
         }
     }
 }
