@@ -2,19 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Routing;
-using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet;
-using System.Text.RegularExpressions;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
+using MyHome.Models;
 
 namespace MyHome.Controllers
 {
-    public class PhotoController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.PhotoMetadata, MyHome.Models.PhotoGridViewModel>
+    public class PhotoController : ListingController<PhotoMetadata, PhotoGridViewModel>
     {
         private const string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
 

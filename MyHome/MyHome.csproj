@@ -474,6 +474,7 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\config.js" />
     <Content Include="Mobile\ProfilePage.html" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />
@@ -486,6 +487,8 @@
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
+    <Content Include="Scripts\mobile\app-manager.js" />
+    <Content Include="Scripts\mobile\cache-provider.js" />
     <Content Include="Scripts\mobile\profile-page.js" />
     <Content Include="Scripts\mobile\angular\angular-route.min.js" />
     <Content Include="Scripts\mobile\angular\angular-route.js" />
