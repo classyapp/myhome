@@ -12,7 +12,6 @@ var config = {
 };
 
 profileApp.controller('ProfileController', function ($scope, $http, apiUrl) {
-    $scope.profileDetails = { 'UserName': 'Gilly' };
     $http.get(apiUrl + '/profile/246', config).success(function(data) {
         $scope.profileDetails = data;
     }).error(function() {
