@@ -36,6 +36,7 @@ namespace Classy.DotNet.Services
         private readonly string GET_LISTINGS_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/get-multiple";
         private readonly string GET_LISTING_MORE_INFO_URL = ENDPOINT_BASE_URL + "/listing/{0}/more";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
+        private readonly string SEARCH_UNTAGGED_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/untagged/{0}";
         // translations
         private readonly string LISTING_TRANSLATION_URL = ENDPOINT_BASE_URL + "/listing/{0}/translation/{1}";
         private readonly string COLLECTION_TRANSLATION_URL = ENDPOINT_BASE_URL + "/collection/{0}/translation/{1}";
@@ -321,6 +322,29 @@ namespace Classy.DotNet.Services
                 var results = listingsJson.FromJson<FreeSearchResultsView>();
 
                 return results;
+            }
+        }
+
+        public SearchResultsView<ListingView> SearchUntaggedListings(int page, string[] listingTypes, string date, int pageSize = 12)
+        {
+            try
+            {
+                var client = ClassyAuth.GetWebClient();
+                var url = string.Format(SEARCH_UNTAGGED_LISTINGS_URL, date);
+                var data = new
+                {
+                    Page = page,
+                    ListingTypes = listingTypes,
+                    Date = date,
+                    PageSize = pageSize
+                }.ToJson();
+                var listingsJson = client.UploadString(url, data);
+                var results = listingsJson.FromJson<SearchResultsView<ListingView>>();
+                return results;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
             }
         }
 

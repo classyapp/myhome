@@ -1,20 +1,20 @@
-﻿using Mandrill;
+﻿using System.Web.Mvc;
+using System.Web.Routing;
+using Classy.DotNet.Mvc.ViewModels.Listing;
+using Mandrill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Routing;
-using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet;
-using System.Text.RegularExpressions;
 using Classy.DotNet.Services;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
+using MyHome.Models;
 
 namespace MyHome.Controllers
 {
-    public class PhotoController : Classy.DotNet.Mvc.Controllers.ListingController<MyHome.Models.PhotoMetadata, MyHome.Models.PhotoGridViewModel>
+    public class PhotoController : ListingController<PhotoMetadata, PhotoGridViewModel>
     {
         private const string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
 
@@ -22,6 +22,52 @@ namespace MyHome.Controllers
             : base("MyHome.Controllers") {
                 base.OnUpdateListing += PhotoController_OnUpdateListing;
                 base.OnPostedComment += PhotoController_OnPostedComment;
+        }
+
+        public override void RegisterRoutes(RouteCollection routes)
+        {
+            routes.MapRouteForSupportedLocales(
+                name: string.Concat("UntaggedSearch", ListingTypeName),
+                url: string.Concat(ListingTypeName.ToLower(), "/untagged/{date}"),
+                defaults: new { controller = ListingTypeName, action = "UntaggedSearch", filters = "", listingType = ListingTypeName },
+                namespaces: new string[] { Namespace }
+            );
+
+            base.RegisterRoutes(routes);
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult UntaggedSearch(SearchUntaggedListingsViewModel model, string date)
+        {
+            try
+            {
+                var service = new ListingService();
+
+                // search
+                var searchResults = service.SearchUntaggedListings(model.Page, new[] { ListingTypeName }, date);
+
+                var pageModel = new SearchListingsViewModel<PhotoMetadata>
+                {
+                    Results = searchResults.Results,
+                    Count = searchResults.Count,
+                    Metadata = new PhotoMetadata(),
+                    Page = model.Page,
+                    PagingUrl = Url.RouteUrlForCurrentLocale("UntaggedSearch" + ListingTypeName)
+                };
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView(string.Concat(ListingTypeName, "Grid"), new PhotoGridViewModel { Results = pageModel.Results });
+                }
+                else
+                {
+                    return View("Search", pageModel);
+                }
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
         }
 
         private void PhotoController_OnUpdateListing(object sender, ListingUpdateArgs e)
