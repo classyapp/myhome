@@ -24,7 +24,7 @@ namespace MyHome.Controllers
         {
             var listingService = new ListingService();
             var listings = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.Listings;
-            var listingViews = listingService.GetListings(listings.ToArray());
+            var listingViews = listingService.GetListings(listings.ToArray(), true);
 
             var logActivityService = new LogActivityService();
             var pollId = listingLoadedEventArgs.ListingDetailsViewModel.Listing.Id;

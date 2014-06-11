@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CsQuery.ExtensionMethods;
 using ServiceStack.Text;
 using System.Web;
 using System.Net;
@@ -292,13 +293,14 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public List<ListingView> GetListings(string[] listingIds)
+        public List<ListingView> GetListings(string[] listingIds, bool includeProfiles)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
                 var data = new {
-                    ListingIds = listingIds
+                    ListingIds = listingIds,
+                    IncludeProfiles = includeProfiles
                 }.ToJson();
                 var listingsJson = client.UploadString(GET_LISTINGS_BY_ID_URL, "POST", data);
                 var listings = listingsJson.FromJson<List<ListingView>>();
