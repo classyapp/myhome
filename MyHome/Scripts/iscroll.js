@@ -30,6 +30,8 @@
 
                     Classy.UnveilImages();
                     Classy.AjaxReconnect();
+
+                    if (Modernizr.history) history.replaceState(null, null, url + '?page=' + page);
                 });
             }
         }
