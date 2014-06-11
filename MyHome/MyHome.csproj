@@ -168,6 +168,7 @@
     <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\magicsuggest.css" />
     <Content Include="Content\ltr\Site.css" />
+    <Content Include="Content\Mobile\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -485,13 +486,13 @@
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
-    <Content Include="Scripts\mobile\profile-module.js" />
-    <Content Include="Scripts\mobile\angular-route.min.js" />
-    <Content Include="Scripts\mobile\angular-route.js" />
-    <Content Include="Scripts\mobile\angular-resource.min.js" />
-    <Content Include="Scripts\mobile\angular-resource.js" />
-    <Content Include="Scripts\mobile\angular.js" />
-    <Content Include="Scripts\mobile\angular.min.js" />
+    <Content Include="Scripts\mobile\profile-page.js" />
+    <Content Include="Scripts\mobile\angular\angular-route.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-route.js" />
+    <Content Include="Scripts\mobile\angular\angular-resource.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-resource.js" />
+    <Content Include="Scripts\mobile\angular\angular.js" />
+    <Content Include="Scripts\mobile\angular\angular.min.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
@@ -616,8 +617,8 @@
     <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\Profile\ProxyLandingPage.cshtml" />
     <Content Include="Views\Shared\PollActions.cshtml" />
-    <Content Include="Scripts\mobile\angular-resource.min.js.map" />
-    <Content Include="Scripts\mobile\angular-route.min.js.map" />
+    <Content Include="Scripts\mobile\angular\angular-resource.min.js.map" />
+    <Content Include="Scripts\mobile\angular\angular-route.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
