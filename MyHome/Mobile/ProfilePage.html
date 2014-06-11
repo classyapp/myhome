@@ -3,6 +3,8 @@
     <head>
 
         <link href="../Content/ltr/bootstrap.min.css" rel="stylesheet" />
+        <link href="../Content/Mobile/Site.css" rel="stylesheet" />
+
         <script src="../Scripts/mobile/angular.js"></script>
         <script src="../Scripts/mobile/angular-resource.js"></script>
         <script src="../Scripts/mobile/angular-route.min.js"></script>
@@ -10,19 +12,20 @@
         <script src="../Scripts/mobile/profile-module.js"></script>
 
         <title>Homelab.com</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     </head>
     <body>
 
-        <div class="container">
+        <div class="container-fluid">
 
-            <div class="profile-header" ng-controller="ProfileController">
-                <span ng-bind-template="{{profileDetails.UserName}}"></span>
-                <div class="image">
-                    <img src="" class="img-circle" />
+            <div class="col-md-12 profile-header panel panel-default" ng-controller="ProfileController">
+                <div class="text-center">
+                    <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
                 </div>
-                <div class="details">
-
+                <div class="profile-details">
+                    <h1 class="text-center" ng-bind-template="{{profileDetails.ProfessionalInfo.CompanyName}}"></h1>
                 </div>
             </div>
 
