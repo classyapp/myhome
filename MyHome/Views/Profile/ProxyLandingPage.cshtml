@@ -11,7 +11,7 @@
     var discussions = Model.Profile.Listings.Where(x => x.ListingType == "Discussion");
     var collections = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.PhotoBook);
     var projects = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.Project);
-    var webphotos = Model.Profile.Collections.Where(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.WebPhotos);
+    var webphotos = Model.Profile.Collections.FirstOrDefault(x => x.Listings != null && x.Listings.Count() > 0 && x.Type == Classy.DotNet.Responses.CollectionType.WebPhotos);
     var user = User.Identity as Classy.DotNet.Security.ClassyIdentity;
     var proCategories = Localizer.GetList("professional-categories");
     var countries = Localizer.GetList("supported-countries");
@@ -43,94 +43,93 @@
 </div>
 
 <div class="row "itemscope itemtype=\"http://schema.org/LocalBusiness\")>
-    <div class="profile-header col-md-9">
-        <div class="media">
-            <div class="pull-left">
-                <img class="img-circle" src="@Model.Profile.AvatarUrl(80, true)" title="@Model.Profile.GetProfileName()" width="80" />
-            </div>
-            <div class="media-body">
-                <div class="profile-title clearfix">
-                    <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
-                </div>
-
-                @{
-                    var hasReviews = Model.Profile.ReviewCount > 0;
-                    
-                    <div class="rating" @(hasReviews ? "itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"" : string.Empty)>
-                    @if (hasReviews)
-                    {
-                        <span class="stars">
-                            @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                            {
-                                <span class="glyphicon glyphicon-star"></span>
-                            }
-                            @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
-                            {
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            }
-                        </span>
-                        <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
-                        <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
-                    }
-                    <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
-
-                    @if (hasReviews && Model.ReviewSubCriteria != null)
-                    {
-                        <div class="details hide">
-                            <dl class="dl-horizontal">
-                                <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
-                                <dd>
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </dd>
-                                <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
-                                <dd>
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </dd>
-                                <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
-                                <dd>
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </dd>
-                                <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
-                                <dd>
-                                    @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star"></span>
-                                    }
-                                    @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
-                                    {
-                                        <span class="glyphicon glyphicon-star-empty"></span>
-                                    }
-                                </dd>
-                            </dl>
-                        </div>
-                    }
+        <div class="row">
+            <div class="profile-header col-md-9">
+                <div class="media">
+                    <div class="pull-left">
+                        <img class="img-circle" src="@Model.Profile.AvatarUrl(80, true)" title="@Model.Profile.GetProfileName()" width="80" />
                     </div>
-                }
+                    <div class="media-body">
+                        <div class="profile-title clearfix">
+                            <h1 class="media-heading pull-left" itemprop="name">@Html.ProfileLink(Model.Profile) </h1>
+                        </div>
+                        @{
+                        var hasReviews = Model.Profile.ReviewCount > 0;
+
+                        <div class="rating" @( hasReviews ? "itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"" : string.Empty )>
+                            @if (hasReviews)
+                            {
+                            <span class="stars">
+                                @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                {
+                                <span class="glyphicon glyphicon-star"></span>
+                                }
+                                @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.Profile.ReviewAverageScore, 0)); i++)
+                                {
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                }
+                            </span>
+                            <span class="hide" itemprop="ratingValue">@Model.Profile.ReviewAverageScore</span>
+                            <small><a href="#"><span itemprop="reviewCount">@Model.Profile.ReviewCount</span> @Localizer.Get("Profile_Main_Reviews")</a> |</small>
+                            }
+                            <small><a href="/profile/@Model.Profile.Id/reviews/new">@Localizer.Get("Profile_Main_ReviewMe") &raquo;</a></small>
+                            @if (hasReviews && Model.ReviewSubCriteria != null)
+                            {
+                            <div class="details hide">
+                                <dl class="dl-horizontal">
+                                    <dt>@Localizer.Get("Profile_ReviewDetails_Availability")</dt>
+                                    <dd>
+                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        }
+                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Availability, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                        }
+                                    </dd>
+                                    <dt>@Localizer.Get("Profile_ReviewDetails_Professionalism")</dt>
+                                    <dd>
+                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        }
+                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Professionalism, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                        }
+                                    </dd>
+                                    <dt>@Localizer.Get("Profile_ReviewDetails_Creativity")</dt>
+                                    <dd>
+                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        }
+                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.Creativity, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                        }
+                                    </dd>
+                                    <dt>@Localizer.Get("Profile_ReviewDetails_ServiceLevel")</dt>
+                                    <dd>
+                                        @for (var i = 1; i <= Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        }
+                                        @for (var i = 1; i <= 5 - Convert.ToInt16(Math.Round(Model.ReviewSubCriteria.ServiceLevel, 0)); i++)
+                                        {
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
 
 </div>
 
@@ -230,6 +229,32 @@
         
     </div>
     <div class="col-md-5">
+        @if (Model.EnableAdditionalContent && webphotos != null && webphotos.IncludedListings.Count() > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@string.Format(Localizer.Get("ProxyProfile_WebPhotosTitle"), Model.Profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl)</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>@Html.Raw(Localizer.Get("PublicProfile_WhatAreWebPhotos"))</p>
+                        </div>
+                        @foreach (var p in webphotos.IncludedListings)
+                        {
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new { ListingId = p.Id })">
+                                    @Html.Thumbnail(Model.Profile.Listings.Single(x => x.Id == p.Id), 150, 150, false, true)
+                                </a>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        
             <div id="details">
                 @if (Model.RelatedProfiles.Count() > 0)
                 {
@@ -318,7 +343,7 @@
                     <div>
                         @{
                     var urlAddress = Url.Encode(string.Concat(address.Street1, ",", address.City, ",", address.PostalCode, ",", address.Country));
-                    <img src="http://maps.googleapis.com/maps/api/staticmap?center=@(urlAddress)&zoom=11&size=275x100&sensor=false;markers=color:red%7Clabel:S%7C@(urlAddress)">
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center=@(urlAddress)&zoom=11&size=275x100&sensor=false;markers=color:red%7Clabel:S%7C@(urlAddress)">
                         }
                     </div>
                 }

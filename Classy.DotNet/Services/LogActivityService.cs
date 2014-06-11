@@ -41,7 +41,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                using (var client = ClassyAuth.GetAuthenticatedWebClient())
+                using (var client = ClassyAuth.GetWebClient())
                 {
                     var data = new {
                         SubjectId = logActivity.UserId,
@@ -70,7 +70,7 @@ namespace Classy.DotNet.Services
         {
             try
             {
-                using (var client = ClassyAuth.GetAuthenticatedWebClient())
+                using (var client = ClassyAuth.GetWebClient())
                 {
                     var data = new {
                         SubjectId = userId,

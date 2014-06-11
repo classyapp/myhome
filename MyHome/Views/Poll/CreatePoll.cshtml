@@ -53,8 +53,10 @@
 
         function createPoll() {
             var listings = [];
+            var photos = [];
             $('#listings-preview img').each(function() {
                 listings.push($(this).data('listing-id'));
+                photos.push($(this).data('photo-id'));
             });
             if (listings.length > 0) {
                 $('#DummyFile').val("1");
@@ -77,6 +79,14 @@
                 });
                 return false;
             }
+
+            // create thumbnail collage for the poll share image
+            var imageKeys = '';
+            $(photos).each(function() {
+                imageKeys += 'ImageKeys=' + this + '&';
+            });
+            var createCollageUrl = '//' + Classy.SiteMetadata.CdnUrl + '/collage?' + imageKeys + 'format=json';
+            var collageImage = new Image().src = createCollageUrl;
 
             $('#create-poll-form').submit();
         }

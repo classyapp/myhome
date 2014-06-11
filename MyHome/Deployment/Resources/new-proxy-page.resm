@@ -68,6 +68,13 @@
 			"Values": {
 				"en" : "What other professionals are saying"
 			}
+		},
+		{
+			"Key": "ProxyProfile_WebPhotosTitle",
+			"Description" : "title of the web photos section on the proxy profile page",
+			"Values": {
+				"en" : "Photos from {0}"
+			}
 		}
 
 	]

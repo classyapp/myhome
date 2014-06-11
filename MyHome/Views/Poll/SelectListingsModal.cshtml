@@ -1,3 +1,4 @@
+@using Classy.DotNet.Mvc.Extensions
 @model IList<Classy.DotNet.Responses.CollectionView>
 
 @{
@@ -12,7 +13,7 @@
     
     <div class="collections-container row hide-when-loading">
         <div class="row" style="margin: 20px auto;">
-            @foreach (var collection in Model)
+            @foreach (var collection in Model.Where(x => !x.CoverPhotos.IsNullOrEmpty()))
             {
                 <div class="col-md-4 collection" data-collection-id="@collection.Id">
                     @Html.Partial("Thumbnails", collection.CoverPhotos)

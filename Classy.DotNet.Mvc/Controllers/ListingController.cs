@@ -11,7 +11,6 @@ using System.Net;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
-using ServiceStack.Text;
 using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
@@ -735,7 +734,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 // search
                 var results = service.SearchListings(
                     string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
-                    new string[] { ListingTypeName },
+                    new string[] {ListingTypeName},
                     searchMetadata,
                     model.PriceMin,
                     model.PriceMax,
@@ -743,6 +742,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     model.Page);
                 model.Results = results.Results;
                 model.Count = results.Count;
+                model.PagingUrl = Url.RouteUrlForCurrentLocale("Search" + ListingTypeName);
 
                 if (model.Metadata == null) model.Metadata = new TListingMetadata();
 
