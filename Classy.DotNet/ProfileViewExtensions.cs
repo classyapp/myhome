@@ -1,9 +1,4 @@
 ﻿using Classy.DotNet.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Classy.DotNet
@@ -25,6 +20,8 @@ namespace Classy.DotNet
 
         public static string GetProfileName(this ProfileView profile)
         {
+            if (profile == null) return "unknown";
+
             if (profile.ContactInfo == null && !profile.IsProfessional) return "unknown";
             string name;
             if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
