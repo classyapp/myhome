@@ -527,7 +527,6 @@
     <Content Include="Scripts\poll-details.js" />
     <Content Include="Scripts\ajax-blocker.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Mobile\ProfilePage.html" />
     <Content Include="Views\Profile\CreateVendorProfile.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.config">
