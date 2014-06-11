@@ -3,6 +3,12 @@
     ViewBag.Title = Localizer.Get("CreateProduct_PageTitle");
     Html.Bootstrap().Globals().ShowRequiredStar(false);
     var categories = Classy.DotNet.Responses.AppView.ProductCategories.AsSelectList();
+
+    var styles = Localizer.GetList("room-styles");
+    if (Model.PricingInfo == null)
+    {
+        Model.PricingInfo = new Classy.DotNet.Responses.PricingInfoView() { CurrencyCode = Request[Classy.DotNet.Responses.AppView.CurrencyCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCurrency };
+    }
 }
 
 @section AdditionalStyles {
@@ -24,9 +30,10 @@
             @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
             @f.FormGroup().TextBoxFor(x => x.Categories).ShowValidationMessage(false)
             <div class="row">
-                @f.FormGroup().DropDownListFor(x => x.Metadata.Style, Classy.DotNet.Responses.AppView.Styles.AsSelectList()).WidthMd(6).ShowValidationMessage(false)
+                @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).WidthMd(6).ShowValidationMessage(false)
                 @f.FormGroup().TextBoxFor(x => x.Metadata.Manufacturer).WidthMd(6).ShowValidationMessage(false)
             </div>
+            @Html.HiddenFor(x => x.PricingInfo.CurrencyCode)
             @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.ProductUrl).ShowValidationMessage(false)
             <hr />
             <div id="externalMedia" class="dropzone">
@@ -73,11 +80,36 @@
             @f.FormGroup().TextBox("Color").Class("tags").ShowValidationMessage(false)
             @f.FormGroup().TextBox("Design").Class("tags").ShowValidationMessage(false)
             @f.FormGroup().TextBox("Size").Class("tags").ShowValidationMessage(false)
+            <hr />
+            <div id="variations">
+                @for (int i = 0; i < Model.PricingInfo.PurchaseOptions.Count; i++)
+	            {
+		            <div class="variation panel panel-default" data-variation="@string.Join(",", Model.PricingInfo.PurchaseOptions[i].VariantProperties.Values)">
+                        <div class="panel-heading">@string.Join(",", Model.PricingInfo.PurchaseOptions[i].VariantProperties.Values)</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Color)
+                                @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Design)
+                                @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Size)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].SKU).WidthMd(3).ShowValidationMessage(false)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].CompareAtPrice).WidthMd(3).ShowValidationMessage(false)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Price).WidthMd(3).ShowValidationMessage(false)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Quantity).WidthMd(3).ShowValidationMessage(false)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Width).WidthMd(4).ShowValidationMessage(false)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Depth).WidthMd(4).ShowValidationMessage(false)
+                                @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Height).WidthMd(4).ShowValidationMessage(false)
+                                @f.FormGroup().TextAreaFor(x => x.PricingInfo.PurchaseOptions[i].Content).WidthMd(3).ShowValidationMessage(false)
+                            </div>
+                        </div>
+		            </div>
+	            }
+            </div>
+            
 
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(@Localizer.Get("CreateProduct_Submit")))  
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(@Localizer.Get("CreateProduct_Submit")).HtmlAttributes(new { onclick = "trySubmit()" }))  
         }
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-5" id="MMM"></div>
 </div>
 
 @section scripts
@@ -87,27 +119,181 @@
     <script type="text/javascript" src="~/Scripts/jquery.tagsinput.js"></script>
 
     <script type="text/javascript">
-        $("#Categories").attr("value", '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Classy.DotNet.Responses.AppView.ProductCategories.Where(p => Model.Categories.Contains(p.Value)).Select(p => new { id = p.Value, name = p.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] }).ToArray()))');
-        $("#Categories").magicSuggest({
-            placeholder: '@Localizer.Get("CreateListing_CategoriesPlaceHolder")',
-            allowFreeEntries: false,
-            valueField: 'id',
-            name: 'Categories',
-            displayField: 'name',
-            data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Classy.DotNet.Responses.AppView.ProductCategories.Select(c => new { id = c.Value, name = c.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] })))
-            });
-        //$("#externalMedia").dropzone({url:'/upload'});
-        $("input.tags").tagsInput({
-            width: '100%',
-            minInputWidth: '100%',
-            height: '34px',
-            defaultText: 'fille me later',
-            onRemoveTag: function (value) {
-            },
-            onAddTag: function (value) {
+        var catSuggest = null;
+        var mainDZ = null;
+        $(function(){
+            @if (Model.Categories != null)
+            {
+                @:$("#Categories").attr("value", '@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Classy.DotNet.Responses.AppView.ProductCategories.Where(p => Model.Categories.Contains(p.Value)).Select(p => new { id = p.Value, name = p.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] }).ToArray()))');
             }
+            else
+            {
+                @:$("#Categories").attr("value", '[]');
+            }
+            catSuggest = $("#Categories").magicSuggest({
+                placeholder: '@Localizer.Get("CreateListing_CategoriesPlaceHolder")',
+                allowFreeEntries: false,
+                valueField: 'id',
+                name: 'Categories',
+                displayField: 'name',
+                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Classy.DotNet.Responses.AppView.ProductCategories.Select(c => new { id = c.Value, name = c.Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName] })))
+                });
+            Dropzone.autoDiscover = false;
+            $("#externalMedia").dropzone(
+                {
+                    acceptedFiles: 'image/*', 
+                    url: '@Url.RouteUrl("AddMediaFile")',
+                    addRemoveLinks: true,
+                    removedfile: function (file) {
+                        var fileId = file.fileId;
+                        var data = { fileId: fileId };
+                        $.post("@Url.RouteUrl("RemoveMediaFile")", data, function (response) {
+                            if (!response.error)
+                                file.previewElement.remove();
+                        });
+                    },
+                    totaluploadprogress: function(progress) { 
+                      //  $("#MMM").html('done');
+                    },
+                    init: function() {
+                        mainDZ = this;
+                        this.on("complete", function(file) {
+                            var response = JSON.parse(file.xhr.responseText);
+                            file.fileId = response.fileId;
+                        });
+                    }
+                });
+            $("input.tags").tagsInput({
+                width: '100%',
+                minInputWidth: '100%',
+                height: '34px',
+                defaultText: 'fill me later',
+                onRemoveTag: function (value) {
+                },
+                onAddTag: function (value) {
+                }
+            });
+            $(".tagsinput").addClass("bootstrap-tagsinput");
+            $(".tagsinput input").addClass("form-control").on('blur', renderVariations);
         });
-        $(".tagsinput").addClass("bootstrap-tagsinput");
-        $(".tagsinput input").addClass("form-control");
+
+        function trySubmit() {
+            $(".input-validation-error").removeClass("input-validation-error");
+            var data = {};
+            $("input[type=text],input[type=hidden],select,textarea").each(function(idx, item){data[$(item).attr("name")] = $(item).val();});
+            var mainFiles = [];
+            $.each(mainDZ.getAcceptedFiles(), function(idx, file) { mainFiles.push(file.fileId); });
+            data.Images = mainFiles;
+            $.post("/product/new/nocollection", data, function(response) { 
+                if (response.errors) { 
+                    if (response.errors.Categories) {
+                        $("div.ms-ctn").addClass("input-validation-error"); delete response.errors["Categories"];
+                    }
+                    if (response.errors.Images) {
+                        $("div.ms-ctn").addClass("input-validation-error"); delete response.errors["Images"];
+                    }
+                    $("form").validate().showErrors(response.errors);                   
+                } else {
+                    document.location.href = "@Url.RouteUrl("ProductDetails", new { listingId = "LISTING_ID", slug = "show" })".replace(/LISTING_ID/, response.listingId);
+                }
+            });
+        }
+
+        function renderVariations(){
+            var values = [];
+            var variations = [];
+            if ($("#Color").val() !== "") { values.push($("#Color").val().split(',')); }
+            if ($("#Design").val() !== "") { values.push($("#Design").val().split(',')); }
+            if ($("#Size").val() !== "") { values.push($("#Size").val().split(',')); }
+
+            var totalVariations = 1;
+            for (var i = 0; i < values.length; i++) {
+                totalVariations = totalVariations * values[i].length;
+                variations[i] = {};
+            }
+
+            for (var i = 0; i < totalVariations; i++) { variations[i] = {}; }
+
+            var colors = ($("#Color").val() !== "" ? $("#Color").val().split(',').length : 0);
+            var designs = ($("#Design").val() !== "" ? $("#Design").val().split(',').length : 0);
+            var sizes = ($("#Size").val() !== "" ? $("#Size").val().split(',').length : 0);
+
+            var vidx = 0;
+            if (colors > 0){
+                colors = $("#Color").val().split(',');
+                fillGroups(variations, totalVariations, colors, "Color", totalVariations / colors.length);
+                vidx++;
+            }
+
+            if (designs > 0){
+                var designs = $("#Design").val().split(',');
+                if (vidx == 1) { fillStriped(variations, totalVariations, designs, "Design", designs.length); }
+                else { fillGroups(variations, totalVariations, designs, "Design", totalVariations / designs.length); }
+                vidx++;
+            }
+
+            if (sizes > 0) {
+                sizes = $("#Size").val().split(',');
+                if (vidx == 2) { fillGroups(variations, totalVariations, sizes, "Size", designs.length); }
+                else if (vidx == 1) { fillStriped(variations, totalVariations, sizes, "Size", sizes.length); }
+                else { fillGroups(variations, totalVariations, sizes, "Size", totalVariations / sizes.length); }
+                vidx++;
+            }
+
+            // ensure variations exist
+            var existing = $("#variations div.variation[data-variation]");
+            var keys = {};
+            existing.each(function(idx, item){ keys[$(item).data("variation")] = 1; });
+            for (var i = 0; i < totalVariations; i++) {
+                vkey = (variations[i].Color || '_') + '|' + (variations[i].Design || '_') + '|'  + (variations[i].Size || '_');
+                if (vkey != '_|_|_') {
+                    if ($("#variations div.variation[data-variation='" + vkey + "']").length == 0){
+                        $("#variations").append("<div class='variation panel panel-default' data-variation='" + vkey + "'><div class='panel-heading'>" + vkey.split('|').join(',') + "</div>" +
+                            "<div class='panel-body'>" +
+                            "<div class='row'>" +
+                            "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
+                            "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>Compare At Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div>" +
+                            "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div>" +
+                            "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Quantity'>Quantity</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Quantity' name='PricingInfo.PurchaseOptions[" + i + "].Quantity' type='text' value=''></div>" +
+                            "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Width'>Width</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Width' name='PricingInfo.PurchaseOptions[" + i + "].Width' type='text' value='" + $("#PricingInfo_BaseOption_Width").val()  + "'></div>" +
+                            "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Depth'>Depth</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Depth' name='PricingInfo.PurchaseOptions[" + i + "].Depth' type='text' value='" + $("#PricingInfo_BaseOption_Depth").val()  + "'></div>" +
+                            "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Height'>Height</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Height' name='PricingInfo.PurchaseOptions[" + i + "].Height' type='text' value='" + $("#PricingInfo_BaseOption_Height").val()  + "'></div>" +
+                            "<div class='col-md-12 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Content'>Content</label><textarea rows='4' class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Content' name='PricingInfo.PurchaseOptions[" + i + "].Content'>" + $("#Content").val()  + "</textarea></div>" +
+                            "</div>" +
+                            "</div></div>");
+                    }
+                }
+                delete keys[vkey];
+            }
+
+            for(var key in keys) { 
+                $("#variations div.variation[data-variation='" + key + "']").remove(); 
+            }
+        }
+
+        function fillNormal(variations, totalVariations, values, name, num){
+            for (var i = 0; i < totalVariations; i++) {
+                var idx = (totalVariations == values.length ? i : Math.floor(i / num));
+                variations[i][name] = values[idx];
+            }
+        }
+
+        function fillGroups(variations, totalVariations, values, name, num){
+            var j = -1;
+            for (var i = 0; i < totalVariations; i++) {
+                if (i % num == 0) { j++; j = Math.floor(j % values.length); }; 
+                variations[i][name] = values[j];
+            }
+        }
+
+        function fillStriped(variations, totalVariations, values, name, num){
+            for (var i = 0; i < totalVariations; i++) {
+                variations[i][name] = values[i % num];
+            }
+        }
+
+        $(".tags").on('change', function(){
+            renderVariations();
+        });
     </script>
 }

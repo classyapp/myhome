@@ -12,6 +12,7 @@ using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Mvc.Attributes;
 using ServiceStack.Text;
+using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -210,6 +211,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.Title,
                 model.Content,
                 ListingTypeName,
+                model.Categories,
                 null,
                 model.Metadata != null ? model.Metadata.ToDictionary() : null,
                 model.ExternalMediaUrl);
@@ -293,15 +295,14 @@ namespace Classy.DotNet.Mvc.Controllers
                 model.CollectionId = collection.Id;
             }
 
-            PricingInfoView pricingInfo = model.PricingInfo.ToPricingInfo();
-
             try
             {
                 var listing = service.CreateListing(
                     model.Title,
                     string.Empty,
                     ListingTypeName,
-                    pricingInfo,
+                    model.Categories,
+                    model.PricingInfo,
                     (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                     Request.Files);
                 service.AddListingToCollection(model.CollectionId, new IncludedListingView[] { 
@@ -510,9 +511,12 @@ namespace Classy.DotNet.Mvc.Controllers
                 if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 if (model.PricingInfo != null)
                 {
-                    if (ValidatePricingInfo(model.PricingInfo, ModelState)) 
+                    fields |= ListingUpdateFields.Pricing;
+                    Dictionary<string, string> errors = new Dictionary<string, string>();
+                    ValidatePricingInfo(model.PricingInfo, errors);
+                    foreach (var error in errors)
                     {
-                        fields |= ListingUpdateFields.Pricing;
+                        ModelState.AddModelError(error.Key, error.Value);
                     }
                 }
                 if (ModelState.IsValid)
@@ -543,43 +547,80 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private bool ValidatePricingInfo(PricingInfoView pricingInfoView, ModelStateDictionary ModelState)
+        private void ValidatePricingInfo(PricingInfoView pricingInfoView, Dictionary<string,string> errors)
         {
             if (!AppView.SupportedCurrencies.Any(c => c.Value == pricingInfoView.CurrencyCode))
             {
-                ModelState.AddModelError("PricingInfo", "Default Currency is required");
-                return false;
+                errors.Add("PricingInfo", "Default Currency is required");
             }
-            if (pricingInfoView.PurchaseOptions == null || pricingInfoView.PurchaseOptions.Count == 0)
+            if (pricingInfoView.BaseOption == null)
             {
-                ModelState.AddModelError("PricingInfo", "At least one purchase options is required");
-                return false;
+                errors.Add("PricingInfo", "Missing Product details");
             }
-            for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
-			{
-                string error = null;
-                if (!ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i == 0, out error))
+            else
+            {
+                if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.ProductUrl))
                 {
-                    ModelState.AddModelError("PricingInfo", error);
-                    return false;
+                    errors.Add("PricingInfo.BaseOption.ProductUrl", "Product Url is required");
                 }
-			}
+            }
+            if (pricingInfoView.PurchaseOptions != null)
+            {
+                for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
+                {
+                    string error = null;
+                    if (!ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i == 0, out error))
+                    {
+                        errors.Add("PricingInfo", error);
+                    }
+                }
+            }
+            else
+            {
+                if (pricingInfoView.BaseOption.Price <= 0)
+                {
+                    errors.Add("PricingInfo.BaseOption.Price", "Price must be greater than zero");
+                }
+                if (pricingInfoView.BaseOption.Quantity <= 0)
+                {
+                    errors.Add("PricingInfo.BaseOption.Quantity", "Quantity is required");
+                }
+                if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
+                {
+                    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
+                }
+                if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Width))
+                {
+                    errors.Add("PricingInfo.BaseOption.Width", "Width is required");
+                }
+                if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Depth))
+                {
+                    errors.Add("PricingInfo.BaseOption.Depth", "Depth is required");
+                }
+                if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Height))
+                {
+                    errors.Add("PricingInfo.BaseOption.Height", "Height is required");
+                }
+                // SKU UNIQUE!!!
+                //if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
+                //{
+                //    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
+                //}
+            }
 
             // ensure unique sku and no duplicate variants
-            if (pricingInfoView.PurchaseOptions.Count > 1)
+            if (pricingInfoView.PurchaseOptions != null)
             {
                 Dictionary<string, int> skus = new Dictionary<string, int>();
                 foreach (var option in pricingInfoView.PurchaseOptions)
                 {
                     if (string.IsNullOrEmpty(option.SKU))
                     {
-                        ModelState.AddModelError("PricingInfo", "SKU is required");
-                        return false;
+                        errors.Add("PricingInfo", "SKU is required");
                     }
                     else if (skus.ContainsKey(option.SKU))
                     {
-                        ModelState.AddModelError("PricingInfo", "SKU must be unique");
-                        return false;
+                        errors.Add("PricingInfo", "SKU must be unique");
                     }
                     else
                     {
@@ -595,8 +636,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     string variant = string.Join(";", arr);
                     if (variants.ContainsKey(variant))
                     {
-                        ModelState.AddModelError("PricingInfo", "Duplicate purchase option detected");
-                        return false;
+                        errors.Add("PricingInfo", "Duplicate purchase option detected");
                     }
                     else
                     {
@@ -604,8 +644,6 @@ namespace Classy.DotNet.Mvc.Controllers
                     }
                 }
             }
-
-            return true;
         }
 
         private bool ValidatePurchaseOption(PurchaseOptionView option, bool imageRequired, out string error)
@@ -844,9 +882,76 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult CreateListingNoCollection()
         {
             var model = new CreateListingNoCollectionViewModel<TListingMetadata>();
-            model.Categories = new List<string>();
-            model.PricingInfo = new PricingViewModel() { CurrencyCode = Request[Classy.DotNet.Responses.AppView.CurrencyCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCurrency };
+            model.PricingInfo = new PricingInfoView() { CurrencyCode = Request[Classy.DotNet.Responses.AppView.CurrencyCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCurrency };
+            model.PricingInfo.PurchaseOptions = new List<PurchaseOptionView>();
+            //model.PricingInfo.PurchaseOptions.Add(new PurchaseOptionView { SKU = "123456", VariantProperties = new Dictionary<string, string> { { "Color", "Red" } } });
             return View(string.Format("Create{0}", ListingTypeName), model);
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreateListingNoCollection(CreateListingNoCollectionViewModel<TListingMetadata> model)
+        {
+            Dictionary<string, string> errors = new Dictionary<string,string>();
+            if (string.IsNullOrWhiteSpace(model.Title))
+            {
+                errors.Add("Title", Localizer.Get("CreateListing_TitleRequired"));
+            }
+            if (string.IsNullOrWhiteSpace(model.Content))
+            {
+                errors.Add("Content", Localizer.Get("CreateListing_ContentRequired"));
+            }
+            if (string.IsNullOrWhiteSpace(Request["Categories[]"]))
+            {
+                errors.Add("Categories", Localizer.Get("CreateListing_CategoryRequired"));
+            }
+            else
+            {
+                model.Categories = Request["Categories[]"].Split(',');
+            }
+            if (string.IsNullOrWhiteSpace(Request["Images[]"]))
+            {
+                errors.Add("Images", Localizer.Get("CreateListing_ImagesRequired"));
+            }
+            else
+            {
+                model.PricingInfo.BaseOption.MediaFiles = Request["Images[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray();
+            }
+            if (model.PricingInfo != null)
+            {
+                ValidatePricingInfo(model.PricingInfo, errors);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                if (errors.Count > 0)
+                {
+                    return Json(new { errors = errors });
+                }
+                else
+                {
+                    // Save the lsiting
+                    var listingService = new ListingService();
+                    var listing = listingService.CreateListing(
+                        model.Title,
+                        model.Content,
+                        ListingTypeName,
+                        model.Categories,
+                        model.PricingInfo,
+                        (model.Metadata == null ? null : model.Metadata.ToDictionary()),
+                        Request.Files);
+
+
+                    return Json (new { listingId = listing.Id });
+                }
+            }
+            else
+            {
+                foreach (var error in errors)
+                {
+                    ModelState.AddModelError(error.Key, error.Value);
+                }
+                return View(string.Format("Create{0}", ListingTypeName), model);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string Title { get; set; }
         [Display(Name = "CreatePoll_CollectionContent")]
         public string Content { get; set; }
-        public PricingViewModel PricingInfo { get; set; }
+        public PricingInfoView PricingInfo { get; set; }
         public LocationView Location { get; set; }
         public bool AutoPublish { get; set; }
         public bool IsGoogleConnected { get; set; }
@@ -24,6 +24,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         [Required(ErrorMessage = "CreateListing_FilesRequired")]
         public string DummyFile { get; set; }
 
+        public string[] Categories { get; set; }
         // TODO: products and bookable items
 
         public SelectList CollectionList { get; set; }

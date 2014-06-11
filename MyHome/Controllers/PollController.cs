@@ -150,7 +150,7 @@ namespace MyHome.Controllers
                 Listings = newPollRequest.ListingIds.ToList()
             }.ToDictionary();
             var newPoll = listingService.CreateListing(newPollRequest.Title,
-                newPollRequest.Content, "Poll", null, metadata, Request.Files);
+                newPollRequest.Content, "Poll", null, null, metadata, Request.Files);
             listingService.AddListingToCollection(newCollection.Id, new[] {
                 new IncludedListingView {
                     Id = newPoll.Id,

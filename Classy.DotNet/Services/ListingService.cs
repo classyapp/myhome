@@ -87,6 +87,7 @@ namespace Classy.DotNet.Services
             string title, 
             string content,
             string listingType,
+            string[] categories,
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
@@ -106,6 +107,7 @@ namespace Classy.DotNet.Services
                 title,
                 content,
                 listingType,
+                categories,
                 pricingInfo,
                 metadata,
                 filesToUpload);
@@ -115,6 +117,7 @@ namespace Classy.DotNet.Services
             string title,
             string content,
             string listingType,
+            string[] categories,
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
@@ -134,6 +137,7 @@ namespace Classy.DotNet.Services
                 title,
                 content,
                 listingType,
+                categories,
                 pricingInfo,
                 metadata,
                 filesToUpload);
@@ -143,6 +147,7 @@ namespace Classy.DotNet.Services
             string title, 
             string content,
             string listingType,
+            string[] categories,
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
@@ -153,10 +158,10 @@ namespace Classy.DotNet.Services
             {
                 Title = title,
                 Content = content,
+                Categories = categories,
                 ListingType = listingType,
                 Pricing = pricingInfo,
                 Metadata = metadata
-
             }.ToJson();
 
             // create the listing
