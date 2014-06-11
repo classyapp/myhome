@@ -11,6 +11,9 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public double? PriceMin { get; set; }
         public double? PriceMax { get; set; }
         public int Page { get; set; }
+
+        public string PagingUrl { get; set; }
+
         //
         public IList<ListingView> Results { get; set; }
         public long Count { get; set; }

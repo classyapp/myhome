@@ -124,6 +124,7 @@
     <Compile Include="ViewModels\Listing\ListingQueryViewModel.cs" />
     <Compile Include="ViewModels\Listing\PricingViewModel.cs" />
     <Compile Include="ViewModels\Listing\FreeSearchListingsViewModel.cs" />
+    <Compile Include="ViewModels\Listing\SearchUntaggedListingsViewModel.cs" />
     <Compile Include="ViewModels\Listing\ShowListingByTypeViewModel.cs" />
     <Compile Include="ViewModels\Listing\PhotoActionsViewModel.cs" />
     <Compile Include="ViewModels\Listing\SearchListingsViewModel.cs" />
