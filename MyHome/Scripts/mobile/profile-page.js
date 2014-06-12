@@ -1,7 +1,12 @@
 
-var profilePage = angular.module('profilePage', ['AppManagerService', 'ClassyUtilitiesService']);
+var profilePage = angular.module('profilePage', ['ngSanitize', 'AppManagerService', 'ClassyUtilitiesService']);
 
 //profilePage.value('appSettingsPromise', 'http://www.thisisclassy.com:8008'); // way to inject objects into module controllers
+profilePage.filter('unsafe', function ($sce) {
+    return function (val) {
+        return $sce.trustAsHtml(val);
+    };
+});
 
 var config = {
     headers: {
@@ -21,13 +26,13 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             $scope.profileDetails = data;
 
             // organize collections
-            var collectionImages = [];
+            var collections = [];
             $scope.profileDetails.Collections.forEach(function(collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '')
-                    collectionImages.push({ Image: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 200, 200) });
+                    collections.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, 200, 200));
             });
-            $scope.Collections = collectionImages;
-
+            $scope.Collections = collections;
+            
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);

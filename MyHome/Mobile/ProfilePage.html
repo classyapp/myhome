@@ -8,6 +8,7 @@
         <script src="../Scripts/mobile/angular/angular.js"></script>
         <script src="../Scripts/mobile/angular/angular-resource.js"></script>
         <script src="../Scripts/mobile/angular/angular-route.js"></script>
+        <script src="../Scripts/mobile/angular/angular-sanitize.js"></script>
         
         <script src="../Scripts/mobile/cache-provider.js"></script>
         <script src="../Scripts/mobile/app-manager.js"></script>
@@ -38,8 +39,8 @@
 
             <div class="profile-collections panel panel-default">
                 <div class="panel-body collections-container">
-                    <div class="collection" ng-repeat="collection in Collections">
-                        <img class="" ng-src="{{collection.Image}}"/>
+                    <div class="collection" ng-repeat="collection in Collections" ng-bind-html="collection | unsafe">
+                        
                     </div>
                 </div>
                 <div class="panel-footer">

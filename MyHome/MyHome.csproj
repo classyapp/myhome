@@ -487,6 +487,8 @@
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
+    <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
     <Content Include="Scripts\mobile\cache-provider.js" />
     <Content Include="Scripts\mobile\utilities.js" />
