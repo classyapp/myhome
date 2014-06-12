@@ -1,0 +1,106 @@
+﻿body {
+    background-color: #f0f0f0;
+    font-size: 14px;
+    color: #333;
+}
+h1 {
+    color: #444;font-size: 24px;
+    margin: 10px 0;
+}
+h3 { font-size: 16px;margin-top: 0; }
+
+.main-container { padding-top: 20px; }
+.glyphicon-star, .glyphicon-star-empty { color: green;}
+
+/* Profile Page */
+.profile-header .avatar {
+    width: 80px;margin-bottom: 10px;
+}
+.collections-container {
+    width: 100%;
+    overflow-x: scroll;overflow-y: hidden;
+    white-space: nowrap;
+}
+.collections-container .collection {
+    width: 220px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.review-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
+.review-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
+.review-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
+.reviewer-details .name { font-size: 20px; }
+.review-content { margin-left: 78px;color: #777; }
+
+
+
+
+/* Collage Thumbnails */
+.thumbs1, .thumbs2, .thumbs3, .thumbs4
+{
+    width: 100%;
+    height: 220px;
+    border: 1px solid #ececec;
+}
+
+div.thumbs1 > div.thumb
+{
+    width: 100%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+
+div.thumbs2 > div.thumb
+{
+    width: 49%;
+    height: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: left;
+}
+
+    div.thumbs2 > div.thumb:last-child
+    {
+        float: right;
+    }
+
+div.thumbs3 > div.thumb
+{
+    width: 24%;
+    height: 49%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: right;
+    margin-bottom: 2%;
+}
+
+    div.thumbs3 > div.thumb:first-child, div.thumbs4 > div.thumb:first-child
+    {
+        width: 74%;
+        height: 100%;
+        float: left;
+        margin-bottom: 0px;
+    }
+
+    div.thumbs3 > div.thumb:last-child, div.thumbs4 > div.thumb:last-child
+    {
+        margin-bottom: 0px;
+    }
+div.thumbs4 > div.thumb
+{
+    width: 24%;
+    height: 31.7%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    display: inline-block;
+    float: right;
+    margin-bottom: 2%;
+}

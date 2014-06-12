@@ -1,0 +1,80 @@
+﻿<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="profilePage">
+    <head>
+
+        <link href="../Content/ltr/bootstrap.min.css" rel="stylesheet" />
+        <link href="../Content/Mobile/Site.css" rel="stylesheet" />
+
+        <script src="../Scripts/mobile/angular/angular.js"></script>
+        <script src="../Scripts/mobile/angular/angular-resource.js"></script>
+        <script src="../Scripts/mobile/angular/angular-route.js"></script>
+        <script src="../Scripts/mobile/angular/angular-sanitize.js"></script>
+        
+        <script src="../Scripts/mobile/common.js"></script>
+        <script src="../Scripts/mobile/cache-provider.js"></script>
+        <script src="../Scripts/mobile/app-manager.js"></script>
+        <script src="../Scripts/mobile/utilities.js"></script>
+        <script src="../Scripts/mobile/profile-page.js"></script>
+
+        <title>Homelab.com</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    </head>
+    <body>
+
+        <div class="main-container container-fluid" ng-controller="ProfileController">
+
+            <div class="profile-header">
+                <div class="text-center">
+                    <img ng-src="{{Avatar}}" class="avatar img-circle" />
+                </div>
+                <div class="text-center">
+                    <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
+                </div>
+                <div class="profile-details">
+                    <h1 class="text-center" ng-bind-template="{{profileDetails.ProfessionalInfo.CompanyName}}"></h1>
+                    <h3 class="text-center" ng-bind-template="{{Location}}"></h3>
+                </div>
+            </div>
+
+            <div class="profile-collections panel panel-default">
+                <div class="panel-body collections-container">
+                    <div class="collection" ng-repeat="collection in Collections" ng-bind-html="collection | unsafe">
+                        
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="view-all">View all projects</span>
+                </div>
+            </div>
+            
+            <div class="profile-reviews panel panel-default">
+                <div class="panel-body">
+                    <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last}">
+                        <div class="review-metadata clearfix">
+                            <div class="avatar pull-left">
+                                <img ng-src="{{review.Avatar}}" class="avatar img-circle" />
+                            </div>
+                            <div class="reviewer-details pull-left">
+                                <div class="name" ng-bind-template="{{review.Name}}"></div>
+                                <div class="rating">
+                                    <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content" ng-bind-template="{{review.Content}}">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <span class="view-all">View all reviews</span>
+                </div>
+            </div>
+
+        </div>
+        
+    </body>
+</html>
