@@ -7,10 +7,11 @@
 
         <script src="../Scripts/mobile/angular/angular.js"></script>
         <script src="../Scripts/mobile/angular/angular-resource.js"></script>
-        <script src="../Scripts/mobile/angular/angular-route.min.js"></script>
+        <script src="../Scripts/mobile/angular/angular-route.js"></script>
         
         <script src="../Scripts/mobile/cache-provider.js"></script>
         <script src="../Scripts/mobile/app-manager.js"></script>
+        <script src="../Scripts/mobile/utilities.js"></script>
         <script src="../Scripts/mobile/profile-page.js"></script>
 
         <title>Homelab.com</title>
@@ -20,7 +21,7 @@
     </head>
     <body>
 
-        <div class="container-fluid" ng-controller="ProfileController">
+        <div class="main-container container-fluid" ng-controller="ProfileController">
 
             <div class="col-md-12 profile-header">
                 <div class="text-center">
@@ -33,9 +34,12 @@
 
             <div class="col-md-12 profile-collections panel panel-default">
                 <div class="collections-container">
-                    <div class="collection" ng-repeat="collection in profileDetails.Collections">
-                        <img class="" ng-src="{{collection.CoverPhotos[0]}}"/>
+                    <div class="collection" ng-repeat="collection in Collections">
+                        <img class="" ng-src="{{collection.Image}}"/>
                     </div>
+                </div>
+                <div class="container-footer pull-right">
+                    <span class="view-all">View all projects</span>
                 </div>
             </div>
 

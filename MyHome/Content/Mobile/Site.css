@@ -3,8 +3,20 @@
     font-size: 14px;
     color: #333;
 }
-h1 { color: #444; }
+h1 { color: #444;font-size: 32px; }
 
+.main-container { padding-top: 20px; }
+
+/* Profile Page */
 .profile-header .avatar {
     width: 80px;
+}
+.collections-container {
+    width: 100%;
+    overflow-x: scroll;overflow-y: hidden;
+    white-space: nowrap;
+}
+.collections-container .collection {
+    display: inline-block;
+    margin: 10px 10px 10px 0;
 }
