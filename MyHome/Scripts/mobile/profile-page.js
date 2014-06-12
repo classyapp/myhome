@@ -20,6 +20,7 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
         $http.get(appSettings.ApiUrl + '/profile/246?includeCollections=true', config).success(function (data) {
             $scope.profileDetails = data;
             
+            // organize collections
             var collectionImages = [];
             $scope.profileDetails.Collections.forEach(function (collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '')
@@ -27,9 +28,23 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             });
             $scope.Collections = collectionImages;
 
+            $scope.Location = getProfileLocation(data);
+
         }).error(function () {
             // TODO: display some error message
         });
+
+        function getProfileLocation(profileDetails) {
+            var professionalInfo = profileDetails.professionalInfo;
+            if (!professionalInfo) return '';
+            var contactInfo = professionalInfo.CompanyContactInfo;
+            if (!contactInfo) return '';
+            var location = contactInfo.Location;
+            if (!location) return '';
+            var address = location.Address;
+            if (!address) return '';
+            return address.City + ', ' + address.Country;
+        }
 
     });
 });

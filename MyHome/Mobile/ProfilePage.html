@@ -23,23 +23,85 @@
 
         <div class="main-container container-fluid" ng-controller="ProfileController">
 
-            <div class="col-md-12 profile-header">
+            <div class="profile-header">
                 <div class="text-center">
                     <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
                 </div>
+                <div class="text-center">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                </div>
                 <div class="profile-details">
                     <h1 class="text-center" ng-bind-template="{{profileDetails.ProfessionalInfo.CompanyName}}"></h1>
+                    <h3 class="text-center" ng-bind-template="{{Location}}"></h3>
                 </div>
             </div>
 
-            <div class="col-md-12 profile-collections panel panel-default">
-                <div class="collections-container">
+            <div class="profile-collections panel panel-default">
+                <div class="panel-body collections-container">
                     <div class="collection" ng-repeat="collection in Collections">
                         <img class="" ng-src="{{collection.Image}}"/>
                     </div>
                 </div>
-                <div class="container-footer pull-right">
+                <div class="panel-footer">
                     <span class="view-all">View all projects</span>
+                </div>
+            </div>
+            
+            <div class="profile-reviews panel panel-default">
+                <div class="panel-body">
+                    <div class="review-container" ><!-- ng-repeat -->
+                        <div class="review-metadata clearfix">
+                            <div class="avatar pull-left">
+                                <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
+                            </div>
+                            <div class="reviewer-details pull-left">
+                                <div class="name">Gilly Architects Rule!!!</div>
+                                <div class="">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            This is just another amazing review<br/>
+                            And more content...<br/>
+                            ...and even more content!
+                        </div>
+                    </div>
+                    <div class="review-container">
+                        <!-- ng-repeat -->
+                        <div class="review-metadata clearfix">
+                            <div class="avatar pull-left">
+                                <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
+                            </div>
+                            <div class="reviewer-details pull-left">
+                                <div class="name">Gilly Architects Rule!!!</div>
+                                <div class="">
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            This is just another amazing review<br />
+                            And more content...<br />
+                            ...and even more content!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <span class="view-all">View all reviews</span>
                 </div>
             </div>
 
