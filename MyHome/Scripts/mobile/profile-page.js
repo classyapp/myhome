@@ -1,11 +1,5 @@
 
-var profilePage = angular.module('profilePage', []);
-
-var appSettings;
-profilePage.run(function ($q, $http) {
-    var appSettingsPromise = Classy.AppManager.GetAppSettings($q, $http);
-    appSettings = appSettingsPromise;
-});
+var profilePage = angular.module('profilePage', ['AppManagerService', 'ClassyUtilitiesService']);
 
 //profilePage.value('appSettingsPromise', 'http://www.thisisclassy.com:8008'); // way to inject objects into module controllers
 
@@ -17,11 +11,25 @@ var config = {
     }
 };
 
-profilePage.controller('ProfileController', function ($scope, $http) {
-    debugger;
-    $http.get(apiUrl + '/profile/246?includeCollections=true', config).success(function(data) {
-        $scope.profileDetails = data;
-    }).error(function() {
-        // TODO: display some error message
+profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities) {
+    AppSettings.then(function () {
+
+        var appSettings = Classy.CacheProvider.Get("__AppSettings__");
+        var utilities = ClassyUtilities;
+
+        $http.get(appSettings.ApiUrl + '/profile/246?includeCollections=true', config).success(function (data) {
+            $scope.profileDetails = data;
+            
+            var collectionImages = [];
+            $scope.profileDetails.Collections.forEach(function (collection) {
+                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '')
+                    collectionImages.push({ Image: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 200, 200) });
+            });
+            $scope.Collections = collectionImages;
+
+        }).error(function () {
+            // TODO: display some error message
+        });
+
     });
 });

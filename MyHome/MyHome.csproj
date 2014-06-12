@@ -489,6 +489,7 @@
     <Content Include="Scripts\classy-images.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
     <Content Include="Scripts\mobile\cache-provider.js" />
+    <Content Include="Scripts\mobile\utilities.js" />
     <Content Include="Scripts\mobile\profile-page.js" />
     <Content Include="Scripts\mobile\angular\angular-route.min.js" />
     <Content Include="Scripts\mobile\angular\angular-route.js" />

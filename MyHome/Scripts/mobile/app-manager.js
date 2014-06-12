@@ -1,19 +1,18 @@
 
-var Classy = Classy || {};
+var appManagerService = angular.module('AppManagerService', []);
 
-Classy.AppManager = {
-    AppSettingsKey: "__AppSettings__",
-    GetAppSettings: function($q, $http) {
-        var appSettings = Classy.CacheProvider.Get(Classy.AppManager.AppSettingsKey);
-        if (!appSettings) {
-            var d = $q.defer();
-            $http.get('config.js').then(function(data) {
-                Classy.CacheProvider.Add(Classy.AppManager.AppSettingsKey, data);
-                d.resolve(data);
-            });
-            return d.promise;
-        } else {
-            return $q.defer().resolve(appSettings);
-        }
+appManagerService.factory('AppSettings', [ '$http', '$q', function($http, $q) {
+    var appSettingsKey = "__AppSettings__";
+    // TODO: see if i can use angularjs built in cache provider
+    var appSettings = Classy.CacheProvider.Get(appSettingsKey);
+    if (!appSettings) {
+        var d = $q.defer();
+        $http.get('config.js').then(function (response) {
+            Classy.CacheProvider.Add(appSettingsKey, response.data);
+            d.resolve(response.data);
+        });
+        return d.promise;
+    } else {
+        return $q.defer().resolve(appSettings);
     }
-};
+}]);
