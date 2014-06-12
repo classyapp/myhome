@@ -17,7 +17,7 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
         var appSettings = Classy.CacheProvider.Get("__AppSettings__");
         var utilities = ClassyUtilities;
 
-        $http.get(appSettings.ApiUrl + '/profile/246?includeCollections=true', config).success(function(data) {
+        $http.get(appSettings.ApiUrl + '/profile/1697?includeCollections=true&includeReviews=true', config).success(function(data) {
             $scope.profileDetails = data;
 
             // organize collections

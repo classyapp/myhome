@@ -49,7 +49,7 @@
             
             <div class="profile-reviews panel panel-default">
                 <div class="panel-body">
-                    <div class="review-container" ng-repeat="review in Reviews">
+                    <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last}">
                         <div class="review-metadata clearfix">
                             <div class="avatar pull-left">
                                 <img ng-src="{{review.Avatar}}" class="avatar img-circle" />
