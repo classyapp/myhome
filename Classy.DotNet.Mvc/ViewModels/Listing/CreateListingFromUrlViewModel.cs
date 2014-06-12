@@ -20,6 +20,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string Content { get; set; }
         public string OriginUrl { get; set; }
         public string ExternalMediaUrl { get; set; }
+        public string[] Categories { get; set; }
 
         // meta
         public TListingMetadata Metadata { get; set; }

@@ -25,7 +25,8 @@ namespace MyHome
                 typeof (StaticPagesController),
                 typeof (HomePageController),
                 typeof (SearchController),
-                typeof (PollController)
+                typeof (PollController),
+                typeof (MediaFileController)
             };
 
             //var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
