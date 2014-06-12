@@ -28,6 +28,7 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             });
             $scope.Collections = collectionImages;
 
+            $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);
 
