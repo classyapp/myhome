@@ -28,11 +28,7 @@
                     <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
                 </div>
                 <div class="text-center">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star-empty"></span>
+                    <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
                 </div>
                 <div class="profile-details">
                     <h1 class="text-center" ng-bind-template="{{profileDetails.ProfessionalInfo.CompanyName}}"></h1>
@@ -53,49 +49,20 @@
             
             <div class="profile-reviews panel panel-default">
                 <div class="panel-body">
-                    <div class="review-container" ><!-- ng-repeat -->
+                    <div class="review-container" ng-repeat="review in Reviews">
                         <div class="review-metadata clearfix">
                             <div class="avatar pull-left">
-                                <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
+                                <img ng-src="{{review.Avatar}}" class="avatar img-circle" />
                             </div>
                             <div class="reviewer-details pull-left">
-                                <div class="name">Gilly Architects Rule!!!</div>
-                                <div class="">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                <div class="name" ng-bind-template="{{review.Name}}"></div>
+                                <div class="rating">
+                                    <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="review-content">
-                            This is just another amazing review<br/>
-                            And more content...<br/>
-                            ...and even more content!
-                        </div>
-                    </div>
-                    <div class="review-container">
-                        <!-- ng-repeat -->
-                        <div class="review-metadata clearfix">
-                            <div class="avatar pull-left">
-                                <img ng-src="{{profileDetails.Avatar.Url}}" class="avatar img-circle" />
-                            </div>
-                            <div class="reviewer-details pull-left">
-                                <div class="name">Gilly Architects Rule!!!</div>
-                                <div class="">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            This is just another amazing review<br />
-                            And more content...<br />
-                            ...and even more content!
+                        <div class="review-content" ng-bind-template="{{review.Content}}">
+                            
                         </div>
                     </div>
                 </div>
