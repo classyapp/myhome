@@ -1793,6 +1793,9 @@ body.mobile
 
 
 /* polls */
+.thumbnail.vote {
+    min-height: 0;
+}
 .thumbnail .vote-button {
     position: absolute;
     bottom: 32px; right: 0;
