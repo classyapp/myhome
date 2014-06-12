@@ -88,6 +88,14 @@ namespace Classy.DotNet.Mvc.Localization
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
 
+            cookie = HttpContext.Current.Request.Cookies[AppView.CurrencyCookieName];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(AppView.CurrencyCookieName, AppView.DefaultCurrency);
+                cookie.Expires = DateTime.Now.AddMonths(1);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+
         }
 
         public static string Get(string key)

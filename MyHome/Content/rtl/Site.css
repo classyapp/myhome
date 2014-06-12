@@ -373,3 +373,13 @@ div.upload
 #navbar-search .tt-suggestion-header {
     padding: 2px 6px 2px 0;
 }
+
+
+/* polls */
+.thumbnail .vote-button {
+    right: auto;left: 0;
+    border-radius: 0 4px 4px 0;
+}
+.poll-details .actions {
+    right: auto;position: absolute;
+}

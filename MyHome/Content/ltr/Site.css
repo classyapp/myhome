@@ -1793,6 +1793,9 @@ body.mobile
 
 
 /* polls */
+.thumbnail.vote {
+    min-height: 0;
+}
 .thumbnail .vote-button {
     position: absolute;
     bottom: 32px; right: 0;
@@ -1846,7 +1849,9 @@ body.mobile
     -moz-transition: height 2s;
 }
 .poll-results { margin-top: 20px; }
-
+.poll-option-wrapper .photo.thumbnail .origin {
+    position: absolute;bottom: 30px;
+}
 
 #select-listings-modal .thumbs1, #select-listings-modal .thumbs2, #select-listings-modal .thumbs3, #select-listings-modal .thumbs4 {
     height: 166px;cursor: pointer;

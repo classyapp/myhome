@@ -120,6 +120,7 @@
     <Compile Include="Services\ListingService.cs" />
     <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\LogActivityService.cs" />
+    <Compile Include="Services\MediaFileService.cs" />
     <Compile Include="Services\ProfileService.cs" />
     <Compile Include="Services\ReviewService.cs" />
     <Compile Include="Services\SearchService.cs" />

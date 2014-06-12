@@ -24,7 +24,7 @@ namespace MyHome.Controllers
         {
             var listingService = new ListingService();
             var listings = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.Listings;
-            var listingViews = listingService.GetListings(listings.ToArray());
+            var listingViews = listingService.GetListings(listings.ToArray(), true);
 
             var logActivityService = new LogActivityService();
             var pollId = listingLoadedEventArgs.ListingDetailsViewModel.Listing.Id;
@@ -150,7 +150,7 @@ namespace MyHome.Controllers
                 Listings = newPollRequest.ListingIds.ToList()
             }.ToDictionary();
             var newPoll = listingService.CreateListing(newPollRequest.Title,
-                newPollRequest.Content, "Poll", null, metadata, Request.Files);
+                newPollRequest.Content, "Poll", null, null, metadata, Request.Files);
             listingService.AddListingToCollection(newCollection.Id, new[] {
                 new IncludedListingView {
                     Id = newPoll.Id,
