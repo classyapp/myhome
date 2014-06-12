@@ -7,7 +7,7 @@ Classy.CacheProvider = {
         Classy.Cache[key] = value;
     },
     Get: function(key) {
-        return Classy[key];
+        return Classy.Cache[key];
     },
     Remove: function(key) {
         delete Classy.Cache[key];
