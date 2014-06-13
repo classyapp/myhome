@@ -477,7 +477,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     SearchableKeywords = listing.SearchableKeywords,
                     EditorsRank = listing.EditorsRank,
                     PricingInfo = listing.PricingInfo,
-                    Categories = listing.Categories
+                    Categories = (listing.Categories == null ? null : listing.Categories.ToArray())
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -507,11 +507,32 @@ namespace Classy.DotNet.Mvc.Controllers
                 var fields = ListingUpdateFields.Title | ListingUpdateFields.Content |
                     ListingUpdateFields.Metadata | ListingUpdateFields.Hashtags;
 
+                Dictionary<string, string> errors = new Dictionary<string, string>();
+
+                if (string.IsNullOrWhiteSpace(Request["Categories[]"]))
+                {
+                    errors.Add("Categories", Localizer.Get("CreateListing_CategoryRequired"));
+                }
+                else
+                {
+                    model.Categories = Request["Categories[]"].Split(',');
+                }
+
                 if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 if (model.PricingInfo != null)
                 {
                     fields |= ListingUpdateFields.Pricing;
-                    Dictionary<string, string> errors = new Dictionary<string, string>();
+                    if (string.IsNullOrWhiteSpace(Request["Images[]"]))
+                    {
+                        if (Request["HasImages"] == "false")
+                        {
+                            errors.Add("Images", Localizer.Get("CreateListing_ImagesRequired"));
+                        }
+                    }
+                    else
+                    {
+                        model.PricingInfo.BaseOption.MediaFiles = Request["Images[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray(); ;
+                    }
                     ValidatePricingInfo(model.PricingInfo, errors);
                     foreach (var error in errors)
                     {
@@ -525,15 +546,30 @@ namespace Classy.DotNet.Mvc.Controllers
                         model.Id,
                         model.Title,
                         model.Content,
-                        null,
+                        model.Categories,
+                        model.PricingInfo,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         model.Hashtags,
                         updatedListingArgs.TranslatedKeywords,
                         fields);
 
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { listingId = listing.Id });
+                    }
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
                 }
-                else return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+                else
+                {
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { errors = errors });
+                    }
+                    else
+                    {
+                        return PartialView(string.Format("Edit{0}", ListingTypeName), model);
+                    }
+                } 
             }
             catch (ClassyException cvx)
             {

@@ -5,10 +5,7 @@
     var categories = Classy.DotNet.Responses.AppView.ProductCategories.AsSelectList();
 
     var styles = Localizer.GetList("room-styles");
-    if (Model.PricingInfo == null)
-    {
-        Model.PricingInfo = new Classy.DotNet.Responses.PricingInfoView() { CurrencyCode = Request[Classy.DotNet.Responses.AppView.CurrencyCookieName] ?? Classy.DotNet.Responses.AppView.DefaultCurrency };
-    }
+    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Model.PricingInfo.CurrencyCode).Sign;
 }
 
 @section AdditionalStyles {
@@ -22,6 +19,7 @@
 
 <div class="row">
     <div class="col-md-7">
+        <div class="overlay"></div>
         @Html.Bootstrap().ValidationSummary()
 
         @using (var f = Html.Bootstrap().Begin(new Form("CreateListingNoCollection", "Product").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
@@ -47,10 +45,10 @@
                     @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.SKU).ShowValidationMessage(false)
                 </div>
                 <div class="col-md-3">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.CompareAtPrice).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.CompareAtPrice).Prepend(currencySign).ShowValidationMessage(false)
                 </div>
                 <div class="col-md-3">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Price).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Price).Prepend(currencySign).ShowValidationMessage(false)
                 </div>
                 <div class="col-md-3">
                     @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Quantity).ShowValidationMessage(false)
@@ -59,13 +57,13 @@
             <hr />
             <div class="row">
                 <div class="col-md-4">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Width).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Width).Append("cm").ShowValidationMessage(false)
                 </div>
                 <div class="col-md-4">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Depth).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Depth).Append("cm").ShowValidationMessage(false)
                 </div>
                 <div class="col-md-4">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Height).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Height).Append("cm").ShowValidationMessage(false)
                 </div>
             </div>
             <div class="row">
@@ -146,7 +144,7 @@
                     addRemoveLinks: true,
                     removedfile: function (file) {
                         var fileId = file.fileId;
-                        var data = { fileId: fileId };
+                        var data = { fileId: fileId, listingId: null };
                         $.post("@Url.RouteUrl("RemoveMediaFile")", data, function (response) {
                             if (!response.error)
                                 file.previewElement.remove();
@@ -178,6 +176,11 @@
         });
 
         function trySubmit() {
+            $(".overlay").show();
+            if (uploadingFiles()){
+                setTimeout(trySubmit, 1000);
+                return;
+            }
             $(".input-validation-error").removeClass("input-validation-error");
             var data = {};
             $("input[type=text],input[type=hidden],select,textarea").each(function(idx, item){data[$(item).attr("name")] = $(item).val();});
@@ -185,6 +188,7 @@
             $.each(mainDZ.getAcceptedFiles(), function(idx, file) { mainFiles.push(file.fileId); });
             data.Images = mainFiles;
             $.post("/product/new/nocollection", data, function(response) { 
+                $(".overlay").hide();
                 if (response.errors) { 
                     if (response.errors.Categories) {
                         $("div.ms-ctn").addClass("input-validation-error"); delete response.errors["Categories"];
@@ -197,6 +201,13 @@
                     document.location.href = "@Url.RouteUrl("ProductDetails", new { listingId = "LISTING_ID", slug = "show" })".replace(/LISTING_ID/, response.listingId);
                 }
             });
+        }
+
+        function uploadingFiles(){
+            for (var i = 0; i < Dropzone.instances.length; i++) {
+                if (Dropzone.instances[i].getUploadingFiles() == 0) { return true; }
+            }
+            return false;
         }
 
         function renderVariations(){

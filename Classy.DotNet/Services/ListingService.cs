@@ -215,6 +215,7 @@ namespace Classy.DotNet.Services
             string listingId,
             string title,
             string content,
+            string[] categories,
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
             IList<string> hashtags,
@@ -227,11 +228,11 @@ namespace Classy.DotNet.Services
                 Title = title,
                 Content = content,
                 Pricing = pricingInfo,
+                Categories = categories,
                 Metadata = metadata,
                 Hashtags = hashtags,
                 EditorKeywords = editorKeywords,
                 Fields = fields
-
             }.ToJson();
 
             // create the listing
