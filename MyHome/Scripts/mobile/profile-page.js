@@ -72,7 +72,7 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             var ratings = [];
             for (var i = 0; i < 5; i++)
                 ratings.push({ id: i, star: (rating > i ? true : false) });
-            return rating;
+            return ratings;
         }
 
     });
