@@ -1,9 +1,18 @@
 
-var appManagerService = angular.module('AppManagerService', []);
+var localizerService = angular.module('LocalizerService', []);
 
-appManagerService.factory('AppSettings', [ '$http', '$q', function($http, $q) {
-    var appSettingsKey = "__AppSettings__";
-    // TODO: see if i can use angularjs built in cache provider
+localizerService.factory('Localizer', [ '$http', '$q', function($http, $q) {
+    
+    function get(key, culture) {
+        var d = $q.defer();
+        $http.get('')
+    }
+
+    return {
+        Get: get
+    };
+
+
     var appSettings = Classy.CacheProvider.Get(appSettingsKey);
     if (!appSettings) {
         var d = $q.defer();
