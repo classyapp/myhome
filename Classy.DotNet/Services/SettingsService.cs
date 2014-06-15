@@ -15,7 +15,7 @@ namespace Classy.DotNet.Services
 
         public AppSettingsResponse GetAppSettings()
         {
-            var client = ClassyAuth.GetWebClient();
+            var client = ClassyAuth.GetWebClient(true);
             string json = client.DownloadString(GET_APP_SETTINGS_URL);
             return json.FromJson<AppSettingsResponse>();
         }

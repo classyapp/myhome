@@ -212,7 +212,7 @@ namespace Classy.DotNet.Security
 
         #region // helpers webclients
 
-        public static WebClient GetWebClient()
+        public static WebClient GetWebClient(bool suppressAuthentication = false)
         {
             var client = new WebClient();
             client.Encoding = Encoding.UTF8;
@@ -221,7 +221,7 @@ namespace Classy.DotNet.Security
             client.Headers.Add("X-Classy-Env", GetEnvHeader());
             // pass auth info if any (otherwise impressions are logged as guest even when logged in)
             var context = System.Web.HttpContext.Current;
-            if (IsLoggedIn())
+            if (!suppressAuthentication &&  IsLoggedIn())
             {
                 var cookies = new CookieContainer();
                 foreach (var n in AuthCookieNames)
@@ -320,6 +320,7 @@ namespace Classy.DotNet.Security
         private static bool IsLoggedIn()
         {
             var context = System.Web.HttpContext.Current;
+
             return context.Request.Cookies.AllKeys.Contains(COOKIE_USER_ID) &&
                 (context.Request.Cookies.AllKeys.Contains(COOKIE_SESSION_ID) ||
                 context.Request.Cookies.AllKeys.Contains(COOKIE_PERMANENT_SESSION_ID));
