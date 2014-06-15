@@ -192,6 +192,28 @@
                 </div>
             </div> 
         }
+        
+        @if (!User.Identity.IsAuthenticated && ViewBag.NoSignupBanner == null)
+        {
+            <div class="signup-banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="pull-left">
+                                <i class="icon fa fa-heart"></i>
+                            </div>
+                            <div class="pull-left">
+                                <h4>@Localizer.Get("Layout_SignupBanner_Title")</h4>
+                                <h5>@Localizer.Get("Layout_SignupBanner_SubTitle")</h5>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-success" href="@(Url.RouteUrlForCurrentLocale("Register"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_ButtonText")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
 
         <div class="action-bar bg-primary">
             <div class="container">
@@ -353,13 +375,13 @@
 
                 if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) {
                     $('#cookie-policy').removeClass('hidden');                
-                    if ($('#cookie-policy').length > 0) $('body').css('padding-top', '120px');
                 }
                 $('#close-cookie-policy').click(function() {
                     Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
                     $('#cookie-policy').addClass('hidden');
-                    $('body').css('padding-top', '90px');
                 });
+
+                if ($('.signup-banner').length > 0) $('.content').css('padding-top', '60px');
             });
 
             function CloseModal(data) { 

@@ -68,6 +68,35 @@ a, a:visited
     background-color: #ddd;
 }
 
+.signup-banner {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-top: -27px;
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    border-bottom: dotted 1px #333;
+}
+
+.signup-banner .row {
+    padding-top: 10px;
+}
+
+.signup-banner .icon {
+    font-size: 36px;
+    color: #f55555;
+    margin-right: 10px;
+}
+
+.signup-banner h4 {
+    color: #f55555;
+    margin: 0;
+}
+
+.signup-banner h5 {
+    margin: 0 0 10px 0;
+}
+
 .action-bar {
     margin-top: -30px;
     background-color: #428bca;
@@ -265,8 +294,9 @@ a, a:visited
 {
     text-align: right;
     position: absolute;
+    top: 200px;
     right: 15%;
-    background-color: rgba(245, 245, 245, 0.4);
+    background-color: rgba(245, 245, 245, 0.6);
     padding: 20px;
     z-index: 1;
 }

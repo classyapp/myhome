@@ -1,0 +1,26 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "Layout_SignupBanner_Title",
+			"Description": "title of floating sign up banner that appears when user is not logged in",
+			"Values": {
+				"en": "BROWSE, COLLECT, AND SHARE THE PHOTOS YOU LOVE!"
+				}
+			},
+			{ 
+			"Key": "Layout_SignupBanner_SubTitle",
+			"Description": "sub-title of floating sign up banner that appears when user is not logged in",
+			"Values": {
+				"en": "Sign up to get access our premium features"
+				}
+			},
+			{ 
+			"Key": "Layout_SignupBanner_ButtonText",
+			"Description": "text on the action button of the floating sign up banner that appears when user is not logged in",
+			"Values": {
+				"en": "SIGN UP"
+				}
+			}
+	]
+}
