@@ -1,30 +1,25 @@
 
 var localizerService = angular.module('LocalizerService', []);
 
-localizerService.factory('Localizer', [ '$http', '$q', function($http, $q) {
+localizerService.factory('Localizer', [ '$http', '$q', 'CacheProvider', function($http, $q, CacheProvider) {
     
     function get(key, culture) {
-        var d = $q.defer();
-        $http.get('/resource/' + key).then(function(response) {
 
+        var d = $q.defer();
+        var resource = CacheProvider.get(key);
+        if (resource) {
+            return d.resolve(resource[culture.toLowerCase()]);
+        }
+
+        $http.get('/resource/' + key).then(function(response) {
+            CacheProvider.put(key, response.Values);
+            d.resolve(response.values[culture.toLowerCase()]);
         });
+
         return d.promise();
     }
 
     return {
         Get: get
     };
-
-
-    var appSettings = Classy.CacheProvider.Get(appSettingsKey);
-    if (!appSettings) {
-        var d = $q.defer();
-        $http.get('config.js').then(function (response) {
-            Classy.CacheProvider.Add(appSettingsKey, response.data);
-            d.resolve(response.data);
-        });
-        return d.promise;
-    } else {
-        return $q.defer().resolve(appSettings);
-    }
 }]);

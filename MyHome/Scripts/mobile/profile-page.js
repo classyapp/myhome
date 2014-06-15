@@ -25,7 +25,6 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;
-
         var profileId = parseInt(Classy.Utilities.GetUrlParam("ProfileId"));
 
         $http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
