@@ -14,15 +14,15 @@
 
 <div class="profile-collections panel panel-default">
     <div class="panel-body collections-container">
-        <div class="collection" ng-repeat="collection in Collections" ng-bind-html="collection | unsafe">
-                        
+        <div class="collection" ng-repeat="collection in Collections" ng-bind-html="collection | unsafe" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
+            <!-- collection thumbnails go here -->
         </div>
     </div>
     <div class="panel-footer">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllProjects}}"></span>
     </div>
 </div>
-            
+
 <div class="profile-reviews panel panel-default">
     <div class="panel-body">
         <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last}">

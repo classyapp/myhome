@@ -29,7 +29,7 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
 
         var utilities = ClassyUtilities;
         var profileId = parseInt($routeParams.profileId);
-
+        
         $http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
             $scope.profileDetails = data;
 
@@ -37,7 +37,7 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             var collections = [];
             $scope.profileDetails.Collections.forEach(function(collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '')
-                    collections.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, 200, 200));
+                    collections.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, collection.Id, 200, 200));
             });
             $scope.Collections = collections;
             
