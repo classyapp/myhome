@@ -219,6 +219,19 @@ namespace Classy.DotNet.Security
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
             client.Headers.Add("X-Classy-Env", GetEnvHeader());
+            // pass auth info if any (otherwise impressions are logged as guest even when logged in)
+            var context = System.Web.HttpContext.Current;
+            if (IsLoggedIn())
+            {
+                var cookies = new CookieContainer();
+                foreach (var n in AuthCookieNames)
+                {
+                    if (context.Request.Cookies.Get(n) != null)
+                        cookies.Add(ToCookie(context.Request.Cookies[n], new Uri(EndpointBaseUrl).Host));
+                }
+                client.Headers.Add(HttpRequestHeader.Cookie, cookies.GetCookieHeader(new Uri(EndpointBaseUrl)));
+            }
+           
             return client;
         }
 
