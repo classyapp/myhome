@@ -1,14 +1,13 @@
 
 var appManagerService = angular.module('AppManagerService', []);
 
-appManagerService.factory('AppSettings', [ '$http', '$q', function($http, $q) {
+appManagerService.factory('AppSettings', ['$http', '$q', 'CacheProvider', function ($http, $q, CacheProvider) {
     var appSettingsKey = "__AppSettings__";
-    // TODO: see if i can use angularjs built in cache provider
-    var appSettings = Classy.CacheProvider.Get(appSettingsKey);
+    var appSettings = CacheProvider.get(appSettingsKey);
     if (!appSettings) {
         var d = $q.defer();
         $http.get('config.js').then(function (response) {
-            Classy.CacheProvider.Add(appSettingsKey, response.data);
+            CacheProvider.put(appSettingsKey, response.data);
             d.resolve(response.data);
         });
         return d.promise;

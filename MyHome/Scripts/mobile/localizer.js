@@ -5,7 +5,10 @@ localizerService.factory('Localizer', [ '$http', '$q', function($http, $q) {
     
     function get(key, culture) {
         var d = $q.defer();
-        $http.get('')
+        $http.get('/resource/' + key).then(function(response) {
+
+        });
+        return d.promise();
     }
 
     return {
