@@ -64,10 +64,10 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
 
         // get localized resources
         $scope.Resources = {};
-        Localizer.Get('Mobile_ProfilePage_ViewAllProjects').then(function (resource) {
+        Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) {
             $scope.Resources.ViewAllProjects = resource;
         });
-        Localizer.Get('Mobile_ProfilePage_ViewAllReviews').then(function(resource) {
+        Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function(resource) {
             $scope.Resources.ViewAllReviews = resource;
         });
 
