@@ -104,3 +104,41 @@ div.thumbs4 > div.thumb
     float: right;
     margin-bottom: 2%;
 }
+
+
+
+
+/* Collection page */
+.nonDraggableImage {
+    -moz-user-drag: none;
+    -webkit-user-drag: none;
+}
+.slider {
+    width: 100%;
+    height: 800px;
+    overflow: hidden;
+    position: relative;
+    background: #e6e6e6;
+    margin-top: 20px;
+}
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.slider .arrow {
+    font-size: 40px;
+    color: #fff;opacity: 0.5;
+    position: absolute;
+    top: 380px;
+    cursor: pointer;
+}
+.slider .arrow:hover {
+    opacity: 1;
+}
+.slider .arrow.next {
+    right: 0;
+}
+.slider .arrow.prev {
+    left: 0;
+}

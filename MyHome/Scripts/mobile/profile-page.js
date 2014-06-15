@@ -1,5 +1,5 @@
 
-var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
+var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
 profilePage.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
@@ -7,10 +7,14 @@ profilePage.factory('CacheProvider', function ($cacheFactory) {
 });
 
 profilePage.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/Profile/:profileId', {
-        templateUrl: 'profile-page.html',
-        controller: 'ProfileController'
-    });
+    $routeProvider
+        .when('/Profile/:profileId', {
+            templateUrl: 'profile-page.html',
+            controller: 'ProfileController'
+        }).when('/Collection/:collectionId', {
+            templateUrl: 'collection.html',
+            controller: 'CollectionController'
+        });
 }]);
 
 //profilePage.value('appSettingsPromise', 'http://www.thisisclassy.com:8008'); // way to inject objects into module controllers
@@ -87,4 +91,81 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
         }
 
     });
+});
+
+profilePage.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    $scope.direction = 'left';
+    $scope.currentIndex = 0;
+
+    $scope.setCurrentListingIndex = function (index) {
+        $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
+        $scope.currentIndex = index;
+    };
+
+    $scope.isCurrentListingIndex = function (index) {
+        return $scope.currentIndex === index;
+    };
+
+    $scope.prevListing = function () {
+        $scope.direction = 'left';
+        $scope.currentIndex = ($scope.currentIndex < $scope.Listings.length - 1) ? ++$scope.currentIndex : 0;
+    };
+
+    $scope.nextListing = function () {
+        $scope.direction = 'right';
+        $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.Listings.length - 1;
+    };
+
+    AppSettings.then(function (appSettings) {
+
+        $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeListings=true&increaseViewCounter=true', config).success(function (data) {
+
+            $scope.Listings = data.Listings;
+
+        }).error(function () {
+            // TODO: display some error message
+        });
+
+        // get localized resources
+        $scope.Resources = {};
+        //Localizer.Get('Mobile_ProfilePage_ViewAllProjects').then(function (resource) {
+        //    $scope.Resources.ViewAllProjects = resource;
+        //});
+
+    });
+}).animation('.slide-animation', function () {
+    return {
+        addClass: function (element, className, done) {
+            var scope = element.scope();
+
+            if (className == 'ng-hide') {
+                var finishPoint = element.parent().width();
+                if (scope.direction !== 'right') {
+                    finishPoint = -finishPoint;
+                }
+                TweenMax.to(element, 0.5, { left: finishPoint, onComplete: done });
+            }
+            else {
+                done();
+            }
+        },
+        removeClass: function (element, className, done) {
+            var scope = element.scope();
+
+            if (className == 'ng-hide') {
+                element.removeClass('ng-hide');
+
+                var startPoint = element.parent().width();
+                if (scope.direction === 'right') {
+                    startPoint = -startPoint;
+                }
+
+                TweenMax.set(element, { left: startPoint });
+                TweenMax.to(element, 0.5, { left: 0, onComplete: done });
+            }
+            else {
+                done();
+            }
+        }
+    };
 });
