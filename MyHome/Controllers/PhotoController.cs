@@ -28,7 +28,7 @@ namespace MyHome.Controllers
         {
             routes.MapRouteForSupportedLocales(
                 name: string.Concat("UntaggedSearch", ListingTypeName),
-                url: string.Concat(ListingTypeName.ToLower(), "/untagged/{date}"),
+                url: string.Concat(ListingTypeName.ToLower(), "/untagged"),
                 defaults: new { controller = ListingTypeName, action = "UntaggedSearch", filters = "", listingType = ListingTypeName },
                 namespaces: new string[] { Namespace }
             );

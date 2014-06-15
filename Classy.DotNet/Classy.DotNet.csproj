@@ -68,6 +68,7 @@
     <Compile Include="ListingViewExtentions.cs" />
     <Compile Include="Models\LogActivity\IActivityMetadata.cs" />
     <Compile Include="Models\LogActivity\PredicateActivity.cs" />
+    <Compile Include="Models\Search\SortMethod.cs" />
     <Compile Include="ProfileViewExtensions.cs" />
     <Compile Include="Responses\AppSettingsResponse.cs" />
     <Compile Include="Responses\AppView.cs" />
