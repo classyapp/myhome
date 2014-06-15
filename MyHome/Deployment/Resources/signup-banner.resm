@@ -21,6 +21,13 @@
 			"Values": {
 				"en": "SIGN UP"
 				}
+			},
+			{ 
+			"Key": "Layout_SignupBanner_GoproLink",
+			"Description": "text of the pro signup link on the floating sign up banner that appears when user is not logged in",
+			"Values": {
+				"en": "or create a FREE business account"
+				}
 			}
 	]
 }

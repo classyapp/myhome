@@ -94,7 +94,12 @@ a, a:visited
 }
 
 .signup-banner h5 {
-    margin: 0 0 10px 0;
+    margin: 0 0 20px 0;
+}
+
+.signup-banner a.gopro {
+    display: block;
+    font-size: 12px;
 }
 
 .action-bar {
