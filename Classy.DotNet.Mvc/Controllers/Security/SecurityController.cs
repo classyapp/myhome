@@ -1,16 +1,11 @@
 ﻿using Classy.DotNet.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using System.Web.Routing;
-using System.Collections.Specialized;
 using Classy.DotNet.Mvc.ViewModels.Security;
 using Classy.DotNet.Services;
-using ServiceStack.Text;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 
@@ -26,9 +21,6 @@ namespace Classy.DotNet.Mvc.Controllers.Security
 
         private readonly string USER_EXTENDED_METADATA_KEY = "UserExtendedProfile";
 
-        /// <summary>
-        /// register routes within host app's route collection
-        /// </summary>
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
