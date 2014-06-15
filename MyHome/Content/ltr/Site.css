@@ -605,17 +605,21 @@ a, a:visited
 {
     background-color: #f0f0f0;
     color: #777;
-    padding: 5px;
+    padding: 5px 0;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
-    #cookie-policy a
-    {
-        text-decoration: underline;
-    }
+#cookie-policy a
+{
+    text-decoration: underline;
+}
 
 #close-cookie-policy
 {
     cursor: pointer;
+    color: #000;
 }
 
 .navbar
