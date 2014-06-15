@@ -1,6 +1,16 @@
 ﻿<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" ng-app="profilePage">
     <head>
+        
+        <script language="javascript" type="text/javascript">
+            var config = {
+                headers: {
+                    'X-Classy-Env': '{ "AppId": "v1.0" }',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            };
+        </script>
 
         <link href="../Content/ltr/bootstrap.min.css" rel="stylesheet" />
         <link href="../Content/Mobile/Site.css" rel="stylesheet" />
@@ -11,8 +21,8 @@
         <script src="../Scripts/mobile/angular/angular-sanitize.js"></script>
         
         <script src="../Scripts/mobile/common.js"></script>
-        <script src="../Scripts/mobile/cache-provider.js"></script>
         <script src="../Scripts/mobile/app-manager.js"></script>
+        <script src="../Scripts/mobile/localizer.js"></script>
         <script src="../Scripts/mobile/utilities.js"></script>
         <script src="../Scripts/mobile/profile-page.js"></script>
 
@@ -45,7 +55,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <span class="view-all">View all projects</span>
+                    <span class="view-all" ng-bind-template="{{Resources.ViewAllProjects}}"></span>
                 </div>
             </div>
             
@@ -70,7 +80,7 @@
                 </div>
 
                 <div class="panel-footer">
-                    <span class="view-all">View all reviews</span>
+                    <span class="view-all" ng-bind-template="{{Resources.ViewAllReviews}}"></span>
                 </div>
             </div>
 

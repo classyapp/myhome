@@ -1,5 +1,5 @@
 
-var profilePage = angular.module('profilePage', ['ngSanitize', 'AppManagerService', 'ClassyUtilitiesService']);
+var profilePage = angular.module('profilePage', ['ngSanitize', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
 profilePage.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
@@ -13,15 +13,7 @@ profilePage.filter('unsafe', function ($sce) {
     };
 });
 
-var config = {
-    headers: {
-        'X-Classy-Env': '{ "AppId": "v1.0" }',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    }
-};
-
-profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities) {
+profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer) {
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;
@@ -57,6 +49,15 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
 
         }).error(function () {
             // TODO: display some error message
+        });
+
+        // get localized resources
+        $scope.Resources = {};
+        Localizer.Get('Mobile_ProfilePage_ViewAllProjects').then(function (resource) {
+            $scope.Resources.ViewAllProjects = resource;
+        });
+        Localizer.Get('Mobile_ProfilePage_ViewAllReviews').then(function(resource) {
+            $scope.Resources.ViewAllReviews = resource;
         });
 
         function getProfileLocation(profileDetails) {

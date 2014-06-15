@@ -1,22 +1,30 @@
 
 var localizerService = angular.module('LocalizerService', []);
 
-localizerService.factory('Localizer', [ '$http', '$q', 'CacheProvider', function($http, $q, CacheProvider) {
+localizerService.factory('Localizer', [ '$http', '$q', 'AppSettings', 'CacheProvider', function($http, $q, AppSettings, CacheProvider) {
     
     function get(key, culture) {
 
+        // TODO: get the culture from somewhere!
+        if (!culture) culture = "en";
+
         var d = $q.defer();
-        var resource = CacheProvider.get(key);
-        if (resource) {
-            return d.resolve(resource[culture.toLowerCase()]);
-        }
+        AppSettings.then(function(appSettings) {
+            var resource = CacheProvider.get(key);
+            if (resource) {
+                d.resolve(resource[culture.toLowerCase()]);
+            }
 
-        $http.get('/resource/' + key).then(function(response) {
-            CacheProvider.put(key, response.Values);
-            d.resolve(response.values[culture.toLowerCase()]);
+            $http.get(appSettings.ApiUrl + '/resource/' + key, config).then(function (response) {
+                if (response.data == '') {
+                    d.resolve(key);
+                    return;
+                }
+                CacheProvider.put(key, response.data.Values);
+                d.resolve(response.data.Values[culture.toLowerCase()]);
+            });
         });
-
-        return d.promise();
+        return d.promise;
     }
 
     return {
