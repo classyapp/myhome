@@ -7,7 +7,7 @@ profilePage.factory('CacheProvider', function ($cacheFactory) {
 });
 
 profilePage.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/:profileId', {
+    $routeProvider.when('/Profile/:profileId', {
         templateUrl: 'profile-page.html',
         controller: 'ProfileController'
     });

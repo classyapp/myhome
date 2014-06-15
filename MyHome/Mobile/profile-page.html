@@ -32,7 +32,7 @@
                 </div>
                 <div class="reviewer-details pull-left">
                     <div class="name">
-                        <a href="#{{review.ReviewerId}}" ng-bind-template="{{review.Name}}"></a>
+                        <a href="#/Profile/{{review.ReviewerId}}" ng-bind-template="{{review.Name}}"></a>
                     </div>
                     <div class="rating">
                         <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
