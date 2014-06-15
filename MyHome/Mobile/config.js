@@ -1,5 +1,5 @@
 ﻿{
     "AppId": "v1.0",
-    "ApiUrl": "http://www.thisisclassy.com:8008",
+    "ApiUrl": "http://marketplaceapi.apphb.com",
     "CdnUrl": "http://marketplaceapi.apphb.com"
 }
