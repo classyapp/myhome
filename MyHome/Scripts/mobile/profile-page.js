@@ -44,6 +44,13 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);
+            $scope.BusinessDescription = data.Metadata.BusinessDescription;
+            if (data.CoverPhotos && data.CoverPhotos.length > 0) {
+                $scope.CoverPhotos = []
+                data.CoverPhotos.forEach(function(imageKey) {
+                    $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, 600, 600));
+                });
+            }
 
             // reviews
             var reviews = [];
