@@ -12,7 +12,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string CollectionType { get; set; }
         [Required(ErrorMessage = "CreateListing_PhotoBookTitleRequired")]
         public string Title { get; set; }
-        [Display(Name = "CreatePoll_CollectionContent")]
+        [Display(Name = "CreateListing_CollectionContent")]
         public string Content { get; set; }
         public PricingInfoView PricingInfo { get; set; }
         public LocationView Location { get; set; }
