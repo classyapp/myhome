@@ -475,6 +475,7 @@
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
     <Content Include="Mobile\config.js" />
+    <Content Include="Mobile\profile-page.html" />
     <Content Include="Mobile\ProfilePage.html" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />

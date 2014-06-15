@@ -33,56 +33,9 @@
     </head>
     <body>
 
-        <div class="main-container container-fluid" ng-controller="ProfileController">
+        <div class="main-container container-fluid" ng-view>
 
-            <div class="profile-header">
-                <div class="text-center">
-                    <img ng-src="{{Avatar}}" class="avatar img-circle" />
-                </div>
-                <div class="text-center">
-                    <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
-                </div>
-                <div class="profile-details">
-                    <h1 class="text-center" ng-bind-template="{{profileDetails.ProfessionalInfo.CompanyName}}"></h1>
-                    <h3 class="text-center" ng-bind-template="{{Location}}"></h3>
-                </div>
-            </div>
-
-            <div class="profile-collections panel panel-default">
-                <div class="panel-body collections-container">
-                    <div class="collection" ng-repeat="collection in Collections" ng-bind-html="collection | unsafe">
-                        
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <span class="view-all" ng-bind-template="{{Resources.ViewAllProjects}}"></span>
-                </div>
-            </div>
-            
-            <div class="profile-reviews panel panel-default">
-                <div class="panel-body">
-                    <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last}">
-                        <div class="review-metadata clearfix">
-                            <div class="avatar pull-left">
-                                <img ng-src="{{review.Avatar}}" class="avatar img-circle" />
-                            </div>
-                            <div class="reviewer-details pull-left">
-                                <div class="name" ng-bind-template="{{review.Name}}"></div>
-                                <div class="rating">
-                                    <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-content" ng-bind-template="{{review.Content}}">
-                            
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-footer">
-                    <span class="view-all" ng-bind-template="{{Resources.ViewAllReviews}}"></span>
-                </div>
-            </div>
+            <!-- AngularJS Template Here -->
 
         </div>
         

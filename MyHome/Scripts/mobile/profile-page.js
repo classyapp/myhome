@@ -1,10 +1,17 @@
 
-var profilePage = angular.module('profilePage', ['ngSanitize', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
+var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
 profilePage.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
     return $cacheFactory('HomeLab_Mobile_Cache');
 });
+
+profilePage.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/:profileId', {
+        templateUrl: 'profile-page.html',
+        controller: 'ProfileController'
+    });
+}]);
 
 //profilePage.value('appSettingsPromise', 'http://www.thisisclassy.com:8008'); // way to inject objects into module controllers
 profilePage.filter('unsafe', function ($sce) {
@@ -13,11 +20,11 @@ profilePage.filter('unsafe', function ($sce) {
     };
 });
 
-profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer) {
+profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;
-        var profileId = parseInt(Classy.Utilities.GetUrlParam("ProfileId"));
+        var profileId = parseInt($routeParams.profileId);
 
         $http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
             $scope.profileDetails = data;
