@@ -1,5 +1,11 @@
 ﻿
-<div class="profile-header" ng-style="{'background-image':'url(' + CoverPhotos[0] + ')'}">
+<div class="header-cover">
+    <div class="cover" ng-style="{'background-image':'url(' + CoverPhotos[0] + ')'}">
+    </div>
+</div>
+
+<!--ng-style="{'background-image':'url(' + CoverPhotos[0] + ')'}"-->
+<div class="profile-header">
     <div class="text-center">
         <img ng-src="{{Avatar}}" class="avatar img-circle" />
     </div>
@@ -39,8 +45,10 @@
                     </div>
                 </div>
             </div>
-            <div class="review-content" ng-bind-template="{{review.Content}}">
-                            
+            <div class="review-content">
+                <div class="quote quote-left"><i class="fa fa-quote-left"></i></div>
+                <div class="quote quote-right"><i class="fa fa-quote-right"></i></div>
+                <span ng-bind-template="{{review.Content}}"></span>
             </div>
         </div>
     </div>

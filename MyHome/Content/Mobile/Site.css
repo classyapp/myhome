@@ -9,7 +9,7 @@ h1 {
 }
 h3 { font-size: 16px;margin-top: 0; }
 
-.main-container { padding-top: 20px; }
+.main-container {  }
 .glyphicon-star, .glyphicon-star-empty { color: green;}
 
 /* Profile Page */
@@ -107,6 +107,16 @@ div.thumbs4 > div.thumb
 }
 
 
+.header-cover .cover {
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.profile-header {
+    padding: 20px 0;
+}
 
 
 /* Collection page */
@@ -143,3 +153,14 @@ div.thumbs4 > div.thumb
 .slider .arrow.prev {
     left: 0;
 }
+
+
+/* Reviews */
+.review-content { position: relative; }
+.review-content .quote {
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.3;
+}
+.review-content .quote.quote-right { right: -10px;bottom: -29px; }
+.review-content .quote.quote-left { top: -24px;left: -24px; }

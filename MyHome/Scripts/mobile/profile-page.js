@@ -28,6 +28,9 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;
+        var w = utilities.Screen.GetWidth();
+        var h = utilities.Screen.GetHeight();
+
         var profileId = parseInt($routeParams.profileId);
         
         $http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
@@ -46,9 +49,9 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);
             $scope.BusinessDescription = data.Metadata.BusinessDescription;
             if (data.CoverPhotos && data.CoverPhotos.length > 0) {
-                $scope.CoverPhotos = []
+                $scope.CoverPhotos = [];
                 data.CoverPhotos.forEach(function(imageKey) {
-                    $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, 600, 600));
+                    $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, w, h));
                 });
             }
 
