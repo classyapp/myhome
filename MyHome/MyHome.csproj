@@ -496,6 +496,7 @@
     <Content Include="Scripts\mobile\angular\angular-animate.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
+    <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
     <Content Include="Scripts\mobile\cache-provider.js" />

@@ -1,24 +1,24 @@
 ﻿
-<div class="profile-header header-cover" ng-style="{'background-image':'url(' + CoverPhotos[0] + ')'}">
+<div class="profile-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
     <div class="cover-slider">
-        <div class="pane pane1">
+        <div class="pane pane1" ng-class="{'dropshadow':CoverPhotos == undefined || CoverPhotos.length == 0}">
             <div class="text-center">
                 <img ng-src="{{Avatar}}" class="avatar img-circle" />
-            </div>
-            <div class="text-center rating">
-                <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
             </div>
             <div class="profile-details">
                 <h1 class="text-center" ng-bind-template="{{profileDetails.ProfessionalInfo.CompanyName}}"></h1>
                 <h3 class="text-center" ng-bind-template="{{Location}}"></h3>
             </div>
+            <div class="text-center rating">
+                <span ng-repeat="star in Rating" ng-class="{'glyphicon-star-empty': !star.star, 'glyphicon-star': star.star}" class="glyphicon"></span>
+            </div>
         </div>
-        <div class="pane pane2">
+        <div class="pane pane2" style="display:none;">
             <span class="description" ng-bind-html="BusinessDescription | unsafe"></span>
         </div>
     </div>
-    <div class="arrow right" ng-click="nextSlide()"><i class="glyphicon glyphicon-chevron-right"></i></div>
-    <div class="arrow left" ng-click="prevSlide()"><i class="glyphicon glyphicon-chevron-left"></i></div>
+    <div class="arrow right" ng-if="BusinessDescription != undefined" ng-click="nextSlide()"><i class="glyphicon glyphicon-chevron-right"></i></div>
+    <div class="arrow left" ng-if="BusinessDescription != undefined" ng-click="prevSlide()"><i class="glyphicon glyphicon-chevron-left"></i></div>
 </div>
 
 <div class="profile-collections panel panel-default" ng-if="Collections.length > 0">
@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<div class="profile-reviews panel panel-default">
+<div class="profile-reviews panel panel-default" ng-if="Reviews.length > 0">
     <div class="panel-body">
         <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last}">
             <div class="review-metadata clearfix">
@@ -71,3 +71,12 @@
         <span class="view-all" ng-bind-template="{{Resources.ViewAllReviews}}"></span>
     </div>
 </div>
+
+<script language="javascript" type="text/javascript">
+    //function handleDrag(ev) {
+    //    ev.gesture.preventDefault();
+    //}
+
+    //var hammertime = new Hammer($('.profile-header')[0], { dragLockToAxis: true, drag:false })
+    //    .on("release dragleft dragright swipeleft swiperight", handleDrag);
+</script>

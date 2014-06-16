@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_ProfilePage_ViewAllCollections",
+			"Description": "Mobile profile page View all collections link",
+			"Values": {
+				"en": "View all collections"
+			}
+		},
+		{ 
 			"Key": "Mobile_ProfilePage_ViewAllProjects",
 			"Description": "Mobile profile page View all projects link",
 			"Values": {

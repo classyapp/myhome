@@ -28,12 +28,14 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     $scope.currentSlide = 0;
     $scope.nextSlide = function() {
         if ($scope.currentSlide == 1) return;
-        $('.cover-slider').css('left', '-' + $('.cover-slider').width() + 'px');
+        $('.cover-slider').find('.pane1').hide();
+        $('.cover-slider').find('.pane2').show();
         $scope.currentSlide++;
     };
     $scope.prevSlide = function() {
         if ($scope.currentSlide == 0) return;
-        $('.cover-slider').css('left', 0);
+        $('.cover-slider').find('.pane2').hide();
+        $('.cover-slider').find('.pane1').show();
         $scope.currentSlide--;
     };
 
@@ -95,6 +97,9 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
         $scope.Resources = {};
         Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) {
             $scope.Resources.ViewAllProjects = resource;
+        });
+        Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function (resource) {
+            $scope.Resources.ViewAllCollections = resource;
         });
         Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function(resource) {
             $scope.Resources.ViewAllReviews = resource;
