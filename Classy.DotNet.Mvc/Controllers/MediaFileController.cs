@@ -47,17 +47,24 @@ namespace Classy.DotNet.Mvc.Controllers
 
         [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult DeleteFile(string fileId)
+        public ActionResult DeleteFile(string fileId, string listingId)
         {
             if (string.IsNullOrWhiteSpace(fileId))
             {
-                throw new InvalidOperationException("Invalid or missing files.");
+                throw new InvalidOperationException("Invalid or missing file.");
             }
 
             var service = new MediaFileService();
             try
             {
-                service.DeleteTempFile(fileId);
+                if (string.IsNullOrWhiteSpace(listingId))
+                {
+                    service.DeleteTempFile(fileId);
+                }
+                else
+                {
+                    service.RemoveImageFromListing(listingId, fileId);
+                }
             }
             catch (Exception ex)
             {

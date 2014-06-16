@@ -127,7 +127,7 @@ namespace MyHome.Controllers
             var metadata = listing.Metadata;
 
             listingService.UpdateListing(pollId,
-                null, null, null, metadata, listing.Hashtags, null, ListingUpdateFields.Metadata);
+                null, null, null, null, metadata, listing.Hashtags, null, ListingUpdateFields.Metadata);
 
             logActivityService.LogActivity(new LogActivity<VotedOnPollActivityMetadata> {
                 UserId = AuthenticatedUserProfile.Id,

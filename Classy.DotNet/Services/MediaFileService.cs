@@ -49,6 +49,13 @@ namespace Classy.DotNet.Services
             webClient.Dispose();
         }
 
+        public void RemoveImageFromListing(string listingId, string fileId)
+        {
+            var webClient = ClassyAuth.GetAuthenticatedWebClient();
+            webClient.UploadString(TEMP_MEDIA_FILE_URL, "DELETE", new { FileId = fileId, ListingId = listingId }.ToJson());
+            webClient.Dispose();
+        }
+
         private static WebResponse HttpUploadFile(HttpWebRequest wr, byte[] fileContent, string contentType)
         {
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
