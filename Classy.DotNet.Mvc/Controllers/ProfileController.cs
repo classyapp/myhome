@@ -692,33 +692,36 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         // 
-        // GET: /profile/me/gopro
-        [AuthorizeWithRedirect("Home")]
+        // GET: /profile/gopro
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateProfessionalProfile()
         {
             try
             {
-                var service = new ProfileService();
-                var profile = service.GetProfileById(AuthenticatedUserProfile.Id);
-                var metadata = new TProMetadata().FromDictionary(profile.Metadata);
+                ProfileView profile = null;
+
+                // load profile if user is alreay authenticated
+                if (Request.IsAuthenticated)
+                {
+                    if (profile.IsProfessional) return RedirectToRoute("EditProfile", new { ProfileId = profile.Id });
+                    var service = new ProfileService();
+                    profile = service.GetProfileById(AuthenticatedUserProfile.Id);
+                }
+
+                // init model
+                var hasProfile = profile != null;
                 var model = new CreateProfessionalProfileViewModel<TProMetadata>
                 {
-                    ProfileId = profile.Id,
-                    Email = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Email : null,
-                    Phone = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Phone : null,
-                    WebsiteUrl = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.WebsiteUrl : null,
-                    FirstName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.FirstName : null,
-                    LastName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.LastName : null,
-                    Category = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.Category : null,
-                    CompanyName = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyName : null,
-                    Street1 = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Street1 : null,
-                    City = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.City : null,
-                    Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
-                    PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
-                    DefaultCulture = profile.DefaultCulture,
-                    Metadata = metadata
+                    ProfileId = hasProfile ? profile.Id : null,
+                    Email = hasProfile && profile.ContactInfo != null ? profile.ContactInfo.Email : null,
+                    FirstName = hasProfile && profile.ContactInfo != null ? profile.ContactInfo.FirstName : null,
+                    LastName = hasProfile && profile.ContactInfo != null ? profile.ContactInfo.LastName : null
                 };
+
+                // set default culture
+                var cultureCookie = ControllerContext.HttpContext.Request.Cookies[AppView.CultureCookieName];
+                model.DefaultCulture = cultureCookie != null ? cultureCookie.Value : System.Threading.Thread.CurrentThread.CurrentUICulture.Name.Substring(0, 2);
+
                 return View(model);
             }
             catch (ClassyException cex)
