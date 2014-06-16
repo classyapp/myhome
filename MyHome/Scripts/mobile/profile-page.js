@@ -1,6 +1,13 @@
 
 var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
+profilePage.directive('classyScrollable', function() {
+    return function(scope, element) {
+        Hammer(element[0], { dragLockToAxis: true })
+            .on("release dragleft dragright swipeleft swiperight", handleDrag);
+    };
+});
+
 profilePage.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
     return $cacheFactory('HomeLab_Mobile_Cache');
@@ -127,7 +134,6 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
                 ratings.push({ id: i, star: (rating > i ? true : false) });
             return ratings;
         }
-
     });
 });
 

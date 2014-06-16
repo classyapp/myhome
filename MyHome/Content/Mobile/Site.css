@@ -41,9 +41,9 @@ h3 { font-size: 16px;margin-top: 0; }
 
 .horizontal-sliding-container {
     width: 100%;
-    overflow-x: scroll;overflow-y: hidden;
-    white-space: nowrap;
+    overflow: hidden; white-space: nowrap;
     -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
 }
 .collections-container .collection {
     display: inline-block;
