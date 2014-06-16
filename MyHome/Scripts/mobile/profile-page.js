@@ -17,7 +17,6 @@ profilePage.config(['$routeProvider', function($routeProvider) {
         });
 }]);
 
-//profilePage.value('appSettingsPromise', 'http://www.thisisclassy.com:8008'); // way to inject objects into module controllers
 profilePage.filter('unsafe', function ($sce) {
     return function (val) {
         return $sce.trustAsHtml(val);
@@ -53,14 +52,14 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             var collections = [];
             $scope.profileDetails.Collections.forEach(function(collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'PhotoBook')
-                    collections.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, collection.Id, 200, 200));
+                    collections.push(utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160));
             });
             $scope.Collections = collections;
             // organize projects
             var projects = [];
             $scope.profileDetails.Collections.forEach(function (collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
-                    projects.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, collection.Id, 200, 200));
+                    projects.push(utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160));
             });
             $scope.Projects = projects;
             

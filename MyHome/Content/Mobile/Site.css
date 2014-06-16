@@ -1,5 +1,5 @@
 ﻿body { background-color: #f0f0f0; font-size: 14px; color: #333; }
-h1 { color: #444;font-size: 24px; margin: 0; }
+h1 { color: #444;font-size: 24px; margin: 0;font-weight: bold; }
 h3 { font-size: 16px;margin-top: 0; }
 
 .glyphicon-star, .glyphicon-star-empty { color: green;}
@@ -31,21 +31,19 @@ h3 { font-size: 16px;margin-top: 0; }
 
 /* Profile Page */
 .profile-details h1 { color: white; }
-.profile-header .avatar {
-    width: 80px;margin-bottom: 10px;
-    border: solid 2px white;
-}
+.profile-header .avatar { width: 80px;margin-bottom: 10px; border: solid 2px white;}
+.profile-header .rating { -webkit-text-stroke: 0.5px #fff; }
 
 
 .horizontal-sliding-container {
     width: 100%;
     overflow-x: scroll;overflow-y: hidden;
     white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
 }
 .collections-container .collection {
-    width: 220px;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 16px;
     cursor: pointer;
 }
 
