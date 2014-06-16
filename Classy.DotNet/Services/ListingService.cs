@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Classy.DotNet.Models.Search;
 using CsQuery.ExtensionMethods;
 using ServiceStack.Text;
 using System.Web;
@@ -37,7 +38,6 @@ namespace Classy.DotNet.Services
         private readonly string GET_LISTINGS_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/get-multiple";
         private readonly string GET_LISTING_MORE_INFO_URL = ENDPOINT_BASE_URL + "/listing/{0}/more";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
-        private readonly string SEARCH_UNTAGGED_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/untagged/{0}";
         // translations
         private readonly string LISTING_TRANSLATION_URL = ENDPOINT_BASE_URL + "/listing/{0}/translation/{1}";
         private readonly string COLLECTION_TRANSLATION_URL = ENDPOINT_BASE_URL + "/collection/{0}/translation/{1}";
@@ -89,6 +89,7 @@ namespace Classy.DotNet.Services
             string title, 
             string content,
             string listingType,
+            string[] categories,
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
@@ -108,6 +109,7 @@ namespace Classy.DotNet.Services
                 title,
                 content,
                 listingType,
+                categories,
                 pricingInfo,
                 metadata,
                 filesToUpload);
@@ -117,6 +119,7 @@ namespace Classy.DotNet.Services
             string title,
             string content,
             string listingType,
+            string[] categories,
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
@@ -136,6 +139,7 @@ namespace Classy.DotNet.Services
                 title,
                 content,
                 listingType,
+                categories,
                 pricingInfo,
                 metadata,
                 filesToUpload);
@@ -145,6 +149,7 @@ namespace Classy.DotNet.Services
             string title, 
             string content,
             string listingType,
+            string[] categories,
             //TODO: Investigate combining Request & Response models?
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
@@ -155,10 +160,10 @@ namespace Classy.DotNet.Services
             {
                 Title = title,
                 Content = content,
+                Categories = categories,
                 ListingType = listingType,
                 Pricing = pricingInfo,
                 Metadata = metadata
-
             }.ToJson();
 
             // create the listing
@@ -332,13 +337,17 @@ namespace Classy.DotNet.Services
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var url = string.Format(SEARCH_UNTAGGED_LISTINGS_URL, date);
+                var url = string.Format(SEARCH_LISTINGS_URL);
                 var data = new
                 {
                     Page = page,
                     ListingTypes = listingTypes,
                     Date = date,
-                    PageSize = pageSize
+                    PageSize = pageSize,
+                    SortMethod = SortMethod.Date,
+                    Metadata = new Dictionary<string, string> {
+                        { "Room", "home-spaces" }
+                    }
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
                 var results = listingsJson.FromJson<SearchResultsView<ListingView>>();

@@ -28,7 +28,6 @@
 
 @section ActionBar {
     @if (Model.Listing.CanEdit()) {
-        <a class="btn btn-sm btn-primary" href="@Url.RouteUrl("EditPoll")"><i class="glyphicon glyphicon-pencil"></i>&nbsp;@Localizer.Get("PhotoDetails_Edit")</a>
     }
 }
 
@@ -47,7 +46,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="col-md-12">
         <div class="profile clearfix">
             <img src="@Model.Listing.Profile.AvatarUrl(50, true)" width="50" class="pull-left img-circle" />
             <div class="details">
@@ -59,16 +58,17 @@
                 }
             </div>
         </div>
-        
-        <div class="clearfix">
-            <div class="col-md-7">
-                <h1>@Model.Listing.Title</h1>
-                <p>@Model.Listing.Content</p>
-            </div>
-            <div class="col-md-5">
-                @Html.Partial("PollActions", new PollActionsViewModel { PollId = Model.Listing.Id })
-            </div>
+    </div>
+    
+    <div class="clearfix">
+        <div class="col-md-7">
+            <h1>@Model.Listing.Title</h1>
+            <p>@Model.Listing.Content</p>
         </div>
+        <div class="col-md-5">
+            @Html.Partial("PollActions", new PollActionsViewModel { PollId = Model.Listing.Id })
+        </div>
+    </div>
         
         <div class="poll clearfix" data-poll-id="@Model.Listing.Id">
             <div class="poll-results clearfix">

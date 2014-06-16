@@ -9,15 +9,9 @@
 }
 
 @section PreContent {
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <div class="slogan">
-            <h1 style="font-weight:bold;">@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
-            <div class="signin">
-                <a id="sign-in-facebook" class="btn btn-sm btn-fb-login" href="#" role="button">@Localizer.Get("Login_Facebook")</a>
-            </div>
-        </div>
-    }
+    <div class="slogan">
+        <h1>@Html.Raw(Localizer.Get("Home_Slogan"))</h1>
+    </div>
     <div id="homeslide" class="carousel">
         <a class="left carousel-control prev" href="#homeslide">
             <span class="glyphicon glyphicon-chevron-left"></span>

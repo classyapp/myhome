@@ -6,15 +6,18 @@
     ViewBag.Title = string.Concat(Model.Listing.Title, " - ", Model.Listing.Profile.GetProfileName());
     ViewBag.MetaDescription = Model.Listing.Content;
 
-    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value).Sign;
+    var currency = Request.Cookies.AllKeys.Contains(Classy.DotNet.Responses.AppView.CurrencyCookieName) ? Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName].Value : Classy.DotNet.Responses.AppView.DefaultCurrency;
+    var currencySign = Classy.DotNet.Responses.AppView.SupportedCurrencies.First(c => c.Value == currency).Sign;
+
+    var styles = Localizer.GetList("room-styles");
 }
 
 @section MetaTags {
     <meta name="og:title" content="@Model.Listing.Title" />
     <meta name="og:description" content="@(string.IsNullOrEmpty(Model.Listing.Content) ? Localizer.Get("ProductDetails_Description", false) : Model.Listing.Content)" />
-    @if (Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.Length > 0 && false)
+    @if (Model.Listing.PricingInfo.BaseOption.MediaFiles.Length > 0 && false)
     {
-        <meta name="og:image" content="@Model.Listing.PricingInfo.PurchaseOptions[0].MediaFiles.First(x => x.Key == Model.Listing.PricingInfo.PurchaseOptions[0].DefaultImage).Url" />
+        <meta name="og:image" content="@Model.Listing.PricingInfo.BaseOption.MediaFiles.First(x => x.Key == Model.Listing.PricingInfo.PurchaseOptions[0].DefaultImage).Url" />
     }
 }
 
@@ -48,11 +51,11 @@
         <div class="photo clearfix">
             @if (Model.Listing.ExternalMedia != null && Model.Listing.ExternalMedia.Count > 0)
             {
-                @Html.Thumbnail(Model.Listing.ExternalMedia[0].Key, 640, 0)
+                @Html.Thumbnail(Model.Listing.PricingInfo.BaseOption.MediaFiles[0].Key, 640, 0)
                 <div class="product-images default-images">
-                    @for (int i = 0; i < Model.Listing.ExternalMedia.Count; i++)
+                    @for (int i = 0; i < Model.Listing.PricingInfo.BaseOption.MediaFiles.Length; i++)
                     {
-                        @Html.Thumbnail(Model.Listing.ExternalMedia[i].Key, 120)
+                        @Html.Thumbnail(Model.Listing.PricingInfo.BaseOption.MediaFiles[i].Key, 120)
                     }
                 </div>
             }
@@ -87,23 +90,7 @@
                     <dt class="compare-at-price @(Model.Listing.PricingInfo.BaseOption.CompareAtPrice.HasValue ? string.Empty : "hidden")">@Localizer.Get("ProductDetails_CompareAtPrice")</dt>
                     <dd class="compare-at-price @(Model.Listing.PricingInfo.BaseOption.CompareAtPrice.HasValue ? string.Empty : "hidden")">@(Model.Listing.PricingInfo.BaseOption.CompareAtPrice.HasValue ? string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.BaseOption.CompareAtPrice.Value) : string.Empty)</dd>
                     <dt class="price">@Localizer.Get("ProductDetails_Price")</dt>
-                    <dd class="price">@string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].Price)</dd>
-                }
-                else if (Model.Listing.PricingInfo.PurchaseOptions.Count == 1)
-                {
-                    // One variant -- display properies as labels
-                    if (Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties != null)
-                    {
-                        foreach (var option in Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties.Keys)
-                        {
-                    <dt>@option</dt>
-                    <dd>@Model.Listing.PricingInfo.PurchaseOptions[0].VariantProperties[option]</dd>
-                        }
-                    }
-                    <dt class="compare-at-price @(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@Localizer.Get("ProductDetails_CompareAtPrice")</dt>
-                    <dd class="compare-at-price @(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Empty : "hidden")">@(Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.HasValue ? string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].CompareAtPrice.Value) : string.Empty)</dd>
-                    <dt class="price">@Localizer.Get("ProductDetails_Price")</dt>
-                    <dd class="price">@string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.PurchaseOptions[0].Price)</dd>   
+                    <dd class="price">@string.Format("{0} {1:N2}", currencySign, Model.Listing.PricingInfo.BaseOption.Price)</dd>
                 }
                 else
                 {
@@ -175,14 +162,26 @@
                 @if (!string.IsNullOrEmpty(Model.Metadata.Style))
                 {
                     <dt>@Localizer.Get("ProductDetails_Style")</dt>
-                    <dd>@Classy.DotNet.Responses.AppView.Styles.First(s => s.Value == Model.Metadata.Style).Text[System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName]</dd>
+                    <dd>@styles.First(s => s.Value == Model.Metadata.Style).Text</dd>
                 }
-                <dt class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Width")</dt>
-                <dd class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Width</dd>
-                <dt class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Depth")</dt>
-                <dd class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Depth</dd>
-                <dt class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Height")</dt>
-                <dd class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Height</dd>
+                @if (Model.Listing.PricingInfo.PurchaseOptions == null)
+                {
+                    <dt class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.BaseOption.Width) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Width")</dt>
+                    <dd class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.BaseOption.Width) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.BaseOption.Width</dd>
+                    <dt class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.BaseOption.Depth) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Depth")</dt>
+                    <dd class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.BaseOption.Depth) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.BaseOption.Depth</dd>
+                    <dt class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.BaseOption.Height) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Height")</dt>
+                    <dd class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.BaseOption.Height) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.BaseOption.Height</dd>
+                }
+                else
+                {
+                    <dt class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Width")</dt>
+                    <dd class="width @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Width) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Width</dd>
+                    <dt class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Depth")</dt>
+                    <dd class="depth @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Depth) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Depth</dd>
+                    <dt class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Localizer.Get("ProductDetails_Height")</dt>
+                    <dd class="height @(string.IsNullOrEmpty(Model.Listing.PricingInfo.PurchaseOptions[0].Height) ? "hidden" : string.Empty)">@Model.Listing.PricingInfo.PurchaseOptions[0].Height</dd> 
+                }
                 @if (!string.IsNullOrEmpty(Model.Metadata.Materials))
                 {
                     <dt>@Localizer.Get("ProductDetails_Materials")</dt>

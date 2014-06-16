@@ -168,6 +168,7 @@
     <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\magicsuggest.css" />
     <Content Include="Content\ltr\Site.css" />
+    <Content Include="Content\Mobile\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -467,12 +468,17 @@
     <Content Include="Deployment\Resources\photo-more-info.resm" />
     <Content Include="Deployment\Resources\verify-email.resm" />
     <Content Include="Deployment\Resources\proxy-profile.resm" />
+    <Content Include="Deployment\Resources\signup-banner.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\config.js" />
+    <Content Include="Mobile\collection.html" />
+    <Content Include="Mobile\profile-page.html" />
+    <Content Include="Mobile\App.html" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\bootbox.js" />
@@ -484,6 +490,24 @@
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
+    <Content Include="Scripts\mobile\angular\angular-touch.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-touch.js" />
+    <Content Include="Scripts\mobile\angular\angular-animate.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-animate.js" />
+    <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
+    <Content Include="Scripts\mobile\localizer.js" />
+    <Content Include="Scripts\mobile\app-manager.js" />
+    <Content Include="Scripts\mobile\cache-provider.js" />
+    <Content Include="Scripts\mobile\common.js" />
+    <Content Include="Scripts\mobile\utilities.js" />
+    <Content Include="Scripts\mobile\profile-page.js" />
+    <Content Include="Scripts\mobile\angular\angular-route.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-route.js" />
+    <Content Include="Scripts\mobile\angular\angular-resource.min.js" />
+    <Content Include="Scripts\mobile\angular\angular-resource.js" />
+    <Content Include="Scripts\mobile\angular\angular.js" />
+    <Content Include="Scripts\mobile\angular\angular.min.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
@@ -608,6 +632,10 @@
     <Content Include="Views\Product\EditProduct.cshtml" />
     <Content Include="Views\Profile\ProxyLandingPage.cshtml" />
     <Content Include="Views\Shared\PollActions.cshtml" />
+    <Content Include="Scripts\mobile\angular\angular-resource.min.js.map" />
+    <Content Include="Scripts\mobile\angular\angular-route.min.js.map" />
+    <Content Include="Scripts\mobile\angular\angular-animate.min.js.map" />
+    <Content Include="Scripts\mobile\angular\angular-touch.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

@@ -25,7 +25,8 @@ namespace MyHome
                 typeof (StaticPagesController),
                 typeof (HomePageController),
                 typeof (SearchController),
-                typeof (PollController)
+                typeof (PollController),
+                typeof (MediaFileController)
             };
 
             //var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
@@ -41,6 +42,7 @@ namespace MyHome
                 baseControllerInstance.RegisterRoutes(routes);
             }
 
+            routes.IgnoreRoute("Mobile/{*path}");
             
             // default asp.net mvc route pattern
             routes.MapRouteForSupportedLocales(
