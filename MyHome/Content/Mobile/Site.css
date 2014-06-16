@@ -1,22 +1,42 @@
-﻿body {
-    background-color: #f0f0f0;
-    font-size: 14px;
-    color: #333;
-}
-h1 {
-    color: #444;font-size: 24px;
-    margin: 10px 0;
-}
+﻿body { background-color: #f0f0f0; font-size: 14px; color: #333; }
+h1 { color: #444;font-size: 24px; margin: 0; }
 h3 { font-size: 16px;margin-top: 0; }
 
-.main-container {  }
 .glyphicon-star, .glyphicon-star-empty { color: green;}
+.panel { border-radius: 0; }
+
+.header-cover {
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    white-space: nowrap;
+    color: white;text-shadow: 0 1px 1px #000;
+}
+.header-cover .cover-slider { position: relative; }
+.header-cover .pane {
+    display: inline-block;height: 160px; width: 100%;
+    vertical-align: top;padding: 20px;
+    white-space: normal;text-align: center;
+}
+.header-cover .pane2 { line-height: 160px; }
+.header-cover .pane2 .description { vertical-align: middle;line-height: normal;white-space: normal;display: inline-block; }
+.header-cover .arrow { color: #eee;font-size: 30px;opacity: 0.4;position: absolute;cursor: pointer; }
+.header-cover .arrow:hover { opacity: 1; }
+.header-cover .arrow.right { right: 10px;top: 80px;}
+.header-cover .arrow.left { left: 10px;top: 80px;}
+
+
 
 /* Profile Page */
+.profile-details h1 { color: white; }
 .profile-header .avatar {
     width: 80px;margin-bottom: 10px;
+    border: solid 2px white;
 }
-.collections-container {
+
+
+.horizontal-sliding-container {
     width: 100%;
     overflow-x: scroll;overflow-y: hidden;
     white-space: nowrap;
@@ -37,6 +57,12 @@ h3 { font-size: 16px;margin-top: 0; }
 .review-content .quote { position: absolute; font-size: 40px; opacity: 0.3; }
 .review-content .quote.quote-right { right: -10px;bottom: -29px; }
 .review-content .quote.quote-left { top: -24px;left: -24px; }
+
+
+
+
+
+
 
 
 
@@ -110,20 +136,9 @@ div.thumbs4 > div.thumb
 }
 
 
-.header-cover .cover {
-    height: 200px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.profile-header {
-    padding: 20px 0;
-}
-
 
 /* Collection page */
-.nonDraggableImage {
+/*.nonDraggableImage {
     -moz-user-drag: none;
     -webkit-user-drag: none;
 }
@@ -155,5 +170,5 @@ div.thumbs4 > div.thumb
 }
 .slider .arrow.prev {
     left: 0;
-}
+}*/
 

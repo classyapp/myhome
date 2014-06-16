@@ -25,6 +25,19 @@ profilePage.filter('unsafe', function ($sce) {
 });
 
 profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+
+    $scope.currentSlide = 0;
+    $scope.nextSlide = function() {
+        if ($scope.currentSlide == 1) return;
+        $('.cover-slider').css('left', '-' + $('.cover-slider').width() + 'px');
+        $scope.currentSlide++;
+    };
+    $scope.prevSlide = function() {
+        if ($scope.currentSlide == 0) return;
+        $('.cover-slider').css('left', 0);
+        $scope.currentSlide--;
+    };
+
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;
@@ -39,10 +52,17 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             // organize collections
             var collections = [];
             $scope.profileDetails.Collections.forEach(function(collection) {
-                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '')
+                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'PhotoBook')
                     collections.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, collection.Id, 200, 200));
             });
             $scope.Collections = collections;
+            // organize projects
+            var projects = [];
+            $scope.profileDetails.Collections.forEach(function (collection) {
+                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
+                    projects.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, collection.Id, 200, 200));
+            });
+            $scope.Projects = projects;
             
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
