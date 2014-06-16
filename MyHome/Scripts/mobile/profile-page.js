@@ -28,14 +28,18 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     $scope.currentSlide = 0;
     $scope.nextSlide = function() {
         if ($scope.currentSlide == 1) return;
-        $('.cover-slider').find('.pane1').hide();
         $('.cover-slider').find('.pane2').show();
+        $('.cover-slider').css('left', '0');
+        $('.cover-slider').css('left', '-' + $('.cover-slider').width() + 'px');
         $scope.currentSlide++;
     };
     $scope.prevSlide = function() {
         if ($scope.currentSlide == 0) return;
-        $('.cover-slider').find('.pane2').hide();
-        $('.cover-slider').find('.pane1').show();
+        $('.cover-slider')
+            .css('left', '0')
+            .one('webkitTransitionEnd transitionend', function() {
+                $('.cover-slider').find('.pane2').css('display', 'none');
+            });
         $scope.currentSlide--;
     };
 
