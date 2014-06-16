@@ -586,11 +586,11 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (!AppView.SupportedCurrencies.Any(c => c.Value == pricingInfoView.CurrencyCode))
             {
-                errors.Add("PricingInfo", "Default Currency is required");
+                errors.Add("PricingInfo.CurrencyCode", "Default Currency is required");
             }
             if (pricingInfoView.BaseOption == null)
             {
-                errors.Add("PricingInfo", "Missing Product details");
+                errors.Add("PricingInfo.BaseOption", "Missing Product details");
             }
             else
             {
@@ -603,11 +603,11 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
                 {
-                    string error = null;
-                    if (!ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i == 0, out error))
+                    if (!string.IsNullOrEmpty(Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"]))
                     {
-                        errors.Add("PricingInfo", error);
+                        pricingInfoView.PurchaseOptions[i].MediaFiles = Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray();
                     }
+                    ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors);
                 }
             }
             else
@@ -646,23 +646,6 @@ namespace Classy.DotNet.Mvc.Controllers
             // ensure unique sku and no duplicate variants
             if (pricingInfoView.PurchaseOptions != null)
             {
-                Dictionary<string, int> skus = new Dictionary<string, int>();
-                foreach (var option in pricingInfoView.PurchaseOptions)
-                {
-                    if (string.IsNullOrEmpty(option.SKU))
-                    {
-                        errors.Add("PricingInfo", "SKU is required");
-                    }
-                    else if (skus.ContainsKey(option.SKU))
-                    {
-                        errors.Add("PricingInfo", "SKU must be unique");
-                    }
-                    else
-                    {
-                        skus.Add(option.SKU, 0);
-                    }
-                }
-
                 Dictionary<string, int> variants = new Dictionary<string, int>();
                 foreach (var option in pricingInfoView.PurchaseOptions)
                 {
@@ -681,16 +664,38 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private bool ValidatePurchaseOption(PurchaseOptionView option, bool imageRequired, out string error)
+        private void ValidatePurchaseOption(PurchaseOptionView option, int idx, Dictionary<string, string> errors)
         {
-            error = null;
-            if (imageRequired && (string.IsNullOrEmpty(option.DefaultImage) || option.MediaFiles == null || option.MediaFiles.Length == 0))
+            if (string.IsNullOrWhiteSpace(option.SKU))
             {
-                error = "At least one image is required";
-                return false;
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU is required");
             }
+            if (option.Price <= 0)
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Price", idx), "Price must be greater than zero");
+            }
+            if (option.Quantity <= 0)
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Quantity", idx), "Quantity is required");
+            }
+            if (string.IsNullOrWhiteSpace(option.Width))
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Width", idx), "Width is required");
+            }
+            if (string.IsNullOrWhiteSpace(option.Depth))
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Depth", idx), "Depth is required");
+            }
+            if (string.IsNullOrWhiteSpace(option.Height))
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Height", idx), "Height is required");
+            }
+            // SKU UNIQUE!!!
+            //if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
+            //{
+            //    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
+            //}
 
-            return true;
         }
 
         [Authorize]
