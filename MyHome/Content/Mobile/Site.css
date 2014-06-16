@@ -28,12 +28,15 @@ h3 { font-size: 16px;margin-top: 0; }
     cursor: pointer;
 }
 
+
 .review-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
 .review-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
 .review-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
 .reviewer-details .name { font-size: 20px; }
-.review-content { margin-left: 78px;color: #777; }
-
+.review-content { margin-left: 78px;color: #777;position: relative; }
+.review-content .quote { position: absolute; font-size: 40px; opacity: 0.3; }
+.review-content .quote.quote-right { right: -10px;bottom: -29px; }
+.review-content .quote.quote-left { top: -24px;left: -24px; }
 
 
 
@@ -154,13 +157,3 @@ div.thumbs4 > div.thumb
     left: 0;
 }
 
-
-/* Reviews */
-.review-content { position: relative; }
-.review-content .quote {
-    position: absolute;
-    font-size: 40px;
-    opacity: 0.3;
-}
-.review-content .quote.quote-right { right: -10px;bottom: -29px; }
-.review-content .quote.quote-left { top: -24px;left: -24px; }
