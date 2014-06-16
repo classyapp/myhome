@@ -3,6 +3,14 @@ var classyUtilitiesService = angular.module('ClassyUtilitiesService', []);
 
 classyUtilitiesService.factory('ClassyUtilities', [function() {
     return {
+        Screen: {
+            GetWidth: function() {
+                return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            },
+            GetHeight: function() {
+                return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            }
+        },
         Images: {
             Thumbnail: function(appSettings, imageKey, width, height) {
                 var cdnUrl = appSettings.CdnUrl;
