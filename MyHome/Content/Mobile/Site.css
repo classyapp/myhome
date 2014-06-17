@@ -48,21 +48,32 @@ h3 { font-size: 16px;margin-top: 0; }
     -webkit-transform: translate3d(0, 0, 0);
     margin: 0 15px;
 }
-.collections-container .collection {
+.collections-container .collection, .listings-container .listing {
     display: inline-block;
     margin-right: 16px;
     cursor: pointer;
 }
+.listings-container .listing .title {
+    text-align: center;
+    font-weight: bold;font-size: 18px;
+}
 
 
-.review-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
-.review-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
-.review-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
-.reviewer-details .name { font-size: 20px; }
-.review-content { margin-left: 78px;color: #777;position: relative; }
-.review-content .quote { position: absolute; font-size: 40px; opacity: 0.3; }
-.review-content .quote.quote-right { right: -10px;bottom: -29px; }
-.review-content .quote.quote-left { top: -24px;left: -24px; }
+.stats-container { margin-bottom: 20px;background-color: #fff;border-bottom: solid 1px #ddd;height: 50px; }
+.stats-container .stat-container { width: 33.33%;padding: 8px;border-right: solid 1px #ddd;height: 50px; }
+.stats-container .stat-container.last { border-right: 0; }
+.stats-container .stat-container .value { font-weight: bold; }
+.stats-container .stat-container .description { color: #999;font-size: 10px; } 
+
+
+.review-container, .comment-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
+.review-container.last, .comment-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
+.review-metadata .avatar, .comment-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
+.reviewer-details .name, .commenter-details .name { font-size: 20px; }
+.review-content, .comment-content { margin-left: 78px;color: #777;position: relative; }
+.review-content .quote, .comment-content .quote { position: absolute; font-size: 40px; opacity: 0.3; }
+.review-content .quote.quote-right, .comment-content .quote.quote-right { right: 0;bottom: -24px; }
+.review-content .quote.quote-left, .comment-content .quote.quote-left { top: -24px;left: -24px; }
 
 
 

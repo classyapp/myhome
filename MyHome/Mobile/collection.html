@@ -1,23 +1,69 @@
 ﻿
-<div class="container slider">
-    <img ng-repeat="listing in Listings" class="slide slide-animation nonDraggableImage"
-         ng-swipe-right="nextListing()" ng-swipe-left="prevListing()"
-         ng-hide="!isCurrentListingIndex($index)" ng-src="{{listing.ExternalMedia[0].Url}}">
-
-    <a class="arrow prev" ng-click="nextListing()">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-    </a>
-    <a class="arrow next" ng-click="prevListing()">
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
-    <!--<nav class="nav">
-        <div class="wrapper">
-            <ul class="dots">
-                <li class="dot" ng-repeat="listing in Listings">
-                    <a href="#" ng-class="{'active':isCurrentListingIndex($index)}"
-                       ng-click="setCurrentListingIndex($index);">{{listing.Title}}</a>
-                </li>
-            </ul>
+<div class="profile-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
+    <div class="cover-slider">
+        <div class="pane pane1">
+            <div class="text-center">
+                <img ng-src="{{Avatar}}" class="avatar img-circle" />
+            </div>
+            <div class="profile-details">
+                <h1 class="text-center" ng-bind-template="{{CollectionName}}"></h1>
+            </div>
         </div>
-    </nav>-->
+        <!--<div class="pane pane2" style="display:none;">
+                <span class="description" ng-bind-html="BusinessDescription | unsafe"></span>
+            </div>-->
+    </div>
+    <!--<div class="arrow right" ng-if="BusinessDescription != undefined" ng-click="nextSlide()"><i class="glyphicon glyphicon-chevron-right"></i></div>
+        <div class="arrow left" ng-if="BusinessDescription != undefined" ng-click="prevSlide()"><i class="glyphicon glyphicon-chevron-left"></i></div>-->
+</div>
+<div class="stats-container clearfix">
+    <div class="stat-container pull-left">
+        <div class="value" ng-bind-template="{{ViewCount}}"></div>
+        <div class="description">VIEWS</div>
+    </div>
+    <div class="stat-container pull-left">
+        <div class="value" ng-bind-template="{{FavoriteCount}}"></div>
+        <div class="description">FAVORITES</div>
+    </div>
+    <div class="stat-container pull-left last">
+        <div class="value" ng-bind-template="{{CommentCount}}"></div>
+        <div class="description">COMMENTS</div>
+    </div>
+</div>
+
+<div class="collection-listings panel panel-default" ng-if="Listings.length > 0">
+    <div class="panel-body listings-container horizontal-sliding-container">
+        <div classy-scrollable>
+            <div class="listing" ng-repeat="listing in Listings" onclick="">
+                <img ng-src="{{listing.ImageUrl}}" />
+                <div class="title" ng-bind-template="{{listing.Title}}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-comments panel panel-default" ng-if="Comments.length > 0">
+    <div class="panel-body">
+        <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last}">
+            <div class="comment-metadata clearfix">
+                <div class="avatar pull-left">
+                    <img ng-src="{{comment.CommenterAvatarUrl}}" class="avatar img-circle" />
+                </div>
+                <div class="commenter-details pull-left">
+                    <div class="name">
+                        <a href="#/Profile/{{comment.CommenterId}}" ng-bind-template="{{comment.Commenter}}"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-content">
+                <div class="quote quote-left"><i class="fa fa-quote-left"></i></div>
+                <div class="quote quote-right"><i class="fa fa-quote-right"></i></div>
+                <span ng-bind-template="{{comment.Content}}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>
+        <i class="glyphicon glyphicon-chevron-right pull-right"></i>
+    </div>
 </div>
