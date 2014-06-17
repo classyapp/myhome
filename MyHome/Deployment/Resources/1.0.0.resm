@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_CollectionPage_ViewAllComments",
+			"Description": "Mobile collection page view all comments link",
+			"Values": {
+				"en": "View all comments"
+			}
+		},
+		{ 
 			"Key": "Mobile_ProfilePage_ViewAllCollections",
 			"Description": "Mobile profile page View all collections link",
 			"Values": {
