@@ -4,6 +4,7 @@ h3 { font-size: 16px;margin-top: 0; }
 
 .glyphicon-star, .glyphicon-star-empty { color: green;}
 .panel { border-radius: 0;border-left: 0;border-right: 0; }
+.panel-body.horizontal-sliding-container { padding: 15px 0; }
 .panel-footer { background-color: #fff;font-size: 14px;font-weight: bold; }
 
 .header-cover {
@@ -44,6 +45,7 @@ h3 { font-size: 16px;margin-top: 0; }
     overflow: hidden; white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     -webkit-transform: translate3d(0, 0, 0);
+    margin: 0 15px;
 }
 .collections-container .collection {
     display: inline-block;

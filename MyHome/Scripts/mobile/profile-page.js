@@ -1,12 +1,28 @@
 
 var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
-profilePage.directive('classyScrollable', function () {
+profilePage.directive('classyScrollable', function (ClassyUtilities) {
     var offset = 0;
     function handleDrag(ev) {
         if (ev.type == 'dragstart') {
             var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
             offset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            return;
+        }
+        if (ev.type == 'release') {
+            var elem = $(ev.currentTarget);
+            var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+            var currentOffset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            var maxOffset = ev.currentTarget.scrollWidth - ClassyUtilities.Screen.GetWidth();
+            if (currentOffset >= 0) {
+                elem.css('transition', '-webkit-transform 0.5s ease');
+                elem.css('-webkit-transform', 'translate3d(0,0,0)');
+                elem.css('transition', 'none');
+            } else if (Math.abs(currentOffset) >= maxOffset) {
+                elem.css('transition', '-webkit-transform 0.5s ease');
+                elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
+                elem.css('transition', 'none');
+            }
             return;
         }
         
@@ -17,7 +33,7 @@ profilePage.directive('classyScrollable', function () {
         $(ev.currentTarget).css('-webkit-transform', 'translate3d(' + drag + 'px, 0, 0)');
     }
 
-    return function(scope, element) {
+    return function (scope, element) {
         Hammer(element[0], { dragLockToAxis: true })
             .on("dragstart release dragleft dragright swipeleft swiperight", handleDrag);
     };
