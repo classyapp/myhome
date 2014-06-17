@@ -192,6 +192,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
     <Content Include="img\ajax-loader.gif" />
+    <Content Include="img\blueprint.jpg" />
     <Content Include="img\email.png" />
     <Content Include="img\facebook.png" />
     <Content Include="img\fb.png" />

@@ -116,6 +116,8 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
                 data.CoverPhotos.forEach(function(imageKey) {
                     $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, w, h));
                 });
+            } else {
+                $scope.CoverPhotos = [ appSettings.Host + '/img/blueprint.jpg' ];
             }
 
             // reviews
