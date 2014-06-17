@@ -52,6 +52,9 @@ profilePage.config(['$routeProvider', function($routeProvider) {
         }).when('/Collection/:collectionId', {
             templateUrl: 'collection.html',
             controller: 'CollectionController'
+        }).when('/Photo/:photoId', {
+            templateUrl: 'photo.html',
+            controller: 'PhotoController'
         });
 }]);
 
@@ -204,6 +207,7 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
             var listings = [];
             data.Listings.forEach(function(listing) {
                 listings.push({
+                    Id: listing.Id,
                     Title: listing.Title,
                     ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, imageWidth)
                 });
@@ -231,5 +235,22 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
             $scope.Resources.ViewAllComments = resource;
         });
 
+    });
+});
+
+profilePage.controller('PhotoController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    AppSettings.then(function(appSettings) {
+
+        $http.get(appSettings.ApiUrl + '/listing/' + $routeParams.photoId, config).success(function(data) {
+
+            $scope.ImageUrl = data.ExternalMedia[0].Url;
+            $scope.Title = data.Title;
+
+            // TODO: check if we can get this from metadata instead!
+            $scope.CopyrightMessage = data.CopyrightMessage;
+
+        }).error(function() {
+            // TODO: display some error message
+        });
     });
 });
