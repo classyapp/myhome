@@ -6,6 +6,7 @@ h3 { font-size: 16px;margin-top: 0; }
 .panel { border-radius: 0;border-left: 0;border-right: 0; }
 .panel-body.horizontal-sliding-container { padding: 15px 0; }
 .panel-footer { background-color: #fff;font-size: 14px;font-weight: bold; }
+.panel-footer .glyphicon { color: #d7d7d7;margin-top: 2px; }
 
 .header-cover {
     height: 200px;
