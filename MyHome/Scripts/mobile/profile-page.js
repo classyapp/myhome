@@ -177,17 +177,29 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
 
             $scope.Avatar = data.Profile.Avatar.Url;
             $scope.CollectionName = data.Title;
+            $scope.ProfileName = data.Profile.UserName;
 
             $scope.ViewCount = data.ViewCount;
             $scope.FavoriteCount = data.FavoriteCount;
             $scope.CommentCount = data.CommentCount;
+
+            var w = ClassyUtilities.Screen.GetWidth();
+            var h = ClassyUtilities.Screen.GetHeight();
+            if (data.CoverPhotos && data.CoverPhotos.length > 0) {
+                $scope.CoverPhotos = [];
+                data.CoverPhotos.forEach(function (imageKey) {
+                    $scope.CoverPhotos.push(ClassyUtilities.Images.Thumbnail(appSettings, imageKey, w, h));
+                });
+            } else {
+                $scope.CoverPhotos = [appSettings.Host + '/img/blueprint.jpg'];
+            }
 
             var imageWidth = ClassyUtilities.Screen.GetWidth() - 80;
             var listings = [];
             data.Listings.forEach(function(listing) {
                 listings.push({
                     Title: listing.Title,
-                    ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, 500)
+                    ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, imageWidth)
                 });
             });
             $scope.Listings = listings;

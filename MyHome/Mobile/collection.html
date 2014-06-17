@@ -1,12 +1,13 @@
 ﻿
-<div class="profile-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
+<div class="collection-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
     <div class="cover-slider">
         <div class="pane pane1">
-            <div class="text-center">
-                <img ng-src="{{Avatar}}" class="avatar img-circle" />
-            </div>
-            <div class="profile-details">
+            <div class="collection-details">
                 <h1 class="text-center" ng-bind-template="{{CollectionName}}"></h1>
+            </div>
+            <div class="profile-details small">
+                <img ng-src="{{Avatar}}" class="avatar img-circle" />
+                <span class="profile-name" ng-bind-template="{{ProfileName}}"></span>
             </div>
         </div>
         <!--<div class="pane pane2" style="display:none;">
