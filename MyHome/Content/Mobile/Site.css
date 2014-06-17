@@ -36,13 +36,13 @@ h3 { font-size: 16px;margin-top: 0; }
 
 /* Profile Page */
 .profile-details h1 { color: #fff; }
-.profile-header .avatar { width: 80px;margin-bottom: 10px; border: solid 2px white;}
+.profile-header .avatar { width: 80px;height: 80px; margin-bottom: 10px; border: solid 2px white;}
 .profile-header .rating { font-size: 18px;text-shadow: none; }
 .profile-header .dropshadow { background-color: rgba(0, 0, 0, 0.2); }
 
 .collection-header { height: 150px; }
 .collection-header .collection-details h1 { color: #fff;font-size: 42px;margin-bottom: 10px; }
-.collection-header .avatar { width: 40px; border: solid 2px white;margin-right: 10px;}
+.collection-header .avatar { width: 40px;height: 40px; border: solid 2px white;margin-right: 10px;}
 .collection-header .profile-name { font-size: 20px;vertical-align: middle;}
 
 

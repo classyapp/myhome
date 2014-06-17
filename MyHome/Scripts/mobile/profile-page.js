@@ -96,14 +96,20 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             var collections = [];
             $scope.profileDetails.Collections.forEach(function(collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'PhotoBook')
-                    collections.push(utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160));
+                    collections.push({
+                        Id: collection.Id,
+                        ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
+                    });
             });
             $scope.Collections = collections;
             // organize projects
             var projects = [];
-            $scope.profileDetails.Collections.forEach(function (collection) {
+            $scope.profileDetails.Collections.forEach(function(collection) {
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
-                    projects.push(utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160));
+                    projects.push({
+                        Id: collection.Id,
+                        ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
+                    });
             });
             $scope.Projects = projects;
             
