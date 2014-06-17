@@ -35,6 +35,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public string[] Categories { get; set; }
 
         public PricingInfoView PricingInfo { get; set; }
+        public bool HasImages { get; set; }
 
         // meta
         public TListingMetadata Metadata { get; set; }
