@@ -1,6 +1,44 @@
 
 var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
+profilePage.directive('classyScrollable', function (ClassyUtilities) {
+    var offset = 0;
+    function handleDrag(ev) {
+        if (ev.type == 'dragstart') {
+            var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+            offset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            return;
+        }
+        if (ev.type == 'release') {
+            var elem = $(ev.currentTarget);
+            var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+            var currentOffset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            var maxOffset = ev.currentTarget.scrollWidth - ClassyUtilities.Screen.GetWidth();
+            if (currentOffset >= 0) {
+                elem.css('transition', '-webkit-transform 0.5s ease');
+                elem.css('-webkit-transform', 'translate3d(0,0,0)');
+                elem.css('transition', 'none');
+            } else if (Math.abs(currentOffset) >= maxOffset) {
+                elem.css('transition', '-webkit-transform 0.5s ease');
+                elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
+                elem.css('transition', 'none');
+            }
+            return;
+        }
+        
+        ev.gesture.preventDefault();
+        
+        var drag = ev.gesture.deltaX + offset;
+
+        $(ev.currentTarget).css('-webkit-transform', 'translate3d(' + drag + 'px, 0, 0)');
+    }
+
+    return function (scope, element) {
+        Hammer(element[0], { dragLockToAxis: true })
+            .on("dragstart release dragleft dragright swipeleft swiperight", handleDrag);
+    };
+});
+
 profilePage.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
     return $cacheFactory('HomeLab_Mobile_Cache');
@@ -28,14 +66,18 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     $scope.currentSlide = 0;
     $scope.nextSlide = function() {
         if ($scope.currentSlide == 1) return;
-        $('.cover-slider').find('.pane1').hide();
         $('.cover-slider').find('.pane2').show();
+        $('.cover-slider').css('left', '0');
+        $('.cover-slider').css('left', '-' + $('.cover-slider').width() + 'px');
         $scope.currentSlide++;
     };
     $scope.prevSlide = function() {
         if ($scope.currentSlide == 0) return;
-        $('.cover-slider').find('.pane2').hide();
-        $('.cover-slider').find('.pane1').show();
+        $('.cover-slider')
+            .css('left', '0')
+            .one('webkitTransitionEnd transitionend', function() {
+                $('.cover-slider').find('.pane2').css('display', 'none');
+            });
         $scope.currentSlide--;
     };
 
@@ -123,7 +165,6 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
                 ratings.push({ id: i, star: (rating > i ? true : false) });
             return ratings;
         }
-
     });
 });
 

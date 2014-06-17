@@ -4,6 +4,7 @@ h3 { font-size: 16px;margin-top: 0; }
 
 .glyphicon-star, .glyphicon-star-empty { color: green;}
 .panel { border-radius: 0;border-left: 0;border-right: 0; }
+.panel-body.horizontal-sliding-container { padding: 15px 0; }
 .panel-footer { background-color: #fff;font-size: 14px;font-weight: bold; }
 
 .header-cover {
@@ -14,7 +15,10 @@ h3 { font-size: 16px;margin-top: 0; }
     white-space: nowrap;
     color: white;text-shadow: 0 1px 1px #000;
 }
-.header-cover .cover-slider { position: relative; }
+.header-cover .cover-slider {
+    position: relative;
+    -webkit-transition: left 1s;
+}
 .header-cover .pane {
     display: inline-block;height: 200px; width: 100%;
     vertical-align: top;padding: 20px;
@@ -38,9 +42,10 @@ h3 { font-size: 16px;margin-top: 0; }
 
 .horizontal-sliding-container {
     width: 100%;
-    overflow-x: scroll;overflow-y: hidden;
-    white-space: nowrap;
+    overflow: hidden; white-space: nowrap;
     -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
+    margin: 0 15px;
 }
 .collections-container .collection {
     display: inline-block;
