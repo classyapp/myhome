@@ -9,6 +9,7 @@
     
     ViewBag.Title = string.Concat("HomeLab.com :: ", Model.Listing.Title);
     ViewBag.MetaDescription = Model.Listing.Content;
+    var pollCollageUrl = "";
 }
 
 @section MetaTags {
@@ -21,7 +22,7 @@
     else if (pollExtraData.Listings.Any() && pollExtraData.Listings.First().ExternalMedia.Count > 0)
     {
         var imageKeys = pollExtraData.Listings.Select(x => x.ExternalMedia[0].Key).ToArray();
-        var pollCollageUrl = "http://" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?ImageKeys=" + string.Join(",", imageKeys) + "&format=json";
+        pollCollageUrl = "http://" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?ImageKeys=" + string.Join(",", imageKeys) + "&format=json";
         @Html.Raw("<meta property=\"og:image\" content=\"" + pollCollageUrl + "\" />")
     }
 }
@@ -31,6 +32,10 @@
     }
 }
 
+@if (!string.IsNullOrEmpty(pollCollageUrl))
+{
+    <img src="@pollCollageUrl" class="hidden"/>
+}
 <div class="row photo-details poll-details">    
     <div class="col-md-12">
         @if (TempData["PostComment_Success"] != null)
