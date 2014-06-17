@@ -1,10 +1,25 @@
 
 var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
-profilePage.directive('classyScrollable', function() {
+profilePage.directive('classyScrollable', function () {
+    var offset = 0;
+    function handleDrag(ev) {
+        if (ev.type == 'dragstart') {
+            var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+            offset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            return;
+        }
+        
+        ev.gesture.preventDefault();
+        
+        var drag = ev.gesture.deltaX + offset;
+
+        $(ev.currentTarget).css('-webkit-transform', 'translate3d(' + drag + 'px, 0, 0)');
+    }
+
     return function(scope, element) {
         Hammer(element[0], { dragLockToAxis: true })
-            .on("release dragleft dragright swipeleft swiperight", handleDrag);
+            .on("dragstart release dragleft dragright swipeleft swiperight", handleDrag);
     };
 });
 

@@ -73,13 +73,3 @@
         <span class="view-all" ng-bind-template="{{Resources.ViewAllReviews}}"></span>
     </div>
 </div>
-
-<script language="javascript" type="text/javascript">
-    function handleDrag(ev) {
-        ev.gesture.preventDefault();
-
-        var drag = ev.gesture.deltaX;
-        
-        $(ev.currentTarget).css('-webkit-transform', 'translate3d(' + drag + 'px, 0, 0)');
-    }
-</script>
