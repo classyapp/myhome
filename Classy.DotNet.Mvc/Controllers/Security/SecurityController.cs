@@ -85,11 +85,12 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Login()
+        public ActionResult Login(bool? forceProRegistration)
         {
             var model = new LoginViewModel
             {
-                RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "~/"
+                RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "~/",
+                ForceProRegistration = forceProRegistration.HasValue && forceProRegistration.Value
             };
 
             if (Request.IsAjaxRequest())

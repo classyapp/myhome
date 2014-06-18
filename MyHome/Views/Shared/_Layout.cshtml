@@ -189,7 +189,7 @@
 
         @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified && !disableVerifyEmailBanner)
         {
-            <div class="postnav-banner">
+            <div class="postnav-banner hidden">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -201,6 +201,7 @@
                                 <h5>@Localizer.Get("Profile_VerifyEmailAddress")</h5>
                                 <div>
                                     <a id="resendVerification" href="@Url.RouteUrl("ResendEmailverification")" class="btn btn-success">@Localizer.Get("Profile_VerifyEmail_Resend")</a>
+                                    <a href="#" class="btn btn-default">@Localizer.Get("Profile_VerifyEmail_Dismiss")</a>
                                 </div>
                             </div>
                         </div>
