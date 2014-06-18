@@ -48,6 +48,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
         [Display(Name = "ClaimProxy_DefaultCulture")]
         public string DefaultCulture { get; set; }
         public TProMetadata Metadata { get; set; }
-        public string ReferreUrl { get; set; }
+        public string ReferrerUrl { get; set; }
     }
 }

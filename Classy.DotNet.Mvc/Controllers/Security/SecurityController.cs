@@ -283,7 +283,6 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             if (!string.IsNullOrEmpty(model.ReferrerUrl) && !model.IsProfessional) return Redirect(HttpUtility.UrlDecode(model.ReferrerUrl));
             else
             {
-                
                 if (model.IsProfessional) 
                     return RedirectToRoute("CreateProfessionalProfile", new { ProfileId = profile.Id, ReferrerUrl = model.ReferrerUrl });
                 else 

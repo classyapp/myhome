@@ -13,6 +13,7 @@
     bool isMobile = regex.IsMatch(Request.UserAgent);
 
     var disableSignupBanner = ViewBag.DisableSignupBanner != null && ViewBag.DisableSignupBanner;
+    var disableVerifyEmailBanner = ViewBag.DisableVerifyEmailBanner != null && ViewBag.DisableVerifyEmailBanner;
 }
 
 <!DOCTYPE html>
@@ -186,7 +187,7 @@
             </div>
         </nav>
 
-        @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified)
+        @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified && !disableVerifyEmailBanner)
         {
             <div class="postnav-banner">
                 <div class="container">

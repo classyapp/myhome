@@ -24,9 +24,16 @@
 			},
 			{ 
 			"Key": "ClaimProxy_Signup",
-			"Description": "register button on ask for claim proxy page",
+			"Description": "register button on claim proxy page",
 			"Values": {
 				"en": "Create a FREE business account"
+				}
+			},
+			{ 
+			"Key": "AskForReview_GoPro",
+			"Description": "upgrade to pro account button on ask for review page",
+			"Values": {
+				"en": "Upgrade to a business account (FREE)"
 				}
 			}
 	]

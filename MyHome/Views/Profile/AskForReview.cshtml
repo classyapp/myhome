@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = Localizer.Get("AskForReview_PageTitle");
     ViewBag.DisableSignupBanner = true;
+    ViewBag.DisableVerifyEmailBanner = true;
 }
 
 <div class="row">
@@ -10,7 +11,7 @@
         <h1>@Localizer.Get("AskForReview_PageTitle")</h1>
         <hr />
 
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated && Model.IsProfessional)
         {
             @Html.Bootstrap().ValidationSummary()
        
@@ -51,8 +52,15 @@
         { 
             <div>
                 <h4>@Localizer.Get("AskForReview_MustBeLoggedIn")</h4>
-                <a href="#" class="btn btn-primary" authorize-pro>@Localizer.Get("AskForReview_Login")</a>
-                <a href="@Url.RouteUrlForCurrentLocale("Register", new { ReferrerUrl = Url.Encode(Request.RawUrl), ForceProRegistration = true })" class="btn btn-default">@Localizer.Get("AskForReview_Signup")</a>
+                @if (User.Identity.IsAuthenticated && !Model.IsProfessional)
+                {
+                    <a href="@Url.RouteUrlForCurrentLocale("CreateProfessionalProfile", new { ReferrerUrl = Url.Encode(Request.RawUrl) })" class="btn btn-primary">@Localizer.Get("AskForReview_GoPro")</a>
+                }
+                else 
+                { 
+                    <a href="#" class="btn btn-primary" authorize-pro>@Localizer.Get("AskForReview_Login")</a>
+                    <a href="@Url.RouteUrlForCurrentLocale("Register", new { ReferrerUrl = Url.Encode(Request.RawUrl), ForceProRegistration = true })" class="btn btn-default">@Localizer.Get("AskForReview_Signup")</a>
+                }
             </div>
         }
     </div>
@@ -63,7 +71,7 @@
             <div class="content">
                 <p>@Localizer.Get("AskForReview_Help_Content")</p>
                 <div>
-                    @if (!Model.IsGoogleConnected && User.Identity.IsAuthenticated)
+                    @if (!Model.IsGoogleConnected && User.Identity.IsAuthenticated && Model.IsProfessional)
                     {
                         <hr/>
                         <p><strong>@Localizer.Get("AskForReview_Help_ImportTitle")</strong></p>

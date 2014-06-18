@@ -432,6 +432,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     var contacts = service.GetGoogleContacts();
                     model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
                     model.GoogleContacts = contacts;
+                    model.IsProfessional = AuthenticatedUserProfile.IsProfessional;
                 }
                 return View(model);
             }
@@ -719,7 +720,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
                     PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
                     DefaultCulture = profile.DefaultCulture,
-                    Metadata = metadata
+                    Metadata = metadata,
+                    ReferrerUrl = referrerUrl
                 };
                 return View(model);
             }
@@ -731,7 +733,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         // 
         // POST: /profile/me/gopro
-        [AuthorizeWithRedirect("Home")]
+        [AuthorizeWithRedirect("Login")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateProfessionalProfile(CreateProfessionalProfileViewModel<TProMetadata> model)
         {
@@ -772,6 +774,11 @@ namespace Classy.DotNet.Mvc.Controllers
                     null,
                     UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
+                if (!string.IsNullOrEmpty(model.ReferrerUrl)) 
+                {
+                    var returnUrl = string.IsNullOrEmpty(model.ReferrerUrl) ? "~/" : Uri.UnescapeDataString(model.ReferrerUrl);
+                    return Redirect(returnUrl);
+                }
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
             }
             catch (ClassyException cvx)
