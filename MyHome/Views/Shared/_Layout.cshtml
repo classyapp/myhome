@@ -189,7 +189,7 @@
             <div class="verify-email">
                 <div class="alert alert-danger">
                     @Localizer.Get("Profile_VerifyEmailAddress")
-                    <p>@Localizer.Get("Profile_ResendEmailVerification") <a href="">@Localizer.Get("Profile_ResendEmailVerification_Link")</a></p>
+                    <p>@Localizer.Get("Profile_ResendEmailVerification") <a href="@Url.RouteUrl("ResendEmailVerification")">@Localizer.Get("Profile_ResendEmailVerification_Link")</a></p>
                 </div>
             </div> 
         }
