@@ -390,10 +390,8 @@
                             $('#resendVerification').click(function(e) {
                                 var origElement = $(this);
                                 var url = $(this).attr('href');
-                                $.get(url, {
-                                    success: function(data) {
-                                        origElement.parent('div').html('<p>'+Classy.Strings.VerificationEmailSent+'</p>');
-                                    }
+                                $.get(url, null, function(data) {
+                                    origElement.parent('div').html('<p>'+Classy.Strings.VerificationEmailSent+'</p>');
                                 });
                                 e.preventDefault();
                             });
