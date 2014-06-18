@@ -31,12 +31,8 @@
     }
 }
 
-@section ActionBar {
-    @if (Model.Listing.CanEdit())
-    {
-    }
-}
-
+@if (!string.IsNullOrEmpty(pollCollageUrl))
+{
     <img src="@pollCollageUrl" class="hidden"/>
 }
 <div class="row photo-details poll-details">
