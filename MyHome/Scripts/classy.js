@@ -131,3 +131,16 @@ String.prototype.toSlug = function() {
         .replaceAll(' ', '-')
         .replaceAll('--', '-');
 };
+
+Classy.ReportEvent = function(category, action, label, value) {
+    try {
+        ga('send', 'event', category, action, label, value);
+    } catch (e) {
+    }
+};
+Classy.ReportSocialEvent = function(network, action, target) {
+    try {
+        ga('send', 'social', network, action, target);
+    } catch (e) {
+    }
+};

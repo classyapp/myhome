@@ -14,7 +14,7 @@
                 <div class="professional-photos">
                     @foreach (var listing in profileListings)
                     {
-                        <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new{ listingId = listing.Id })">
+                        <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new{ listingId = listing.Id })?ref=poll">
                             @Html.Thumbnail(listing, 100, 100)
                         </a>
                     }
