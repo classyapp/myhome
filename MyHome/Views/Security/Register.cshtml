@@ -24,12 +24,17 @@
             @using (var f = Html.Bootstrap().Begin(new Form("Register").Type(FormType._NotSet).FormMethod(FormMethod.Post).Id("mainForm")))
             {
                 @Html.HiddenFor(x => x.ReferrerUrl)
+                @Html.HiddenFor(x => x.ForceProRegistration)
                 @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Username).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().PasswordFor(x => x.Password).ShowValidationMessage(false).Label().ShowRequiredStar(false)
 
-                if (string.IsNullOrEmpty(Model.ReferrerUrl) || !Model.ReferrerUrl.Contains("claim")) {
+                if (!Model.ForceProRegistration) {
                     @Html.Bootstrap().CheckBoxFor(x => x.IsProfessional).IsChecked(false).Label().ShowRequiredStar(false)
+                }
+                else
+                {
+                    @Html.HiddenFor(x => x.IsProfessional)
                 }
 
                 <p>

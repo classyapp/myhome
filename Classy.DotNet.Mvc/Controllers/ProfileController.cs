@@ -419,18 +419,20 @@ namespace Classy.DotNet.Mvc.Controllers
                 throw new InvalidOperationException("Invalid number of images");
         }
 
-        [AuthorizeWithRedirect]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult AskForReview()
         {
             try
             {
                 AskForReviewModel model = new AskForReviewModel();
-                model.ProfileId = AuthenticatedUserProfile.Id;
-                var service = new ProfileService();
-                var contacts = service.GetGoogleContacts();
-                model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
-                model.GoogleContacts = contacts;
+                if (Request.IsAuthenticated)
+                {
+                    model.ProfileId = AuthenticatedUserProfile.Id;
+                    var service = new ProfileService();
+                    var contacts = service.GetGoogleContacts();
+                    model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
+                    model.GoogleContacts = contacts;
+                }
                 return View(model);
             }
             catch (ClassyException cex)
@@ -695,7 +697,7 @@ namespace Classy.DotNet.Mvc.Controllers
         // GET: /profile/me/gopro
         [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult CreateProfessionalProfile()
+        public ActionResult CreateProfessionalProfile(string referrerUrl)
         {
             try
             {

@@ -470,6 +470,7 @@
     <Content Include="Deployment\Resources\verify-email.resm" />
     <Content Include="Deployment\Resources\proxy-profile.resm" />
     <Content Include="Deployment\Resources\signup-banner.resm" />
+    <Content Include="Deployment\Resources\ask-reviews-login.resm" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\googleplus.png" />
     <Content Include="img\home-banner.jpg" />
