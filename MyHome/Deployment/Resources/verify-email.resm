@@ -34,6 +34,13 @@
 			"Values": {
 				"en": "Re-send Verification Link"
 				}
+			},
+			{ 
+			"Key": "Profile_VerifyEmail_ResendSuccess",
+			"Description": "message confirming verification email was re-sent",
+			"Values": {
+				"en": "Done. Please check your inbox for our welcome email (sent from team@homelab.com)"
+				}
 			}
 	]
 }

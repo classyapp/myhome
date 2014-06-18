@@ -363,7 +363,8 @@
                             AgreeToCookiePolicyCookieName : "classy.env.cpagree"
                         };
                         Classy.Strings = {
-                            NearMe: "@Localizer.Get("Location_NearMe").Replace("\"", "\\\"")"
+                            NearMe: "@Localizer.Get("Location_NearMe").Replace("\"", "\\\"")",
+                            VerificationEmailSent: "@Localizer.Get("Profile_VerifyEmail_ResendSuccess")"
                         };
 
                         $(function () {
@@ -387,8 +388,13 @@
                             if ($('.signup-banner').length > 0) $('.content').css('padding-top', '60px');
 
                             $('#resendVerification').click(function(e) {
+                                var origElement = $(this);
                                 var url = $(this).attr('href');
-                                $.get(url);
+                                $.get(url, {
+                                    success: function(data) {
+                                        origElement.parent('div').html('<p>'+Classy.Strings.VerificationEmailSent+'</p>');
+                                    }
+                                });
                                 e.preventDefault();
                             });
                         });
