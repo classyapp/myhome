@@ -1,7 +1,8 @@
 @model Classy.DotNet.Mvc.ViewModels.Profiles.CreateProfessionalProfileViewModel<MyHome.Models.ProfessionalMetadata>
 
 @{
-    ViewBag.Title = Localizer.Get("CreateProfessionalProfile_PageTitle"); 
+    ViewBag.Title = Localizer.Get("CreateProfessionalProfile_PageTitle");
+    ViewBag.DisableVerifyEmailBanner = true;
 }
 
 <div class="row">
@@ -35,6 +36,7 @@
             @f.FormGroup().TextBoxFor(x => x.PostalCode)
             @f.FormGroup().TextBoxFor(x => x.Phone)
             @f.FormGroup().TextBoxFor(x => x.Email)
+            @Html.HiddenFor(x => x.ReferrerUrl)
 
             <br />
             <br />
