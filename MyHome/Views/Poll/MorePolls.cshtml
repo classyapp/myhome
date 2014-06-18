@@ -12,12 +12,12 @@
         {
             var url = "//" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?ImageKeys=" + poll.ImageKeys + "&format=json";
             <div class="poll-preview">
-                <a href="@Url.RouteUrlForCurrentLocale("PollDetails", new { listingId = poll.Id })?ref-poll">
+                <a href="@Url.RouteUrlForCurrentLocale("PollDetails", new { listingId = poll.Id })?ref=poll">
                     <img src="@url" />
                 </a>
                 
                 <div class="poll-details">
-                    <a href="@Url.RouteUrlForCurrentLocale("PollDetails", new { listingId = poll.Id })">
+                    <a href="@Url.RouteUrlForCurrentLocale("PollDetails", new { listingId = poll.Id })?ref=poll">
                         <div class="title">@poll.Title</div>
                     </a>
                     <div class="creator">@poll.PollCreator</div>
