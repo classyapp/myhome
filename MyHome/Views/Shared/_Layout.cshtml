@@ -11,6 +11,8 @@
     var rooms = Localizer.GetList("rooms");
     System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("Android|webOS|iPhone|iPad|iPod|BlackBerry", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
     bool isMobile = regex.IsMatch(Request.UserAgent);
+
+    var disableSignupBanner = ViewBag.DisableSignupBanner != null && ViewBag.DisableSignupBanner;
 }
 
 <!DOCTYPE html>
@@ -197,7 +199,8 @@
                                 <h4>@Localizer.Get("Profile_VerifyEmail_Title")</h4>
                                 <h5>@Localizer.Get("Profile_VerifyEmailAddress")</h5>
                                 <div>
-                                    <a id="resendVerification" href="@Url.RouteUrl("ResendEmailverification")" class="btn btn-success">@Localizer.Get("Profile_VerifyEmail_Resend")</a></div>
+                                    <a id="resendVerification" href="@Url.RouteUrl("ResendEmailverification")" class="btn btn-success">@Localizer.Get("Profile_VerifyEmail_Resend")</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,7 +208,7 @@
             </div>
         }
 
-        @if (!User.Identity.IsAuthenticated && ViewBag.NoSignupBanner == null)
+        @if (!User.Identity.IsAuthenticated && !disableSignupBanner)
         {
     <div class="postnav-banner">
         <div class="container">
@@ -219,7 +222,7 @@
                         <h5>@Localizer.Get("Layout_SignupBanner_SubTitle")</h5>
                         <div>
                             <a class="btn btn-success" href="@(Url.RouteUrlForCurrentLocale("Register"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_ButtonText")</a>
-                            <a class="btn btn-default" href="@(Url.RouteUrlForCurrentLocale("CreateProfessionalProfile"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_GoproLink")</a>
+                            @*<a class="btn btn-default" href="@(Url.RouteUrlForCurrentLocale("CreateProfessionalProfile"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_GoproLink")</a>*@
                         </div>
                     </div>
                 </div>
