@@ -15,13 +15,21 @@ profilePage.directive('classyScrollable', function (ClassyUtilities) {
             var currentOffset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
             var maxOffset = ev.currentTarget.scrollWidth - ClassyUtilities.Screen.GetWidth();
             if (currentOffset >= 0) {
-                elem.css('transition', '-webkit-transform 0.5s ease');
-                elem.css('-webkit-transform', 'translate3d(0,0,0)');
-                elem.css('transition', 'none');
+                requestAnimationFrame(function () {
+                    elem.css('transition', '-webkit-transform 0.4s ease');
+                    elem.css('-webkit-transform', 'translate3d(0,0,0)');
+                    elem.one('webkitTransitionEnd', function() {
+                        elem.css('transition', 'none');
+                    });
+                });
             } else if (Math.abs(currentOffset) >= maxOffset) {
-                elem.css('transition', '-webkit-transform 0.5s ease');
-                elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
-                elem.css('transition', 'none');
+                requestAnimationFrame(function() {
+                    elem.css('transition', '-webkit-transform 0.4s ease');
+                    elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
+                    elem.one('webkitTransitionEnd', function() {
+                        elem.css('transition', 'none');
+                    });
+                });
             }
             return;
         }
@@ -116,7 +124,10 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             });
             $scope.Projects = projects;
             
-            $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
+            if (data.Avatar)
+                $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
+            else
+                $scope.Avatar = utilities.Images.Thumbnail(appSettings, '', 80, 80);
             $scope.Location = getProfileLocation(data);
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);
             $scope.BusinessDescription = data.Metadata.BusinessDescription;
