@@ -186,30 +186,18 @@
 
         @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified)
         {
-            <div class="verify-email">
-                <div class="alert alert-danger">
-                    @Localizer.Get("Profile_VerifyEmailAddress")
-                    <p>@Localizer.Get("Profile_ResendEmailVerification") <a id="resendVerification" href="@Url.RouteUrl("ResendEmailVerification")">@Localizer.Get("Profile_ResendEmailVerification_Link")</a></p>
-                </div>
-            </div> 
-        }
-        
-        @if (!User.Identity.IsAuthenticated && ViewBag.NoSignupBanner == null)
-        {
-            <div class="signup-banner">
+            <div class="postnav-banner">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
                             <div class="pull-left">
-                                <i class="icon fa fa-heart"></i>
+                                <i class="icon fa fa-envelope-o"></i>
                             </div>
                             <div class="pull-left">
-                                <h4>@Localizer.Get("Layout_SignupBanner_Title")</h4>
-                                <h5>@Localizer.Get("Layout_SignupBanner_SubTitle")</h5>
-                            </div>
-                            <div class="pull-right text-center">
-                                <a class="btn btn-success" href="@(Url.RouteUrlForCurrentLocale("Register"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_ButtonText")</a>
-                                @*<a class="gopro" href="@(Url.RouteUrlForCurrentLocale("CreateProfessionalProfile"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_GoproLink")</a>*@
+                                <h4>@Localizer.Get("Profile_VerifyEmail_Title")</h4>
+                                <h5>@Localizer.Get("Profile_VerifyEmailAddress")</h5>
+                                <div>
+                                    <a id="resendVerification" href="@Url.RouteUrl("ResendEmailverification")" class="btn btn-success">@Localizer.Get("Profile_VerifyEmail_Resend")</a></div>
                             </div>
                         </div>
                     </div>
@@ -217,6 +205,29 @@
             </div>
         }
 
+        @if (!User.Identity.IsAuthenticated && ViewBag.NoSignupBanner == null)
+        {
+    <div class="postnav-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="pull-left">
+                        <i class="icon fa fa-heart-o"></i>
+                    </div>
+                    <div class="pull-left">
+                        <h4>@Localizer.Get("Layout_SignupBanner_Title")</h4>
+                        <h5>@Localizer.Get("Layout_SignupBanner_SubTitle")</h5>
+                        <div>
+                            <a class="btn btn-success" href="@(Url.RouteUrlForCurrentLocale("Register"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_ButtonText")</a>
+                            <a class="btn btn-default" href="@(Url.RouteUrlForCurrentLocale("CreateProfessionalProfile"))?ref=signup-banner-top">@Localizer.Get("Layout_SignupBanner_GoproLink")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+        
         <div class="action-bar bg-primary">
             <div class="container">
                 <div class="row">
@@ -224,19 +235,15 @@
                 </div>
             </div>
         </div>
-
         <div class="pre-content">
             @RenderSection("PreContent", false)
         </div>
-
         <div class="content container">
             @RenderBody()
         </div> <!-- /container -->
-
         <div class="pre-footer">
             @RenderSection("PreFooter", false)
         </div>
-
         <div class="footer text-center">
             <p>&copy; <a href="https://www.homelab.com">@Html.Raw(Localizer.Get("Footer_Copyright"))</a> @DateTime.Now.Year</p>
             <p>
@@ -246,184 +253,174 @@
                 <a href="/en">English</a> | <a href="/fr">Français</a> | <a href="/nl">Nederlands</a> | <a href="/he">עברית</a>
             </p>
         </div>
-
         @if (new[] { "fr", "en", "nl" }.Contains(env.Culture))
         {
-            <div id ="cookie-policy" class="hidden">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
-                    </div>
-                    <div class="col-md-2">
-                        <span id="close-cookie-policy">@Localizer.Get("Header_Cookie_Agree") <b>x</b></span>
-                    </div>
-                </div>
-            </div>
+                        <div id="cookie-policy" class="hidden">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    @Html.Raw(Localizer.Get("Header_Cookie_Policy"))
+                                </div>
+                                <div class="col-md-2">
+                                    <span id="close-cookie-policy">@Localizer.Get("Header_Cookie_Agree") <b>x</b></span>
+                                </div>
+                            </div>
+                        </div>
         }
+                    <!-- fb api -->
+                    <div id="fb-root"></div>
+                    <script>
+                        // Additional JS functions here
+                        window.fbAsyncInit = function () {
+                            FB.init({
+                                appId: '@System.Configuration.ConfigurationManager.AppSettings["Facebook:AppId"]',
+                                channelUrl: document.location.origin + '/channel.html',
+                                status: true, // check login status
+                                cookie: true, // enable cookies to allow the server to access the session
+                                xfbml: true  // parse XFBML
+                            });
+                        };
 
-        <!-- fb api -->
-        <div id="fb-root"></div>
-        <script>
-            // Additional JS functions here
-            window.fbAsyncInit = function () {
-                FB.init({
-                    appId: '@System.Configuration.ConfigurationManager.AppSettings["Facebook:AppId"]',
-                    channelUrl: document.location.origin + '/channel.html',
-                    status: true, // check login status
-                    cookie: true, // enable cookies to allow the server to access the session
-                    xfbml: true  // parse XFBML
-                });
-            };
+                        // Load the SDK asynchronously
+                        (function (d) {
+                            var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+                            if (d.getElementById(id)) { return; }
+                            js = d.createElement('script'); js.id = id; js.async = true;
+                            js.src = "//connect.facebook.net/en_US/all.js";
+                            ref.parentNode.insertBefore(js, ref);
+                        }(document));
 
-            // Load the SDK asynchronously
-            (function (d) {
-                var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-                if (d.getElementById(id)) { return; }
-                js = d.createElement('script'); js.id = id; js.async = true;
-                js.src = "//connect.facebook.net/en_US/all.js";
-                ref.parentNode.insertBefore(js, ref);
-            }(document));
-
-            var searchSuggestionsRoomsHeader = '@Localizer.Get("HeaderSearch_RoomsSuggestionsHeader")';
-            var searchSuggestionsStylesHeader = '@Localizer.Get("HeaderSearch_StylesSuggestionsHeader")';
-            var searchSuggestionsProfilesHeader = '@Localizer.Get("HeaderSearch_ProfilesSuggestionsHeader")';
-            var searchSuggestionsOtherHeader = '@Localizer.Get("HeaderSearch_OtherSuggestionsHeader")';
-        </script>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-
-        @Scripts.Render("~/scripts/classy.js")
-        @Scripts.Render("~/scripts/classy-images.js")
-        @Scripts.Render("~/scripts/fb-login.js")
-        @Scripts.Render("~/scripts/google-login.js")
-        @Scripts.Render("~/scripts/trigger-action.js")
-        @Scripts.Render("~/Scripts/typeahead.min.js")
-        @Scripts.Render("~/Scripts/bloodhound.min.js")
-        @Scripts.Render("~/scripts/editor-tools.js")
-
-        <!-- login modal -->
-        <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- will be replaced -->
-                </div>
-            </div>
-        </div>
-
-        <!-- add to collection modal -->
-        <div class="modal fade" id="collect-modal" data-remote="@Url.RouteUrl("AddListingToCollection", new { })" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content" id="collect-modal-replace">
-                    <!-- will be replaced -->
-                </div>
-            </div>
-        </div>
-
-        <!-- language selection modal -->
-        <div class="modal fade" id="env-modal" data-remote="@Url.RouteUrl("EnvironmentSettings", new { })" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- will be replaced -->
-                </div>
-            </div>
-        </div>
-
-        <!-- photo edit mpdal -->
-        <div class="modal fade" id="photo-modal" data-remote="" data-url="@Url.RouteUrl("EditPhoto", new { listingId = "ID" })" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content" id="edit-modal-replace">
-                    <!-- will be replaced -->
-                </div>
-            </div>
-        </div>
-
-        @if (User.Identity.IsAuthenticated)
+                        var searchSuggestionsRoomsHeader = '@Localizer.Get("HeaderSearch_RoomsSuggestionsHeader")';
+                        var searchSuggestionsStylesHeader = '@Localizer.Get("HeaderSearch_StylesSuggestionsHeader")';
+                        var searchSuggestionsProfilesHeader = '@Localizer.Get("HeaderSearch_ProfilesSuggestionsHeader")';
+                        var searchSuggestionsOtherHeader = '@Localizer.Get("HeaderSearch_OtherSuggestionsHeader")';
+                    </script>
+                    @Scripts.Render("~/bundles/jquery")
+                    @Scripts.Render("~/bundles/bootstrap")
+                    @Scripts.Render("~/scripts/classy.js")
+                    @Scripts.Render("~/scripts/classy-images.js")
+                    @Scripts.Render("~/scripts/fb-login.js")
+                    @Scripts.Render("~/scripts/google-login.js")
+                    @Scripts.Render("~/scripts/trigger-action.js")
+                    @Scripts.Render("~/Scripts/typeahead.min.js")
+                    @Scripts.Render("~/Scripts/bloodhound.min.js")
+                    @Scripts.Render("~/scripts/editor-tools.js")
+                    <!-- login modal -->
+                    <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- will be replaced -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- add to collection modal -->
+                    <div class="modal fade" id="collect-modal" data-remote="@Url.RouteUrl("AddListingToCollection", new { })" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="collect-modal-replace">
+                                <!-- will be replaced -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- language selection modal -->
+                    <div class="modal fade" id="env-modal" data-remote="@Url.RouteUrl("EnvironmentSettings", new { })" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- will be replaced -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- photo edit mpdal -->
+                    <div class="modal fade" id="photo-modal" data-remote="" data-url="@Url.RouteUrl("EditPhoto", new { listingId = "ID" })" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content" id="edit-modal-replace">
+                                <!-- will be replaced -->
+                            </div>
+                        </div>
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
         {
             <!-- send email modal -->
-            <div class="modal fade" id="send-email-modal" data-remote="@Url.RouteUrl("SendEmail", new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id })" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content" id="send-email-modal-replace">
-                        <!-- will be replaced -->
-                    </div>
-                </div>
-            </div>
+                        <div class="modal fade" id="send-email-modal" data-remote="@Url.RouteUrl("SendEmail", new { profileId = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.Id })" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content" id="send-email-modal-replace">
+                                    <!-- will be replaced -->
+                                </div>
+                            </div>
+                        </div>
         }
-        <script>
-            Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
-            Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
-            Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string)";
+                    <script>
+                        Classy.IsAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+                        Classy.CurrentPage = "@Url.RouteUrlForLocale(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string, env.Culture)";
+                        Classy.CurrentPageNoLocale = "@Url.RouteUrl(ViewContext.RouteData.DataTokens["OriginalRouteName"] as string)";
 
-            Classy.Env = { 
-                GPSCookieName : "@Classy.DotNet.Responses.AppView.GPSLocationCookieName",
-                GPSOriginCookieName : "@Classy.DotNet.Responses.AppView.GPSOriginCookieName",
-                CountryCookieName : "@Classy.DotNet.Responses.AppView.CountryCookieName",
-                CultureCookieName : "@Classy.DotNet.Responses.AppView.CultureCookieName",
-                AgreeToCookiePolicyCookieName : "classy.env.cpagree"
-            };
-            Classy.Strings = {
-                NearMe: "@Localizer.Get("Location_NearMe").Replace("\"", "\\\"")"
-            };
+                        Classy.Env = {
+                            GPSCookieName : "@Classy.DotNet.Responses.AppView.GPSLocationCookieName",
+                            GPSOriginCookieName : "@Classy.DotNet.Responses.AppView.GPSOriginCookieName",
+                            CountryCookieName : "@Classy.DotNet.Responses.AppView.CountryCookieName",
+                            CultureCookieName : "@Classy.DotNet.Responses.AppView.CultureCookieName",
+                            AgreeToCookiePolicyCookieName : "classy.env.cpagree"
+                        };
+                        Classy.Strings = {
+                            NearMe: "@Localizer.Get("Location_NearMe").Replace("\"", "\\\"")"
+                        };
 
-            $(function () {
-                $('.modal[data-remote]')
-                    .on('shown.bs.modal', function() {
-                        Classy.AjaxReconnect();
-                    })
-                    .on('hidden.bs.modal', function() {
-                        $(this).removeData('bs.modal');
-                        $(this).find('.modal-body').html("");
-                    });
+                        $(function () {
+                            $('.modal[data-remote]')
+                                .on('shown.bs.modal', function() {
+                                    Classy.AjaxReconnect();
+                                })
+                                .on('hidden.bs.modal', function() {
+                                    $(this).removeData('bs.modal');
+                                    $(this).find('.modal-body').html("");
+                                });
 
-                if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) {
-                    $('#cookie-policy').removeClass('hidden');                
-                }
-                $('#close-cookie-policy').click(function() {
-                    Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
-                    $('#cookie-policy').addClass('hidden');
-                });
+                            if (Classy.GetCookie(Classy.Env.AgreeToCookiePolicyCookieName) == undefined) {
+                                $('#cookie-policy').removeClass('hidden');
+                            }
+                            $('#close-cookie-policy').click(function() {
+                                Classy.SetCookie(Classy.Env.AgreeToCookiePolicyCookieName, "1", 1);
+                                $('#cookie-policy').addClass('hidden');
+                            });
 
-                if ($('.signup-banner').length > 0) $('.content').css('padding-top', '60px');
+                            if ($('.signup-banner').length > 0) $('.content').css('padding-top', '60px');
 
-                $('#resendVerification').click(function(e) { 
-                    var url = $(this).attr('href');
-                    $.get(url);
-                    e.preventDefault();
-                });
-            });
+                            $('#resendVerification').click(function(e) {
+                                var url = $(this).attr('href');
+                                $.get(url);
+                                e.preventDefault();
+                            });
+                        });
 
-            function CloseModal(data) { 
-                if (data.IsValid) {
-                    $('.modal').modal('hide');
-                    displayMessage(data);
-                    return true;
-                }
-            };
+                        function CloseModal(data) {
+                            if (data.IsValid) {
+                                $('.modal').modal('hide');
+                                displayMessage(data);
+                                return true;
+                            }
+                        };
 
-            function displayMessage(data){
-                if (data && $(".ajax-alert").length == 1){
-                    if (data.IsValid && data.SuccessMessage){
-                        $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
-                    } else if (data.ErrorMessage) {
-                        $(".ajax-alert").html("<div class=\"alert alert-danger alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.ErrorMessage + "</p></div>");
-                    }
-                }
-            };
+                        function displayMessage(data){
+                            if (data && $(".ajax-alert").length == 1){
+                                if (data.IsValid && data.SuccessMessage){
+                                    $(".ajax-alert").html("<div class=\"alert alert-success alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.SuccessMessage + "</p></div>");
+                                } else if (data.ErrorMessage) {
+                                    $(".ajax-alert").html("<div class=\"alert alert-danger alert-dismissable\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button><p>" + data.ErrorMessage + "</p></div>");
+                                }
+                            }
+                        };
 
-            function attachValidation(frm) {
-                jQuery.validator.unobtrusive.parse(frm);
-                $(frm).bind("invalid-form.validate", function (form) {
-                    $('.bmvc-3-validation-summary').addClass('alert alert-danger').find('.close').show();
-                });
-            };
+                        function attachValidation(frm) {
+                            jQuery.validator.unobtrusive.parse(frm);
+                            $(frm).bind("invalid-form.validate", function (form) {
+                                $('.bmvc-3-validation-summary').addClass('alert alert-danger').find('.close').show();
+                            });
+                        };
 
-            Classy.AcquireGPSCoordinates();
-        </script>
-
-        <script type="text/javascript">
-            Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> { 
-                                     { "Confirm_Ok", Localizer.Get("Ok") },  
-                                     { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") }, 
+                        Classy.AcquireGPSCoordinates();
+                    </script>
+                    <script type="text/javascript">
+                        Classy.Messages = @( Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string> {
+                                     { "Confirm_Ok", Localizer.Get("Ok") },
+                                     { "Confirm_Yes", Localizer.Get("Yes") }, { "Confirm_Cancel", Localizer.Get("Cancel") },
                                      { "Confirm_Discard", Localizer.Get("Discard") }, { "Confirm_Save" , Localizer.Get("Save") },
                                      { "DeleteCollection_ConfirmTitle", Localizer.Get("DeleteCollection_ConfirmTitle")},
                                      { "DeleteCollection_ConfirmText", Localizer.Get("DeleteCollection_ConfirmText")},
@@ -443,20 +440,18 @@
                                      { "PollDetails_ChangeVotePopupContent", Localizer.Get("PollDetails_ChangeVotePopupContent") },
                                      { "PollDetails_MyVote", Localizer.Get("PollDetails_MyVote") }
                                  })));
-        </script>
+                    </script>
+                    <script>
+                        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-            ga('create', 'UA-49619980-1', 'homelab.com');
-            ga('send', 'pageview');
-        </script>
-        @Scripts.Render("~/Scripts/url-builder.js")
-        @Scripts.Render("~/Scripts/header-search.js")
-
-        @RenderSection("scripts", required: false)
-    </body>
+                        ga('create', 'UA-49619980-1', 'homelab.com');
+                        ga('send', 'pageview');
+                    </script>
+                    @Scripts.Render("~/Scripts/url-builder.js")
+                    @Scripts.Render("~/Scripts/header-search.js")
+                    @RenderSection("scripts", required: false)
+</body>
 </html>

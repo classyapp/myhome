@@ -68,7 +68,7 @@ a, a:visited
     background-color: #ddd;
 }
 
-.signup-banner {
+.postnav-banner {
     background-color: rgba(255, 255, 255, 0.9);
     margin-top: -27px;
     position: fixed;
@@ -78,26 +78,26 @@ a, a:visited
     border-bottom: dotted 1px #333;
 }
 
-.signup-banner .row {
-    padding-top: 10px;
+.postnav-banner .row {
+    padding: 40px;
 }
 
-.signup-banner .icon {
+.postnav-banner .icon {
     font-size: 36px;
     color: #f55555;
     margin-right: 10px;
 }
 
-.signup-banner h4 {
+.postnav-banner h4 {
     color: #f55555;
     margin: 0;
 }
 
-.signup-banner h5 {
+.postnav-banner h5 {
     margin: 0 0 20px 0;
 }
 
-.signup-banner a.gopro {
+.postnav-banner a.gopro {
     display: block;
     font-size: 12px;
 }
