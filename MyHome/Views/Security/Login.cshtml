@@ -34,7 +34,7 @@
 
             <p class="loginlink">
                 @Localizer.Get("Login_NoAccount")
-                <a href="/register">@Localizer.Get("Login_CreateAccount")</a>
+                <a href="@Url.RouteUrlForCurrentLocale("Register")>@Localizer.Get("Login_CreateAccount")</a>
             </p>
             <p>
                 <a href="@Url.RouteUrl("ForgotPassword")">@Localizer.Get("Login_ForgotPassword")</a>

@@ -13,6 +13,7 @@
     bool isMobile = regex.IsMatch(Request.UserAgent);
 
     var disableSignupBanner = ViewBag.DisableSignupBanner != null && ViewBag.DisableSignupBanner;
+    var disableVerifyEmailBanner = ViewBag.DisableVerifyEmailBanner != null && ViewBag.DisableVerifyEmailBanner;
 }
 
 <!DOCTYPE html>
@@ -186,9 +187,9 @@
             </div>
         </nav>
 
-        @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified)
+        @if (User.Identity.IsAuthenticated && !(User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.IsEmailVerified && !disableVerifyEmailBanner)
         {
-            <div class="postnav-banner">
+            <div class="postnav-banner hidden">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
@@ -200,6 +201,7 @@
                                 <h5>@Localizer.Get("Profile_VerifyEmailAddress")</h5>
                                 <div>
                                     <a id="resendVerification" href="@Url.RouteUrl("ResendEmailverification")" class="btn btn-success">@Localizer.Get("Profile_VerifyEmail_Resend")</a>
+                                    <a href="#" class="btn btn-default">@Localizer.Get("Profile_VerifyEmail_Dismiss")</a>
                                 </div>
                             </div>
                         </div>
@@ -309,6 +311,14 @@
                     @Scripts.Render("~/scripts/editor-tools.js")
                     <!-- login modal -->
                     <div class="modal fade" id="login-modal" data-remote="@Url.RouteUrl("Login")" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- will be replaced -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- login modal where create account link forces pro registration -->
+                    <div class="modal fade" id="login-modal-pro" data-remote="@Url.RouteUrl("Login", new { ForceProRegistration = true })" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <!-- will be replaced -->
