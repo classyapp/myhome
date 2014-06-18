@@ -76,6 +76,12 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 url: "register/more",
                 defaults: new { controller = "Security", action = "CompleteRegistration" },
                 namespaces: new string[] { Namespace });
+
+            routes.MapRouteWithName(
+                name: "ResendEmailVerification",
+                url: "profile/verifyemail/send",
+                defaults: new { controller = "Security", action = "ResendEmailVerification" },
+                namespaces: new string[] { Namespace });
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -300,6 +306,17 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             {
                 throw;
             }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ResendEmailVerification()
+        {
+            var profile = (User.Identity as ClassyIdentity).Profile;
+            if (OnProfileRegistered != null)
+                OnProfileRegistered(this, profile);
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }
 }
