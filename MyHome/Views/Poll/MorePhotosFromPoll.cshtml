@@ -1,0 +1,24 @@
+﻿@model List<Classy.DotNet.Responses.ListingView>
+
+<div class="panel panel-default">
+        @{
+            Model.Select(x => x.Profile).Distinct();
+        }
+        @foreach (var profileId in Model.Select(x => x.ProfileId).Distinct())
+        {
+            var profileListings = Model.Where(x => x.ProfileId == profileId).ToList();
+            <div class="panel-heading">
+                <h4 class="panel-title">@string.Format(Localizer.Get("PollDetails_MorePhotosFromPoll"), profileListings.First().Profile.UserName)</h4>
+            </div>
+            <div class="panel-body">
+                <div class="professional-photos">
+                    @foreach (var listing in profileListings)
+                    {
+                        <a href="@Url.RouteUrlForCurrentLocale("PhotoDetails", new{ listingId = listing.Id })">
+                            @Html.Thumbnail(listing, 100, 100)
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+</div>

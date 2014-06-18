@@ -103,9 +103,9 @@ String.prototype.decodeHTML = function () {
 
 Classy.UnveilImages = function () {
     $('img[data-rel="thumbnail"]').unveil(200, function () {
-        $(this).load(function () {
+        $(this).load(function() {
             this.style.opacity = 1;
-        })
+        });
     }).error(function () { $(this).attr("src", "/img/missing-thumb.png") });
 };
 

@@ -482,6 +482,7 @@
     <Content Include="Mobile\slideshow.html" />
     <Content Include="Mobile\profile-page.html" />
     <Content Include="Mobile\App.html" />
+    <Compile Include="Models\Polls\MorePollsModel.cs" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\bootbox.js" />
@@ -640,6 +641,8 @@
     <Content Include="Scripts\mobile\angular\angular-route.min.js.map" />
     <Content Include="Scripts\mobile\angular\angular-animate.min.js.map" />
     <Content Include="Scripts\mobile\angular\angular-touch.min.js.map" />
+    <Content Include="Views\Poll\MorePolls.cshtml" />
+    <Content Include="Views\Poll\MorePhotosFromPoll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />
