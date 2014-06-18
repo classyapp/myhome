@@ -972,6 +972,8 @@ require.register("dropzone/lib/dropzone.js", function (exports, module) {
 
     Dropzone.prototype.filesize = function(size) {
       var string;
+      
+      if (isNaN(parseInt(size))) { return "" };
       if (size >= 1024 * 1024 * 1024 * 1024 / 10) {
         size = size / (1024 * 1024 * 1024 * 1024 / 10);
         string = "TiB";

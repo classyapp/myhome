@@ -8,6 +8,7 @@ namespace Classy.DotNet.Responses
 {
     public class PurchaseOptionView
     {
+        public bool HasImages { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public Dictionary<string, string> VariantProperties { get; set; } // Key: Size, Color, Model, etc. Value: Smal, Medium, Large, etc.

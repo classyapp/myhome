@@ -192,6 +192,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
     <Content Include="img\ajax-loader.gif" />
+    <Content Include="img\blueprint.jpg" />
     <Content Include="img\email.png" />
     <Content Include="img\facebook.png" />
     <Content Include="img\fb.png" />
@@ -475,10 +476,13 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\photo.html" />
     <Content Include="Mobile\config.js" />
     <Content Include="Mobile\collection.html" />
+    <Content Include="Mobile\slideshow.html" />
     <Content Include="Mobile\profile-page.html" />
     <Content Include="Mobile\App.html" />
+    <Compile Include="Models\Polls\MorePollsModel.cs" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\bootbox.js" />
@@ -496,6 +500,7 @@
     <Content Include="Scripts\mobile\angular\angular-animate.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
+    <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
     <Content Include="Scripts\mobile\cache-provider.js" />
@@ -636,6 +641,8 @@
     <Content Include="Scripts\mobile\angular\angular-route.min.js.map" />
     <Content Include="Scripts\mobile\angular\angular-animate.min.js.map" />
     <Content Include="Scripts\mobile\angular\angular-touch.min.js.map" />
+    <Content Include="Views\Poll\MorePolls.cshtml" />
+    <Content Include="Views\Poll\MorePhotosFromPoll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

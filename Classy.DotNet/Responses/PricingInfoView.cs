@@ -14,7 +14,14 @@ namespace Classy.DotNet.Responses
 
         public string GetVariantOptionValues(string key)
         {
-            return String.Join(",", PurchaseOptions.Select(po => po.VariantProperties[key]).Distinct());
+            try
+            {
+                return String.Join(",", PurchaseOptions.Select(po => po.VariantProperties[key]).Distinct());
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public string MSRPRange(string currencySign)
@@ -55,6 +62,25 @@ namespace Classy.DotNet.Responses
             }
 
             return null;
+        }
+
+        public Dictionary<string, string[]> GetVariationOptions()
+        {
+            Dictionary<string, string[]> options = new Dictionary<string,string[]>();
+            if (PurchaseOptions != null)
+            {
+                string[] keys = new string[] { "Color", "Design", "Size" };
+                foreach (var key in keys)
+                {
+                    string[] values = PurchaseOptions.Select(p => p.VariantProperties.ContainsKey(key) ? p.VariantProperties[key] : null).Distinct().ToArray();
+                    if (values.Length > 0)
+                    {
+                        options.Add(key, values);
+                    }
+                }
+            }
+
+            return options;
         }
     }
 }

@@ -1,6 +1,44 @@
 
 var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
+profilePage.directive('classyScrollable', function (ClassyUtilities) {
+    var offset = 0;
+    function handleDrag(ev) {
+        if (ev.type == 'dragstart') {
+            var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+            offset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            return;
+        }
+        if (ev.type == 'release') {
+            var elem = $(ev.currentTarget);
+            var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+            var currentOffset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+            var maxOffset = ev.currentTarget.scrollWidth - ClassyUtilities.Screen.GetWidth();
+            if (currentOffset >= 0) {
+                elem.css('transition', '-webkit-transform 0.5s ease');
+                elem.css('-webkit-transform', 'translate3d(0,0,0)');
+                elem.css('transition', 'none');
+            } else if (Math.abs(currentOffset) >= maxOffset) {
+                elem.css('transition', '-webkit-transform 0.5s ease');
+                elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
+                elem.css('transition', 'none');
+            }
+            return;
+        }
+        
+        ev.gesture.preventDefault();
+        
+        var drag = ev.gesture.deltaX + offset;
+
+        $(ev.currentTarget).css('-webkit-transform', 'translate3d(' + drag + 'px, 0, 0)');
+    }
+
+    return function (scope, element) {
+        Hammer(element[0], { dragLockToAxis: true })
+            .on("dragstart release dragleft dragright swipeleft swiperight", handleDrag);
+    };
+});
+
 profilePage.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
     return $cacheFactory('HomeLab_Mobile_Cache');
@@ -14,10 +52,12 @@ profilePage.config(['$routeProvider', function($routeProvider) {
         }).when('/Collection/:collectionId', {
             templateUrl: 'collection.html',
             controller: 'CollectionController'
+        }).when('/Photo/:photoId', {
+            templateUrl: 'photo.html',
+            controller: 'PhotoController'
         });
 }]);
 
-//profilePage.value('appSettingsPromise', 'http://www.thisisclassy.com:8008'); // way to inject objects into module controllers
 profilePage.filter('unsafe', function ($sce) {
     return function (val) {
         return $sce.trustAsHtml(val);
@@ -25,9 +65,31 @@ profilePage.filter('unsafe', function ($sce) {
 });
 
 profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+
+    $scope.currentSlide = 0;
+    $scope.nextSlide = function() {
+        if ($scope.currentSlide == 1) return;
+        $('.cover-slider').find('.pane2').show();
+        $('.cover-slider').css('left', '0');
+        $('.cover-slider').css('left', '-' + $('.cover-slider').width() + 'px');
+        $scope.currentSlide++;
+    };
+    $scope.prevSlide = function() {
+        if ($scope.currentSlide == 0) return;
+        $('.cover-slider')
+            .css('left', '0')
+            .one('webkitTransitionEnd transitionend', function() {
+                $('.cover-slider').find('.pane2').css('display', 'none');
+            });
+        $scope.currentSlide--;
+    };
+
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;
+        var w = utilities.Screen.GetWidth();
+        var h = utilities.Screen.GetHeight();
+
         var profileId = parseInt($routeParams.profileId);
         
         $http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
@@ -36,20 +98,35 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
             // organize collections
             var collections = [];
             $scope.profileDetails.Collections.forEach(function(collection) {
-                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '')
-                    collections.push(utilities.Images.Thumbnails(appSettings, collection.CoverPhotos, collection.Id, 200, 200));
+                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'PhotoBook')
+                    collections.push({
+                        Id: collection.Id,
+                        ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
+                    });
             });
             $scope.Collections = collections;
+            // organize projects
+            var projects = [];
+            $scope.profileDetails.Collections.forEach(function(collection) {
+                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
+                    projects.push({
+                        Id: collection.Id,
+                        ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
+                    });
+            });
+            $scope.Projects = projects;
             
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);
             $scope.BusinessDescription = data.Metadata.BusinessDescription;
             if (data.CoverPhotos && data.CoverPhotos.length > 0) {
-                $scope.CoverPhotos = []
+                $scope.CoverPhotos = [];
                 data.CoverPhotos.forEach(function(imageKey) {
-                    $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, 600, 600));
+                    $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, w, h));
                 });
+            } else {
+                $scope.CoverPhotos = [ appSettings.Host + '/img/blueprint.jpg' ];
             }
 
             // reviews
@@ -74,6 +151,9 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
         Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) {
             $scope.Resources.ViewAllProjects = resource;
         });
+        Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function (resource) {
+            $scope.Resources.ViewAllCollections = resource;
+        });
         Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function(resource) {
             $scope.Resources.ViewAllReviews = resource;
         });
@@ -96,83 +176,81 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
                 ratings.push({ id: i, star: (rating > i ? true : false) });
             return ratings;
         }
-
     });
 });
 
-profilePage.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
-    $scope.direction = 'left';
-    $scope.currentIndex = 0;
+profilePage.controller('CollectionController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    AppSettings.then(function(appSettings) {
 
-    $scope.setCurrentListingIndex = function (index) {
-        $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
-        $scope.currentIndex = index;
-    };
+        $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeComments=true&includeCommenterProfiles=true&includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function (data) {
 
-    $scope.isCurrentListingIndex = function (index) {
-        return $scope.currentIndex === index;
-    };
+            $scope.Avatar = data.Profile.Avatar.Url;
+            $scope.CollectionName = data.Title;
+            $scope.ProfileName = data.Profile.UserName;
 
-    $scope.prevListing = function () {
-        $scope.direction = 'left';
-        $scope.currentIndex = ($scope.currentIndex < $scope.Listings.length - 1) ? ++$scope.currentIndex : 0;
-    };
+            $scope.ViewCount = data.ViewCount;
+            $scope.FavoriteCount = data.FavoriteCount;
+            $scope.CommentCount = data.CommentCount;
 
-    $scope.nextListing = function () {
-        $scope.direction = 'right';
-        $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.Listings.length - 1;
-    };
+            var w = ClassyUtilities.Screen.GetWidth();
+            var h = ClassyUtilities.Screen.GetHeight();
+            if (data.CoverPhotos && data.CoverPhotos.length > 0) {
+                $scope.CoverPhotos = [];
+                data.CoverPhotos.forEach(function (imageKey) {
+                    $scope.CoverPhotos.push(ClassyUtilities.Images.Thumbnail(appSettings, imageKey, w, h));
+                });
+            } else {
+                $scope.CoverPhotos = [appSettings.Host + '/img/blueprint.jpg'];
+            }
 
-    AppSettings.then(function (appSettings) {
+            var imageWidth = ClassyUtilities.Screen.GetWidth() - 80;
+            var listings = [];
+            data.Listings.forEach(function(listing) {
+                listings.push({
+                    Id: listing.Id,
+                    Title: listing.Title,
+                    ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, imageWidth)
+                });
+            });
+            $scope.Listings = listings;
 
-        $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeListings=true&increaseViewCounter=true', config).success(function (data) {
+            var comments = [];
+            data.Comments.forEach(function(comment) {
+                comments.push({
+                    Commenter: comment.Profile.UserName,
+                    CommenterId: comment.ProfileId,
+                    CommenterAvatarUrl: comment.Profile.Avatar.Url,
+                    Content: comment.Content
+                });
+            });
+            $scope.Comments = comments;
 
-            $scope.Listings = data.Listings;
-
-        }).error(function () {
+        }).error(function() {
             // TODO: display some error message
         });
 
         // get localized resources
         $scope.Resources = {};
-        //Localizer.Get('Mobile_ProfilePage_ViewAllProjects').then(function (resource) {
-        //    $scope.Resources.ViewAllProjects = resource;
-        //});
+        Localizer.Get('Mobile_CollectionPage_ViewAllComments').then(function (resource) {
+            $scope.Resources.ViewAllComments = resource;
+        });
 
     });
-}).animation('.slide-animation', function () {
-    return {
-        addClass: function (element, className, done) {
-            var scope = element.scope();
+});
 
-            if (className == 'ng-hide') {
-                var finishPoint = element.parent().width();
-                if (scope.direction !== 'right') {
-                    finishPoint = -finishPoint;
-                }
-                TweenMax.to(element, 0.5, { left: finishPoint, onComplete: done });
-            }
-            else {
-                done();
-            }
-        },
-        removeClass: function (element, className, done) {
-            var scope = element.scope();
+profilePage.controller('PhotoController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    AppSettings.then(function(appSettings) {
 
-            if (className == 'ng-hide') {
-                element.removeClass('ng-hide');
+        $http.get(appSettings.ApiUrl + '/listing/' + $routeParams.photoId, config).success(function(data) {
 
-                var startPoint = element.parent().width();
-                if (scope.direction === 'right') {
-                    startPoint = -startPoint;
-                }
+            $scope.ImageUrl = data.ExternalMedia[0].Url;
+            $scope.Title = data.Title;
 
-                TweenMax.set(element, { left: startPoint });
-                TweenMax.to(element, 0.5, { left: 0, onComplete: done });
-            }
-            else {
-                done();
-            }
-        }
-    };
+            // TODO: check if we can get this from metadata instead!
+            $scope.CopyrightMessage = data.CopyrightMessage;
+
+        }).error(function() {
+            // TODO: display some error message
+        });
+    });
 });

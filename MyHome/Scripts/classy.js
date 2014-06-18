@@ -103,9 +103,9 @@ String.prototype.decodeHTML = function () {
 
 Classy.UnveilImages = function () {
     $('img[data-rel="thumbnail"]').unveil(200, function () {
-        $(this).load(function () {
+        $(this).load(function() {
             this.style.opacity = 1;
-        })
+        });
     }).error(function () { $(this).attr("src", "/img/missing-thumb.png") });
 };
 
@@ -130,4 +130,17 @@ String.prototype.toSlug = function() {
         .replaceAll('  ', ' ')
         .replaceAll(' ', '-')
         .replaceAll('--', '-');
+};
+
+Classy.ReportEvent = function(category, action, label, value) {
+    try {
+        ga('send', 'event', category, action, label, value);
+    } catch (e) {
+    }
+};
+Classy.ReportSocialEvent = function(network, action, target) {
+    try {
+        ga('send', 'social', network, action, target);
+    } catch (e) {
+    }
 };

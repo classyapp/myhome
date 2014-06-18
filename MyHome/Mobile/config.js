@@ -1,6 +1,7 @@
 ﻿{
     "AppId": "v1.0",
-    "ApiUrl": "http://marketplaceapi.apphb.com",
-    "CdnUrl": "http://marketplaceapi.apphb.com",
+    "Host": "//myhome-3.apphb.com",
+    "ApiUrl": "//marketplaceapi.apphb.com",
+    "CdnUrl": "//marketplaceapi.apphb.com",
     "DefaultCulture": "en"
 }

@@ -1,38 +1,90 @@
-﻿body {
-    background-color: #f0f0f0;
-    font-size: 14px;
-    color: #333;
-}
-h1 {
-    color: #444;font-size: 24px;
-    margin: 10px 0;
-}
+﻿body { background-color: #f0f0f0; font-size: 14px; color: #333;overflow: hidden; }
+h1 { color: #444;font-size: 24px; margin: 0;font-weight: bold; }
 h3 { font-size: 16px;margin-top: 0; }
 
-.main-container { padding-top: 20px; }
 .glyphicon-star, .glyphicon-star-empty { color: green;}
+.panel { border-radius: 0;border-left: 0;border-right: 0; }
+.panel-body.horizontal-sliding-container { padding: 15px 0; }
+.panel-footer { background-color: #fff;font-size: 14px;font-weight: bold; }
+.panel-footer .glyphicon { color: #d7d7d7;margin-top: 2px; }
+
+.header-cover {
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    white-space: nowrap;
+    color: white;text-shadow: 0 1px 1px #000;
+}
+.header-cover .cover-slider {
+    position: relative;
+    -webkit-transition: left 1s;
+}
+.header-cover .pane {
+    display: inline-block;height: 200px; width: 100%;
+    vertical-align: top;padding: 20px;
+    white-space: normal;text-align: center;
+}
+.header-cover .pane2 { line-height: 160px;background-color: rgba(0, 0, 0, 0.5); }
+.header-cover .pane2 .description { vertical-align: middle;line-height: normal;white-space: normal;display: inline-block; }
+.header-cover .arrow { color: #eee;font-size: 30px;opacity: 0.4;position: absolute;cursor: pointer; }
+.header-cover .arrow:hover { opacity: 1; }
+.header-cover .arrow.right { right: 10px;top: 80px;}
+.header-cover .arrow.left { left: 10px;top: 80px;}
+
+
 
 /* Profile Page */
-.profile-header .avatar {
-    width: 80px;margin-bottom: 10px;
-}
-.collections-container {
+.profile-details h1 { color: #fff; }
+.profile-header .avatar { width: 80px;height: 80px; margin-bottom: 10px; border: solid 2px white;}
+.profile-header .rating { font-size: 18px;text-shadow: none; }
+.profile-header .dropshadow { background-color: rgba(0, 0, 0, 0.2); }
+
+.collection-header { height: 150px; }
+.collection-header .collection-details h1 { color: #fff;font-size: 42px;margin-bottom: 10px; }
+.collection-header .avatar { width: 40px;height: 40px; border: solid 2px white;margin-right: 10px;}
+.collection-header .profile-name { font-size: 20px;vertical-align: middle;}
+
+
+.horizontal-sliding-container {
     width: 100%;
-    overflow-x: scroll;overflow-y: hidden;
-    white-space: nowrap;
+    overflow: hidden; white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
+    margin: 0 15px;
 }
-.collections-container .collection {
-    width: 220px;
+.collections-container .collection, .listings-container .listing {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 16px;
     cursor: pointer;
 }
+.listings-container .listing .title {
+    text-align: center;
+    font-weight: bold;font-size: 18px;
+}
 
-.review-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
-.review-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
-.review-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
-.reviewer-details .name { font-size: 20px; }
-.review-content { margin-left: 78px;color: #777; }
+
+.stats-container { margin-bottom: 20px;background-color: #fff;border-bottom: solid 1px #ddd;height: 50px; }
+.stats-container .stat-container { width: 33.33%;padding: 8px;border-right: solid 1px #ddd;height: 50px; }
+.stats-container .stat-container.last { border-right: 0; }
+.stats-container .stat-container .value { font-weight: bold; }
+.stats-container .stat-container .description { color: #999;font-size: 10px; } 
+
+
+.review-container, .comment-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
+.review-container.last, .comment-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
+.review-metadata .avatar, .comment-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
+.reviewer-details .name, .commenter-details .name { font-size: 20px; }
+.review-content, .comment-content { margin-left: 78px;color: #777;position: relative; }
+.review-content .quote, .comment-content .quote { position: absolute; font-size: 40px; opacity: 0.3; }
+.review-content .quote.quote-right, .comment-content .quote.quote-right { right: 0;bottom: -24px; }
+.review-content .quote.quote-left, .comment-content .quote.quote-left { top: -24px;left: -24px; }
+
+
+
+.photo-container { background-color: #000; }
+.photo-container .photo { width: 100%; }
+
 
 
 
@@ -108,9 +160,8 @@ div.thumbs4 > div.thumb
 
 
 
-
 /* Collection page */
-.nonDraggableImage {
+/*.nonDraggableImage {
     -moz-user-drag: none;
     -webkit-user-drag: none;
 }
@@ -142,4 +193,5 @@ div.thumbs4 > div.thumb
 }
 .slider .arrow.prev {
     left: 0;
-}
+}*/
+

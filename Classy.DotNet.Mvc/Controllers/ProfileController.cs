@@ -964,7 +964,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, false);
 
                 return PartialView(listings);
             }
