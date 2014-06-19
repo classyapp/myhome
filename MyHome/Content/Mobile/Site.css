@@ -62,13 +62,13 @@ h3 { font-size: 16px;margin-top: 0; }
     overflow: hidden; white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     -webkit-transform: translate3d(0, 0, 0);
-    margin: 0 15px;
 }
 .collections-container .collection, .listings-container .listing {
     display: inline-block;
     margin-left: 15px;
     cursor: pointer;
 }
+.collections-container .collection, .listings-container .listing.last { margin-right: 15px; }
 .listings-container .listing .title {
     text-align: center;
     font-weight: bold;font-size: 18px;
