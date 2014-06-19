@@ -477,7 +477,7 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
-    <Content Include="Mobile\photo.html" />
+    <Content Include="Mobile\listing-fullscreen.html" />
     <Content Include="Mobile\config.js" />
     <Content Include="Mobile\collection.html" />
     <Content Include="Mobile\slideshow.html" />

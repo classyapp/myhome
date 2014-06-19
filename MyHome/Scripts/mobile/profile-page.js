@@ -57,7 +57,7 @@ profilePage.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'collection.html',
             controller: 'CollectionController'
         }).when('/Photo/:photoId', {
-            templateUrl: 'photo.html',
+            templateUrl: 'listing-fullscreen.html',
             controller: 'PhotoController'
         });
 }]);
@@ -249,6 +249,9 @@ profilePage.controller('PhotoController', function($scope, $http, AppSettings, C
 
             $scope.ImageUrl = data.ExternalMedia[0].Url;
             $scope.Title = data.Title;
+            $scope.Description = data.Description;
+
+            $scope.ScreenHeight = ClassyUtilities.Screen.GetHeight();
 
             // TODO: check if we can get this from metadata instead!
             $scope.CopyrightMessage = data.CopyrightMessage;
