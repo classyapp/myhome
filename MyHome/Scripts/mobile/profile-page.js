@@ -1,10 +1,12 @@
 
 var profilePage = angular.module('profilePage', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ngTouch', 'AppManagerService', 'ClassyUtilitiesService', 'LocalizerService']);
 
-profilePage.directive('classyScrollable', function (ClassyUtilities) {
+profilePage.directive('classyScrollable', function(ClassyUtilities) {
     var offset = 0;
+
     function handleDrag(ev) {
         if (ev.type == 'dragstart') {
+            $(ev.currentTarget).css('transition', 'none');
             var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
             offset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
             return;
@@ -15,13 +17,15 @@ profilePage.directive('classyScrollable', function (ClassyUtilities) {
             var currentOffset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
             var maxOffset = ev.currentTarget.scrollWidth - ClassyUtilities.Screen.GetWidth();
             if (currentOffset >= 0) {
-                elem.css('transition', '-webkit-transform 0.5s ease');
-                elem.css('-webkit-transform', 'translate3d(0,0,0)');
-                elem.css('transition', 'none');
+                requestAnimationFrame(function() {
+                    elem.css('transition', '-webkit-transform 0.5s ease');
+                    elem.css('-webkit-transform', 'translate3d(0,0,0)');
+                });
             } else if (Math.abs(currentOffset) >= maxOffset) {
-                elem.css('transition', '-webkit-transform 0.5s ease');
-                elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
-                elem.css('transition', 'none');
+                requestAnimationFrame(function() {
+                    elem.css('transition', '-webkit-transform 0.5s ease');
+                    elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
+                });
             }
             return;
         }
