@@ -10,25 +10,29 @@
                 <span class="profile-name" ng-bind-template="{{ProfileName}}"></span>
             </div>
         </div>
-        <!--<div class="pane pane2" style="display:none;">
-                <span class="description" ng-bind-html="BusinessDescription | unsafe"></span>
-            </div>-->
     </div>
-    <!--<div class="arrow right" ng-if="BusinessDescription != undefined" ng-click="nextSlide()"><i class="glyphicon glyphicon-chevron-right"></i></div>
-        <div class="arrow left" ng-if="BusinessDescription != undefined" ng-click="prevSlide()"><i class="glyphicon glyphicon-chevron-left"></i></div>-->
 </div>
-<div class="stats-container clearfix">
-    <div class="stat-container pull-left">
-        <div class="value" ng-bind-template="{{ViewCount}}"></div>
-        <div class="description">VIEWS</div>
+
+<div class="header-actions">
+    <div class="social-area pull-right">
+        <!--<a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get(" listing_maillinksubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))' , '@Localizer.Get("Listing_ShareViaEmailTitle")' )"><i class="glyphicon glyphicon-send"></i></a>-->
+        <a class="btn btn-default action share-facebook" href="#" onclick=""><i class="fa fa-facebook"></i></a>
+        <a class="btn btn-default action share-twitter" href="#" onclick=""><i class="fa fa-twitter"></i></a>
+        <a class="btn btn-default action share-google-plus" href="#" onclick=""><i class="fa fa-google-plus"></i></a>
     </div>
-    <div class="stat-container pull-left">
-        <div class="value" ng-bind-template="{{FavoriteCount}}"></div>
-        <div class="description">FAVORITES</div>
-    </div>
-    <div class="stat-container pull-left last">
-        <div class="value" ng-bind-template="{{CommentCount}}"></div>
-        <div class="description">COMMENTS</div>
+    <div class="stats-container clearfix">
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{ViewCount}}"></div>
+            <div class="description">VIEWS</div>
+        </div>
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{FavoriteCount}}"></div>
+            <div class="description">FAVORITES</div>
+        </div>
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{CommentCount}}"></div>
+            <div class="description">COMMENTS</div>
+        </div>
     </div>
 </div>
 
