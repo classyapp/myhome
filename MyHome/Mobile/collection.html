@@ -37,12 +37,10 @@
 </div>
 
 <div class="collection-listings panel panel-default" ng-if="Listings.length > 0">
-    <div class="panel-body listings-container horizontal-sliding-container">
-        <div classy-scrollable>
-            <div class="listing" ng-repeat="listing in Listings" onclick="">
-                <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
-                <div class="title" ng-bind-template="{{listing.Title}}"></div>
-            </div>
+    <div class="panel-body listings-container">
+        <div class="listing" ng-repeat="listing in Listings" onclick="">
+            <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
+            <div class="title" ng-bind-template="{{listing.Title}}"></div>
         </div>
     </div>
 </div>
