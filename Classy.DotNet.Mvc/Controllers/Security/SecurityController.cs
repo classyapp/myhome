@@ -76,14 +76,21 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 url: "register/more",
                 defaults: new { controller = "Security", action = "CompleteRegistration" },
                 namespaces: new string[] { Namespace });
+
+            routes.MapRouteWithName(
+                name: "ResendEmailVerification",
+                url: "profile/verifyemail/send",
+                defaults: new { controller = "Security", action = "ResendEmailVerification" },
+                namespaces: new string[] { Namespace });
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Login()
+        public ActionResult Login(bool? forceProRegistration)
         {
             var model = new LoginViewModel
             {
-                RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "~/"
+                RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "~/",
+                ForceProRegistration = forceProRegistration.HasValue && forceProRegistration.Value
             };
 
             if (Request.IsAjaxRequest())
@@ -240,13 +247,15 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Register(string referrerUrl)
+        public ActionResult Register(string referrerUrl, bool? forceProRegistration)
         {
             if (Request.IsAuthenticated) return RedirectToRoute("PublicProfile");
 
             var model = new RegistrationViewModel<TMetadata>
             {
-                ReferrerUrl = referrerUrl
+                ReferrerUrl = referrerUrl,
+                ForceProRegistration = forceProRegistration.HasValue && forceProRegistration.Value,
+                IsProfessional = forceProRegistration.HasValue && forceProRegistration.Value
             };
             return View(model);
         }
@@ -272,11 +281,14 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             if (OnProfileRegistered != null)
                 OnProfileRegistered(this, profile);
 
-            if (!string.IsNullOrEmpty(model.ReferrerUrl)) return Redirect(HttpUtility.UrlDecode(model.ReferrerUrl));
-            else return RedirectToRoute(
-                    model.IsProfessional ? "CreateProfessionalProfile" : "PublicProfile",
-                    new { ProfileId = profile.Id }
-                );
+            if (!string.IsNullOrEmpty(model.ReferrerUrl) && !model.IsProfessional) return Redirect(HttpUtility.UrlDecode(model.ReferrerUrl));
+            else
+            {
+                if (model.IsProfessional) 
+                    return RedirectToRoute("CreateProfessionalProfile", new { ProfileId = profile.Id, ReferrerUrl = model.ReferrerUrl });
+                else 
+                    return RedirectToRoute("PublicProfile", new { ProfileId = profile.Id, ReferrerUrl = model.ReferrerUrl });
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -300,6 +312,17 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             {
                 throw;
             }
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult ResendEmailVerification()
+        {
+            var profile = (User.Identity as ClassyIdentity).Profile;
+            if (OnProfileRegistered != null)
+                OnProfileRegistered(this, profile);
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }
 }

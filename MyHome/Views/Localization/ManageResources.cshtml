@@ -1,6 +1,7 @@
 @model Classy.DotNet.Mvc.ViewModels.Localization.ManageResourcesViewModel
 @{
     ViewBag.Title = "ManageResources";
+    ViewBag.DisableSignupBanner = true;
     var isInvalidKey = TempData["InvalidKey"] != null;
     var supportedCultures = Classy.DotNet.Responses.AppView.SupportedCultures;
 }

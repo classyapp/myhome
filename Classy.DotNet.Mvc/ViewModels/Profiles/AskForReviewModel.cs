@@ -15,6 +15,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Profiles
     public class AskForReviewModel
     {
         public string ProfileId { get; set; }
+        public bool IsProfessional { get; set; }
         [Required(ErrorMessage="AskForReview_ContactsRequired")]
         [Display(Name = "AskForReview_SelectContacts_Label")]
         [EveryItemIs(Validators = new Type[] { typeof(EmailAddressAttribute) })]

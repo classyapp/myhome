@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "PollDetails_MorePolls",
+			"Description": "More poll section title on poll details page",
+			"Values": {
+				"en": "More interesting polls"
+			}
+		},
+		{ 
+			"Key": "PollDetails_MorePhotosFromPoll",
+			"Description": "More photos by '<profile>' on poll details page",
+			"Values": {
+				"en": "More photos by {0}"
+			}
+		},
+		{ 
 			"Key": "Mobile_CollectionPage_ViewAllComments",
 			"Description": "Mobile collection page view all comments link",
 			"Values": {

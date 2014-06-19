@@ -1,0 +1,40 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+			{ 
+			"Key": "AskForReview_MustBeLoggedIn",
+			"Description": "message explaining a user must be login to ask for reviews",
+			"Values": {
+				"en": "You must be logged in to send out requests for reviews to your collegues and clients."
+				}
+			},
+			{ 
+			"Key": "AskForReview_Login",
+			"Description": "login button on ask for reviews page",
+			"Values": {
+				"en": "Sign In"
+				}
+			},
+			{ 
+			"Key": "AskForReview_Signup",
+			"Description": "register button on ask for reviews page",
+			"Values": {
+				"en": "Create a FREE business account"
+				}
+			},
+			{ 
+			"Key": "ClaimProxy_Signup",
+			"Description": "register button on claim proxy page",
+			"Values": {
+				"en": "Create a FREE business account"
+				}
+			},
+			{ 
+			"Key": "AskForReview_GoPro",
+			"Description": "upgrade to pro account button on ask for review page",
+			"Values": {
+				"en": "Upgrade to a business account (FREE)"
+				}
+			}
+	]
+}

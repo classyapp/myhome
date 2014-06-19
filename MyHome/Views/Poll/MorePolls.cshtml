@@ -1,0 +1,29 @@
+﻿@using System.Configuration
+@using Microsoft.Ajax.Utilities
+@model List<MyHome.Models.Polls.MorePollsModel>
+
+<div class="panel panel-default" id="">
+    <div class="panel-heading">
+        <h4 class="panel-title">@Localizer.Get("PollDetails_MorePolls")</h4>
+    </div>
+    <div class="panel-body">
+        
+        @foreach (var poll in Model)
+        {
+            var url = "//" + ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"] + "/collage?ImageKeys=" + poll.ImageKeys + "&format=json";
+            <div class="poll-preview">
+                <a href="@Url.RouteUrlForCurrentLocale("PollDetails", new { listingId = poll.Id })?ref=poll">
+                    <img src="@url" />
+                </a>
+                
+                <div class="poll-details">
+                    <a href="@Url.RouteUrlForCurrentLocale("PollDetails", new { listingId = poll.Id })?ref=poll">
+                        <div class="title">@poll.Title</div>
+                    </a>
+                    <div class="creator">@poll.PollCreator</div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

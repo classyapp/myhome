@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = Localizer.Get("ClaimProxy_PageTitle");
     ViewBag.NoIndex = true;
+    ViewBag.DisableVerifyEmailBanner = true;
     Html.Bootstrap().Globals().ShowRequiredStar(false);
 }
 
@@ -48,10 +49,11 @@
             {
                 <div>
                     <h2>@Localizer.Get("ClaimProxy_MustBeLoggedIn")</h2>
-                    <a href="#" class="btn btn-primary" authorize>@Localizer.Get("ClaimProxy_Login")</a>
+                    <a href="#" class="btn btn-primary" authorize-pro>@Localizer.Get("ClaimProxy_Login")</a>
+                    <a href="@Url.RouteUrlForCurrentLocale("Register", new { ReferrerUrl = Url.Encode(Request.RawUrl), ForceProRegistration = true })" class="btn btn-default">@Localizer.Get("ClaimProxy_Signup")</a>
                 </div>
                 @section scripts {
-                    <script>$(function () { $('#login-modal').modal('show'); })</script>
+                    <script>$(function () { $('#login-modal-pro').modal('show'); })</script>
                 }
             }
         </div>

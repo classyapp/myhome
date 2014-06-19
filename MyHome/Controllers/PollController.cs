@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet.Models.LogActivity;
+using Classy.DotNet.Models.Search;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
@@ -56,6 +58,74 @@ namespace MyHome.Controllers
         public override string ListingTypeName
         {
 	        get {  return "Poll"; }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("GetRelatedPhotos", "polls/related-photos")]
+        public ActionResult GetRelatedPhotos(string pollId)
+        {
+            var listingService = new ListingService();
+            var poll = listingService.GetListingById(pollId, false, false, false, false, false);
+
+            var pollListings = new List<string>(4);
+            var j = 0;
+            while (poll.Metadata.ContainsKey("Listing_" + j))
+            {
+                pollListings.Add(poll.Metadata["Listing_" + j]);
+                j++;
+            }
+            var pollsListings = listingService.GetListings(pollListings.ToArray(), true);
+
+            var pollProfiles = pollsListings.Select(x => x.ProfileId).Distinct();
+
+            var moreListings = new List<ListingView>();
+            pollProfiles.ForEach(profileId =>
+            {
+                var profileListings = listingService.GetListingsByProfileId(profileId, false, true);
+                moreListings.AddRange(profileListings.Take(6));
+            });
+
+            return PartialView("MorePhotosFromPoll", moreListings);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        [MapRoute("GetMorePolls", "polls/more-polls")]
+        public ActionResult GetMorePolls()
+        {
+            var listingService = new ListingService();
+            var searchResults = listingService.SearchListings(null, new[] {"Poll"}, null, null, null, null, 0, 20, SortMethod.Date);
+
+            if (searchResults == null || searchResults.Results.IsNullOrEmpty())
+                return Content("");
+
+            // randomize the results
+            var randomResults = searchResults.Results.OrderBy(_ => Guid.NewGuid()).Take(2).ToArray();
+
+            var model = new List<MorePollsModel>();
+            for (var i = 0; i < randomResults.Count(); i++)
+            {
+                var pollListings = new List<string>(4);
+                var j = 0;
+                while (randomResults[i].Metadata.ContainsKey("Listing_" + j))
+                {
+                    pollListings.Add(randomResults[i].Metadata["Listing_" + j]);
+                    j++;
+                }
+                var pollsListings = listingService.GetListings(pollListings.ToArray(), true);
+
+                var profileService = new ProfileService();
+                var pollProfile = profileService.GetProfileById(randomResults[i].ProfileId);
+                 
+                model.Add(new MorePollsModel {
+                    Id = randomResults[i].Id,
+                    Title = randomResults[i].Title,
+                    PollCreator = pollProfile.UserName,
+                    PollCreatorId = randomResults[i].ProfileId,
+                    ImageKeys = string.Join(",", pollsListings.Select(x => x.ExternalMedia[0].Key).ToList())
+                });
+            }
+
+            return PartialView("MorePolls", model);
         }
 
         [MapRoute("SelectListingsModal", "polls/create/select-listings-modal")]
@@ -127,7 +197,7 @@ namespace MyHome.Controllers
             var metadata = listing.Metadata;
 
             listingService.UpdateListing(pollId,
-                null, null, null, metadata, listing.Hashtags, null, ListingUpdateFields.Metadata);
+                null, null, null, null, metadata, listing.Hashtags, null, ListingUpdateFields.Metadata);
 
             logActivityService.LogActivity(new LogActivity<VotedOnPollActivityMetadata> {
                 UserId = AuthenticatedUserProfile.Id,
