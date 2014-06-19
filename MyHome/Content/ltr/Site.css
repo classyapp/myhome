@@ -1881,7 +1881,7 @@ body.mobile
 
 
 #more-polls-placeholder .poll-preview { margin-bottom: 10px;}
-#more-polls-placeholder .poll-preview .poll-details { display: inline-block;vertical-align: top; }
+#more-polls-placeholder .poll-preview .poll-details { display: inline-block;vertical-align: top;width: 245px; }
 #more-polls-placeholder .poll-preview .poll-details .title { font-size: 18px; }
 #more-polls-placeholder .poll-preview img { width: 100px;margin-right: 10px; }
 #more-photos-placeholder .professional { font-weight: bold;}
