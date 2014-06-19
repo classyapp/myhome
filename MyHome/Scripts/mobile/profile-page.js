@@ -207,7 +207,7 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
                 $scope.CoverPhotos = [appSettings.Host + '/img/blueprint.jpg'];
             }
 
-            var imageWidth = ClassyUtilities.Screen.GetWidth() - 80;
+            var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
             var listings = [];
             data.Listings.forEach(function(listing) {
                 listings.push({

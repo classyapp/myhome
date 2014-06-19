@@ -4,7 +4,7 @@ h3 { font-size: 16px;margin-top: 0; }
 
 .glyphicon-star, .glyphicon-star-empty { color: green;}
 .panel { border-radius: 0;border-left: 0;border-right: 0; }
-.panel-body.horizontal-sliding-container { padding: 15px 0; }
+.panel-body { padding: 15px 0; }
 .panel-footer { background-color: #fff;font-size: 14px;font-weight: bold; }
 .panel-footer .glyphicon { color: #d7d7d7;margin-top: 2px; }
 
@@ -66,7 +66,7 @@ h3 { font-size: 16px;margin-top: 0; }
 }
 .collections-container .collection, .listings-container .listing {
     display: inline-block;
-    margin-right: 16px;
+    margin-left: 15px;
     cursor: pointer;
 }
 .listings-container .listing .title {
