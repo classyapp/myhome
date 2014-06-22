@@ -59,6 +59,9 @@ classy.config(['$routeProvider', function($routeProvider) {
         }).when('/Collection/SlideShow/:collectionId/:photoId', {
             templateUrl: 'collection-slideshow.html',
             controller: 'CollectionSlideShowController'
+        }).when('/Login', {
+            templateUrl: 'login.html',
+            controller: 'LoginController'
         });
 }]);
 

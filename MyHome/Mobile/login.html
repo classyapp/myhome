@@ -1,0 +1,29 @@
+﻿
+<div class="login-form-container">
+    
+    <div class="col-md-12">
+        <button id="sign-in-facebook" class="btn btn-fb-login btn-block" ng-bind-template="{{Resources.LoginFacebook}}"></button>
+        <form class="form" role="form" method="post" action="{{Resources.Login}}" id="login-nav">
+            <input type="hidden" name="RedirectUrl" id="RedirectUrl" value="" />
+            <div class="form-group">
+                <label class="sr-only" for="Email" ng-bind-template="{{Resources.LoginEmail}}"></label>
+                <input type="text" class="form-control" id="Email" name="Email" placeholder="{{Resources.LoginEmail}}">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="Password" ng-bind-template="{{Resources.LoginPassword}}"></label>
+                <input type="password" class="form-control" id="Password" name="Password" placeholder="{{Resources.LoginPassword}}">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> {{Resources.LoginRememberMe}}
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" onclick="javascript:$('#RedirectUrl').val(window.location.pathname);" ng-bind-template="{{Resources.LoginSubmit}}"></button>
+            </div>
+            <div class="text-center loginlink" ng-bind-template="{{Resources.LoginRegister}}"></div>
+            <div class="text-center" ng-bind-template="{{Resources.LoginForgotPassword}}"></div>
+        </form>
+    </div>
+
+</div>

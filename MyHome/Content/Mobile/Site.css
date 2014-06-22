@@ -106,8 +106,32 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .prev-slide { left: 0;}
 
 
+.login-form-container { padding-top: 15px; }
+.login-form-container .btn-fb-login { margin-bottom: 15px; }
 
 
+
+
+
+.btn-fb-login, .btn-fb-login:hover {
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6086d5), color-stop(100%, #4567ac));
+    background: -webkit-linear-gradient(#6086d5, #4567ac);
+    background: -moz-linear-gradient(#6086d5, #4567ac);
+    background: -o-linear-gradient(#6086d5, #4567ac);
+    background: linear-gradient(#6086d5,#4567ac);
+    border-color: #5275bc #4363a4 #35518c;
+    color: #fff; font-weight: bolder;
+}
+.btn-fb-login:before {
+    content: '';
+    width: 16px;
+    height: 24px;
+    background: url(/img/fb.png) left top no-repeat;
+    border-right: 1px rgba(255,255,255,0.18) solid;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: -7px;
+}
 
 
 /* Collage Thumbnails */
