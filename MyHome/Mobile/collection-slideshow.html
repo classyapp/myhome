@@ -3,15 +3,15 @@
     
     <div class="listing" ng-repeat="listing in Listings" ng-class="{'selected':$first, 'hidden':!$first}">
         <div class="photo-container" style="height:{{ScreenHeight}}px; line-height:{{ScreenHeight}}px;">
-            <img class="photo" src="../img/ajax-loader.gif" data-orig-src="{{listing.ImageUrl}}" />
-        </div>
-
-        <div class="photo-details">
-            <div class="title" ng-bind-template="{{listing.Title}}"></div>
-            <div class="description" ng-bind-template="{{listing.Description}}"></div>
+            <img class="photo" src="../img/ajax-loader.gif" data-orig-src="{{listing.ImageUrl}}" data-title="{{listing.Title}}" data-content="{{listing.Description}}" />
         </div>
     </div>
     
+    <div class="photo-details">
+        <div class="title"></div>
+        <div class="description"></div>
+    </div>
+
     <div class="slide-btn next-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="nextSlide()">
         <i class="glyphicon glyphicon-chevron-right"></i>
     </div>

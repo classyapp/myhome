@@ -299,6 +299,9 @@ profilePage.controller('PhotoController', function ($scope, $http, AppSettings, 
     function loadImages() {
         var selectedImage = $('.slideshow .selected .photo');
         if (selectedImage.hasClass('loaded')) return;
+        var details = $('.slideshow .photo-details');
+        details.find('.title').html(selectedImage.data('title'));
+        details.find('.description').html(selectedImage.data('description'));
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
             .load(function () {
