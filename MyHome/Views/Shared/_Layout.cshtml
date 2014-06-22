@@ -1,4 +1,5 @@
-﻿@using Classy.DotNet.Mvc.Config
+﻿@using System.Security.Permissions
+@using Classy.DotNet.Mvc.Config
 @using Classy.DotNet.Security
 @{
     var env = new
@@ -466,6 +467,34 @@
 
                         ga('create', 'UA-49619980-1', 'homelab.com');
                         ga('send', 'pageview');
+                        @{
+                            var userType = "";
+                            if (!Request.IsAuthenticated)
+                            {
+                                userType = "Anonymous";
+                            }
+                            else
+                            {
+                                var profile = (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile;
+                                if (profile.IsProfessional)
+                                {
+                                    userType = "Professional";
+                                }
+                                else if (profile.IsAdmin)
+                                {
+                                    userType = "Admin";
+                                }
+                                else if (profile.IsEditor)
+                                {
+                                    userType = "Editor";
+                                }
+                                else
+                                {
+                                    userType = "Registered";
+                                }
+                            }
+                            <text>ga('set', 'dimension1', '@(userType)');</text>
+                        }
                     </script>
                     @Scripts.Render("~/Scripts/url-builder.js")
                     @Scripts.Render("~/Scripts/header-search.js")
