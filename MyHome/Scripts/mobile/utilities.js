@@ -4,6 +4,12 @@ var classyUtilitiesService = angular.module('ClassyUtilitiesService', []);
 classyUtilitiesService.factory('ClassyUtilities', [function() {
     return {
         Screen: {
+            StaticViewport: function() {
+                document.getElementById('viewport').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+            },
+            ScalableViewport: function() {
+                document.getElementById('viewport').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=3');
+            },
             GetWidth: function() {
                 return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             },

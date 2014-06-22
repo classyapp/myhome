@@ -69,6 +69,7 @@ profilePage.filter('unsafe', function ($sce) {
 });
 
 profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    ClassyUtilities.Screen.StaticViewport();
 
     $scope.currentSlide = 0;
     $scope.nextSlide = function() {
@@ -183,7 +184,8 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     });
 });
 
-profilePage.controller('CollectionController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
+profilePage.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
+    ClassyUtilities.Screen.StaticViewport();
     AppSettings.then(function(appSettings) {
 
         $scope.CollectionId = $routeParams.collectionId;
@@ -248,6 +250,9 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
 });
 
 profilePage.controller('PhotoController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+
+    ClassyUtilities.Screen.ScalableViewport();
+
     AppSettings.then(function(appSettings) {
 
         $scope.ScreenHeight = ClassyUtilities.Screen.GetHeight();
