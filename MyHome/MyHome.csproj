@@ -503,6 +503,7 @@
     <Content Include="Scripts\mobile\angular\angular-animate.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
+    <Content Include="Scripts\mobile\auth-provider.js" />
     <Content Include="Scripts\mobile\login-controller.js" />
     <Content Include="Scripts\mobile\collection-controller.js" />
     <Content Include="Scripts\mobile\collection-slideshow-controller.js" />

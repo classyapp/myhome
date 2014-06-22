@@ -3,7 +3,18 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
     ClassyUtilities.Screen.StaticViewport();
     AppSettings.then(function (appSettings) {
 
-
+        $scope.submitForm = function () {
+            var data = {
+                Email: $('#Email').val(),
+                Password: $('#Password').val()
+            };
+            $http.post('/mobile-login', JSON.stringify(data))
+                .success(function(data) {
+                    // TODO: redirect user to next url
+                }).error(function(ex) {
+                    alert(ex);
+                });
+        };
 
         $scope.Resources = {};
         Localizer.Get('Login_Facebook', AppSettings.Culture).then(function (resource) {
