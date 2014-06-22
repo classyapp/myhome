@@ -56,8 +56,8 @@ profilePage.config(['$routeProvider', function($routeProvider) {
         }).when('/Collection/:collectionId', {
             templateUrl: 'collection.html',
             controller: 'CollectionController'
-        }).when('/Photo/:photoId', {
-            templateUrl: 'listing-fullscreen.html',
+        }).when('/Collection/SlideShow/:collectionId/:photoId', {
+            templateUrl: 'collection-slideshow.html',
             controller: 'PhotoController'
         });
 }]);
@@ -69,6 +69,7 @@ profilePage.filter('unsafe', function ($sce) {
 });
 
 profilePage.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    ClassyUtilities.Screen.StaticViewport();
 
     $scope.currentSlide = 0;
     $scope.nextSlide = function() {
@@ -183,9 +184,11 @@ profilePage.controller('ProfileController', function ($scope, $http, AppSettings
     });
 });
 
-profilePage.controller('CollectionController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+profilePage.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
+    ClassyUtilities.Screen.StaticViewport();
     AppSettings.then(function(appSettings) {
 
+        $scope.CollectionId = $routeParams.collectionId;
         $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeComments=true&includeCommenterProfiles=true&includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function (data) {
 
             $scope.Avatar = data.Profile.Avatar.Url;
@@ -233,6 +236,10 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
             // TODO: display some error message
         });
 
+        $scope.openSlideShow = function(collectionId, photoId) {
+            $location.url('/Collection/SlideShow/' + collectionId + '/' + photoId);
+        };
+
         // get localized resources
         $scope.Resources = {};
         Localizer.Get('Mobile_CollectionPage_ViewAllComments').then(function (resource) {
@@ -242,22 +249,88 @@ profilePage.controller('CollectionController', function($scope, $http, AppSettin
     });
 });
 
-profilePage.controller('PhotoController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+profilePage.controller('PhotoController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
+
+    ClassyUtilities.Screen.ScalableViewport();
+
     AppSettings.then(function(appSettings) {
 
-        $http.get(appSettings.ApiUrl + '/listing/' + $routeParams.photoId, config).success(function(data) {
+        $scope.ScreenHeight = ClassyUtilities.Screen.GetHeight();
 
-            $scope.ImageUrl = data.ExternalMedia[0].Url;
-            $scope.Title = data.Title;
-            $scope.Description = data.Description;
+        $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function (data) {
 
-            $scope.ScreenHeight = ClassyUtilities.Screen.GetHeight();
+            var listings = [];
+            data.Listings.forEach(function(listing) {
+                listings.push({
+                    Title: listing.Title,
+                    Description: listing.Content,
+                    ImageUrl: listing.ExternalMedia[0].Url,
+                    CopyrightMessage: (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == "True") ?
+                        extractHostFromUrl(listing.Metadata.CopyrightMessage) :
+                        listing.Metadata.CopyrightMessage ? listing.Metadata.CopyrightMessage : getProfileName(listing.Profile)
+                });
+            });
+            $scope.Listings = listings;
 
-            // TODO: check if we can get this from metadata instead!
-            $scope.CopyrightMessage = data.CopyrightMessage;
+            $timeout(loadImages);
 
         }).error(function() {
             // TODO: display some error message
         });
+
+        function extractHostFromUrl(url) {
+            var a = window.createElement('a');
+            a.href = url;
+            return a.hostname;
+        }
+
+        function getProfileName(profile) {
+            if (!profile || profile == '') return '';
+            if (!profile.ContactInfo && !profile.IsProfessional) return 'unknown';
+            var name;
+            if (profile.IsProxy) return profile.ProfessionalInfo.CompanyName;
+            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
+            else name = (!profile.ContactInfo.Name || profile.ContactInfo.Name == '') ? profile.UserName : profile.ContactInfo.Name;
+            if (name) return name;
+            return 'unknown';
+        }
     });
+
+    function loadImages() {
+        var selectedImage = $('.slideshow .selected .photo');
+        if (selectedImage.hasClass('loaded')) return;
+        selectedImage
+            .attr('src', selectedImage.data('orig-src'))
+            .load(function () {
+                $(this).css('width', '100%');
+                $(this).addClass('loaded');
+            });
+    }
+
+    $scope.nextSlide = function () {
+        var selectedImage = $('.slideshow .selected');
+        var nextImage = selectedImage.next();
+        if (!nextImage.hasClass('listing')) return;
+
+        selectedImage.addClass('hidden');
+        selectedImage.removeClass('selected');
+
+        nextImage.removeClass('hidden');
+        nextImage.addClass('selected');
+
+        loadImages();
+    };
+    $scope.prevSlide = function() {
+        var selectedImage = $('.slideshow .selected');
+        var prevImage = selectedImage.prev();
+        if (!prevImage.hasClass('listing')) return;
+
+        selectedImage.addClass('hidden');
+        selectedImage.removeClass('selected');
+
+        prevImage.removeClass('hidden');
+        prevImage.addClass('selected');
+
+        loadImages();
+    };
 });

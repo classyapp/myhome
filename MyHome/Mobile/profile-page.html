@@ -24,7 +24,7 @@
 <div class="profile-projects panel panel-default" ng-if="Projects.length > 0">
     <div class="panel-body collections-container horizontal-sliding-container">
         <div classy-scrollable>
-            <div class="collection" ng-repeat="project in Projects" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
+            <div class="collection" ng-class="{'last':$last}" ng-repeat="project in Projects" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
                 <img ng-src="{{project.ImageUrl}}" data-collection-id="{{project.Id}}" />
             </div>
         </div>
@@ -37,7 +37,7 @@
 
 <div class="profile-collections panel panel-default" ng-if="Collections.length > 0">
     <div class="panel-body collections-container horizontal-sliding-container" classy-scrollable>
-        <div class="collection" ng-repeat="collection in Collections" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
+        <div class="collection" ng-class="{'last':$last}" ng-repeat="collection in Collections" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
             <img ng-src="{{collection.ImageUrl}}" data-collection-id="{{collection.Id}}" />
         </div>
     </div>
