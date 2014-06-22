@@ -249,7 +249,7 @@ profilePage.controller('CollectionController', function ($scope, $http, AppSetti
     });
 });
 
-profilePage.controller('PhotoController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+profilePage.controller('PhotoController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
 
     ClassyUtilities.Screen.ScalableViewport();
 
@@ -272,6 +272,8 @@ profilePage.controller('PhotoController', function ($scope, $http, AppSettings, 
             });
             $scope.Listings = listings;
 
+            $timeout(loadImages);
+
         }).error(function() {
             // TODO: display some error message
         });
@@ -293,4 +295,42 @@ profilePage.controller('PhotoController', function ($scope, $http, AppSettings, 
             return 'unknown';
         }
     });
+
+    function loadImages() {
+        var selectedImage = $('.slideshow .selected .photo');
+        if (selectedImage.hasClass('loaded')) return;
+        selectedImage
+            .attr('src', selectedImage.data('orig-src'))
+            .load(function () {
+                $(this).css('width', '100%');
+                $(this).addClass('loaded');
+            });
+    }
+
+    $scope.nextSlide = function () {
+        var selectedImage = $('.slideshow .selected');
+        var nextImage = selectedImage.next();
+        if (!nextImage.hasClass('listing')) return;
+
+        selectedImage.addClass('hidden');
+        selectedImage.removeClass('selected');
+
+        nextImage.removeClass('hidden');
+        nextImage.addClass('selected');
+
+        loadImages();
+    };
+    $scope.prevSlide = function() {
+        var selectedImage = $('.slideshow .selected');
+        var prevImage = selectedImage.prev();
+        if (!prevImage.hasClass('listing')) return;
+
+        selectedImage.addClass('hidden');
+        selectedImage.removeClass('selected');
+
+        prevImage.removeClass('hidden');
+        prevImage.addClass('selected');
+
+        loadImages();
+    };
 });
