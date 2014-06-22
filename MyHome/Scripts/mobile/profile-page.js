@@ -272,9 +272,6 @@ profilePage.controller('PhotoController', function ($scope, $http, AppSettings, 
             });
             $scope.Listings = listings;
 
-            // TODO: check if we can get this from metadata instead!
-            $scope.CopyrightMessage = data.CopyrightMessage;
-
         }).error(function() {
             // TODO: display some error message
         });
