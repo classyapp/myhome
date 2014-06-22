@@ -502,13 +502,16 @@
     <Content Include="Scripts\mobile\angular\angular-animate.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
+    <Content Include="Scripts\mobile\collection-controller.js" />
+    <Content Include="Scripts\mobile\collection-slideshow-controller.js" />
+    <Content Include="Scripts\mobile\profile-controller.js" />
     <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
     <Content Include="Scripts\mobile\cache-provider.js" />
     <Content Include="Scripts\mobile\common.js" />
     <Content Include="Scripts\mobile\utilities.js" />
-    <Content Include="Scripts\mobile\profile-page.js" />
+    <Content Include="Scripts\mobile\classy-module.js" />
     <Content Include="Scripts\mobile\angular\angular-route.min.js" />
     <Content Include="Scripts\mobile\angular\angular-route.js" />
     <Content Include="Scripts\mobile\angular\angular-resource.min.js" />
