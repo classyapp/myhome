@@ -1,23 +1,41 @@
 
-classy.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+classy.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
     ClassyUtilities.Screen.StaticViewport();
 
     $scope.currentSlide = 0;
     $scope.nextSlide = function() {
         if ($scope.currentSlide == 1) return;
-        $('.cover-slider').find('.pane2').show();
-        $('.cover-slider').css('left', '0');
-        $('.cover-slider').css('left', '-' + $('.cover-slider').width() + 'px');
-        $scope.currentSlide++;
+        var slider = $('.cover-slider');
+        var pane2 = slider.find('.pane2');
+        pane2.css('display', 'inline-block');
+
+        requestAnimationFrame(function () {
+            slider.css('transition', '-webkit-transform 0.5s ease');
+            slider.css('-webkit-transform', 'translate3d(-' + pane2.outerWidth(true) + 'px,0,0)');
+            slider.one('webkitTransitionEnd', function() {
+                slider.find('.pane1').css('display', 'none');
+                slider.css('-webkit-transition', 'none');
+                slider.css('transition', 'none');
+                slider.css('-webkit-transform', 'none');
+            });
+        });
+        $scope.currentSlide=1;
     };
     $scope.prevSlide = function() {
         if ($scope.currentSlide == 0) return;
-        $('.cover-slider')
-            .css('left', '0')
-            .one('webkitTransitionEnd transitionend', function() {
-                $('.cover-slider').find('.pane2').css('display', 'none');
+        var slider = $('.cover-slider');
+        var pane1 = slider.find('.pane1');
+        var pane2 = slider.find('.pane2');
+        slider.css('-webkit-transform', 'translate3d(' + (pane2[0].getBoundingClientRect().left - pane1.outerWidth(true)) + 'px,0,0)');
+        pane1.css('display', 'inline-block');
+        requestAnimationFrame(function () {
+            slider.css('transition', '-webkit-transform 0.5s ease');
+            slider.css('-webkit-transform', 'translate3d(0,0,0)');
+            slider.one('webkitTransitionEnd', function() {
+                pane2.css('display', 'none');
             });
-        $scope.currentSlide--;
+        });
+        $scope.currentSlide=0;
     };
 
     AppSettings.then(function (appSettings) {
@@ -82,6 +100,8 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             });
             $scope.Reviews = reviews;
 
+            $timeout(initProfileHeader, 0);
+
         }).error(function () {
             // TODO: display some error message
         });
@@ -115,6 +135,50 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             for (var i = 0; i < 5; i++)
                 ratings.push({ id: i, star: (rating > i ? true : false) });
             return ratings;
+        }
+
+        function initProfileHeader() {
+            var offset = 0;
+
+            function handleDrag(ev) {
+                if (ev.type == 'dragstart') {
+                    $(ev.currentTarget).css('transition', 'none');
+                    var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+                    offset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+                    return;
+                }
+                if (ev.type == 'release') {
+                    var elem = $(ev.currentTarget);
+                    var transform = window.getComputedStyle(ev.currentTarget).webkitTransform;
+                    var currentOffset = !transform || transform == 'none' ? 0 : parseInt(transform.split(',')[4]);
+                    var maxOffset = ev.currentTarget.scrollWidth - ClassyUtilities.Screen.GetWidth();
+
+                    if (currentOffset >= 0 && $scope.currentSlide == 0) { // bounce back
+                        requestAnimationFrame(function () {
+                            elem.css('transition', '-webkit-transform 0.5s ease');
+                            elem.css('-webkit-transform', 'translate3d(0,0,0)');
+                        });
+                    } else if (Math.abs(currentOffset) - maxOffset > 30 && $scope.currentSlide == 0) {
+                        $scope.nextSlide();
+                    } else if (currentOffset >= 30 && $scope.currentSlide == 1) {
+                        $scope.prevSlide();
+                    } else if (currentOffset <= -30 && $scope.currentSlide == 1) {
+                        requestAnimationFrame(function () {
+                            elem.css('transition', '-webkit-transform 0.5s ease');
+                            elem.css('-webkit-transform', 'translate3d(-' + maxOffset + 'px,0,0)');
+                        });
+                    }
+                    return;
+                }
+
+                ev.gesture.preventDefault();
+
+                var drag = ev.gesture.deltaX + offset;
+
+                $(ev.currentTarget).css('-webkit-transform', 'translate3d(' + drag + 'px, 0, 0)');
+            }
+
+            Hammer($('.profile-header .cover-slider')[0], { dragLockToAxis: true }).on("dragstart release dragleft dragright swipeleft swiperight", handleDrag);
         }
     });
 });
