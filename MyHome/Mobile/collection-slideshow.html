@@ -12,10 +12,10 @@
         <div class="description"></div>
     </div>
 
-    <div class="slide-btn next-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="nextSlide()">
+    <div class="slide-btn next-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="nextSlide()" ng-swipe-left="nextSlide()">
         <i class="glyphicon glyphicon-chevron-right"></i>
     </div>
-    <div class="slide-btn prev-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="prevSlide()">
+    <div class="slide-btn prev-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="prevSlide()" ng-swipe-right="prevSlide()">
         <i class="glyphicon glyphicon-chevron-left"></i>
     </div>
 

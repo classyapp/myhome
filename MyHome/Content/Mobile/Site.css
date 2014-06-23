@@ -36,6 +36,9 @@ h3 { font-size: 16px;margin-top: 0; }
 
 /* Profile Page */
 .profile-details h1 { color: #fff; }
+@media screen and (max-width : 800px) {
+    .profile-details h1 { font-size: 18px; }
+}
 .profile-header .avatar { width: 80px;height: 80px; margin-bottom: 10px; border: solid 2px white;}
 .profile-header .rating { font-size: 18px;text-shadow: none; }
 .profile-header .dropshadow { background-color: rgba(0, 0, 0, 0.2); }
@@ -75,7 +78,7 @@ h3 { font-size: 16px;margin-top: 0; }
 
 
 
-.review-container, .comment-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
+.review-container, .comment-container { border-bottom: solid 1px #ddd;margin-bottom: 10px;padding: 0 15px 10px 15px; }
 .review-container.last, .comment-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
 .review-metadata .avatar, .comment-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
 .reviewer-details .name, .commenter-details .name { font-size: 20px; }
@@ -106,8 +109,32 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .prev-slide { left: 0;}
 
 
+.login-form-container { padding-top: 15px; }
+.login-form-container .btn-fb-login { margin-bottom: 15px; }
 
 
+
+
+
+.btn-fb-login, .btn-fb-login:hover {
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6086d5), color-stop(100%, #4567ac));
+    background: -webkit-linear-gradient(#6086d5, #4567ac);
+    background: -moz-linear-gradient(#6086d5, #4567ac);
+    background: -o-linear-gradient(#6086d5, #4567ac);
+    background: linear-gradient(#6086d5,#4567ac);
+    border-color: #5275bc #4363a4 #35518c;
+    color: #fff; font-weight: bolder;
+}
+.btn-fb-login:before {
+    content: '';
+    width: 16px;
+    height: 24px;
+    background: url(/img/fb.png) left top no-repeat;
+    border-right: 1px rgba(255,255,255,0.18) solid;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: -7px;
+}
 
 
 /* Collage Thumbnails */
@@ -177,4 +204,70 @@ div.thumbs4 > div.thumb
     display: inline-block;
     float: right;
     margin-bottom: 2%;
+}
+
+
+
+
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
 }

@@ -21,6 +21,29 @@
     <div class="arrow left" ng-if="BusinessDescription != undefined" ng-click="prevSlide()"><i class="glyphicon glyphicon-chevron-left"></i></div>
 </div>
 
+<div class="header-actions">
+    <div class="social-area pull-right">
+        <!--<a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get(" listing_maillinksubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))' , '@Localizer.Get("Listing_ShareViaEmailTitle")' )"><i class="glyphicon glyphicon-send"></i></a>-->
+        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.Share('facebook')"><i class="fa fa-facebook"></i></a>
+        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.Share('twitter')"><i class="fa fa-twitter"></i></a>
+        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.Share('google')"><i class="fa fa-google-plus"></i></a>
+    </div>
+    <div class="stats-container clearfix">
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{ViewCount}}"></div>
+            <div class="description">VIEWS</div>
+        </div>
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{ReviewCount}}"></div>
+            <div class="description">REVIEWS</div>
+        </div>
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{CommentCount}}"></div>
+            <div class="description">COMMENTS</div>
+        </div>
+    </div>
+</div>
+
 <div class="profile-projects panel panel-default" ng-if="Projects.length > 0">
     <div class="panel-body collections-container horizontal-sliding-container">
         <div classy-scrollable>

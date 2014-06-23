@@ -17,8 +17,8 @@
     <div class="social-area pull-right">
         <!--<a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get(" listing_maillinksubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))' , '@Localizer.Get("Listing_ShareViaEmailTitle")' )"><i class="glyphicon glyphicon-send"></i></a>-->
         <a class="btn btn-default action share-facebook" href="#" onclick="Classy.Share('facebook')"><i class="fa fa-facebook"></i></a>
-        <a class="btn btn-default action share-twitter" href="#" onclick=""><i class="fa fa-twitter"></i></a>
-        <a class="btn btn-default action share-google-plus" href="#" onclick=""><i class="fa fa-google-plus"></i></a>
+        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.Share('twitter')"><i class="fa fa-twitter"></i></a>
+        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.Share('google')"><i class="fa fa-google-plus"></i></a>
     </div>
     <div class="stats-container clearfix">
         <div class="stat-container pull-left">
