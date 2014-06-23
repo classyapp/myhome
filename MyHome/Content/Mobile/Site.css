@@ -78,7 +78,7 @@ h3 { font-size: 16px;margin-top: 0; }
 
 
 
-.review-container, .comment-container { border-bottom: solid 1px #ddd;padding-bottom: 10px;margin-bottom: 10px; }
+.review-container, .comment-container { border-bottom: solid 1px #ddd;margin-bottom: 10px;padding: 0 15px 10px 15px; }
 .review-container.last, .comment-container.last { border-bottom: 0;padding-bottom: 0;margin-bottom: 0; }
 .review-metadata .avatar, .comment-metadata .avatar { width: 60px;height: 60px;margin-right: 16px; }
 .reviewer-details .name, .commenter-details .name { font-size: 20px; }
