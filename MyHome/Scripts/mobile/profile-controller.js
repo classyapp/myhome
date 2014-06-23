@@ -51,7 +51,11 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
                     });
             });
             $scope.Projects = projects;
-            
+
+            $scope.ViewCount = data.ViewCount;
+            $scope.CommentCount = data.CommentCount;
+            $scope.ReviewCount = data.ReviewCount;
+
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
             $scope.Rating = getRatingAsArray(data.ReviewAverageScore);
