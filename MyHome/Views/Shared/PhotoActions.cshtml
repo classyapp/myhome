@@ -24,12 +24,12 @@
 
         if (User.Identity.IsAuthenticated)
         { 
-            <a class="btn btn-default action share-email"  href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Listing_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Listing_ShareViaEmailTitle")')"><i class="glyphicon glyphicon-send"></i></a>
+            <a class="btn btn-default action share-email"  href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Listing_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Listing_ShareViaEmailTitle")', 'email', 'photo')"><i class="glyphicon glyphicon-send"></i></a>
         }
-        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_image&utm_medium=facebook'), 520, 350)"><i class="fa fa-facebook"></i></a>
-        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_image&utm_medium=twitter'), 520, 350)"><i class="fa fa-twitter"></i></a>
-        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_image&utm_medium=gplus'), 520, 350)"><i class="fa fa-google-plus"></i></a>
-    }
+        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_image&utm_medium=facebook'), 520, 350, 'facebook', 'collection-details-grid')"><i class="fa fa-facebook"></i></a>
+        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_image&utm_medium=twitter'), 520, 350,'twitter', 'collection-details-grid')"><i class="fa fa-twitter"></i></a>
+        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_image&utm_medium=gplus'), 520, 350,'gplus', 'collection-details-grid')"><i class="fa fa-google-plus"></i></a>
+        }
 
     @if (Model.ShowEdit && User.Identity.IsAuthenticated && Model.Listing.CanEdit())
     {
