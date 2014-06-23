@@ -80,7 +80,8 @@ Classy.SendEmail = function(subject, body, title) {
         .modal("show");
 };
 
-Classy.ShareUI = function(socialUrl, url, winWidth, winHeight) {
+Classy.ShareUI = function (socialUrl, url, winWidth, winHeight, network, ref) {
+    Classy.ReportEvent('social', 'share', network, ref);
     var winTop = (screen.height / 2) - (winHeight / 2);
     var winLeft = (screen.width / 2) - (winWidth / 2);
     window.open(socialUrl + url, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
@@ -135,12 +136,6 @@ String.prototype.toSlug = function() {
 Classy.ReportEvent = function(category, action, label, value) {
     try {
         ga('send', 'event', category, action, label, value);
-    } catch (e) {
-    }
-};
-Classy.ReportSocialEvent = function(network, action, target) {
-    try {
-        ga('send', 'social', network, action, target);
     } catch (e) {
     }
 };
