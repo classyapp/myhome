@@ -96,7 +96,7 @@
                 {
                     // More than one variant -- display buttons
                     var properties = new Dictionary<string, List<string>>();
-                    foreach (var option in Model.Listing.PricingInfo.PurchaseOptions)
+                    foreach (var option in Model.Listing.PricingInfo.PurchaseOptions.Where(po => po.Available))
                     {
                         if (option.VariantProperties != null)
                         {

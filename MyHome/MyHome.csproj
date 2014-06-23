@@ -475,6 +475,7 @@
     <Content Include="img\twitter.png" />
     <Content Include="pinterest-76e7b.html" />
     <Content Include="robots.txt" />
+    <Content Include="Scripts\jquery.combinations.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
@@ -628,7 +629,6 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Views\Default\" />
-    <Folder Include="Views\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
