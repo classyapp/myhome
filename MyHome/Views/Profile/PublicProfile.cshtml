@@ -25,9 +25,9 @@
 @section MetaTags {
     <meta property="og:title" content="@string.Format(Localizer.Get("PublicProfile_ShareTitle"), Model.Profile.GetProfileName())" />
     @if (Model.Profile.IsProfessional)
-{
+    {
     <meta property="og:description" content="@(string.IsNullOrEmpty(Model.TypedMetadata.BusinessDescription) ? string.Format(Localizer.Get("PublicProfile_ShareDescription_Pro", false), proCategories.GetText(Model.Profile.ProfessionalInfo.Category)) : Model.TypedMetadata.BusinessDescription)" />
-}
+    }
     else
     {
         <meta property="og:description" content="@Localizer.Get("PublicProfile_ShareDescription", false)" />
@@ -229,16 +229,16 @@
                         {
                             if (Model.Profile.IsProfessional)
                             {
-                                <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')"><i class="glyphicon glyphicon-send"></i></a>
+                                <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_Pro_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_Pro_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")', 'email', 'profile')"><i class="glyphicon glyphicon-send"></i></a>
                             }
                             else
                             {
-                                <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")')"><i class="glyphicon glyphicon-send"></i></a>
+                                <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")', 'email', 'profile')"><i class="glyphicon glyphicon-send"></i></a>
                             }
                         }
-                        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350)"><i class="fa fa-facebook"></i></a>
-                        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350)"><i class="fa fa-twitter"></i></a>
-                        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350)"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350, 'facebook', 'profile')"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350, 'twitter', 'profile')"><i class="fa fa-twitter"></i></a>
+                        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350, 'gplus', 'profile')"><i class="fa fa-google-plus"></i></a>
                     }
                 </li>
                 @*<li class="text-left">

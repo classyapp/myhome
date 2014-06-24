@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Routing;
-using System.Web.Mvc;
 using Classy.DotNet.Mvc.Controllers;
 using MyHome.Models;
 using Classy.DotNet.Responses;
@@ -13,16 +10,16 @@ using Classy.DotNet.Mvc.Localization;
 
 namespace MyHome.Controllers
 {
-    public class ProfileController : Classy.DotNet.Mvc.Controllers.ProfileController<ProfessionalMetadata, ProfileReviewCriteria, UserMetadata, VendorMetadata>
+    public class ProfileController : ProfileController<ProfessionalMetadata, ProfileReviewCriteria, UserMetadata, VendorMetadata>
     {
         private readonly string MANDRILL_API_KEY = "ndg42WcyRHVLtLbvGqBjUA";
 
-        public ProfileController()
-            : base("MyHome.Controllers") {
-                base.OnContactProfessional += ProfileController_OnContactProfessional;
-                base.OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
-                base.OnAskForReview += ProfileController_OnAskForReview;
-                base.OnLoadPublicProfile += ProfileController_OnLoadPublicProfile;
+        public ProfileController() : base("MyHome.Controllers") 
+        {
+            base.OnContactProfessional += ProfileController_OnContactProfessional;
+            base.OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
+            base.OnAskForReview += ProfileController_OnAskForReview;
+            base.OnLoadPublicProfile += ProfileController_OnLoadPublicProfile;
         }
 
         public void ProfileController_OnLoadPublicProfile(object sender, LoadPublicProfileEventArgs<ProfessionalMetadata> e)

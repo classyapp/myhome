@@ -83,17 +83,17 @@
                 </div>
             </div>
             <hr />
-            @f.FormGroup().TextBox("Color").Class("tags").ShowValidationMessage(false)
-            @f.FormGroup().TextBox("Design").Class("tags").ShowValidationMessage(false)
-            @f.FormGroup().TextBox("Size").Class("tags").ShowValidationMessage(false)
+            @f.FormGroup().TextBox("Color").Class("tags").HtmlAttributes(new { data_idx = "0" }).ShowValidationMessage(false)
+            @f.FormGroup().TextBox("Design").Class("tags").HtmlAttributes(new { data_idx = "1" }).ShowValidationMessage(false)
+            @f.FormGroup().TextBox("Size").Class("tags").HtmlAttributes(new { data_idx = "2" }).ShowValidationMessage(false)
             <hr />
             <div id="variations">
                 @if (Model.PricingInfo.PurchaseOptions != null)
                 {
                     for (int i = 0; i < Model.PricingInfo.PurchaseOptions.Count; i++)
 	                {
-		                <div class="variation panel panel-default" data-variation="@string.Join(",", Model.PricingInfo.PurchaseOptions[i].VariantProperties.Values)">
-                            <div class="panel-heading">@string.Join(",", Model.PricingInfo.PurchaseOptions[i].VariantProperties.Values)</div>
+		                <div class="variation panel panel-default" data-variation="@Model.PricingInfo.PurchaseOptions[i].GetVariantKey(true)">
+                            <div class="panel-heading">@Html.CheckBoxFor(x => x.PricingInfo.PurchaseOptions[i].Available)&nbsp;@Model.PricingInfo.PurchaseOptions[i].GetVariantKey(false)</div>
                             <div class="panel-body">
                                 <div class="row">
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Color)
@@ -131,6 +131,7 @@
     <script type="text/javascript" src="~/Scripts/dropzone.js"></script>
     <script type="text/javascript" src="~/Scripts/magicsuggest.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.tagsinput.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.combinations.js"></script>
 
     <script type="text/javascript">
         var catSuggest = null;
@@ -164,12 +165,14 @@
                 height: '34px',
                 defaultText: 'fill me later',
                 onRemoveTag: function (value) {
+                    removeVariations(value, $(this).data("idx"), $(this).val() !== "");
                 },
                 onAddTag: function (value) {
+                    renderVariations($(this).val() === value, $(this).data("idx"));
                 }
             });
             $(".tagsinput").addClass("bootstrap-tagsinput");
-            $(".tagsinput input").addClass("form-control").on('blur', renderVariations);
+            $(".tagsinput input").addClass("form-control").on('blur', function(){ setTimeout(renderVariations, 1000);});
             Dropzone.autoDiscover = false;
             $("#externalMedia").dropzone(
                 {
@@ -249,9 +252,11 @@
                 setTimeout(trySubmit, 1000);
                 return;
             }
+            reindexVariations();
             $(".input-validation-error").removeClass("input-validation-error");
             var data = {};
             $("form input[type=text],form input[type=hidden],form select,form textarea").each(function(idx, item){data[$(item).attr("name")] = $(item).val();});
+            $("form input[type=checkbox]").each(function(idx, item) { data[$(item).attr("name")] = $(item).is(":checked"); });
             $("#variations div.variation").each(function(idx, item) {
                 var vProps = {};
                 var props = ['Color', 'Design', 'Size'];
@@ -276,7 +281,14 @@
                         $("div.ms-ctn").addClass("input-validation-error"); delete response.errors["Categories"];
                     }
                     if (response.errors.Images) {
-                        //$("div.ms-ctn").addClass("input-validation-error"); delete response.errors["Images"];
+                        $("#externalMedia").addClass("input-validation-error"); delete response.errors["Images"];
+                    }
+                    var variations = $("#variations div.variation");
+                    for (var i = 0; i < vcount; i++) {
+                        if (response.errors["PricingInfo.PurchaseOptions[" + i + "].Images"]){
+                            $(".dropzone", variations[i]).addClass("input-validation-error");
+                            delete response.errors["PricingInfo.PurchaseOptions[" + i + "].Images"];
+                        }
                     }
                     $("form").validate().showErrors(response.errors);                   
                 } else {
@@ -292,59 +304,37 @@
         return false;
     }
 
-    function renderVariations(){
-        var values = [];
+    function renderVariations(checkPartial, idx) {
         var variations = [];
-        if ($("#Color").val() !== "") { values.push($("#Color").val().split(',')); }
-        if ($("#Design").val() !== "") { values.push($("#Design").val().split(',')); }
-        if ($("#Size").val() !== "") { values.push($("#Size").val().split(',')); }
-
-        var totalVariations = 1;
-        for (var i = 0; i < values.length; i++) {
-            totalVariations = totalVariations * values[i].length;
-            variations[i] = {};
-        }
-
-        for (var i = 0; i < totalVariations; i++) { variations[i] = {}; }
-
-        var colors = ($("#Color").val() !== "" ? $("#Color").val().split(',').length : 0);
-        var designs = ($("#Design").val() !== "" ? $("#Design").val().split(',').length : 0);
-        var sizes = ($("#Size").val() !== "" ? $("#Size").val().split(',').length : 0);
-
-        var vidx = 0;
-        if (colors > 0){
-            colors = $("#Color").val().split(',');
-            fillGroups(variations, totalVariations, colors, "Color", totalVariations / colors.length);
-            vidx++;
-        }
-
-        if (designs > 0){
-            var designs = $("#Design").val().split(',');
-            if (vidx == 1) { fillStriped(variations, totalVariations, designs, "Design", designs.length); }
-            else { fillGroups(variations, totalVariations, designs, "Design", totalVariations / designs.length); }
-            vidx++;
-        }
-
-        if (sizes > 0) {
-            sizes = $("#Size").val().split(',');
-            if (vidx == 2) { fillGroups(variations, totalVariations, sizes, "Size", designs.length); }
-            else if (vidx == 1) { fillStriped(variations, totalVariations, sizes, "Size", sizes.length); }
-            else { fillGroups(variations, totalVariations, sizes, "Size", totalVariations / sizes.length); }
-            vidx++;
-        }
+        variations = $.combinations([$("#Color").val() !== "" ? $("#Color").val().split(',') : ['_'],
+            $("#Design").val() !== "" ? $("#Design").val().split(',') : ['_'],
+            $("#Size").val() !== "" ? $("#Size").val().split(',') : ['_']]);
 
         // ensure variations exist
-        var existing = $("#variations div.variation[data-variation]");
-        var keys = {};
-        existing.each(function(idx, item){ keys[$(item).data("variation")] = 1; });
-        for (var i = 0; i < totalVariations; i++) {
-            vkey = (variations[i].Color || '_') + '|' + (variations[i].Design || '_') + '|'  + (variations[i].Size || '_');
-            if (vkey != '_|_|_') {
-                if ($("#variations div.variation[data-variation='" + vkey + "']").length == 0){
-                    var v = $("<div class='variation panel panel-default' data-variation='" + vkey + "'><div class='panel-heading'>" + vkey.split('|').join(',') + "</div>" +
+        var existing = $("#variations div.variation");
+        for (var i = 0; i < variations.length; i++) {
+            vkey = variations[i].join();
+            vpKey = vkey;
+            if (checkPartial){
+                var parr = variations[i].slice(0);
+                parr[idx] = '_';
+                vpKey = parr.join();
+
+                // check exists
+                var $variation = getVariation(vpKey);
+                if ($variation !== null){
+                    $variation.data("variation", vkey);
+                    $variation.find(".panel-heading > span").html(vkey);
+                }
+            }
+
+            if (vkey !== '_,_,_') {
+                if (getVariation(vkey) == null){
+                    var v = $("<div class='variation panel panel-default'>" +
+                        "<div class='panel-heading'><input checked='checked' id='PricingInfo_PurchaseOptions_" + i + "__Available' name='PricingInfo.PurchaseOptions[" + i + "].Available' type='checkbox'> <span>" + vkey + "</span></div>" +
                         "<div class='panel-body'>" +
                         "<div class='row'>" +
-                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value='" + $("#PricingInfo_BaseOption_SKU").val()  + "'></div>" +
+                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
                         "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>Compare At Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div>" +
                         "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div>" +
                         "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Quantity'>Quantity</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Quantity' name='PricingInfo.PurchaseOptions[" + i + "].Quantity' type='text' value=''></div>" +
@@ -352,14 +342,15 @@
                         "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Depth'>Depth</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Depth' name='PricingInfo.PurchaseOptions[" + i + "].Depth' type='text' value='" + $("#PricingInfo_BaseOption_Depth").val()  + "'></div>" +
                         "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Height'>Height</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Height' name='PricingInfo.PurchaseOptions[" + i + "].Height' type='text' value='" + $("#PricingInfo_BaseOption_Height").val()  + "'></div>" +
                         "<div class='col-md-12 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Content'>Content</label><textarea rows='4' class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Content' name='PricingInfo.PurchaseOptions[" + i + "].Content'>" + $("#Content").val()  + "</textarea></div>" +
-                        "<div class='col-md-12 form-group'><div id='PricingInfo_PurchaseOptions_Media' class='dropzone'><div class='dz-default dz-message'><span>@Localizer.Get("CreateListing_DropFiles")</span></div></div></div>" +
-                        "</div>" +
-                        "</div></div>");
-                    $("#variations").append(v);
-                    v.find(".dropzone").dropzone(
-                    {
-                        acceptedFiles: 'image/*', 
-                        url: '@Url.RouteUrl("AddMediaFile")',
+                        "<div class='col-md-12 form-group'><div id='PricingInfo_PurchaseOptions_Media_" + i + "' class='dropzone'><div class='dz-default dz-message'><span>@Localizer.Get("CreateListing_DropFiles")</span></div></div></div>" +
+                            "</div>" +
+                            "</div></div>");
+                        v.data("variation", vkey);
+                        $("#variations").append(v);
+                        v.find(".dropzone").dropzone(
+                        {
+                            acceptedFiles: 'image/*', 
+                            url: '@Url.RouteUrl("AddMediaFile")',
                             addRemoveLinks: true,
                             removedfile: function (file) {
                                 var fileId = file.fileId;
@@ -377,39 +368,37 @@
                                 $(this.element).data("DZ", this);
                             }
                         });
+                    }
                 }
             }
-            delete keys[vkey];
         }
 
-        for(var key in keys) { 
-            $("#variations div.variation[data-variation='" + key + "']").remove(); 
+        function getVariation(vkey){
+            var variation = null;
+            $("#variations div.variation").each(function(idx, item){ if ($(item).data("variation") === vkey) { variation = $(item)}; });
+            return variation;
         }
-    }
 
-    function fillNormal(variations, totalVariations, values, name, num){
-        for (var i = 0; i < totalVariations; i++) {
-            var idx = (totalVariations == values.length ? i : Math.floor(i / num));
-            variations[i][name] = values[idx];
+        function removeVariations(key, idx, remove){
+            $("#variations div.variation").each(function(i, item){ 
+                var varr = $(item).data("variation").split(',');
+                if (varr[idx] === key) { 
+                    if (remove){
+                        $(item).remove(); 
+                    } else {
+                        varr[idx] = '_';
+                        $(item).data("variation", varr.join());
+                        $(item).find(".panel-heading > span").html(varr.join());
+                    }
+                }
+            });
         }
-    }
 
-    function fillGroups(variations, totalVariations, values, name, num){
-        var j = -1;
-        for (var i = 0; i < totalVariations; i++) {
-            if (i % num == 0) { j++; j = Math.floor(j % values.length); }; 
-            variations[i][name] = values[j];
+        function reindexVariations(){
+            $("#variations div.variation").each(function(i, item){ 
+                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
+                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
+            });
         }
-    }
-
-    function fillStriped(variations, totalVariations, values, name, num){
-        for (var i = 0; i < totalVariations; i++) {
-            variations[i][name] = values[i % num];
-        }
-    }
-
-    $(".tags").on('change', function(){
-        renderVariations();
-    });
     </script>
 }

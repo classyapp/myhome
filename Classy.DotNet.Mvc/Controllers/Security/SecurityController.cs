@@ -38,6 +38,13 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 );
 
             routes.MapRouteWithName(
+                name: "MobileLogin",
+                url: "mobile-login",
+                defaults: new { controller = "Security", action = "MobileLogin" },
+                namespaces: new string[] { Namespace }
+                );
+
+            routes.MapRouteWithName(
                 name: "ResetPassword",
                 url: "reset/{resetHash}",
                 defaults: new { controller = "Security", action = "ResetPassword" },
@@ -124,6 +131,19 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             {
                 throw;
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult MobileLogin(LoginViewModel model)
+        {
+            var isValid = ClassyAuth.AuthenticateUser(model.Email, model.Password, model.RememberMe);
+            if (!isValid)
+            {
+                ModelState.AddModelError("Invalid", Localization.Localizer.Get("Login_InvalidCredentials"));
+                return Content("Error");
+            }
+
+            return Content("OK");
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
