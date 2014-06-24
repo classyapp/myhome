@@ -38,6 +38,12 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         $scope.currentSlide=0;
     };
 
+    $scope.showAllReviews = function() {
+        $('.profile-reviews .review-container').removeClass('hidden');
+        $('.profile-reviews .review-container:nth-child(2)').removeClass('last');
+        $('.profile-reviews .panel-footer').addClass('hidden');
+    };
+
     AppSettings.then(function (appSettings) {
 
         var utilities = ClassyUtilities;

@@ -52,10 +52,10 @@
             </div>
         </div>
     </div>
-    <div class="panel-footer">
+    <!--<div class="panel-footer">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllProjects}}"></span>
         <i class="glyphicon glyphicon-chevron-right pull-right"></i>
-    </div>
+    </div>-->
 </div>
 
 <div class="profile-collections panel panel-default" ng-if="Collections.length > 0">
@@ -64,15 +64,15 @@
             <img ng-src="{{collection.ImageUrl}}" data-collection-id="{{collection.Id}}" />
         </div>
     </div>
-    <div class="panel-footer">
+    <!--<div class="panel-footer">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllCollections}}"></span>
         <i class="glyphicon glyphicon-chevron-right pull-right"></i>
-    </div>
+    </div>-->
 </div>
 
 <div class="profile-reviews panel panel-default" ng-if="Reviews.length > 0">
     <div class="panel-body">
-        <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last}">
+        <div class="review-container" ng-repeat="review in Reviews" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
             <div class="review-metadata clearfix">
                 <div class="avatar pull-left">
                     <img ng-src="{{review.Avatar}}" class="avatar img-circle" />
@@ -93,8 +93,8 @@
             </div>
         </div>
     </div>
-    <div class="panel-footer">
-        <span class="view-all" ng-bind-template="{{Resources.ViewAllReviews}}"></span>
+    <div class="panel-footer" ng-if="Reviews.length > 2">
+        <span class="view-all" ng-bind-template="{{Resources.ViewAllReviews}}" ng-click="showAllReviews()"></span>
         <i class="glyphicon glyphicon-chevron-right pull-right"></i>
     </div>
 </div>
