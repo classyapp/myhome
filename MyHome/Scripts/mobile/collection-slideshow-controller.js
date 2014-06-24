@@ -6,6 +6,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
     AppSettings.then(function(appSettings) {
 
         $scope.ScreenHeight = ClassyUtilities.Screen.GetHeight();
+        $scope.ScreenWidth = ClassyUtilities.Screen.GetWidth();
 
         $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function(data) {
 
@@ -17,7 +18,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
                     ViewCount: listing.ViewCount,
                     FavoriteCount: listing.FavoriteCount,
                     CommentCount: listing.CommentCount,
-                    ImageUrl: listing.ExternalMedia[0].Url,
+                    ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, $scope.ScreenWidth),
                     CopyrightMessage: (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == "True") ?
                         extractHostFromUrl(listing.Metadata.CopyrightMessage) :
                         listing.Metadata.CopyrightMessage ? listing.Metadata.CopyrightMessage : getProfileName(listing.Profile)

@@ -20,7 +20,10 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
         Images: {
             Thumbnail: function(appSettings, imageKey, width, height) {
                 var cdnUrl = appSettings.CdnUrl;
-                return cdnUrl + '/thumbnail/' + imageKey + '?Width=' + width + '&Height=' + height + '&format=json';
+                var imageUrl = cdnUrl + '/thumbnail/' + imageKey + '?Width=' + width;
+                if (height) imageUrl += '&Height=' + height;
+                imageUrl += '&format=json';
+                return imageUrl;
             },
             Thumbnails: function (appSettings, imageKeys, collectionId, width, height) {
                 // TODO: take width/height into consideration!
