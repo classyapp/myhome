@@ -5,7 +5,7 @@
             <div class="collection-details">
                 <h1 class="text-center" ng-bind-template="{{CollectionName}}"></h1>
             </div>
-            <div class="profile-details small">
+            <div class="profile-details small" ng-click="openProfile(ProfileId)">
                 <img ng-src="{{Avatar}}" class="avatar img-circle" />
                 <span class="profile-name" ng-bind-template="{{ProfileName}}"></span>
             </div>
@@ -38,7 +38,7 @@
 
 <div class="collection-listings panel panel-default" ng-if="Listings.length > 0">
     <div class="panel-body listings-container">
-        <div class="listing" ng-repeat="listing in Listings" ng-click="openSlideShow('{{CollectionId}}', '{{listing.Id}}')">
+        <div class="listing grid" ng-repeat="listing in Listings" ng-click="openSlideShow('{{CollectionId}}', '{{listing.Id}}')">
             <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
             <!--<div class="title" ng-bind-template="{{listing.Title}}"></div>-->
         </div>

@@ -7,7 +7,7 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
             StaticViewport: function() {
                 document.getElementById('viewport').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
             },
-            ScalableViewport: function() {
+            ZoomableViewport: function() {
                 document.getElementById('viewport').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=3');
             },
             GetWidth: function() {

@@ -1,7 +1,7 @@
 ﻿
 <div class="slideshow" style="height:{{ScreenHeight}}px">
     
-    <div class="listing" ng-repeat="listing in Listings" ng-class="{'selected':$first, 'hidden':!$first}">
+    <div class="listing" ng-repeat="listing in Listings" ng-class="{'selected':$first, 'hidden':!$first}" ng-swipe-left="nextSlide()" ng-swipe-right="prevSlide()">
         <div class="photo-container" style="height:{{ScreenHeight}}px; line-height:{{ScreenHeight}}px;">
             <img class="photo" src="../img/ajax-loader.gif" data-orig-src="{{listing.ImageUrl}}" data-title="{{listing.Title}}" data-content="{{listing.Description}}" />
         </div>
@@ -12,10 +12,14 @@
         <div class="description"></div>
     </div>
 
-    <div class="slide-btn next-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="nextSlide()" ng-swipe-left="nextSlide()">
+    <div class="close-btn" ng-click="backToCollection()">
+        <i class="glyphicon glyphicon-remove"></i>
+    </div>
+
+    <div class="slide-btn next-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="nextSlide()">
         <i class="glyphicon glyphicon-chevron-right"></i>
     </div>
-    <div class="slide-btn prev-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="prevSlide()" ng-swipe-right="prevSlide()">
+    <div class="slide-btn prev-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="prevSlide()">
         <i class="glyphicon glyphicon-chevron-left"></i>
     </div>
 
