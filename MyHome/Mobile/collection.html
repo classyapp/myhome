@@ -47,7 +47,7 @@
 
 <div class="profile-comments panel panel-default" ng-if="Comments.length > 0">
     <div class="panel-body">
-        <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last}">
+        <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
             <div class="comment-metadata clearfix">
                 <div class="avatar pull-left">
                     <img ng-src="{{comment.CommenterAvatarUrl}}" class="avatar img-circle" />
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div class="panel-footer">
+    <div class="panel-footer" ng-if="Comments.length > 2" ng-click="showAllComments()">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>
         <i class="glyphicon glyphicon-chevron-right pull-right"></i>
     </div>

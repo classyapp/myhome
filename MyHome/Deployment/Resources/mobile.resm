@@ -1,0 +1,26 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{
+			"Key": "Mobile_ProfilePage_ShareTitle",
+			"Description": "Mobile profile page fb share title",
+			"Values": {
+				"en": "{0} on HomeLab"
+			}
+		},
+		{
+			"Key": "Mobile_ProfilePage_ShareDescription_Professional",
+			"Description": "Mobile profile page fb share description for professionals",
+			"Values": {
+				"en": ""
+			}
+		},
+		{
+			"Key": "Mobile_ProfilePage_ShareDescription",
+			"Description": "Mobile profile page fb share description",
+			"Values": {
+				"en": ""
+			}
+		}
+	]
+}

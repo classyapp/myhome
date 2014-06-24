@@ -20,7 +20,10 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
         Images: {
             Thumbnail: function(appSettings, imageKey, width, height) {
                 var cdnUrl = appSettings.CdnUrl;
-                return cdnUrl + '/thumbnail/' + imageKey + '?Width=' + width + '&Height=' + height + '&format=json';
+                var imageUrl = cdnUrl + '/thumbnail/' + imageKey + '?Width=' + width;
+                if (height) imageUrl += '&Height=' + height;
+                imageUrl += '&format=json';
+                return imageUrl;
             },
             Thumbnails: function (appSettings, imageKeys, collectionId, width, height) {
                 // TODO: take width/height into consideration!
@@ -38,6 +41,35 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
                 }
                 container += "</div>";
                 return container;
+            }
+        },
+        OpenGraph: {
+            Title: function(title) {
+                var tag = document.getElementById("og-title");
+                if (tag) tag.remove();
+                tag = document.createElement('meta');
+                tag.setAttribute('property', 'og:title');
+                tag.setAttribute('content', title);
+                tag.setAttribute('id', 'og-title');
+                document.getElementsByTagName('head')[0].appendChild(tag);
+            },
+            Description: function(description) {
+                var tag = document.getElementById("og-description");
+                if (tag) tag.remove();
+                tag = document.createElement('meta');
+                tag.setAttribute('property', 'og:description');
+                tag.setAttribute('content', description);
+                tag.setAttribute('id', 'og-description');
+                document.getElementsByTagName('head')[0].appendChild(tag);
+            },
+            Image: function(imageUrl) {
+                var tag = document.getElementById("og-image");
+                if (tag) tag.remove();
+                tag = document.createElement('meta');
+                tag.setAttribute('property', 'og:image');
+                tag.setAttribute('content', imageUrl);
+                tag.setAttribute('id', 'og-image');
+                document.getElementsByTagName('head')[0].appendChild(tag);
             }
         }
     };
