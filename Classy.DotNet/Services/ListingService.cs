@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Classy.DotNet.Models.Search;
 using CsQuery.ExtensionMethods;
 using ServiceStack.Text;
 using System.Web;
@@ -26,7 +27,7 @@ namespace Classy.DotNet.Services
         // free search
         private readonly string FREE_SEARCH_URL = ENDPOINT_BASE_URL + "/free_search";
         // create listing
-        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
+        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}&includeProfiles={2}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
         private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
@@ -38,7 +39,6 @@ namespace Classy.DotNet.Services
         private readonly string GET_LISTINGS_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/get-multiple";
         private readonly string GET_LISTING_MORE_INFO_URL = ENDPOINT_BASE_URL + "/listing/{0}/more";
         private readonly string SEARCH_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/search";
-        private readonly string SEARCH_UNTAGGED_LISTINGS_URL = ENDPOINT_BASE_URL + "/listing/untagged/{0}";
         // translations
         private readonly string LISTING_TRANSLATION_URL = ENDPOINT_BASE_URL + "/listing/{0}/translation/{1}";
         private readonly string COLLECTION_TRANSLATION_URL = ENDPOINT_BASE_URL + "/collection/{0}/translation/{1}";
@@ -339,13 +339,17 @@ namespace Classy.DotNet.Services
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var url = string.Format(SEARCH_UNTAGGED_LISTINGS_URL, date);
+                var url = string.Format(SEARCH_LISTINGS_URL);
                 var data = new
                 {
                     Page = page,
                     ListingTypes = listingTypes,
                     Date = date,
-                    PageSize = pageSize
+                    PageSize = pageSize,
+                    SortMethod = SortMethod.Date,
+                    Metadata = new Dictionary<string, string> {
+                        { "Room", "home-spaces" }
+                    }
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
                 var results = listingsJson.FromJson<SearchResultsView<ListingView>>();
@@ -365,7 +369,8 @@ namespace Classy.DotNet.Services
             double? priceMax,
             LocationView location,
             int page,
-            int pageSize = 12)
+            int pageSize = 12,
+            SortMethod sortMethod = SortMethod.Popularity)
         {
             try
             {
@@ -380,7 +385,8 @@ namespace Classy.DotNet.Services
                     PriceMax = priceMax,
                     Location = location,
                     Page = page,
-                    PageSize = pageSize
+                    PageSize = pageSize,
+                    SortMethod = sortMethod
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
                 var results = listingsJson.FromJson<SearchResultsView<ListingView>>();
@@ -392,12 +398,12 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts)
+        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts, bool includeProfiles)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts);
+                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts, includeProfiles);
                 
                 var listingsJson = client.DownloadString(url);
                 var listings = listingsJson.FromJson<IList<ListingView>>();

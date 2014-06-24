@@ -2,6 +2,48 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "PollDetails_MorePolls",
+			"Description": "More poll section title on poll details page",
+			"Values": {
+				"en": "More interesting polls"
+			}
+		},
+		{ 
+			"Key": "PollDetails_MorePhotosFromPoll",
+			"Description": "More photos by '<profile>' on poll details page",
+			"Values": {
+				"en": "More photos by {0}"
+			}
+		},
+		{ 
+			"Key": "Mobile_CollectionPage_ViewAllComments",
+			"Description": "Mobile collection page view all comments link",
+			"Values": {
+				"en": "View all comments"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProfilePage_ViewAllCollections",
+			"Description": "Mobile profile page View all collections link",
+			"Values": {
+				"en": "View all collections"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProfilePage_ViewAllProjects",
+			"Description": "Mobile profile page View all projects link",
+			"Values": {
+				"en": "View all projects"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProfilePage_ViewAllReviews",
+			"Description": "Mobile profile page View All Reviews link",
+			"Values": {
+				"en": "View all reviews"
+			}
+		},
+		{ 
 			"Key": "PollDetails_MyVote",
 			"Description": "Poll details - Caption on user's vote",
 			"Values": {

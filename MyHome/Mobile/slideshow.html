@@ -1,0 +1,13 @@
+﻿
+<div class="container slider">
+    <img ng-repeat="listing in Listings" class="slide slide-animation nonDraggableImage"
+         ng-swipe-right="nextListing()" ng-swipe-left="prevListing()"
+         ng-hide="!isCurrentListingIndex($index)" ng-src="{{listing.ExternalMedia[0].Url}}">
+
+    <a class="arrow prev" ng-click="nextListing()" ng-swipe-left="nextListing()">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+    </a>
+    <a class="arrow next" ng-click="prevListing()" ng-swipe-right="prevListing()">
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+</div>

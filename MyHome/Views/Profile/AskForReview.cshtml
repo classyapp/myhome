@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = Localizer.Get("AskForReview_PageTitle");
+    ViewBag.DisableSignupBanner = true;
+    ViewBag.DisableVerifyEmailBanner = true;
 }
 
 <div class="row">
@@ -9,39 +11,57 @@
         <h1>@Localizer.Get("AskForReview_PageTitle")</h1>
         <hr />
 
-        @Html.Bootstrap().ValidationSummary()
-       
-        @if (Model.IsGoogleConnected)
+        @if (User.Identity.IsAuthenticated && Model.IsProfessional)
         {
-            if (Model.GoogleContacts != null && Model.GoogleContacts.Count() > 0)
+            @Html.Bootstrap().ValidationSummary()
+       
+            if (Model.IsGoogleConnected)
             {
-                <h4>@Localizer.Get("AskForReview_GoogleContactsTitle")</h4>
-                <div class="google-contacts">
-                    <table class="table table-condensed">
-                        @foreach (var contact in Model.GoogleContacts)
-                        {
-                            <tr>
-                                <td>@contact.Name</td>
-                                <td><a class="email" data-email="@contact.Email" onclick="addContact(this)">@contact.Email</a></td>
-                            </tr>
-                        }
-                    </table>
-                </div>
+                if (Model.GoogleContacts != null && Model.GoogleContacts.Count() > 0)
+                {
+                    <h4>@Localizer.Get("AskForReview_GoogleContactsTitle")</h4>
+                    <div class="google-contacts">
+                        <table class="table table-condensed">
+                            @foreach (var contact in Model.GoogleContacts)
+                            {
+                                <tr>
+                                    <td>@contact.Name</td>
+                                    <td><a class="email" data-email="@contact.Email" onclick="addContact(this)">@contact.Email</a></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <h4>@Localizer.Get("AskForReview_LoadingGmailContacts")</h4>
+                }
             }
-            else
+
+            using (var f = Html.Bootstrap().Begin(new Form("AskForReview").Type(FormType._NotSet).RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
             {
-                <h4>@Localizer.Get("AskForReview_LoadingGmailContacts")</h4>
+            
+                    @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+                    @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReview_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
+            
+                    @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
+                    @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
             }
         }
-
-        @using (var f = Html.Bootstrap().Begin(new Form("AskForReview").Type(FormType._NotSet).RouteValues(new { ProfileId = Model.ProfileId }).FormMethod(FormMethod.Post).Id("AskForReviewForm").Type(FormType.Horizontal)))
-        {
-            
-                @f.FormGroup().TextAreaFor(x => x.Contacts).Rows(3).HelpText(Localizer.Get("AskForReview_Message_Help")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-                @f.FormGroup().TextAreaFor(x => x.Message).Rows(5).Value(Localizer.Get("AskForReview_DefaultMessage")).ShowValidationMessage(false).Label().ShowRequiredStar(false)
-            
-                @*@Html.Bootstrap().CheckBoxFor(x => x.SaveAsDefault).IsChecked(false).ShowValidationMessage(false).Label().ShowRequiredStar(false)*@
-                @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(Localizer.Get("AskForReview_Submit")).Style(ButtonStyle.Primary).HtmlAttributes(new { onclick = "AskForReviewForm.submit()" }))
+        else
+        { 
+            <div>
+                <h4>@Localizer.Get("AskForReview_MustBeLoggedIn")</h4>
+                @if (User.Identity.IsAuthenticated && !Model.IsProfessional)
+                {
+                    <a href="@Url.RouteUrlForCurrentLocale("CreateProfessionalProfile", new { ReferrerUrl = Url.Encode(Request.RawUrl) })" class="btn btn-primary">@Localizer.Get("AskForReview_GoPro")</a>
+                }
+                else 
+                { 
+                    <a href="#" class="btn btn-primary" authorize-pro>@Localizer.Get("AskForReview_Login")</a>
+                    <a href="@Url.RouteUrlForCurrentLocale("Register", new { ReferrerUrl = Url.Encode(Request.RawUrl), ForceProRegistration = true })" class="btn btn-default">@Localizer.Get("AskForReview_Signup")</a>
+                }
+            </div>
         }
     </div>
 
@@ -51,7 +71,7 @@
             <div class="content">
                 <p>@Localizer.Get("AskForReview_Help_Content")</p>
                 <div>
-                    @if (!Model.IsGoogleConnected)
+                    @if (!Model.IsGoogleConnected && User.Identity.IsAuthenticated && Model.IsProfessional)
                     {
                         <hr/>
                         <p><strong>@Localizer.Get("AskForReview_Help_ImportTitle")</strong></p>
@@ -133,6 +153,8 @@
 
 @section scripts
 {
+    @if (User.Identity.IsAuthenticated)
+    { 
     @Scripts.Render("~/Scripts/jquery.tagsinput.js")
 
     <script type="text/javascript">
@@ -170,7 +192,6 @@
             }
         }
 
-
         $('#Contacts').tagsInput({
             width: 'auto',
             minInputWidth: 'auto',
@@ -189,4 +210,9 @@
             }
         }
     </script>
+    }
+    else
+    {
+        <script>$(function () { $('#login-modal-pro').modal('show'); })</script>
+    }
 }

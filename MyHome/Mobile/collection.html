@@ -1,0 +1,72 @@
+﻿
+<div class="collection-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
+    <div class="cover-slider">
+        <div class="pane pane1">
+            <div class="collection-details">
+                <h1 class="text-center" ng-bind-template="{{CollectionName}}"></h1>
+            </div>
+            <div class="profile-details small" ng-click="openProfile(ProfileId)">
+                <img ng-src="{{Avatar}}" class="avatar img-circle" />
+                <span class="profile-name" ng-bind-template="{{ProfileName}}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="header-actions">
+    <div class="social-area pull-right">
+        <!--<a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get(" listing_maillinksubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))' , '@Localizer.Get("Listing_ShareViaEmailTitle")' )"><i class="glyphicon glyphicon-send"></i></a>-->
+        <span class="btn btn-default action share-facebook" onclick="Classy.Share('facebook')"><i class="fa fa-facebook"></i></span>
+        <span class="btn btn-default action share-twitter" onclick="Classy.Share('twitter')"><i class="fa fa-twitter"></i></span>
+        <span class="btn btn-default action share-google-plus" onclick="Classy.Share('google')"><i class="fa fa-google-plus"></i></span>
+    </div>
+    <div class="stats-container clearfix">
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{ViewCount}}"></div>
+            <div class="description">VIEWS</div>
+        </div>
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{FavoriteCount}}"></div>
+            <div class="description">FAVORITES</div>
+        </div>
+        <div class="stat-container pull-left">
+            <div class="value" ng-bind-template="{{CommentCount}}"></div>
+            <div class="description">COMMENTS</div>
+        </div>
+    </div>
+</div>
+
+<div class="collection-listings panel panel-default" ng-if="Listings.length > 0">
+    <div class="panel-body listings-container">
+        <div class="listing grid" ng-repeat="listing in Listings" ng-click="openSlideShow('{{CollectionId}}', '{{listing.Id}}')">
+            <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
+            <!--<div class="title" ng-bind-template="{{listing.Title}}"></div>-->
+        </div>
+    </div>
+</div>
+
+<div class="profile-comments panel panel-default" ng-if="Comments.length > 0">
+    <div class="panel-body">
+        <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
+            <div class="comment-metadata clearfix">
+                <div class="avatar pull-left">
+                    <img ng-src="{{comment.CommenterAvatarUrl}}" class="avatar img-circle" />
+                </div>
+                <div class="commenter-details pull-left">
+                    <div class="name">
+                        <a href="#/Profile/{{comment.CommenterId}}" ng-bind-template="{{comment.Commenter}}"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-content">
+                <div class="quote quote-left"><i class="fa fa-quote-left"></i></div>
+                <div class="quote quote-right"><i class="fa fa-quote-right"></i></div>
+                <span ng-bind-template="{{comment.Content}}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer" ng-if="Comments.length > 2" ng-click="showAllComments()">
+        <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>
+        <i class="glyphicon glyphicon-chevron-right pull-right"></i>
+    </div>
+</div>

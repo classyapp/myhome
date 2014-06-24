@@ -1,0 +1,56 @@
+﻿<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="classy-mobile-app">
+    <head>
+        
+        <script language="javascript" type="text/javascript">
+            var config = {
+                headers: {
+                    'X-Classy-Env': '{ "AppId": "v1.0" }',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            };
+        </script>
+
+        <link href="../Content/ltr/bootstrap.min.css" rel="stylesheet" />
+        <link href="../Content/ltr/font-awesome.min.css" rel="stylesheet" />
+        <link href="../Content/Mobile/Site.css" rel="stylesheet" />
+        
+        <!-- 3rd party frameworks -->
+        <script src="../Scripts/jquery-1.8.2.min.js"></script>
+        <script src="../Scripts/mobile/hammer.js"></script>
+        <script src="../Scripts/mobile/angular/angular.js"></script>
+        <script src="../Scripts/mobile/angular/angular-resource.js"></script>
+        <script src="../Scripts/mobile/angular/angular-route.js"></script>
+        <script src="../Scripts/mobile/angular/angular-sanitize.js"></script>
+        <script src="../Scripts/mobile/angular/angular-animate.js"></script>
+        <script src="../Scripts/mobile/angular/angular-touch.js"></script>
+        
+        <!-- classy mobile infrastructure -->
+        <script src="../Scripts/mobile/common.js"></script>
+        <script src="../Scripts/mobile/app-manager.js"></script>
+        <script src="../Scripts/mobile/localizer.js"></script>
+        <script src="../Scripts/mobile/utilities.js"></script>
+        <!-- classy mobile app -->
+        <script src="../Scripts/mobile/classy-module.js"></script>
+        <script src="../Scripts/mobile/auth-provider.js"></script>
+        <script src="../Scripts/mobile/profile-controller.js"></script>
+        <script src="../Scripts/mobile/collection-controller.js"></script>
+        <script src="../Scripts/mobile/collection-slideshow-controller.js"></script>
+        <script src="../Scripts/mobile/login-controller.js"></script>
+
+        <title>Homelab.com</title>
+        
+        <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    </head>
+    <body>
+
+        <div class="main-container container-fluid" ng-view>
+
+            <!-- AngularJS Template Here -->
+
+        </div>
+
+    </body>
+</html>

@@ -124,7 +124,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = ListingTypeName, action = "GetListingMoreInfo" },
                 namespaces: new string[] { Namespace }
             );
-
+            
             routes.MapRouteForSupportedLocales(
                 name: string.Concat("Search", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
@@ -862,7 +862,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, false);
 
                 var model = new ShowListingByTypeViewModel<TListingMetadata>
                 {

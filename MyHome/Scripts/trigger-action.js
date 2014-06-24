@@ -43,6 +43,13 @@ function bindTriggerActions(context) {
         }
     });
 
+    $('[authorize-pro]').click(function (e) {
+        if (!Classy.IsAuthenticated) {
+            $('#login-modal-pro').modal('show');
+            e.stopImmediatePropagation(); e.preventDefault();
+        }
+    });
+
     $('[trigger-listing-action="favorite"]', context).click(FavoriteListing);
 
     $('[trigger-listing-action="unfavorite"]', context).click(UnfavoriteListing);
@@ -160,6 +167,7 @@ function bindTriggerActions(context) {
         var listingId = $(this).attr('listing-id');
         var listingType = $(this).attr('listing-type');
         var collectionId = $(this).closest(".collection-items").attr('collection-id');
+        var items = $(this).closest(".collection-items");
         var thumb = $(this).closest(".thumbnail");
         bootbox.dialog({
             title: Classy.Messages["CollectionRemove" + listingType + "_ConfirmTitle"],
@@ -176,7 +184,15 @@ function bindTriggerActions(context) {
                             if ("error" in response) {
                                 $("#pageAlert").attr("class", "alert alert-danger alert-dismissable").find("span").html(response.error);
                             } else {
-                                thumb.closest(".row").remove();
+                                thumb.closest(".row").remove(); 
+                                items.find(".row").each(function (i, e) {
+                                    var input = $(e).find("input");
+                                    var text = $(e).find("textarea");
+                                    input.attr("id", input.attr("id").replace(/_.*?__/i, "_" + i + "__"));
+                                    input.attr("name", input.attr("name").replace(/\[.*?\]/i, "[" + i + "]"));
+                                    text.attr("id", text.attr("id").replace(/_.*?__/i, "_" + i + "__"));
+                                    text.attr("name", text.attr("name").replace(/\[.*?\]/i, "[" + i + "]"));
+                                });
                             }
                         });
                     }
