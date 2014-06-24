@@ -91,4 +91,11 @@ classy.controller('CollectionSlideShowController', function ($scope, $http, AppS
         $location.url('/Collection/' + $routeParams.collectionId);
     };
 
+    $scope.openShareMenu = function() {
+        $('.slideshow .share-menu').css('opacity', '1');
+    };
+    $scope.closeShareMenu = function() {
+        $('.slideshow .share-menu').css('opacity', '0');
+    };
+
 });
