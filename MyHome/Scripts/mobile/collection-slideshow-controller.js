@@ -1,7 +1,7 @@
 
 classy.controller('CollectionSlideShowController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
 
-    ClassyUtilities.Screen.ScalableViewport();
+    ClassyUtilities.Screen.ZoomableViewport();
 
     AppSettings.then(function (appSettings) {
 
@@ -52,10 +52,10 @@ classy.controller('CollectionSlideShowController', function ($scope, $http, AppS
         var details = $('.slideshow .photo-details');
         details.find('.title').html(selectedImage.data('title'));
         details.find('.description').html(selectedImage.data('description'));
+        selectedImage.css('width', '100%');
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
             .load(function () {
-                $(this).css('width', '100%');
                 $(this).addClass('loaded');
             });
     }
@@ -86,4 +86,5 @@ classy.controller('CollectionSlideShowController', function ($scope, $http, AppS
 
         loadImages();
     };
+
 });
