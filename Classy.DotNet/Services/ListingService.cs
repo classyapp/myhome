@@ -32,6 +32,7 @@ namespace Classy.DotNet.Services
         private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
+        private readonly string CHECK_LISTING_DUPLICATE_SKUS = ENDPOINT_BASE_URL + "/listing/sku/check";
         // get listings 
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string GET_LISTINGS_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/get-multiple";
@@ -808,6 +809,22 @@ namespace Classy.DotNet.Services
             {
                 throw wex.ToClassyException();
             }            
+        }
+
+        public List<string> ValidateUniqueSKUs(string listingId, Dictionary<string, int> skus)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var data = new { SKUs = skus.Keys.ToArray(), ListingId = listingId };
+                var skusJson = client.UploadString(CHECK_LISTING_DUPLICATE_SKUS, data.ToJson());
+                var duplicates = skusJson.FromJson<List<string>>();
+                return duplicates;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
         }
     }
 }
