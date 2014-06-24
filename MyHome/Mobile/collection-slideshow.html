@@ -3,13 +3,24 @@
     
     <div class="listing" ng-repeat="listing in Listings" ng-class="{'selected':$first, 'hidden':!$first}" ng-swipe-left="nextSlide()" ng-swipe-right="prevSlide()" ng-click="closeShareMenu()">
         <div class="photo-container" style="height:{{ScreenHeight}}px; line-height:{{ScreenHeight}}px;">
-            <img class="photo" src="../img/ajax-loader.gif" data-orig-src="{{listing.ImageUrl}}" data-title="{{listing.Title}}" data-content="{{listing.Description}}" />
+            <img class="photo" src="../img/ajax-loader.gif" 
+                 data-orig-src="{{listing.ImageUrl}}"
+                 data-title="{{listing.Title}}"
+                 data-content="{{listing.Description}}"
+                 data-view-count="{{listing.ViewCount}}"
+                 data-favorite-count="{{listing.FavoriteCount}}"
+                 data-comment-count="{{listing.CommentCount}}" />
         </div>
     </div>
     
     <div class="photo-details">
         <div class="title"></div>
         <div class="description"></div>
+        <div class="photo-stats">
+            <span class="views"><i class="glyphicon glyphicon-eye-open"></i><span class="value"></span></span>
+            <span class="favorites"><i class="glyphicon glyphicon-heart-empty"></i><span class="value"></span></span>
+            <span class="comments"><i class="glyphicon glyphicon-comment"></i><span class="value"></span></span>
+        </div>
     </div>
 
     <div class="btn close-btn" ng-click="backToCollection()">

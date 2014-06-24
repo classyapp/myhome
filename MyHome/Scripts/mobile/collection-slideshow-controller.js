@@ -14,6 +14,9 @@ classy.controller('CollectionSlideShowController', function ($scope, $http, AppS
                 listings.push({
                     Title: listing.Title,
                     Description: listing.Content,
+                    ViewCount: listing.ViewCount,
+                    FavoriteCount: listing.FavoriteCount,
+                    CommentCount: listing.CommentCount,
                     ImageUrl: listing.ExternalMedia[0].Url,
                     CopyrightMessage: (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == "True") ?
                         extractHostFromUrl(listing.Metadata.CopyrightMessage) :
@@ -50,8 +53,13 @@ classy.controller('CollectionSlideShowController', function ($scope, $http, AppS
         var selectedImage = $('.slideshow .selected .photo');
         if (selectedImage.hasClass('loaded')) return;
         var details = $('.slideshow .photo-details');
+
         details.find('.title').html(selectedImage.data('title'));
         details.find('.description').html(selectedImage.data('description'));
+        details.find('.photo-stats .views .value').html(selectedImage.data('view-count'));
+        details.find('.photo-stats .favorites .value').html(selectedImage.data('favorite-count'));
+        details.find('.photo-stats .comments .value').html(selectedImage.data('comment-count'));
+
         selectedImage.css('width', '100%');
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
