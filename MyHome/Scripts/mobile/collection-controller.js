@@ -1,6 +1,13 @@
 
 classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
     ClassyUtilities.Screen.StaticViewport();
+
+    $scope.showAllComments = function () {
+        $('.profile-comments .comment-container').removeClass('hidden');
+        $('.profile-comments .comment-container:nth-child(2)').removeClass('last');
+        $('.profile-comments .panel-footer').addClass('hidden');
+    };
+
     AppSettings.then(function (appSettings) {
 
         $scope.CollectionId = $routeParams.collectionId;
