@@ -44,9 +44,9 @@ h3 { font-size: 16px;margin-top: 0; }
 .profile-header .dropshadow { background-color: rgba(0, 0, 0, 0.2); }
 
 .collection-header { height: 150px; }
-.collection-header .collection-details h1 { color: #fff;font-size: 42px;margin-bottom: 10px; }
-.collection-header .avatar { width: 40px;height: 40px; border: solid 2px white;margin-right: 10px;}
-.collection-header .profile-name { font-size: 20px;vertical-align: middle;}
+.collection-header .collection-details h1 { color: #fff;font-size: 24px;margin-bottom: 10px; }
+.collection-header .avatar { width: 30px;height: 30px; border: solid 2px white;margin-right: 10px;}
+.collection-header .profile-name { font-size: 18px;vertical-align: middle;}
 
 .header-actions { height: 49px;background-color: #fff;margin-bottom: 20px;border-bottom: solid 1px #ddd; }
 .header-actions .social-area { width: 150px;text-align: center;height: 50px;padding-right: 7px;}
@@ -68,13 +68,12 @@ h3 { font-size: 16px;margin-top: 0; }
 }
 .collections-container .collection, .listings-container .listing {
     display: inline-block;
-    margin: 0 0 15px 15px;
+    margin-left: 15px;
     cursor: pointer;
 }
-.listings-container .listing .title {
-    text-align: center;
-    font-weight: bold;font-size: 18px;
-}
+.listings-container .listing.grid { margin-bottom: 15px; }
+.collections-container .collection.last, .listings-container .listing.last { margin-right: 15px; }
+.listings-container .listing .title { text-align: center; font-weight: bold;font-size: 18px; }
 
 
 

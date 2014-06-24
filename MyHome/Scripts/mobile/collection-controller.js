@@ -9,6 +9,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             $scope.Avatar = data.Profile.Avatar.Url;
             $scope.CollectionName = data.Title;
             $scope.ProfileName = data.Profile.UserName;
+            $scope.ProfileId = data.Profile.Id;
 
             $scope.ViewCount = data.ViewCount;
             $scope.FavoriteCount = data.FavoriteCount;
@@ -53,6 +54,10 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
 
         $scope.openSlideShow = function (collectionId, photoId) {
             $location.url('/Collection/SlideShow/' + collectionId + '/' + photoId);
+        };
+
+        $scope.openProfile = function (profileId) {
+            $location.url('/Profile/' + profileId);
         };
 
         // get localized resources
