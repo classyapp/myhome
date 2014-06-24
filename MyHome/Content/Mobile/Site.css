@@ -106,6 +106,13 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .slide-btn:hover { opacity: 1; }
 .slideshow .next-slide { right: 0;}
 .slideshow .prev-slide { left: 0;}
+.slideshow .close-btn {
+    position: fixed;top: 10px;right: 10px;
+    border: solid 1px #ddd;
+    border-radius: 4px;padding: 4px;
+    line-height: 10px;opacity: 0.8;
+    color: #dddddd;font-size: 26px;
+}
 
 
 .login-form-container { padding-top: 15px; }

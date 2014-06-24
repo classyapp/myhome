@@ -1,5 +1,5 @@
 
-classy.controller('CollectionSlideShowController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
+classy.controller('CollectionSlideShowController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout, $location) {
 
     ClassyUtilities.Screen.ZoomableViewport();
 
@@ -85,6 +85,10 @@ classy.controller('CollectionSlideShowController', function ($scope, $http, AppS
         prevImage.addClass('selected');
 
         loadImages();
+    };
+
+    $scope.backToCollection = function() {
+        $location.url('/Collection/' + $routeParams.collectionId);
     };
 
 });
