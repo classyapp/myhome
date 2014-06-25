@@ -85,6 +85,11 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             $scope.Resources.ViewAllComments = resource;
         });
 
+        $scope.share = function (network) {
+            var url = window.location.protocol + appSettings.Host + '/collection/' + $scope.CollectionId + '/grid/public';
+            Classy.Share(network, url);
+        };
+
         function getProfileName(profile) {
             if (!profile || profile == '') return '';
             if (!profile.ContactInfo && !profile.IsProfessional) return 'unknown';

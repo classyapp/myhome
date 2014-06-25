@@ -13,6 +13,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             var listings = [];
             data.Listings.forEach(function(listing) {
                 listings.push({
+                    Id: listing.Id,
                     Title: listing.Title,
                     Description: listing.Content,
                     ViewCount: listing.ViewCount,
@@ -48,6 +49,12 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             if (name) return name;
             return 'unknown';
         }
+
+        $scope.share = function(network) {
+            var selectedListing = $('.slideshow .listing.selected').data('listing-id');
+            var url = window.location.protocol + appSettings.Host + '/photo/' + selectedListing + '--show';
+            Classy.Share(network, url);
+        };
 
     });
 

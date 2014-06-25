@@ -140,6 +140,11 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             $scope.Resources.ViewAllReviews = resource;
         });
 
+        $scope.share = function (network) {
+            var url = window.location.protocol + appSettings.Host + '/profile/' + $routeParams.profileId;
+            Classy.Share(network, url);
+        };
+
         function getProfileLocation(profileDetails) {
             var professionalInfo = profileDetails.professionalInfo;
             if (!professionalInfo) return '';

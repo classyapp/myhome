@@ -1,7 +1,7 @@
 ﻿
 <div class="slideshow" style="height:{{ScreenHeight}}px">
     
-    <div class="listing" ng-repeat="listing in Listings" ng-class="{'selected':$first, 'hidden':!$first}" ng-swipe-left="nextSlide()" ng-swipe-right="prevSlide()" ng-click="closeShareMenu()">
+    <div class="listing" ng-repeat="listing in Listings" data-listing-id="{{listing.Id}}" ng-class="{'selected':$first, 'hidden':!$first}" ng-swipe-left="nextSlide()" ng-swipe-right="prevSlide()" ng-click="closeShareMenu()">
         <div class="photo-container" style="height:{{ScreenHeight}}px; line-height:{{ScreenHeight}}px;">
             <img class="photo" src="../img/ajax-loader.gif" 
                  data-orig-src="{{listing.ImageUrl}}"
@@ -34,9 +34,9 @@
     </div>
     
     <div class="share-menu" style="opacity:0;">
-        <div class="action share-facebook pull-left" onclick="Classy.Share('facebook')"><i class="fa fa-facebook"></i></div>
-        <div class="action share-twitter pull-left" onclick="Classy.Share('twitter')"><i class="fa fa-twitter"></i></div>
-        <div class="action share-google-plus pull-left" onclick="Classy.Share('google')"><i class="fa fa-google-plus"></i></div>
+        <div class="action share-facebook pull-left" ng-click="share('facebook')"><i class="fa fa-facebook"></i></div>
+        <div class="action share-twitter pull-left" ng-click="share('twitter')"><i class="fa fa-twitter"></i></div>
+        <div class="action share-google-plus pull-left" ng-click="share('google')"><i class="fa fa-google-plus"></i></div>
     </div>
 
     <div class="slide-btn next-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="nextSlide()">
