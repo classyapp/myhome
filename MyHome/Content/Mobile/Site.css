@@ -33,6 +33,7 @@ h3 { font-size: 16px;margin-top: 0; }
 .header-cover .arrow.left { left: 10px;top: 80px;}
 
 
+.section-title { padding: 4px 15px;font-weight: bold;color: #777; }
 
 /* Profile Page */
 .profile-details h1 { color: #fff; }
@@ -71,9 +72,11 @@ h3 { font-size: 16px;margin-top: 0; }
     display: inline-block;
     margin-left: 15px;
     cursor: pointer;
+    width: 160px;
 }
 .listings-container .listing.grid { margin-bottom: 15px; }
 .collections-container .collection.last, .listings-container .listing.last { margin-right: 15px; }
+.collections-container .name { width: 100%;text-align: center;font-weight: bold;font-size: 13px;overflow: hidden; }
 .listings-container .listing .title { text-align: center; font-weight: bold;font-size: 18px; }
 
 

@@ -71,6 +71,7 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
                     projects.push({
                         Id: collection.Id,
+                        Name: collection.Title,
                         ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
                     });
             });
