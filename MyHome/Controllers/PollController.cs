@@ -8,6 +8,7 @@ using Classy.DotNet.Models.Search;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
+using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Services;
 using MyHome.Models;
@@ -45,7 +46,9 @@ namespace MyHome.Controllers
 
             listingLoadedEventArgs.ListingDetailsViewModel.ExtraData = new PollViewExtraData {
                 Listings = listingViews,
-                UserVote = userVote
+                UserVote = userVote,
+                EndDate = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.HasValue ? 
+                    (DateTime?)Convert.ToDateTime(listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.Value) : null
             };
         }
 
@@ -164,6 +167,12 @@ namespace MyHome.Controllers
             var logActivityService = new LogActivityService();
             var listingService = new ListingService();
 
+            var listing = listingService.GetListingById(pollId, false, false, false, false, false);
+            
+            // check if this poll ended already
+            if (listing.Metadata.ContainsKey("EndDate") && Convert.ToDateTime(listing.Metadata["EndDate"]) > DateTime.Now)
+                return Content("Voted Already");
+
             // check if the user voted on this poll already
             var userPollActivity = logActivityService.GetLogActivity(new LogActivity<VotedOnPollActivityMetadata> {
                 UserId = AuthenticatedUserProfile.Id,
@@ -175,8 +184,6 @@ namespace MyHome.Controllers
                 return Json("OK");
 
             // user voted on this poll but a different listing
-            var listing = listingService.GetListingById(pollId, false, false, false, false, false);
-
             var votedOn = listing.Metadata.Single(x => x.Key.StartsWith("Listing_") && x.Value == listingId);
             var listingNumber = votedOn.Key.Substring(votedOn.Key.IndexOf("_") + 1);
             var voteKey = "Vote_" + listingNumber;

@@ -2,6 +2,41 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "PollDetails_PollEndedDialogTitle",
+			"Description": "Poll ended dialog title",
+			"Values": {
+				"en": "Poll closed"
+			}
+		},
+		{ 
+			"Key": "PollDetails_PollEndedDialogContent",
+			"Description": "Poll ended dialog content",
+			"Values": {
+				"en": "This poll has ended already. No more votes will be counted."
+			}
+		},
+		{ 
+			"Key": "PollDetails_EndedWinner",
+			"Description": "Poll ended already winner label",
+			"Values": {
+				"en": "WINNER!"
+			}
+		},
+		{ 
+			"Key": "PollDetails_VotingEndsLabel",
+			"Description": "Poll details voting ends label",
+			"Values": {
+				"en": "Voting ends : "
+			}
+		},
+		{ 
+			"Key": "PollDetails_PollEnded",
+			"Description": "Poll details poll ended label",
+			"Values": {
+				"en": "Poll ended"
+			}
+		},
+		{ 
 			"Key": "PollDetails_MorePolls",
 			"Description": "More poll section title on poll details page",
 			"Values": {
