@@ -37,7 +37,7 @@
 {
     <img src="@pollCollageUrl" class="hidden" />
 }
-<div class="row photo-details poll-details">
+<div class="row photo-details poll-details" data-poll-id="@Model.Listing.Id">
     <div class="col-md-12">
         @if (TempData["PostComment_Success"] != null)
         {
@@ -77,48 +77,48 @@
     </div>
 </div>
 
-    <div class="col-md-12 poll clearfix" data-poll-id="@Model.Listing.Id">
-        <div class="poll-results clearfix">
-            @{
-                var i = 0;
-                var totalVotes = Model.Metadata.Votes.Sum(x => Convert.ToInt32(x));
+<div class="col-md-12 poll clearfix" data-poll-id="@Model.Listing.Id">
+    <div class="poll-results clearfix">
+        @{
+            var i = 0;
+            var totalVotes = Model.Metadata.Votes.Sum(x => Convert.ToInt32(x));
 
-                var maxVotes = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Max();
-                var winner = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Count(x => x == maxVotes) == 1 ? Model.Metadata.Votes.IndexOf(maxVotes.ToString()) : -1;
-                //var classSize = pollExtraData.Listings.Count == 2 ? "col-md-6" : pollExtraData.Listings.Count == 3 ? "col-md-4" : "col-md-3";
-                var styleWidth = pollExtraData.Listings.Count == 2 ? "45%" : pollExtraData.Listings.Count == 3 ? "33%" : "23%";
-                //var thumbnailSize = pollExtraData.Listings.Count == 2 ? 500 : pollExtraData.Listings.Count == 3 ? 300 : 230;
-                var thumbnailSize = 230;
-            }
-            @foreach (var pollOption in pollExtraData.Listings)
-            {
-                var usersChoice = !pollExtraData.UserVote.IsNullOrEmpty() && pollExtraData.UserVote == pollOption.Id;
-                var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
-                var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);
+            var maxVotes = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Max();
+            var winner = Model.Metadata.Votes.Select(x => Convert.ToInt32(x)).Count(x => x == maxVotes) == 1 ? Model.Metadata.Votes.IndexOf(maxVotes.ToString()) : -1;
+            //var classSize = pollExtraData.Listings.Count == 2 ? "col-md-6" : pollExtraData.Listings.Count == 3 ? "col-md-4" : "col-md-3";
+            var styleWidth = pollExtraData.Listings.Count == 2 ? "45%" : pollExtraData.Listings.Count == 3 ? "33%" : "23%";
+            //var thumbnailSize = pollExtraData.Listings.Count == 2 ? 500 : pollExtraData.Listings.Count == 3 ? 300 : 230;
+            var thumbnailSize = 230;
+        }
+        @foreach (var pollOption in pollExtraData.Listings)
+        {
+            var usersChoice = !pollExtraData.UserVote.IsNullOrEmpty() && pollExtraData.UserVote == pollOption.Id;
+            var votes = Convert.ToInt32(Model.Metadata.Votes.ElementAt(i));
+            var votesPercent = totalVotes == 0 ? 0 : Math.Round(((decimal)votes / (decimal)totalVotes) * 100);
 
-                <div class="poll-option-wrapper clearfix" style="width:@styleWidth%">
-                    <div class="photo thumbnail vote @(usersChoice ? "voted" : "")" @((User.Identity.IsAuthenticated ? "" : "authorize")) data-listing-id="@pollOption.Id">
-                        @if (i == winner)
-                        {
-                            <h4><div class="label label-success">@Localizer.Get("PollDetails_Winner")</div></h4>
-                        }
-                        <div class="vote-button">
-                            <i class="glyphicon glyphicon-ok @(!usersChoice ? "hidden" : "")"></i>
-                            <span>@(usersChoice ? Localizer.Get("PollDetails_MyVote") : Localizer.Get("PollDetails_VoteButton"))</span>
-                        </div>
-                        @Html.Thumbnail(pollOption, thumbnailSize)
-                        @Html.Partial("PhotoCopyrightMessage", pollOption)
+            <div class="poll-option-wrapper clearfix" style="width:@styleWidth%">
+                <div class="photo thumbnail vote @(usersChoice ? "voted" : "")" @((User.Identity.IsAuthenticated ? "" : "authorize")) data-listing-id="@pollOption.Id">
+                    @if (i == winner)
+                    {
+                        <h4><div class="label label-success">@Localizer.Get("PollDetails_Winner")</div></h4>
+                    }
+                    <div class="vote-button">
+                        <i class="glyphicon glyphicon-ok @(!usersChoice ? "hidden" : "")"></i>
+                        <span>@(usersChoice ? Localizer.Get("PollDetails_MyVote") : Localizer.Get("PollDetails_VoteButton"))</span>
                     </div>
-                    <div class="vote-percent">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" data-votes-percent="@votesPercent">@votesPercent%</div>
-                        </div>
+                    @Html.Thumbnail(pollOption, thumbnailSize)
+                    @Html.Partial("PhotoCopyrightMessage", pollOption)
+                </div>
+                <div class="vote-percent">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" data-votes-percent="@votesPercent">@votesPercent%</div>
                     </div>
                 </div>
-                        i++;
-            }
-        </div>
+            </div>
+                    i++;
+        }
     </div>
+</div>
 
 <div class="col-md-12">
 
