@@ -533,7 +533,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         model.PricingInfo.BaseOption.MediaFiles = Request["Images[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray(); ;
                     }
-                    ValidatePricingInfo(model.PricingInfo, errors);
+                    ValidatePricingInfo(model.Id, model.PricingInfo, errors);
                     foreach (var error in errors)
                     {
                         ModelState.AddModelError(error.Key, error.Value);
@@ -582,7 +582,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private void ValidatePricingInfo(PricingInfoView pricingInfoView, Dictionary<string,string> errors)
+        private void ValidatePricingInfo(string listingId, PricingInfoView pricingInfoView, Dictionary<string,string> errors)
         {
             if (!AppView.SupportedCurrencies.Any(c => c.Value == pricingInfoView.CurrencyCode))
             {
@@ -601,6 +601,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             if (pricingInfoView.PurchaseOptions != null)
             {
+                Dictionary<string, int> skus = new Dictionary<string, int>();
                 for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
                 {
                     if (pricingInfoView.PurchaseOptions[i].Available)
@@ -613,9 +614,28 @@ namespace Classy.DotNet.Mvc.Controllers
                         {
                             errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].Images", "Missing variation images");
                         }
-                        ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors);
+                        ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors, skus);
                     }
                 }
+
+                if (skus.Count == pricingInfoView.PurchaseOptions.Count) // Unique within the product
+                {
+                    // Validate global uniqueness within Vendor
+                    var service = new ListingService();
+                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId, skus);
+
+                    if (duplicateSkus.Count > 0)
+                    {
+                        for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
+                        {
+                            if (duplicateSkus.Contains(pricingInfoView.PurchaseOptions[i].SKU))
+                            {
+                                errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].SKU", "SKU must be unique");
+                            }
+                        }
+                    }
+                }
+                
             }
             else
             {
@@ -631,6 +651,16 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
                 }
+                else
+                {
+                    // Validate global uniqueness within Vendor
+                    var service = new ListingService();
+                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId, new Dictionary<string, int> { { pricingInfoView.BaseOption.SKU, 0} });
+                    if (duplicateSkus.Count > 0)
+                    {
+                        errors.Add("PricingInfo.BaseOption.SKU", "SKU must be unique");
+                    }
+                }
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Width))
                 {
                     errors.Add("PricingInfo.BaseOption.Width", "Width is required");
@@ -643,11 +673,6 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     errors.Add("PricingInfo.BaseOption.Height", "Height is required");
                 }
-                // SKU UNIQUE!!!
-                //if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
-                //{
-                //    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
-                //}
             }
 
             // ensure unique sku and no duplicate variants
@@ -671,11 +696,22 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private void ValidatePurchaseOption(PurchaseOptionView option, int idx, Dictionary<string, string> errors)
+        private void ValidatePurchaseOption(PurchaseOptionView option, int idx, Dictionary<string, string> errors, Dictionary<string, int> skus)
         {
             if (string.IsNullOrWhiteSpace(option.SKU))
             {
                 errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU is required");
+            }
+            else
+            {
+                if (skus.ContainsKey(option.SKU))
+                {
+                    errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU must be unique");
+                }
+                else
+                {
+                    skus.Add(option.SKU, idx);
+                }
             }
             if (option.Price <= 0)
             {
@@ -697,12 +733,6 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Height", idx), "Height is required");
             }
-            // SKU UNIQUE!!!
-            //if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
-            //{
-            //    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
-            //}
-
         }
 
         [Authorize]
@@ -967,7 +997,7 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             if (model.PricingInfo != null)
             {
-                ValidatePricingInfo(model.PricingInfo, errors);
+                ValidatePricingInfo(null, model.PricingInfo, errors);
             }
             if (Request.IsAjaxRequest())
             {
