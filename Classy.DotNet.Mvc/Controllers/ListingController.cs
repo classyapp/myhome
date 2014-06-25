@@ -533,6 +533,19 @@ namespace Classy.DotNet.Mvc.Controllers
                     {
                         model.PricingInfo.BaseOption.MediaFiles = Request["Images[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray(); ;
                     }
+                    // Assemble Variant dictionary
+                    if (model.PricingInfo.PurchaseOptions != null)
+                    {
+                        for (int i = 0; i < model.PricingInfo.PurchaseOptions.Count; i++)
+                        {
+                            Dictionary<string, string> vprops = new Dictionary<string, string>();
+                            var po = model.PricingInfo.PurchaseOptions[i];
+                            if (po.Color != null && po.Color != "_") { vprops.Add("Color", po.Color); }
+                            if (po.Design != null && po.Design != "_") { vprops.Add("Design", po.Design); }
+                            if (po.Size != null && po.Size != "_") { vprops.Add("Size", po.Size); }
+                            po.VariantProperties = vprops;
+                        }
+                    }
                     ValidatePricingInfo(model.Id, model.PricingInfo, errors);
                     foreach (var error in errors)
                     {
@@ -997,6 +1010,20 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             if (model.PricingInfo != null)
             {
+                // Assemble Variant dictionary
+                if (model.PricingInfo.PurchaseOptions != null)
+                {
+                    for (int i = 0; i < model.PricingInfo.PurchaseOptions.Count; i++)
+                    {
+                        Dictionary<string, string> vprops = new Dictionary<string, string>();
+                        var po = model.PricingInfo.PurchaseOptions[i];
+                        if (po.Color != null && po.Color != "_") { vprops.Add("Color", po.Color); }
+                        if (po.Design != null && po.Design != "_") { vprops.Add("Design", po.Design); }
+                        if (po.Size != null && po.Size != "_") { vprops.Add("Size", po.Size); }
+                        po.VariantProperties = vprops;
+                    }
+                }
+
                 ValidatePricingInfo(null, model.PricingInfo, errors);
             }
             if (Request.IsAjaxRequest())

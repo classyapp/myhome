@@ -102,5 +102,6 @@ namespace Classy.DotNet.Responses
                 return string.Join(",", values);
             }
         }
+        public string UID { get; set; }
     }
 }
