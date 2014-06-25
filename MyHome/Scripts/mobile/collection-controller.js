@@ -34,6 +34,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             }
 
             var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
+            $scope.ListingImageWidth = imageWidth;
             var listings = [];
             data.Listings.forEach(function (listing) {
                 listings.push({

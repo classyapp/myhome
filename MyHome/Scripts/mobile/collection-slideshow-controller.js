@@ -60,7 +60,6 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
 
     function loadImages() {
         var selectedImage = $('.slideshow .selected .photo');
-        if (selectedImage.hasClass('loaded')) return;
         var details = $('.slideshow .photo-details');
 
         var description = details.find('.description');
@@ -89,7 +88,19 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             .attr('src', selectedImage.data('orig-src'))
             .load(function () {
                 $(this).addClass('loaded');
-            });
+
+                // preload 2 more photos
+                var nextImage = $(this).parents('.listing').next().find('.photo');
+                if (nextImage.length == 0) return;
+                nextImage.attr('src', nextImage.data('orig-src')).load(function() {
+                    $(this).addClass('loaded');
+                    var secondImage = $(this).parents('.listing').next().find('.photo');
+                    if (secondImage.length == 0) return;
+                    secondImage.attr('src', secondImage.data('orig-src')).load(function() {
+                        $(this).addClass('loaded');
+                    });
+                });
+        });
     }
 
     $scope.nextSlide = function () {

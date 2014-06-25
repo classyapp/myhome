@@ -38,7 +38,7 @@
 
 <div class="collection-listings panel panel-default" ng-if="Listings.length > 0">
     <div class="panel-body listings-container">
-        <div class="listing grid" ng-repeat="listing in Listings" ng-click="openSlideShow('{{CollectionId}}', '{{listing.Id}}')">
+        <div class="listing grid" ng-repeat="listing in Listings" style="width:{{ListingImageWidth}}px;" ng-click="openSlideShow('{{CollectionId}}', '{{listing.Id}}')">
             <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
             <!--<div class="title" ng-bind-template="{{listing.Title}}"></div>-->
         </div>
