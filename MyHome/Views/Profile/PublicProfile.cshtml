@@ -236,9 +236,9 @@
                                 <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get("Profile_MailLinkSubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Profile_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_profile&utm_medium=email"), Model.Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Profile_ShareViaEmailTitle")', 'email', 'profile')"><i class="glyphicon glyphicon-send"></i></a>
                             }
                         }
-                        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=facebook'), 520, 350, 'facebook', 'profile')"><i class="fa fa-facebook"></i></a>
-                        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=twitter'), 520, 350, 'twitter', 'profile')"><i class="fa fa-twitter"></i></a>
-                        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_source=share_profile&utm_medium=gplus'), 520, 350, 'gplus', 'profile')"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_profile'), 520, 350, 'facebook', 'profile')"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_profile'), 520, 350, 'twitter', 'profile')"><i class="fa fa-twitter"></i></a>
+                        <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_profile'), 520, 350, 'gplus', 'profile')"><i class="fa fa-google-plus"></i></a>
                     }
                 </li>
                 @*<li class="text-left">
