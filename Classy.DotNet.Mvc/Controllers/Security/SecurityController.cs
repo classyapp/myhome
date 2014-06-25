@@ -92,12 +92,13 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Login(bool? forceProRegistration)
+        public ActionResult Login(bool? forceProRegistration, bool? forceNonProRegistration)
         {
             var model = new LoginViewModel
             {
                 RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "~/",
-                ForceProRegistration = forceProRegistration.HasValue && forceProRegistration.Value
+                ForceProRegistration = forceProRegistration.HasValue && forceProRegistration.Value,
+                ForceNonProRegistration = forceNonProRegistration.HasValue && forceNonProRegistration.Value
             };
 
             if (Request.IsAjaxRequest())
@@ -267,7 +268,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Register(string referrerUrl, bool? forceProRegistration)
+        public ActionResult Register(string referrerUrl, bool? forceProRegistration, bool? forceNonProRegistration)
         {
             if (Request.IsAuthenticated) return RedirectToRoute("PublicProfile");
 
@@ -275,6 +276,7 @@ namespace Classy.DotNet.Mvc.Controllers.Security
             {
                 ReferrerUrl = referrerUrl,
                 ForceProRegistration = forceProRegistration.HasValue && forceProRegistration.Value,
+                ForceNonProRegistration = forceNonProRegistration.HasValue && forceNonProRegistration.Value,
                 IsProfessional = forceProRegistration.HasValue && forceProRegistration.Value
             };
             return View(model);

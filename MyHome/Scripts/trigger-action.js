@@ -50,6 +50,13 @@ function bindTriggerActions(context) {
         }
     });
 
+    $('[authorize-nonpro]').click(function (e) {
+        if (!Classy.IsAuthenticated) {
+            $('#login-modal-nonpro').modal('show');
+            e.stopImmediatePropagation(); e.preventDefault();
+        }
+    });
+
     $('[trigger-listing-action="favorite"]', context).click(FavoriteListing);
 
     $('[trigger-listing-action="unfavorite"]', context).click(UnfavoriteListing);

@@ -26,6 +26,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Security
         public bool AgreeToTerms { get; set; }
 
         public bool ForceProRegistration { get; set; }
+        public bool ForceNonProRegistration { get; set; }
         public string ReferrerUrl { get; set; }
         public TMetadata Metadata { get; set; }
     }
