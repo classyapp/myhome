@@ -4,6 +4,7 @@
     <div class="listing" ng-repeat="listing in Listings" data-listing-id="{{listing.Id}}" ng-class="{'selected':$first, 'hidden':!$first}" ng-swipe-left="nextSlide()" ng-swipe-right="prevSlide()" ng-click="closeShareMenu()">
         <div class="photo-container" style="height:{{ScreenHeight}}px; line-height:{{ScreenHeight}}px;">
             <img class="photo" src="../img/ajax-loader.gif" 
+                 data-listing-id="{{listing.Id}}"
                  data-orig-src="{{listing.ImageUrl}}"
                  data-title="{{listing.Title}}"
                  data-content="{{listing.Description}}"
@@ -16,7 +17,7 @@
     <div class="photo-details">
         <div class="title"></div>
         <div class="description"></div>
-        <div class="photo-stats">
+        <div class="photo-stats" ng-click="showComments()">
             <span class="views"><i class="glyphicon glyphicon-eye-open"></i><span class="value"></span></span>
             <span class="favorites"><i class="glyphicon glyphicon-heart-empty"></i><span class="value"></span></span>
             <span class="comments"><i class="glyphicon glyphicon-comment"></i><span class="value"></span></span>
@@ -44,6 +45,20 @@
     </div>
     <div class="slide-btn prev-slide" style="top:{{ScreenHeight / 2 - 50}}px" ng-click="prevSlide()">
         <i class="glyphicon glyphicon-chevron-left"></i>
+    </div>
+    
+    <div class="comments-container" style="opacity:0;display:none;">
+        <div class="comments-bg">
+            <div class="btn close-btn" ng-click="closeComments()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </div>
+            <div class="comments" style="max-height:{{ScreenHeight - 100 - 60 - 20}}px; overflow-y:scroll;">
+                <div class="comment" ng-repeat="comment in Comments" ng-class="{'last':$last}">
+                    <div class="commenter">{{comment.ProfileName}} : </div>
+                    <div class="content">{{comment.Content}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
