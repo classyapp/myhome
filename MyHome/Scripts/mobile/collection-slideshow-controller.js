@@ -29,6 +29,8 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
 
             $timeout(loadImages);
 
+            $scope.loadComments($routeParams.photoId);
+
         }).error(function() {
             // TODO: display some error message
         });
@@ -50,10 +52,31 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             return 'unknown';
         }
 
+<<<<<<< Updated upstream
         $scope.share = function(network) {
             var selectedListing = $('.slideshow .listing.selected').data('listing-id');
             var url = window.location.protocol + appSettings.Host + '/photo/' + selectedListing + '--show';
             Classy.Share(network, url);
+=======
+        $scope.loadComments = function(listingId) {
+            $http.get(appSettings.ApiUrl + '/listing/' + listingId + '?includeComments=true&includeCommenterProfiles=true', config).success(function (data) {
+                var comments = [];
+                data.Comments.forEach(function(comment) {
+                    comments.push({
+                        ProfileId: comment.ProfileId,
+                        Content: comment.Content,
+                        ProfileName: comment.Profile.UserName
+                    });
+                });
+                $scope.Comments = comments;
+            });
+        };
+        $scope.closeComments = function () {
+            $('.comments-container').css('opacity', '0').css('display', 'none');
+        };
+        $scope.showComments = function() {
+            $('.comments-container').css('display', 'inline-block').css('opacity', '1');
+>>>>>>> Stashed changes
         };
 
     });
@@ -83,6 +106,9 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             });
         });
 
+        $scope.loadComments(selectedImage.data('listing-id'));
+
+        if (selectedImage.hasClass('loaded')) return;
         selectedImage.css('width', '100%');
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
