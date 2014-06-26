@@ -169,8 +169,8 @@ namespace MyHome.Controllers
             var listing = listingService.GetListingById(pollId, false, false, false, false, false);
             
             // check if this poll ended already
-            if (listing.Metadata.ContainsKey("EndDate") && Convert.ToDateTime(listing.Metadata["EndDate"]) > DateTime.Now)
-                return Content("Voted Already");
+            if (listing.Metadata.ContainsKey("EndDate") && Convert.ToDateTime(listing.Metadata["EndDate"]) < DateTime.Now)
+                return Content("Voted Ended Already");
 
             // check if the user voted on this poll already
             var userPollActivity = logActivityService.GetLogActivity(new LogActivity<VotedOnPollActivityMetadata> {
