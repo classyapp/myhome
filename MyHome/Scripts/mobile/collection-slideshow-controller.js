@@ -13,6 +13,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             var listings = [];
             data.Listings.forEach(function(listing) {
                 listings.push({
+                    Id: listing.Id,
                     Title: listing.Title,
                     Description: listing.Content,
                     ViewCount: listing.ViewCount,
@@ -28,9 +29,13 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
 
             $timeout(loadImages);
 
+            $scope.loadComments($routeParams.photoId);
+
         }).error(function() {
             // TODO: display some error message
         });
+
+        Localizer.Get('Mobile_CollectionSlideShow_ReadMore', AppSettings.Culture, function(resource) { $scope.Resources.ReadMore = resource; });
 
         function extractHostFromUrl(url) {
             var a = window.createElement('a');
@@ -49,11 +54,35 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             return 'unknown';
         }
 
+        $scope.share = function(network) {
+            var selectedListing = $('.slideshow .listing.selected').data('listing-id');
+            var url = window.location.protocol + appSettings.Host + '/photo/' + selectedListing + '--show';
+            Classy.Share(network, url);
+        };
+
+        $scope.loadComments = function(listingId) {
+            $http.get(appSettings.ApiUrl + '/listing/' + listingId + '?includeComments=true&includeCommenterProfiles=true', config).success(function (data) {
+                var comments = [];
+                data.Comments.forEach(function(comment) {
+                    comments.push({
+                        ProfileId: comment.ProfileId,
+                        Content: comment.Content,
+                        ProfileName: comment.Profile.UserName
+                    });
+                });
+                $scope.Comments = comments;
+            });
+        };
+        $scope.closeComments = function () {
+            $('.comments-container').css('opacity', '0').css('display', 'none');
+        };
+        $scope.showComments = function() {
+            $('.comments-container').css('display', 'inline-block').css('opacity', '1');
+        };
     });
 
     function loadImages() {
         var selectedImage = $('.slideshow .selected .photo');
-        if (selectedImage.hasClass('loaded')) return;
         var details = $('.slideshow .photo-details');
 
         var description = details.find('.description');
@@ -77,12 +106,27 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             });
         });
 
+        $scope.loadComments(selectedImage.data('listing-id'));
+
+        if (selectedImage.hasClass('loaded')) return;
         selectedImage.css('width', '100%');
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
             .load(function () {
                 $(this).addClass('loaded');
-            });
+
+                // preload 2 more photos
+                var nextImage = $(this).parents('.listing').next().find('.photo');
+                if (nextImage.length == 0) return;
+                nextImage.attr('src', nextImage.data('orig-src')).load(function() {
+                    $(this).addClass('loaded');
+                    var secondImage = $(this).parents('.listing').next().find('.photo');
+                    if (secondImage.length == 0) return;
+                    secondImage.attr('src', secondImage.data('orig-src')).load(function() {
+                        $(this).addClass('loaded');
+                    });
+                });
+        });
     }
 
     $scope.nextSlide = function () {

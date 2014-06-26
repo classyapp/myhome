@@ -2,6 +2,41 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{
+			"Key": "Mobile_ProfilePage_Views",
+			"Description": "Mobile profile page header views count title",
+			"Values": {
+				"en": "VIEWS"
+			}
+		},
+		{
+			"Key": "Mobile_ProfilePage_Reviews",
+			"Description": "Mobile profile page header reviews count title",
+			"Values": {
+				"en": "REVIEWS"
+			}
+		},
+		{
+			"Key": "Mobile_ProfilePage_Comments",
+			"Description": "Mobile profile page header comments count title",
+			"Values": {
+				"en": "COMMENTS"
+			}
+		},
+		{
+			"Key": "Mobile_CollectionPage_MoreCollectionsFromUser",
+			"Description": "Mobile collections page - more collections from this user section title",
+			"Values": {
+				"en": "More collections from this user"
+			}
+		},
+		{
+			"Key": "Mobile_CollectionPage_MoreProjectsFromPro",
+			"Description": "Mobile collections page - more projects from pro section title",
+			"Values": {
+				"en": "More projects from this pro"
+			}
+		},
+		{
 			"Key": "Mobile_ProfilePage_ShareTitle",
 			"Description": "Mobile profile page fb share title",
 			"Values": {

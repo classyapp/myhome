@@ -627,25 +627,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         {
                             errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].Images", "Missing variation images");
                         }
-                        ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors, skus);
-                    }
-                }
-
-                if (skus.Count == pricingInfoView.PurchaseOptions.Count) // Unique within the product
-                {
-                    // Validate global uniqueness within Vendor
-                    var service = new ListingService();
-                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId, skus);
-
-                    if (duplicateSkus.Count > 0)
-                    {
-                        for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
-                        {
-                            if (duplicateSkus.Contains(pricingInfoView.PurchaseOptions[i].SKU))
-                            {
-                                errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].SKU", "SKU must be unique");
-                            }
-                        }
+                        ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors);
                     }
                 }
                 

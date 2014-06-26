@@ -322,8 +322,8 @@
 
         function reindexVariations(){
             $("#variations div.variation").each(function(i, item){ 
-                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
-                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
+                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
             });
         }
     </script>

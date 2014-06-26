@@ -19,8 +19,8 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             $scope.ProfileId = data.Profile.Id;
 
             $scope.ViewCount = data.ViewCount;
-            $scope.FavoriteCount = data.FavoriteCount;
-            $scope.CommentCount = data.CommentCount;
+            $scope.FollowerCount = data.FollowerCount;
+            $scope.FollowingCount = data.FollowingCount;
 
             var w = ClassyUtilities.Screen.GetWidth();
             var h = ClassyUtilities.Screen.GetHeight();
@@ -34,6 +34,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             }
 
             var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
+            $scope.ListingImageWidth = imageWidth;
             var listings = [];
             data.Listings.forEach(function (listing) {
                 listings.push({
@@ -54,7 +55,50 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                 });
             });
             $scope.Comments = comments;
-            
+
+            ClassyUtilities.OpenGraph.Title($scope.Title);
+            if (data.CoverPhotos && data.CoverPhotos.length > 0)
+                ClassyUtilities.OpenGraph.Image(ClassyUtilities.Images.Thumbnail(appSettings, data.CoverPhotos[0], 720));
+            else if (data.Listings && data.Listings.length > 0 && data.Listings[0].ExternalMedia && data.Listings[0].ExternalMedia.length > 0)
+                ClassyUtilities.OpenGraph.Image(ClassyUtilities.Images.Thumbnail(appSettings, data.Listings[0].ExternalMedia[0].Key, 720));
+            if (data.Content)
+                ClassyUtilities.OpenGraph.Description(data.Content);
+            else
+                Localizer.Get('Mobile_Collection_ShareDescription', appSettings.Culture).then(function(resource) {
+                    ClassyUtilities.OpenGraph.Description(resource.format(getProfileName(data.Profile)));
+                });
+
+
+            // get more projects/collections from this professional/user
+            var moreListingsType = data.Profile.IsProfessional ? 'Project' : 'Collection';
+            $http.get(appSettings.ApiUrl + '/profile/' + data.Profile.Id + '/collection/list/' + moreListingsType, config).success(function(projects) {
+                var p = [];
+                projects.forEach(function(project) {
+                    if (project.Id == $routeParams.collectionId) return;
+                    p.push({
+                        Id: project.Id,
+                        Title: project.Title,
+                        ImageUrl: project.CoverPhotos && project.CoverPhotos.length > 0 ?
+                            ClassyUtilities.Images.Thumbnail(appSettings, project.CoverPhotos[0], 160, 160) :
+                            'http://www.homelab.com/img/missing-thumb.png'
+                    });
+                });
+                $scope.MoreProjects = p;
+            });
+
+            if (data.Profile.IsProfessional)
+                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', function (resource) {
+                    $scope.Resources.MoreProjectsTitle = resource;
+                });
+            else 
+                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', function(resource) {
+                    $scope.Resources.MoreProjectsTitle = resource;
+                });
+
+            Localizer.Get('Mobile_CollectionPage_Views', AppSettings.Culture, function (resource) { $scope.Resources.Views = resource; });
+            Localizer.Get('Mobile_CollectionPage_Followers', AppSettings.Culture, function (resource) { $scope.Resources.Followers = resource; });
+            Localizer.Get('Mobile_CollectionPage_Following', AppSettings.Culture, function (resource) { $scope.Resources.Following = resource; });
+
         }).error(function () {
             // TODO: display some error message
         });
@@ -72,6 +116,13 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
         Localizer.Get('Mobile_CollectionPage_ViewAllComments').then(function (resource) {
             $scope.Resources.ViewAllComments = resource;
         });
+
+        $scope.share = function (network) {
+            var url = window.location.protocol + appSettings.Host + '/collection/' + $scope.CollectionId + '/grid/public';
+            Classy.Share(network, url);
+        };
+
+        
 
     });
 });

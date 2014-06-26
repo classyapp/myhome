@@ -25,7 +25,7 @@ h3 { font-size: 16px;margin-top: 0; }
     vertical-align: top;padding: 20px;
     white-space: normal;text-align: center;
 }
-.header-cover .pane2 { line-height: 160px;background-color: rgba(0, 0, 0, 0.5); }
+     .header-cover .pane2 { line-height: 160px;background-color: rgba(0, 0, 0, 0.5); }
 .header-cover .pane2 .description { vertical-align: middle;line-height: normal;white-space: normal;display: inline-block; }
 .header-cover .arrow { color: #eee;font-size: 30px;opacity: 0.4;position: absolute;cursor: pointer; }
 .header-cover .arrow:hover { opacity: 1; }
@@ -33,6 +33,7 @@ h3 { font-size: 16px;margin-top: 0; }
 .header-cover .arrow.left { left: 10px;top: 80px;}
 
 
+.section-title { padding: 4px 15px;font-weight: bold;color: #777; }
 
 /* Profile Page */
 .profile-details h1 { color: #fff; }
@@ -71,9 +72,11 @@ h3 { font-size: 16px;margin-top: 0; }
     display: inline-block;
     margin-left: 15px;
     cursor: pointer;
+    width: 160px;
 }
 .listings-container .listing.grid { margin-bottom: 15px; }
 .collections-container .collection.last, .listings-container .listing.last { margin-right: 15px; }
+.collections-container .name { width: 100%;text-align: center;font-weight: bold;font-size: 13px;overflow: hidden; }
 .listings-container .listing .title { text-align: center; font-weight: bold;font-size: 18px; }
 
 
@@ -116,6 +119,14 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .photo-stats .read-more { color: #fff;text-decoration: underline; }
 .slideshow .photo-stats span { color: #ddd;font-size: 14px;margin-right: 10px;vertical-align: initial; }
 .slideshow .photo-stats span i { margin-right: 6px; }
+
+.slideshow .comments-container { position: absolute;bottom: 100px;display: inline-block;width: 100%;padding: 30px;-webkit-transition: opacity 0.3s; }
+.slideshow .comments-container .comments-bg { background-color: white;position: relative;padding: 10px;border-radius: 10px;opacity: 0.85; }
+.slideshow .comments-container .comments-bg .close-btn { position: absolute;color: #666;border-color: #666;opacity: 1; }
+.slideshow .comment { border-bottom: solid 1px #aaa;padding-bottom: 4px;margin-bottom: 4px;}
+.slideshow .comment.last { border-bottom: 0; }
+.slideshow .comment .commenter { font-weight: bold;color: #666; }
+
 
 .login-form-container { padding-top: 15px; }
 .login-form-container .btn-fb-login { margin-bottom: 15px; }
