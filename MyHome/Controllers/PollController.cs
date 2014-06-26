@@ -48,7 +48,7 @@ namespace MyHome.Controllers
                 Listings = listingViews,
                 UserVote = userVote,
                 EndDate = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.HasValue ? 
-                    (DateTime?)Convert.ToDateTime(listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.Value, System.Globalization.CultureInfo.GetCultureInfo("en-US")) : null
+                    (DateTime?)Convert.ToDateTime(listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.Value) : null
             };
         }
 

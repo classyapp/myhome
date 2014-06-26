@@ -56,7 +56,7 @@ namespace MyHome.Models.Polls
             }
 
             if (metadata.ContainsKey("EndDate"))
-                pollMetadata.EndDate = Convert.ToDateTime(metadata["EndDate"]);
+                pollMetadata.EndDate = Convert.ToDateTime(metadata["EndDate"], System.Globalization.CultureInfo.InvariantCulture);
 
             return pollMetadata;
         }
