@@ -19,8 +19,8 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             $scope.ProfileId = data.Profile.Id;
 
             $scope.ViewCount = data.ViewCount;
-            $scope.FollowerCount = data.FollowerCount;
-            $scope.FollowingCount = data.FollowingCount;
+            $scope.FavoriteCount = data.FavoriteCount;
+            $scope.CommentsCount = data.CommentCount;
 
             var w = ClassyUtilities.Screen.GetWidth();
             var h = ClassyUtilities.Screen.GetHeight();
@@ -95,9 +95,9 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                     $scope.Resources.MoreProjectsTitle = resource;
                 });
 
-            Localizer.Get('Mobile_CollectionPage_Views', AppSettings.Culture, function (resource) { $scope.Resources.Views = resource; });
-            Localizer.Get('Mobile_CollectionPage_Followers', AppSettings.Culture, function (resource) { $scope.Resources.Followers = resource; });
-            Localizer.Get('Mobile_CollectionPage_Following', AppSettings.Culture, function (resource) { $scope.Resources.Following = resource; });
+            Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture, function (resource) { $scope.Resources.Views = resource; });
+            Localizer.Get('Mobile_CollectionPage_Favorites', AppSettings.Culture, function (resource) { $scope.Resources.Favorites = resource; });
+            Localizer.Get('Mobile_CollectionPage_Comments', AppSettings.Culture, function (resource) { $scope.Resources.Comments = resource; });
 
         }).error(function () {
             // TODO: display some error message

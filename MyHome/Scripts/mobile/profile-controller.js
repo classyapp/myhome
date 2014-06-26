@@ -78,8 +78,8 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             $scope.Projects = projects;
 
             $scope.ViewCount = data.ViewCount;
-            $scope.CommentCount = data.CommentCount;
-            $scope.ReviewCount = data.ReviewCount;
+            $scope.FollowerCount = data.FollowerCount;
+            $scope.FollowingCount = data.FollowingCount;
 
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
@@ -109,8 +109,8 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
 
             $timeout(initProfileHeader, 0);
             Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture, function(resource) { $scope.Resources.Views = resource; });
-            Localizer.Get('Mobile_ProfilePage_Reviews', AppSettings.Culture, function (resource) { $scope.Resources.Reviews = resource; });
-            Localizer.Get('Mobile_ProfilePage_Comments', AppSettings.Culture, function (resource) { $scope.Resources.Comments = resource; });
+            Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture, function (resource) { $scope.Resources.Followers = resource; });
+            Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture, function (resource) { $scope.Resources.Following = resource; });
         }).error(function () {
             // TODO: display some error message
         });
