@@ -54,19 +54,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                 });
             });
             $scope.Comments = comments;
-
-            ClassyUtilities.OpenGraph.Title($scope.Title);
-            if (data.CoverPhotos && data.CoverPhotos.length > 0)
-                ClassyUtilities.OpenGraph.Image(ClassyUtilities.Images.Thumbnail(appSettings, data.CoverPhotos[0], 720));
-            else if (data.Listings && data.Listings.length > 0 && data.Listings[0].ExternalMedia && data.Listings[0].ExternalMedia.length > 0)
-                ClassyUtilities.OpenGraph.Image(ClassyUtilities.Images.Thumbnail(appSettings, data.Listings[0].ExternalMedia[0].Key, 720));
-            if (data.Content)
-                ClassyUtilities.OpenGraph.Description(data.Content);
-            else
-                Localizer.Get('Mobile_Collection_ShareDescription', appSettings.Culture).then(function(resource) {
-                    ClassyUtilities.OpenGraph.Description(resource.format(getProfileName(data.Profile)));
-                });
-
+            
         }).error(function () {
             // TODO: display some error message
         });
@@ -84,17 +72,6 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
         Localizer.Get('Mobile_CollectionPage_ViewAllComments').then(function (resource) {
             $scope.Resources.ViewAllComments = resource;
         });
-
-        function getProfileName(profile) {
-            if (!profile || profile == '') return '';
-            if (!profile.ContactInfo && !profile.IsProfessional) return 'unknown';
-            var name;
-            if (profile.IsProxy) return profile.ProfessionalInfo.CompanyName;
-            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
-            else name = (!profile.ContactInfo.Name || profile.ContactInfo.Name == '') ? profile.UserName : profile.ContactInfo.Name;
-            if (name) return name;
-            return 'unknown';
-        }
 
     });
 });

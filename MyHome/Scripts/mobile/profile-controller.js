@@ -107,23 +107,7 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             $scope.Reviews = reviews;
 
             $timeout(initProfileHeader, 0);
-
-            Localizer.Get('Mobile_ProfilePage_ShareTitle', AppSettings.Culture).then(function (resource) {
-                ClassyUtilities.OpenGraph.Title(resource.format(data.UserName));
-            });
             
-            if (data.IsProfessional && data.Metadata.BusinessDescription)
-                ClassyUtilities.OpenGraph.Description(data.Metadata.BusinessDescription);
-            else if (data.IsProfessional && !data.Metadata.BusinessDescription) {
-                // TODO: take care of this case
-            } else {
-                Localizer.Get('Mobile_ProfilePage_ShareDescription', AppSettings.Culture).then(function (resource) {
-                    ClassyUtilities.OpenGraph.Description(resource);
-                });
-            }
-                    
-            ClassyUtilities.OpenGraph.Image(data.Avatar ? data.Avatar.Url : 'http://www.homelab.com/img/missing-thumb.png');
-
         }).error(function () {
             // TODO: display some error message
         });
