@@ -34,3 +34,11 @@ String.prototype.format = function () {
     }
     return s;
 }
+
+$.fn.css3 = function(name, value) {
+    $(this).css(name, value);
+    $(this).css('-webkit-' + name, value);
+    $(this).css('-moz-' + name, value);
+    $(this).css('-ms-' + name, value);
+    $(this).css('-o-' + name, value);
+};
