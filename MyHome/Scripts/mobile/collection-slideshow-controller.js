@@ -35,6 +35,8 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             // TODO: display some error message
         });
 
+        Localizer.Get('Mobile_CollectionSlideShow_ReadMore', AppSettings.Culture, function(resource) { $scope.Resources.ReadMore = resource; });
+
         function extractHostFromUrl(url) {
             var a = window.createElement('a');
             a.href = url;
