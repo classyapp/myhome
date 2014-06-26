@@ -326,6 +326,14 @@
                             </div>
                         </div>
                     </div>
+                    <!-- login modal where create account link forces pro registration -->
+                    <div class="modal fade" id="login-modal-nonpro" data-remote="@Url.RouteUrl("Login", new { ForceNonProRegistration = true })" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- will be replaced -->
+                            </div>
+                        </div>
+                    </div>
                     <!-- add to collection modal -->
                     <div class="modal fade" id="collect-modal" data-remote="@Url.RouteUrl("AddListingToCollection", new { })" role="dialog">
                         <div class="modal-dialog">
@@ -456,7 +464,9 @@
                                      { "EditProfile_SaveOrDiscard", Localizer.Get("EditProfile_SaveOrDiscard")},
                                      { "PollDetails_ChangeVotePopupTitle", Localizer.Get("PollDetails_ChangeVotePopupTitle") },
                                      { "PollDetails_ChangeVotePopupContent", Localizer.Get("PollDetails_ChangeVotePopupContent") },
-                                     { "PollDetails_MyVote", Localizer.Get("PollDetails_MyVote") }
+                                     { "PollDetails_MyVote", Localizer.Get("PollDetails_MyVote") }, 
+                                     { "PollDetails_PollEndedDialogTitle", Localizer.Get("PollDetails_PollEndedDialogTitle") },
+                                     { "PollDetails_PollEndedDialogContent", Localizer.Get("PollDetails_PollEndedDialogContent") }
                                  })));
                     </script>
                     <script>

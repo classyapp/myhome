@@ -186,12 +186,6 @@
             $("form input[type=text],form input[type=hidden],form select,form textarea").each(function(idx, item){data[$(item).attr("name")] = $(item).val();});
             $("form input[type=checkbox]").each(function(idx, item) { data[$(item).attr("name")] = $(item).is(":checked"); });
             $("#variations div.variation").each(function(idx, item) {
-                var vProps = {};
-                var props = ['Color', 'Design', 'Size'];
-                var vKey = $(item).data("variation");
-                $.each(vKey.split('|'), function(kidx, value) { if (value != '_') { vProps[props[kidx]] = value; } });
-                data["PricingInfo.PurchaseOptions[" + idx + "].VariantProperties"] = vProps;
-
                 var dz = $(".dropzone", item).data("DZ");
                 var optionFiles = [];
                 data["PricingInfo.PurchaseOptions[" + idx + "].HasImages"] = ($(".dz-preview", item).length > 0);
@@ -262,10 +256,13 @@
                             "<div class='panel-heading'><input checked='checked' id='PricingInfo_PurchaseOptions_" + i + "__Available' name='PricingInfo.PurchaseOptions[" + i + "].Available' type='checkbox'> <span>" + vkey + "</span></div>" +
                             "<div class='panel-body'>" +
                             "<div class='row'>" +
+                            "<input data-vprop='Color' id='PricingInfo_PurchaseOptions_" + i + "__Color' name='PricingInfo.PurchaseOptions[" + i + "].Color' type='hidden' value='" + variations[i][0] + "'>" +
+                            "<input data-vprop='Design' id='PricingInfo_PurchaseOptions_" + i + "__Design' name='PricingInfo.PurchaseOptions[" + i + "].Design' type='hidden' value='" + variations[i][1] + "'>" +
+                            "<input data-vprop='Size' id='PricingInfo_PurchaseOptions_" + i + "__Size' name='PricingInfo.PurchaseOptions[" + i + "].Size' type='hidden' value='" + variations[i][2] + "'>" +
                             "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
                             "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>Compare At Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div>" +
                             "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div>" +
-                            "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Quantity'>Quantity</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Quantity' name='PricingInfo.PurchaseOptions[" + i + "].Quantity' type='text' value=''></div>" +
+                            "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Quantity'>Quantity</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Quantity' name='PricingInfo.PurchaseOptions[" + i + "].Quantity' type='text' value='" + $("#PricingInfo_BaseOption_Quantity").val() + "'></div>" +
                             "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Width'>Width</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Width' name='PricingInfo.PurchaseOptions[" + i + "].Width' type='text' value='" + $("#PricingInfo_BaseOption_Width").val()  + "'></div>" +
                             "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Depth'>Depth</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Depth' name='PricingInfo.PurchaseOptions[" + i + "].Depth' type='text' value='" + $("#PricingInfo_BaseOption_Depth").val()  + "'></div>" +
                             "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Height'>Height</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Height' name='PricingInfo.PurchaseOptions[" + i + "].Height' type='text' value='" + $("#PricingInfo_BaseOption_Height").val()  + "'></div>" +
@@ -317,6 +314,7 @@
                         varr[idx] = '_';
                         $(item).data("variation", varr.join());
                         $(item).find(".panel-heading > span").html(varr.join());
+                        $variation.find("input[type=hidden][data-vprop=" + varKeys[idx] + "]").val(variations[i][idx]);
                     }
                 }
             });
@@ -324,8 +322,8 @@
 
         function reindexVariations(){
             $("#variations div.variation").each(function(i, item){ 
-                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
-                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
+                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
             });
         }
     </script>

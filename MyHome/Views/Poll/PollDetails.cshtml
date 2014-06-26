@@ -6,6 +6,7 @@
 @{
     var proCategories = Localizer.GetList("professional-categories");
     var pollExtraData = Model.ExtraData as PollViewExtraData;
+    var pollEnded = pollExtraData.EndDate.HasValue ? pollExtraData.EndDate < DateTime.Now : false;
 
     ViewBag.Title = string.Concat("HomeLab.com :: ", Model.Listing.Title);
     ViewBag.MetaDescription = Model.Listing.Content;
@@ -35,7 +36,7 @@
 {
     <img src="@pollCollageUrl" class="hidden"/>
 }
-<div class="row photo-details poll-details" data-poll-id="@Model.Listing.Id">
+<div class="row photo-details poll-details" data-poll-id="@Model.Listing.Id" data-poll-ended="@pollEnded.ToString().ToLower()">
     <div class="col-md-12">
         @if (TempData["PostComment_Success"] != null)
         {
@@ -66,7 +67,20 @@
 
     <div class="clearfix">
         <div class="col-md-7">
-            <h1>@Model.Listing.Title</h1>
+            <h1>
+                @Model.Listing.Title
+                <span class="label label-info pull-right">
+                    @if (pollExtraData.EndDate.HasValue && !pollEnded)
+                    {
+                        @Localizer.Get("PollDetails_VotingEndsLabel")
+                        @pollExtraData.EndDate.Value.ToShortDateString()
+                    }
+                    else if (pollExtraData.EndDate.HasValue)
+                    {
+                        @Localizer.Get("PollDetails_PollEnded")
+                    }
+                </span>
+            </h1>
             <p>@Model.Listing.Content</p>
         </div>
         <div class="col-md-5">
@@ -98,7 +112,8 @@
                 <div class="photo thumbnail vote @(usersChoice ? "voted" : "")" @((User.Identity.IsAuthenticated ? "" : "authorize")) data-listing-id="@pollOption.Id">
                     @if (i == winner)
                     {
-                        <h4><div class="label label-success">@Localizer.Get("PollDetails_Winner")</div></h4>
+                        var winnerText = pollEnded ? Localizer.Get("PollDetails_EndedWinner") : Localizer.Get("PollDetails_Winner");
+                        <h4><div class="label label-success">@winnerText</div></h4>
                     }
                     <div class="vote-button">
                         <i class="glyphicon glyphicon-ok @(!usersChoice ? "hidden" : "")"></i>

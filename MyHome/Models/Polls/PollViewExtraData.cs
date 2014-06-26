@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Classy.DotNet.Responses;
 
 namespace MyHome.Models.Polls
@@ -7,5 +8,6 @@ namespace MyHome.Models.Polls
     {
         public List<ListingView> Listings { get; set; }
         public string UserVote { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

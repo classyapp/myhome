@@ -25,11 +25,12 @@
             {
                 @Html.HiddenFor(x => x.ReferrerUrl)
                 @Html.HiddenFor(x => x.ForceProRegistration)
+                @Html.HiddenFor(x => x.ForceNonProRegistration)
                 @f.FormGroup().TextBoxFor(x => x.Email).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().TextBoxFor(x => x.Username).ShowValidationMessage(false).Label().ShowRequiredStar(false)
                 @f.FormGroup().PasswordFor(x => x.Password).ShowValidationMessage(false).Label().ShowRequiredStar(false)
 
-                if (!Model.ForceProRegistration) {
+                if (!Model.ForceProRegistration && !Model.ForceNonProRegistration) {
                     @Html.Bootstrap().CheckBoxFor(x => x.IsProfessional).IsChecked(false).Label().ShowRequiredStar(false)
                 }
                 else
