@@ -70,3 +70,15 @@
         <i class="glyphicon glyphicon-chevron-right pull-right"></i>
     </div>
 </div>
+
+<div class="section-title" ng-if="MoreProjects.length > 0" ng-bind-template="{{Resources.MoreProjectsTitle}}"></div>
+<div class="more-projects panel panel-default" ng-if="MoreProjects.length > 0">
+    <div class="panel-body collections-container horizontal-sliding-container">
+        <div classy-scrollable>
+            <div class="collection" ng-class="{'last':$last}" ng-repeat="project in MoreProjects" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
+                <img ng-src="{{project.ImageUrl}}" data-collection-id="{{project.Id}}" />
+                <div class="name" ng-bind-template="{{project.Title}}"></div>
+            </div>
+        </div>
+    </div>
+</div>

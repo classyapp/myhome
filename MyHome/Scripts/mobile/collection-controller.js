@@ -68,6 +68,33 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                     ClassyUtilities.OpenGraph.Description(resource.format(getProfileName(data.Profile)));
                 });
 
+
+            // get more projects/collections from this professional/user
+            var moreListingsType = data.Profile.IsProfessional ? 'Project' : 'Collection';
+            $http.get(appSettings.ApiUrl + '/profile/' + data.Profile.Id + '/collection/list/' + moreListingsType, config).success(function(projects) {
+                var p = [];
+                projects.forEach(function(project) {
+                    if (project.Id == $routeParams.collectionId) return;
+                    p.push({
+                        Id: project.Id,
+                        Title: project.Title,
+                        ImageUrl: project.CoverPhotos && project.CoverPhotos.length > 0 ?
+                            ClassyUtilities.Images.Thumbnail(appSettings, project.CoverPhotos[0], 160, 160) :
+                            'http://www.homelab.com/img/missing-thumb.png'
+                    });
+                });
+                $scope.MoreProjects = p;
+            });
+
+            if (data.Profile.IsProfessional)
+                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', function (resource) {
+                    $scope.Resources.MoreProjectsTitle = resource;
+                });
+            else 
+                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', function(resource) {
+                    $scope.Resources.MoreProjectsTitle = resource;
+                });
+
         }).error(function () {
             // TODO: display some error message
         });
