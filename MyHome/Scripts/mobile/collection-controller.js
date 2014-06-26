@@ -13,6 +13,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
         $scope.CollectionId = $routeParams.collectionId;
         $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeComments=true&includeCommenterProfiles=true&includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function (data) {
 
+            $scope.Content = data.Content;
             $scope.Avatar = data.Profile.Avatar.Url;
             $scope.CollectionName = data.Title;
             $scope.ProfileName = data.Profile.UserName;
@@ -37,11 +38,18 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             $scope.ListingImageWidth = imageWidth;
             var listings = [];
             data.Listings.forEach(function (listing) {
-                listings.push({
+                var l = {
                     Id: listing.Id,
                     Title: listing.Title,
-                    ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, imageWidth)
+                    ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, imageWidth),
+                    ArticleImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, w),
+                    CopyrightMessage: getCopyrightMessage(listing)
+                };
+                data.IncludedListings.forEach(function(includedListing) {
+                    if (includedListing.Id != listing.Id) return;
+                    l.Comments = includedListing.Comments;
                 });
+                listings.push(l);
             });
             $scope.Listings = listings;
 
@@ -55,19 +63,6 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                 });
             });
             $scope.Comments = comments;
-
-            ClassyUtilities.OpenGraph.Title($scope.Title);
-            if (data.CoverPhotos && data.CoverPhotos.length > 0)
-                ClassyUtilities.OpenGraph.Image(ClassyUtilities.Images.Thumbnail(appSettings, data.CoverPhotos[0], 720));
-            else if (data.Listings && data.Listings.length > 0 && data.Listings[0].ExternalMedia && data.Listings[0].ExternalMedia.length > 0)
-                ClassyUtilities.OpenGraph.Image(ClassyUtilities.Images.Thumbnail(appSettings, data.Listings[0].ExternalMedia[0].Key, 720));
-            if (data.Content)
-                ClassyUtilities.OpenGraph.Description(data.Content);
-            else
-                Localizer.Get('Mobile_Collection_ShareDescription', appSettings.Culture).then(function(resource) {
-                    ClassyUtilities.OpenGraph.Description(resource.format(getProfileName(data.Profile)));
-                });
-
 
             // get more projects/collections from this professional/user
             var moreListingsType = data.Profile.IsProfessional ? 'Project' : 'Collection';
@@ -122,7 +117,23 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             Classy.Share(network, url);
         };
 
-        
+        var getCopyrightMessage = function(listing) {
+            if (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == 'True')
+                return listing.Metadata.CopyrightMessage.extractHost();
+            if (listing.Metadata.CopyrightMessage != '')
+                return listing.Metadata.CopyrightMessage;
+            return getProfileName(listing.Profile);
+        };
 
+        var getProfileName = function(profile) {
+            if (!profile) return 'unknown';
+            if (!profile.IsProfessional && !profile.ContactInfo) return 'unknown';
+            var name;
+            if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
+            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
+            else name = profile.ContactInfo.Name ? profile.ContactInfo.Name : profile.UserName;
+            if (name) return name;
+            return 'unknown';
+        };
     });
 });

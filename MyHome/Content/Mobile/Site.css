@@ -53,6 +53,11 @@ h3 { font-size: 16px;margin-top: 0; }
 .collection-header .avatar { width: 30px;height: 30px; border: solid 2px white;margin-right: 10px;}
 .collection-header .profile-name { font-size: 18px;vertical-align: middle;}
 
+.article-container { margin: 0 8px;font-size: 16px;}
+.article-container .image { margin-top: 30px;margin-bottom: 6px;position: relative; }
+.article-container .image img { width: 100%; }
+.article-container .image .copyright-message { position: absolute;padding: 4px;background-color: #000;color: #fff; }
+
 .header-actions { height: 49px;background-color: #fff;margin-bottom: 20px;border-bottom: solid 1px #ddd; }
 .header-actions .social-area { width: 150px;text-align: center;height: 50px;padding-right: 7px;}
 .header-actions .stats-container { margin-right: 150px;}

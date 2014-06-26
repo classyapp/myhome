@@ -26,14 +26,20 @@ Classy.Share = function (network, url) {
     }
 };
 
-String.prototype.format = function () {
+String.prototype.format = function() {
     var s = this;
     for (var i = 0; i < arguments.length; i++) {
         var reg = new RegExp("\\{" + i + "\\}", "gm");
         s = s.replace(reg, arguments[i]);
     }
     return s;
-}
+};
+
+String.prototype.extractHost = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.hostname;
+};
 
 $.fn.css3 = function(name, value) {
     $(this).css(name, value);

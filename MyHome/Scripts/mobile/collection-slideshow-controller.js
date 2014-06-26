@@ -21,7 +21,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
                     CommentCount: listing.CommentCount,
                     ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, $scope.ScreenWidth),
                     CopyrightMessage: (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == "True") ?
-                        extractHostFromUrl(listing.Metadata.CopyrightMessage) :
+                        listing.Metadata.CopyrightMessage.extractHost() :
                         listing.Metadata.CopyrightMessage ? listing.Metadata.CopyrightMessage : getProfileName(listing.Profile)
                 });
             });
@@ -36,13 +36,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
         });
 
         Localizer.Get('Mobile_CollectionSlideShow_ReadMore', AppSettings.Culture, function(resource) { $scope.Resources.ReadMore = resource; });
-
-        function extractHostFromUrl(url) {
-            var a = window.createElement('a');
-            a.href = url;
-            return a.hostname;
-        }
-
+        
         function getProfileName(profile) {
             if (!profile || profile == '') return '';
             if (!profile.ContactInfo && !profile.IsProfessional) return 'unknown';
