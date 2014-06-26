@@ -23,15 +23,15 @@
     <div class="stats-container clearfix">
         <div class="stat-container pull-left">
             <div class="value" ng-bind-template="{{ViewCount}}"></div>
-            <div class="description">VIEWS</div>
+            <div class="description" ng-bind-template="{{Resources.Views}}"></div>
         </div>
         <div class="stat-container pull-left">
-            <div class="value" ng-bind-template="{{FavoriteCount}}"></div>
-            <div class="description">FAVORITES</div>
+            <div class="value" ng-bind-template="{{FollowerCount}}"></div>
+            <div class="description" ng-bind-template="{{Resources.Followers}}"></div>
         </div>
         <div class="stat-container pull-left">
-            <div class="value" ng-bind-template="{{CommentCount}}"></div>
-            <div class="description">COMMENTS</div>
+            <div class="value" ng-bind-template="{{FollowingCount}}"></div>
+            <div class="description" ng-bind-template="{{Resources.Following}}"></div>
         </div>
     </div>
 </div>
