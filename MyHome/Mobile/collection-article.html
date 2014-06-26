@@ -36,14 +36,19 @@
     </div>
 </div>
 
-<div class="collection-listings panel panel-default" ng-if="Listings.length > 0">
-    <div class="panel-body listings-container">
-        <div class="listing grid" ng-repeat="listing in Listings" style="width:{{ListingImageWidth}}px;" ng-click="openSlideShow('{{CollectionId}}', '{{listing.Id}}')">
-            <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
-            <!--<div class="title" ng-bind-template="{{listing.Title}}"></div>-->
+<div class="article-container">
+    
+    <div class="content" ng-if="Content && Content.length > 0" ng-bind-template="{{Content}}"></div>
+    
+    <div class="article-section" ng-if="Listings.length > 0" ng-repeat="listing in Listings">
+        <div class="image">
+            <img ng-src="{{listing.ArticleImageUrl}}" data-listing-id="{{listing.Id}}"/>
+            <span class="copyright-message" ng-bind-template="{{listing.CopyrightMessage}}"></span>
         </div>
+        <div class="content" ng-if="listing.Comments && listing.Comments.length > 0" ng-bind-template="{{listing.Comments}}"></div>
     </div>
 </div>
+
 
 <div class="profile-comments panel panel-default" ng-if="Comments.length > 0">
     <div class="panel-body">
@@ -68,17 +73,5 @@
     <div class="panel-footer" ng-if="Comments.length > 2" ng-click="showAllComments()">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>
         <i class="glyphicon glyphicon-chevron-right pull-right"></i>
-    </div>
-</div>
-
-<div class="section-title" ng-if="MoreProjects.length > 0" ng-bind-template="{{Resources.MoreProjectsTitle}}"></div>
-<div class="more-projects panel panel-default" ng-if="MoreProjects.length > 0">
-    <div class="panel-body collections-container horizontal-sliding-container">
-        <div classy-scrollable>
-            <div class="collection" ng-class="{'last':$last}" ng-repeat="project in MoreProjects" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
-                <img ng-src="{{project.ImageUrl}}" data-collection-id="{{project.Id}}" />
-                <div class="name" ng-bind-template="{{project.Title}}"></div>
-            </div>
-        </div>
     </div>
 </div>

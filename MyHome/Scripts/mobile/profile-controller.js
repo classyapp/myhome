@@ -71,14 +71,15 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
                     projects.push({
                         Id: collection.Id,
+                        Name: collection.Title,
                         ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
                     });
             });
             $scope.Projects = projects;
 
             $scope.ViewCount = data.ViewCount;
-            $scope.CommentCount = data.CommentCount;
-            $scope.ReviewCount = data.ReviewCount;
+            $scope.FollowerCount = data.FollowerCount;
+            $scope.FollowingCount = data.FollowingCount;
 
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
@@ -107,23 +108,9 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             $scope.Reviews = reviews;
 
             $timeout(initProfileHeader, 0);
-
-            Localizer.Get('Mobile_ProfilePage_ShareTitle', AppSettings.Culture).then(function (resource) {
-                ClassyUtilities.OpenGraph.Title(resource.format(data.UserName));
-            });
-            
-            if (data.IsProfessional && data.Metadata.BusinessDescription)
-                ClassyUtilities.OpenGraph.Description(data.Metadata.BusinessDescription);
-            else if (data.IsProfessional && !data.Metadata.BusinessDescription) {
-                // TODO: take care of this case
-            } else {
-                Localizer.Get('Mobile_ProfilePage_ShareDescription', AppSettings.Culture).then(function (resource) {
-                    ClassyUtilities.OpenGraph.Description(resource);
-                });
-            }
-                    
-            ClassyUtilities.OpenGraph.Image(data.Avatar ? data.Avatar.Url : 'http://www.homelab.com/img/missing-thumb.png');
-
+            Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture, function(resource) { $scope.Resources.Views = resource; });
+            Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture, function (resource) { $scope.Resources.Followers = resource; });
+            Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture, function (resource) { $scope.Resources.Following = resource; });
         }).error(function () {
             // TODO: display some error message
         });
@@ -139,6 +126,11 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function(resource) {
             $scope.Resources.ViewAllReviews = resource;
         });
+
+        $scope.share = function (network) {
+            var url = window.location.protocol + appSettings.Host + '/profile/' + $routeParams.profileId;
+            Classy.Share(network, url);
+        };
 
         function getProfileLocation(profileDetails) {
             var professionalInfo = profileDetails.professionalInfo;

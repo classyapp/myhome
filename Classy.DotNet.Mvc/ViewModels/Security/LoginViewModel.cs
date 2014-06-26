@@ -17,5 +17,6 @@ namespace Classy.DotNet.Mvc.ViewModels.Security
         public bool RememberMe { get; set; }
         public string RedirectUrl { get; set; }
         public bool ForceProRegistration { get; set; }
+        public bool ForceNonProRegistration { get; set; }
     }
 }

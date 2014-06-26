@@ -23,7 +23,7 @@
 
         <p>
             @Localizer.Get("Login_NoAccount")
-            @Html.RouteLink(Localizer.Get("Login_CreateAccount"), new { controller = "Security", action = "Register", ReferrerUrl = Url.Encode(Request.UrlReferrer.ToString()), ForceProRegistration = Model.ForceProRegistration })
+            @Html.RouteLink(Localizer.Get("Login_CreateAccount"), new { controller = "Security", action = "Register", ReferrerUrl = Url.Encode(Request.UrlReferrer.ToString()), ForceProRegistration = Model.ForceProRegistration, ForceNonProRegistration = Model.ForceNonProRegistration })
             <a href="/register"></a>
         </p>
     </div>

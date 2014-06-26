@@ -619,13 +619,19 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     if (pricingInfoView.PurchaseOptions[i].Available)
                     {
-                        if (!string.IsNullOrEmpty(Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"]))
+                        if (
+                            !string.IsNullOrEmpty(
+                                Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"]))
                         {
-                            pricingInfoView.PurchaseOptions[i].MediaFiles = Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray();
+                            pricingInfoView.PurchaseOptions[i].MediaFiles =
+                                Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"].Split(',')
+                                    .Select(key => new MediaFileView {Key = key})
+                                    .ToArray();
                         }
                         else if (!pricingInfoView.PurchaseOptions[i].HasImages)
                         {
-                            errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].Images", "Missing variation images");
+                            errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].Images",
+                                "Missing variation images");
                         }
                         ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors, skus);
                     }
@@ -648,7 +654,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         }
                     }
                 }
-                
+
             }
             else
             {
@@ -668,7 +674,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     // Validate global uniqueness within Vendor
                     var service = new ListingService();
-                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId, new Dictionary<string, int> { { pricingInfoView.BaseOption.SKU, 0} });
+                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId,
+                        new Dictionary<string, int> {{pricingInfoView.BaseOption.SKU, 0}});
                     if (duplicateSkus.Count > 0)
                     {
                         errors.Add("PricingInfo.BaseOption.SKU", "SKU must be unique");

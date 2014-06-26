@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
@@ -11,6 +12,8 @@ namespace MyHome.Models.Polls
     {
         public List<string> Listings { get; set; }
         public List<string> Votes { get; set; }
+
+        public DateTime? EndDate { get; set; }
 
         public PollMetadata()
         {
@@ -31,6 +34,9 @@ namespace MyHome.Models.Polls
             if (!Votes.IsNullOrEmpty())
                 Votes.Indexed().ForEach(x => properties.Add("Vote_" + x.Key, x.Value.ToString()));
 
+            if (EndDate.HasValue)
+                properties.Add("EndDate", EndDate.ToString());
+
             return properties;
         }
 
@@ -48,6 +54,9 @@ namespace MyHome.Models.Polls
                 pollMetadata.Listings.Add(metadata["Listing_" + i]);
                 pollMetadata.Votes.Add(metadata.ContainsKey("Vote_" + i) ? metadata["Vote_" + i] : "0");
             }
+
+            if (metadata.ContainsKey("EndDate"))
+                pollMetadata.EndDate = Convert.ToDateTime(metadata["EndDate"], System.Globalization.CultureInfo.InvariantCulture);
 
             return pollMetadata;
         }
