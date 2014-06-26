@@ -47,8 +47,7 @@ namespace MyHome.Controllers
             listingLoadedEventArgs.ListingDetailsViewModel.ExtraData = new PollViewExtraData {
                 Listings = listingViews,
                 UserVote = userVote,
-                EndDate = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.HasValue ? 
-                    (DateTime?)Convert.ToDateTime(listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate.Value) : null
+                EndDate = listingLoadedEventArgs.ListingDetailsViewModel.Metadata.EndDate
             };
         }
 
