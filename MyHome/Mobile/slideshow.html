@@ -4,20 +4,10 @@
          ng-swipe-right="nextListing()" ng-swipe-left="prevListing()"
          ng-hide="!isCurrentListingIndex($index)" ng-src="{{listing.ExternalMedia[0].Url}}">
 
-    <a class="arrow prev" ng-click="nextListing()">
+    <a class="arrow prev" ng-click="nextListing()" ng-swipe-left="nextListing()">
         <i class="glyphicon glyphicon-chevron-left"></i>
     </a>
-    <a class="arrow next" ng-click="prevListing()">
+    <a class="arrow next" ng-click="prevListing()" ng-swipe-right="prevListing()">
         <i class="glyphicon glyphicon-chevron-right"></i>
     </a>
-    <!--<nav class="nav">
-        <div class="wrapper">
-            <ul class="dots">
-                <li class="dot" ng-repeat="listing in Listings">
-                    <a href="#" ng-class="{'active':isCurrentListingIndex($index)}"
-                       ng-click="setCurrentListingIndex($index);">{{listing.Title}}</a>
-                </li>
-            </ul>
-        </div>
-    </nav>-->
 </div>

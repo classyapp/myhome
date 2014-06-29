@@ -124,7 +124,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = ListingTypeName, action = "GetListingMoreInfo" },
                 namespaces: new string[] { Namespace }
             );
-
+            
             routes.MapRouteForSupportedLocales(
                 name: string.Concat("Search", ListingTypeName),
                 url: string.Concat(ListingTypeName.ToLower(), "/{*filters}"),
@@ -477,7 +477,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     SearchableKeywords = listing.SearchableKeywords,
                     EditorsRank = listing.EditorsRank,
                     PricingInfo = listing.PricingInfo,
-                    Categories = listing.Categories
+                    Categories = (listing.Categories == null ? null : listing.Categories.ToArray())
                 };
                 return View(string.Format("Edit{0}", ListingTypeName), model);
             }
@@ -507,12 +507,46 @@ namespace Classy.DotNet.Mvc.Controllers
                 var fields = ListingUpdateFields.Title | ListingUpdateFields.Content |
                     ListingUpdateFields.Metadata | ListingUpdateFields.Hashtags;
 
+                Dictionary<string, string> errors = new Dictionary<string, string>();
+
+                if (string.IsNullOrWhiteSpace(Request["Categories[]"]))
+                {
+                    errors.Add("Categories", Localizer.Get("CreateListing_CategoryRequired"));
+                }
+                else
+                {
+                    model.Categories = Request["Categories[]"].Split(',');
+                }
+
                 if (model.EditorKeywords != null && AuthenticatedUserProfile.IsEditor) fields |= ListingUpdateFields.EditorKeywords;
                 if (model.PricingInfo != null)
                 {
                     fields |= ListingUpdateFields.Pricing;
-                    Dictionary<string, string> errors = new Dictionary<string, string>();
-                    ValidatePricingInfo(model.PricingInfo, errors);
+                    if (string.IsNullOrWhiteSpace(Request["Images[]"]))
+                    {
+                        if (Request["HasImages"] == "false")
+                        {
+                            errors.Add("Images", Localizer.Get("CreateListing_ImagesRequired"));
+                        }
+                    }
+                    else
+                    {
+                        model.PricingInfo.BaseOption.MediaFiles = Request["Images[]"].Split(',').Select(key => new MediaFileView { Key = key }).ToArray(); ;
+                    }
+                    // Assemble Variant dictionary
+                    if (model.PricingInfo.PurchaseOptions != null)
+                    {
+                        for (int i = 0; i < model.PricingInfo.PurchaseOptions.Count; i++)
+                        {
+                            Dictionary<string, string> vprops = new Dictionary<string, string>();
+                            var po = model.PricingInfo.PurchaseOptions[i];
+                            if (po.Color != null && po.Color != "_") { vprops.Add("Color", po.Color); }
+                            if (po.Design != null && po.Design != "_") { vprops.Add("Design", po.Design); }
+                            if (po.Size != null && po.Size != "_") { vprops.Add("Size", po.Size); }
+                            po.VariantProperties = vprops;
+                        }
+                    }
+                    ValidatePricingInfo(model.Id, model.PricingInfo, errors);
                     foreach (var error in errors)
                     {
                         ModelState.AddModelError(error.Key, error.Value);
@@ -525,15 +559,30 @@ namespace Classy.DotNet.Mvc.Controllers
                         model.Id,
                         model.Title,
                         model.Content,
-                        null,
+                        model.Categories,
+                        model.PricingInfo,
                         (model.Metadata == null ? null : model.Metadata.ToDictionary()),
                         model.Hashtags,
                         updatedListingArgs.TranslatedKeywords,
                         fields);
 
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { listingId = listing.Id });
+                    }
                     return Redirect(Url.RouteUrl(string.Format("{0}Details", ListingTypeName), new { listingId = listing.Id, slug = "show" }) + "?msg=" + string.Format("Edit{0}_Success", ListingTypeName));
                 }
-                else return PartialView(string.Format("Edit{0}ListingModal", ListingTypeName), model);
+                else
+                {
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { errors = errors });
+                    }
+                    else
+                    {
+                        return PartialView(string.Format("Edit{0}", ListingTypeName), model);
+                    }
+                } 
             }
             catch (ClassyException cvx)
             {
@@ -546,15 +595,15 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private void ValidatePricingInfo(PricingInfoView pricingInfoView, Dictionary<string,string> errors)
+        private void ValidatePricingInfo(string listingId, PricingInfoView pricingInfoView, Dictionary<string,string> errors)
         {
             if (!AppView.SupportedCurrencies.Any(c => c.Value == pricingInfoView.CurrencyCode))
             {
-                errors.Add("PricingInfo", "Default Currency is required");
+                errors.Add("PricingInfo.CurrencyCode", "Default Currency is required");
             }
             if (pricingInfoView.BaseOption == null)
             {
-                errors.Add("PricingInfo", "Missing Product details");
+                errors.Add("PricingInfo.BaseOption", "Missing Product details");
             }
             else
             {
@@ -565,14 +614,47 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             if (pricingInfoView.PurchaseOptions != null)
             {
+                Dictionary<string, int> skus = new Dictionary<string, int>();
                 for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
                 {
-                    string error = null;
-                    if (!ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i == 0, out error))
+                    if (pricingInfoView.PurchaseOptions[i].Available)
                     {
-                        errors.Add("PricingInfo", error);
+                        if (
+                            !string.IsNullOrEmpty(
+                                Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"]))
+                        {
+                            pricingInfoView.PurchaseOptions[i].MediaFiles =
+                                Request["PricingInfo.PurchaseOptions[" + i.ToString() + "].MediaFiles[]"].Split(',')
+                                    .Select(key => new MediaFileView {Key = key})
+                                    .ToArray();
+                        }
+                        else if (!pricingInfoView.PurchaseOptions[i].HasImages)
+                        {
+                            errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].Images",
+                                "Missing variation images");
+                        }
+                        ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors, skus);
                     }
                 }
+
+                if (skus.Count == pricingInfoView.PurchaseOptions.Count) // Unique within the product
+                {
+                    // Validate global uniqueness within Vendor
+                    var service = new ListingService();
+                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId, skus);
+
+                    if (duplicateSkus.Count > 0)
+                    {
+                        for (int i = 0; i < pricingInfoView.PurchaseOptions.Count; i++)
+                        {
+                            if (duplicateSkus.Contains(pricingInfoView.PurchaseOptions[i].SKU))
+                            {
+                                errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].SKU", "SKU must be unique");
+                            }
+                        }
+                    }
+                }
+
             }
             else
             {
@@ -588,6 +670,17 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
                 }
+                else
+                {
+                    // Validate global uniqueness within Vendor
+                    var service = new ListingService();
+                    List<string> duplicateSkus = service.ValidateUniqueSKUs(listingId,
+                        new Dictionary<string, int> {{pricingInfoView.BaseOption.SKU, 0}});
+                    if (duplicateSkus.Count > 0)
+                    {
+                        errors.Add("PricingInfo.BaseOption.SKU", "SKU must be unique");
+                    }
+                }
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Width))
                 {
                     errors.Add("PricingInfo.BaseOption.Width", "Width is required");
@@ -600,33 +693,11 @@ namespace Classy.DotNet.Mvc.Controllers
                 {
                     errors.Add("PricingInfo.BaseOption.Height", "Height is required");
                 }
-                // SKU UNIQUE!!!
-                //if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
-                //{
-                //    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
-                //}
             }
 
             // ensure unique sku and no duplicate variants
             if (pricingInfoView.PurchaseOptions != null)
             {
-                Dictionary<string, int> skus = new Dictionary<string, int>();
-                foreach (var option in pricingInfoView.PurchaseOptions)
-                {
-                    if (string.IsNullOrEmpty(option.SKU))
-                    {
-                        errors.Add("PricingInfo", "SKU is required");
-                    }
-                    else if (skus.ContainsKey(option.SKU))
-                    {
-                        errors.Add("PricingInfo", "SKU must be unique");
-                    }
-                    else
-                    {
-                        skus.Add(option.SKU, 0);
-                    }
-                }
-
                 Dictionary<string, int> variants = new Dictionary<string, int>();
                 foreach (var option in pricingInfoView.PurchaseOptions)
                 {
@@ -645,16 +716,43 @@ namespace Classy.DotNet.Mvc.Controllers
             }
         }
 
-        private bool ValidatePurchaseOption(PurchaseOptionView option, bool imageRequired, out string error)
+        private void ValidatePurchaseOption(PurchaseOptionView option, int idx, Dictionary<string, string> errors, Dictionary<string, int> skus)
         {
-            error = null;
-            if (imageRequired && (string.IsNullOrEmpty(option.DefaultImage) || option.MediaFiles == null || option.MediaFiles.Length == 0))
+            if (string.IsNullOrWhiteSpace(option.SKU))
             {
-                error = "At least one image is required";
-                return false;
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU is required");
             }
-
-            return true;
+            else
+            {
+                if (skus.ContainsKey(option.SKU))
+                {
+                    errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU must be unique");
+                }
+                else
+                {
+                    skus.Add(option.SKU, idx);
+                }
+            }
+            if (option.Price <= 0)
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Price", idx), "Price must be greater than zero");
+            }
+            if (option.Quantity <= 0)
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Quantity", idx), "Quantity is required");
+            }
+            if (string.IsNullOrWhiteSpace(option.Width))
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Width", idx), "Width is required");
+            }
+            if (string.IsNullOrWhiteSpace(option.Depth))
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Depth", idx), "Depth is required");
+            }
+            if (string.IsNullOrWhiteSpace(option.Height))
+            {
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Height", idx), "Height is required");
+            }
         }
 
         [Authorize]
@@ -784,7 +882,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, false);
 
                 var model = new ShowListingByTypeViewModel<TListingMetadata>
                 {
@@ -919,7 +1017,21 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             if (model.PricingInfo != null)
             {
-                ValidatePricingInfo(model.PricingInfo, errors);
+                // Assemble Variant dictionary
+                if (model.PricingInfo.PurchaseOptions != null)
+                {
+                    for (int i = 0; i < model.PricingInfo.PurchaseOptions.Count; i++)
+                    {
+                        Dictionary<string, string> vprops = new Dictionary<string, string>();
+                        var po = model.PricingInfo.PurchaseOptions[i];
+                        if (po.Color != null && po.Color != "_") { vprops.Add("Color", po.Color); }
+                        if (po.Design != null && po.Design != "_") { vprops.Add("Design", po.Design); }
+                        if (po.Size != null && po.Size != "_") { vprops.Add("Size", po.Size); }
+                        po.VariantProperties = vprops;
+                    }
+                }
+
+                ValidatePricingInfo(null, model.PricingInfo, errors);
             }
             if (Request.IsAjaxRequest())
             {

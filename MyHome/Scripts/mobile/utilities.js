@@ -4,6 +4,12 @@ var classyUtilitiesService = angular.module('ClassyUtilitiesService', []);
 classyUtilitiesService.factory('ClassyUtilities', [function() {
     return {
         Screen: {
+            StaticViewport: function() {
+                document.getElementById('viewport').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+            },
+            ZoomableViewport: function() {
+                document.getElementById('viewport').setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=3');
+            },
             GetWidth: function() {
                 return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             },
@@ -14,7 +20,10 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
         Images: {
             Thumbnail: function(appSettings, imageKey, width, height) {
                 var cdnUrl = appSettings.CdnUrl;
-                return cdnUrl + '/thumbnail/' + imageKey + '?Width=' + width + '&Height=' + height + '&format=json';
+                var imageUrl = cdnUrl + '/thumbnail/' + imageKey + '?Width=' + width;
+                if (height) imageUrl += '&Height=' + height;
+                imageUrl += '&format=json';
+                return imageUrl;
             },
             Thumbnails: function (appSettings, imageKeys, collectionId, width, height) {
                 // TODO: take width/height into consideration!

@@ -419,18 +419,21 @@ namespace Classy.DotNet.Mvc.Controllers
                 throw new InvalidOperationException("Invalid number of images");
         }
 
-        [AuthorizeWithRedirect]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult AskForReview()
         {
             try
             {
                 AskForReviewModel model = new AskForReviewModel();
-                model.ProfileId = AuthenticatedUserProfile.Id;
-                var service = new ProfileService();
-                var contacts = service.GetGoogleContacts();
-                model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
-                model.GoogleContacts = contacts;
+                if (Request.IsAuthenticated)
+                {
+                    model.ProfileId = AuthenticatedUserProfile.Id;
+                    var service = new ProfileService();
+                    var contacts = service.GetGoogleContacts();
+                    model.IsGoogleConnected = AuthenticatedUserProfile.IsGoogleConnected;
+                    model.GoogleContacts = contacts;
+                    model.IsProfessional = AuthenticatedUserProfile.IsProfessional;
+                }
                 return View(model);
             }
             catch (ClassyException cex)
@@ -695,7 +698,7 @@ namespace Classy.DotNet.Mvc.Controllers
         // GET: /profile/me/gopro
         [AuthorizeWithRedirect("Home")]
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult CreateProfessionalProfile()
+        public ActionResult CreateProfessionalProfile(string referrerUrl)
         {
             try
             {
@@ -717,7 +720,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     Country = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.Country : null,
                     PostalCode = profile.ProfessionalInfo != null ? profile.ProfessionalInfo.CompanyContactInfo.Location.Address.PostalCode : null,
                     DefaultCulture = profile.DefaultCulture,
-                    Metadata = metadata
+                    Metadata = metadata,
+                    ReferrerUrl = referrerUrl
                 };
                 return View(model);
             }
@@ -729,7 +733,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
         // 
         // POST: /profile/me/gopro
-        [AuthorizeWithRedirect("Home")]
+        [AuthorizeWithRedirect("Login")]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateProfessionalProfile(CreateProfessionalProfileViewModel<TProMetadata> model)
         {
@@ -770,6 +774,11 @@ namespace Classy.DotNet.Mvc.Controllers
                     null,
                     UpdateProfileFields.ProfessionalInfo | UpdateProfileFields.Metadata);
 
+                if (!string.IsNullOrEmpty(model.ReferrerUrl)) 
+                {
+                    var returnUrl = string.IsNullOrEmpty(model.ReferrerUrl) ? "~/" : Uri.UnescapeDataString(model.ReferrerUrl);
+                    return Redirect(returnUrl);
+                }
                 return RedirectToRoute("PublicProfile", new { ProfileId = AuthenticatedUserProfile.Id });
             }
             catch (ClassyException cvx)
@@ -964,7 +973,7 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 var listingService = new ListingService();
                 bool includeDrafts = (Request.IsAuthenticated && profileId == AuthenticatedUserProfile.Id);
-                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts);
+                var listings = listingService.GetListingsByProfileId(profileId, includeDrafts, false);
 
                 return PartialView(listings);
             }

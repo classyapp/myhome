@@ -28,6 +28,19 @@
 			"Values": {
 				"en": "An unexpected error occurred while we were trying to verify your email address. Please try again later.\r\n\r\nTeam Homelab"
 				}
+			},{ 
+			"Key": "Profile_VerifyEmail_Resend",
+			"Description": "resend verification email link",
+			"Values": {
+				"en": "Re-send Verification Link"
+				}
+			},
+			{ 
+			"Key": "Profile_VerifyEmail_ResendSuccess",
+			"Description": "message confirming verification email was re-sent",
+			"Values": {
+				"en": "Done. Please check your inbox for our welcome email (sent from team@homelab.com)"
+				}
 			}
 	]
 }

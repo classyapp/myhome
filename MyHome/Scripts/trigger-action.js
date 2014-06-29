@@ -43,6 +43,20 @@ function bindTriggerActions(context) {
         }
     });
 
+    $('[authorize-pro]').click(function (e) {
+        if (!Classy.IsAuthenticated) {
+            $('#login-modal-pro').modal('show');
+            e.stopImmediatePropagation(); e.preventDefault();
+        }
+    });
+
+    $('[authorize-nonpro]').click(function (e) {
+        if (!Classy.IsAuthenticated) {
+            $('#login-modal-nonpro').modal('show');
+            e.stopImmediatePropagation(); e.preventDefault();
+        }
+    });
+
     $('[trigger-listing-action="favorite"]', context).click(FavoriteListing);
 
     $('[trigger-listing-action="unfavorite"]', context).click(UnfavoriteListing);

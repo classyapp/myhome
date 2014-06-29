@@ -80,7 +80,8 @@ Classy.SendEmail = function(subject, body, title) {
         .modal("show");
 };
 
-Classy.ShareUI = function(socialUrl, url, winWidth, winHeight) {
+Classy.ShareUI = function (socialUrl, url, winWidth, winHeight, network, ref) {
+    Classy.ReportEvent('social', 'share', network, ref);
     var winTop = (screen.height / 2) - (winHeight / 2);
     var winLeft = (screen.width / 2) - (winWidth / 2);
     window.open(socialUrl + url, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
@@ -103,9 +104,9 @@ String.prototype.decodeHTML = function () {
 
 Classy.UnveilImages = function () {
     $('img[data-rel="thumbnail"]').unveil(200, function () {
-        $(this).load(function () {
+        $(this).load(function() {
             this.style.opacity = 1;
-        })
+        });
     }).error(function () { $(this).attr("src", "/img/missing-thumb.png") });
 };
 
@@ -130,4 +131,11 @@ String.prototype.toSlug = function() {
         .replaceAll('  ', ' ')
         .replaceAll(' ', '-')
         .replaceAll('--', '-');
+};
+
+Classy.ReportEvent = function(category, action, label, value) {
+    try {
+        ga('send', 'event', category, action, label, value);
+    } catch (e) {
+    }
 };

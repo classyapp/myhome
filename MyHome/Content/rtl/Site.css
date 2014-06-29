@@ -18,6 +18,13 @@ h1, h2, h3, h4, h5
     margin-left: 10px;
 }
 
+.postnav-banner .icon {
+    font-size: 36px;
+    color: #f55555;
+    margin-right: 0;
+    margin-left: 10px;
+}
+
 /* profile page*/
 .social-stats li
 {

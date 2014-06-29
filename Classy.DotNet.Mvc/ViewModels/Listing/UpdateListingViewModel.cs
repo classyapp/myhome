@@ -32,9 +32,10 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public IList<string> EditorKeywords { get; set; }
         public int EditorsRank { get; set; }
         public IList<string> SearchableKeywords { get; set; }
-        public IList<String> Categories { get; set; }
+        public string[] Categories { get; set; }
 
         public PricingInfoView PricingInfo { get; set; }
+        public bool HasImages { get; set; }
 
         // meta
         public TListingMetadata Metadata { get; set; }

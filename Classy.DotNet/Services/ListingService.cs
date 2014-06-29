@@ -27,12 +27,13 @@ namespace Classy.DotNet.Services
         // free search
         private readonly string FREE_SEARCH_URL = ENDPOINT_BASE_URL + "/free_search";
         // create listing
-        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}";
+        private readonly string GET_LISTINGS_FOR_PROFILE_URL = ENDPOINT_BASE_URL + "/profile/{0}/listing/list?IncludeDrafts={1}&includeProfiles={2}";
         private readonly string CREATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/new";
         private readonly string UPDATE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string DELETE_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}";
         private readonly string ADD_EXTERNAL_MEDIA_URL = ENDPOINT_BASE_URL + "/listing/{0}/media";
         private readonly string PUBLISH_LISTING_URL = ENDPOINT_BASE_URL + "/listing/{0}/publish";
+        private readonly string CHECK_LISTING_DUPLICATE_SKUS = ENDPOINT_BASE_URL + "/listing/sku/check";
         // get listings 
         private readonly string GET_LISTING_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/{0}?";
         private readonly string GET_LISTINGS_BY_ID_URL = ENDPOINT_BASE_URL + "/listing/get-multiple";
@@ -215,6 +216,7 @@ namespace Classy.DotNet.Services
             string listingId,
             string title,
             string content,
+            string[] categories,
             PricingInfoView pricingInfo,
             IDictionary<string, string> metadata,
             IList<string> hashtags,
@@ -227,11 +229,11 @@ namespace Classy.DotNet.Services
                 Title = title,
                 Content = content,
                 Pricing = pricingInfo,
+                Categories = categories,
                 Metadata = metadata,
                 Hashtags = hashtags,
                 EditorKeywords = editorKeywords,
                 Fields = fields
-
             }.ToJson();
 
             // create the listing
@@ -367,7 +369,8 @@ namespace Classy.DotNet.Services
             double? priceMax,
             LocationView location,
             int page,
-            int pageSize = 12)
+            int pageSize = 12,
+            SortMethod sortMethod = SortMethod.Popularity)
         {
             try
             {
@@ -382,7 +385,8 @@ namespace Classy.DotNet.Services
                     PriceMax = priceMax,
                     Location = location,
                     Page = page,
-                    PageSize = pageSize
+                    PageSize = pageSize,
+                    SortMethod = sortMethod
                 }.ToJson();
                 var listingsJson = client.UploadString(url, data);
                 var results = listingsJson.FromJson<SearchResultsView<ListingView>>();
@@ -394,12 +398,12 @@ namespace Classy.DotNet.Services
             }
         }
 
-        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts)
+        public IList<ListingView> GetListingsByProfileId(string profileId, bool includeDrafts, bool includeProfiles)
         {
             try
             {
                 var client = ClassyAuth.GetWebClient();
-                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts);
+                var url = string.Format(GET_LISTINGS_FOR_PROFILE_URL, profileId, includeDrafts, includeProfiles);
                 
                 var listingsJson = client.DownloadString(url);
                 var listings = listingsJson.FromJson<IList<ListingView>>();
@@ -811,6 +815,22 @@ namespace Classy.DotNet.Services
             {
                 throw wex.ToClassyException();
             }            
+        }
+
+        public List<string> ValidateUniqueSKUs(string listingId, Dictionary<string, int> skus)
+        {
+            try
+            {
+                var client = ClassyAuth.GetAuthenticatedWebClient();
+                var data = new { SKUs = skus.Keys.ToArray(), ListingId = listingId };
+                var skusJson = client.UploadString(CHECK_LISTING_DUPLICATE_SKUS, data.ToJson());
+                var duplicates = skusJson.FromJson<List<string>>();
+                return duplicates;
+            }
+            catch (WebException wex)
+            {
+                throw wex.ToClassyException();
+            }
         }
     }
 }

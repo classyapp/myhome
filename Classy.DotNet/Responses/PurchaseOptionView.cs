@@ -8,6 +8,7 @@ namespace Classy.DotNet.Responses
 {
     public class PurchaseOptionView
     {
+        public bool HasImages { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public Dictionary<string, string> VariantProperties { get; set; } // Key: Size, Color, Model, etc. Value: Smal, Medium, Large, etc.
@@ -49,7 +50,7 @@ namespace Classy.DotNet.Responses
         public double? CompareAtPrice { get; set; }
         public MediaFileView[] MediaFiles { get; set; }
         public string DefaultImage { get; set; }
-        public bool InUse { get; set; }
+        public bool Available { get; set; }
 
         private void SetVariantProperty(string key, string value)
         {
@@ -72,5 +73,35 @@ namespace Classy.DotNet.Responses
         {
             VariantProperties = new Dictionary<string, string>();
         }
+
+        public string GetVariantKey(bool full)
+        {
+            if (full)
+            {
+                return string.Join(",", new string[] {
+                    VariantProperties.ContainsKey("Color") ? VariantProperties["Color"] : "_",
+                    VariantProperties.ContainsKey("Design") ? VariantProperties["Design"] : "_",
+                    VariantProperties.ContainsKey("Size") ? VariantProperties["Size"] : "_",
+                });
+            }
+            else
+            {
+                string[] values = new string[VariantProperties.Count];
+                string[] keys = new string[] {"Color", "Design", "Size" };
+                int i = 0;
+
+                for (int j = 0; j < keys.Length; j++)
+                {
+                    if (VariantProperties.ContainsKey(keys[j]))
+                    {
+                        values[i] = VariantProperties[keys[j]];
+                        i++;
+                    }
+                }
+
+                return string.Join(",", values);
+            }
+        }
+        public string UID { get; set; }
     }
 }
