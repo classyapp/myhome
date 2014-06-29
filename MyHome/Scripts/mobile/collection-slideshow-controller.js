@@ -103,11 +103,11 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
         $scope.loadComments(selectedImage.data('listing-id'));
 
         if (selectedImage.hasClass('loaded')) return;
-        selectedImage.css('width', '100%');
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
             .load(function () {
                 $(this).addClass('loaded');
+                selectedImage.css('width', '100%');
 
                 // preload 2 more photos
                 var nextImage = $(this).parents('.listing').next().find('.photo');
