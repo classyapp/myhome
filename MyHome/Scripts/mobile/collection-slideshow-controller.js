@@ -70,7 +70,8 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
         $scope.closeComments = function () {
             $('.comments-container').css('opacity', '0').css('display', 'none');
         };
-        $scope.showComments = function() {
+        $scope.showComments = function () {
+            if (!$scope.Comments || $scope.Comments.length == 0) return;
             $('.comments-container').css('display', 'inline-block').css('opacity', '1');
         };
     });
