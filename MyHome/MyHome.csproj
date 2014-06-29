@@ -188,6 +188,7 @@
     <Content Include="Deployment\Resources\mobile.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Deployment\Resources\add-missing-keys-5.resm" />
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
