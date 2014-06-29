@@ -9,7 +9,7 @@ h3 { font-size: 16px;margin-top: 0; }
 .panel-footer .glyphicon { color: #d7d7d7;margin-top: 2px; }
 
 .header-cover {
-    height: 200px;
+    height: 160px;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -23,10 +23,10 @@ h3 { font-size: 16px;margin-top: 0; }
     -ms-transition: left 1s;
     -o-transition: left 1s;
     transition: left 1s;
-    height: 200px;
+    height: 160px;
 }
 .header-cover .pane {
-    display: inline-block;width: 100%;
+    display: inline-block;width: 100%;height: 160px;
     vertical-align: top;padding: 20px;
     white-space: normal;text-align: center;
 }
@@ -46,10 +46,10 @@ h3 { font-size: 16px;margin-top: 0; }
     .profile-details h1 { font-size: 18px; }
 }
 .profile-header { overflow: hidden;}
-.profile-header .avatar { width: 80px;height: 80px; margin-bottom: 10px; border: solid 2px white;}
+.profile-header .avatar { width: 60px;height: 60px; margin-bottom: 10px; border: solid 2px white;}
 .profile-header .rating { font-size: 18px;text-shadow: none; }
 
-.collection-header { height: 150px; }
+.collection-header { height: 160px; }
 .collection-header .collection-details h1 { color: #fff;font-size: 24px;margin-bottom: 10px; }
 .collection-header .avatar { width: 30px;height: 30px; border: solid 2px white;margin-right: 10px;}
 .collection-header .profile-name { font-size: 18px;vertical-align: middle;}
