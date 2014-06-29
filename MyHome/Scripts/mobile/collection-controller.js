@@ -8,6 +8,25 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
         $('.profile-comments .panel-footer').addClass('hidden');
     };
 
+    var getCopyrightMessage = function (listing) {
+        if (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == 'True')
+            return listing.Metadata.CopyrightMessage.extractHost();
+        if (listing.Metadata.CopyrightMessage != '')
+            return listing.Metadata.CopyrightMessage;
+        return getProfileName(listing.Profile);
+    };
+
+    var getProfileName = function (profile) {
+        if (!profile) return 'unknown';
+        if (!profile.IsProfessional && !profile.ContactInfo) return 'unknown';
+        var name;
+        if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
+        else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
+        else name = profile.ContactInfo.Name ? profile.ContactInfo.Name : profile.UserName;
+        if (name) return name;
+        return 'unknown';
+    };
+
     AppSettings.then(function (appSettings) {
 
         $scope.CollectionId = $routeParams.collectionId;
@@ -82,17 +101,13 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             });
 
             if (data.Profile.IsProfessional)
-                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', function (resource) {
-                    $scope.Resources.MoreProjectsTitle = resource;
-                });
+                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', AppSettings.Culture).then(function (resource) { $scope.Resources.MoreProjectsTitle = resource; });
             else 
-                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', function(resource) {
-                    $scope.Resources.MoreProjectsTitle = resource;
-                });
+                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', AppSettings.Culture).then(function(resource) { $scope.Resources.MoreProjectsTitle = resource; });
 
-            Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture, function (resource) { $scope.Resources.Views = resource; });
-            Localizer.Get('Mobile_CollectionPage_Favorites', AppSettings.Culture, function (resource) { $scope.Resources.Favorites = resource; });
-            Localizer.Get('Mobile_CollectionPage_Comments', AppSettings.Culture, function (resource) { $scope.Resources.Comments = resource; });
+            Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
+            Localizer.Get('Mobile_CollectionPage_Favorites', AppSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
+            Localizer.Get('Mobile_CollectionPage_Comments', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
 
         }).error(function () {
             // TODO: display some error message
@@ -108,32 +123,13 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
 
         // get localized resources
         $scope.Resources = {};
-        Localizer.Get('Mobile_CollectionPage_ViewAllComments').then(function (resource) {
+        Localizer.Get('Mobile_CollectionPage_ViewAllComments', AppSettings.Culture).then(function (resource) {
             $scope.Resources.ViewAllComments = resource;
         });
 
         $scope.share = function (network) {
             var url = window.location.protocol + appSettings.Host + '/collection/' + $scope.CollectionId + '/grid/public';
             Classy.Share(network, url);
-        };
-
-        var getCopyrightMessage = function(listing) {
-            if (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == 'True')
-                return listing.Metadata.CopyrightMessage.extractHost();
-            if (listing.Metadata.CopyrightMessage != '')
-                return listing.Metadata.CopyrightMessage;
-            return getProfileName(listing.Profile);
-        };
-
-        var getProfileName = function(profile) {
-            if (!profile) return 'unknown';
-            if (!profile.IsProfessional && !profile.ContactInfo) return 'unknown';
-            var name;
-            if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
-            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
-            else name = profile.ContactInfo.Name ? profile.ContactInfo.Name : profile.UserName;
-            if (name) return name;
-            return 'unknown';
         };
     });
 });

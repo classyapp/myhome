@@ -118,9 +118,9 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllProjects = resource; });
         Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllCollections = resource; });
         Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllReviews = resource; });
-        Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture, function (resource) { $scope.Resources.Views = resource; });
-        Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture, function (resource) { $scope.Resources.Followers = resource; });
-        Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture, function (resource) { $scope.Resources.Following = resource; });
+        Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
+        Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture).then(function (resource) { $scope.Resources.Followers = resource; });
+        Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture).then(function (resource) { $scope.Resources.Following = resource; });
 
         $scope.share = function (network) {
             var url = window.location.protocol + appSettings.Host + '/profile/' + $routeParams.profileId;
