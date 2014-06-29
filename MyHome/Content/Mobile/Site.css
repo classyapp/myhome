@@ -147,17 +147,12 @@ h3 { font-size: 16px;margin-top: 0; }
 
 .slideshow .comments-container { 
     position: absolute;bottom: 100px;display: inline-block;width: 100%;padding: 30px;
-    -webkit-transition: opacity 0.3s; 
-    -moz-transition: opacity 0.3s; 
-    -ms-transition: opacity 0.3s; 
-    -o-transition: opacity 0.3s; 
-    transition: opacity 0.3s; 
 }
-.slideshow .comments-container .comments-bg { background-color: white;position: relative;padding: 10px;border-radius: 10px;opacity: 0.85; }
+.slideshow .comments-container .comments-bg { background-color: white;position: relative;padding: 10px;border-radius: 10px; }
 .slideshow .comments-container .comments-bg .close-btn { position: absolute;color: #666;border-color: #666;opacity: 1; }
-.slideshow .comment { border-bottom: solid 1px #aaa;padding-bottom: 4px;margin-bottom: 4px;}
+.slideshow .comment { border-bottom: solid 1px #eee;padding-bottom: 6px;margin-bottom: 6px;}
 .slideshow .comment.last { border-bottom: 0; }
-.slideshow .comment .commenter { font-weight: bold;color: #666; }
+.slideshow .comment .commenter { font-weight: bold;color: #000; }
 
 
 .login-form-container { padding-top: 15px; }
