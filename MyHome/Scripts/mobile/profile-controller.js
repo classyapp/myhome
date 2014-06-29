@@ -26,13 +26,15 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         var slider = $('.cover-slider');
         var pane1 = slider.find('.pane1');
         var pane2 = slider.find('.pane2');
-        slider.css('-webkit-transform', 'translate3d(' + (pane2[0].getBoundingClientRect().left - pane1.outerWidth(true)) + 'px,0,0)');
-        pane1.css('display', 'inline-block');
-        requestAnimationFrame(function () {
-            slider.css('transition', '-webkit-transform 0.5s ease');
-            slider.css('-webkit-transform', 'translate3d(0,0,0)');
-            slider.one('webkitTransitionEnd', function() {
-                pane2.css('display', 'none');
+        requestAnimationFrame(function() {
+            slider.css('-webkit-transform', 'translate3d(' + (pane2[0].getBoundingClientRect().left - pane1.outerWidth(true)) + 'px,0,0)');
+            pane1.css('display', 'inline-block');
+            requestAnimationFrame(function() {
+                slider.css('transition', '-webkit-transform 0.5s ease');
+                slider.css('-webkit-transform', 'translate3d(0,0,0)');
+                slider.one('webkitTransitionEnd', function() {
+                    pane2.css('display', 'none');
+                });
             });
         });
         $scope.currentSlide=0;
