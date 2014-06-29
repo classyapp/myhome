@@ -89,6 +89,7 @@
                                 @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Color)
                                 @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Design)
                                 @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Size)
+                                @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Title)
                                 @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].SKU).WidthMd(3).ShowValidationMessage(false)
                                 @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].CompareAtPrice).WidthMd(3).ShowValidationMessage(false)
                                 @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Price).WidthMd(3).ShowValidationMessage(false)
@@ -259,6 +260,7 @@
                             "<input data-vprop='Color' id='PricingInfo_PurchaseOptions_" + i + "__Color' name='PricingInfo.PurchaseOptions[" + i + "].Color' type='hidden' value='" + variations[i][0] + "'>" +
                             "<input data-vprop='Design' id='PricingInfo_PurchaseOptions_" + i + "__Design' name='PricingInfo.PurchaseOptions[" + i + "].Design' type='hidden' value='" + variations[i][1] + "'>" +
                             "<input data-vprop='Size' id='PricingInfo_PurchaseOptions_" + i + "__Size' name='PricingInfo.PurchaseOptions[" + i + "].Size' type='hidden' value='" + variations[i][2] + "'>" +
+                            "<input id='PricingInfo_PurchaseOptions_" + i + "__Title' name='PricingInfo.PurchaseOptions[" + i + "].Title' type='hidden' value='" + $("#Title").val() + "'>" +
                             "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
                             "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>Compare At Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div>" +
                             "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div>" +
@@ -322,8 +324,9 @@
 
         function reindexVariations(){
             $("#variations div.variation").each(function(i, item){ 
-                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
-                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
+                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("#PricingInfo_PurchaseOptions_" + i + "__Title").val($("#Title").val());
             });
         }
     </script>

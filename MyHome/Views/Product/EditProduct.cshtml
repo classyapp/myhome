@@ -93,13 +93,14 @@
                     for (int i = 0; i < Model.PricingInfo.PurchaseOptions.Count; i++)
 	                {
 		                <div class="variation panel panel-default" data-variation="@Model.PricingInfo.PurchaseOptions[i].GetVariantKey(true)">
-                            <div class="panel-heading">@Html.CheckBoxFor(x => x.PricingInfo.PurchaseOptions[i].Available)&nbsp;@Model.PricingInfo.PurchaseOptions[i].GetVariantKey(false)</div>
+                            <div class="panel-heading">@Html.CheckBoxFor(x => x.PricingInfo.PurchaseOptions[i].Available)&nbsp;<span>@Model.PricingInfo.PurchaseOptions[i].GetVariantKey(false)</span></div>
                             <div class="panel-body">
                                 <div class="row">
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Color, new { data_vprop = "Color" })
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Design, new { data_vprop = "Design" })
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Size, new { data_vprop = "Size" })
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].UID)
+                                    @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Title)
                                     @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].SKU).WidthMd(3).ShowValidationMessage(false)
                                     @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].CompareAtPrice).WidthMd(3).ShowValidationMessage(false)
                                     @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Price).WidthMd(3).ShowValidationMessage(false)
@@ -210,7 +211,7 @@
                 });
             @if (Model.PricingInfo.PurchaseOptions != null)
             {
-                @:var existingOptionsImages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.PricingInfo.PurchaseOptions.Select(o => o.MediaFiles.Select(f => f.Key).ToArray()).ToArray()));
+                @:var existingOptionsImages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.PricingInfo.PurchaseOptions.Select(o => o.MediaFiles != null ? o.MediaFiles.Select(f => f.Key).ToArray() : new string[0]).ToArray()));
             }
             $("#variations .variation").each(function(idx, item) {
                 $(".dropzone", item).dropzone({
@@ -333,8 +334,9 @@
                         "<div class='panel-body'>" +
                         "<div class='row'>" +
                         "<input data-vprop='Color' id='PricingInfo_PurchaseOptions_" + i + "__Color' name='PricingInfo.PurchaseOptions[" + i + "].Color' type='hidden' value='" + variations[i][0] + "'>" +
-                            "<input data-vprop='Design' id='PricingInfo_PurchaseOptions_" + i + "__Design' name='PricingInfo.PurchaseOptions[" + i + "].Design' type='hidden' value='" + variations[i][1] + "'>" +
-                            "<input data-vprop='Size' id='PricingInfo_PurchaseOptions_" + i + "__Size' name='PricingInfo.PurchaseOptions[" + i + "].Size' type='hidden' value='" + variations[i][2] + "'>" +
+                        "<input data-vprop='Design' id='PricingInfo_PurchaseOptions_" + i + "__Design' name='PricingInfo.PurchaseOptions[" + i + "].Design' type='hidden' value='" + variations[i][1] + "'>" +
+                        "<input data-vprop='Size' id='PricingInfo_PurchaseOptions_" + i + "__Size' name='PricingInfo.PurchaseOptions[" + i + "].Size' type='hidden' value='" + variations[i][2] + "'>" +
+                        "<input id='PricingInfo_PurchaseOptions_" + i + "__Title' name='PricingInfo.PurchaseOptions[" + i + "].Title' type='hidden' value='" + $("#Title").val() + "'>" +
                         "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
                         "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>Compare At Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div>" +
                         "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div>" +
@@ -397,8 +399,9 @@
 
         function reindexVariations(){
             $("#variations div.variation").each(function(i, item){ 
-                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
-                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); });
+                $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("#PricingInfo_PurchaseOptions_" + i + "__Title").val($("#Title").val());
             });
         }
     </script>
