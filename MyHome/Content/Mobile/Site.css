@@ -23,9 +23,10 @@ h3 { font-size: 16px;margin-top: 0; }
     -ms-transition: left 1s;
     -o-transition: left 1s;
     transition: left 1s;
+    height: 200px;
 }
 .header-cover .pane {
-    display: inline-block;height: 150px; width: 100%;
+    display: inline-block;width: 100%;
     vertical-align: top;padding: 20px;
     white-space: normal;text-align: center;
 }
@@ -44,9 +45,9 @@ h3 { font-size: 16px;margin-top: 0; }
 @media screen and (max-width : 800px) {
     .profile-details h1 { font-size: 18px; }
 }
+.profile-header { overflow: hidden;}
 .profile-header .avatar { width: 80px;height: 80px; margin-bottom: 10px; border: solid 2px white;}
 .profile-header .rating { font-size: 18px;text-shadow: none; }
-.profile-header .dropshadow { background-color: rgba(0, 0, 0, 0.2); }
 
 .collection-header { height: 150px; }
 .collection-header .collection-details h1 { color: #fff;font-size: 24px;margin-bottom: 10px; }
