@@ -1,24 +1,16 @@
 @model Classy.DotNet.Responses.CollectionView
 
-@section MetaTags {
-    <meta property="og:title" content="@Model.Title" />
-    <meta property="og:description" content="@(string.IsNullOrEmpty(Model.Content) ? string.Format(Localizer.Get("Collection_Share_Description", false), Model.Profile.GetProfileName()) : Model.Content)" />
-    @{
-
+@{
     var cdnurl = System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"];
+    var photoUrl = string.Empty;
     if (Model.CoverPhotos != null && Model.CoverPhotos.Count > 0)
     {
-        <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.CoverPhotos[0])?Width=720&Height=0&format=json" />
+        photoUrl = "https://" + cdnurl + "/thumbnail/" + Model.CoverPhotos[0] + "?Width=720&Height=0&format=json";
     }
     else if (Model.Listings != null && Model.Listings.Count > 0 && Model.Listings[0].ExternalMedia != null && Model.Listings[0].ExternalMedia.Count > 0)
     {
-        <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.Listings[0].ExternalMedia[0].Key)?Width=720&Height=0&format=json" />
+        photoUrl = "https://" + cdnurl + "/thumbnail/" + Model.Listings[0].ExternalMedia[0].Key + "?Width=720&Height=0&format=json";
     }
-
-}
-}
-
-@{
     ViewBag.Title = string.Concat(Model.Title, " - ", Model.Profile.GetProfileName());
     var meta = Model.Content ?? string.Empty;
     ViewBag.MetaDescription = (!string.IsNullOrEmpty(Model.Content) && Model.Content.Length > 256) ? Model.Content.Substring(0, 256) : Model.Content;
@@ -29,6 +21,21 @@
 @if (TempData["PostComment_Success"] != null)
 {
     @Html.Bootstrap().Alert(Localizer.Get("PostComment_Success")).Closeable().Style(AlertColor.Success)
+}
+
+@section MetaTags {
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:description" content="@(string.IsNullOrEmpty(Model.Content) ? string.Format(Localizer.Get("Collection_Share_Description", false), Model.Profile.GetProfileName()) : Model.Content)" />
+    @{
+        if (Model.CoverPhotos != null && Model.CoverPhotos.Count > 0)
+        {
+            <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.CoverPhotos[0])?Width=720&Height=0&format=json" />
+        }
+        else if (Model.Listings != null && Model.Listings.Count > 0 && Model.Listings[0].ExternalMedia != null && Model.Listings[0].ExternalMedia.Count > 0)
+        {
+            <meta property="og:image" content="https://@(cdnurl)/thumbnail/@(Model.Listings[0].ExternalMedia[0].Key)?Width=720&Height=0&format=json" />
+        }
+    }
 }
 
 @section ActionBar {
@@ -127,12 +134,12 @@
         <div class="share-actions">
             @{
                 var shareUrl = string.Concat(Classy.DotNet.Responses.AppView.Hostname, Url.RouteUrlForCurrentLocale("CollectionDetails", new { CollectionId = Model.Id, view = "list" }));
-
                 if (User.Identity.IsAuthenticated)
                 {
                     <a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@Model.Title', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Collection_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_collection&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))', '@Localizer.Get("Collection_ShareViaEmailTitle")', 'email', 'collection-details-grid')"><i class="glyphicon glyphicon-send"></i></a>
                 }
                 <a class="btn btn-default action share-facebook" href="#" onclick="Classy.ShareUI('https://www.facebook.com/sharer/sharer.php?u=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_collection'), 520, 350, 'facebook', 'collection-details-grid')"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-default action share-pinterest" href="#" onclick="Classy.ShareUI('http://pinterest.com/pin/create/button/?url=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_photo') + '&media=' + encodeURIComponent('@(photoUrl)') + '&description=' + encodeURIComponent('@(Model.Title)'), 520, 350, 'pinterest', 'collection-details-grid')"><i class="fa fa-pinterest"></i></a>
                 <a class="btn btn-default action share-twitter" href="#" onclick="Classy.ShareUI('https://twitter.com/home?status=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_collection'), 520, 350, 'twitter', 'collection-details-grid')"><i class="fa fa-twitter"></i></a>
                 <a class="btn btn-default action share-google-plus" href="#" onclick="Classy.ShareUI('https://plus.google.com/share?url=', encodeURIComponent('@(shareUrl)' + '?utm_medium=share_collection'), 520, 350, 'gplus', 'collection-details-grid')"><i class="fa fa-google-plus"></i></a>
             }
