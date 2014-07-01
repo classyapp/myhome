@@ -154,6 +154,109 @@
 			"Values": {
 				"en": "Update"
 			}
+		},
+		{ 
+			"Key": "Product_ProductUrlRequired",
+			"Description": "Product url required validation message",
+			"Values": {
+				"en": "Product Url is required"
+			}
+		},
+		{ 
+			"Key": "Product_ImagesRequired",
+			"Description": "Images required validation message",
+			"Values": {
+				"en": "At least one image is required"
+			}
+		},
+		{ 
+			"Key": "Product_UniqueSKURequired",
+			"Description": "Unique SKU required validation message",
+			"Values": {
+				"en": "Please provide a unique SKU"
+			}
+		},
+		{ 
+			"Key": "Product_SKURequired",
+			"Description": "SKU required validation message",
+			"Values": {
+				"en": "SKU is required"
+			}
+		},
+		{ 
+			"Key": "Product_DuplicateVariationDetected",
+			"Description": "Duplicate variation detected message",
+			"Values": {
+				"en": "All variation must be unique"
+			}
+		},
+		{ 
+			"Key": "Product_WidthRequired",
+			"Description": "Width required validation message",
+			"Values": {
+				"en": "Width is required"
+			}
+		},
+		{ 
+			"Key": "Product_DepthRequired",
+			"Description": "Depth required validation message",
+			"Values": {
+				"en": "Depth is required"
+			}
+		},
+		{ 
+			"Key": "Product_HeightRequired",
+			"Description": "Height required validation message",
+			"Values": {
+				"en": "Height is required"
+			}
+		},
+		{ 
+			"Key": "Product_ValidPriceRequired",
+			"Description": "Valid price required validation message",
+			"Values": {
+				"en": "Valid price is required"
+			}
+		},
+		{ 
+			"Key": "Product_ValidQuantityRequired",
+			"Description": "Valid quantity required validation message",
+			"Values": {
+				"en": "Valid quantity is required"
+			}
+		},
+		{ 
+			"Key": "CreateListing_CategoryRequired",
+			"Description": "Category required validation message",
+			"Values": {
+				"en": "At least one category is required"
+			}
+		},
+		{ 
+			"Key": "CreateListing_ImagesRequired",
+			"Description": "Images required validation message",
+			"Values": {
+				"en": "At least one image is required"
+			}
+		},
+		{ 
+			"Key": "Product_CurrencyRequired",
+			"Description": "Currency required validation message",
+			"Values": {
+				"en": "Currency is required"
+			}
+		},
+		{ 
+			"Key": "Product_BasicDetailsRequired",
+			"Description": "Basic details required validation message",
+			"Values": {
+				"en": "Please provide basic product info"
+			}
 		}
 	]
 }
+
+
+
+
+
