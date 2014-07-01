@@ -510,6 +510,14 @@ namespace Classy.DotNet.Mvc.Controllers
 
                 Dictionary<string, string> errors = new Dictionary<string, string>();
 
+                if (string.IsNullOrWhiteSpace(model.Title))
+                {
+                    errors.Add("Title", Localizer.Get("CreateListing_TitleRequired"));
+                }
+                if (string.IsNullOrWhiteSpace(model.Content))
+                {
+                    errors.Add("Content", Localizer.Get("CreateListing_ContentRequired"));
+                }
                 if (string.IsNullOrWhiteSpace(Request["Categories[]"]))
                 {
                     errors.Add("Categories", Localizer.Get("CreateListing_CategoryRequired"));

@@ -202,6 +202,7 @@
                 $(".overlay").hide();
                 var fields = ["Title", "Content", "ProductUrl", "SKU", "CompareAtPrice", "Price", "Quantity", "Width", "Depth", "Height"];
                 $("#globalVS").toggleClass("hidden", true);
+                $("#globalVS").find("ul").html("");
                 if (response.errors) { 
                     for (var i = 0; i < fields.length; i++) {
                         if (response.errors[fields[i]]){
