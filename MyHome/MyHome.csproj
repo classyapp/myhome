@@ -192,6 +192,7 @@
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Deployment\Resources\edit-product.resm" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
