@@ -580,6 +580,18 @@ a, a:visited
     font-size: 18px;
     padding: 3px;
 }
+
+.photo-details .actions .share-pinterest, .product-details .actions .share-pinterest,
+.collection .share-actions .share-pinterest,
+.social-stats .share-actions .share-pinterest
+{
+    background-color: #cb2027;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    padding: 3px;
+}
+
 .photo-details .actions .share-google-plus, .product-details .actions .share-google-plus,
 .collection .share-actions .share-google-plus,
 .social-stats .share-actions .share-google-plus

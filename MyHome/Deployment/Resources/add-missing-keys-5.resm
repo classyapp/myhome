@@ -1,0 +1,33 @@
+﻿{
+    "AppId": "v1.0",
+    "Resources": [
+        {
+            "Key": "EditWebPhotos_FormTitle",
+            "Description": "title of edit collection page when collection type is web photos",
+            "Values": {
+                "en": "Edit Tagged Photos"
+            }
+        },
+        {
+            "Key": "EditWebPhotos_Success_Title",
+            "Description": "title of success message after editing a colleciton of type web photos",
+            "Values": {
+                "en": "Saved Successfully!"
+            }
+        },
+        {
+            "Key": "EditWebPhotos_Success",
+            "Description": "content of success message after editing a colleciton of type web photos",
+            "Values": {
+                "en": "Your web photos collection has been saved."
+            }
+        },
+        {
+            "Key": "EditWebPhotos_Success_Action",
+            "Description": "title of success message after editing a colleciton of type web photos",
+            "Values": {
+                "en": "View Collection"
+            }
+        }
+    ]
+}

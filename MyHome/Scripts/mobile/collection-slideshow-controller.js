@@ -70,7 +70,8 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
         $scope.closeComments = function () {
             $('.comments-container').css('opacity', '0').css('display', 'none');
         };
-        $scope.showComments = function() {
+        $scope.showComments = function () {
+            if (!$scope.Comments || $scope.Comments.length == 0) return;
             $('.comments-container').css('display', 'inline-block').css('opacity', '1');
         };
     });
@@ -100,28 +101,26 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             });
         });
 
+        var getNextImage = function(image) { return image.parents('.listing').next().find('img.photo'); };
+        loadNextImage(getNextImage(selectedImage));
+        loadNextImage(getNextImage(getNextImage(selectedImage)));
         $scope.loadComments(selectedImage.data('listing-id'));
 
         if (selectedImage.hasClass('loaded')) return;
-        selectedImage.css('width', '100%');
         selectedImage
             .attr('src', selectedImage.data('orig-src'))
             .load(function () {
                 $(this).addClass('loaded');
-
-                // preload 2 more photos
-                var nextImage = $(this).parents('.listing').next().find('.photo');
-                if (nextImage.length == 0) return;
-                nextImage.attr('src', nextImage.data('orig-src')).load(function() {
-                    $(this).addClass('loaded');
-                    var secondImage = $(this).parents('.listing').next().find('.photo');
-                    if (secondImage.length == 0) return;
-                    secondImage.attr('src', secondImage.data('orig-src')).load(function() {
-                        $(this).addClass('loaded');
-                    });
-                });
-        });
+                selectedImage.css('width', '100%');
+            });
     }
+
+    var loadNextImage = function (img) {
+        if (!img || img.length == 0 || img.hasClass('loaded')) return;
+        img.attr('src', img.data('orig-src')).load(function () {
+            $(this).addClass('loaded');
+        });
+    };
 
     $scope.nextSlide = function () {
         var selectedImage = $('.slideshow .selected');
