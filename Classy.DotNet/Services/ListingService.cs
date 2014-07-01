@@ -279,7 +279,19 @@ namespace Classy.DotNet.Services
             bool IncludeProfile,
             bool IncludeCommenterProfiles,
             bool IncludeFavoritedByProfiles,
-            bool LogImpression)
+            bool LogImpression) 
+        {
+            return GetListingById(listingId, IncludeComments, IncludeProfile, IncludeCommenterProfiles, IncludeFavoritedByProfiles, LogImpression, false);
+        }
+
+        public ListingView GetListingById(
+            string listingId,
+            bool IncludeComments,
+            bool IncludeProfile,
+            bool IncludeCommenterProfiles,
+            bool IncludeFavoritedByProfiles,
+            bool LogImpression, 
+            bool forEdit)
         {
             try
             {
@@ -290,6 +302,7 @@ namespace Classy.DotNet.Services
                 if (IncludeCommenterProfiles) url = string.Concat(url, "&includecommenterprofiles=true");
                 if (IncludeFavoritedByProfiles) url = string.Concat(url, "&includefavoritedbyprofiles=true");
                 if (LogImpression) url = string.Concat(url, "&logimpression=true");
+                if (forEdit) url = string.Concat(url, "&foredit=true");
                 var listingJson = client.DownloadString(url);
                 var listing = listingJson.FromJson<ListingView>();
                 return listing;
