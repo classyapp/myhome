@@ -28,24 +28,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public EventHandler<ListingCommentEventArgs> OnPostedComment;
         public EventHandler<ListingLoadedEventArgs<TListingMetadata>> OnListingLoaded;
 
-        public void RegisterRoutesByAttributes(RouteCollection routes)
-        {
-            GetType().GetMethods().ForEach(x =>
-            {
-                var routeAttribute = x.GetCustomAttributes(typeof(MapRouteAttribute), true);
-                if (routeAttribute.IsNullOrEmpty())
-                    return;
-
-                var attribute = routeAttribute[0] as MapRouteAttribute;
-
-                routes.MapRoute(
-                    attribute.Name,
-                    attribute.Url,
-                    new { controller = ListingTypeName, action = x.Name },
-                    new[] { Namespace });
-            });
-        }
-
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRouteWithName(
