@@ -2,7 +2,7 @@
 <div class="login-form-container">
     
     <div class="col-md-12">
-        <button id="sign-in-facebook" class="btn btn-fb-login btn-block" ng-bind-template="{{Resources.LoginFacebook}}"></button>
+        <button id="sign-in-facebook" class="btn btn-fb-login btn-block" ng-bind-template="{{Resources.LoginFacebook}}" ng-click="facebookLogin()"></button>
         <form class="form" role="form" method="post" action="{{Resources.Login}}" id="login-nav">
             <input type="hidden" name="RedirectUrl" id="RedirectUrl" value="" />
             <div class="form-group">
