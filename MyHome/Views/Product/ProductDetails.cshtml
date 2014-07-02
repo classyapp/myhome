@@ -271,7 +271,7 @@
 {
     <script type="text/javascript">
         var currencySign = "@currencySign";
-        var purchaseOptions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Listing.PricingInfo.PurchaseOptions));
+        var purchaseOptions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Listing.PricingInfo.PurchaseOptions.Where(po => po.Available)));
         $(function () {
             var metadata = { };
             var query = { "Categories": "@(String.Join(",", Model.Listing.Categories))" };
@@ -284,7 +284,7 @@
             }, "html");
         });
 
-        function updateSelectedOption() {
+        function updateSelectedOption(newProp, newVal) {
             // build query object
             var query = {};
             $("label.active[data-variant-property]").each(function(idx, item) { query[$(item).data("variant-property")] = $(item).data("variant-value") });
@@ -300,6 +300,11 @@
                 if (found)
                     variant.push(purchaseOptions[i]);
             }
+
+            // check unavailable variations
+            if (newProp == "Color") { lockUnavailable(["Design", "Size"], newProp, newVal); }
+            if (newProp == "Design") { lockUnavailable(["Color", "Size"], newProp, newVal); }
+            if (newProp == "Size") { lockUnavailable(["Color", "Design"], newProp, newVal); }
 
             if (variant.length == 1) {
                 $("p.product-description").html(variant[0].Content);
@@ -340,12 +345,36 @@
             }
         };
 
+        function lockUnavailable(props, prop, value) {
+            var available = {};
+            for (var i = 0; i < props.length; i++){
+                available[props[i]] = {};
+                for (var j = 0; j < purchaseOptions.length; j++){
+                    if (purchaseOptions[j][prop] === value && purchaseOptions[j][props[i]]) { available[props[i]][purchaseOptions[j][props[i]]] = true; }
+                }
+            }
+
+            // disable irrelavant options
+            for (var i = 0; i < props.length; i++){
+                var $propOptions = $("label[data-variant-property=" + props[i] + "]");
+                $propOptions.toggleClass("disabled", true);
+                for (var pv in available[props[i]]) {
+                    $("label[data-variant-property=" + props[i] + "][data-variant-value=" + pv + "]").toggleClass("disabled", false);
+                }
+                // invalid option selected
+                var invalidOpt = $("label[data-variant-property=" + props[i] + "].active.disabled");
+                if (invalidOpt.length > 0) { invalidOpt.toggleClass("active", false); }
+            }
+        }
+
         $(".product-details .product-images img").on('click', function() {
             $(".product-details .photo > img").attr('src', "//@System.Configuration.ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]/thumbnail/" + $(this).data("key") + "?Width=640&Height=0&format=json");
         });
 
         $("label[data-variant-value] input[type=radio]").on('change', function(){
-            setTimeout(updateSelectedOption, 500);
+            var newVal = $(this).parent().data("variant-value");
+            var prop = $(this).parent().data("variant-property");
+            setTimeout(function() { updateSelectedOption(prop, newVal); }, 500);
         });
     </script>
 }

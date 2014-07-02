@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Classy.DotNet.Responses
+﻿namespace Classy.DotNet.Responses
 {
     public class ProfessionalInfoView
     {
@@ -16,6 +10,8 @@ namespace Classy.DotNet.Responses
         public int RollingReservePercent { get; set; }
         public int RollingReserveTimeInDays { get; set; }
         public string DefaultCulture { get; set; }
+
+        // TODO: can we delete this ? Doesn't really seem to be in use...
         public BankAccountView PaymentDetails { get; set; }
     }
 }

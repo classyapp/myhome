@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Classy.DotNet.Responses
 {
@@ -44,10 +40,10 @@ namespace Classy.DotNet.Responses
         public string Depth { get; set; }
         public string Height { get; set; }
         public string SKU { get; set; }
-        public double Price { get; set; }
-        public double Quantity { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
         public string ProductUrl { get; set; }
-        public double? CompareAtPrice { get; set; }
+        public decimal? CompareAtPrice { get; set; }
         public MediaFileView[] MediaFiles { get; set; }
         public string DefaultImage { get; set; }
         public bool Available { get; set; }
@@ -86,11 +82,11 @@ namespace Classy.DotNet.Responses
             }
             else
             {
-                string[] values = new string[VariantProperties.Count];
-                string[] keys = new string[] {"Color", "Design", "Size" };
-                int i = 0;
+                var values = new string[VariantProperties.Count];
+                var keys = new[] {"Color", "Design", "Size" };
+                var i = 0;
 
-                for (int j = 0; j < keys.Length; j++)
+                for (var j = 0; j < keys.Length; j++)
                 {
                     if (VariantProperties.ContainsKey(keys[j]))
                     {

@@ -28,24 +28,6 @@ namespace Classy.DotNet.Mvc.Controllers
         public EventHandler<ListingCommentEventArgs> OnPostedComment;
         public EventHandler<ListingLoadedEventArgs<TListingMetadata>> OnListingLoaded;
 
-        public void RegisterRoutesByAttributes(RouteCollection routes)
-        {
-            GetType().GetMethods().ForEach(x =>
-            {
-                var routeAttribute = x.GetCustomAttributes(typeof(MapRouteAttribute), true);
-                if (routeAttribute.IsNullOrEmpty())
-                    return;
-
-                var attribute = routeAttribute[0] as MapRouteAttribute;
-
-                routes.MapRoute(
-                    attribute.Name,
-                    attribute.Url,
-                    new { controller = ListingTypeName, action = x.Name },
-                    new[] { Namespace });
-            });
-        }
-
         public override void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRouteWithName(
@@ -458,7 +440,8 @@ namespace Classy.DotNet.Mvc.Controllers
                     false,
                     false,
                     false,
-                    false);
+                    false, 
+                    true);
                 if (!listing.CanEdit()) return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
                 var listingMetadata = new TListingMetadata().FromDictionary(listing.Metadata);
@@ -599,17 +582,17 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (!AppView.SupportedCurrencies.Any(c => c.Value == pricingInfoView.CurrencyCode))
             {
-                errors.Add("PricingInfo.CurrencyCode", "Default Currency is required");
+                errors.Add("PricingInfo.CurrencyCode", Localizer.Get("Product_CurrencyRequired"));
             }
             if (pricingInfoView.BaseOption == null)
             {
-                errors.Add("PricingInfo.BaseOption", "Missing Product details");
+                errors.Add("PricingInfo.BaseOption", Localizer.Get("Product_BasicDetailsRequired"));
             }
             else
             {
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.ProductUrl))
                 {
-                    errors.Add("PricingInfo.BaseOption.ProductUrl", "Product Url is required");
+                    errors.Add("PricingInfo.BaseOption.ProductUrl", Localizer.Get("Product_ProductUrlRequired"));
                 }
             }
             if (pricingInfoView.PurchaseOptions != null)
@@ -631,7 +614,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         else if (!pricingInfoView.PurchaseOptions[i].HasImages)
                         {
                             errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].Images",
-                                "Missing variation images");
+                                Localizer.Get("Product_ImagesRequired"));
                         }
                         ValidatePurchaseOption(pricingInfoView.PurchaseOptions[i], i, errors, skus);
                     }
@@ -649,7 +632,7 @@ namespace Classy.DotNet.Mvc.Controllers
                         {
                             if (duplicateSkus.Contains(pricingInfoView.PurchaseOptions[i].SKU))
                             {
-                                errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].SKU", "SKU must be unique");
+                                errors.Add("PricingInfo.PurchaseOptions[" + i.ToString() + "].SKU", Localizer.Get("Product_UniqueSKURequired"));
                             }
                         }
                     }
@@ -660,15 +643,15 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 if (pricingInfoView.BaseOption.Price <= 0)
                 {
-                    errors.Add("PricingInfo.BaseOption.Price", "Price must be greater than zero");
+                    errors.Add("PricingInfo.BaseOption.Price", Localizer.Get("Product_ValidPriceRequired"));
                 }
                 if (pricingInfoView.BaseOption.Quantity <= 0)
                 {
-                    errors.Add("PricingInfo.BaseOption.Quantity", "Quantity is required");
+                    errors.Add("PricingInfo.BaseOption.Quantity", Localizer.Get("Product_ValidQuantityRequired"));
                 }
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.SKU))
                 {
-                    errors.Add("PricingInfo.BaseOption.SKU", "SKU is required");
+                    errors.Add("PricingInfo.BaseOption.SKU", Localizer.Get("Product_SKURequired"));
                 }
                 else
                 {
@@ -678,20 +661,20 @@ namespace Classy.DotNet.Mvc.Controllers
                         new Dictionary<string, int> {{pricingInfoView.BaseOption.SKU, 0}});
                     if (duplicateSkus.Count > 0)
                     {
-                        errors.Add("PricingInfo.BaseOption.SKU", "SKU must be unique");
+                        errors.Add("PricingInfo.BaseOption.SKU", Localizer.Get("Product_UniqueSKURequired"));
                     }
                 }
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Width))
                 {
-                    errors.Add("PricingInfo.BaseOption.Width", "Width is required");
+                    errors.Add("PricingInfo.BaseOption.Width", Localizer.Get("Product_WidthRequired"));
                 }
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Depth))
                 {
-                    errors.Add("PricingInfo.BaseOption.Depth", "Depth is required");
+                    errors.Add("PricingInfo.BaseOption.Depth", Localizer.Get("Product_DepthRequired"));
                 }
                 if (string.IsNullOrWhiteSpace(pricingInfoView.BaseOption.Height))
                 {
-                    errors.Add("PricingInfo.BaseOption.Height", "Height is required");
+                    errors.Add("PricingInfo.BaseOption.Height", Localizer.Get("Product_HeightRequired"));
                 }
             }
 
@@ -706,7 +689,7 @@ namespace Classy.DotNet.Mvc.Controllers
                     string variant = string.Join(";", arr);
                     if (variants.ContainsKey(variant))
                     {
-                        errors.Add("PricingInfo", "Duplicate purchase option detected");
+                        errors.Add("PricingInfo", Localizer.Get("Product_DuplicateVariationDetected"));
                     }
                     else
                     {
@@ -720,13 +703,13 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             if (string.IsNullOrWhiteSpace(option.SKU))
             {
-                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU is required");
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), Localizer.Get("Product_SKURequired"));
             }
             else
             {
                 if (skus.ContainsKey(option.SKU))
                 {
-                    errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), "SKU must be unique");
+                    errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].SKU", idx), Localizer.Get("Product_UniqueSKURequired"));
                 }
                 else
                 {
@@ -735,23 +718,23 @@ namespace Classy.DotNet.Mvc.Controllers
             }
             if (option.Price <= 0)
             {
-                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Price", idx), "Price must be greater than zero");
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Price", idx), Localizer.Get("Product_ValidPriceRequired"));
             }
             if (option.Quantity <= 0)
             {
-                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Quantity", idx), "Quantity is required");
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Quantity", idx), Localizer.Get("Product_ValidQuantityRequired"));
             }
             if (string.IsNullOrWhiteSpace(option.Width))
             {
-                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Width", idx), "Width is required");
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Width", idx), Localizer.Get("Product_WidthRequired"));
             }
             if (string.IsNullOrWhiteSpace(option.Depth))
             {
-                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Depth", idx), "Depth is required");
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Depth", idx), Localizer.Get("Product_DepthRequired"));
             }
             if (string.IsNullOrWhiteSpace(option.Height))
             {
-                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Height", idx), "Height is required");
+                errors.Add(string.Format("PricingInfo.PurchaseOptions[{0}].Height", idx), Localizer.Get("Product_HeightRequired"));
             }
         }
 
