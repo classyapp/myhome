@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "HeaderSearch_ProductsSuggestionsHeader",
+			"Description": "Search suggestions product area header",
+			"Values": {
+				"en": "Products"
+			}
+		},
+		{ 
 			"Key": "PollDetails_PollEndedDialogTitle",
 			"Description": "Poll ended dialog title",
 			"Values": {
