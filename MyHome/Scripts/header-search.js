@@ -57,7 +57,7 @@
         hint: false
     }, {
         name: 'products-suggestions',
-        displayKey: 'Key',
+        displayKey: 'Value',
         source: productsSuggestions.ttAdapter(),
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsProductsHeader + '</span>'
@@ -115,8 +115,8 @@
             window.location.href = '//' + window.location.host + '/photo/' + suggestion.Value.toSlug();
         else if (dataset == 'keywords-suggestion')
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
-        else if (dataset == 'products-suggestion')
-            window.location.href = '//' + window.location.host + '/product/' + suggestion.Value.toSlug();
+        else if (dataset == 'products-suggestions')
+            window.location.href = '//' + window.location.host + '/product/' + suggestion.Key + '--show';
         else
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
     });

@@ -10,7 +10,7 @@ namespace Classy.DotNet.Services
     {
         private static readonly string GET_SEARCH_LISTINGS_SUGGESTIONS = ENDPOINT_BASE_URL + "/search/listing/suggest?q={0}";
         private static readonly string GET_SEARCH_PROFILES_SUGGESTIONS = ENDPOINT_BASE_URL + "/search/profile/suggest?q={0}";
-        private static readonly string GET_SEARCH_PRODUCTS_SUGGESTIONS = ENDPOINT_BASE_URL + "/search/products/suggest?q={0}";
+        private static readonly string GET_SEARCH_PRODUCTS_SUGGESTIONS = ENDPOINT_BASE_URL + "/search/product/suggest?q={0}";
         private static readonly string GET_SEARCH_KEYWORDS_SUGGESTIONS = ENDPOINT_BASE_URL + "/search/keywords/suggest?q={0}&lang={1}";
 
         public List<SearchSuggestion> SearchListingsSuggestions(string q)
