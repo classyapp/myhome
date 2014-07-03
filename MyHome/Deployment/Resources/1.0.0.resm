@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "ProductSearch_Categories_MoreCategories",
+			"Description": "Search products categories sidebar 'more categories' link",
+			"Values": {
+				"en": "More categories >>"
+			}
+		},
+		{ 
 			"Key": "ProductSearch_Title_Categories",
 			"Description": "Search products categories sidebar header",
 			"Values": {

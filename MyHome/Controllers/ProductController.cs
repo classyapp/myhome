@@ -5,6 +5,7 @@ using System.Web.Routing;
 using Classy.DotNet;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
+using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
 using MyHome.Models;
@@ -25,19 +26,30 @@ namespace MyHome.Controllers
 
         [AcceptVerbs(HttpVerbs.Get)]
         [MapRoute("ProductSearch", "products/search")]
-        public ActionResult ProductSearch()
+        public ActionResult ProductSearch(SearchListingsViewModel<PhotoMetadata> searchRequest)
         {
             try
             {
                 var metadata = new Dictionary<string, string[]>();
 
                 var service = new ListingService();
-                var searchResults = service.SearchListings(null, new[] {ListingType.Product}, metadata, null, null, null, 0);
+                var searchResults = service.SearchListings(
+                    null,
+                    new[] { ListingType.Product },
+                    metadata,
+                    searchRequest.PriceMin,
+                    searchRequest.PriceMax,
+                    searchRequest.Location,
+                    searchRequest.Page);
 
                 var model = new SearchListingsViewModel<ProductMetadata> {
                     Count = searchResults.Count,
-                    Results = searchResults.Results.ToList()
+                    Results = searchResults.Results.ToList(),
+                    PagingUrl = Url.RouteUrlForCurrentLocale("ProductSearch")
                 };
+
+                if (Request.IsAjaxRequest())
+                    return PartialView("PhotoGrid", new PhotoGridViewModel { Results = model.Results });
 
                 return View("Search", model);
             }

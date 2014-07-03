@@ -20,11 +20,12 @@
                 <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Categories")</h3>
             </div>
             <div class="panel-body panel-links">
-                @foreach (var category in categories)
+                @foreach (var category in categories.Take(12))
                 {
-                    <div class="category">@category</div>
+                    <div class="category">@category.Text</div>
                     //@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, Model.Location) })
                 }
+                <div class="more-categories">@Localizer.Get("ProductSearch_Categories_MoreCategories")</div>
             </div>
         </div>
 
@@ -40,14 +41,6 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">@Localizer.Get("SearchPhotos_Sidebar_Popular")</h3>
-            </div>
-            <div class="panel-body panel-links">
-                @Html.RouteLinkForCurrentLocale("#wallpaper", "SearchPhoto", new { filters = "wallpaper" })
-            </div>
-        </div>
     </div>
 
     <div class="main col-md-9">
@@ -69,7 +62,7 @@
              data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
             @if (Model.Results != null)
             {
-                @Html.Partial("PhotoGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ThumbnailSize = 270 })
+                @Html.Partial("ProductGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ThumbnailSize = 270 })
             }
         </div>
         @if (totalPages > 1)
