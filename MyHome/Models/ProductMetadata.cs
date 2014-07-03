@@ -1,11 +1,7 @@
 ﻿using Classy.DotNet.Mvc.Controllers;
 using Classy.DotNet.Mvc.Extensions;
-using Classy.DotNet.Mvc.ViewModels.Listing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Classy.DotNet.Mvc.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyHome.Models

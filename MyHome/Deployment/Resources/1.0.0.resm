@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "ProductSearch_Title_Categories",
+			"Description": "Search products categories sidebar header",
+			"Values": {
+				"en": "Categories"
+			}
+		},
+		{ 
+			"Key": "SearchProducts_Results_Title",
+			"Description": "Search products header title",
+			"Values": {
+				"en": "{0} {1} Products found"
+			}
+		},
+		{ 
 			"Key": "HeaderSearch_ProductsSuggestionsHeader",
 			"Description": "Search suggestions product area header",
 			"Values": {

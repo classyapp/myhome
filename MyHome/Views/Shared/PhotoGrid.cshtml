@@ -26,6 +26,15 @@
                 @if (Model.ShowCopyrightMessages) {
                     @Html.Partial("PhotoCopyrightMessage", p)
                 }
+                
+                @if (p.ListingType == "Product")
+                {
+                    var price = p.PricingInfo != null && p.PricingInfo.BaseOption != null ? p.PricingInfo.BaseOption.Price : (decimal?)null;
+                    <div class="product-details">
+                        <div class="title">@p.Title</div>
+                        <div class="price">@price</div>
+                    </div>
+                }
             </div>
         </div>
     }
