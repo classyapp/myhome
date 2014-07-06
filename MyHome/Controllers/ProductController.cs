@@ -49,7 +49,7 @@ namespace MyHome.Controllers
                 };
 
                 if (Request.IsAjaxRequest())
-                    return PartialView("PhotoGrid", new PhotoGridViewModel { Results = model.Results });
+                    return PartialView("ProductGrid", new PhotoGridViewModel { Results = model.Results });
 
                 return View("Search", model);
             }
