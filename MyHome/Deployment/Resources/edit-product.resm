@@ -1,0 +1,262 @@
+﻿{
+	"AppId" : "v1.0",
+	"Resources": [
+		{ 
+			"Key": "Product_SKU",
+			"Description": "SKU label",
+			"Values": {
+				"en": "S K U"
+			}
+		},
+		{ 
+			"Key": "Product_CompareAtPrice",
+			"Description": "CompareAtPrice label",
+			"Values": {
+				"en": "Compare At Price"
+			}
+		},
+		{ 
+			"Key": "Product_Quantity",
+			"Description": "Quantity label",
+			"Values": {
+				"en": "Quantity"
+			}
+		},
+		{ 
+			"Key": "Product_Price",
+			"Description": "Price label",
+			"Values": {
+				"en": "Price"
+			}
+		},
+		{ 
+			"Key": "Product_Width",
+			"Description": "Width label",
+			"Values": {
+				"en": "Width"
+			}
+		},
+		{ 
+			"Key": "Product_Depth",
+			"Description": "Depth label",
+			"Values": {
+				"en": "Depth"
+			}
+		},
+		{ 
+			"Key": "Product_Height",
+			"Description": "Height label",
+			"Values": {
+				"en": "Height"
+			}
+		},
+		{ 
+			"Key": "Product_Content",
+			"Description": "Content label",
+			"Values": {
+				"en": "Description"
+			}
+		},
+		{ 
+			"Key": "Product_DropFiles",
+			"Description": "Drop zone label",
+			"Values": {
+				"en": "Drop files here"
+			}
+		},
+		{ 
+			"Key": "Product_Centimeters",
+			"Description": "Centimeters label",
+			"Values": {
+				"en": "cm"
+			}
+		},
+		{ 
+			"Key": "Product_Title",
+			"Description": "Title label",
+			"Values": {
+				"en": "Title"
+			}
+		},
+		{ 
+			"Key": "Product_Categories",
+			"Description": "Categories label",
+			"Values": {
+				"en": "Categories"
+			}
+		},
+		{ 
+			"Key": "Product_Style",
+			"Description": "Style label",
+			"Values": {
+				"en": "Style"
+			}
+		},
+		{ 
+			"Key": "Product_Manufacturer",
+			"Description": "Manufacturer label",
+			"Values": {
+				"en": "Manufacturer"
+			}
+		},
+		{ 
+			"Key": "Product_ProductUrl",
+			"Description": "Product Url label",
+			"Values": {
+				"en": "Product Url"
+			}
+		},
+		{ 
+			"Key": "Product_Materials",
+			"Description": "Materials label",
+			"Values": {
+				"en": "Materials"
+			}
+		},
+		{ 
+			"Key": "Product_Designer",
+			"Description": "Designer label",
+			"Values": {
+				"en": "Designer"
+			}
+		},
+		{ 
+			"Key": "Product_Submit",
+			"Description": "Submit label",
+			"Values": {
+				"en": "Submit"
+			}
+		},
+		{ 
+			"Key": "Product_CategoriesPlaceHolder",
+			"Description": "Categories Placeholder",
+			"Values": {
+				"en": "Choose Product Categories"
+			}
+		},
+		{ 
+			"Key": "CreateProduct_PageTitle",
+			"Description": "Create Product Page Title",
+			"Values": {
+				"en": "Create Product"
+			}
+		},
+		{ 
+			"Key": "EditProduct_PageTitle",
+			"Description": "Edit Product Page Title",
+			"Values": {
+				"en": "Edit Product"
+			}
+		},
+		{ 
+			"Key": "EditProduct_Submit",
+			"Description": "Edit product submit",
+			"Values": {
+				"en": "Update"
+			}
+		},
+		{ 
+			"Key": "Product_ProductUrlRequired",
+			"Description": "Product url required validation message",
+			"Values": {
+				"en": "Product Url is required"
+			}
+		},
+		{ 
+			"Key": "Product_ImagesRequired",
+			"Description": "Images required validation message",
+			"Values": {
+				"en": "At least one image is required"
+			}
+		},
+		{ 
+			"Key": "Product_UniqueSKURequired",
+			"Description": "Unique SKU required validation message",
+			"Values": {
+				"en": "Please provide a unique SKU"
+			}
+		},
+		{ 
+			"Key": "Product_SKURequired",
+			"Description": "SKU required validation message",
+			"Values": {
+				"en": "SKU is required"
+			}
+		},
+		{ 
+			"Key": "Product_DuplicateVariationDetected",
+			"Description": "Duplicate variation detected message",
+			"Values": {
+				"en": "All variation must be unique"
+			}
+		},
+		{ 
+			"Key": "Product_WidthRequired",
+			"Description": "Width required validation message",
+			"Values": {
+				"en": "Width is required"
+			}
+		},
+		{ 
+			"Key": "Product_DepthRequired",
+			"Description": "Depth required validation message",
+			"Values": {
+				"en": "Depth is required"
+			}
+		},
+		{ 
+			"Key": "Product_HeightRequired",
+			"Description": "Height required validation message",
+			"Values": {
+				"en": "Height is required"
+			}
+		},
+		{ 
+			"Key": "Product_ValidPriceRequired",
+			"Description": "Valid price required validation message",
+			"Values": {
+				"en": "Valid price is required"
+			}
+		},
+		{ 
+			"Key": "Product_ValidQuantityRequired",
+			"Description": "Valid quantity required validation message",
+			"Values": {
+				"en": "Valid quantity is required"
+			}
+		},
+		{ 
+			"Key": "CreateListing_CategoryRequired",
+			"Description": "Category required validation message",
+			"Values": {
+				"en": "At least one category is required"
+			}
+		},
+		{ 
+			"Key": "CreateListing_ImagesRequired",
+			"Description": "Images required validation message",
+			"Values": {
+				"en": "At least one image is required"
+			}
+		},
+		{ 
+			"Key": "Product_CurrencyRequired",
+			"Description": "Currency required validation message",
+			"Values": {
+				"en": "Currency is required"
+			}
+		},
+		{ 
+			"Key": "Product_BasicDetailsRequired",
+			"Description": "Basic details required validation message",
+			"Values": {
+				"en": "Please provide basic product info"
+			}
+		}
+	]
+}
+
+
+
+
+

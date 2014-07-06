@@ -1,5 +1,5 @@
 ﻿
-<div class="profile-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
+<div class="profile-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.701961)), url(' + CoverPhotos[0] + ')'}">
     <div class="cover-slider">
         <div class="pane pane1" ng-class="{'dropshadow':CoverPhotos == undefined || CoverPhotos.length == 0}">
             <div class="text-center">
@@ -24,50 +24,45 @@
 <div class="header-actions">
     <div class="social-area pull-right">
         <!--<a class="btn btn-default action share-email" href="#" onclick="Classy.SendEmail('@HttpUtility.HtmlEncode(Localizer.Get(" listing_maillinksubject"))', '@HttpUtility.HtmlEncode(string.Format(Localizer.Get("Listing_MailLinkBody", false), string.Concat(shareUrl, "?utm_source=share_image&utm_medium=email"), (User.Identity as Classy.DotNet.Security.ClassyIdentity).Profile.GetProfileName()).Replace("\r\n", "\\r\\n"))' , '@Localizer.Get("Listing_ShareViaEmailTitle")' )"><i class="glyphicon glyphicon-send"></i></a>-->
-        <span class="btn btn-default action share-facebook" onclick="Classy.Share('facebook')"><i class="fa fa-facebook"></i></span>
-        <span class="btn btn-default action share-twitter" onclick="Classy.Share('twitter')"><i class="fa fa-twitter"></i></span>
-        <span class="btn btn-default action share-google-plus" onclick="Classy.Share('google')"><i class="fa fa-google-plus"></i></span>
+        <span class="btn btn-default action share-facebook" ng-click="share('facebook')"><i class="fa fa-facebook"></i></span>
+        <span class="btn btn-default action share-twitter" ng-click="share('twitter')"><i class="fa fa-twitter"></i></span>
+        <span class="btn btn-default action share-google-plus" ng-click="share('google')"><i class="fa fa-google-plus"></i></span>
     </div>
     <div class="stats-container clearfix">
         <div class="stat-container pull-left">
             <div class="value" ng-bind-template="{{ViewCount}}"></div>
-            <div class="description">VIEWS</div>
+            <div class="description" ng-bind-template="{{Resources.Views}}"></div>
         </div>
         <div class="stat-container pull-left">
-            <div class="value" ng-bind-template="{{ReviewCount}}"></div>
-            <div class="description">REVIEWS</div>
+            <div class="value" ng-bind-template="{{FollowerCount}}"></div>
+            <div class="description" ng-bind-template="{{Resources.Followers}}"></div>
         </div>
         <div class="stat-container pull-left">
-            <div class="value" ng-bind-template="{{CommentCount}}"></div>
-            <div class="description">COMMENTS</div>
+            <div class="value" ng-bind-template="{{FollowingCount}}"></div>
+            <div class="description" ng-bind-template="{{Resources.Following}}"></div>
         </div>
     </div>
 </div>
 
+<div class="section-title" ng-if="Projects.length > 0">Projects</div>
 <div class="profile-projects panel panel-default" ng-if="Projects.length > 0">
     <div class="panel-body collections-container horizontal-sliding-container">
         <div classy-scrollable>
             <div class="collection" ng-class="{'last':$last}" ng-repeat="project in Projects" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
                 <img ng-src="{{project.ImageUrl}}" data-collection-id="{{project.Id}}" />
+                <div class="name" ng-bind-template="{{project.Name}}"></div>
             </div>
         </div>
     </div>
-    <!--<div class="panel-footer">
-        <span class="view-all" ng-bind-template="{{Resources.ViewAllProjects}}"></span>
-        <i class="glyphicon glyphicon-chevron-right pull-right"></i>
-    </div>-->
 </div>
 
+<div class="section-title" ng-if="Collections.length > 0">Collections</div>
 <div class="profile-collections panel panel-default" ng-if="Collections.length > 0">
     <div class="panel-body collections-container horizontal-sliding-container" classy-scrollable>
         <div class="collection" ng-class="{'last':$last}" ng-repeat="collection in Collections" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
             <img ng-src="{{collection.ImageUrl}}" data-collection-id="{{collection.Id}}" />
         </div>
     </div>
-    <!--<div class="panel-footer">
-        <span class="view-all" ng-bind-template="{{Resources.ViewAllCollections}}"></span>
-        <i class="glyphicon glyphicon-chevron-right pull-right"></i>
-    </div>-->
 </div>
 
 <div class="profile-reviews panel panel-default" ng-if="Reviews.length > 0">

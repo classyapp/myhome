@@ -1,14 +1,11 @@
-﻿using Classy.DotNet.Mvc.Localization;
+﻿using Classy.DotNet.Mvc.Attributes;
+using Classy.DotNet.Mvc.Extensions;
+using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Classy.DotNet.Services;
 
 namespace Classy.DotNet.Mvc.Controllers
 {
@@ -33,6 +30,24 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         public abstract void RegisterRoutes(RouteCollection routes);
+
+        public void RegisterRoutesByAttributes(RouteCollection routes, string listingTypeName)
+        {
+            GetType().GetMethods().ForEach(x =>
+            {
+                var routeAttribute = x.GetCustomAttributes(typeof(MapRouteAttribute), true);
+                if (routeAttribute.IsNullOrEmpty())
+                    return;
+
+                var attribute = routeAttribute[0] as MapRouteAttribute;
+
+                routes.MapRoute(
+                    attribute.Name,
+                    attribute.Url,
+                    new { controller = listingTypeName, action = x.Name },
+                    new[] { Namespace });
+            });
+        }
 
         public ProfileView AuthenticatedUserProfile
         {

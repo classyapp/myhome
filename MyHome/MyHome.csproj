@@ -188,9 +188,11 @@
     <Content Include="Deployment\Resources\mobile.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Deployment\Resources\add-missing-keys-5.resm" />
     <None Include="Deployment\Resources\vendor-initial.resm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Deployment\Resources\edit-product.resm" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\rtl\Site.css" />
@@ -480,6 +482,7 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\collection-article.html" />
     <Content Include="Mobile\login.html" />
     <Content Include="Mobile\collection-slideshow.html" />
     <Content Include="Mobile\listing-fullscreen.html" />

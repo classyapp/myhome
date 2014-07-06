@@ -21,65 +21,65 @@
 }
 
 
-<h2>@Localizer.Get("CreateProduct_PageTitle")</h2>
+<h2>@Localizer.Get("EditProduct_PageTitle")</h2>
 
 
 <div class="row">
     <div class="col-md-7">
         <div class="overlay"></div>
-        @Html.Bootstrap().ValidationSummary()
+        @Html.Bootstrap().ValidationSummary().HtmlAttributes(new { id = "globalVS" }).Class("hidden alert alert-danger")
 
         @using (var f = Html.Bootstrap().Begin(new Form("EdiListing", "Product").Type(FormType._NotSet).HtmlAttributes(new { enctype = "multipart/form-data" })))
         {
             @Html.HiddenFor(x => x.Id);
-            @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false)
-            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
-            @f.FormGroup().TextBoxFor(x => x.Categories).ShowValidationMessage(false)
+            @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Title"))
+            @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Content"))
+            @f.FormGroup().TextBoxFor(x => x.Categories).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Categories"))
             <div class="row">
-                @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).WidthMd(6).ShowValidationMessage(false)
-                @f.FormGroup().TextBoxFor(x => x.Metadata.Manufacturer).WidthMd(6).ShowValidationMessage(false)
+                @f.FormGroup().DropDownListFor(x => x.Metadata.Style, styles.AsSelectList()).WidthMd(6).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Style"))
+                @f.FormGroup().TextBoxFor(x => x.Metadata.Manufacturer).WidthMd(6).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Manufacturer"))
             </div>
             @Html.HiddenFor(x => x.PricingInfo.CurrencyCode)
-            @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.ProductUrl).ShowValidationMessage(false)
+            @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.ProductUrl).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_ProductUrl"))
             <hr />
             <div id="externalMedia" class="dropzone">
                 <div class="dz-default dz-message">
-                    <span>@Localizer.Get("CreateListing_DropFiles")</span>
+                    <span>@Localizer.Get("Product_DropFiles")</span>
                 </div>
             </div>
             <hr />
             <div class="row">
                 <div class="col-md-3">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.SKU).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.SKU).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_SKU"))
                 </div>
                 <div class="col-md-3">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.CompareAtPrice).Prepend(currencySign).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.CompareAtPrice).Prepend(currencySign).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_CompareAtPrice"))
                 </div>
                 <div class="col-md-3">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Price).Prepend(currencySign).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Price).Prepend(currencySign).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Price"))
                 </div>
                 <div class="col-md-3">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Quantity).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Quantity).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Quantity"))
                 </div>
             </div>
             <hr />
             <div class="row">
                 <div class="col-md-4">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Width).Append("cm").ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Width).Append(Localizer.Get("Product_Centimeters")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Width"))
                 </div>
                 <div class="col-md-4">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Depth).Append("cm").ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Depth).Append(Localizer.Get("Product_Centimeters")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Depth"))
                 </div>
                 <div class="col-md-4">
-                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Height).Append("cm").ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.BaseOption.Height).Append(Localizer.Get("Product_Centimeters")).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Height"))
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    @f.FormGroup().TextBoxFor(x => x.Metadata.Materials).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.Metadata.Materials).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Materials"))
                 </div>
                 <div class="col-md-6">
-                    @f.FormGroup().TextBoxFor(x => x.Metadata.Designer).ShowValidationMessage(false)
+                    @f.FormGroup().TextBoxFor(x => x.Metadata.Designer).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Designer"))
                 </div>
             </div>
             <hr />
@@ -100,28 +100,31 @@
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Design, new { data_vprop = "Design" })
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Size, new { data_vprop = "Size" })
                                     @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].UID)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].SKU).WidthMd(3).ShowValidationMessage(false)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].CompareAtPrice).WidthMd(3).ShowValidationMessage(false)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Price).WidthMd(3).ShowValidationMessage(false)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Quantity).WidthMd(3).ShowValidationMessage(false)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Width).WidthMd(4).ShowValidationMessage(false)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Depth).WidthMd(4).ShowValidationMessage(false)
-                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Height).WidthMd(4).ShowValidationMessage(false)
-                                    @f.FormGroup().TextAreaFor(x => x.PricingInfo.PurchaseOptions[i].Content).HtmlAttributes(new { Rows = 4 }).WidthMd(12).ShowValidationMessage(false)
+                                    @Html.HiddenFor(x => x.PricingInfo.PurchaseOptions[i].Title)
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].SKU).WidthMd(3).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_SKU"))
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].CompareAtPrice).WidthMd(3).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_CompareAtPrice"))
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Price).Prepend(currencySign).WidthMd(3).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Price"))
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Quantity).WidthMd(3).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Quantity"))
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Width).Append("cm").WidthMd(4).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Width"))
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Depth).Append("cm").WidthMd(4).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Depth"))
+                                    @f.FormGroup().TextBoxFor(x => x.PricingInfo.PurchaseOptions[i].Height).Append("cm").WidthMd(4).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Height"))
+                                    @f.FormGroup().TextAreaFor(x => x.PricingInfo.PurchaseOptions[i].Content).HtmlAttributes(new { Rows = 4 }).WidthMd(12).ShowValidationMessage(false).Label().LabelText(Localizer.Get("Product_Content"))
                                     <div class='col-md-12 form-group'>
                                         <div id='PricingInfo_PurchaseOptions_Media' class='dropzone'>
-                                            <div class='dz-default dz-message'><span>@Localizer.Get("CreateListing_DropFiles")</span></div>
+                                            <div class='dz-default dz-message'><span>@Localizer.Get("Product_DropFiles")</span></div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
+                            <div class='row'><div class='col-xs-12 bmvc-3-validation-summary alert alert-danger hidden'><ul></ul></div></div>
 		                </div>
 	                }
                 }
             </div>
             
 
-            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(@Localizer.Get("CreateProduct_Submit")).HtmlAttributes(new { onclick = "trySubmit()" }))  
+            @f.FormGroup().CustomControls(Html.Bootstrap().Button().Text(@Localizer.Get("EditProduct_Submit")).HtmlAttributes(new { onclick = "trySubmit()" }))  
         }
     </div>
     <div class="col-md-5" id="MMM"></div>
@@ -135,6 +138,7 @@
     <script type="text/javascript" src="~/Scripts/jquery.combinations.js"></script>
 
     <script type="text/javascript">
+        var sign = "@currencySign";
         var catSuggest = null;
         var mainDZ = null;
         $(function(){
@@ -210,7 +214,7 @@
                 });
             @if (Model.PricingInfo.PurchaseOptions != null)
             {
-                @:var existingOptionsImages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.PricingInfo.PurchaseOptions.Select(o => o.MediaFiles.Select(f => f.Key).ToArray()).ToArray()));
+                @:var existingOptionsImages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.PricingInfo.PurchaseOptions.Select(o => o.MediaFiles != null ? o.MediaFiles.Select(f => f.Key).ToArray() : new string[0]).ToArray()));
             }
             $("#variations .variation").each(function(idx, item) {
                 $(".dropzone", item).dropzone({
@@ -272,17 +276,47 @@
             var vcount = $("#variations div.variation").length;
             $.post("/product/@Model.Id/edit", data, function(response) { 
                 $(".overlay").hide();
+                var fields = ["Title", "Content", "ProductUrl", "SKU", "CompareAtPrice", "Price", "Quantity", "Width", "Depth", "Height"];
+                $("#globalVS").toggleClass("hidden", true);
                 if (response.errors) { 
+                    for (var i = 0; i < fields.length; i++) {
+                        if (response.errors[fields[i]]){
+                            $("#globalVS").find("ul").append("<li>" + response.errors[fields[i]] + "</li>");
+                            $("#globalVS").toggleClass("hidden", false);
+                        }
+                    }
                     if (response.errors.Categories) {
-                        $("div.ms-ctn").addClass("input-validation-error"); delete response.errors["Categories"];
+                        $("div.ms-ctn").addClass("input-validation-error"); 
+                        $("#globalVS").find("ul").append("<li>" + response.errors["Categories"] + "</li>");
+                        delete response.errors["Categories"];
+                    }
+                    for (var i = 0; i < fields.length; i++) {
+                        if (response.errors["PricingInfo.BaseOption." + fields[i]]){
+                            $("#globalVS").find("ul").append("<li>" + response.errors["PricingInfo.BaseOption." + fields[i]] + "</li>");
+                            $("#globalVS").toggleClass("hidden", false);
+                        }
                     }
                     if (response.errors.Images) {
-                        $("#externalMedia").addClass("input-validation-error"); delete response.errors["Images"];
+                        $("#externalMedia").addClass("input-validation-error"); 
+                        $("#globalVS").find("ul").append("<li>" + response.errors.Images + "</li>");
+                        $("#globalVS").toggleClass("hidden", false);
+                        delete response.errors["Images"];
                     }
                     var variations = $("#variations div.variation");
                     for (var i = 0; i < vcount; i++) {
+                        var $validSummary = $("#variations div.variation:nth-child(" + (i + 1) + ") .bmvc-3-validation-summary");
+                        $validSummary.find("ul").html("");
+                        $validSummary.toggleClass("hidden", true);
+                        for (var j = 0; j < fields.length; j++) {
+                            if (response.errors["PricingInfo.PurchaseOptions[" + i + "]." + fields[j]]){
+                                $validSummary.find("ul").append("<li>" + response.errors["PricingInfo.PurchaseOptions[" + i + "]." + fields[j]] + "</li>");
+                                $validSummary.toggleClass("hidden", false);
+                            }
+                        }
                         if (response.errors["PricingInfo.PurchaseOptions[" + i + "].Images"]){
                             $(".dropzone", variations[i]).addClass("input-validation-error");
+                            $validSummary.toggleClass("hidden", false);
+                            $validSummary.find("ul").append("<li>" + response.errors["PricingInfo.PurchaseOptions[" + i + "].Images"] + "</li>");
                             delete response.errors["PricingInfo.PurchaseOptions[" + i + "].Images"];
                         }
                     }
@@ -333,19 +367,21 @@
                         "<div class='panel-body'>" +
                         "<div class='row'>" +
                         "<input data-vprop='Color' id='PricingInfo_PurchaseOptions_" + i + "__Color' name='PricingInfo.PurchaseOptions[" + i + "].Color' type='hidden' value='" + variations[i][0] + "'>" +
-                            "<input data-vprop='Design' id='PricingInfo_PurchaseOptions_" + i + "__Design' name='PricingInfo.PurchaseOptions[" + i + "].Design' type='hidden' value='" + variations[i][1] + "'>" +
-                            "<input data-vprop='Size' id='PricingInfo_PurchaseOptions_" + i + "__Size' name='PricingInfo.PurchaseOptions[" + i + "].Size' type='hidden' value='" + variations[i][2] + "'>" +
-                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>S K U</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
-                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>Compare At Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div>" +
-                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>Price</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div>" +
-                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Quantity'>Quantity</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Quantity' name='PricingInfo.PurchaseOptions[" + i + "].Quantity' type='text' value='" + $("#PricingInfo_BaseOption_Quantity").val() + "'></div>" +
-                        "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Width'>Width</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Width' name='PricingInfo.PurchaseOptions[" + i + "].Width' type='text' value='" + $("#PricingInfo_BaseOption_Width").val()  + "'></div>" +
-                        "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Depth'>Depth</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Depth' name='PricingInfo.PurchaseOptions[" + i + "].Depth' type='text' value='" + $("#PricingInfo_BaseOption_Depth").val()  + "'></div>" +
-                        "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Height'>Height</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Height' name='PricingInfo.PurchaseOptions[" + i + "].Height' type='text' value='" + $("#PricingInfo_BaseOption_Height").val()  + "'></div>" +
-                        "<div class='col-md-12 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Content'>Content</label><textarea rows='4' class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Content' name='PricingInfo.PurchaseOptions[" + i + "].Content'>" + $("#Content").val()  + "</textarea></div>" +
-                        "<div class='col-md-12 form-group'><div id='PricingInfo_PurchaseOptions_Media_" + i + "' class='dropzone'><div class='dz-default dz-message'><span>@Localizer.Get("CreateListing_DropFiles")</span></div></div></div>" +
-                            "</div>" +
-                            "</div></div>");
+                        "<input data-vprop='Design' id='PricingInfo_PurchaseOptions_" + i + "__Design' name='PricingInfo.PurchaseOptions[" + i + "].Design' type='hidden' value='" + variations[i][1] + "'>" +
+                        "<input data-vprop='Size' id='PricingInfo_PurchaseOptions_" + i + "__Size' name='PricingInfo.PurchaseOptions[" + i + "].Size' type='hidden' value='" + variations[i][2] + "'>" +
+                        "<input id='PricingInfo_PurchaseOptions_" + i + "__Title' name='PricingInfo.PurchaseOptions[" + i + "].Title' type='hidden' value='" + $("#Title").val() + "'>" +
+                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__SKU'>@Localizer.Get("Product_SKU")</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__SKU' name='PricingInfo.PurchaseOptions[" + i + "].SKU' type='text' value=''></div>" +
+                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice'>@Localizer.Get("Product_CompareAtPrice")</label><div class='input-group'><span class='input-group-addon'>" + sign + "</span><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__CompareAtPrice' name='PricingInfo.PurchaseOptions[" + i + "].ComparedAtPrice' type='text' value='" + $("#PricingInfo_BaseOption_CompareAtPrice").val()  + "'></div></div>" +
+                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Price'>@Localizer.Get("Product_Price")</label><div class='input-group'><span class='input-group-addon'>" + sign + "</span><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Price' name='PricingInfo.PurchaseOptions[" + i + "].Price' type='text' value='" + $("#PricingInfo_BaseOption_Price").val()  + "'></div></div>" +
+                        "<div class='col-md-3 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Quantity'>@Localizer.Get("Product_Quantity")</label><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Quantity' name='PricingInfo.PurchaseOptions[" + i + "].Quantity' type='text' value='" + $("#PricingInfo_BaseOption_Quantity").val() + "'></div>" +
+                        "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Width'>@Localizer.Get("Product_Width")</label><div class='input-group'><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Width' name='PricingInfo.PurchaseOptions[" + i + "].Width' type='text' value='" + $("#PricingInfo_BaseOption_Width").val()  + "'><span class='input-group-addon'>cm</span></div></div>" +
+                        "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Depth'>@Localizer.Get("Product_Depth")</label><div class='input-group'><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Depth' name='PricingInfo.PurchaseOptions[" + i + "].Depth' type='text' value='" + $("#PricingInfo_BaseOption_Depth").val()  + "'><span class='input-group-addon'>cm</span></div></div>" +
+                        "<div class='col-md-4 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Height'>@Localizer.Get("Product_Height")</label><div class='input-group'><input class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Height' name='PricingInfo.PurchaseOptions[" + i + "].Height' type='text' value='" + $("#PricingInfo_BaseOption_Height").val()  + "'><span class='input-group-addon'>cm</span></div></div>" +
+                        "<div class='col-md-12 form-group'><label class='control-label' for='PricingInfo_PurchaseOptions_" + i + "__Content'>@Localizer.Get("Product_Content")</label><textarea rows='4' class='form-control valid' id='PricingInfo_PurchaseOptions_" + i + "__Content' name='PricingInfo.PurchaseOptions[" + i + "].Content'>" + $("#Content").val()  + "</textarea></div>" +
+                        "<div class='col-md-12 form-group'><div id='PricingInfo_PurchaseOptions_Media_" + i + "' class='dropzone'><div class='dz-default dz-message'><span>@Localizer.Get("Product_DropFiles")</span></div></div></div>" +
+                        "</div>" +
+                        "<div class='row'><div class='col-xs-12 bmvc-3-validation-summary alert alert-danger'><ul></ul></div></div>" +
+                        "</div></div>");
                         v.data("variation", vkey);
                         $("#variations").append(v);
                         v.find(".dropzone").dropzone(
@@ -399,6 +435,7 @@
             $("#variations div.variation").each(function(i, item){ 
                 $("input[type=text],input[type=hidden],select,textarea", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
                 $("input[type=checkbox]", item).each(function(idx, control){ $(control).attr("name", $(control).attr("name").replace(/\d+/, i)); if ($(control).attr("id")) {$(control).attr("id", $(control).attr("id").replace(/\d+/, i));} });
+                $("#PricingInfo_PurchaseOptions_" + i + "__Title").val($("#Title").val());
             });
         }
     </script>

@@ -26,13 +26,15 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         var slider = $('.cover-slider');
         var pane1 = slider.find('.pane1');
         var pane2 = slider.find('.pane2');
-        slider.css('-webkit-transform', 'translate3d(' + (pane2[0].getBoundingClientRect().left - pane1.outerWidth(true)) + 'px,0,0)');
-        pane1.css('display', 'inline-block');
-        requestAnimationFrame(function () {
-            slider.css('transition', '-webkit-transform 0.5s ease');
-            slider.css('-webkit-transform', 'translate3d(0,0,0)');
-            slider.one('webkitTransitionEnd', function() {
-                pane2.css('display', 'none');
+        requestAnimationFrame(function() {
+            slider.css('-webkit-transform', 'translate3d(' + (pane2[0].getBoundingClientRect().left - pane1.outerWidth(true)) + 'px,0,0)');
+            pane1.css('display', 'inline-block');
+            requestAnimationFrame(function() {
+                slider.css('transition', '-webkit-transform 0.5s ease');
+                slider.css('-webkit-transform', 'translate3d(0,0,0)');
+                slider.one('webkitTransitionEnd', function() {
+                    pane2.css('display', 'none');
+                });
             });
         });
         $scope.currentSlide=0;
@@ -71,14 +73,15 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
                     projects.push({
                         Id: collection.Id,
+                        Name: collection.Title,
                         ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
                     });
             });
             $scope.Projects = projects;
 
             $scope.ViewCount = data.ViewCount;
-            $scope.CommentCount = data.CommentCount;
-            $scope.ReviewCount = data.ReviewCount;
+            $scope.FollowerCount = data.FollowerCount;
+            $scope.FollowingCount = data.FollowingCount;
 
             $scope.Avatar = utilities.Images.Thumbnail(appSettings, data.Avatar.Key, 80, 80);
             $scope.Location = getProfileLocation(data);
@@ -107,38 +110,24 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             $scope.Reviews = reviews;
 
             $timeout(initProfileHeader, 0);
-
-            Localizer.Get('Mobile_ProfilePage_ShareTitle', AppSettings.Culture).then(function (resource) {
-                ClassyUtilities.OpenGraph.Title(resource.format(data.UserName));
-            });
             
-            if (data.IsProfessional && data.Metadata.BusinessDescription)
-                ClassyUtilities.OpenGraph.Description(data.Metadata.BusinessDescription);
-            else if (data.IsProfessional && !data.Metadata.BusinessDescription) {
-                // TODO: take care of this case
-            } else {
-                Localizer.Get('Mobile_ProfilePage_ShareDescription', AppSettings.Culture).then(function (resource) {
-                    ClassyUtilities.OpenGraph.Description(resource);
-                });
-            }
-                    
-            ClassyUtilities.OpenGraph.Image(data.Avatar ? data.Avatar.Url : 'http://www.homelab.com/img/missing-thumb.png');
-
         }).error(function () {
             // TODO: display some error message
         });
 
         // get localized resources
         $scope.Resources = {};
-        Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) {
-            $scope.Resources.ViewAllProjects = resource;
-        });
-        Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function (resource) {
-            $scope.Resources.ViewAllCollections = resource;
-        });
-        Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function(resource) {
-            $scope.Resources.ViewAllReviews = resource;
-        });
+        Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllProjects = resource; });
+        Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllCollections = resource; });
+        Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllReviews = resource; });
+        Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
+        Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture).then(function (resource) { $scope.Resources.Followers = resource; });
+        Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture).then(function (resource) { $scope.Resources.Following = resource; });
+
+        $scope.share = function (network) {
+            var url = window.location.protocol + appSettings.Host + '/profile/' + $routeParams.profileId;
+            Classy.Share(network, url);
+        };
 
         function getProfileLocation(profileDetails) {
             var professionalInfo = profileDetails.professionalInfo;

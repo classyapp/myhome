@@ -54,7 +54,7 @@ namespace MyHome.Controllers
         public override void RegisterRoutes(RouteCollection routes)
         {
             base.RegisterRoutes(routes);
-            RegisterRoutesByAttributes(routes);
+            RegisterRoutesByAttributes(routes, ListingTypeName);
         }
 
         public override string ListingTypeName

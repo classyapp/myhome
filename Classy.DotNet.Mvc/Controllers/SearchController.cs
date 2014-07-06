@@ -1,6 +1,6 @@
-﻿using System.Threading;
-using System.Web.Routing;
+﻿using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Services;
 
 namespace Classy.DotNet.Mvc.Controllers
@@ -12,27 +12,11 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public override void RegisterRoutes(RouteCollection routes)
         {
-            routes.MapRoute(
-                name: "SearchListingsSuggestions",
-                url: "search/listings/suggest",
-                defaults: new { controller = "Search", action = "SearchListingsSuggestions" },
-                namespaces: new string[] { Namespace }
-            );
-            routes.MapRoute(
-                name: "SearchProfilesSuggestions",
-                url: "search/profiles/suggest",
-                defaults: new { controller = "Search", action = "SearchProfilesSuggestions" },
-                namespaces: new string[] { Namespace }
-            );
-            routes.MapRoute(
-                name: "SearchKeywordsSuggestions",
-                url: "search/keywords/suggest",
-                defaults: new { controller = "Search", action = "SearchKeywordsSuggestions" },
-                namespaces: new string[] { Namespace }
-            );
+            RegisterRoutesByAttributes(routes, "Search");
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [MapRoute("SearchListingsSuggestions", "search/listings/suggest")]
         public ActionResult SearchListingsSuggestions(string q)
         {
             try
@@ -49,6 +33,7 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [MapRoute("SearchProfilesSuggestions", "search/profiles/suggest")]
         public ActionResult SearchProfilesSuggestions(string q)
         {
             try
@@ -65,6 +50,7 @@ namespace Classy.DotNet.Mvc.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
+        [MapRoute("SearchKeywordsSuggestions", "search/keywords/suggest")]
         public ActionResult SearchKeywordsSuggestions(string q)
         {
             try

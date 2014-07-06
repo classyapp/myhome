@@ -144,7 +144,9 @@ namespace Classy.DotNet.Mvc.Controllers.Security
                 return Content("Error");
             }
 
-            return Content("OK");
+            var userIdentity = User.Identity as ClassyIdentity;
+
+            return Content(userIdentity.Profile.Id);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
