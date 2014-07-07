@@ -1,0 +1,18 @@
+﻿
+
+<div class="product-container">
+    
+    <div class="title" ng-bind-template="{{Title}}"></div>
+
+    <img ng-src="{{ImageUrl}}" />
+
+    <div class="description" ng-bind-template="{{Content}}"></div>
+
+    <div class="price">
+        <span class="label" ng-bind-template="{{Resources.PriceLabel}}"></span>
+        <span class="value" ng-bind-template="{{PricingInfo.Price}}"></span>
+        &nbsp;
+        <span class="currency" ng-bind-template="{{PricingInfo.CurrencyCode}}"></span>
+    </div>
+
+</div>
