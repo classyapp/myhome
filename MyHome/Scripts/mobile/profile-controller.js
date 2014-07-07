@@ -63,18 +63,19 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
                 if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'PhotoBook')
                     collections.push({
                         Id: collection.Id,
+                        Name: collection.Title,
                         ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
                     });
             });
             $scope.Collections = collections;
             // organize projects
             var projects = [];
-            $scope.profileDetails.Collections.forEach(function(collection) {
-                if (collection.CoverPhotos && collection.CoverPhotos.length > 0 && collection.CoverPhotos[0].trim() != '' && collection.Type == 'Project')
+            $scope.profileDetails.Collections.forEach(function(project) {
+                if (project.CoverPhotos && project.CoverPhotos.length > 0 && project.CoverPhotos[0].trim() != '' && project.Type == 'Project')
                     projects.push({
-                        Id: collection.Id,
-                        Name: collection.Title,
-                        ImageUrl: utilities.Images.Thumbnail(appSettings, collection.CoverPhotos[0], 160, 160)
+                        Id: project.Id,
+                        Name: project.Title,
+                        ImageUrl: utilities.Images.Thumbnail(appSettings, project.CoverPhotos[0], 160, 160)
                     });
             });
             $scope.Projects = projects;
