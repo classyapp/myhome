@@ -28,7 +28,7 @@
             </div>
 
             <div class="col-md-5">
-                @using (var f = Html.Bootstrap().Begin(new Form("EditListing", "Photo").Type(FormType._NotSet).FormMethod(FormMethod.Post)))
+                @using (var f = Html.Bootstrap().Begin(new Form("EditListing", "Photo").Id("edit-listing-form").Type(FormType._NotSet).FormMethod(FormMethod.Post)))
                 {
                     @Html.Bootstrap().ValidationSummary()
                     @Html.HiddenFor(x => x.Id)
@@ -48,7 +48,7 @@
                             <span>@string.Join(",", Model.TranslatedKeywords.SelectMany(x => x.Value))</span>
                         </div>
                     }
-                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
+                    @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Id("edit-photo").Text(Localizer.Get("EditPhoto_Submit")).Style(ButtonStyle.Primary))
                 }
             </div>
         </div>
@@ -145,6 +145,14 @@
             width: 'auto',
             minInputWidth: 'auto',
             defaultText: 'Add Tag'
+        });
+
+        $('#edit-photo').click(function() {
+            var btn = $(this);
+            var spinner = $('<span/>').addClass('fa fa-spinner fa-spin');
+            btn.append(spinner);
+            btn.attr('disabled', 'disabled');
+            $('#edit-listing-form').submit();
         });
     </script>
 }

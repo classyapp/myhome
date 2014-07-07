@@ -1921,3 +1921,6 @@ body.mobile
     opacity: 0.4;
     display: none;
 }
+
+
+.btn-primary .fa-spinner { float: left;display: inline-block;width: 16px;height: 16px;margin: 2px 8px 0 0; }
