@@ -1,5 +1,5 @@
 
-classy.controller('LoginController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
+classy.controller('LoginController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer) {
     ClassyUtilities.Screen.StaticViewport();
     AppSettings.then(function (appSettings) {
 
@@ -17,14 +17,14 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
         };
 
         $scope.Resources = {};
-        Localizer.Get('Login_Facebook', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginFacebook = resource; });
-        Localizer.Get('Login', AppSettings.Culture).then(function (resource) { $scope.Resources.Login = resource; });
-        Localizer.Get('Login_Email', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginEmail = resource; });
-        Localizer.Get('Login_Password', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginPassword = resource; });
-        Localizer.Get('Login_RememberMe', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginRememberMe = resource; });
-        Localizer.Get('Login_Submit', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginSubmit = resource; });
-        Localizer.Get('Login_Register', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginRegister = resource; });
-        Localizer.Get('Login_ForgotPassword', AppSettings.Culture).then(function (resource) { $scope.Resources.LoginForgotPassword = resource; });
+        Localizer.Get('Login_Facebook', appSettings.Culture).then(function (resource) { $scope.Resources.LoginFacebook = resource; });
+        Localizer.Get('Login', appSettings.Culture).then(function (resource) { $scope.Resources.Login = resource; });
+        Localizer.Get('Login_Email', appSettings.Culture).then(function (resource) { $scope.Resources.LoginEmail = resource; });
+        Localizer.Get('Login_Password', appSettings.Culture).then(function (resource) { $scope.Resources.LoginPassword = resource; });
+        Localizer.Get('Login_RememberMe', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRememberMe = resource; });
+        Localizer.Get('Login_Submit', appSettings.Culture).then(function (resource) { $scope.Resources.LoginSubmit = resource; });
+        Localizer.Get('Login_Register', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRegister = resource; });
+        Localizer.Get('Login_ForgotPassword', appSettings.Culture).then(function (resource) { $scope.Resources.LoginForgotPassword = resource; });
 
     });
 
@@ -46,5 +46,13 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
             }
         }, { scope: 'basic_info,email,user_friends,user_photos,user_website,publish_actions' });
     };
+
+    $('#login-submit').click(function() {
+        var btn = $(this);
+        var spinner = $('<span/>').addClass('fa fa-spinner fa-spin');
+        btn.prepend(spinner);
+        btn.attr('disabled', 'disabled');
+        $('#login-fom').submit();
+    });
 
 });
