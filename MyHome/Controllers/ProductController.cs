@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Classy.DotNet;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
+using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
@@ -25,16 +27,21 @@ namespace MyHome.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        [MapRoute("ProductSearch", "products/search")]
-        public ActionResult ProductSearch(SearchListingsViewModel<PhotoMetadata> searchRequest)
+        [MapRoute("ProductSearch", "products/search/{*categories}")]
+        public ActionResult ProductSearch(SearchListingsViewModel<ProductMetadata> searchRequest, string categories)
         {
             try
             {
+                var categoryFilter = String.IsNullOrEmpty(categories)
+                    ? new List<string>()
+                    : categories.Split(',').ToList();
+
                 var metadata = new Dictionary<string, string[]>();
 
                 var service = new ListingService();
                 var searchResults = service.SearchListings(
                     null,
+                    categoryFilter.ToArray(),
                     new[] { ListingType.Product },
                     metadata,
                     searchRequest.PriceMin,

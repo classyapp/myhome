@@ -41,7 +41,7 @@ namespace Classy.DotNet.Security
         {
             try
             {
-                var context = System.Web.HttpContext.Current;
+                var context = HttpContext.Current;
                 var creds = new
                 {
                     UserName = username,
@@ -67,7 +67,7 @@ namespace Classy.DotNet.Security
                 }
                 return false;
             }
-            catch(WebException wex)
+            catch (WebException)
             {
                 return false;
             }
@@ -77,7 +77,7 @@ namespace Classy.DotNet.Security
         {
             try
             {
-                var context = System.Web.HttpContext.Current;
+                var context = HttpContext.Current;
                 var client = HttpWebRequest.Create(string.Concat(EndpointBaseUrl, "/auth/facebook?format=json&oauth_token=", token)) as HttpWebRequest;
                 client.Method = "GET";
                 client.ContentType = "application/json";
@@ -110,7 +110,7 @@ namespace Classy.DotNet.Security
         {
             try
             {
-                var context = System.Web.HttpContext.Current;
+                var context = HttpContext.Current;
                 var client = HttpWebRequest.Create(string.Concat(EndpointBaseUrl, "/auth/GoogleOAuth?format=json&oauth_token=", token)) as HttpWebRequest;
                 client.Method = "GET";
                 client.ContentType = "application/json";
@@ -238,33 +238,33 @@ namespace Classy.DotNet.Security
             try
             {
                 // on register routes the request is not applicable
-                request = System.Web.HttpContext.Current.Request;
+                request = HttpContext.Current.Request;
             }
             catch { }
 
             if (request != null)
             {
-                gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
+                gpsCookie = HttpContext.Current.Request.Cookies[Responses.AppView.GPSLocationCookieName];
                 if (gpsCookie != null)
                 {
                     location = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
                 }
-                countryCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CountryCookieName];
-                currencyCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.CurrencyCookieName];
+                countryCookie = HttpContext.Current.Request.Cookies[Responses.AppView.CountryCookieName];
+                currencyCookie = HttpContext.Current.Request.Cookies[Responses.AppView.CurrencyCookieName];
             }
             return new
             {
                 CultureCode = System.Threading.Thread.CurrentThread.CurrentUICulture.Name,
-                CountryCode = countryCookie == null ? Classy.DotNet.Responses.AppView.DefaultCountry : countryCookie.Value,
+                CountryCode = countryCookie == null ? Responses.AppView.DefaultCountry : countryCookie.Value,
                 GPSCoordinates = location,
-                CurrencyCode = currencyCookie == null ? Classy.DotNet.Responses.AppView.DefaultCurrency : currencyCookie.Value,
+                CurrencyCode = currencyCookie == null ? Responses.AppView.DefaultCurrency : currencyCookie.Value,
                 AppId = ApiKey
             }.ToJson();
         }
 
         public static WebClient GetAuthenticatedWebClient(bool throwIfNull = true)
         {
-            var context = System.Web.HttpContext.Current;
+            var context = HttpContext.Current;
             if (!IsLoggedIn())
             {
                 ClearAuthCookies();
@@ -272,8 +272,7 @@ namespace Classy.DotNet.Security
                 return null;
             }
 
-            var client = new WebClient();
-            client.Encoding = Encoding.UTF8;
+            var client = new WebClient { Encoding = Encoding.UTF8 };
             client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             client.Headers.Add(HttpRequestHeader.Accept, "application/json");
             client.Headers.Add("X-Classy-Env", GetEnvHeader());
@@ -289,7 +288,7 @@ namespace Classy.DotNet.Security
 
         public static HttpWebRequest GetAuthenticatedWebRequest(string url, bool throwIfNull = true)
         {
-            var context = System.Web.HttpContext.Current;
+            var context = HttpContext.Current;
             if (!IsLoggedIn())
             {
                 ClearAuthCookies();
@@ -311,7 +310,7 @@ namespace Classy.DotNet.Security
 
         private static bool IsLoggedIn()
         {
-            var context = System.Web.HttpContext.Current;
+            var context = HttpContext.Current;
 
             return context.Request.Cookies.AllKeys.Contains(COOKIE_USER_ID) &&
                 (context.Request.Cookies.AllKeys.Contains(COOKIE_SESSION_ID) ||
@@ -325,7 +324,7 @@ namespace Classy.DotNet.Security
 
         private static void ClearAuthCookies()
         {
-            var context = System.Web.HttpContext.Current;
+            var context = HttpContext.Current;
             foreach (var cookieName in AuthCookieNames)
             {
                 if (context.Request.Cookies.AllKeys.Contains(cookieName))
@@ -340,7 +339,7 @@ namespace Classy.DotNet.Security
 
         public static void SetPrincipal()
         {
-            var context = System.Web.HttpContext.Current;
+            var context = HttpContext.Current;
             if (context.Request.Cookies.AllKeys.Contains(COOKIE_USER_ID))
             {
                 var authCookie = context.Request.Cookies[COOKIE_USER_ID];
@@ -350,22 +349,22 @@ namespace Classy.DotNet.Security
 
         private static bool SetPrincipalInternal(string profileId)
         {
-            var context = System.Web.HttpContext.Current;
+            var context = HttpContext.Current;
             try
             {
                 var service = new ProfileService();
                 var profile = service.GetAuthenticatedProfile();
-                ClassyIdentity identity = new ClassyIdentity
+                var identity = new ClassyIdentity
                 {
                     Name = profile.UserName,
                     IsAuthenticated = true,
                     Profile = profile
                 };
-                ClassyPrincipal principal = new ClassyPrincipal(identity);
+                var principal = new ClassyPrincipal(identity);
                 context.User = principal;
                 return true;
             }
-            catch (ClassyException cex)
+            catch (ClassyException)
             {
                 ClearAuthCookies();
                 return false;

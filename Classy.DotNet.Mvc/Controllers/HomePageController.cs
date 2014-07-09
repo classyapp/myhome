@@ -31,6 +31,7 @@ namespace Classy.DotNet.Mvc.Controllers
             // get latest photos
             var photos = service.SearchListings(
                 null,
+                null,
                 new string[] { "Photo" },
                 null,
                 null,
