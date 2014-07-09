@@ -22,7 +22,9 @@
             <div class="panel-body panel-links">
                 @foreach (var category in categories.Take(12))
                 {
-                    <div class="category">@category.Text</div>
+                    <div class="category">
+                        @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new { categories = category.Text.ToSlug() })
+                    </div>
                     //@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, Model.Location) })
                 }
                 <div class="more-categories">@Localizer.Get("ProductSearch_Categories_MoreCategories")</div>
