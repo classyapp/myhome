@@ -3,6 +3,9 @@
     
     <div class="col-md-12">
         <button id="sign-in-facebook" class="btn btn-fb-login btn-block" ng-bind-template="{{Resources.LoginFacebook}}" ng-click="facebookLogin()"></button>
+        
+        <div class="alert alert-danger hidden" ng-bind-template="{{Resources.LoginErrorMessage}}"></div>
+
         <form class="form" role="form" method="post" action="{{Resources.Login}}" id="login-form">
             <input type="hidden" name="RedirectUrl" id="RedirectUrl" value="" />
             <div class="form-group">

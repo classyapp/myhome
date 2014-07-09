@@ -4,6 +4,12 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
     AppSettings.then(function (appSettings) {
 
         $scope.submitForm = function () {
+
+            var btn = $('#login-submit');
+            var spinner = $('<span/>').addClass('fa fa-spinner fa-spin');
+            btn.prepend(spinner);
+            btn.attr('disabled', 'disabled');
+
             var data = {
                 Email: $('#Email').val(),
                 Password: $('#Password').val()
@@ -11,8 +17,8 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
             $http.post('/mobile-login', JSON.stringify(data))
                 .success(function(profileId) {
                     window.location.href = window.location.protocol + '//' + window.location.host + '/Mobile/App.html#/Profile/' + profileId;
-                }).error(function(ex) {
-                    alert(ex);
+                }).error(function() {
+                    OnLoginError();
                 });
         };
 
@@ -25,6 +31,7 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
         Localizer.Get('Login_Submit', appSettings.Culture).then(function (resource) { $scope.Resources.LoginSubmit = resource; });
         Localizer.Get('Login_Register', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRegister = resource; });
         Localizer.Get('Login_ForgotPassword', appSettings.Culture).then(function (resource) { $scope.Resources.LoginForgotPassword = resource; });
+        Localizer.Get('Mobile_Login_LoginErrorMessage', appSettings.Culture).then(function(resource) { $scope.Resources.LoginErrorMessage = resource; });
 
     });
 
@@ -38,7 +45,11 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
                     contentType: 'application/json',
                     data: JSON.stringify({ 'token': access_token }),
                     success: function (data) {
-                        if (data.IsValid) OnFacebookLogin(data.Profile);
+                        if (data.IsValid) {
+                            OnFacebookLogin(data.Profile);
+                        } else {
+                            OnLoginError();
+                        }
                     }
                 });
             } else {
@@ -47,11 +58,12 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
         }, { scope: 'basic_info,email,user_friends,user_photos,user_website,publish_actions' });
     };
 
-    $('#login-submit').click(function() {
-        var btn = $(this);
-        var spinner = $('<span/>').addClass('fa fa-spinner fa-spin');
-        btn.prepend(spinner);
-        btn.attr('disabled', 'disabled');
-        $('#login-fom').submit();
-    });
+    var OnFacebookLogin = function() {
+        // do something upon successful facebook login
+    };
+
+    var OnLoginError = function() {
+        $('.alert-danger').removeClass('hidden');
+    };
+
 });
