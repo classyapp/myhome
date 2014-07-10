@@ -641,7 +641,7 @@ a, a:visited
 .row.results.professionals .profile.small-thumbnail:last-child {
     margin-right: 0;
 }
-.row.results.professionals {
+.row.results.professionals, .row.results.products {
     margin-bottom: 20px;
     padding-left: 15px;
 }

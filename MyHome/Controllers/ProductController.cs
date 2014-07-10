@@ -6,7 +6,6 @@ using System.Web.Routing;
 using Classy.DotNet;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.Controllers;
-using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;

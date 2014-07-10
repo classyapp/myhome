@@ -1,0 +1,19 @@
+@model Classy.DotNet.Responses.ListingView
+
+<div class="profile small-thumbnail">
+    @Html.Thumbnail(Model, 180, 180)
+    
+    <div class="details">
+        <div class="name">
+            <a href="@Url.RouteUrlForCurrentLocale("ProductDetails", new { listingId = Model.Id, slug = Model.Title.ToSlug() })">@Model.Title</a>
+        </div>
+        <div class="price">
+            @if (Model.PricingInfo != null)
+            {
+                <span class="value">@Model.PricingInfo.BaseOption.Price</span>
+                <text>&nbsp;</text>
+                <span class="currency">@Model.PricingInfo.CurrencyCode</span>
+            }
+        </div>
+    </div>
+</div>

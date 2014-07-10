@@ -663,6 +663,8 @@
     <Content Include="Views\Poll\MorePhotosFromPoll.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
     <Content Include="Views\Shared\ProductGrid.cshtml" />
+    <Content Include="Views\Product\SmallProductsResultGrid.cshtml" />
+    <Content Include="Views\Product\SmallProductResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

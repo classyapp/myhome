@@ -11,6 +11,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
         public int Amount { get; set; }
         public IList<ListingView> Results { get; set; }
         public IList<ProfileView> RelatedProfessionals { get; set; }
+        public IList<ListingView> RelatedProducts { get; set; }
         public long TotalResults { get; set; }
 
         public FreeSearchListingsViewModel()
