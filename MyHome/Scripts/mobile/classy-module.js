@@ -62,6 +62,9 @@ classy.config(['$routeProvider', function($routeProvider) {
         }).when('/Collection/:collectionId/article', {
             templateUrl: 'collection-article.html',
             controller: 'CollectionController'
+        }).when('/Product/:productId', {
+            templateUrl: 'product-page.html',
+            controller: 'ProductController'
         }).when('/Login', {
             templateUrl: 'login.html',
             controller: 'LoginController'

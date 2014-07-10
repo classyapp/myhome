@@ -6,6 +6,7 @@
 
     //ViewBag.Title = string.Format(Localizer.Get("PhotoSearch_PageTitle"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
     //ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    ViewBag.DisableSignupBanner = true;
     var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
 }
 

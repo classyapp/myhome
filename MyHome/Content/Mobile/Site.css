@@ -54,10 +54,16 @@ h3 { font-size: 16px;margin-top: 0; }
 .collection-header .avatar { width: 30px;height: 30px; border: solid 2px white;margin-right: 10px;}
 .collection-header .profile-name { font-size: 18px;vertical-align: middle;}
 
-.article-container { margin: 0 8px;font-size: 16px;}
+.article-container, .product-container { margin: 0 8px;font-size: 16px;}
 .article-container .image { margin-top: 30px;margin-bottom: 6px;position: relative; }
 .article-container .image img { width: 100%; }
 .article-container .image .copyright-message { position: absolute;padding: 4px;background-color: #000;color: #fff;bottom: 10px; }
+
+.product-container .title { font-size: 22px;font-weight: bold; }
+.product-container .content {  }
+.product-container .price .label { font-size: 20px;color: #888; }
+.product-container .price .value { font-size: 20px;font-weight: normal;color: #b12704; }
+.product-container .price .currency { font-size: 20px;font-weight: bold;color: #b12704; }
 
 .header-actions { height: 49px;background-color: #fff;margin-bottom: 20px;border-bottom: solid 1px #ddd; }
 .header-actions .social-area { width: 114px;text-align: center;height: 50px;}
@@ -251,6 +257,8 @@ div.thumbs4 > div.thumb
     float: right;
     margin-bottom: 2%;
 }
+
+.btn-primary .fa-spinner { margin-right: 6px; }
 
 
 

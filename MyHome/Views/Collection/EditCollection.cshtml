@@ -31,7 +31,7 @@
         <hr />
         @Html.Bootstrap().ValidationSummary()
 
-        @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection").Type(FormType._NotSet)))
+        @using (var f = Html.Bootstrap().Begin(new Form("EditCollection", "Collection").Id("edit-collection-form").Type(FormType._NotSet)))
         {
             @f.FormGroup().TextBoxFor(x => x.Title).ShowValidationMessage(false).Label().ShowRequiredStar(false)
             @f.FormGroup().TextAreaFor(x => x.Content).ShowValidationMessage(false)
@@ -60,7 +60,7 @@
                 }
             </div>
 
-            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Text(Localizer.Get("EditCollection_Save")).Style(ButtonStyle.Primary))
+            @f.FormGroup().CustomControls(Html.Bootstrap().SubmitButton().Id("edit-collection").Text(Localizer.Get("EditCollection_Save")).Style(ButtonStyle.Primary))
         }
     </div>
 </div>
@@ -72,3 +72,15 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $('#edit-collection').click(function () {
+            var btn = $(this);
+            var spinner = $('<span/>').addClass('fa fa-spinner fa-spin');
+            btn.append(spinner);
+            btn.attr('disabled', 'disabled');
+            $('#edit-collection-form').submit();
+        });
+    </script>
+}

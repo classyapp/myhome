@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_ProductPage_PriceLabel",
+			"Description": "Mobile product page price label",
+			"Values": {
+				"en": "Price: "
+			}
+		},
+		{ 
 			"Key": "ProductSearch_Categories_MoreCategories",
 			"Description": "Search products categories sidebar 'more categories' link",
 			"Values": {

@@ -61,6 +61,7 @@
     <div class="panel-body collections-container horizontal-sliding-container" classy-scrollable>
         <div class="collection" ng-class="{'last':$last}" ng-repeat="collection in Collections" onclick="javascript: window.location.href = '#/Collection/' + $(this).find(':first-child').data('collection-id');">
             <img ng-src="{{collection.ImageUrl}}" data-collection-id="{{collection.Id}}" />
+            <div class="name" ng-bind-template="{{collection.Name}}"></div>
         </div>
     </div>
 </div>

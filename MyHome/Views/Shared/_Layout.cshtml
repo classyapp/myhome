@@ -161,11 +161,8 @@
                                                         <label class="sr-only" for="Password">@Localizer.Get("Login_Password")</label>
                                                         <input type="password" class="form-control" id="Password" name="Password" placeholder="@Localizer.Get("Login_Password")">
                                                     </div>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox"> @Localizer.Get("Login_RememberMe")
-                                                        </label>
-                                                    </div>
+                                                    @Html.Hidden("RememberMe", true)
+
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-primary btn-block" onclick="javascript:$('#RedirectUrl').val(window.location.pathname);">@Localizer.Get("Login_Submit")</button>
                                                     </div>

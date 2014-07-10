@@ -1923,6 +1923,7 @@ body.mobile
 }
 
 
+.btn-primary .fa-spinner { float: left;display: inline-block;width: 16px;height: 16px;margin: 2px 8px 0 0; }
 
 .photo.thumbnail .product-details {
     background-color: #ddd;opacity: 0.7;color: #000;

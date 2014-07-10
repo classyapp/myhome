@@ -19,7 +19,8 @@ classy.factory('AuthProvider', [function() {
         var self = this;
         FB.Event.subscribe('auth.authResponseChange', function (response) {
             if (response.status === 'connected') {
-                self.getUserInfo();
+                if (self && self.getUserInfo)
+                    self.getUserInfo();
             }
             else {
                 // user is not logged in
