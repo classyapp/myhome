@@ -8,7 +8,7 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
         var w = utilities.Screen.GetWidth();
         var h = utilities.Screen.GetHeight();
 
-        $http.get(appSettings.ApiUrl + '/listing/' + $routeParams.productId, config).success(function(data) {
+        $http.get(appSettings.ApiUrl + '/listing/' + $routeParams.productId + '?includeComments=true&includeCommenterProfiles=true', config).success(function(data) {
 
             $scope.Id = data.Id;
             $scope.Title = data.Title;
@@ -17,6 +17,17 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
             $scope.PricingInfo = data.PricingInfo.BaseOption;
 
             $scope.ImageUrl = utilities.Images.Thumbnail(appSettings, data.ExternalMedia[0].Key, w - 16);
+
+            var comments = [];
+            data.Comments.forEach(function (comment) {
+                comments.push({
+                    Commenter: comment.Profile.UserName,
+                    CommenterId: comment.ProfileId,
+                    CommenterAvatarUrl: comment.Profile.Avatar.Url,
+                    Content: comment.Content
+                });
+            });
+            $scope.Comments = comments;
 
         }).error(function () {
             // TODO: display some error message
@@ -27,4 +38,11 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
         Localizer.Get('Mobile_ProductPage_PriceLabel', AppSettings.Culture).then(function (resource) { $scope.Resources.PriceLabel = resource; });
         
     });
+
+    $scope.showAllComments = function () {
+        $('.product-comments .comment-container').removeClass('hidden');
+        $('.product-comments .comment-container:nth-child(2)').removeClass('last');
+        $('.product-comments .panel-footer').addClass('hidden');
+    };
+
 });
