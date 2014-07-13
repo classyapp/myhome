@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using System.Web.Mvc;
 using Classy.DotNet.Mvc.ViewModels.Collection;
@@ -120,6 +117,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
+
+            if (HttpContext.Request.UrlReferrer.ToString().Contains("/Mobile/"))
+                return Content("OK");
 
             return Redirect(Request.UrlReferrer.AbsoluteUri);
         }

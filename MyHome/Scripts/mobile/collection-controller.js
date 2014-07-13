@@ -1,5 +1,5 @@
 
-classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, AuthProvider) {
+classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, AuthProvider, $timeout, $route) {
     ClassyUtilities.Screen.StaticViewport();
     
     $scope.showAllComments = function () {
@@ -35,6 +35,16 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             AuthProvider.getUser().then(function(data) {
                 $scope.IsAuthenticated = data.IsAuthenticated;
                 $scope.User = data.Profile;
+
+                $timeout(function() {
+                    $('#new-comment').keydown(function() {
+                        var newValue = $(this).val();
+                        if (newValue.trim().length >= 2)
+                            $('.btn.post-comment').removeAttr('disabled');
+                        else
+                            $('.btn.post-comment').attr('disabled', 'disabled');
+                    });
+                });
             });
 
             $scope.Content = data.Content;
@@ -114,6 +124,17 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
             Localizer.Get('Mobile_CollectionPage_Favorites', AppSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
             Localizer.Get('Mobile_CollectionPage_Comments', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
+
+            $scope.submitComment = function() {
+                var comment = $('#new-comment').val();
+                var data = {
+                    CollectionId: $routeParams.collectionId,
+                    Content: comment
+                };
+                $http.post(appSettings.Host + '/collection/' + $routeParams.collectionId + '/comments/new', data, config).success(function () {
+                    $route.reload();
+                });
+            };
 
         }).error(function () {
             // TODO: display some error message
