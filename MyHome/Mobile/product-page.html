@@ -6,13 +6,43 @@
 
     <img ng-src="{{ImageUrl}}" />
 
-    <div class="description" ng-bind-template="{{Content}}"></div>
+    <div class="description title">
+        <div class="title" ng-bind-template="{{Resources.Description}}"></div>
+        <div class="content" ng-bind-template="{{Content}}"></div>
+    </div>
 
     <div class="price">
         <span class="label" ng-bind-template="{{Resources.PriceLabel}}"></span>
         <span class="value" ng-bind-template="{{PricingInfo.Price}}"></span>
         &nbsp;
         <span class="currency" ng-bind-template="{{PricingInfo.CurrencyCode}}"></span>
+    </div>
+    
+    <div class="product-comments section-title" ng-if="Comments.length > 0" ng-bind-template="{{Resources.Comments}}"></div>
+    <div class="product-comments panel panel-default" ng-if="Comments.length > 0">
+        <div class="panel-body">
+            <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
+                <div class="comment-metadata clearfix">
+                    <div class="avatar pull-left">
+                        <img ng-src="{{comment.CommenterAvatarUrl}}" class="avatar img-circle" />
+                    </div>
+                    <div class="commenter-details pull-left">
+                        <div class="name">
+                            <a href="#/Profile/{{comment.CommenterId}}" ng-bind-template="{{comment.Commenter}}"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-content">
+                    <div class="quote quote-left"><i class="fa fa-quote-left"></i></div>
+                    <div class="quote quote-right"><i class="fa fa-quote-right"></i></div>
+                    <span ng-bind-template="{{comment.Content}}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" ng-if="Comments.length > 2" ng-click="showAllComments()">
+            <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>
+            <i class="glyphicon glyphicon-chevron-right pull-right"></i>
+        </div>
     </div>
 
 </div>
