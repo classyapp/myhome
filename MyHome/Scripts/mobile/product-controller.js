@@ -36,6 +36,8 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
         // get localized resources
         $scope.Resources = {};
         Localizer.Get('Mobile_ProductPage_PriceLabel', AppSettings.Culture).then(function (resource) { $scope.Resources.PriceLabel = resource; });
+        Localizer.Get('Mobile_ProductPage_DescriptionTitle', AppSettings.Culture).then(function (resource) { $scope.Resources.Description = resource; });
+        Localizer.Get('Mobile_ProductPage_CommentsTitle', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
         
     });
 
