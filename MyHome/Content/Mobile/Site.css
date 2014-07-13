@@ -118,7 +118,6 @@ h3 { font-size: 16px;margin-top: 0; }
 .photo-container { background-color: #000;text-align: center; }
 
 
-
 /* Photo full screen view */
 .slideshow { background-color: #000;position: relative; }
 .slideshow .photo-details {
@@ -162,7 +161,8 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .comment { border-bottom: solid 1px #eee;padding-bottom: 6px;margin-bottom: 6px;}
 .slideshow .comment.last { border-bottom: 0; }
 .slideshow .comment .commenter { font-weight: bold;color: #000; }
-
+.new-comment-section { padding: 10px 15px;border-top: solid 1px #ddd; }
+.new-comment-section #new-comment { height: 34px; }
 
 .login-form-container { padding-top: 15px; }
 .login-form-container .btn-fb-login { margin-bottom: 15px; }

@@ -1,7 +1,7 @@
 
-classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
+classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, AuthProvider) {
     ClassyUtilities.Screen.StaticViewport();
-
+    
     $scope.showAllComments = function () {
         $('.profile-comments .comment-container').removeClass('hidden');
         $('.profile-comments .comment-container:nth-child(2)').removeClass('last');
@@ -32,6 +32,11 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
         $scope.CollectionId = $routeParams.collectionId;
         $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeComments=true&includeCommenterProfiles=true&includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function (data) {
 
+            AuthProvider.getUser().then(function(data) {
+                $scope.IsAuthenticated = data.IsAuthenticated;
+                $scope.User = data.Profile;
+            });
+
             $scope.Content = data.Content;
             $scope.Avatar = data.Profile.Avatar.Url;
             $scope.CollectionName = data.Title;
@@ -44,6 +49,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
 
             var w = ClassyUtilities.Screen.GetWidth();
             var h = ClassyUtilities.Screen.GetHeight();
+            $scope.ScreenWidth = w;
             if (data.CoverPhotos && data.CoverPhotos.length > 0) {
                 $scope.CoverPhotos = [];
                 data.CoverPhotos.forEach(function (imageKey) {

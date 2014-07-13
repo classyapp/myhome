@@ -1,9 +1,20 @@
 
-classy.factory('AuthProvider', [function() {
+classy.factory('AuthProvider', ['CacheProvider', 'AppSettings', '$http', '$q', function(cacheProvider, AppSettings, $http, $q) {
 
-    this.user = {
-        isAuthenticated: false,
-        identity: null
+    this._getUser = function () {
+        var d = $q.defer();
+        if (!cacheProvider.get('__User__')) {
+            AppSettings.then(function(appSettings) {
+                $http.get(appSettings.Host + '/mobile/authenticate', config).success(function(data) {
+                    d.resolve(data);
+                }).error(function(ex) {
+                    // TODO: now what ?...
+                });
+            });
+            return d.promise;
+        } else {
+            return d.resolve(cacheProvider.get('__User__'));
+        }
     };
 
     this.getUserInfo = function () {
@@ -39,7 +50,7 @@ classy.factory('AuthProvider', [function() {
 
     return {
         watchAuthenticationStatusChange: _watchAuthenticationStatusChange,
-        User: this.user
+        getUser: this._getUser
     };
 
 }]);
