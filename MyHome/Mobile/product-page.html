@@ -6,7 +6,7 @@
 
     <img ng-src="{{ImageUrl}}" />
 
-    <div class="description">
+    <div class="description title">
         <div class="title" ng-bind-template="{{Resources.Description}}"></div>
         <div class="content" ng-bind-template="{{Content}}"></div>
     </div>
@@ -18,7 +18,7 @@
         <span class="currency" ng-bind-template="{{PricingInfo.CurrencyCode}}"></span>
     </div>
     
-    <div class="section-title" ng-if="Comments.length > 0" ng-bind-template="{{Resources.Comments}}"></div>
+    <div class="product-comments section-title" ng-if="Comments.length > 0" ng-bind-template="{{Resources.Comments}}"></div>
     <div class="product-comments panel panel-default" ng-if="Comments.length > 0">
         <div class="panel-body">
             <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
