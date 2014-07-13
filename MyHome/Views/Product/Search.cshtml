@@ -37,10 +37,7 @@
                 <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Price")</h3>
             </div>
             <div class="panel-body panel-links">
-                @*@foreach (var s in styles)
-                {
-                    @Html.RouteLinkForCurrentLocale(s.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Style = s.Value, Room = Model.Metadata.Room }.GetSearchFilterSlug(null, Model.Location) })
-                }*@
+                <div class="price-range"></div>
             </div>
         </div>
 
