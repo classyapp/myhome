@@ -195,6 +195,13 @@ namespace Classy.DotNet.Mvc.Controllers
                 defaults: new { controller = "Profile", action = "PublicProfile", slug = "public" },
                 namespaces: new string[] { Namespace }
             );
+
+            routes.MapRoute(
+                name: "MobileAuthenticate",
+                url: "mobile/authenticate",
+                defaults: new { controller = "Profile", action = "MobileAuthenticate" },
+                namespaces: new[] { Namespace }
+            );
         }
 
         #region // actions
@@ -207,6 +214,14 @@ namespace Classy.DotNet.Mvc.Controllers
         public ActionResult CreateProxyProfile()
         {
             return View();
+        }
+
+        [Authorize]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult MobileAuthenticate()
+        {
+            var identity = User.Identity as ClassyIdentity;
+            return Json(identity, JsonRequestBehavior.AllowGet);
         }
 
         //

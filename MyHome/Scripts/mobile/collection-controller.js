@@ -1,7 +1,7 @@
 
-classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location) {
+classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, AuthProvider, $timeout, $route) {
     ClassyUtilities.Screen.StaticViewport();
-
+    
     $scope.showAllComments = function () {
         $('.profile-comments .comment-container').removeClass('hidden');
         $('.profile-comments .comment-container:nth-child(2)').removeClass('last');
@@ -32,6 +32,21 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
         $scope.CollectionId = $routeParams.collectionId;
         $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeComments=true&includeCommenterProfiles=true&includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function (data) {
 
+            AuthProvider.getUser().then(function(data) {
+                $scope.IsAuthenticated = data.IsAuthenticated;
+                $scope.User = data.Profile;
+
+                $timeout(function() {
+                    $('#new-comment').keydown(function() {
+                        var newValue = $(this).val();
+                        if (newValue.trim().length >= 2)
+                            $('.btn.post-comment').removeAttr('disabled');
+                        else
+                            $('.btn.post-comment').attr('disabled', 'disabled');
+                    });
+                });
+            });
+
             $scope.Content = data.Content;
             $scope.Avatar = data.Profile.Avatar.Url;
             $scope.CollectionName = data.Title;
@@ -44,6 +59,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
 
             var w = ClassyUtilities.Screen.GetWidth();
             var h = ClassyUtilities.Screen.GetHeight();
+            $scope.ScreenWidth = w;
             if (data.CoverPhotos && data.CoverPhotos.length > 0) {
                 $scope.CoverPhotos = [];
                 data.CoverPhotos.forEach(function (imageKey) {
@@ -108,6 +124,17 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
             Localizer.Get('Mobile_CollectionPage_Favorites', AppSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
             Localizer.Get('Mobile_CollectionPage_Comments', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
+
+            $scope.submitComment = function() {
+                var comment = $('#new-comment').val();
+                var data = {
+                    CollectionId: $routeParams.collectionId,
+                    Content: comment
+                };
+                $http.post(appSettings.Host + '/collection/' + $routeParams.collectionId + '/comments/new', data, config).success(function () {
+                    $route.reload();
+                });
+            };
 
         }).error(function () {
             // TODO: display some error message
