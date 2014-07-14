@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_ProductPage_DescriptionTitle",
+			"Description": "Mobile product description section title",
+			"Values": {
+				"en": "Description"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProductPage_CommentsTitle",
+			"Description": "Mobile product page comments section title",
+			"Values": {
+				"en": "Comments"
+			}
+		},
+		{ 
 			"Key": "ProductSearch_Title_Price",
 			"Description": "Product search page price range facets title",
 			"Values": {
