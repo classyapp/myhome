@@ -168,6 +168,8 @@
     <Content Include="Content\ltr\fonts.css" />
     <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\magicsuggest.css" />
+    <Content Include="Content\ltr\simple-slider-volume.css" />
+    <Content Include="Content\ltr\simple-slider.css" />
     <Content Include="Content\ltr\Site.css" />
     <Content Include="Content\Mobile\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
@@ -531,6 +533,7 @@
     <Content Include="Scripts\mobile\angular\angular-resource.js" />
     <Content Include="Scripts\mobile\angular\angular.js" />
     <Content Include="Scripts\mobile\angular\angular.min.js" />
+    <Content Include="Scripts\simple-slider.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />

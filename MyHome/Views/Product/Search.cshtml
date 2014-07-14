@@ -1,7 +1,9 @@
+@using Classy.DotNet.Responses
 @model Classy.DotNet.Mvc.ViewModels.Listing.SearchListingsViewModel<MyHome.Models.ProductMetadata>
 
 @{
     var categories = Localizer.GetList("product-categories").Where(x => x.ParentValue == null);
+    var settings = ViewBag.AppSettings as AppSettingsResponse;
 
     //ViewBag.Title = string.Format(Localizer.Get("PhotoSearch_PageTitle"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
     //ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
@@ -30,7 +32,16 @@
                 <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Price")</h3>
             </div>
             <div class="panel-body panel-links">
-                <div class="price-range"></div>
+                <div class="price-range">
+                    <div class="price-from">
+                        From :
+                        <input type="text" data-slider="true" data-slider-range="0,10000+" data-slider-step="100" />
+                    </div>
+                    <div class="price-to">
+                        To :
+                        <input type="text" data-slider="true" data-slider-range="0,10000+" data-slider-step="100" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -81,10 +92,21 @@
 </div>
 
 @section scripts {
+    <link href="~/Content/ltr/simple-slider.css" rel="stylesheet"/>
+    <link href="~/Content/ltr/simple-slider-volume.css" rel="stylesheet" />
+    <script src="~/Scripts/simple-slider.js"></script>
     <script src="~/Scripts/iscroll.js"></script>
     <script>
         $(function () {
             resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        });
+
+        var currencySymbol = '@settings.DefaultCurrency';
+        $("[data-slider]").each(function () {
+            var input = $(this);
+            $("<span>").addClass("output").insertAfter($(this));
+        }).bind("slider:ready slider:changed", function (event, data) {
+            $(this).nextAll(".output:first").html(data.value.toString().addCommas() + ' ' + currencySymbol);
         });
     </script>
 }

@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\AppSettingsFilter.cs" />
     <Compile Include="ActionFilters\FeatureSwitchFilter.cs" />
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />

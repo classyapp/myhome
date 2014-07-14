@@ -132,6 +132,9 @@ String.prototype.toSlug = function() {
         .replaceAll(' ', '-')
         .replaceAll('--', '-');
 };
+String.prototype.addCommas = function() {
+    return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 Classy.ReportEvent = function(category, action, label, value) {
     try {

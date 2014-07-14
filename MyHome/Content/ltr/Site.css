@@ -1932,3 +1932,8 @@ body.mobile
 }
 .photo.thumbnail .product-details .title { font-size: 12px; }
 .photo.thumbnail .product-details .price { font-weight: bold;}
+
+
+.price-range .output { position: absolute;display: inline-block;top: 0;right: 0;font-weight: bold;}
+.slider { margin: 0;width: 100%;width: 268px !important;display: inline-block;}
+.price-to, .price-from { margin-top: 10px;position: relative; }
