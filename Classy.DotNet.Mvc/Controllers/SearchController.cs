@@ -7,17 +7,9 @@ namespace Classy.DotNet.Mvc.Controllers
 {
     public class SearchController : BaseController
     {
-        public SearchController() : base()
-        {
-            var settingsService = new SettingsService();
-            ViewBag.AppSettings = settingsService.GetAppSettings();
-        }
+        public SearchController() : base() { }
 
-        public SearchController(string ns) : base(ns)
-        {
-            var settingsService = new SettingsService();
-            ViewBag.AppSettings = settingsService.GetAppSettings();
-        }
+        public SearchController(string ns) : base(ns) { }
 
         public override void RegisterRoutes(RouteCollection routes)
         {

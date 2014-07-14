@@ -506,6 +506,7 @@
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
     <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\jquery.query.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
     <Content Include="Scripts\mobile\angular\angular-touch.min.js" />

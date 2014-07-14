@@ -33,13 +33,18 @@
             </div>
             <div class="panel-body panel-links">
                 <div class="price-range">
-                    <div class="price-from">
-                        From :
-                        <input type="text" data-slider="true" data-slider-range="0,10000+" data-slider-step="100" />
+                    <div class="price-from price-range">
+                        <input type="checkbox" id="from-price-enabled" name="from-price-enabled"/>
+                        <label for="from-price-enabled">@Localizer.Get("ProductSearch_PriceFromLabel")</label>
+                        <input type="text" id="from-price-value" data-slider="true" value="@Request.QueryString["priceMin"]" data-slider-range="0,10000" data-slider-step="100" />
                     </div>
-                    <div class="price-to">
-                        To :
-                        <input type="text" data-slider="true" data-slider-range="0,10000+" data-slider-step="100" />
+                    <div class="price-to price-range">
+                        <input type="checkbox" id="to-price-enabled"/>
+                        <label for="to-price-enabled">@Localizer.Get("ProductSearch_PriceToLabel")</label>
+                        <input type="text" id="to-price-value" data-slider="true" value="@(string.IsNullOrEmpty(Request.QueryString["priceMax"]) ? "10000" : Request.QueryString["priceMax"])" data-slider-range="0,10000" data-slider-step="100" />
+                    </div>
+                    <div>
+                        <span class="btn btn-primary filter-price-range pull-right">@Localizer.Get("ProductSearch_FilterButton")</span>
                     </div>
                 </div>
             </div>
@@ -107,6 +112,23 @@
             $("<span>").addClass("output").insertAfter($(this));
         }).bind("slider:ready slider:changed", function (event, data) {
             $(this).nextAll(".output:first").html(data.value.toString().addCommas() + ' ' + currencySymbol);
+        });
+
+        $(document).delegate('.slider .dragger', 'click', function() {
+            $(this).closest('.price-range').find('input[type=checkbox]').attr('checked', 'checked');
+        });
+
+        $('.filter-price-range').click(function() {
+            if ($('#from-price-enabled').attr('checked') == 'checked')
+                $.query.SET('priceMin', $('#from-price-value').val());
+            else
+                $.query.REMOVE('priceMin');
+            if ($('#to-price-enabled').attr('checked') == 'checked')
+                $.query.SET('priceMax', $('#to-price-value').val());
+            else
+                $.query.REMOVE('priceMax');
+
+            window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + $.query.toString();
         });
     </script>
 }

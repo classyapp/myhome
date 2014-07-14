@@ -2,6 +2,27 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "ProductSearch_PriceFromLabel",
+			"Description": "Product search price range 'from' label",
+			"Values": {
+				"en": "From: "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceToLabel",
+			"Description": "Product search price range 'to' label",
+			"Values": {
+				"en": "To: "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_FilterButton",
+			"Description": "Product search price range filter submit button",
+			"Values": {
+				"en": "Filter"
+			}
+		},
+		{ 
 			"Key": "Mobile_ProductPage_DescriptionTitle",
 			"Description": "Mobile product description section title",
 			"Values": {
