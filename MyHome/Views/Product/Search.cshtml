@@ -1,0 +1,97 @@
+@model Classy.DotNet.Mvc.ViewModels.Listing.SearchListingsViewModel<MyHome.Models.ProductMetadata>
+
+@{
+    var rooms = Localizer.GetList("rooms");
+    var categories = Localizer.GetList("product-categories");
+
+    //ViewBag.Title = string.Format(Localizer.Get("PhotoSearch_PageTitle"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    //ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    ViewBag.DisableSignupBanner = true;
+    var totalPages = (int)Math.Ceiling((decimal)Model.Count / Classy.DotNet.Responses.AppView.PageSize);
+}
+
+@section ActionBar {
+    @*@Html.Partial("~/Views/Photo/EditorTools.cshtml")*@
+}
+
+<div class="row">
+    <div class="sidebar col-md-3">
+        <div class="panel panel-default panel-first">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Categories")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                @foreach (var category in categories.Take(12))
+                {
+                    <div class="category">
+                        @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new { categories = category.Text.ToSlug() })
+                    </div>
+                    //@Html.RouteLinkForCurrentLocale(r.Text, "SearchPhoto", new { filters = new MyHome.Models.PhotoMetadata { Room = r.Value }.GetSearchFilterSlug(null, Model.Location) })
+                }
+                <div class="more-categories">@Localizer.Get("ProductSearch_Categories_MoreCategories")</div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Price")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                <div class="price-range"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main col-md-9">
+        <h1>
+            @string.Format(Localizer.Get("SearchProducts_Results_Title"), Model.Count, Model.Tag)
+        </h1>
+        <div class="label-container">
+            
+            <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = "" })"><span itemprop="title">@Localizer.Get("PhotoSearch_AllPhotos")</span></a>
+            </span>
+            
+        </div>
+
+        <hr />
+
+        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="@(Model.Results.Count == Classy.DotNet.Responses.AppView.PageSize ? "true" : "false")" 
+             data-url="@Model.PagingUrl"
+             data-page-size="@Classy.DotNet.Responses.AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            @if (Model.Results != null)
+            {
+                @Html.Partial("ProductGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ThumbnailSize = 270 })
+            }
+        </div>
+        @if (totalPages > 1)
+        {
+            <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
+            <div id="pager" class="text-center" style="font-size: 12px">
+                <ul class="pagination" data-total="@(totalPages)" 
+                    data-pages="@Classy.DotNet.Responses.AppView.PagesCount">
+                    <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
+                    @for (int i = 0; i < Classy.DotNet.Responses.AppView.PagesCount; i++)
+                    {
+                        <li><a href="#">@(i + 1)</a></li>
+                    }
+                    <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
+                </ul>
+                @if (Request["Page"] == null || int.Parse(Request["Page"]) < totalPages)
+                {
+                    <a href="@(Model.PagingUrl + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/iscroll.js"></script>
+    <script>
+        $(function () {
+            resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        });
+    </script>
+}

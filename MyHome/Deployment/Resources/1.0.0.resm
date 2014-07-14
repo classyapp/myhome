@@ -16,10 +16,52 @@
 			}
 		},
 		{ 
+			"Key": "ProductSearch_Title_Price",
+			"Description": "Product search page price range facets title",
+			"Values": {
+				"en": "Price"
+			}
+		},
+		{ 
+			"Key": "Search_RelatedProducts",
+			"Description": "Search photos related products strip title",
+			"Values": {
+				"en": "Related products"
+			}
+		},
+		{ 
 			"Key": "Mobile_ProductPage_PriceLabel",
 			"Description": "Mobile product page price label",
 			"Values": {
 				"en": "Price: "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_Categories_MoreCategories",
+			"Description": "Search products categories sidebar 'more categories' link",
+			"Values": {
+				"en": "More categories >>"
+			}
+		},
+		{ 
+			"Key": "ProductSearch_Title_Categories",
+			"Description": "Search products categories sidebar header",
+			"Values": {
+				"en": "Categories"
+			}
+		},
+		{ 
+			"Key": "SearchProducts_Results_Title",
+			"Description": "Search products header title",
+			"Values": {
+				"en": "{0} {1} Products found"
+			}
+		},
+		{ 
+			"Key": "HeaderSearch_ProductsSuggestionsHeader",
+			"Description": "Search suggestions product area header",
+			"Values": {
+				"en": "Products"
 			}
 		},
 		{ 

@@ -782,7 +782,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 Q = request.Q,
                 TotalResults = searchResults.ListingsResults.Total,
                 Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList(),
-                RelatedProfessionals = orderedpProfiles
+                RelatedProfessionals = orderedpProfiles,
+                RelatedProducts = searchResults.ProductsResults.Results.Select(x => x.ToListingView()).ToList()
             };
 
             if (Request.IsAjaxRequest())
@@ -815,6 +816,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 // search
                 var results = service.SearchListings(
                     string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
+                    null,
                     new string[] {ListingTypeName},
                     searchMetadata,
                     model.PriceMin,

@@ -37,16 +37,31 @@
         prefetch: '',
         remote: '//' + window.location.host + '/search/keywords/suggest?q=%QUERY'
     });
+    var productsSuggestions = new Bloodhound({
+        name: 'products-suggestions',
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: '',
+        remote: '//' + window.location.host + '/search/products/suggest?q=%QUERY'
+    });
 
     roomsSuggestions.initialize();
     stylesSuggestions.initialize();
     profilesSuggestions.initialize();
     keywordsSuggestions.initialize();
+    productsSuggestions.initialize();
 
     $('#q.typeahead').typeahead({
         minLength: 2,
         hightlight: true,
         hint: false
+    }, {
+        name: 'products-suggestions',
+        displayKey: 'Value',
+        source: productsSuggestions.ttAdapter(),
+        templates: {
+            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsProductsHeader + '</span>'
+        }
     }, {
         name: 'rooms-suggestions',
         displayKey: 'Key',
@@ -100,6 +115,8 @@
             window.location.href = '//' + window.location.host + '/photo/' + suggestion.Value.toSlug();
         else if (dataset == 'keywords-suggestion')
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
+        else if (dataset == 'products-suggestions')
+            window.location.href = '//' + window.location.host + '/product/' + suggestion.Key + '--show';
         else
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
     });

@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="Models\Common\Modal.cs" />
     <Compile Include="Models\DiscussionMetadata.cs" />
+    <Compile Include="Models\ListingType.cs" />
     <Compile Include="Models\Polls\PollActionsViewModel - Copy.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
     <Compile Include="Models\Polls\CreateNewPollRequest.cs" />
@@ -660,6 +661,10 @@
     <Content Include="Scripts\mobile\angular\angular-touch.min.js.map" />
     <Content Include="Views\Poll\MorePolls.cshtml" />
     <Content Include="Views\Poll\MorePhotosFromPoll.cshtml" />
+    <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Shared\ProductGrid.cshtml" />
+    <Content Include="Views\Product\SmallProductsResultGrid.cshtml" />
+    <Content Include="Views\Product\SmallProductResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

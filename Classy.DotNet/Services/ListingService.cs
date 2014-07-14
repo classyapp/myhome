@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Classy.DotNet.Models.Search;
-using CsQuery.ExtensionMethods;
 using ServiceStack.Text;
 using System.Web;
 using System.Net;
@@ -376,6 +375,7 @@ namespace Classy.DotNet.Services
 
         public SearchResultsView<ListingView> SearchListings(
             string[] tags,
+            string[] categories,
             string[] listingTypes,
             IDictionary<string, string[]> metadata,
             double? priceMin,
@@ -392,6 +392,7 @@ namespace Classy.DotNet.Services
                 var data = new
                 {
                     Tags = tags,
+                    Categories = categories,
                     ListingTypes = listingTypes,
                     Metadata = metadata,
                     PriceMin = priceMin,

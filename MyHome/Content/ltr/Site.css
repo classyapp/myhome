@@ -641,7 +641,7 @@ a, a:visited
 .row.results.professionals .profile.small-thumbnail:last-child {
     margin-right: 0;
 }
-.row.results.professionals {
+.row.results.professionals, .row.results.products {
     margin-bottom: 20px;
     padding-left: 15px;
 }
@@ -1924,3 +1924,11 @@ body.mobile
 
 
 .btn-primary .fa-spinner { float: left;display: inline-block;width: 16px;height: 16px;margin: 2px 8px 0 0; }
+
+.photo.thumbnail .product-details {
+    background-color: #ddd;opacity: 0.7;color: #000;
+    position: absolute;bottom: 30px;padding: 4px 10px;margin-left: 4px;
+    width: 270px;
+}
+.photo.thumbnail .product-details .title { font-size: 12px; }
+.photo.thumbnail .product-details .price { font-weight: bold;}
