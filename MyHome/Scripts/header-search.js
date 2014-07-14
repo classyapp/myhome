@@ -60,7 +60,20 @@
         displayKey: 'Value',
         source: productsSuggestions.ttAdapter(),
         templates: {
-            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsProductsHeader + '</span>'
+            header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsProductsHeader + '</span>',
+            suggestion: function (query) {
+                if (query.Thumbnails && query.Thumbnails.length > 0) {
+                    var template = '';
+                    query.Thumbnails.splice(0,5).forEach(function(thumbnail) {
+                        template += '<img src=\"' + thumbnail + '\" class=\"suggestion-thumbnail\" style=\"width:40px; height:40px;\" />';
+                    });
+                    template += ' More >> ';
+
+                    return template;
+                }
+
+                return query.Value;
+            }
         }
     }, {
         name: 'rooms-suggestions',

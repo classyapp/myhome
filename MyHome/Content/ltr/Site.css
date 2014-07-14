@@ -1937,3 +1937,4 @@ body.mobile
 .price-range .output { position: absolute;display: inline-block;top: 0;right: 0;font-weight: bold;}
 .slider { margin: 0;width: 100%;width: 268px !important;display: inline-block;}
 .price-to, .price-from { margin-top: 10px;position: relative; }
+.suggestion-thumbnail { margin: 4px 10px 4px 0; }
