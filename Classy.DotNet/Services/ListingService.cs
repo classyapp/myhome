@@ -374,6 +374,7 @@ namespace Classy.DotNet.Services
         }
 
         public SearchResultsView<ListingView> SearchListings(
+            string q,
             string[] tags,
             string[] categories,
             string[] listingTypes,
@@ -391,6 +392,7 @@ namespace Classy.DotNet.Services
                 var url = SEARCH_LISTINGS_URL;
                 var data = new
                 {
+                    Q = q,
                     Tags = tags,
                     Categories = categories,
                     ListingTypes = listingTypes,

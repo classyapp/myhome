@@ -95,7 +95,7 @@ namespace MyHome.Controllers
         public ActionResult GetMorePolls()
         {
             var listingService = new ListingService();
-            var searchResults = listingService.SearchListings(null, null, new[] {"Poll"}, null, null, null, null, 0, 20, SortMethod.Date);
+            var searchResults = listingService.SearchListings(null, null, null, new[] {"Poll"}, null, null, null, null, 0, 20, SortMethod.Date);
 
             if (searchResults == null || searchResults.Results.IsNullOrEmpty())
                 return Content("");

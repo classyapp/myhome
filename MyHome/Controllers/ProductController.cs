@@ -27,7 +27,7 @@ namespace MyHome.Controllers
 
         [AcceptVerbs(HttpVerbs.Get)]
         [MapRoute("ProductSearch", "products/search/{*categories}")]
-        public ActionResult ProductSearch(SearchListingsViewModel<ProductMetadata> searchRequest, string categories)
+        public ActionResult ProductSearch(SearchListingsViewModel<ProductMetadata> searchRequest, string q, string categories)
         {
             try
             {
@@ -39,6 +39,7 @@ namespace MyHome.Controllers
 
                 var service = new ListingService();
                 var searchResults = service.SearchListings(
+                    q,
                     null,
                     categoryFilter.ToArray(),
                     new[] { ListingType.Product },

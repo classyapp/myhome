@@ -32,6 +32,7 @@ namespace Classy.DotNet.Mvc.Controllers
             var photos = service.SearchListings(
                 null,
                 null,
+                null,
                 new string[] { "Photo" },
                 null,
                 null,

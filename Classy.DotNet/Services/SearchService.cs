@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Security;
@@ -49,7 +50,7 @@ namespace Classy.DotNet.Services
             using (var client = ClassyAuth.GetWebClient())
             {
                 var suggestions = client.DownloadString(string.Format(GET_SEARCH_PRODUCTS_SUGGESTIONS, q));
-                var response = suggestions.FromJson<List<SearchSuggestion>>();
+                var response = suggestions.FromJson<List<SearchSuggestion>>().Take(1).ToList();
                 return response;
             }
         }

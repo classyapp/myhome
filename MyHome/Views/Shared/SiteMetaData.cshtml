@@ -1,14 +1,15 @@
 ﻿@using System.Configuration
-@using Classy.DotNet.Security
 @model object
 
 @{
     var language = UICulture;
     var roomsList = Localizer.GetList("rooms");
     var stylesList = Localizer.GetList("room-styles");
+    var categoriesList = Localizer.GetList("product-categories");
 
     var rooms = "[" + string.Join(", ", roomsList.Select(x => "{'Key':'" + x.Text.Replace("\'", "\\'") + "','Value':'" + x.Value.Replace("\'","\\'") + "'}").ToArray()) + "]";
     var styles = "[" + string.Join(", ", stylesList.Select(x => "{'Key':'" + x.Text.Replace("\'", "\\'") + "', 'Value':'" + x.Value.Replace("\'", "\\'") + "'}").ToArray()) + "]";
+    var categories = "[" + string.Join(", ", categoriesList.Select(x => "{'Key':'" + x.Text.Replace("\'", "\\'") + "', 'Value':'" + x.Value.Replace("\'", "\\'") + "'}").ToArray()) + "]";
 }
 
 <script language="javascript" type="text/javascript">
@@ -17,6 +18,7 @@
         LoggedIn: @User.Identity.IsAuthenticated.ToString().ToLower(),
         Rooms: @Html.Raw(rooms),
         Styles: @Html.Raw(styles),
-        CdnUrl: '@ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]'
+        CdnUrl: '@ConfigurationManager.AppSettings["Classy:CloudFrontDistributionUrl"]',
+        ProductCategories: @Html.Raw(categories)
     };
 </script>

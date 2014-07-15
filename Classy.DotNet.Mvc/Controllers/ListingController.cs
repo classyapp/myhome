@@ -818,6 +818,7 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 // search
                 var results = service.SearchListings(
+                    null,
                     string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
                     null,
                     new string[] {ListingTypeName},

@@ -8,6 +8,10 @@
     $.each(Classy.SiteMetadata.Styles, function() {
         styles.push({ Value: this.Value, Key: this.Key });
     });
+    var categories = [];
+    $.each(Classy.SiteMetadata.ProductCategories, function() {
+        categories.push({ Value: this.Value, Key: this.Key });
+    });
 
     var roomsSuggestions = new Bloodhound({
         name: 'rooms-suggestions',
@@ -37,8 +41,15 @@
         prefetch: '',
         remote: '//' + window.location.host + '/search/keywords/suggest?q=%QUERY'
     });
-    var productsSuggestions = new Bloodhound({
-        name: 'products-suggestions',
+    var productCategorySuggestions = new Bloodhound({
+        name: 'products-category-suggestions',
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: '',
+        local: categories
+    });
+    var productThumbnailSuggestions = new Bloodhound({
+        name: 'products-thumbnails-suggestions',
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: '',
@@ -49,20 +60,21 @@
     stylesSuggestions.initialize();
     profilesSuggestions.initialize();
     keywordsSuggestions.initialize();
-    productsSuggestions.initialize();
+    productCategorySuggestions.initialize();
+    productThumbnailSuggestions.initialize();
 
     $('#q.typeahead').typeahead({
         minLength: 2,
         hightlight: true,
         hint: false
     }, {
-        name: 'products-suggestions',
+        name: 'products-thumbnails-suggestions',
         displayKey: 'Value',
-        source: productsSuggestions.ttAdapter(),
+        source: productThumbnailSuggestions.ttAdapter(),
         templates: {
             header: '<span class=\"tt-suggestion-header\">' + searchSuggestionsProductsHeader + '</span>',
             suggestion: function (query) {
-                if (query.Thumbnails && query.Thumbnails.length > 0) {
+                if (query.Thumbnails) {
                     var template = '';
                     query.Thumbnails.splice(0,5).forEach(function(thumbnail) {
                         template += '<img src=\"' + thumbnail + '\" class=\"suggestion-thumbnail\" style=\"width:40px; height:40px;\" />';
@@ -71,10 +83,12 @@
 
                     return template;
                 }
-
-                return query.Value;
             }
         }
+    }, {
+        name: 'products-category-suggestions',
+        displayKey: 'Key',
+        source: productCategorySuggestions.ttAdapter()
     }, {
         name: 'rooms-suggestions',
         displayKey: 'Key',
@@ -128,8 +142,10 @@
             window.location.href = '//' + window.location.host + '/photo/' + suggestion.Value.toSlug();
         else if (dataset == 'keywords-suggestion')
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
-        else if (dataset == 'products-suggestions')
-            window.location.href = '//' + window.location.host + '/product/' + suggestion.Key + '--show';
+        else if (dataset == 'products-thumbnails-suggestions')
+            window.location.href = '//' + window.location.host + '/products/search?q=' + suggestion.Value;
+        else if (dataset == 'products-category-suggestions')
+            window.location.href = '//' + window.location.host + '/products/search/' + suggestion.Value;
         else
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
     });
