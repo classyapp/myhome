@@ -352,7 +352,7 @@ namespace Classy.DotNet.Mvc.Controllers
         // POST: /{ListingTypeName}/{listingId}/comments/new
         //
         [Authorize]
-        [AcceptVerbs(HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         [ExportModelStateToTempData]
         public ActionResult PostComment(string listingId, string content)
         {
@@ -375,6 +375,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
+
+            if (HttpContext.Request.UrlReferrer.ToString().Contains("/Mobile/"))
+                return Content("OK");
 
             return RedirectToAction("GetListingById", new { listingId = listingId });
         }

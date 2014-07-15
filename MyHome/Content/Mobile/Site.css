@@ -137,6 +137,7 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .next-slide { right: 0;}
 .slideshow .prev-slide { left: 0;}
 .slideshow .btn { border-radius: 4px;border: solid 1px #ddd;font-size: 26px;opacity: 0.8;color: #ddd;padding: 4px;line-height: 10px;width: 38px;}
+.slideshow .btn.regular { padding: 6px 12px;font-size: 14px;line-height: 1.428571429;border: 1px solid transparent;display: inline-block;width: auto;opacity: 1;color: #fff; }
 .slideshow .close-btn { position: fixed;top: 10px;right: 10px;border: 0; }
 .slideshow .share-btn { position: fixed;bottom: 10px;right: 10px; }
 .slideshow .share-menu {
@@ -161,8 +162,10 @@ h3 { font-size: 16px;margin-top: 0; }
 .slideshow .comment { border-bottom: solid 1px #eee;padding-bottom: 6px;margin-bottom: 6px;}
 .slideshow .comment.last { border-bottom: 0; }
 .slideshow .comment .commenter { font-weight: bold;color: #000; }
+
 .new-comment-section { padding: 10px 15px;border-top: solid 1px #ddd; }
 .new-comment-section #new-comment { height: 34px; }
+.slideshow .new-comment-section { padding: 16px 0;}
 
 .login-form-container { padding-top: 15px; }
 .login-form-container .btn-fb-login { margin-bottom: 15px; }
