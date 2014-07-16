@@ -1,0 +1,10 @@
+﻿
+<div class="section-title" ng-if="Results.length > 0" ng-bind-template="{{Resources.SearchResults}}"></div>
+<div class="listings panel panel-default" ng-if="Results.length > 0">
+    <div class="panel-body listings-container">
+        <div class="listing grid" ng-repeat="listing in Results" style="width:{{ListingImageWidth}}px;">
+            <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
+            <div class="title" ng-bind-template="{{listing.Title}}"></div>
+        </div>
+    </div>
+</div>

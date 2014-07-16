@@ -117,13 +117,13 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             });
 
             if (data.Profile.IsProfessional)
-                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', AppSettings.Culture).then(function (resource) { $scope.Resources.MoreProjectsTitle = resource; });
+                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', appSettings.Culture).then(function (resource) { $scope.Resources.MoreProjectsTitle = resource; });
             else 
-                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', AppSettings.Culture).then(function(resource) { $scope.Resources.MoreProjectsTitle = resource; });
+                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', appSettings.Culture).then(function(resource) { $scope.Resources.MoreProjectsTitle = resource; });
 
-            Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
-            Localizer.Get('Mobile_CollectionPage_Favorites', AppSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
-            Localizer.Get('Mobile_CollectionPage_Comments', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
+            Localizer.Get('Mobile_ProfilePage_Views', appSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
+            Localizer.Get('Mobile_CollectionPage_Favorites', appSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
+            Localizer.Get('Mobile_CollectionPage_Comments', appSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
 
             $scope.submitComment = function() {
                 var comment = $('#new-comment').val();
@@ -150,7 +150,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
 
         // get localized resources
         $scope.Resources = {};
-        Localizer.Get('Mobile_CollectionPage_ViewAllComments', AppSettings.Culture).then(function (resource) {
+        Localizer.Get('Mobile_CollectionPage_ViewAllComments', appSettings.Culture).then(function (resource) {
             $scope.Resources.ViewAllComments = resource;
         });
 

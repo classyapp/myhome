@@ -485,6 +485,7 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\search-page.html" />
     <Content Include="Mobile\collection-article.html" />
     <Content Include="Mobile\classy-header.html" />
     <Content Include="Mobile\login.html" />
@@ -517,6 +518,7 @@
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
     <Content Include="Scripts\mobile\auth-provider.js" />
+    <Content Include="Scripts\mobile\search-controller.js" />
     <Content Include="Scripts\mobile\login-controller.js" />
     <Content Include="Scripts\mobile\collection-controller.js" />
     <Content Include="Scripts\mobile\collection-slideshow-controller.js" />

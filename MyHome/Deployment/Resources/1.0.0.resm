@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_SearchPage_SearchResultsTitle",
+			"Description": "Mobile search results page title",
+			"Values": {
+				"en": "Search results : "
+			}
+		},
+		{ 
 			"Key": "ProductSearch_PriceFromLabel",
 			"Description": "Product search price range 'from' label",
 			"Values": {
