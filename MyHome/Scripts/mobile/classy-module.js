@@ -43,6 +43,21 @@ classy.directive('classyScrollable', function(ClassyUtilities) {
     };
 });
 
+classy.directive('classyHeader', function(ClassyUtilities) {
+    return {
+        restrict: 'E',
+        templateUrl: 'classy-header.html',
+        link: function(scope, element, attrs) {
+            var w = ClassyUtilities.Screen.GetWidth();
+            $('#header-search').css('width', parseInt(w - 70 - 70 - 10).toString() + 'px');
+            scope.openSearch = function() {
+                $('.main-navigation').addClass('visible');
+                $('#header-search').focus();
+            };
+        }
+    };
+});
+
 classy.factory('CacheProvider', function ($cacheFactory) {
     // we can add a cache limit here if we'll need to
     return $cacheFactory('HomeLab_Mobile_Cache');

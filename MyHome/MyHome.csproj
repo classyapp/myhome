@@ -486,6 +486,7 @@
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
     <Content Include="Mobile\collection-article.html" />
+    <Content Include="Mobile\classy-header.html" />
     <Content Include="Mobile\login.html" />
     <Content Include="Mobile\collection-slideshow.html" />
     <Content Include="Mobile\listing-fullscreen.html" />
