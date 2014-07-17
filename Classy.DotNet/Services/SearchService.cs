@@ -64,7 +64,7 @@ namespace Classy.DotNet.Services
                 var styles = Localizer.GetList("room-styles");
                 var productCategories = Localizer.GetList("product-categories");
 
-                var regex = new Regex("\\b" + q + "\\w*\\b");
+                var regex = new Regex("\\b" + q + "\\w*\\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
                 var suggestedRooms = rooms.Where(x => regex.Match(x.Text).Success).ToList();
                 var suggestedStyles = styles.Where(x => regex.Match(x.Text).Success).ToList();
                 var suggestedCategories = productCategories.Where(x => regex.Match(x.Text).Success).ToList();

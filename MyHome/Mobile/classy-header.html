@@ -8,3 +8,12 @@
         <i class="glyphicon glyphicon-search"></i>
     </span>
 </div>
+
+<div class="auto-suggestions" ng-if="AutoSuggestions.length > 0">
+    <div class="suggestion-section" ng-repeat="suggestionCategory in AutoSuggestions">
+        <div class="title" ng-bind-template="{{suggestionCategory.Name}}" ng-if="suggestionCategory.Suggestions.length"></div>
+        <div class="suggestion" ng-repeat="suggestion in suggestionCategory.Suggestions" ng-if="suggestionCategory.Suggestions.length">
+            <span class="content" data-suggestion-value="{{suggestion.Value}}" ng-bind-template="{{suggestion.Key}}"></span>
+        </div>
+    </div>
+</div>

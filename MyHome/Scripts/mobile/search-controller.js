@@ -1,12 +1,16 @@
 
-classy.controller('SearchController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, $timeout, $route) {
+classy.controller('SearchController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
     ClassyUtilities.Screen.StaticViewport();
     
     AppSettings.then(function (appSettings) {
 
         var q = $routeParams.q;
+        var category = $routeParams.category;
+        var room = $routeParams.room;
 
-        $http.get(appSettings.ApiUrl + '/listing/search?q=' + q, config).success(function(data) {
+        var queryString = q ? 'q=' + q : category ? 'category=' + category : room ? 'room=' + room : '';
+
+        $http.get(appSettings.ApiUrl + '/listing/search?' + queryString, config).success(function(data) {
 
             var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
             $scope.ListingImageWidth = imageWidth;
