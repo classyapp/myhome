@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
+using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Security;
 using ServiceStack.Text;
@@ -53,5 +55,38 @@ namespace Classy.DotNet.Services
                 return response;
             }
         }
+
+        public List<MobileSearchSuggestion> MobileSearchSuggestions(string q)
+        {
+            using (var client = ClassyAuth.GetWebClient())
+            {
+                var rooms = Localizer.GetList("rooms");
+                var styles = Localizer.GetList("room-styles");
+                var productCategories = Localizer.GetList("product-categories");
+
+                var regex = new Regex("\\b" + q + "\\w*\\b");
+                var suggestedRooms = rooms.Where(x => regex.Match(x.Text).Success).ToList();
+                var suggestedStyles = styles.Where(x => regex.Match(x.Text).Success).ToList();
+                var suggestedCategories = productCategories.Where(x => regex.Match(x.Text).Success).ToList();
+
+                return new List<MobileSearchSuggestion> {
+                    new MobileSearchSuggestion {
+                        Name = "Rooms",
+                        Suggestions =
+                            suggestedRooms.Select(x => new SearchSuggestion {Key = x.Text, Value = x.Value}).ToList()
+                    },
+                    new MobileSearchSuggestion {
+                        Name = "Styles",
+                        Suggestions = suggestedStyles.Select(x => new SearchSuggestion { Key = x.Text, Value = x.Value }).ToList()
+                    }
+                };
+            }
+        }
+    }
+
+    public class MobileSearchSuggestion
+    {
+        public string Name { get; set; }
+        public List<SearchSuggestion> Suggestions { get; set; }
     }
 }

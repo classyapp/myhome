@@ -83,5 +83,22 @@ namespace Classy.DotNet.Mvc.Controllers
                 return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [MapRoute("MobileSearchSuggestions", "mobile/search/suggest")]
+        public ActionResult MobileSearchSuggestions(string q)
+        {
+            try
+            {
+                var service = new SearchService();
+                var suggestions = service.MobileSearchSuggestions(q);
+
+                return Json(suggestions, JsonRequestBehavior.AllowGet);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
     }
 }
