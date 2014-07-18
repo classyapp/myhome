@@ -349,3 +349,4 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .auto-suggestions { position: absolute;top: 60px;width: 100%;display: inline-block;background-color: white;z-index: 100; }
 .auto-suggestions .suggestion-section .title { background-color: #eee;font-weight: bold;padding: 6px; }
 .auto-suggestions .suggestion-section .suggestion { padding: 6px;border-bottom: solid 1px #eee; }
+.empty-results { padding: 100px 0;text-align: center;color: #888; }

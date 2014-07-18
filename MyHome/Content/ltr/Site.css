@@ -1939,6 +1939,9 @@ body.mobile
 .price-to, .price-from { margin-top: 10px;position: relative; }
 .price-to input[type=checkbox], .price-from input[type=checkbox] { vertical-align: text-top; }
 .suggestion-thumbnail { margin: 4px 10px 4px 0; }
+.price-range .label { font-size: 14px;padding: 0;color: #888;display: inline-block;width: 100px; }
+.price-range .range-input { width: 100px; }
+.filter-price-range { margin-top: 10px; }
 
 .chosen-category { font-weight: bold;}
 .category.sub-category { padding-left: 20px; }

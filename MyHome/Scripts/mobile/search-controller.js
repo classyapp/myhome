@@ -33,6 +33,7 @@ classy.controller('SearchController', function ($scope, $http, AppSettings, Clas
 
             $scope.Resources = [];
             Localizer.Get('Mobile_SearchPage_SearchResultsTitle', appSettings.Culture).then(function (resource) { $scope.Resources.SearchResults = resource; });
+            Localizer.Get('Mobile_SearchPage_EmptyResultsMessage', appSettings.Culture).then(function (resource) { $scope.Resources.EmptyResults = resource; });
 
         }).error(function(ex) {
             // TODO: display some error message

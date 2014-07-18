@@ -2,6 +2,27 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_SearchPage_EmptyResultsMessage",
+			"Description": "Mobile search page message for empty search results",
+			"Values": {
+				"en": "Sorry, but no results matched your search..."
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceMin",
+			"Description": "Product search price min input label",
+			"Values": {
+				"en": "Minimum : "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceMax",
+			"Description": "Product search price max input label",
+			"Values": {
+				"en": "Maximum : "
+			}
+		},
+		{ 
 			"Key": "Mobile_SearchPage_SearchResultsTitle",
 			"Description": "Mobile search results page title",
 			"Values": {
