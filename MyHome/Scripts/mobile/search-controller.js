@@ -5,12 +5,16 @@ classy.controller('SearchController', function ($scope, $http, AppSettings, Clas
     AppSettings.then(function (appSettings) {
 
         var q = $routeParams.q;
-        var category = $routeParams.category;
+        var style = $routeParams.style;
         var room = $routeParams.room;
 
-        var queryString = q ? 'q=' + q : category ? 'category=' + category : room ? 'room=' + room : '';
+        var queryString = q ? '?q=' + q : '';
 
-        $http.get(appSettings.ApiUrl + '/listing/search?' + queryString, config).success(function(data) {
+        var data = {};
+        if (style) data["Metadata"] = { 'Style': style };
+        if (room) data["Metadata"] = { 'Room': room };
+
+        $http.post(appSettings.ApiUrl + '/listing/search' + queryString, data, config).success(function(data) {
 
             var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
             $scope.ListingImageWidth = imageWidth;
