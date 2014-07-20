@@ -35,9 +35,11 @@ classy.directive('classyHeader', function (ClassyUtilities, AppSettings, $locati
                 }
                 AppSettings.then(function (appSettings) {
                     if (query.length >= 2) {
-                        $http.get(appSettings.Host + '/mobile/search/suggest?q=' + query, config).success(function (data) {
+                        $http.get(appSettings.Host + '/mobile/search/suggest?q=' + query, config).success(function(data) {
                             scope.AutoSuggestions = data;
                         });
+                    } else {
+                        scope.AutoSuggestions = [];
                     }
                 });
             });
