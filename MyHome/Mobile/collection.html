@@ -45,8 +45,10 @@
     </div>
 </div>
 
-<div class="profile-comments panel panel-default" ng-if="Comments.length > 0">
-    <div class="panel-body">
+<div class="section-title" ng-if="Comments.length > 0" ng-bind-template="{{Resources.CommentsSectionTitle}}"></div>
+<div class="section-title" ng-if="Comments.length == 0" ng-bind-template="{{Resources.CommentsFirstTitle}}"></div>
+<div class="profile-comments panel panel-default">
+    <div class="panel-body" ng-if="Comments.length > 0">
         <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
             <div class="comment-metadata clearfix">
                 <div class="avatar pull-left">
@@ -65,7 +67,7 @@
             </div>
         </div>
     </div>
-    <div class="new-comment-section" ng-if="IsAuthenticated">
+    <div class="new-comment-section">
         <div class="btn btn-primary post-comment pull-right" disabled="disabled" ng-click="submitComment()">Post</div>
         <input type="text" id="new-comment" placeholder="Write a comment..." class="form-control" style="width:{{ScreenWidth - 54 - 30 - 10}}px;"/>
     </div>

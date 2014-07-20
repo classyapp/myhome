@@ -35,16 +35,6 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             AuthProvider.getUser().then(function(data) {
                 $scope.IsAuthenticated = data.IsAuthenticated;
                 $scope.User = data.Profile;
-
-                $timeout(function() {
-                    $('#new-comment').keydown(function() {
-                        var newValue = $(this).val();
-                        if (newValue.trim().length >= 2)
-                            $('.btn.post-comment').removeAttr('disabled');
-                        else
-                            $('.btn.post-comment').attr('disabled', 'disabled');
-                    });
-                });
             });
 
             $scope.Content = data.Content;
@@ -124,8 +114,15 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             Localizer.Get('Mobile_ProfilePage_Views', appSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
             Localizer.Get('Mobile_CollectionPage_Favorites', appSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
             Localizer.Get('Mobile_CollectionPage_Comments', appSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
+            Localizer.Get('Mobile_CollectionPage_CommentsSectionTitle', appSettings.Culture).then(function (resource) { $scope.Resources.CommentsSectionTitle = resource; });
+            Localizer.Get('Mobile_CollectionPage_CommentsFirstTitle', appSettings.Culture).then(function (resource) { $scope.Resources.CommentsFirstTitle = resource; });
 
-            $scope.submitComment = function() {
+            $scope.submitComment = function () {
+                if (!$scope.IsAuthenticated) {
+                    $location.url('/Login');
+                    return;
+                }
+
                 var comment = $('#new-comment').val();
                 var data = {
                     CollectionId: $routeParams.collectionId,
@@ -158,5 +155,15 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             var url = window.location.protocol + appSettings.Host + '/collection/' + $scope.CollectionId + '/grid/public';
             Classy.Share(network, url);
         };
+
+        $timeout(function () {
+            $('#new-comment').keydown(function () {
+                var newValue = $(this).val();
+                if (newValue.trim().length >= 2)
+                    $('.btn.post-comment').removeAttr('disabled');
+                else
+                    $('.btn.post-comment').attr('disabled', 'disabled');
+            });
+        });
     });
 });
