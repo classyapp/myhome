@@ -518,12 +518,12 @@
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
     <Content Include="Scripts\mobile\auth-provider.js" />
-    <Content Include="Scripts\mobile\search-controller.js" />
-    <Content Include="Scripts\mobile\login-controller.js" />
-    <Content Include="Scripts\mobile\collection-controller.js" />
-    <Content Include="Scripts\mobile\collection-slideshow-controller.js" />
-    <Content Include="Scripts\mobile\product-controller.js" />
-    <Content Include="Scripts\mobile\profile-controller.js" />
+    <Content Include="Scripts\mobile\controllers\search-controller.js" />
+    <Content Include="Scripts\mobile\controllers\login-controller.js" />
+    <Content Include="Scripts\mobile\controllers\collection-controller.js" />
+    <Content Include="Scripts\mobile\controllers\collection-slideshow-controller.js" />
+    <Content Include="Scripts\mobile\controllers\product-controller.js" />
+    <Content Include="Scripts\mobile\controllers\profile-controller.js" />
     <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
@@ -691,6 +691,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Scripts\mobile\directives\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
