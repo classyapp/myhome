@@ -58,7 +58,7 @@
                     <div class="content">{{comment.Content}}</div>
                 </div>
                 
-                <div class="new-comment-section" ng-if="IsAuthenticated">
+                <div class="new-comment-section">
                     <div class="btn regular btn-primary post-comment pull-right" disabled="disabled" ng-click="submitComment()">Post</div>
                     <input type="text" id="new-comment" placeholder="Write a comment..." class="form-control" style="width:{{ScreenWidth - 54 - 60 - 38 - 10}}px;" />
                 </div>

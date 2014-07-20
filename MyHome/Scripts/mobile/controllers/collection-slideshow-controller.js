@@ -11,16 +11,6 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
         AuthProvider.getUser().then(function (data) {
             $scope.IsAuthenticated = data.IsAuthenticated;
             $scope.User = data.Profile;
-
-            $timeout(function () {
-                $('#new-comment').keyup(function () {
-                    var newValue = $(this).val();
-                    if (newValue.trim().length >= 2)
-                        $('.btn.post-comment').removeAttr('disabled');
-                    else
-                        $('.btn.post-comment').attr('disabled', 'disabled');
-                });
-            });
         });
 
         $http.get(appSettings.ApiUrl + '/collection/' + $routeParams.collectionId + '?includeListings=true&increaseViewCounter=true&includeProfile=true', config).success(function(data) {
@@ -86,11 +76,15 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             $('.comments-container').css('opacity', '0').css('display', 'none');
         };
         $scope.showComments = function () {
-            if (!$scope.Comments || $scope.Comments.length == 0) return;
             $('.comments-container').css('display', 'inline-block').css('opacity', '1');
         };
 
         $scope.submitComment = function () {
+            if (!$scope.IsAuthenticated) {
+                $location.url('/Login');
+                return;
+            }
+
             var comment = $('#new-comment').val();
             var data = {
                 ListingId: $routeParams.photoId,
@@ -100,6 +94,16 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
                 $route.reload();
             });
         };
+
+        $timeout(function () {
+            $('#new-comment').keyup(function () {
+                var newValue = $(this).val();
+                if (newValue.trim().length >= 2)
+                    $('.btn.post-comment').removeAttr('disabled');
+                else
+                    $('.btn.post-comment').attr('disabled', 'disabled');
+            });
+        });
     });
 
     function loadImages() {
