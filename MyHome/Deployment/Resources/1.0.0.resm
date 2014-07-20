@@ -2,6 +2,27 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_SearchAutoSuggest_RoomsSectionTitle",
+			"Description": "Mobile search auto suggest rooms section title",
+			"Values": {
+				"en": "Rooms"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchAutoSuggest_StylesSectionTitle",
+			"Description": "Mobile search auto suggest styles section title",
+			"Values": {
+				"en": "Styles"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchAutoSuggest_ProductCategoriesSectionTitle",
+			"Description": "Mobile search auto suggest product categories section title",
+			"Values": {
+				"en": "Product Categories"
+			}
+		},
+		{ 
 			"Key": "Mobile_SearchPage_EmptyResultsMessage",
 			"Description": "Mobile search page message for empty search results",
 			"Values": {

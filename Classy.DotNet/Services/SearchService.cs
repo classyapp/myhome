@@ -71,13 +71,16 @@ namespace Classy.DotNet.Services
 
                 return new List<MobileSearchSuggestion> {
                     new MobileSearchSuggestion {
-                        Name = "Rooms",
-                        Suggestions =
-                            suggestedRooms.Select(x => new SearchSuggestion {Key = x.Text, Value = x.Value}).ToList()
+                        Name = Localizer.Get("Mobile_SearchAutoSuggest_RoomsSectionTitle"),
+                        Suggestions = suggestedRooms.Select(x => new SearchSuggestion {Key = x.Text, Value = x.Value}).ToList()
                     },
                     new MobileSearchSuggestion {
-                        Name = "Styles",
+                        Name = Localizer.Get("Mobile_SearchAutoSuggest_StylesSectionTitle"),
                         Suggestions = suggestedStyles.Select(x => new SearchSuggestion { Key = x.Text, Value = x.Value }).ToList()
+                    },
+                    new MobileSearchSuggestion {
+                        Name = Localizer.Get("Mobile_SearchAutoSuggest_ProductCategoriesSectionTitle"),
+                        Suggestions = suggestedCategories.Select(x => new SearchSuggestion { Key = x.Text, Value = x.Value }).ToList()
                     }
                 };
             }
