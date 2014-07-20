@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_SearchAutoSuggest_ProfileSectionTitle",
+			"Description": "Mobile search auto suggest profiles section title",
+			"Values": {
+				"en": "Professionals"
+			}
+		},
+		{ 
 			"Key": "Mobile_SearchAutoSuggest_RoomsSectionTitle",
 			"Description": "Mobile search auto suggest rooms section title",
 			"Values": {

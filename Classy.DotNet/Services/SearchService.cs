@@ -58,7 +58,7 @@ namespace Classy.DotNet.Services
 
         public List<MobileSearchSuggestion> MobileSearchSuggestions(string q)
         {
-            using (var client = ClassyAuth.GetWebClient())
+            using (ClassyAuth.GetWebClient())
             {
                 var rooms = Localizer.GetList("rooms");
                 var styles = Localizer.GetList("room-styles");
@@ -68,6 +68,8 @@ namespace Classy.DotNet.Services
                 var suggestedRooms = rooms.Where(x => regex.Match(x.Text).Success).ToList();
                 var suggestedStyles = styles.Where(x => regex.Match(x.Text).Success).ToList();
                 var suggestedCategories = productCategories.Where(x => regex.Match(x.Text).Success).ToList();
+
+                var profileSuggestions = SearchProfilesSuggestions(q);
 
                 return new List<MobileSearchSuggestion> {
                     new MobileSearchSuggestion {
@@ -81,6 +83,10 @@ namespace Classy.DotNet.Services
                     new MobileSearchSuggestion {
                         Name = Localizer.Get("Mobile_SearchAutoSuggest_ProductCategoriesSectionTitle"),
                         Suggestions = suggestedCategories.Select(x => new SearchSuggestion { Key = x.Text, Value = x.Value }).ToList()
+                    },
+                    new MobileSearchSuggestion {
+                        Name = Localizer.Get("Mobile_SearchAutoSuggest_ProfileSectionTitle"),
+                        Suggestions = profileSuggestions.Select(x => new SearchSuggestion { Key = x.Value, Value = x.Key }).ToList()
                     }
                 };
             }
