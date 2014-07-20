@@ -524,6 +524,8 @@
     <Content Include="Scripts\mobile\controllers\collection-slideshow-controller.js" />
     <Content Include="Scripts\mobile\controllers\product-controller.js" />
     <Content Include="Scripts\mobile\controllers\profile-controller.js" />
+    <Content Include="Scripts\mobile\directives\classy-header.js" />
+    <Content Include="Scripts\mobile\directives\classy-scrollable.js" />
     <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
@@ -691,7 +693,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Scripts\mobile\directives\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
