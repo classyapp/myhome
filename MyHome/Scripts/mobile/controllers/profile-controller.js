@@ -1,5 +1,11 @@
 
 classy.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
+
+    // enforce ssl
+    if (window.location.protocol == 'http:') {
+        window.location.href = window.location.href.replace('http://', 'https://');
+    }
+
     ClassyUtilities.Screen.StaticViewport();
 
     $scope.currentSlide = 0;
