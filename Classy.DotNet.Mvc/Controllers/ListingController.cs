@@ -820,8 +820,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 var results = service.SearchListings(
                     null,
                     string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
-                    null,
-                    new string[] {ListingTypeName},
+                    new[] {model.Category},
+                    new[] {ListingTypeName},
                     searchMetadata,
                     model.PriceMin,
                     model.PriceMax,

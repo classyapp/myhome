@@ -143,7 +143,10 @@
         else if (dataset == 'keywords-suggestion')
             window.location.href = '//' + window.location.host + '/search/' + suggestion.Value.toSlug();
         else if (dataset == 'products-thumbnails-suggestions')
-            window.location.href = '//' + window.location.host + '/products/search?q=' + suggestion.Value;
+            if (suggestion.Key == '__CATEGORY__')
+                window.location.href = '//' + window.location.host + '/products/search/' + suggestion.Value;
+            else
+                window.location.href = '//' + window.location.host + '/products/search?q=' + suggestion.Value;
         else if (dataset == 'products-category-suggestions')
             window.location.href = '//' + window.location.host + '/products/search/' + suggestion.Value;
         else

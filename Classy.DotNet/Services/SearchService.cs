@@ -5,6 +5,7 @@ using System.Threading;
 using Classy.DotNet.Mvc.Localization;
 using Classy.DotNet.Responses;
 using Classy.DotNet.Security;
+using CsQuery.ExtensionMethods.Internal;
 using ServiceStack.Text;
 
 namespace Classy.DotNet.Services
@@ -68,7 +69,7 @@ namespace Classy.DotNet.Services
                 var suggestedRooms = rooms.Where(x => regex.Match(x.Text).Success).ToList();
                 var suggestedStyles = styles.Where(x => regex.Match(x.Text).Success).ToList();
                 var suggestedCategories = productCategories.Where(x => regex.Match(x.Text).Success).ToList();
-
+                
                 var profileSuggestions = SearchProfilesSuggestions(q);
 
                 return new List<MobileSearchSuggestion> {
