@@ -13,7 +13,7 @@
     var topLevelCategories = allCategories.Where(x => x.ParentValue == null);
     
     var chosenCategory = Model.Category;
-    var categories = chosenCategory == null ? topLevelCategories : allCategories.Where(x => x.ParentValue == chosenCategory);
+    var subCategories = chosenCategory == null ? topLevelCategories : allCategories.Where(x => x.ParentValue == chosenCategory);
     
     var settings = ViewBag.AppSettings as AppSettingsResponse;
 
@@ -30,17 +30,26 @@
                 <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Categories")</h3>
             </div>
             <div class="panel-body panel-links">
-                @if (chosenCategory != null)
+                @foreach (var category in topLevelCategories)
                 {
-                    <div class="chosen-category">
-                        @Html.RouteLinkForCurrentLocale(chosenCategory, "ProductSearch", new { categories = "" })
-                    </div>
-                }
-                @foreach (var category in categories.Take(12))
-                {
-                    <div class="category @(chosenCategory != null ? "sub-category" : "")">
-                        @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new { categories = category.Text.ToSlug() })
-                    </div>
+                    if (category.Text.ToSlug() == chosenCategory)
+                    {
+                        <div class="chosen-category">
+                            @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new {categories = category.Text.ToSlug()})
+                        </div>
+                        foreach (var subCategory in subCategories)
+                        {
+                            <div class="category sub-category">
+                                @Html.RouteLinkForCurrentLocale(subCategory.Text, "ProductSearch", new {categories = subCategory.Text.ToSlug()})
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="category">
+                            @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new {categories = category.Text.ToSlug()})
+                        </div>
+                    }
                 }
             </div>
         </div>
