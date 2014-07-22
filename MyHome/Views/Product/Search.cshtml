@@ -55,17 +55,11 @@
                         <span class="label">@Localizer.Get("ProductSearch_PriceMin")</span>
                         <input type="text" id="from-price-value" class="form-control price-min range-input" value="@Request.QueryString["priceMin"]" style="display:inline;" />
                         <span class="currency">@env.Currency</span>
-                        @*<input type="checkbox" id="from-price-enabled" name="from-price-enabled"/>
-                        <label for="from-price-enabled">@Localizer.Get("ProductSearch_PriceFromLabel")</label>
-                        <input type="text" id="from-price-value" data-slider="true" value="@Request.QueryString["priceMin"]" data-slider-range="0,10000" data-slider-step="100" />*@
                     </div>
                     <div class="price-to price-range">
                         <span class="label">@Localizer.Get("ProductSearch_PriceMax")</span>
                         <input type="text" id="to-price-value" class="form-control price-max range-input" value="@Request.QueryString["priceMax"]" style="display:inline;" />
                         <span class="currency">@env.Currency</span>
-                        @*<input type="checkbox" id="to-price-enabled"/>
-                        <label for="to-price-enabled">@Localizer.Get("ProductSearch_PriceToLabel")</label>
-                        <input type="text" id="to-price-value" data-slider="true" value="@(string.IsNullOrEmpty(Request.QueryString["priceMax"]) ? "10000" : Request.QueryString["priceMax"])" data-slider-range="0,10000" data-slider-step="100" />*@
                     </div>
                     <div>
                         <span class="btn btn-primary filter-price-range pull-right">@Localizer.Get("ProductSearch_FilterButton")</span>
