@@ -29,8 +29,6 @@ namespace MyHome
                 typeof (MediaFileController)
             };
 
-            //var controllerAssemblies = new[] {Assembly.GetExecutingAssembly(), typeof (HomePageController).Assembly};
-            //            var controllers = controllerAssemblies.SelectMany(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof (BaseController)) && !t.IsGenericType));
             foreach (var controller in controllers)
             {
                 var controllerInstance = Activator.CreateInstance(controller);
