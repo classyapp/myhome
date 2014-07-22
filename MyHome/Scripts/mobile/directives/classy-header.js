@@ -3,7 +3,7 @@ classy.directive('classyHeader', function (ClassyUtilities, AppSettings, $locati
         restrict: 'E',
         templateUrl: 'classy-header.html',
         transclude: true,
-        link: function (scope, element, attrs) {
+        link: function (scope) {
             var w = ClassyUtilities.Screen.GetWidth();
             var searchInput = $('#header-search');
             searchInput.css('width', parseInt(w - 70 - 70 - 10).toString() + 'px');
@@ -37,9 +37,11 @@ classy.directive('classyHeader', function (ClassyUtilities, AppSettings, $locati
                     if (query.length >= 2) {
                         $http.get(appSettings.Host + '/mobile/search/suggest?q=' + query, config).success(function(data) {
                             scope.AutoSuggestions = data;
+                            scope.$apply();
                         });
                     } else {
                         scope.AutoSuggestions = [];
+                        scope.$apply();
                     }
                 });
             });
