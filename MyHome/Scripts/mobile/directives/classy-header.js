@@ -25,6 +25,8 @@ classy.directive('classyHeader', function (ClassyUtilities, AppSettings, $locati
                     case 'Professionals':
                         window.location.href = '//' + $location.host() + ':' + $location.port() + window.location.pathname + '#/Profile/' + query;
                         break;
+                    case 'Product Categories':
+                        window.location.href = '//' + $location.host() + ':' + $location.port() + window.location.pathname + '#/Search?category=' + query;
                 }
             });
 

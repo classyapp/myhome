@@ -7,12 +7,14 @@ classy.controller('SearchController', function ($scope, $http, AppSettings, Clas
         var q = $routeParams.q;
         var style = $routeParams.style;
         var room = $routeParams.room;
+        var category = $routeParams.category;
 
         var queryString = q ? '?q=' + q : '';
 
         var data = {};
         if (style) data["Metadata"] = { 'Style': style };
         if (room) data["Metadata"] = { 'Room': room };
+        if (category) data.Categories = [category];
 
         $http.post(appSettings.ApiUrl + '/listing/search' + queryString, data, config).success(function(data) {
 
