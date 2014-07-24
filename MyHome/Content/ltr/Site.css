@@ -1945,3 +1945,7 @@ body.mobile
 
 .chosen-category { font-weight: bold;}
 .category.sub-category { padding-left: 20px; }
+
+.category { font-weight: normal; }
+.category.selected { font-weight: bold; }
+.category.selected > div { margin-left: 10px; }

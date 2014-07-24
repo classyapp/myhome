@@ -1,4 +1,8 @@
+@using System.Net.Mime
+@using Classy.DotNet.Mvc.Extensions
 @using Classy.DotNet.Responses
+@using CsQuery.EquationParser.Implementation
+@using ServiceStack.Text
 @model Classy.DotNet.Mvc.ViewModels.Listing.SearchListingsViewModel<MyHome.Models.ProductMetadata>
 
 @{
@@ -14,6 +18,18 @@
     
     var chosenCategory = Model.Category;
     var subCategories = chosenCategory == null ? topLevelCategories : allCategories.Where(x => x.ParentValue == chosenCategory);
+
+    var categoryParents = new List<string>();
+    categoryParents.Add(chosenCategory);
+    var chosenCategoryItem = allCategories.First(x => x.Value == chosenCategory);
+
+    var parentCategory = chosenCategoryItem.ParentValue;
+    while (!parentCategory.IsNullOrEmpty())
+    {
+        categoryParents.Add(parentCategory);
+        parentCategory = allCategories.First(x => x.Value == parentCategory).ParentValue;
+    }
+    categoryParents.Reverse();
     
     var settings = ViewBag.AppSettings as AppSettingsResponse;
 
@@ -30,27 +46,34 @@
                 <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Categories")</h3>
             </div>
             <div class="panel-body panel-links">
-                @foreach (var category in topLevelCategories)
-                {
-                    if (category.Text.ToSlug() == chosenCategory)
+                
+                @{
+                    string currParent = null;
+                    var subCount = 0;
+                    var direction = "up";
+
+                    Action<IEnumerable<LocalizedListItem>, string> printCategoryTree = null;
+                        
+                    printCategoryTree = (categories, curr) =>
                     {
-                        <div class="chosen-category">
-                            @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new {categories = category.Text.ToSlug()})
-                        </div>
-                        foreach (var subCategory in subCategories)
+                        foreach (var category in categories)
                         {
-                            <div class="category sub-category">
-                                @Html.RouteLinkForCurrentLocale(subCategory.Text, "ProductSearch", new {categories = subCategory.Text.ToSlug()})
-                            </div>
+                            Output.Write("<div class=\"category" + (category.Value == curr ? " selected" : "") + "\">");
+                            Output.Write(Html.RouteLinkForCurrentLocale(category.Value, "ProductSearch", new {categories = category.Value}));
+
+                            if (category.Value == curr)
+                            {
+                                printCategoryTree(allCategories.Where(x => x.ParentValue == curr), categoryParents[subCount++]);
+                            }
+
+                            Output.Write("</div>");
                         }
-                    }
-                    else
-                    {
-                        <div class="category">
-                            @Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new {categories = category.Text.ToSlug()})
-                        </div>
-                    }
+                    };
                 }
+                
+                @{ printCategoryTree(topLevelCategories, categoryParents[subCount]); }
+
+                @*@Html.RouteLinkForCurrentLocale(currCategory.Text, "ProductSearch", new { categories = currCategory.Text.ToSlug() })*@
             </div>
         </div>
 
