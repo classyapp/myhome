@@ -9,7 +9,12 @@ classy.controller('SearchController', function ($scope, $http, AppSettings, Clas
         var room = $routeParams.room;
         var category = $routeParams.category;
 
-        var queryString = q ? '?q=' + q : '';
+        var priceMin = $routeParams.priceMin;
+        var priceMax = $routeParams.priceMax;
+
+        var queryString = q ? '?q=' + q : '?';
+        queryString += priceMin ? '&priceMin=' + priceMin : '';
+        queryString += priceMax ? '&priceMin=' + priceMax : '';
 
         var data = {};
         if (style) data["Metadata"] = { 'Style': style };
