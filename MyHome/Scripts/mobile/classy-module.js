@@ -9,7 +9,10 @@ classy.factory('CacheProvider', function ($cacheFactory) {
 classy.config([
     '$routeProvider', function($routeProvider) {
         $routeProvider
-            .when('/Profile/:profileId', {
+            .when('/', {
+                templateUrl: 'classy-home.html',
+                controller: 'HomeController'
+            }).when('/Profile/:profileId', {
                 templateUrl: 'profile-page.html',
                 controller: 'ProfileController'
             }).when('/Collection/:collectionId', {

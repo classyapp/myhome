@@ -485,6 +485,8 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\classy-home.html" />
+    <Content Include="Mobile\Home\classy-listing.html" />
     <Content Include="Mobile\search-page.html" />
     <Content Include="Mobile\collection-article.html" />
     <Content Include="Mobile\classy-header.html" />
@@ -518,12 +520,14 @@
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
     <Content Include="Scripts\mobile\auth-provider.js" />
+    <Content Include="Scripts\mobile\controllers\home-controller.js" />
     <Content Include="Scripts\mobile\controllers\search-controller.js" />
     <Content Include="Scripts\mobile\controllers\login-controller.js" />
     <Content Include="Scripts\mobile\controllers\collection-controller.js" />
     <Content Include="Scripts\mobile\controllers\collection-slideshow-controller.js" />
     <Content Include="Scripts\mobile\controllers\product-controller.js" />
     <Content Include="Scripts\mobile\controllers\profile-controller.js" />
+    <Content Include="Scripts\mobile\directives\classy-listing.js" />
     <Content Include="Scripts\mobile\directives\classy-header.js" />
     <Content Include="Scripts\mobile\directives\classy-scrollable.js" />
     <Content Include="Scripts\mobile\hammer.js" />
