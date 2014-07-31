@@ -27,7 +27,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
                     ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, $scope.ScreenWidth),
                     CopyrightMessage: (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == "True") ?
                         listing.Metadata.CopyrightMessage.extractHost() :
-                        listing.Metadata.CopyrightMessage ? listing.Metadata.CopyrightMessage : getProfileName(listing.Profile)
+                        listing.Metadata.CopyrightMessage ? listing.Metadata.CopyrightMessage : ClassyUtilities.Listing.GetProfileName(listing.Profile)
                 });
             });
             $scope.Listings = listings;
@@ -42,17 +42,6 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
 
         Localizer.Get('Mobile_CollectionSlideShow_ReadMore', AppSettings.Culture, function(resource) { $scope.Resources.ReadMore = resource; });
         
-        function getProfileName(profile) {
-            if (!profile || profile == '') return '';
-            if (!profile.ContactInfo && !profile.IsProfessional) return 'unknown';
-            var name;
-            if (profile.IsProxy) return profile.ProfessionalInfo.CompanyName;
-            else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
-            else name = (!profile.ContactInfo.Name || profile.ContactInfo.Name == '') ? profile.UserName : profile.ContactInfo.Name;
-            if (name) return name;
-            return 'unknown';
-        }
-
         $scope.share = function(network) {
             var selectedListing = $('.slideshow .listing.selected').data('listing-id');
             var url = window.location.protocol + appSettings.Host + '/photo/' + selectedListing + '--show';

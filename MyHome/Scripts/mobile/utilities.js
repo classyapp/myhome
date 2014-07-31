@@ -47,9 +47,9 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
             GetCopyrightMessage: function (listing) {
                 if (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == 'True')
                     return listing.Metadata.CopyrightMessage.extractHost();
-                if (listing.Metadata.CopyrightMessage != '')
+                if (listing.Metadata.CopyrightMessage && listing.Metadata.CopyrightMessage != '')
                     return listing.Metadata.CopyrightMessage;
-                return getProfileName(listing.Profile);
+                return this.GetProfileName(listing.Profile);
             },
             GetProfileName: function (profile) {
                 if (!profile) return 'unknown';
