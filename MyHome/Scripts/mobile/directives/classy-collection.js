@@ -8,8 +8,9 @@ classy.directive('classyCollection', function ($http, AppSettings, ClassyUtiliti
             AppSettings.then(function(appSettings) {
                 $http.get(appSettings.ApiUrl + '/collection/' + scope.collectionId + '?includeListings=true', config).success(function (data) {
 
-                    var imageWidth = Math.floor((w - 20) / 3);
-                    
+                    var imageWidth = Math.floor((w - 40) / 3);
+
+                    scope.Title = data.Title;
                     var listings = [];
                     data.Listings.forEach(function (listing) {
                         var l = {
