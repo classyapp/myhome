@@ -487,6 +487,7 @@
     <Content Include="img\twitter.png" />
     <Content Include="Mobile\classy-home.html" />
     <Content Include="Mobile\Home\classy-collection.html" />
+    <Content Include="Mobile\Home\classy-header.html" />
     <Content Include="Mobile\Home\classy-listing.html" />
     <Content Include="Mobile\search-page.html" />
     <Content Include="Mobile\collection-article.html" />
@@ -529,6 +530,7 @@
     <Content Include="Scripts\mobile\controllers\product-controller.js" />
     <Content Include="Scripts\mobile\controllers\profile-controller.js" />
     <Content Include="Scripts\mobile\directives\classy-collection.js" />
+    <Content Include="Scripts\mobile\directives\classy-home-header.js" />
     <Content Include="Scripts\mobile\directives\classy-listing.js" />
     <Content Include="Scripts\mobile\directives\classy-header.js" />
     <Content Include="Scripts\mobile\directives\classy-scrollable.js" />
