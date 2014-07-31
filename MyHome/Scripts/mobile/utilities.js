@@ -42,6 +42,25 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
                 container += "</div>";
                 return container;
             }
+        },
+        Listing: {
+            GetCopyrightMessage: function (listing) {
+                if (listing.Metadata.IsWebPhoto && listing.Metadata.IsWebPhoto == 'True')
+                    return listing.Metadata.CopyrightMessage.extractHost();
+                if (listing.Metadata.CopyrightMessage != '')
+                    return listing.Metadata.CopyrightMessage;
+                return getProfileName(listing.Profile);
+            },
+            GetProfileName: function (profile) {
+                if (!profile) return 'unknown';
+                if (!profile.IsProfessional && !profile.ContactInfo) return 'unknown';
+                var name;
+                if (profile.IsProxy) name = profile.ProfessionalInfo.CompanyName;
+                else if (profile.IsProfessional) name = profile.ProfessionalInfo.CompanyName;
+                else name = profile.ContactInfo.Name ? profile.ContactInfo.Name : profile.UserName;
+                if (name) return name;
+                return 'unknown';
+            }
         }
     };
 }]);
