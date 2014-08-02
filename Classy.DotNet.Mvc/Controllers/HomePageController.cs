@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Mvc.Localization;
 using System.Web.Mvc;
 using Classy.DotNet.Services;
@@ -26,6 +22,9 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public ActionResult Home()
         {
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html");
+
             var service = new ListingService();
 
             // get latest photos
