@@ -321,18 +321,8 @@ namespace Classy.DotNet.Mvc.Controllers
             var service = new ListingService();
 
             if (MobileRedirect.IsMobileDevice())
-            {
                 if (ListingTypeName == "Product")
                     return Redirect("~/Mobile/App.html#/Product/" + listingId);
-                else if (ListingTypeName == "Photo")
-                {
-                    var listingMoreInfo = service.GetLisingMoreInfo(listingId, new Dictionary<string, string[]>(),
-                        new Dictionary<string, string[]>());
-                    return
-                        Redirect("~/Mobile/App.html#/Collection/SlideShow/" + listingMoreInfo.Collections[0].Id + "/" +
-                                 listingId);
-                }
-            }
 
             try
             {
