@@ -742,7 +742,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  <Target Name="AfterBuild">
+  <!--<Target Name="AfterBuild">
     <CallTarget Targets="RunDeployResourcesConsoleApp" />
   </Target>
   <Target Name="RunDeployResourcesConsoleApp">
@@ -765,5 +765,5 @@
       <Output TaskParameter="Result" ItemName="OverwriteExistingResourceValues" />
     </XmlPeek>
     <Exec Command="&quot;$(MSBuildThisFileDirectory)Deployment\Deployment.exe&quot; @(AppId) @(TargetApiEndpoint) @(SourceApiEndpoint) @(OverwriteExistingResourceValues) @(CopyMissingResourcesFromRemoteDatabase) @(BuildFailsIfMissingTranslations)" />
-  </Target>
+  </Target>-->
 </Project>

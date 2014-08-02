@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
@@ -317,9 +318,24 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult GetListingById(string listingId)
         {
+            var service = new ListingService();
+
+            if (MobileRedirect.IsMobileDevice())
+            {
+                if (ListingTypeName == "Product")
+                    return Redirect("~/Mobile/App.html#/Product/" + listingId);
+                else if (ListingTypeName == "Photo")
+                {
+                    var listingMoreInfo = service.GetLisingMoreInfo(listingId, new Dictionary<string, string[]>(),
+                        new Dictionary<string, string[]>());
+                    return
+                        Redirect("~/Mobile/App.html#/Collection/SlideShow/" + listingMoreInfo.Collections[0].Id + "/" +
+                                 listingId);
+                }
+            }
+
             try
             {
-                var service = new ListingService();
                 var listing = service.GetListingById(
                     listingId,
                     true,
