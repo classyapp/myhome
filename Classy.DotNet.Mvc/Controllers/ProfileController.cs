@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Security;
 using Classy.DotNet.Mvc.ViewModels.Profiles;
 using Classy.DotNet.Services;
 using System.Net;
-using ServiceStack.Text;
 using Classy.DotNet.Mvc.Attributes;
 using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Mvc.Localization;
@@ -17,7 +16,6 @@ using Classy.DotNet.Responses;
 using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using System.Net.Mail;
-using Classy.DotNet.Mvc.Helpers;
 using System.Web;
 
 namespace Classy.DotNet.Mvc.Controllers
@@ -494,6 +492,9 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult PublicProfile(string profileId, string ead)
         {
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html#/Profile/" + profileId);
+
             try
             {
                 var service = new ProfileService();
@@ -630,11 +631,11 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             try
             {
-                LocationView location = new LocationView();
+                var location = new LocationView();
                 if (model.CountryCode == null) // First request
                 {
                     // Get data from cookies
-                    System.Web.HttpCookie gpsCookie = System.Web.HttpContext.Current.Request.Cookies[Classy.DotNet.Responses.AppView.GPSLocationCookieName];
+                    var gpsCookie = System.Web.HttpContext.Current.Request.Cookies[AppView.GPSLocationCookieName];
                     if (gpsCookie != null && !string.IsNullOrEmpty(gpsCookie.Value))
                     {
                         var coords = Newtonsoft.Json.JsonConvert.DeserializeObject<GPSLocation>(gpsCookie.Value);
@@ -1056,7 +1057,7 @@ namespace Classy.DotNet.Mvc.Controllers
             try
             {
                 var profileService = new ProfileService();
-                Dictionary<string, string> metadata = (Dictionary<string, string>)model.Metadata.ToTranslationsDictionary();
+                var metadata = (Dictionary<string, string>)model.Metadata.ToTranslationsDictionary();
 
                 if ((model.CompanyName == null || string.IsNullOrEmpty(model.CompanyName.Trim())) &&
                     metadata.Count == 0)
