@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Mvc.ViewModels.Collection;
 using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Services;
@@ -83,6 +84,9 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult CollectionDetails(string collectionId, string view)
         {
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html#/Collection/" + collectionId);
+
             try
             {
                 var service = new ListingService();
