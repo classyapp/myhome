@@ -362,3 +362,4 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .home-header { padding: 6px;display: inline-block;width: 100%;background-color: #101010; }
 .home-header .logo { width: 150px;}
 .home-header .login-link { color: #fff;height: 45px;line-height: 45px;text-decoration: underline; }
+.home-header .user-presence .avatar { border-radius: 22px; }

@@ -4,7 +4,7 @@
         Log in
     </span>
     <span class="user-presence pull-right" ng-if="IsAuthenticated">
-        <img ng-src="UserAvatar" />
+        <img class="avatar" ng-src="{{User.Avatar.ImageUrl}}" ng-click="profilePage(User.Id)" />
     </span>
     <img src="../../img/homelab-logo.png" class="logo pull-left" />
     <div class="breaker"></div>
