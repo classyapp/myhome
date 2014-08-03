@@ -11,6 +11,9 @@ classy.directive('classyHomeHeader', function($location, AppSettings, AuthProvid
                     scope.User.Avatar.ImageUrl = ClassyUtilities.Images.Thumbnail(appSettings, data.Profile.Avatar.Key, 45, 45);
                 });
 
+                scope.homePage = function() {
+                    $location.url('/');
+                };
                 scope.loginPage = function() {
                     $location.url('/Login');
                 };
