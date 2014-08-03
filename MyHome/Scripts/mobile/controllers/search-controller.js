@@ -1,5 +1,5 @@
 
-classy.controller('SearchController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+classy.controller('SearchController', function ($scope, $http, $routeParams, $location, AppSettings, ClassyUtilities, Localizer) {
     ClassyUtilities.Screen.StaticViewport();
     
     AppSettings.then(function (appSettings) {
@@ -16,12 +16,12 @@ classy.controller('SearchController', function ($scope, $http, AppSettings, Clas
         queryString += priceMin ? '&priceMin=' + priceMin : '';
         queryString += priceMax ? '&priceMin=' + priceMax : '';
 
-        var data = {};
-        if (style) data["Metadata"] = { 'Style': style };
-        if (room) data["Metadata"] = { 'Room': room };
-        if (category) data.Categories = [category];
+        var postData = {};
+        if (style) postData["Metadata"] = { 'Style': style };
+        if (room) postData["Metadata"] = { 'Room': room };
+        if (category) postData.Categories = [category];
 
-        $http.post(appSettings.ApiUrl + '/listing/search' + queryString, data, config).success(function(data) {
+        $http.post(appSettings.ApiUrl + '/listing/search' + queryString, postData, config).success(function(data) {
 
             var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
             $scope.ListingImageWidth = imageWidth;
@@ -51,4 +51,9 @@ classy.controller('SearchController', function ($scope, $http, AppSettings, Clas
         });
 
     });
+
+    $scope.productPage = function(productId) {
+        $location.url('/Product/' + productId);
+    };
+
 });
