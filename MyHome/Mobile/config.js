@@ -9,6 +9,6 @@
         "Listing" : "5314ecfca3a75d1aec7b0de4",
         "Collection" : "5314ecfca3a75d1aec7b0de3",
         "Article" : "5352d6dbaa05a623b456d2b8",
-        "Html" : "<div class=\"testing html block\">This is just a cool test</div>"
+        "Html" : "<div class='testing html block'>This is just a cool test</div>"
     }
 }
