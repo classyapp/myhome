@@ -2,6 +2,9 @@ classy.directive('classyListing', function ($http, AppSettings, ClassyUtilities)
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-listing.html',
+        scope: {
+            listingId: '=listingId'
+        },
         link: function (scope) {
             var w = ClassyUtilities.Screen.GetWidth();
             AppSettings.then(function(appSettings) {

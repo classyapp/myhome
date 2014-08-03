@@ -3,6 +3,9 @@ classy.directive('classyCollection', function ($http, AppSettings, ClassyUtiliti
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-collection.html',
+        scope: {
+            collectionId: '=collectionId'
+        },
         link: function (scope) {
             var w = ClassyUtilities.Screen.GetWidth();
             AppSettings.then(function(appSettings) {
