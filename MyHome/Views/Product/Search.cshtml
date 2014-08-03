@@ -19,8 +19,7 @@
     var chosenCategory = Model.Category;
     var subCategories = chosenCategory == null ? topLevelCategories : allCategories.Where(x => x.ParentValue == chosenCategory);
 
-    var categoryParents = new List<string>();
-    categoryParents.Add(chosenCategory);
+    var categoryParents = new List<string> { chosenCategory };
     var chosenCategoryItem = allCategories.First(x => x.Value == chosenCategory);
 
     var parentCategory = chosenCategoryItem.ParentValue;
@@ -59,7 +58,7 @@
                         foreach (var category in categories)
                         {
                             Output.Write("<div class=\"category" + (category.Value == curr ? " selected" : "") + "\">");
-                            Output.Write(Html.RouteLinkForCurrentLocale(category.Value, "ProductSearch", new {categories = category.Value}));
+                            Output.Write(Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new {categories = category.Value}));
 
                             if (category.Value == curr)
                             {
