@@ -368,3 +368,6 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .article-hero .title-container { position: absolute;top: 20px;left: 20px; }
 .article-hero .title-container .title { font-size: 22px;padding: 6px;color: #fff;background-color: #000;opacity: 0.8;line-height: 42px; }
 .article-hero .photos-link { position: absolute;bottom: 20px;right: 20px;background-color: #000;color: #fff;opacity: 0.8;padding: 4px;}
+
+#header-search { position: absolute;left: 55px;margin-top: 6px;display: inline-block;width: 250px; }
+.home-header .search-icon { font-size: 32px;color: white;opacity: 0.7;float: right;margin-right: 10px;margin-top: 6px; }

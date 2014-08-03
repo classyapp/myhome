@@ -20,6 +20,13 @@ classy.directive('classyHomeHeader', function($location, AppSettings, AuthProvid
                 scope.profilePage = function(userId) {
                     $location.url('/Profile/' + userId);
                 };
+
+                scope.displaySearch = function() {
+                    $('#header-search').removeClass('hidden').focus().blur(scope.hideSearch);
+                };
+                scope.hideSearch = function() {
+                    $('#header-search').addClass('hidden');
+                };
             });
         }
     };
