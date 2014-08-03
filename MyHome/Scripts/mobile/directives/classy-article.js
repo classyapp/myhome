@@ -1,4 +1,4 @@
-classy.directive('classyArticle', function ($http, AppSettings, ClassyUtilities) {
+classy.directive('classyArticle', function ($http, $location, AppSettings, ClassyUtilities) {
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-article.html',
@@ -10,6 +10,7 @@ classy.directive('classyArticle', function ($http, AppSettings, ClassyUtilities)
             AppSettings.then(function(appSettings) {
                 $http.get(appSettings.ApiUrl + '/collection/' + scope.articleId + '?includeListings=true', config).success(function (data) {
 
+                    scope.Id = data.Id;
                     scope.Title = data.Title;
                     scope.Content = data.Content;
                     scope.CoverPhoto = ClassyUtilities.Images.Thumbnail(appSettings, data.CoverPhotos[0], w, 300);
@@ -22,6 +23,10 @@ classy.directive('classyArticle', function ($http, AppSettings, ClassyUtilities)
                         });
                     });
                     scope.Listings = listings;
+
+                    scope.articlePage = function() {
+                        $location.url('/Collection/' + data.Id + '/article');
+                    };
 
                 });
             });
