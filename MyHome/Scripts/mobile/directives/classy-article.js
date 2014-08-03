@@ -3,7 +3,7 @@ classy.directive('classyArticle', function ($http, $location, AppSettings, Class
         restrict: 'E',
         templateUrl: 'Home/classy-article.html',
         scope: {
-            articleId: '=articleId'
+            articleId: '@articleId'
         },
         link: function (scope) {
             var w = ClassyUtilities.Screen.GetWidth();

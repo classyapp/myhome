@@ -3,11 +3,11 @@ classy.directive('classyHtml', function ($http) {
         restrict: 'E',
         templateUrl: 'Home/classy-html.html',
         scope: {
-            htmlId: '=htmlId'
+            htmlId: '@htmlId'
         },
         link: function (scope, elem) {
-            // get the 
-            elem.find('.content').html(elem.find('.custom-html').val());
+            // get the html from the controller and insert into element
+            // elem.html();
         }
     };
 });

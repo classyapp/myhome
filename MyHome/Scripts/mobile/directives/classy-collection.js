@@ -4,7 +4,7 @@ classy.directive('classyCollection', function ($http, $location, AppSettings, Cl
         restrict: 'E',
         templateUrl: 'Home/classy-collection.html',
         scope: {
-            collectionId: '=collectionId'
+            collectionId: '@collectionId'
         },
         link: function (scope) {
             var w = ClassyUtilities.Screen.GetWidth();
