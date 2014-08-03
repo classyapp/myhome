@@ -32,7 +32,8 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             });
             $scope.Listings = listings;
 
-            $timeout(loadImages);
+//            $timeout(loadImages);
+            $timeout(function() { selectImage($routeParams.photoId); });
 
             $scope.loadComments($routeParams.photoId);
 
@@ -139,6 +140,13 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
         img.attr('src', img.data('orig-src')).load(function () {
             $(this).addClass('loaded');
         });
+    };
+
+    var selectImage = function(photoId) {
+        $('.slideshow .listing.selected').removeClass('selected').addClass('hidden');
+        var photo = $('.slideshow .listing[data-listing-id="' + photoId + '"]');
+        photo.addClass('selected').removeClass('hidden');
+        loadImages();
     };
 
     $scope.nextSlide = function () {
