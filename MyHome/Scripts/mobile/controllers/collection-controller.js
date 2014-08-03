@@ -49,7 +49,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                     Title: listing.Title,
                     ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, imageWidth, imageWidth),
                     ArticleImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, listing.ExternalMedia[0].Key, w),
-                    CopyrightMessage: ClassyUtilities.GetCopyrightMessage(listing)
+                    CopyrightMessage: ClassyUtilities.Listing.GetCopyrightMessage(listing)
                 };
                 data.IncludedListings.forEach(function(includedListing) {
                     if (includedListing.Id != listing.Id) return;
