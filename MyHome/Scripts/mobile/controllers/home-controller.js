@@ -23,7 +23,7 @@ classy.controller('HomeController', function ($scope, $http, $compile, AppSettin
                         newElement = $compile("<classy-article article-id=\"" + homePageSettings[elem] + "\"></classy-article>")($scope);
                         break;
                     case "Html":
-                        newElement = $compile("<classy-html html-content=\"" + $('<div/>').text(homePageSettings[elem]).html() + "\"></classy-html>")($scope);
+                        newElement = $compile("<classy-html html-content=\"" + homePageSettings[elem] + "\"></classy-html>")($scope);
                         break;
                 }
                 if (newElement)

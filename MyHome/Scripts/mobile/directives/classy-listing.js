@@ -6,7 +6,6 @@ classy.directive('classyListing', function ($http, AppSettings, ClassyUtilities)
             listingId: '@listingId'
         },
         link: function (scope) {
-            debugger;
             var w = ClassyUtilities.Screen.GetWidth();
             AppSettings.then(function(appSettings) {
                 $http.get(appSettings.ApiUrl + '/listing/' + scope.listingId + '?includeProfile=true', config).success(function (data) {
