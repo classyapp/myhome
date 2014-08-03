@@ -486,6 +486,7 @@
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
     <Content Include="Mobile\classy-home.html" />
+    <Content Include="Mobile\Home\classy-html.html" />
     <Content Include="Mobile\Home\classy-collection.html" />
     <Content Include="Mobile\Home\classy-header.html" />
     <Content Include="Mobile\Home\classy-article.html" />
@@ -530,6 +531,7 @@
     <Content Include="Scripts\mobile\controllers\collection-slideshow-controller.js" />
     <Content Include="Scripts\mobile\controllers\product-controller.js" />
     <Content Include="Scripts\mobile\controllers\profile-controller.js" />
+    <Content Include="Scripts\mobile\directives\classy-html.js" />
     <Content Include="Scripts\mobile\directives\classy-article.js" />
     <Content Include="Scripts\mobile\directives\classy-collection.js" />
     <Content Include="Scripts\mobile\directives\classy-home-header.js" />
