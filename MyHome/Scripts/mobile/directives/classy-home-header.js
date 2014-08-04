@@ -46,6 +46,9 @@ classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSet
                 Localizer.Get('Mobile_Header_SignOutLink', appSettings.Culture).then(function (resource) { scope.Resources.SignOutLink = resource; });
                 Localizer.Get('Mobile_Header_LoginLink', appSettings.Culture).then(function (resource) { scope.Resources.LoginLink = resource; });
                 Localizer.Get('Mobile_Header_SearchPlaceholder', appSettings.Culture).then(function (resource) { scope.Resources.SearchPlaceholder = resource; });
+                Localizer.Get('Mobile_General_Loading', appSettings.Culture).then(function (resource) { scope.Resources.Loading = resource; });
+
+                scope.LoadingPosition = (ClassyUtilities.Screen.GetWidth() / 2) - 97;
 
                 searchInput.keyup(function (e) {
                     var query = $(this).val().trim();

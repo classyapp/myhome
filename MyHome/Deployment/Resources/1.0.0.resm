@@ -2,6 +2,13 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_General_Loading",
+			"Description": "Mobile pages loading message",
+			"Values": {
+				"en": "Loading..."
+			}
+		},
+		{ 
 			"Key": "Mobile_CollectionPage_NewCommentPlaceholder",
 			"Description": "Mobile collection page new comment input watermark",
 			"Values": {

@@ -375,3 +375,7 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .home-header .presence-menu { position: absolute;top: 57px;right: 3px;padding: 4px;border: solid 1px #888;border-radius: 10px;background-color: #fff;z-index: 999;}
 .home-header .presence-menu .menu-link { padding: 4px 10px;border-bottom: solid 1px #ccc; }
 .home-header .presence-menu .menu-link.last { border-bottom: 0; } 
+
+.page-loader.backdrop { position: fixed;top: 0;width: 100%;height: 100%;background-color: rgba(200,200,200,0.5);z-index: 9999; }
+.page-loader .loading-container { position: fixed;top: 100px;padding: 10px 20px;background-color: #fff;font-size: 32px;border: solid 1px #000;border-radius: 10px;width: 194px;}
+.page-loader .loading-container i { margin-top: 5px; }
