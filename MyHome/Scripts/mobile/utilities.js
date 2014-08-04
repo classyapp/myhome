@@ -61,6 +61,14 @@ classyUtilitiesService.factory('ClassyUtilities', [function() {
                 if (name) return name;
                 return 'unknown';
             }
+        },
+        PageLoader: {
+            Show: function() {
+                $('.page-loader').removeClass('hidden');
+            },
+            Hide: function() {
+                $('.page-loader').addClass('hidden');
+            }
         }
     };
 }]);
