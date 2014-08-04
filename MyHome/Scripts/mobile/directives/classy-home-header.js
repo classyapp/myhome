@@ -20,6 +20,9 @@ classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSet
                 scope.profilePage = function(userId) {
                     $location.url('/Profile/' + userId);
                 };
+                scope.signOut = function() {
+                    window.location.href = '/logout';
+                };
 
                 scope.openPresenceMenu = function () {
                     var presenceMenu = $('.home-header .presence-menu');
