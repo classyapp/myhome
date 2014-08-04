@@ -15,6 +15,7 @@
         <link href="../Content/ltr/bootstrap.min.css" rel="stylesheet" />
         <link href="../Content/ltr/font-awesome.min.css" rel="stylesheet" />
         <link href="../Content/Mobile/Site.css" rel="stylesheet" />
+        <link href="../Content/Mobile/idangerous.swiper.css" rel="stylesheet">
         
         <!-- 3rd party frameworks -->
         <script src="../Scripts/jquery-1.8.2.min.js"></script>
@@ -25,19 +26,30 @@
         <script src="../Scripts/mobile/angular/angular-sanitize.js"></script>
         <script src="../Scripts/mobile/angular/angular-animate.js"></script>
         <script src="../Scripts/mobile/angular/angular-touch.js"></script>
+        <script src="../Scripts/mobile/idangerous.swiper.min.js"></script>
         
         <!-- classy mobile infrastructure -->
         <script src="../Scripts/mobile/common.js"></script>
         <script src="../Scripts/mobile/app-manager.js"></script>
         <script src="../Scripts/mobile/localizer.js"></script>
         <script src="../Scripts/mobile/utilities.js"></script>
+        
         <!-- classy mobile app -->
         <script src="../Scripts/mobile/classy-module.js"></script>
+        <script src="../Scripts/mobile/directives/classy-home-header.js"></script>
+        <script src="../Scripts/mobile/directives/classy-scrollable.js"></script>
+        <script src="../Scripts/mobile/directives/classy-listing.js"></script>
+        <script src="../Scripts/mobile/directives/classy-collection.js"></script>
+        <script src="../Scripts/mobile/directives/classy-article.js"></script>
+        <script src="../Scripts/mobile/directives/classy-html.js"></script>
         <script src="../Scripts/mobile/auth-provider.js"></script>
-        <script src="../Scripts/mobile/profile-controller.js"></script>
-        <script src="../Scripts/mobile/collection-controller.js"></script>
-        <script src="../Scripts/mobile/collection-slideshow-controller.js"></script>
-        <script src="../Scripts/mobile/login-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/home-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/profile-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/collection-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/collection-slideshow-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/product-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/search-controller.js"></script>
+        <script src="../Scripts/mobile/controllers/login-controller.js"></script>
 
         <title>Homelab.com</title>
         
@@ -45,11 +57,9 @@
 
     </head>
     <body>
-
+        
         <div class="main-container container-fluid" ng-view>
-
             <!-- AngularJS Template Here -->
-
         </div>
 
     </body>

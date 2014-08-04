@@ -8,6 +8,7 @@ namespace Classy.DotNet.Mvc.Controllers
     public class SearchController : BaseController
     {
         public SearchController() : base() { }
+
         public SearchController(string ns) : base(ns) { }
 
         public override void RegisterRoutes(RouteCollection routes)
@@ -57,6 +58,40 @@ namespace Classy.DotNet.Mvc.Controllers
             {
                 var service = new SearchService();
                 var suggestions = service.SearchKeywordsSuggestions(q);
+
+                return Json(suggestions, JsonRequestBehavior.AllowGet);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [MapRoute("SearchProductsSuggestions", "search/products/suggest")]
+        public ActionResult SearchProductsSuggestions(string q)
+        {
+            try
+            {
+                var service = new SearchService();
+                var suggestions = service.SearchProductsSuggestions(q);
+
+                return Json(suggestions, JsonRequestBehavior.AllowGet);
+            }
+            catch (ClassyException cex)
+            {
+                return new HttpStatusCodeResult(cex.StatusCode, cex.Message);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        [MapRoute("MobileSearchSuggestions", "mobile/search/suggest")]
+        public ActionResult MobileSearchSuggestions(string q)
+        {
+            try
+            {
+                var service = new SearchService();
+                var suggestions = service.MobileSearchSuggestions(q);
 
                 return Json(suggestions, JsonRequestBehavior.AllowGet);
             }

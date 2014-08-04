@@ -1,0 +1,195 @@
+@using System.Net.Mime
+@using Classy.DotNet.Mvc.Extensions
+@using Classy.DotNet.Responses
+@using CsQuery.EquationParser.Implementation
+@using ServiceStack.Text
+@model Classy.DotNet.Mvc.ViewModels.Listing.SearchListingsViewModel<MyHome.Models.ProductMetadata>
+
+@{
+    var env = new
+    {
+        Culture = UICulture,
+        Currency = Request[AppView.CurrencyCookieName] ?? AppView.DefaultCurrency,
+        Country = Request[AppView.CountryCookieName] ?? AppView.DefaultCountry
+    };
+    
+    var allCategories = Localizer.GetList("product-categories");
+    var topLevelCategories = allCategories.Where(x => x.ParentValue == null);
+    
+    var chosenCategory = Model.Category;
+    var subCategories = chosenCategory == null ? topLevelCategories : allCategories.Where(x => x.ParentValue == chosenCategory);
+
+    var categoryParents = new List<string> { chosenCategory };
+    var chosenCategoryItem = allCategories.First(x => x.Value == chosenCategory);
+
+    var parentCategory = chosenCategoryItem.ParentValue;
+    while (!parentCategory.IsNullOrEmpty())
+    {
+        categoryParents.Add(parentCategory);
+        parentCategory = allCategories.First(x => x.Value == parentCategory).ParentValue;
+    }
+    categoryParents.Reverse();
+    
+    var settings = ViewBag.AppSettings as AppSettingsResponse;
+
+    //ViewBag.Title = string.Format(Localizer.Get("PhotoSearch_PageTitle"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    //ViewBag.MetaDescription = string.Format(Localizer.Get("PhotoSearch_MetaDescription"), !string.IsNullOrEmpty(Model.Metadata.Style) ? styles.Single(x => x.Value == Model.Metadata.Style).Text : "", !string.IsNullOrEmpty(Model.Metadata.Room) ? rooms.Single(x => x.Value == Model.Metadata.Room).Text : Localizer.Get("PhotoSearch_Home"));
+    ViewBag.DisableSignupBanner = true;
+    var totalPages = (int)Math.Ceiling((decimal)Model.Count / AppView.PageSize);
+}
+
+<div class="row">
+    <div class="sidebar col-md-3">
+        <div class="panel panel-default panel-first">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Categories")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                
+                @{
+                    string currParent = null;
+                    var subCount = 0;
+                    var direction = "up";
+
+                    Action<IEnumerable<LocalizedListItem>, string> printCategoryTree = null;
+                        
+                    printCategoryTree = (categories, curr) =>
+                    {
+                        foreach (var category in categories)
+                        {
+                            Output.Write("<div class=\"category" + (category.Value == curr ? " selected" : "") + "\">");
+                            Output.Write(Html.RouteLinkForCurrentLocale(category.Text, "ProductSearch", new {categories = category.Value}));
+
+                            if (category.Value == curr)
+                            {
+                                printCategoryTree(allCategories.Where(x => x.ParentValue == curr), categoryParents[subCount++]);
+                            }
+
+                            Output.Write("</div>");
+                        }
+                    };
+                }
+                
+                @{ printCategoryTree(topLevelCategories, categoryParents[subCount]); }
+
+                @*@Html.RouteLinkForCurrentLocale(currCategory.Text, "ProductSearch", new { categories = currCategory.Text.ToSlug() })*@
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Localizer.Get("ProductSearch_Title_Price")</h3>
+            </div>
+            <div class="panel-body panel-links">
+                <div class="price-range">
+                    <div class="price-from price-range">
+                        <span class="label">@Localizer.Get("ProductSearch_PriceMin")</span>
+                        <input type="text" id="from-price-value" class="form-control price-min range-input" value="@Request.QueryString["priceMin"]" style="display:inline;" />
+                        <span class="currency">@env.Currency</span>
+                    </div>
+                    <div class="price-to price-range">
+                        <span class="label">@Localizer.Get("ProductSearch_PriceMax")</span>
+                        <input type="text" id="to-price-value" class="form-control price-max range-input" value="@Request.QueryString["priceMax"]" style="display:inline;" />
+                        <span class="currency">@env.Currency</span>
+                    </div>
+                    <div>
+                        <span class="btn btn-primary filter-price-range pull-right">@Localizer.Get("ProductSearch_FilterButton")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main col-md-9">
+        <h1>
+            @string.Format(Localizer.Get("SearchProducts_Results_Title"), Model.Count, Model.Tag)
+        </h1>
+        <div class="label-container">
+            
+            <span class="hidden" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a itemprop="url" href="@Url.RouteUrlForCurrentLocale("SearchPhoto", new { filters = "" })"><span itemprop="title">@Localizer.Get("PhotoSearch_AllPhotos")</span></a>
+            </span>
+            
+        </div>
+
+        <hr />
+
+        <div id="photos" class="row iscroll" data-item-class=".thumbnail" data-hasMore="@(Model.Results.Count == AppView.PageSize ? "true" : "false")" 
+             data-url="@Model.PagingUrl"
+             data-page-size="@AppView.PageSize" data-page="@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"]))">
+            @if (Model.Results != null)
+            {
+                @Html.Partial("ProductGrid", new MyHome.Models.PhotoGridViewModel { Results = Model.Results, ThumbnailSize = 270 })
+            }
+        </div>
+        @if (totalPages > 1)
+        {
+            <div class="clearfix text-center hidden" id="iscrollLoading"><img src="~/img/ajax-loader.gif" /></div>
+            <div id="pager" class="text-center" style="font-size: 12px">
+                <ul class="pagination" data-total="@(totalPages)" 
+                    data-pages="@AppView.PagesCount">
+                    <li><a href="#">@Localizer.Get("Paging_Prev")</a></li>
+                    @for (int i = 0; i < AppView.PagesCount; i++)
+                    {
+                        <li><a href="#">@(i + 1)</a></li>
+                    }
+                    <li><a href="#">@Localizer.Get("Paging_Next")</a></li>
+                </ul>
+                @if (Request["Page"] == null || int.Parse(Request["Page"]) < totalPages)
+                {
+                    <a href="@(Model.PagingUrl + string.Format("?Page={0}", Request["Page"] == null ? 2 : int.Parse(Request["Page"]) + 1))" class="sr-only">Next Page</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <link href="~/Content/ltr/simple-slider.css" rel="stylesheet"/>
+    <link href="~/Content/ltr/simple-slider-volume.css" rel="stylesheet" />
+    <script src="~/Scripts/simple-slider.js"></script>
+    <script src="~/Scripts/iscroll.js"></script>
+    <script>
+        $(function () {
+            resetPagination(@(string.IsNullOrEmpty(Request["page"]) ? 1 : int.Parse(Request["page"])));
+        });
+
+        var currencySymbol = '@settings.DefaultCurrency';
+        $("[data-slider]").each(function () {
+            var input = $(this);
+            $("<span>").addClass("output").insertAfter($(this));
+        }).bind("slider:ready slider:changed", function (event, data) {
+            $(this).nextAll(".output:first").html(data.value.toString().addCommas() + ' ' + currencySymbol);
+        });
+
+        $('.filter-price-range').click(function() {
+            if ($('#from-price-value').val().trim() != '')
+                $.query.SET('priceMin', $('#from-price-value').val());
+            else
+                $.query.REMOVE('priceMin');
+            if ($('#to-price-value').val().trim() != '')
+                $.query.SET('priceMax', $('#to-price-value').val());
+            else
+                $.query.REMOVE('priceMax');
+
+            window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + $.query.toString();
+        });
+
+        $(".range-input").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

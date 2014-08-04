@@ -1,6 +1,12 @@
 
 var Classy = Classy || {};
 
+Classy.OpenListing = function (elem) {
+    var collectionId = $(elem).data('collection-id');
+    var listingId = $(elem).data('listing-id');
+    window.location.href = '//' + window.location.host + window.location.pathname + '#/Collection/SlideShow/' + collectionId + '/' + listingId;
+};
+
 Classy.Utilities = {
     GetUrlParam: function(paramName) {
         paramName = paramName.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

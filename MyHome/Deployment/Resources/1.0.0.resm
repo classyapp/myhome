@@ -2,6 +2,188 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_General_Loading",
+			"Description": "Mobile pages loading message",
+			"Values": {
+				"en": "Loading..."
+			}
+		},
+		{ 
+			"Key": "Mobile_CollectionPage_NewCommentPlaceholder",
+			"Description": "Mobile collection page new comment input watermark",
+			"Values": {
+				"en": "Write a comment..."
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_SearchPlaceholder",
+			"Description": "Mobile header search placeholder",
+			"Values": {
+				"en": "Search..."
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_LoginLink",
+			"Description": "Mobile header login link",
+			"Values": {
+				"en": "Login"
+			}
+		},
+		{ 
+			"Key": "Mobile_Home_ArticleMorePhotos",
+			"Description": "Mobile home article more photos link",
+			"Values": {
+				"en": "photos >>"
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_ProfileLink",
+			"Description": "Mobile header presence menu profile link",
+			"Values": {
+				"en": "Profile"
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_SignOutLink",
+			"Description": "Mobile header presence menu sign out link",
+			"Values": {
+				"en": "Sign out"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchAutoSuggest_ProfileSectionTitle",
+			"Description": "Mobile search auto suggest profiles section title",
+			"Values": {
+				"en": "Professionals"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchAutoSuggest_RoomsSectionTitle",
+			"Description": "Mobile search auto suggest rooms section title",
+			"Values": {
+				"en": "Rooms"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchAutoSuggest_StylesSectionTitle",
+			"Description": "Mobile search auto suggest styles section title",
+			"Values": {
+				"en": "Styles"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchAutoSuggest_ProductCategoriesSectionTitle",
+			"Description": "Mobile search auto suggest product categories section title",
+			"Values": {
+				"en": "Product Categories"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchPage_EmptyResultsMessage",
+			"Description": "Mobile search page message for empty search results",
+			"Values": {
+				"en": "Sorry, but no results matched your search..."
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceMin",
+			"Description": "Product search price min input label",
+			"Values": {
+				"en": "Minimum : "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceMax",
+			"Description": "Product search price max input label",
+			"Values": {
+				"en": "Maximum : "
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchPage_SearchResultsTitle",
+			"Description": "Mobile search results page title",
+			"Values": {
+				"en": "Search results : "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceFromLabel",
+			"Description": "Product search price range 'from' label",
+			"Values": {
+				"en": "From: "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_PriceToLabel",
+			"Description": "Product search price range 'to' label",
+			"Values": {
+				"en": "To: "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_FilterButton",
+			"Description": "Product search price range filter submit button",
+			"Values": {
+				"en": "Filter"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProductPage_DescriptionTitle",
+			"Description": "Mobile product description section title",
+			"Values": {
+				"en": "Description"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProductPage_CommentsTitle",
+			"Description": "Mobile product page comments section title",
+			"Values": {
+				"en": "Comments"
+			}
+		},
+		{ 
+			"Key": "ProductSearch_Title_Price",
+			"Description": "Product search page price range facets title",
+			"Values": {
+				"en": "Price"
+			}
+		},
+		{ 
+			"Key": "Search_RelatedProducts",
+			"Description": "Search photos related products strip title",
+			"Values": {
+				"en": "Related products"
+			}
+		},
+		{ 
+			"Key": "Mobile_ProductPage_PriceLabel",
+			"Description": "Mobile product page price label",
+			"Values": {
+				"en": "Price: "
+			}
+		},
+		{ 
+			"Key": "ProductSearch_Title_Categories",
+			"Description": "Search products categories sidebar header",
+			"Values": {
+				"en": "Categories"
+			}
+		},
+		{ 
+			"Key": "SearchProducts_Results_Title",
+			"Description": "Search products header title",
+			"Values": {
+				"en": "{0} {1} Products found"
+			}
+		},
+		{ 
+			"Key": "HeaderSearch_ProductsSuggestionsHeader",
+			"Description": "Search suggestions product area header",
+			"Values": {
+				"en": "Products"
+			}
+		},
+		{ 
 			"Key": "PollDetails_PollEndedDialogTitle",
 			"Description": "Poll ended dialog title",
 			"Values": {

@@ -12,6 +12,7 @@ namespace MyHome
            //  filters.Add(new HandleErrorAttribute());
 
             filters.Add(new FeatureSwitchFilter());
+            filters.Add(new AppSettingsFilter());
         }
     }
 }

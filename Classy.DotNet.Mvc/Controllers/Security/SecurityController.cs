@@ -1,4 +1,5 @@
-﻿using Classy.DotNet.Security;
+﻿using Classy.DotNet.Mvc.Config;
+using Classy.DotNet.Security;
 using System;
 using System.Net;
 using System.Web;
@@ -94,6 +95,9 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Login(bool? forceProRegistration, bool? forceNonProRegistration)
         {
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html#/Login");
+
             var model = new LoginViewModel
             {
                 RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "~/",

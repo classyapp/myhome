@@ -1,0 +1,15 @@
+﻿
+<classy-home-header></classy-home-header>
+
+<div class="section-title" ng-bind-template="{{Resources.SearchResults}}"></div>
+<div class="listings panel panel-default" ng-if="Results.length > 0">
+    <div class="panel-body listings-container">
+        <div class="listing grid" ng-repeat="listing in Results" style="width:{{ListingImageWidth}}px;" ng-click="productPage(listing.Id)">
+            <img ng-src="{{listing.ImageUrl}}" data-listing-id="{{listing.Id}}" />
+            <div class="title" ng-bind-template="{{listing.Title}}"></div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default empty-results" ng-if="Results.length == 0">
+    <span ng-bind-template="{{Resources.EmptyResults}}"></span>
+</div>

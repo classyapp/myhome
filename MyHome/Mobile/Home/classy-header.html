@@ -1,0 +1,35 @@
+﻿
+<div class="home-header">
+    <span class="login-link pull-right" ng-if="!IsAuthenticated" ng-click="loginPage()" ng-bind-template="{{Resources.LoginLink}}"></span>
+    
+    <input type="text" id="header-search" class="form-control hidden" placeholder="{{Resources.SearchPlaceholder}}" />
+
+    <span class="user-presence pull-right" ng-if="IsAuthenticated">
+        <img class="avatar" ng-src="{{User.Avatar.ImageUrl}}" ng-click="openPresenceMenu()" />
+    </span>
+    
+    <div class="presence-menu hidden">
+        <div class="menu-link profile-link" ng-bind-template="{{Resources.ProfileLink}}" ng-click="profilePage(User.Id)"></div>
+        <div class="menu-link last sign-out-link" ng-bind-template="{{Resources.SignOutLink}}" ng-click="signOut()"></div>
+    </div>
+
+    <i class="glyphicon glyphicon-search search-icon" ng-click="displaySearch()"></i>
+    <img src="../../img/homelab-logo.png" class="logo pull-left" ng-click="homePage()" />
+    <div class="breaker"></div>
+</div>
+
+<div class="auto-suggestions" ng-if="AutoSuggestions.length > 0">
+    <div class="suggestion-section" ng-repeat="suggestionCategory in AutoSuggestions">
+        <div class="title" ng-bind-template="{{suggestionCategory.Name}}" data-section-key="{{suggestionCategory.Key}}" ng-if="suggestionCategory.Suggestions.length"></div>
+        <div class="suggestion" ng-repeat="suggestion in suggestionCategory.Suggestions" ng-if="suggestionCategory.Suggestions.length">
+            <span class="content" data-suggestion-value="{{suggestion.Value}}" ng-bind-template="{{suggestion.Key}}"></span>
+        </div>
+    </div>
+</div>
+
+<div class="page-loader backdrop hidden">
+    <div class="loading-container" style="left:{{LoadingPosition}}px;">
+        <span ng-bind-template="{{Resources.Loading}}"></span>
+        <i class="fa fa-spinner fa-spin pull-left"></i>
+    </div>
+</div>

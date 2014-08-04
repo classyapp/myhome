@@ -6,6 +6,7 @@ namespace Classy.DotNet.Mvc.ViewModels.Listing
     public class SearchListingsViewModel<TListingMetadata>
     {
         public string Tag { get; set; }
+        public string Category { get; set; }
         public TListingMetadata Metadata { get; set; }
         public LocationView Location { get; set; }
         public double? PriceMin { get; set; }

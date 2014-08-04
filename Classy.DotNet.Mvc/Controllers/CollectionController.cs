@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Mvc.ViewModels.Collection;
 using Classy.DotNet.Mvc.ActionFilters;
 using Classy.DotNet.Services;
@@ -86,6 +84,9 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult CollectionDetails(string collectionId, string view)
         {
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html#/Collection/" + collectionId);
+
             try
             {
                 var service = new ListingService();
@@ -120,6 +121,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
+
+            if (HttpContext.Request.UrlReferrer.ToString().Contains("/Mobile/"))
+                return Content("OK");
 
             return Redirect(Request.UrlReferrer.AbsoluteUri);
         }

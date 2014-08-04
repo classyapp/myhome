@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\AppSettingsFilter.cs" />
     <Compile Include="ActionFilters\FeatureSwitchFilter.cs" />
     <Compile Include="Attributes\AuthorizeWithRedirect.cs" />
     <Compile Include="Attributes\BooleanRequired.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Attributes\RouteAttribute.cs" />
     <Compile Include="Attributes\TranslatableAttribute.cs" />
     <Compile Include="Config\FeatureSwitchProvider.cs" />
+    <Compile Include="Config\MobileRedirect.cs" />
     <Compile Include="Controllers\AskForReviewArgs.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ListingLoadedEventArgs.cs" />

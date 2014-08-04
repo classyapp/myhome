@@ -6,6 +6,7 @@ using Classy.DotNet.Security;
 using System;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Classy.DotNet.Services;
 
 namespace Classy.DotNet.Mvc.Controllers
 {

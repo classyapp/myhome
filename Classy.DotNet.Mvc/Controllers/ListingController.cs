@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Classy.DotNet.Mvc.Config;
 using Classy.DotNet.Mvc.Extensions;
 using Classy.DotNet.Mvc.ViewModels.Listing;
 using Classy.DotNet.Services;
@@ -317,9 +318,14 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult GetListingById(string listingId)
         {
+            var service = new ListingService();
+
+            if (MobileRedirect.IsMobileDevice())
+                if (ListingTypeName == "Product")
+                    return Redirect("~/Mobile/App.html#/Product/" + listingId);
+
             try
             {
-                var service = new ListingService();
                 var listing = service.GetListingById(
                     listingId,
                     true,
@@ -352,7 +358,7 @@ namespace Classy.DotNet.Mvc.Controllers
         // POST: /{ListingTypeName}/{listingId}/comments/new
         //
         [Authorize]
-        [AcceptVerbs(HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         [ExportModelStateToTempData]
         public ActionResult PostComment(string listingId, string content)
         {
@@ -375,6 +381,9 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 else return new HttpStatusCodeResult(cvx.StatusCode, cvx.Message);
             }
+
+            if (HttpContext.Request.UrlReferrer.ToString().Contains("/Mobile/"))
+                return Content("OK");
 
             return RedirectToAction("GetListingById", new { listingId = listingId });
         }
@@ -782,7 +791,8 @@ namespace Classy.DotNet.Mvc.Controllers
                 Q = request.Q,
                 TotalResults = searchResults.ListingsResults.Total,
                 Results = searchResults.ListingsResults.Results.Select(x => x.ToListingView()).ToList(),
-                RelatedProfessionals = orderedpProfiles
+                RelatedProfessionals = orderedpProfiles,
+                RelatedProducts = searchResults.ProductsResults.Results.Select(x => x.ToListingView()).ToList()
             };
 
             if (Request.IsAjaxRequest())
@@ -814,8 +824,10 @@ namespace Classy.DotNet.Mvc.Controllers
                 }
                 // search
                 var results = service.SearchListings(
+                    null,
                     string.IsNullOrEmpty(model.Tag) ? null : model.Tag.Split(' ', '-'),
-                    new string[] {ListingTypeName},
+                    new[] {model.Category},
+                    new[] {ListingTypeName},
                     searchMetadata,
                     model.PriceMin,
                     model.PriceMax,

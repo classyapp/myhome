@@ -16,10 +16,10 @@ namespace MyHome.Controllers
 
         public ProfileController() : base("MyHome.Controllers") 
         {
-            base.OnContactProfessional += ProfileController_OnContactProfessional;
-            base.OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
-            base.OnAskForReview += ProfileController_OnAskForReview;
-            base.OnLoadPublicProfile += ProfileController_OnLoadPublicProfile;
+            OnContactProfessional += ProfileController_OnContactProfessional;
+            OnParseProfilesCsvLine += ProfileController_OnParseProfilesCsvLine;
+            OnAskForReview += ProfileController_OnAskForReview;
+            OnLoadPublicProfile += ProfileController_OnLoadPublicProfile;
         }
 
         public void ProfileController_OnLoadPublicProfile(object sender, LoadPublicProfileEventArgs<ProfessionalMetadata> e)
@@ -71,7 +71,8 @@ namespace MyHome.Controllers
             if (!countries.Any(x => x.Value == e.ProfessionalInfo.CompanyContactInfo.Location.Address.Country)) throw new ArgumentException(string.Format("invalid country code in line {0}", e.LineCount));
         }
 
-        public void ProfileController_OnContactProfessional(object sender, ContactProfessionalArgs<ProfessionalMetadata> e) {
+        public void ProfileController_OnContactProfessional(object sender, ContactProfessionalArgs<ProfessionalMetadata> e)
+        {
             // email professional
             var message = new EmailMessage
             {
@@ -88,7 +89,8 @@ namespace MyHome.Controllers
             var sendResponse = api.SendMessage(message, "notification_contact_pro", null);
         }
 
-        public void ProfileController_OnAskForReview(object sender, AskForReviewArgs<ProfessionalMetadata> e) {
+        public void ProfileController_OnAskForReview(object sender, AskForReviewArgs<ProfessionalMetadata> e)
+        {
             foreach (var contact in e.Emails)
             {
                 // email professional

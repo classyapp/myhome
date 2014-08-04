@@ -1,0 +1,6 @@
+@model IList<Classy.DotNet.Responses.ListingView>
+
+@foreach (var product in Model)
+{
+    @Html.Partial("../Product/SmallProductResult", product)
+}

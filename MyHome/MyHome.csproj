@@ -137,6 +137,7 @@
     </Compile>
     <Compile Include="Models\Common\Modal.cs" />
     <Compile Include="Models\DiscussionMetadata.cs" />
+    <Compile Include="Models\ListingType.cs" />
     <Compile Include="Models\Polls\PollActionsViewModel - Copy.cs" />
     <Compile Include="Models\PhotoMetadata.cs" />
     <Compile Include="Models\Polls\CreateNewPollRequest.cs" />
@@ -167,7 +168,10 @@
     <Content Include="Content\ltr\fonts.css" />
     <Content Include="Content\ltr\EditorTools.css" />
     <Content Include="Content\ltr\magicsuggest.css" />
+    <Content Include="Content\ltr\simple-slider-volume.css" />
+    <Content Include="Content\ltr\simple-slider.css" />
     <Content Include="Content\ltr\Site.css" />
+    <Content Include="Content\Mobile\idangerous.swiper.css" />
     <Content Include="Content\Mobile\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
@@ -482,12 +486,20 @@
     <Content Include="img\homelab-logo.png" />
     <Content Include="img\missing-thumb.png" />
     <Content Include="img\twitter.png" />
+    <Content Include="Mobile\classy-home.html" />
+    <Content Include="Mobile\Home\classy-html.html" />
+    <Content Include="Mobile\Home\classy-collection.html" />
+    <Content Include="Mobile\Home\classy-header.html" />
+    <Content Include="Mobile\Home\classy-article.html" />
+    <Content Include="Mobile\Home\classy-listing.html" />
+    <Content Include="Mobile\search-page.html" />
     <Content Include="Mobile\collection-article.html" />
     <Content Include="Mobile\login.html" />
     <Content Include="Mobile\collection-slideshow.html" />
     <Content Include="Mobile\listing-fullscreen.html" />
     <Content Include="Mobile\config.js" />
     <Content Include="Mobile\collection.html" />
+    <Content Include="Mobile\product-page.html" />
     <Content Include="Mobile\slideshow.html" />
     <Content Include="Mobile\profile-page.html" />
     <Content Include="Mobile\App.html" />
@@ -502,6 +514,7 @@
     <Content Include="Scripts\bootstrap3-typeahead.js" />
     <Content Include="Scripts\bootstrap3-wysihtml5.js" />
     <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\jquery.query.js" />
     <Content Include="Scripts\magicsuggest.js" />
     <Content Include="Scripts\classy-images.js" />
     <Content Include="Scripts\mobile\angular\angular-touch.min.js" />
@@ -511,10 +524,20 @@
     <Content Include="Scripts\mobile\angular\angular-sanitize.min.js" />
     <Content Include="Scripts\mobile\angular\angular-sanitize.js" />
     <Content Include="Scripts\mobile\auth-provider.js" />
-    <Content Include="Scripts\mobile\login-controller.js" />
-    <Content Include="Scripts\mobile\collection-controller.js" />
-    <Content Include="Scripts\mobile\collection-slideshow-controller.js" />
-    <Content Include="Scripts\mobile\profile-controller.js" />
+    <Content Include="Scripts\mobile\controllers\home-controller.js" />
+    <Content Include="Scripts\mobile\controllers\search-controller.js" />
+    <Content Include="Scripts\mobile\controllers\login-controller.js" />
+    <Content Include="Scripts\mobile\controllers\collection-controller.js" />
+    <Content Include="Scripts\mobile\controllers\collection-slideshow-controller.js" />
+    <Content Include="Scripts\mobile\controllers\product-controller.js" />
+    <Content Include="Scripts\mobile\controllers\profile-controller.js" />
+    <Content Include="Scripts\mobile\directives\classy-html.js" />
+    <Content Include="Scripts\mobile\directives\classy-article.js" />
+    <Content Include="Scripts\mobile\directives\classy-collection.js" />
+    <Content Include="Scripts\mobile\directives\classy-home-header.js" />
+    <Content Include="Scripts\mobile\directives\classy-listing.js" />
+    <Content Include="Scripts\mobile\directives\classy-scrollable.js" />
+    <Content Include="Scripts\mobile\idangerous.swiper.min.js" />
     <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
@@ -528,6 +551,7 @@
     <Content Include="Scripts\mobile\angular\angular-resource.js" />
     <Content Include="Scripts\mobile\angular\angular.js" />
     <Content Include="Scripts\mobile\angular\angular.min.js" />
+    <Content Include="Scripts\simple-slider.js" />
     <Content Include="Scripts\url-builder.js" />
     <Content Include="Scripts\header-search.js" />
     <Content Include="Scripts\classy.js" />
@@ -658,6 +682,10 @@
     <Content Include="Scripts\mobile\angular\angular-touch.min.js.map" />
     <Content Include="Views\Poll\MorePolls.cshtml" />
     <Content Include="Views\Poll\MorePhotosFromPoll.cshtml" />
+    <Content Include="Views\Product\Search.cshtml" />
+    <Content Include="Views\Shared\ProductGrid.cshtml" />
+    <Content Include="Views\Product\SmallProductsResultGrid.cshtml" />
+    <Content Include="Views\Product\SmallProductResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Collection\SelectCollectionCoverPhotos.cshtml" />

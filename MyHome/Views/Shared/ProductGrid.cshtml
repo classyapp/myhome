@@ -1,0 +1,46 @@
+@using Classy.DotNet.Responses
+@using Classy.DotNet.Security
+@model MyHome.Models.PhotoGridViewModel
+
+@{
+    var env = new {
+        Culture = UICulture,
+        Currency = Request[AppView.CurrencyCookieName] ?? AppView.DefaultCurrency,
+        Country = Request[AppView.CountryCookieName] ?? AppView.DefaultCountry
+    };
+}
+
+@if (Model.Results.Any())
+{
+    foreach (var p in Model.Results)
+    {
+        <div class="col-md-4">
+            <div class="photo thumbnail" data-listing-id="@p.Id">
+                @if (AuthProvider.IsAdmin() || AuthProvider.IsEditor())
+                {
+                    <div class="editors-rank">@p.EditorsRank</div>
+                }
+                @Html.Partial("PhotoActions", new MyHome.Models.PhotoActionsViewModel { Listing = p, ShowCollect = true, ShowEdit = true, ShowFavorite = true })
+                <a href="@Url.RouteUrlForCurrentLocale("ProductDetails", new { ListingId = p.Id, Slug = p.Title.ToSlug() })" title="@p.Title">
+                    @Html.Thumbnail(p, Model.ThumbnailSize)
+                    <div class="details">
+                        <ul class="stats list-inline list-unstyled">
+                            <li><span><i class="glyphicon glyphicon-eye-open"></i> @p.ViewCount</span></li>
+                            <li><span><i class="glyphicon glyphicon-heart-empty"></i> @p.FavoriteCount</span></li>
+                            <li><span><i class="glyphicon glyphicon-comment"></i> @p.CommentCount</span></li>
+                        </ul>
+                    </div>
+                </a>
+
+                @{
+                    var price = p.PricingInfo != null && p.PricingInfo.BaseOption != null ? p.PricingInfo.BaseOption.Price : (decimal?)null;
+                }
+                <div class="product-details">
+                    <div class="title">@p.Title</div>
+                    <div class="price">@string.Format("{0:N2}", price) @env.Currency</div>
+                </div>
+
+            </div>
+        </div>
+    }
+}

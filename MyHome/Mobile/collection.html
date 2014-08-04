@@ -1,4 +1,6 @@
 ﻿
+<classy-home-header></classy-home-header>
+
 <div class="collection-header header-cover" ng-style="{'background-image':'-webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7)), url(' + CoverPhotos[0] + ')'}">
     <div class="cover-slider">
         <div class="pane pane1">
@@ -45,8 +47,10 @@
     </div>
 </div>
 
-<div class="profile-comments panel panel-default" ng-if="Comments.length > 0">
-    <div class="panel-body">
+<div class="section-title" ng-if="Comments.length > 0" ng-bind-template="{{Resources.CommentsSectionTitle}}"></div>
+<div class="section-title" ng-if="Comments.length == 0" ng-bind-template="{{Resources.CommentsFirstTitle}}"></div>
+<div class="profile-comments panel panel-default">
+    <div class="panel-body" ng-if="Comments.length > 0">
         <div class="comment-container" ng-repeat="comment in Comments" ng-class="{'last':$last || $index==1, 'hidden':$index>=2}">
             <div class="comment-metadata clearfix">
                 <div class="avatar pull-left">
@@ -64,6 +68,10 @@
                 <span ng-bind-template="{{comment.Content}}"></span>
             </div>
         </div>
+    </div>
+    <div class="new-comment-section">
+        <div class="btn btn-primary post-comment pull-right" disabled="disabled" ng-click="submitComment()">Post</div>
+        <input type="text" id="new-comment" placeholder="{{Resources.NewCommentPlaceholder}}" class="form-control" style="width:{{ScreenWidth - 54 - 30 - 10}}px;"/>
     </div>
     <div class="panel-footer" ng-if="Comments.length > 2" ng-click="showAllComments()">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>

@@ -55,6 +55,14 @@
                 @Html.Partial("../Profile/SmallProfileResultGrid", Model.RelatedProfessionals.Take(4).ToList())
             </div>
         }
+        
+        @if (Model.RelatedProducts.Any())
+        {
+            <h3 class="link related-products">@Localizer.Get("Search_RelatedProducts")</h3>
+            <div class="row results products">
+                @Html.Partial("../Product/SmallProductsResultGrid", Model.RelatedProducts.Take(4).ToList())
+            </div>
+        }
 
         <h1>
             @string.Format(Localizer.Get("SearchPhotos_Results_Title"), Model.TotalResults, Model.Q)

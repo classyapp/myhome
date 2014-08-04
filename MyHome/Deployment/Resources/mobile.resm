@@ -37,6 +37,20 @@
 			}
 		},
 		{
+			"Key": "Mobile_CollectionPage_CommentsSectionTitle",
+			"Description": "Mobile profile page comments section title",
+			"Values": {
+				"en": "Comments"
+			}
+		},
+		{
+			"Key": "Mobile_CollectionPage_CommentsFirstTitle",
+			"Description": "Mobile profile page first to comment title",
+			"Values": {
+				"en": "Be the first to comment"
+			}
+		},
+		{
 			"Key": "Mobile_CollectionPage_MoreCollectionsFromUser",
 			"Description": "Mobile collections page - more collections from this user section title",
 			"Values": {

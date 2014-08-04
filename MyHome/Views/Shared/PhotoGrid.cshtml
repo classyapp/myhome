@@ -1,7 +1,7 @@
 @using Classy.DotNet.Security
 @model MyHome.Models.PhotoGridViewModel
 
-@if (Model.Results.Count() > 0)
+@if (Model.Results.Any())
 {
     foreach (var p in Model.Results)
     {
