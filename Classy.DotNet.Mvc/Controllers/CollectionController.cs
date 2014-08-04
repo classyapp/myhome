@@ -84,8 +84,8 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult CollectionDetails(string collectionId, string view)
         {
-            if (MobileRedirect.IsMobileDevice())
-                return Redirect("~/Mobile/App.html#/Collection/" + collectionId);
+            //if (MobileRedirect.IsMobileDevice())
+            //    return Redirect("~/Mobile/App.html#/Collection/" + collectionId);
 
             try
             {
