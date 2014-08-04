@@ -47,7 +47,7 @@ classy.directive('classyHomeHeader', function($location, $http, AppSettings, Aut
 
                 $('body').delegate('.auto-suggestions .suggestion', 'click', function () {
                     var query = $(this).find('.content').data('suggestion-value');
-                    var section = $(this).closest('.suggestion-section').find('.title').html();
+                    var section = $(this).closest('.suggestion-section').find('.title').data('section-key');
                     switch (section) {
                         case 'Rooms':
                             window.location.href = '//' + $location.host() + ':' + $location.port() + window.location.pathname + '#/Search?room=' + query;

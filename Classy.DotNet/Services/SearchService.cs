@@ -75,18 +75,22 @@ namespace Classy.DotNet.Services
                 return new List<MobileSearchSuggestion> {
                     new MobileSearchSuggestion {
                         Name = Localizer.Get("Mobile_SearchAutoSuggest_RoomsSectionTitle"),
+                        Key = "Rooms",
                         Suggestions = suggestedRooms.Select(x => new SearchSuggestion {Key = x.Text, Value = x.Value}).ToList()
                     },
                     new MobileSearchSuggestion {
                         Name = Localizer.Get("Mobile_SearchAutoSuggest_StylesSectionTitle"),
+                        Key = "Styles",
                         Suggestions = suggestedStyles.Select(x => new SearchSuggestion { Key = x.Text, Value = x.Value }).ToList()
                     },
                     new MobileSearchSuggestion {
                         Name = Localizer.Get("Mobile_SearchAutoSuggest_ProductCategoriesSectionTitle"),
+                        Key = "Product Categories",
                         Suggestions = suggestedCategories.Select(x => new SearchSuggestion { Key = x.Text, Value = x.Value }).ToList()
                     },
                     new MobileSearchSuggestion {
                         Name = Localizer.Get("Mobile_SearchAutoSuggest_ProfileSectionTitle"),
+                        Key = "Professionals",
                         Suggestions = profileSuggestions.Select(x => new SearchSuggestion { Key = x.Value, Value = x.Key }).ToList()
                     }
                 };
@@ -97,6 +101,7 @@ namespace Classy.DotNet.Services
     public class MobileSearchSuggestion
     {
         public string Name { get; set; }
+        public string Key { get; set; }
         public List<SearchSuggestion> Suggestions { get; set; }
     }
 }
