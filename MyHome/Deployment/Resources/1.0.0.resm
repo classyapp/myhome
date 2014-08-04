@@ -2,6 +2,20 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_Header_ProfileLink",
+			"Description": "Mobile header presence menu profile link",
+			"Values": {
+				"en": "Profile"
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_SignOutLink",
+			"Description": "Mobile header presence menu sign out link",
+			"Values": {
+				"en": "Sign out"
+			}
+		},
+		{ 
 			"Key": "Mobile_SearchAutoSuggest_ProfileSectionTitle",
 			"Description": "Mobile search auto suggest profiles section title",
 			"Values": {

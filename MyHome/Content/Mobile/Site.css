@@ -371,3 +371,7 @@ only screen and (min-device-pixel-ratio : 1.5) {
 
 #header-search { position: absolute;left: 55px;margin-top: 6px;display: inline-block;width: 250px; }
 .home-header .search-icon { font-size: 32px;color: white;opacity: 0.7;float: right;margin-right: 10px;margin-top: 6px; }
+
+.home-header .presence-menu { position: absolute;top: 57px;right: 3px;padding: 4px;border: solid 1px #888;border-radius: 10px;background-color: #fff;z-index: 999;}
+.home-header .presence-menu .menu-link { padding: 4px 10px;border-bottom: solid 1px #ccc; }
+.home-header .presence-menu .menu-link.last { border-bottom: 0; } 

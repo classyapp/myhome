@@ -1,4 +1,4 @@
-classy.directive('classyHomeHeader', function($location, $http, AppSettings, AuthProvider, ClassyUtilities) {
+classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSettings, AuthProvider, ClassyUtilities, Localizer) {
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-header.html',
@@ -21,6 +21,15 @@ classy.directive('classyHomeHeader', function($location, $http, AppSettings, Aut
                     $location.url('/Profile/' + userId);
                 };
 
+                scope.openPresenceMenu = function () {
+                    var presenceMenu = $('.home-header .presence-menu');
+                    presenceMenu.removeClass('hidden');
+                    $timeout(function() {
+                        $('body').one('click', function() { presenceMenu.addClass('hidden'); });
+                    }, 500);
+
+                };
+
                 var searchInput = $('#header-search');
                 scope.displaySearch = function() {
                     searchInput.removeClass('hidden').focus().blur(scope.hideSearch);
@@ -28,6 +37,10 @@ classy.directive('classyHomeHeader', function($location, $http, AppSettings, Aut
                 scope.hideSearch = function() {
                     searchInput.addClass('hidden');
                 };
+
+                scope.Resources = {};
+                Localizer.Get('Mobile_Header_ProfileLink', appSettings.Culture).then(function (resource) { scope.Resources.ProfileLink = resource; });
+                Localizer.Get('Mobile_Header_SignOutLink', appSettings.Culture).then(function (resource) { scope.Resources.SignOutLink = resource; });
 
                 searchInput.keyup(function (e) {
                     var query = $(this).val().trim();

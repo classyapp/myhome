@@ -7,8 +7,14 @@
     <input type="text" id="header-search" class="form-control hidden" placeholder="Search..." />
 
     <span class="user-presence pull-right" ng-if="IsAuthenticated">
-        <img class="avatar" ng-src="{{User.Avatar.ImageUrl}}" ng-click="profilePage(User.Id)" />
+        <img class="avatar" ng-src="{{User.Avatar.ImageUrl}}" ng-click="openPresenceMenu()" />
     </span>
+    
+    <div class="presence-menu hidden">
+        <div class="menu-link profile-link" ng-bind-template="{{Resources.ProfileLink}}" ng-click="profilePage(User.Id)"></div>
+        <div class="menu-link last sign-out-link" ng-bind-template="{{Resources.SignOutLink}}" ng-click="signOut()"></div>
+    </div>
+
     <i class="glyphicon glyphicon-search search-icon" ng-click="displaySearch()"></i>
     <img src="../../img/homelab-logo.png" class="logo pull-left" ng-click="homePage()" />
     <div class="breaker"></div>
