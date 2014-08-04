@@ -4,12 +4,12 @@
         Log in
     </span>
     
-    <i class="glyphicon glyphicon-search search-icon" ng-click="displaySearch()"></i>
     <input type="text" id="header-search" class="form-control hidden" placeholder="Search..." />
 
     <span class="user-presence pull-right" ng-if="IsAuthenticated">
         <img class="avatar" ng-src="{{User.Avatar.ImageUrl}}" ng-click="profilePage(User.Id)" />
     </span>
+    <i class="glyphicon glyphicon-search search-icon" ng-click="displaySearch()"></i>
     <img src="../../img/homelab-logo.png" class="logo pull-left" ng-click="homePage()" />
     <div class="breaker"></div>
 </div>
