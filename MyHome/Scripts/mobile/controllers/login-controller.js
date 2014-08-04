@@ -2,9 +2,9 @@
 classy.controller('LoginController', function ($scope, $http, $location, AppSettings, ClassyUtilities, Localizer) {
 
     // enforce ssl
-    //if (window.location.protocol == 'http:') {
-    //    window.location.href = window.location.href.replace('http://', 'https://');
-    //}
+    if (window.location.protocol == 'http:') {
+        window.location.href = window.location.href.replace('http://', 'https://');
+    }
 
     ClassyUtilities.Screen.StaticViewport();
     AppSettings.then(function (appSettings) {
