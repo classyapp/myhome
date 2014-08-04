@@ -14,7 +14,7 @@
 
     <div class="price">
         <span class="label" ng-bind-template="{{Resources.PriceLabel}}"></span>
-        <span class="value" ng-bind-template="{{PricingInfo.Price}}"></span>
+        <span class="value" ng-bind-template="{{PricingInfo.Price + ' ' + CurrencyCode}}"></span>
         &nbsp;
         <span class="currency" ng-bind-template="{{PricingInfo.CurrencyCode}}"></span>
     </div>

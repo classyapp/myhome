@@ -17,6 +17,7 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
             $scope.PricingInfo = data.PricingInfo.BaseOption;
             $scope.PricingInfo.Price = $scope.PricingInfo.Price.toFixed(2);
             $scope.PricingInfo.CompareAtPrice = $scope.PricingInfo.CompareAtPrice.toFixed(2);
+            $scope.CurrencyCode = data.PricingInfo.CurrencyCode;
 
             $scope.ImageUrl = utilities.Images.Thumbnail(appSettings, data.ExternalMedia[0].Key, w - 16);
 
