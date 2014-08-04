@@ -6,7 +6,6 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         window.location.href = window.location.href.replace('http://', 'https://');
     }
 
-    ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.StaticViewport();
 
     $scope.currentSlide = 0;
@@ -118,7 +117,6 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
             $scope.Reviews = reviews;
 
             $timeout(initProfileHeader, 0);
-            $timeout(ClassyUtilities.PageLoader.Hide);
 
         }).error(function () {
             // TODO: display some error message

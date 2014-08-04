@@ -21,7 +21,11 @@ localizerService.factory('Localizer', [ '$http', '$q', 'AppSettings', 'CacheProv
                     return;
                 }
                 CacheProvider.put(key, response.data.Values);
-                d.resolve(response.data.Values[culture.toLowerCase()]);
+
+                if (response.data.Values[culture.toLowerCase()])
+                    d.resolve(response.data.Values[culture.toLowerCase()]);
+                else
+                    d.resolve(response.data.Values["en"]);
             });
         });
         return d.promise;
