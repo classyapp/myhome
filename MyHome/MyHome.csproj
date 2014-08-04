@@ -171,6 +171,7 @@
     <Content Include="Content\ltr\simple-slider-volume.css" />
     <Content Include="Content\ltr\simple-slider.css" />
     <Content Include="Content\ltr\Site.css" />
+    <Content Include="Content\Mobile\idangerous.swiper.css" />
     <Content Include="Content\Mobile\Site.css" />
     <Content Include="Content\rtl\bootstrap-tagsinput.css" />
     <Content Include="Content\rtl\bootstrap.css" />
@@ -536,6 +537,7 @@
     <Content Include="Scripts\mobile\directives\classy-home-header.js" />
     <Content Include="Scripts\mobile\directives\classy-listing.js" />
     <Content Include="Scripts\mobile\directives\classy-scrollable.js" />
+    <Content Include="Scripts\mobile\idangerous.swiper.min.js" />
     <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />
     <Content Include="Scripts\mobile\app-manager.js" />
