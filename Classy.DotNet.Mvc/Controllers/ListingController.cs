@@ -323,6 +323,7 @@ namespace Classy.DotNet.Mvc.Controllers
             //if (MobileRedirect.IsMobileDevice())
             //    if (ListingTypeName == "Product")
             //        return Redirect("~/Mobile/App.html#/Product/" + listingId);
+
             try
             {
                 var listing = service.GetListingById(
