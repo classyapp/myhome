@@ -34,8 +34,8 @@ h3 { font-size: 16px;margin-top: 0; }
 .header-cover .pane2 .description { vertical-align: middle;line-height: normal;white-space: normal;display: inline-block; }
 .header-cover .arrow { color: #eee;font-size: 30px;opacity: 0.4;position: absolute;cursor: pointer; }
 .header-cover .arrow:hover { opacity: 1; }
-.header-cover .arrow.right { right: 10px;top: 80px;}
-.header-cover .arrow.left { left: 10px;top: 80px;}
+.header-cover .arrow.right { right: 10px;top: 58px;}
+.header-cover .arrow.left { left: 10px;top: 58px;}
 
 
 .section-title { padding: 4px 15px;font-weight: bold;color: #777; }
@@ -45,7 +45,7 @@ h3 { font-size: 16px;margin-top: 0; }
 @media screen and (max-width : 800px) {
     .profile-details h1 { font-size: 18px; }
 }
-.profile-header { overflow: hidden; }
+.profile-header { overflow: hidden;margin-top: -5px;position: relative;}
 .profile-header .avatar { width: 60px;height: 60px; margin-bottom: 10px; border: solid 2px white;}
 .profile-header .rating { font-size: 18px;text-shadow: none; }
 
