@@ -1,4 +1,4 @@
-classy.directive('classyArticle', function ($http, $location, AppSettings, ClassyUtilities) {
+classy.directive('classyArticle', function ($http, $location, AppSettings, ClassyUtilities, Localizer) {
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-article.html',
@@ -27,6 +27,9 @@ classy.directive('classyArticle', function ($http, $location, AppSettings, Class
                     scope.articlePage = function() {
                         $location.url('/Collection/' + data.Id + '/article');
                     };
+
+                    scope.Resources = {};
+                    Localizer.Get('Mobile_Home_ArticleMorePhotos', appSettings.Culture).then(function (resource) { scope.Resources.MorePhotosLink = resource; });
 
                 });
             });

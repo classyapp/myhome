@@ -2,6 +2,34 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_CollectionPage_NewCommentPlaceholder",
+			"Description": "Mobile collection page new comment input watermark",
+			"Values": {
+				"en": "Write a comment..."
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_SearchPlaceholder",
+			"Description": "Mobile header search placeholder",
+			"Values": {
+				"en": "Search..."
+			}
+		},
+		{ 
+			"Key": "Mobile_Header_LoginLink",
+			"Description": "Mobile header login link",
+			"Values": {
+				"en": "Login"
+			}
+		},
+		{ 
+			"Key": "Mobile_Home_ArticleMorePhotos",
+			"Description": "Mobile home article more photos link",
+			"Values": {
+				"en": "photos >>"
+			}
+		},
+		{ 
 			"Key": "Mobile_Header_ProfileLink",
 			"Description": "Mobile header presence menu profile link",
 			"Values": {

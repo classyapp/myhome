@@ -97,6 +97,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
             Localizer.Get('Mobile_CollectionPage_Comments', appSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
             Localizer.Get('Mobile_CollectionPage_CommentsSectionTitle', appSettings.Culture).then(function (resource) { $scope.Resources.CommentsSectionTitle = resource; });
             Localizer.Get('Mobile_CollectionPage_CommentsFirstTitle', appSettings.Culture).then(function (resource) { $scope.Resources.CommentsFirstTitle = resource; });
+            Localizer.Get('Mobile_CollectionPage_NewCommentPlaceholder', appSettings.Culture).then(function (resource) { $scope.Resources.NewCommentPlaceholder = resource; });
 
             $scope.submitComment = function () {
                 if (!$scope.IsAuthenticated) {

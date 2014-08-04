@@ -493,7 +493,6 @@
     <Content Include="Mobile\Home\classy-listing.html" />
     <Content Include="Mobile\search-page.html" />
     <Content Include="Mobile\collection-article.html" />
-    <Content Include="Mobile\classy-header.html" />
     <Content Include="Mobile\login.html" />
     <Content Include="Mobile\collection-slideshow.html" />
     <Content Include="Mobile\listing-fullscreen.html" />
@@ -536,7 +535,6 @@
     <Content Include="Scripts\mobile\directives\classy-collection.js" />
     <Content Include="Scripts\mobile\directives\classy-home-header.js" />
     <Content Include="Scripts\mobile\directives\classy-listing.js" />
-    <Content Include="Scripts\mobile\directives\classy-header.js" />
     <Content Include="Scripts\mobile\directives\classy-scrollable.js" />
     <Content Include="Scripts\mobile\hammer.js" />
     <Content Include="Scripts\mobile\localizer.js" />

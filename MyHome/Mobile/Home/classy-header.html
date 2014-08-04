@@ -1,10 +1,8 @@
 ﻿
 <div class="home-header">
-    <span class="login-link pull-right" ng-if="!IsAuthenticated" ng-click="loginPage()">
-        Log in
-    </span>
+    <span class="login-link pull-right" ng-if="!IsAuthenticated" ng-click="loginPage()" ng-bind-template="{{Resources.LoginLink}}"></span>
     
-    <input type="text" id="header-search" class="form-control hidden" placeholder="Search..." />
+    <input type="text" id="header-search" class="form-control hidden" placeholder="{{Resources.SearchPlaceholder}}" />
 
     <span class="user-presence pull-right" ng-if="IsAuthenticated">
         <img class="avatar" ng-src="{{User.Avatar.ImageUrl}}" ng-click="openPresenceMenu()" />

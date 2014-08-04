@@ -44,6 +44,8 @@ classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSet
                 scope.Resources = {};
                 Localizer.Get('Mobile_Header_ProfileLink', appSettings.Culture).then(function (resource) { scope.Resources.ProfileLink = resource; });
                 Localizer.Get('Mobile_Header_SignOutLink', appSettings.Culture).then(function (resource) { scope.Resources.SignOutLink = resource; });
+                Localizer.Get('Mobile_Header_LoginLink', appSettings.Culture).then(function (resource) { scope.Resources.LoginLink = resource; });
+                Localizer.Get('Mobile_Header_SearchPlaceholder', appSettings.Culture).then(function (resource) { scope.Resources.SearchPlaceholder = resource; });
 
                 searchInput.keyup(function (e) {
                     var query = $(this).val().trim();

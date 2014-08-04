@@ -71,7 +71,7 @@
     </div>
     <div class="new-comment-section">
         <div class="btn btn-primary post-comment pull-right" disabled="disabled" ng-click="submitComment()">Post</div>
-        <input type="text" id="new-comment" placeholder="Write a comment..." class="form-control" style="width:{{ScreenWidth - 54 - 30 - 10}}px;"/>
+        <input type="text" id="new-comment" placeholder="{{Resources.NewCommentPlaceholder}}" class="form-control" style="width:{{ScreenWidth - 54 - 30 - 10}}px;"/>
     </div>
     <div class="panel-footer" ng-if="Comments.length > 2" ng-click="showAllComments()">
         <span class="view-all" ng-bind-template="{{Resources.ViewAllComments}}"></span>
