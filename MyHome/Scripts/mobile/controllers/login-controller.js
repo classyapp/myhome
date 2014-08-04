@@ -1,5 +1,5 @@
 
-classy.controller('LoginController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer) {
+classy.controller('LoginController', function ($scope, $http, $location, AppSettings, ClassyUtilities, Localizer) {
 
     // enforce ssl
     //if (window.location.protocol == 'http:') {
@@ -64,8 +64,8 @@ classy.controller('LoginController', function ($scope, $http, AppSettings, Class
         }, { scope: 'basic_info,email,user_friends,user_photos,user_website,publish_actions' });
     };
 
-    var OnFacebookLogin = function() {
-        // do something upon successful facebook login
+    var OnFacebookLogin = function () {
+        $location.url('/');
     };
 
     var OnLoginError = function() {
