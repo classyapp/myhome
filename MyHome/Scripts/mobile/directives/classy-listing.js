@@ -34,8 +34,9 @@ classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilit
                     $('.swiper-container').swiper({
                         mode: 'horizontal',
                         loop: true,
-                        preventLinks: false,
-                        preventLinksPropagation: true
+                        preventLinks: true,
+                        preventLinksPropagation: false,
+                        shortSwipes: false
                     });
                 });
 
