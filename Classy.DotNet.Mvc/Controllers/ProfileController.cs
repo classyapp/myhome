@@ -492,8 +492,8 @@ namespace Classy.DotNet.Mvc.Controllers
         [ImportModelStateFromTempData]
         public ActionResult PublicProfile(string profileId, string ead)
         {
-            if (MobileRedirect.IsMobileDevice())
-                return Redirect("~/Mobile/App.html#/Profile/" + profileId);
+            //if (MobileRedirect.IsMobileDevice())
+            //    return Redirect("~/Mobile/App.html#/Profile/" + profileId);
 
             try
             {
