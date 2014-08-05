@@ -23,7 +23,9 @@ classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilit
                             Id: listingId,
                             CollectionId: collectionId,
                             ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, data.ExternalMedia[0].Key, w, 300),
-                            CopyrightMessage: ClassyUtilities.Listing.GetCopyrightMessage(data)
+                            CopyrightMessage: ClassyUtilities.Listing.GetCopyrightMessage(data),
+                            ProfileImage: ClassyUtilities.Images.Thumbnail(appSettings, data.Profile.Avatar.Key, 35, 35),
+                            ProfileName: data.Profile.UserName
                         });
                     });
                     promises.push(q);
