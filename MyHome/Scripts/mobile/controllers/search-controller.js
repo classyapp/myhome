@@ -53,6 +53,10 @@ classy.controller('SearchController', function ($scope, $http, $routeParams, $lo
             $scope.Resources = [];
             Localizer.Get('Mobile_SearchPage_SearchResultsTitle', appSettings.Culture).then(function (resource) { $scope.Resources.SearchResults = resource; });
             Localizer.Get('Mobile_SearchPage_EmptyResultsMessage', appSettings.Culture).then(function (resource) { $scope.Resources.EmptyResults = resource; });
+            Localizer.Get('Mobile_SearchPage_MinPrice', appSettings.Culture).then(function (resource) { $scope.Resources.MinPrice = resource; });
+            Localizer.Get('Mobile_SearchPage_MaxPrice', appSettings.Culture).then(function (resource) { $scope.Resources.MaxPrice = resource; });
+            Localizer.Get('Mobile_SearchPage_Search', appSettings.Culture).then(function (resource) { $scope.Resources.Search = resource; });
+            Localizer.Get('Mobile_SearchPage_Filter', appSettings.Culture).then(function (resource) { $scope.Resources.Filter = resource; });
 
         }).error(function(ex) {
             // TODO: display some error message
