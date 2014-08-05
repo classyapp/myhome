@@ -382,3 +382,8 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .page-loader.backdrop { position: fixed;top: 0;width: 100%;height: 100%;background-color: rgba(200,200,200,0.5);z-index: 9999; }
 .page-loader .loading-container { position: fixed;top: 100px;padding: 10px 20px;background-color: #fff;font-size: 26px;border: solid 1px #000;border-radius: 10px;width: 204px;font-weight: bold;}
 .page-loader .loading-container i { margin-top: 5px; }
+
+.search-filters-container { background-color: #fff;padding: 10px; }
+.search-filters-container .form-field { margin-bottom: 10px; }
+.search-filters-container .label { color: #000;font-size: 18px;display: inline-block;width: 100px;vertical-align: middle;margin-right: 10px; }
+.search-filters-container input { display: inline-block;width: 100px; }

@@ -21,6 +21,14 @@ classy.controller('SearchController', function ($scope, $http, $routeParams, $lo
         if (room) postData["Metadata"] = { 'Room': room };
         if (category) postData.Categories = [category];
 
+        $scope.filterSearch = function() {
+            var minPrice = $('.search-filters-container').find('#min-price').val();
+            var maxPrice = $('.search-filters-container').find('#max-price').val();
+            if (minPrice.trim() == '') $.query.REMOVE('priceMin'); else $.query.SET('priceMin', minPrice);
+            if (maxPrice.trim() == '') $.query.REMOVE('priceMax'); else $.query.SET('priceMax', maxPrice);
+            window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + '#' + decodeURIComponent($.query.toString().substring(1));
+        };
+
         $http.post(appSettings.ApiUrl + '/listing/search' + queryString, postData, config).success(function(data) {
 
             var imageWidth = parseInt((ClassyUtilities.Screen.GetWidth() - (16 * 4)) / 3);
