@@ -22,8 +22,8 @@ namespace Classy.DotNet.Mvc.Controllers
 
         public ActionResult Home()
         {
-            //if (MobileRedirect.IsMobileDevice())
-            //    return Redirect("~/Mobile/App.html");
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html");
 
             var service = new ListingService();
 
