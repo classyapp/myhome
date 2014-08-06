@@ -1,9 +1,16 @@
 ﻿
-<div class="article-hero" style="background-image: url('{{CoverPhoto}}')" ng-click="articlePage()">
+<div class="article-swiper-container">
+    <div class="swiper-container article-swiper" style="width:{{ScreenWidth}}px;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide article-hero" style="background-image: url('{{CoverPhoto}}')" ng-repeat="CoverPhoto in CoverPhotos">
+            </div>
+        </div>
+    </div>
+    
     <div class="title-container">
         <span class="title" ng-bind-template="{{Title}}"></span>
     </div>
     <div class="photo-link-container">
-        <span class="photos-link" ng-bind-template="{{Listings.length + ' ' + Resources.MorePhotosLink}}"></span>
+        <span class="photos-link" ng-bind-template="{{Listings.length + ' ' + Resources.MorePhotosLink}}" ng-click="articlePage()"></span>
     </div>
 </div>

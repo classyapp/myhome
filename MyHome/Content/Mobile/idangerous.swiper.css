@@ -89,6 +89,7 @@ sizes, pagination, etc.
 .swiper-slide {
 	/* Specify Slides's Size: */
     height: 300px;
+    width: 100%;
 }
 .swiper-slide-active {
 	/* Specific active slide styling: */

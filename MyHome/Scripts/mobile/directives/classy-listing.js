@@ -33,7 +33,7 @@ classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilit
                 scope.FeaturedListings = featuredListings;
 
                 $q.all(promises).then(function() {
-                    $('.swiper-container').swiper({
+                    $('.swiper-container.listing-swiper').swiper({
                         mode: 'horizontal',
                         loop: true,
                         preventLinks: true,

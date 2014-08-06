@@ -367,10 +367,10 @@ only screen and (min-device-pixel-ratio : 1.5) {
 .home-header .login-link { color: #fff;height: 45px;line-height: 45px;text-decoration: underline; }
 .home-header .user-presence .avatar { border-radius: 22px; }
 
-.article-hero { height: 230px;position: relative;}
-.article-hero .title-container { position: absolute;top: 20px;left: 20px; }
-.article-hero .title-container .title { font-size: 22px;padding: 6px;color: #fff;background-color: #000;opacity: 0.8;line-height: 42px; }
-.article-hero .photos-link { position: absolute;bottom: 20px;right: 20px;background-color: #000;color: #fff;opacity: 0.8;padding: 4px;}
+.article-swiper-container { position: relative;}
+.article-swiper-container .title-container { position: absolute;top: 20px;left: 20px;z-index: 10; }
+.article-swiper-container .title-container .title { font-size: 22px;padding: 6px;color: #fff;background-color: #000;opacity: 0.8;line-height: 42px; }
+.article-swiper-container .photo-link-container { position: absolute;bottom: 20px;right: 20px;background-color: #000;color: #fff;opacity: 0.8;padding: 4px;z-index: 10;}
 
 #header-search { position: absolute;left: 55px;margin-top: 6px;display: inline-block;width: 250px; }
 .home-header .search-icon { font-size: 32px;color: white;opacity: 0.7;float: right;margin-right: 10px;margin-top: 6px; }

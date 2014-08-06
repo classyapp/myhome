@@ -1,5 +1,5 @@
 ﻿
-<div class="swiper-container" style="width:{{ScreenWidth}}px;">
+<div class="swiper-container listing-swiper" style="width:{{ScreenWidth}}px;">
     <div class="swiper-wrapper">
         <div class="swiper-slide listing-hero" style="width:{{ScreenWidth}}px;" ng-repeat="listing in FeaturedListings">
             <a href="javascript:void(0);" data-listing-id="{{listing.Id}}" data-collection-id="{{listing.CollectionId}}" onclick="Classy.OpenListing(this);"><img ng-src="{{listing.ImageUrl}}" /></a>

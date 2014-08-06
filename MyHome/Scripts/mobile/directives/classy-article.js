@@ -1,4 +1,4 @@
-classy.directive('classyArticle', function ($http, $location, AppSettings, ClassyUtilities, Localizer) {
+classy.directive('classyArticle', function ($http, $location, $timeout, AppSettings, ClassyUtilities, Localizer) {
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-article.html',
@@ -13,7 +13,12 @@ classy.directive('classyArticle', function ($http, $location, AppSettings, Class
                     scope.Id = data.Id;
                     scope.Title = data.Title;
                     scope.Content = data.Content;
-                    scope.CoverPhoto = ClassyUtilities.Images.Thumbnail(appSettings, data.CoverPhotos[0], w, 300);
+
+                    var covers = [];
+                    data.CoverPhotos.forEach(function(cover) {
+                        covers.push(ClassyUtilities.Images.Thumbnail(appSettings, cover, w, 300));
+                    });
+                    scope.CoverPhotos = covers;
 
                     var listings = [];
                     data.IncludedListings.forEach(function(listing) {
@@ -30,6 +35,16 @@ classy.directive('classyArticle', function ($http, $location, AppSettings, Class
 
                     scope.Resources = {};
                     Localizer.Get('Mobile_Home_ArticleMorePhotos', appSettings.Culture).then(function (resource) { scope.Resources.MorePhotosLink = resource; });
+
+                    $timeout(function() {
+                        $('.swiper-container.article-swiper').swiper({
+                            mode: 'horizontal',
+                            loop: true,
+                            preventLinks: true,
+                            preventLinksPropagation: false,
+                            shortSwipes: false
+                        });
+                    });
 
                 });
             });
