@@ -30,7 +30,7 @@ classy.controller('HomeController', function ($scope, $http, $compile, AppSettin
                     mainContainer.append(newElement);
             }
         }
-        
+
     });
 
 });

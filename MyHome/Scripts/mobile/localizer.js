@@ -18,7 +18,7 @@ localizerService.factory('Localizer', [ '$http', '$q', 'AppSettings', 'CacheProv
             $http.get(appSettings.ApiUrl + '/resource/' + key, config).then(function (response) {
                 if (response.data == '') {
                     d.resolve(key);
-                    return;
+                    return d.promise;
                 }
                 CacheProvider.put(key, response.data.Values);
 

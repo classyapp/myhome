@@ -1,7 +1,9 @@
 
-classy.controller('CollectionSlideShowController', function($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout, $location, AuthProvider, $route) {
-
+classy.controller('CollectionSlideShowController', function($scope, $http, $q, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout, $location, AuthProvider, $route) {
+    ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.ZoomableViewport();
+
+    var promises = [];
 
     AppSettings.then(function(appSettings) {
 
@@ -32,10 +34,11 @@ classy.controller('CollectionSlideShowController', function($scope, $http, AppSe
             });
             $scope.Listings = listings;
 
-//            $timeout(loadImages);
             $timeout(function() { selectImage($routeParams.photoId); });
 
             $scope.loadComments($routeParams.photoId);
+
+            $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
 
         }).error(function() {
             // TODO: display some error message

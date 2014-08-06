@@ -1,6 +1,10 @@
 
 classy.controller('LoginController', function ($scope, $http, $location, AppSettings, ClassyUtilities, Localizer) {
 
+    ClassyUtilities.PageLoader.Show();
+
+    var promises = [];
+
     // enforce ssl
     if (window.location.protocol == 'http:') {
         window.location.href = window.location.href.replace('http://', 'https://');
@@ -29,15 +33,17 @@ classy.controller('LoginController', function ($scope, $http, $location, AppSett
         };
 
         $scope.Resources = {};
-        Localizer.Get('Login_Facebook', appSettings.Culture).then(function (resource) { $scope.Resources.LoginFacebook = resource; });
-        Localizer.Get('Login', appSettings.Culture).then(function (resource) { $scope.Resources.Login = resource; });
-        Localizer.Get('Login_Email', appSettings.Culture).then(function (resource) { $scope.Resources.LoginEmail = resource; });
-        Localizer.Get('Login_Password', appSettings.Culture).then(function (resource) { $scope.Resources.LoginPassword = resource; });
-        Localizer.Get('Login_RememberMe', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRememberMe = resource; });
-        Localizer.Get('Login_Submit', appSettings.Culture).then(function (resource) { $scope.Resources.LoginSubmit = resource; });
-        Localizer.Get('Login_Register', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRegister = resource; });
-        Localizer.Get('Login_ForgotPassword', appSettings.Culture).then(function (resource) { $scope.Resources.LoginForgotPassword = resource; });
-        Localizer.Get('Mobile_Login_LoginErrorMessage', appSettings.Culture).then(function(resource) { $scope.Resources.LoginErrorMessage = resource; });
+        promises.push(Localizer.Get('Login_Facebook', appSettings.Culture).then(function (resource) { $scope.Resources.LoginFacebook = resource; }));
+        promises.push(Localizer.Get('Login', appSettings.Culture).then(function (resource) { $scope.Resources.Login = resource; }));
+        promises.push(Localizer.Get('Login_Email', appSettings.Culture).then(function (resource) { $scope.Resources.LoginEmail = resource; }));
+        promises.push(Localizer.Get('Login_Password', appSettings.Culture).then(function (resource) { $scope.Resources.LoginPassword = resource; }));
+        promises.push(Localizer.Get('Login_RememberMe', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRememberMe = resource; }));
+        promises.push(Localizer.Get('Login_Submit', appSettings.Culture).then(function (resource) { $scope.Resources.LoginSubmit = resource; }));
+        promises.push(Localizer.Get('Login_Register', appSettings.Culture).then(function (resource) { $scope.Resources.LoginRegister = resource; }));
+        promises.push(Localizer.Get('Login_ForgotPassword', appSettings.Culture).then(function (resource) { $scope.Resources.LoginForgotPassword = resource; }));
+        promises.push(Localizer.Get('Mobile_Login_LoginErrorMessage', appSettings.Culture).then(function(resource) { $scope.Resources.LoginErrorMessage = resource; }));
+
+        $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
 
     });
 

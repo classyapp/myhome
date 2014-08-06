@@ -1,11 +1,12 @@
 
-classy.controller('ProfileController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
+classy.controller('ProfileController', function ($scope, $http, $q, AppSettings, ClassyUtilities, Localizer, $routeParams, $timeout) {
 
     // enforce ssl
     if (window.location.protocol == 'http:') {
         window.location.href = window.location.href.replace('http://', 'https://');
     }
 
+    ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.StaticViewport();
 
     $scope.currentSlide = 0;
@@ -52,15 +53,16 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
         $('.profile-reviews .panel-footer').addClass('hidden');
     };
 
-    AppSettings.then(function (appSettings) {
+    AppSettings.then(function(appSettings) {
 
+        var promises = [];
         var utilities = ClassyUtilities;
         var w = utilities.Screen.GetWidth();
         var h = utilities.Screen.GetHeight();
 
         var profileId = parseInt($routeParams.profileId);
-        
-        $http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
+
+        promises.push($http.get(appSettings.ApiUrl + '/profile/' + profileId + '?includeCollections=true&includeReviews=true', config).success(function(data) {
             $scope.profileDetails = data;
 
             // organize collections
@@ -100,7 +102,7 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
                     $scope.CoverPhotos.push(utilities.Images.Thumbnail(appSettings, imageKey, w, h));
                 });
             } else {
-                $scope.CoverPhotos = [ appSettings.Host + '/img/blueprint.jpg' ];
+                $scope.CoverPhotos = [appSettings.Host + '/img/blueprint.jpg'];
             }
 
             // reviews
@@ -118,18 +120,20 @@ classy.controller('ProfileController', function ($scope, $http, AppSettings, Cla
 
             $timeout(initProfileHeader, 0);
 
-        }).error(function () {
+        }).error(function() {
             // TODO: display some error message
-        });
+        }));
 
         // get localized resources
         $scope.Resources = {};
-        Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllProjects = resource; });
-        Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllCollections = resource; });
-        Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function (resource) { $scope.Resources.ViewAllReviews = resource; });
-        Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
-        Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture).then(function (resource) { $scope.Resources.Followers = resource; });
-        Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture).then(function (resource) { $scope.Resources.Following = resource; });
+        promises.push(Localizer.Get('Mobile_ProfilePage_ViewAllProjects', AppSettings.Culture).then(function(resource) { $scope.Resources.ViewAllProjects = resource; }));
+        promises.push(Localizer.Get('Mobile_ProfilePage_ViewAllCollections', AppSettings.Culture).then(function(resource) { $scope.Resources.ViewAllCollections = resource; }));
+        promises.push(Localizer.Get('Mobile_ProfilePage_ViewAllReviews', AppSettings.Culture).then(function(resource) { $scope.Resources.ViewAllReviews = resource; }));
+        promises.push(Localizer.Get('Mobile_ProfilePage_Views', AppSettings.Culture).then(function(resource) { $scope.Resources.Views = resource; }));
+        promises.push(Localizer.Get('Mobile_ProfilePage_Followers', AppSettings.Culture).then(function(resource) { $scope.Resources.Followers = resource; }));
+        promises.push(Localizer.Get('Mobile_ProfilePage_Following', AppSettings.Culture).then(function(resource) { $scope.Resources.Following = resource; }));
+
+        $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
 
         $scope.share = function (network) {
             var url = window.location.protocol + appSettings.Host + '/profile/' + $routeParams.profileId;
