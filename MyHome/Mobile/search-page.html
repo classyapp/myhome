@@ -1,7 +1,24 @@
 ﻿
 <classy-home-header></classy-home-header>
 
-<div class="section-title" ng-bind-template="{{Resources.SearchResults}}"></div>
+<div class="search-filters-container">
+    <div class="form-field">
+        <span class="label" ng-bind-template="{{Resources.MinPrice}}">Min price : </span>
+        <input type="text" id="min-price" class="form-control" />
+    </div>
+    <div class="form-field">
+        <span class="label" ng-bind-template="{{Resources.MaxPrice}}">Max price : </span>
+        <input type="text" id="max-price" class="form-control" />
+    </div>
+    <div class="clearfix">
+        <span class="btn btn-primary pull-right" ng-click="filterSearch()" ng-bind-template="{{Resources.Search}}">Search</span>
+    </div>
+</div>
+
+<div class="section-title" style="border:solid 1px #ddd;">
+    <span class="title" ng-bind-template="{{Resources.SearchResults}}"></span>
+    <span class="filter pull-right" ng-click="openFilter()" ng-bind-template="{{Resources.Filter}}">Filter</span>
+</div>
 <div class="listings panel panel-default" ng-if="Results.length > 0">
     <div class="panel-body listings-container">
         <div class="listing grid" ng-repeat="listing in Results" style="width:{{ListingImageWidth}}px;" ng-click="productPage(listing.Id)">

@@ -27,6 +27,7 @@
         <script src="../Scripts/mobile/angular/angular-animate.js"></script>
         <script src="../Scripts/mobile/angular/angular-touch.js"></script>
         <script src="../Scripts/mobile/idangerous.swiper.min.js"></script>
+        <script src="../Scripts/jquery.query.js"></script>
         
         <!-- classy mobile infrastructure -->
         <script src="../Scripts/mobile/common.js"></script>
@@ -57,7 +58,13 @@
 
     </head>
     <body>
-        
+        <div class="page-loader backdrop hidden">
+            <div class="loading-container">
+                <span>Loading...</span>
+                <i class="fa fa-spinner fa-spin pull-left"></i>
+            </div>
+        </div>
+
         <div class="main-container container-fluid" ng-view>
             <!-- AngularJS Template Here -->
         </div>

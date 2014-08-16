@@ -2,6 +2,34 @@
 	"AppId" : "v1.0",
 	"Resources": [
 		{ 
+			"Key": "Mobile_SearchPage_MinPrice",
+			"Description": "Mobile search page min price label",
+			"Values": {
+				"en": "Min Price : "
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchPage_MaxPrice",
+			"Description": "Mobile search page max price label",
+			"Values": {
+				"en": "Max Price : "
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchPage_Search",
+			"Description": "Mobile search page filter search button",
+			"Values": {
+				"en": "Search"
+			}
+		},
+		{ 
+			"Key": "Mobile_SearchPage_Filter",
+			"Description": "Mobile search page filter",
+			"Values": {
+				"en": "Filter"
+			}
+		},
+		{ 
 			"Key": "Mobile_General_Loading",
 			"Description": "Mobile pages loading message",
 			"Values": {

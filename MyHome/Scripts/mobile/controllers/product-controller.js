@@ -1,5 +1,5 @@
-
-classy.controller('ProductController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+classy.controller('ProductController', function ($scope, $http, $q, AppSettings, ClassyUtilities, Localizer, $routeParams) {
+    ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.StaticViewport();
 
     AppSettings.then(function (appSettings) {
@@ -7,8 +7,9 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
         var utilities = ClassyUtilities;
         var w = utilities.Screen.GetWidth();
         var h = utilities.Screen.GetHeight();
+        var promises = [];
 
-        $http.get(appSettings.ApiUrl + '/listing/' + $routeParams.productId + '?includeComments=true&includeCommenterProfiles=true', config).success(function(data) {
+        promises.push($http.get(appSettings.ApiUrl + '/listing/' + $routeParams.productId + '?includeComments=true&includeCommenterProfiles=true', config).success(function(data) {
 
             $scope.Id = data.Id;
             $scope.Title = data.Title;
@@ -34,14 +35,16 @@ classy.controller('ProductController', function ($scope, $http, AppSettings, Cla
 
         }).error(function () {
             // TODO: display some error message
-        });
+        }));
 
         // get localized resources
         $scope.Resources = {};
-        Localizer.Get('Mobile_ProductPage_PriceLabel', AppSettings.Culture).then(function (resource) { $scope.Resources.PriceLabel = resource; });
-        Localizer.Get('Mobile_ProductPage_DescriptionTitle', AppSettings.Culture).then(function (resource) { $scope.Resources.Description = resource; });
-        Localizer.Get('Mobile_ProductPage_CommentsTitle', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
-        
+        promises.push(Localizer.Get('Mobile_ProductPage_PriceLabel', AppSettings.Culture).then(function (resource) { $scope.Resources.PriceLabel = resource; }));
+        promises.push(Localizer.Get('Mobile_ProductPage_DescriptionTitle', AppSettings.Culture).then(function (resource) { $scope.Resources.Description = resource; }));
+        promises.push(Localizer.Get('Mobile_ProductPage_CommentsTitle', AppSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; }));
+
+        $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
+
     });
 
     $scope.showAllComments = function () {

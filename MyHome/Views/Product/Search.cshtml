@@ -1,8 +1,5 @@
-@using System.Net.Mime
 @using Classy.DotNet.Mvc.Extensions
 @using Classy.DotNet.Responses
-@using CsQuery.EquationParser.Implementation
-@using ServiceStack.Text
 @model Classy.DotNet.Mvc.ViewModels.Listing.SearchListingsViewModel<MyHome.Models.ProductMetadata>
 
 @{
@@ -20,9 +17,9 @@
     var subCategories = chosenCategory == null ? topLevelCategories : allCategories.Where(x => x.ParentValue == chosenCategory);
 
     var categoryParents = new List<string> { chosenCategory };
-    var chosenCategoryItem = allCategories.First(x => x.Value == chosenCategory);
+    var chosenCategoryItem = allCategories.FirstOrDefault(x => x.Value == chosenCategory);
 
-    var parentCategory = chosenCategoryItem.ParentValue;
+    var parentCategory = chosenCategoryItem != null ? chosenCategoryItem.ParentValue : null;
     while (!parentCategory.IsNullOrEmpty())
     {
         categoryParents.Add(parentCategory);

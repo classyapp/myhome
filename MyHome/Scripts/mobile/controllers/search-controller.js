@@ -1,9 +1,10 @@
-
-classy.controller('SearchController', function ($scope, $http, $routeParams, $location, AppSettings, ClassyUtilities, Localizer) {
+classy.controller('SearchController', function ($scope, $http, $routeParams, $location, $q, AppSettings, ClassyUtilities, Localizer) {
+    ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.StaticViewport();
     
     AppSettings.then(function (appSettings) {
 
+        var promises = [];
         var q = $routeParams.q;
         var style = $routeParams.style;
         var room = $routeParams.room;
@@ -20,6 +21,14 @@ classy.controller('SearchController', function ($scope, $http, $routeParams, $lo
         if (style) postData["Metadata"] = { 'Style': style };
         if (room) postData["Metadata"] = { 'Room': room };
         if (category) postData.Categories = [category];
+
+        $scope.filterSearch = function() {
+            var minPrice = $('.search-filters-container').find('#min-price').val();
+            var maxPrice = $('.search-filters-container').find('#max-price').val();
+            if (minPrice.trim() == '') $.query.REMOVE('priceMin'); else $.query.SET('priceMin', minPrice);
+            if (maxPrice.trim() == '') $.query.REMOVE('priceMax'); else $.query.SET('priceMax', maxPrice);
+            window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + '#' + decodeURIComponent($.query.toString().substring(1));
+        };
 
         $http.post(appSettings.ApiUrl + '/listing/search' + queryString, postData, config).success(function(data) {
 
@@ -43,8 +52,14 @@ classy.controller('SearchController', function ($scope, $http, $routeParams, $lo
             $scope.Total = data.Count;
 
             $scope.Resources = [];
-            Localizer.Get('Mobile_SearchPage_SearchResultsTitle', appSettings.Culture).then(function (resource) { $scope.Resources.SearchResults = resource; });
-            Localizer.Get('Mobile_SearchPage_EmptyResultsMessage', appSettings.Culture).then(function (resource) { $scope.Resources.EmptyResults = resource; });
+            promises.push(Localizer.Get('Mobile_SearchPage_SearchResultsTitle', appSettings.Culture).then(function (resource) { $scope.Resources.SearchResults = resource; }));
+            promises.push(Localizer.Get('Mobile_SearchPage_EmptyResultsMessage', appSettings.Culture).then(function (resource) { $scope.Resources.EmptyResults = resource; }));
+            promises.push(Localizer.Get('Mobile_SearchPage_MinPrice', appSettings.Culture).then(function (resource) { $scope.Resources.MinPrice = resource; }));
+            promises.push(Localizer.Get('Mobile_SearchPage_MaxPrice', appSettings.Culture).then(function (resource) { $scope.Resources.MaxPrice = resource; }));
+            promises.push(Localizer.Get('Mobile_SearchPage_Search', appSettings.Culture).then(function (resource) { $scope.Resources.Search = resource; }));
+            promises.push(Localizer.Get('Mobile_SearchPage_Filter', appSettings.Culture).then(function (resource) { $scope.Resources.Filter = resource; }));
+
+            $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
 
         }).error(function(ex) {
             // TODO: display some error message

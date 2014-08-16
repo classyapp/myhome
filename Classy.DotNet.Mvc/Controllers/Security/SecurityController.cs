@@ -95,8 +95,8 @@ namespace Classy.DotNet.Mvc.Controllers.Security
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Login(bool? forceProRegistration, bool? forceNonProRegistration)
         {
-            //if (MobileRedirect.IsMobileDevice())
-            //    return Redirect("~/Mobile/App.html#/Login");
+            if (MobileRedirect.IsMobileDevice())
+                return Redirect("~/Mobile/App.html#/Login");
 
             var model = new LoginViewModel
             {

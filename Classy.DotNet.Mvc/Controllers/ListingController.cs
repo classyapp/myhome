@@ -320,9 +320,9 @@ namespace Classy.DotNet.Mvc.Controllers
         {
             var service = new ListingService();
 
-            //if (MobileRedirect.IsMobileDevice())
-            //    if (ListingTypeName == "Product")
-            //        return Redirect("~/Mobile/App.html#/Product/" + listingId);
+            if (MobileRedirect.IsMobileDevice())
+                if (ListingTypeName == "Product")
+                    return Redirect("~/Mobile/App.html#/Product/" + listingId);
 
             try
             {

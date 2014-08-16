@@ -1,7 +1,10 @@
 
-classy.controller('CollectionController', function ($scope, $http, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, AuthProvider, $timeout, $route) {
+classy.controller('CollectionController', function ($scope, $http, $q, AppSettings, ClassyUtilities, Localizer, $routeParams, $location, AuthProvider, $timeout, $route) {
+    ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.StaticViewport();
-    
+
+    var promises = [];
+
     $scope.showAllComments = function () {
         $('.profile-comments .comment-container').removeClass('hidden');
         $('.profile-comments .comment-container:nth-child(2)').removeClass('last');
@@ -72,7 +75,7 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
 
             // get more projects/collections from this professional/user
             var moreListingsType = data.Profile.IsProfessional ? 'Project' : 'Collection';
-            $http.get(appSettings.ApiUrl + '/profile/' + data.Profile.Id + '/collection/list/' + moreListingsType, config).success(function(projects) {
+            promises.push($http.get(appSettings.ApiUrl + '/profile/' + data.Profile.Id + '/collection/list/' + moreListingsType, config).success(function(projects) {
                 var p = [];
                 projects.forEach(function(project) {
                     if (project.Id == $routeParams.collectionId) return;
@@ -85,19 +88,12 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                     });
                 });
                 $scope.MoreProjects = p;
-            });
+            }));
 
             if (data.Profile.IsProfessional)
-                Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', appSettings.Culture).then(function (resource) { $scope.Resources.MoreProjectsTitle = resource; });
+                promises.push(Localizer.Get('Mobile_CollectionPage_MoreProjectsFromPro', appSettings.Culture).then(function (resource) { $scope.Resources.MoreProjectsTitle = resource; }));
             else 
-                Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', appSettings.Culture).then(function(resource) { $scope.Resources.MoreProjectsTitle = resource; });
-
-            Localizer.Get('Mobile_ProfilePage_Views', appSettings.Culture).then(function (resource) { $scope.Resources.Views = resource; });
-            Localizer.Get('Mobile_CollectionPage_Favorites', appSettings.Culture).then(function (resource) { $scope.Resources.Favorites = resource; });
-            Localizer.Get('Mobile_CollectionPage_Comments', appSettings.Culture).then(function (resource) { $scope.Resources.Comments = resource; });
-            Localizer.Get('Mobile_CollectionPage_CommentsSectionTitle', appSettings.Culture).then(function (resource) { $scope.Resources.CommentsSectionTitle = resource; });
-            Localizer.Get('Mobile_CollectionPage_CommentsFirstTitle', appSettings.Culture).then(function (resource) { $scope.Resources.CommentsFirstTitle = resource; });
-            Localizer.Get('Mobile_CollectionPage_NewCommentPlaceholder', appSettings.Culture).then(function (resource) { $scope.Resources.NewCommentPlaceholder = resource; });
+                promises.push(Localizer.Get('Mobile_CollectionPage_MoreCollectionsFromUser', appSettings.Culture).then(function(resource) { $scope.Resources.MoreProjectsTitle = resource; }));
 
             $scope.submitComment = function () {
                 if (!$scope.IsAuthenticated) {
@@ -114,6 +110,8 @@ classy.controller('CollectionController', function ($scope, $http, AppSettings, 
                     $route.reload();
                 });
             };
+
+            $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
 
         }).error(function () {
             // TODO: display some error message
