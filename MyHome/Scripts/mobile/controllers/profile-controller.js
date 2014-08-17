@@ -119,6 +119,7 @@ classy.controller('ProfileController', function ($scope, $http, $q, AppSettings,
             $scope.Reviews = reviews;
 
             $timeout(initProfileHeader, 0);
+            $timeout(ClassyUtilities.PageLoader.Hide);
 
         }).error(function() {
             // TODO: display some error message

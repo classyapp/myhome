@@ -1,4 +1,3 @@
-
 classy.controller('SearchController', function ($scope, $http, $routeParams, $location, $q, AppSettings, ClassyUtilities, Localizer) {
     ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.StaticViewport();

@@ -34,6 +34,7 @@ classy.controller('CollectionSlideShowController', function($scope, $http, $q, A
             });
             $scope.Listings = listings;
 
+//            $timeout(loadImages);
             $timeout(function() { selectImage($routeParams.photoId); });
 
             $scope.loadComments($routeParams.photoId);

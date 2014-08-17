@@ -1,7 +1,7 @@
 myhome
 ======
 
-### Getting Started
+### Getting Started 
 
 1. update your hosts file so that `local.myhome.com` points to `127.0.0.1`
   * open Wordpad as Administrator
