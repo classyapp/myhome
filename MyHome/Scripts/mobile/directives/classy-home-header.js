@@ -33,12 +33,11 @@ classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSet
 
                 };
 
-                var searchInput = $('#header-search');
                 scope.displaySearch = function() {
-                    searchInput.removeClass('hidden').focus().blur(scope.hideSearch);
+                    $('#header-search').removeClass('hidden').focus().blur(scope.hideSearch);
                 };
                 scope.hideSearch = function() {
-                    searchInput.addClass('hidden');
+                    $('#header-search').addClass('hidden');
                 };
 
                 scope.Resources = {};
@@ -50,7 +49,7 @@ classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSet
 
                 scope.LoadingPosition = (ClassyUtilities.Screen.GetWidth() / 2) - 97;
 
-                searchInput.keyup(function (e) {
+                $('#header-search').keyup(function (e) {
                     var query = $(this).val().trim();
                     if (e.keyCode == 13 && query != '') {
                         window.location.href = '//' + $location.host() + ':' + $location.port() + '/' + $location.path() + '#/Search?q=' + $(this).val().trim();
