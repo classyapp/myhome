@@ -3,8 +3,6 @@ classy.controller('CollectionSlideShowController', function($scope, $http, $q, A
     ClassyUtilities.PageLoader.Show();
     ClassyUtilities.Screen.ZoomableViewport();
 
-    var promises = [];
-
     AppSettings.then(function(appSettings) {
 
         $scope.ScreenHeight = ClassyUtilities.Screen.GetHeight();
@@ -34,12 +32,11 @@ classy.controller('CollectionSlideShowController', function($scope, $http, $q, A
             });
             $scope.Listings = listings;
 
-//            $timeout(loadImages);
             $timeout(function() { selectImage($routeParams.photoId); });
 
             $scope.loadComments($routeParams.photoId);
 
-            $q.all(promises).then(ClassyUtilities.PageLoader.Hide);
+            ClassyUtilities.PageLoader.Hide();
 
         }).error(function() {
             // TODO: display some error message
