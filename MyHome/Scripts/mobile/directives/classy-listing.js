@@ -13,15 +13,17 @@ classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilit
                 var featuredListings = [];
 
                 var promises = [];
+                var d = {};
 
                 listingObjects.forEach(function (listingObject) {
                     var collectionId = listingObject.split(':')[0];
                     var listingId = listingObject.split(':')[1];
+                    d[listingId] = collectionId;
 
                     var q = $http.get(appSettings.ApiUrl + '/listing/' + listingId + '?includeProfile=true', config).success(function (data) {
                         featuredListings.push({
-                            Id: listingId,
-                            CollectionId: collectionId,
+                            Id: data.Id,
+                            CollectionId: d[data.Id],
                             ImageUrl: ClassyUtilities.Images.Thumbnail(appSettings, data.ExternalMedia[0].Key, w, 300),
                             CopyrightMessage: ClassyUtilities.Listing.GetCopyrightMessage(data),
                             ProfileImage: ClassyUtilities.Images.Thumbnail(appSettings, data.Profile.Avatar.Key, 35, 35),
