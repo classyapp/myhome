@@ -1,4 +1,4 @@
-classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilities) {
+classy.directive('classyListing', function ($http, $q, $timeout, AppSettings, ClassyUtilities) {
     return {
         restrict: 'E',
         templateUrl: 'Home/classy-listing.html',
@@ -35,12 +35,14 @@ classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilit
 
                 $q.all(promises).then(function () {
                     scope.FeaturedListings = featuredListings;
-                    $('.swiper-container.listing-swiper').swiper({
-                        mode: 'horizontal',
-                        loop: true,
-                        preventLinks: true,
-                        preventLinksPropagation: false,
-                        shortSwipes: false
+                    $timeout(function() {
+                        $('.swiper-container.listing-swiper').swiper({
+                            mode: 'horizontal',
+                            loop: true,
+                            preventLinks: true,
+                            preventLinksPropagation: false,
+                            shortSwipes: false
+                        });
                     });
                 });
 
