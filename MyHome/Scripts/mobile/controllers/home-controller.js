@@ -9,28 +9,20 @@ classy.controller('HomeController', function ($scope, $http, $compile, AppSettin
         for (var elem in homePageSettings) {
             if (homePageSettings.hasOwnProperty(elem)) {
                 var newElement;
-                switch (elem) {
-                    case "HomeHeader":
+                    if (elem.indexOf('HomeHeader') == 0)
                         newElement = $compile("<classy-home-header></classy-home-header>")($scope);
-                        break;
-                    case "Listing":
+                    if (elem.indexOf('Listing') == 0)
                         newElement = $compile("<classy-listing listing-ids=\"" + homePageSettings[elem] + "\"></classy-listing>")($scope);
-                        break;
-                    case "Collection":
+                    if (elem.indexOf('Collection') == 0)
                         newElement = $compile("<classy-collection collection-id=\"" + homePageSettings[elem] + "\"></classy-collection>")($scope);
-                        break;
-                    case "Article":
+                    if (elem.indexOf('Article') == 0)
                         newElement = $compile("<classy-article article-id=\"" + homePageSettings[elem] + "\"></classy-article>")($scope);
-                        break;
-                    case "Html":
+                    if (elem.indexOf('Html') == 0)
                         newElement = $compile("<classy-html html-content=\"" + homePageSettings[elem] + "\"></classy-html>")($scope);
-                        break;
-                }
                 if (newElement)
                     mainContainer.append(newElement);
             }
         }
-
         
     });
 
