@@ -33,7 +33,6 @@ classy.directive('classyHomeHeader', function($location, $http, $timeout, AppSet
 
                 };
 
-                var searchInput = $('#header-search');
                 scope.displaySearch = function() {
                     $('#header-search').removeClass('hidden').focus().blur(scope.hideSearch);
                 };

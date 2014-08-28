@@ -32,9 +32,9 @@ classy.directive('classyListing', function ($http, $q, AppSettings, ClassyUtilit
                     });
                     promises.push(q);
                 });
-                scope.FeaturedListings = featuredListings;
 
-                $q.all(promises).then(function() {
+                $q.all(promises).then(function () {
+                    scope.FeaturedListings = featuredListings;
                     $('.swiper-container.listing-swiper').swiper({
                         mode: 'horizontal',
                         loop: true,
