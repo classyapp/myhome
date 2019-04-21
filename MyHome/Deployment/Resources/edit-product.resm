@@ -252,6 +252,20 @@
 			"Values": {
 				"en": "Please provide basic product info"
 			}
+		},
+		{ 
+			"Key": "CreateListing_ContentRequired",
+			"Description": "Description required validation message",
+			"Values": {
+				"en": "Description is required"
+			}
+		},
+		{ 
+			"Key": "CreateListing_TitleRequired",
+			"Description": "Title required validation message",
+			"Values": {
+				"en": "Title is required"
+			}
 		}
 	]
 }
